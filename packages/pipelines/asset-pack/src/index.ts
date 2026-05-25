@@ -36,6 +36,10 @@ import {
   persistAssetPackSettlementRightsDeliveryBoundary,
 } from './asset-pack-settlement-rights-delivery';
 import {
+  buildReadingOperationalTelemetryRepairReadback,
+  persistReadingOperationalTelemetryRepairReadback,
+} from './reading-operational-telemetry-repair-readback';
+import {
   admitReadFitsFinding,
   isAcceptedReadNeed,
   resolveReadNeedFromPipelineInput,
@@ -172,6 +176,38 @@ function factoryPreprocess(): Executor<any, any> {
           processedInput.assetPackDeliveryUnlock = settlementBoundary.deliveryUnlock;
         }
       }
+    } catch {}
+    try {
+      const operationalReadback = buildReadingOperationalTelemetryRepairReadback({
+        runId: String(execution.id || processedInput?.transactionId || processedInput?.id || ''),
+        readNeedRuntime:
+          processedInput?.readNeedReviewRuntime ||
+          (execution.get('read-need-review', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read-need-review', 'runtime') as any) ||
+          null,
+        readFitsRuntime:
+          processedInput?.readFitsFindingRuntime ||
+          (execution.get('read/finding-fits', 'runtime') as any) ||
+          ((execution.parent as any)?.get?.('read/finding-fits', 'runtime') as any) ||
+          null,
+        previewBoundary:
+          processedInput?.assetPackPreviewBoundary ||
+          (execution.get('asset-pack/preview', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/preview', 'boundary') as any) ||
+          null,
+        settlementBoundary:
+          processedInput?.assetPackSettlementRightsDeliveryBoundary ||
+          (execution.get('asset-pack/settlement', 'boundary') as any) ||
+          ((execution.parent as any)?.get?.('asset-pack/settlement', 'boundary') as any) ||
+          null,
+        createdAt: new Date().toISOString(),
+      });
+      persistReadingOperationalTelemetryRepairReadback(execution, operationalReadback);
+      persistReadingOperationalTelemetryRepairReadback(execution.parent as any, operationalReadback);
+      processedInput.readingOperationalTelemetryRepairReadback = operationalReadback;
+      processedInput.readingOperationalOperatorReadback = operationalReadback.operatorReadback;
+      processedInput.readingOperationalStreamEvents = operationalReadback.streamEvents;
+      processedInput.readingOperationalRunbookHooks = operationalReadback.runbookHooks;
     } catch {}
 
     storePreprocessedSnapshot(execution, processedInput, writtenAssetType);
@@ -332,6 +368,7 @@ export * from './depository-supply-index';
 export * from './read-fits-finding-runtime';
 export * from './asset-pack-preview-boundary';
 export * from './asset-pack-settlement-rights-delivery';
+export * from './reading-operational-telemetry-repair-readback';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';

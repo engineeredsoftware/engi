@@ -24,6 +24,11 @@ import {
   persistAssetPackSettlementRightsDeliveryBoundary,
   type AssetPackSettlementRightsDeliveryBoundary,
 } from './asset-pack-settlement-rights-delivery';
+import {
+  buildReadingOperationalTelemetryRepairReadback,
+  persistReadingOperationalTelemetryRepairReadback,
+  type ReadingOperationalTelemetryRepairReadback,
+} from './reading-operational-telemetry-repair-readback';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -117,7 +122,23 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
       (enhanced as any).assetPackLedgerDatabaseStorageReconciliation =
         assetPackSettlementRightsDeliveryBoundary.reconciliationReport;
     }
+    const operationalReadback = ensureReadingOperationalTelemetryRepairReadback(execution, enhanced);
+    if (operationalReadback) {
+      (enhanced as any).readingOperationalTelemetryRepairReadback = operationalReadback;
+      (enhanced as any).readingOperationalOperatorReadback = operationalReadback.operatorReadback;
+      (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
+      (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
+    }
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
+  }
+  if (!(enhanced as any).readingOperationalTelemetryRepairReadback) {
+    const operationalReadback = ensureReadingOperationalTelemetryRepairReadback(execution, enhanced);
+    if (operationalReadback) {
+      (enhanced as any).readingOperationalTelemetryRepairReadback = operationalReadback;
+      (enhanced as any).readingOperationalOperatorReadback = operationalReadback.operatorReadback;
+      (enhanced as any).readingOperationalStreamEvents = operationalReadback.streamEvents;
+      (enhanced as any).readingOperationalRunbookHooks = operationalReadback.runbookHooks;
+    }
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
     enhanced.deliveryMechanism = { ...enhanced.shippable };
@@ -208,6 +229,8 @@ export function buildAssetPackPostprocessedResult(
   const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
     ? ensureAssetPackSettlementRightsDeliveryBoundary(execution, assetPackPreviewBoundary, normalized)
     : null;
+  const readingOperationalTelemetryRepairReadback =
+    ensureReadingOperationalTelemetryRepairReadback(execution, normalized);
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -264,7 +287,23 @@ export function buildAssetPackPostprocessedResult(
                   assetPackSettlementRightsDeliveryBoundary.reconciliationReport,
               }
             : {}),
+          ...(readingOperationalTelemetryRepairReadback
+            ? {
+                readingOperationalTelemetryRepairReadback,
+                readingOperationalOperatorReadback: readingOperationalTelemetryRepairReadback.operatorReadback,
+                readingOperationalStreamEvents: readingOperationalTelemetryRepairReadback.streamEvents,
+                readingOperationalRunbookHooks: readingOperationalTelemetryRepairReadback.runbookHooks,
+              }
+            : {}),
           feeQuote: sourceSafePreview.feeQuote,
+        }
+      : {}),
+    ...(!sourceSafePreview && readingOperationalTelemetryRepairReadback
+      ? {
+          readingOperationalTelemetryRepairReadback,
+          readingOperationalOperatorReadback: readingOperationalTelemetryRepairReadback.operatorReadback,
+          readingOperationalStreamEvents: readingOperationalTelemetryRepairReadback.streamEvents,
+          readingOperationalRunbookHooks: readingOperationalTelemetryRepairReadback.runbookHooks,
         }
       : {}),
     read:
@@ -440,6 +479,56 @@ function ensureAssetPackSettlementRightsDeliveryBoundary(
   });
   persistAssetPackSettlementRightsDeliveryBoundary(execution, boundary);
   return boundary;
+}
+
+function ensureReadingOperationalTelemetryRepairReadback(
+  execution: Execution,
+  output: AssetPackOutput,
+): ReadingOperationalTelemetryRepairReadback | null {
+  const storedReadback =
+    findStoredExecutionValue(execution, 'reading/operational', 'readback') ||
+    (output as any).readingOperationalTelemetryRepairReadback;
+  if (storedReadback?.schema === 'bitcode.reading.operational-telemetry-repair-readback') {
+    return storedReadback as ReadingOperationalTelemetryRepairReadback;
+  }
+
+  const readNeedRuntime =
+    (output as any).readNeedReviewRuntime ||
+    findStoredExecutionValue(execution, 'read-need-review', 'runtime');
+  const readFitsRuntime =
+    (output as any).readFitsFindingRuntime ||
+    findStoredExecutionValue(execution, 'read/finding-fits', 'runtime');
+  const previewBoundary =
+    (output as any).assetPackPreviewBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
+  const settlementBoundary =
+    (output as any).assetPackSettlementRightsDeliveryBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
+
+  if (!readNeedRuntime && !readFitsRuntime && !previewBoundary && !settlementBoundary) {
+    return null;
+  }
+
+  const readback = buildReadingOperationalTelemetryRepairReadback({
+    runId:
+      firstString(
+        (output as any).runId,
+        findStoredExecutionValue(execution, 'execution', 'id'),
+        findStoredExecutionValue(execution, 'run', 'id'),
+      ) || undefined,
+    readNeedRuntime,
+    readFitsRuntime,
+    previewBoundary,
+    settlementBoundary,
+    createdAt:
+      firstString(
+        (output as any).createdAt,
+        findStoredExecutionValue(execution, 'execution', 'createdAt'),
+        findStoredExecutionValue(execution, 'run', 'created_at'),
+      ) || undefined,
+  });
+  persistReadingOperationalTelemetryRepairReadback(execution, readback);
+  return readback;
 }
 
 function firstString(...values: unknown[]): string | null {

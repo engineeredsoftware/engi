@@ -199,7 +199,12 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 8 work must define telemetry/repair artifacts and route or component tests.
+- Gate 8 package source is `packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts`.
+- `ReadingOperationalTelemetryRepairReadback` emits `ReadingOperationalTelemetryEvent`, `ReadingOperationalOperatorReadback`, `ReadingOperationalTelemetryStorageRecord`, and `ReadingOperationalRepairRunbookHook` projections under `reading/operational`.
+- Event kinds are phase, PTRR agent, PTRR step, Failsafe, ThricifiedGeneration, ToolExecution, storage, ledger, wallet, delivery, UI, and repair; each event carries proof roots plus prompt/result disclosure posture.
+- The rich execution log and header accept direct Reading operational telemetry payloads and render pipeline, phase, agent, step, Failsafe, generation, tool, schema, event, proof, redaction, prompt disclosure, result disclosure, and fail-closed posture.
+- Focused package tests cover complete settled stream coverage, BTC-finality repair, and persistence; focused UI tests cover direct Reading telemetry rendering.
+- The generated proof artifact is `.bitcode/v39-operational-telemetry-repair-readback.json`; `pnpm run check:v39-gate8` validates artifact freshness, protocol tests, package tests, UI tests, docs, source safety, and workflow wiring.
 
 ### Gate 9: Interface And Conversation Product Parity
 

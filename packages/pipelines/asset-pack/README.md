@@ -186,6 +186,27 @@ source, raw protected prompts, raw provider responses, wallet private material,
 private settlement payloads, credentials, or unpaid source-bearing AssetPack
 content.
 
+## Operational Telemetry Repair Readback
+
+`ReadingOperationalTelemetryRepairReadback` is the source-safe package
+primitive that makes the Reading flow observable and repairable after the
+Need, Finding Fits, preview, settlement, and delivery boundaries have emitted
+their receipts. It projects phase, PTRR agent, PTRR step,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`,
+storage, ledger, wallet, delivery, UI, and repair posture into
+`ReadingOperationalTelemetryEvent` rows.
+
+The operator readback persists under `reading/operational` with
+`operatorReadback`, `streamEvents`, `runbookHooks`, `telemetryRoot`,
+`repairRoot`, and `readbackRoot`. Events carry event ids, proof roots,
+prompt-template identity, output schemas, return types, redaction posture,
+prompt disclosure posture, result disclosure posture, and fail-closed state.
+They are designed for the shared rich execution log, which can show compact
+source-safe rows and expandable metadata without showing protected source,
+raw protected prompts, raw interpolated prompts, raw provider responses,
+unpaid AssetPack source, wallet private material, private settlement payloads,
+or credentials.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

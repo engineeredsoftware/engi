@@ -76,7 +76,7 @@ No `_legacy/` source is active source truth.
 | ReadFitsFinding runtime and replay | Gate 5 | `packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts`, `depository-search.ts`, `.bitcode/v39-read-fits-finding-runtime.json`, package tests, protocol tests | implemented | Finding Fits searches the whole available Depository for many above-threshold candidates and persists source-safe replay, storage, telemetry, and repair receipts. |
 | AssetPack preview and quote boundary | Gate 6 | `packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts`, `.bitcode/v39-assetpack-preview-quote-boundary.json`, package tests, protocol tests | implemented | Preview exposes source-safe measurements, deterministic quote, settlement instructions, and withheld delivery posture without source-bearing AssetPack content. |
 | Settlement, BTD rights, and delivery | Gate 7 | `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`, `.bitcode/v39-settlement-rights-delivery.json`, BTD receipt/source-to-shares/reconciliation primitives, package tests, protocol tests | implemented | Payment unlocks rights and delivery only when finality, source-to-shares, BTD rights, reconciliation, and pull-request delivery agree; repair paths are auditable. |
-| Operational telemetry and repair | Gate 8 | stream events, operator readback, runbook hooks, proof roots, repair commands | pending | Reading is observable and repairable end to end. |
+| Operational telemetry and repair | Gate 8 | `ReadingOperationalTelemetryRepairReadback`, `.bitcode/v39-operational-telemetry-repair-readback.json`, package tests, UI tests, protocol tests | implemented | Reading is observable and repairable end to end through source-safe stream events, operator readback, runbook hooks, proof roots, and repair commands. |
 | Interface and Conversation parity | Gate 9 | Conversation, MCP/API, ChatGPT App, package contract tests | pending | Interfaces follow Terminal authority and cannot bypass gating, preview, settlement, rights, or delivery boundaries. |
 | Local and staging rehearsal | Gate 10 | local/staging lanes, real-inference gates, depository search, preview, settlement/delivery posture | pending | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
 | Promotion readiness | Gate 11 | V39 promotion report, generated proof appendix, promotion workflow, command dry-run | pending | V39 promotes only after all commercial Reading gates and source-safety evidence close. |
@@ -98,6 +98,7 @@ No `_legacy/` source is active source truth.
 | ReadFitsFinding runtime | `ReadFitsFindingSynthesis` searches many above-threshold deposits with replayable query, ranking, threshold, and selected-fit provenance receipts | implemented |
 | Preview and quote | AssetPack preview is source-safe and quote is deterministic before settlement | implemented |
 | Settlement and delivery | BTC settlement, BTD rights transfer, source-to-shares compensation, ledger/database/storage sync, and delivery are auditable | implemented |
+| Operational telemetry and repair | Reading stream events, operator readback, rich log rendering, proof roots, and repair hooks are source-safe and replayable | implemented |
 | Telemetry and repair | Reading emits source-safe rich stream events and operator readback with proof roots and repair posture | pending |
 | Interface parity | Conversation, MCP/API, ChatGPT App, and package consumers cannot bypass Terminal Reading authority | pending |
 | Local/staging rehearsal | Full Reading flow rehearses locally and in staging-testnet with mainnet value-bearing admission blocked | pending |
@@ -218,6 +219,23 @@ or unpaid AssetPack source. The generated proof artifact is
 `.bitcode/v39-settlement-rights-delivery.json` and the gate check is
 `pnpm run check:v39-gate7`.
 
+## Gate 8 Parity
+
+V39 Gate 8 is implemented when
+`ReadingOperationalTelemetryRepairReadback` wraps the Reading runtime,
+preview, settlement, storage, UI, and repair posture into source-safe
+operator readback. The parity source is
+`packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts`.
+It emits event kinds for phase, PTRR agent, PTRR step,
+`FailsafeGenerationSequence`, `ThricifiedGeneration`, `ToolExecution`,
+storage, ledger, wallet, delivery, UI, and repair. It persists
+`reading/operational` readback, stream events, runbook hooks, telemetry root,
+repair root, and readback root. The shared execution log accepts direct
+Reading telemetry payloads and renders event/proof/disclosure metadata without
+source leakage. The generated proof artifact is
+`.bitcode/v39-operational-telemetry-repair-readback.json` and the gate check
+is `pnpm run check:v39-gate8`.
+
 ## completion condition
 
-V39 Gate 7 is complete when `check:v39-gate7`, focused AssetPack settlement rights delivery package tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-7-*` branch.
+V39 Gate 8 is complete when `check:v39-gate8`, focused AssetPack operational telemetry package tests, focused rich execution log UI tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-8-*` branch.

@@ -125,6 +125,15 @@ delivery unlock, replay, repair posture, package tests, protocol tests, and
 workflow wiring. The maintained commands are
 `pnpm run generate:v39-settlement-rights-delivery` and
 `pnpm run check:v39-gate7`.
+V39 Gate 8 adds `V39OperationalTelemetryRepairReadback` through
+`packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js`
+and the source-safe generated artifact
+`.bitcode/v39-operational-telemetry-repair-readback.json`. The report proves
+Reading operational stream events, operator readback, proof roots, runbook
+hooks, source-safe disclosure posture, rich execution-log rendering, package
+tests, UI tests, protocol tests, and workflow wiring. The maintained commands
+are `pnpm run generate:v39-operational-telemetry-repair-readback` and
+`pnpm run check:v39-gate8`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,
