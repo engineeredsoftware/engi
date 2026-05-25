@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V39`
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and later V40 promotion readiness artifacts
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, and `BITCODE_SPEC_V40_PROVEN.md` after promotion
 - Source parity state: V40 testing gates are closing progressively through generated artifacts
 
 ## Notes companion rule
@@ -129,3 +129,10 @@ Gate 10 is closed by `V40PromptBenchmarkSmokeV41Readiness`.
 Its generated `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json` artifact binds prompt benchmark smoke coverage to ten source-safe rows: benchmark report command execution, deterministic PromptPart smoke execution, deterministic composed Prompt smoke execution, V38 benchmark inventory binding, Reading prompt fixtures, Conversation and tool prompt fixtures, source-safe no-rewrite boundary, V41 prompt-program worklist, workflow wiring, and proof-system wiring.
 The `prompt-benchmark:smoke` command uses a local source-safe mock provider and records benchmark scores, fixture roots, and package benchmark report counts without serializing raw prompt text, protected PromptPart source, raw provider responses, credentials, wallet private material, private settlement payloads, or unpaid AssetPack source.
 Gate 10 exists to make prompt and PromptPart benchmarking runnable and auditable before V41; every prompt semantic repartition, retitle, rewrite, catalogue improvement, interpolation binding review, and callsite-quality benchmark remains V41 work.
+
+## Gate 11: V40 Promotion Readiness
+
+Gate 11 is closed by `V40PromotionReadinessReport`.
+Its generated `.bitcode/v40-promotion-readiness-report.json` artifact binds every V40 testing gate artifact, `BITCODE_SPEC_V40_PROVEN.md`, `v40-canon-promotion.yml`, gate-quality and canon-quality workflow posture, V40 promotion script support, spec-family promotion rewriting, runtime posture rewriting, and the active V40 / draft V41 post-promotion state.
+The report is source-safe metadata only: it names artifact paths, digests, evidence tokens, validation commands, and pass/fail posture, but it does not serialize secrets, protected source, raw protected prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or value-bearing mainnet admission.
+Gate 11 makes V40 promotable only through the version branch pull request into `main`; direct `main` pushes remain inadmissible.

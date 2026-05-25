@@ -9,7 +9,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V39.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V39_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V39`
-- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and later V40 promotion readiness coverage
+- Generated structured artifact inventory: draft `.bitcode/v40-spec-family-report.json`, `.bitcode/v40-canonical-input-report.json`, `.bitcode/v40-canon-posture-drift-report.json`, `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, `.bitcode/v40-promotion-readiness-report.json`, and `BITCODE_SPEC_V40_PROVEN.md` after promotion
 - Source parity state: V40 opens testing-system specification over active V39; package, API, pipeline, conversation, Terminal, Auxillaries, Exchange, interface, ledger/database/storage, and demonstration tests remain to be hardened gate by gate
 - Notes companion: `BITCODE_SPEC_V40_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V40_DELTA.md`
@@ -167,6 +167,15 @@ The package-owned `V40PromptBenchmarkSmokeV41Readiness` emits `.bitcode/v40-prom
 The operator command `prompt-benchmark:smoke` runs a local deterministic mock benchmark receipt and confirms the package benchmark report command remains runnable.
 Gate 10 serializes no raw prompt text, protected PromptPart source, raw provider response, credential, wallet private material, private settlement payload, or unpaid AssetPack source.
 Gate 10 intentionally proves benchmark infrastructure readiness only; V41 owns every raw PromptPart and composed Prompt audit, semantic repartition, retitle, rewrite, catalogue, interpolation binding review, and callsite-quality benchmark.
+
+## V40 Gate 11 Promotion Readiness
+
+Gate 11 closes the V40 promotion readiness canon and binds every V40 testing artifact into the canonical promotion path.
+The package-owned `V40PromotionReadinessReport` emits `.bitcode/v40-promotion-readiness-report.json` with source-safe evidence for V40 gate artifacts, `BITCODE_SPEC_V40_PROVEN.md` generation, `v40-canon-promotion.yml`, gate-quality and canon-quality workflow posture, promotion command dry-run support, runtime posture rewriting to V40 active / draft V41, and fail-closed source-safety boundaries.
+The report covers `.bitcode/v40-test-inventory-coverage-matrix.json`, `.bitcode/v40-unit-coverage-inventory.json`, `.bitcode/v40-api-integration-contracts.json`, `.bitcode/v40-reading-pipeline-integration-coverage.json`, `.bitcode/v40-conversation-terminal-integration.json`, `.bitcode/v40-browser-e2e-visual-proof.json`, `.bitcode/v40-ledger-storage-sync.json`, `.bitcode/v40-local-staging-rehearsal-automation.json`, and `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`.
+Promotion must run through the version branch PR into `main`, validate all Gate 1 through Gate 11 commands, generate `BITCODE_SPEC_V40_PROVEN.md`, rewrite runtime canon posture, and keep `BITCODE_SPEC.txt` at `V39` until promotion automation advances it.
+Gate 11 keeps value-bearing production-mainnet admission blocked by default and serializes no secrets, protected source, raw protected prompts, raw provider responses, wallet private material, private settlement payloads, or unpaid AssetPack source.
+Use `pnpm run generate:v40-promotion-readiness`, `pnpm run check:v40-promotion-readiness`, `pnpm run check:v40-gate11`, and `node scripts/promote-bitcode-canon.mjs --version V40 --commit HEAD --dry-run`.
 
 ## V40 canonical subsystem surfaces
 
