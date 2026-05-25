@@ -38,6 +38,11 @@ test.describe('commercial MVP Terminal UX browser proof', () => {
     await expect(page.getByRole('region', { name: /Recent Terminal activity and selected result/i })).toBeVisible();
     await expect(page.getByTestId('terminal-selected-activity-detail')).toBeVisible();
     await expect(page.getByRole('group', { name: /Selected activity detail sections/i })).toBeVisible();
+    await expect(page.getByTestId('terminal-enterprise-reading-step-request-read')).toBeVisible();
+    await expect(page.getByTestId('terminal-enterprise-reading-step-review-synthesized-need')).toBeVisible();
+    await expect(page.getByTestId('terminal-enterprise-reading-step-request-fit')).toBeVisible();
+    await expect(page.getByTestId('terminal-enterprise-reading-step-review-synthesized-asset-pack')).toBeVisible();
+    await expect(page.getByTestId('terminal-enterprise-reading-step-buy-asset-pack-settle')).toBeVisible();
 
     const skipLink = page.getByRole('link', { name: /Skip to selected Terminal activity/i });
     await skipLink.evaluate((element) => (element as HTMLElement).focus());

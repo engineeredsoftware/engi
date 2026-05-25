@@ -17,7 +17,7 @@ describe('normalizeTerminalDepositReadWorkbench', () => {
     expect(TERMINAL_ENTERPRISE_READING_STEPS.map((step) => step.label)).toEqual([
       '1. Request Read',
       '2. Review synthesized Need',
-      '3. Request Fit',
+      '3. Request Finding Fits',
       '4. Review synthesized AssetPack',
       '5. Buy AssetPack, settle',
     ]);

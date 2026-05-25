@@ -187,6 +187,9 @@ jobs:
               if [ -f scripts/check-v39-gate2-depository-supply-indexing.mjs ]; then
                 node scripts/check-v39-gate2-depository-supply-indexing.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v39-gate3-enterprise-reading-ux-state.mjs ]; then
+                node scripts/check-v39-gate3-enterprise-reading-ux-state.mjs --skip-branch-check --skip-uapi-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

@@ -188,7 +188,15 @@ without reading source-bearing payloads before settlement. The proof artifact is
 
 ## Gate 3 implementation notes
 
-Gate 3 closes the enterprise Reading UX state machine. Terminal and Conversation handoff must expose the five-step Reading path with low-detail guidance by default and expandable source-safe pipeline detail.
+Gate 3 closes the enterprise Reading UX state machine. Terminal and
+Conversation handoff expose the five-step Reading path with low-detail guidance
+by default and expandable source-safe pipeline detail.
+The state carrier is `TerminalEnterpriseReadingUxState`; Conversation can
+suggest only a source-safe `readingStage`, and Terminal reads it back as
+operator posture while retaining transaction authority.
+The generated artifact `.bitcode/v39-enterprise-reading-ux-state.json` binds
+stage ids, source-safe disclosure, rich execution stream integration, route
+state tests, component tests, and the maintained opt-in browser proof workflow.
 
 ## Gate 4 implementation notes
 

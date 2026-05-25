@@ -9,6 +9,7 @@ import {
   BITCODE_TRANSACTION_PAGE_SIZES,
   DEFAULT_TRANSACTION_PAGINATION,
 } from '@/components/base/bitcode/execution/bitcode-transaction-types';
+import type { TerminalEnterpriseReadingStepId } from './terminal-enterprise-reading-ux-state';
 
 import { buildTerminalTransactionFilters } from './terminal-transactions';
 
@@ -36,6 +37,7 @@ const SEARCH_PARAM_KEYS = {
   handoffRepositoryAnchor: 'handoffRepositoryAnchor',
   handoffSourceSelectors: 'handoffSourceSelectors',
   handoffSummary: 'handoffSummary',
+  readingStage: 'readingStage',
 } as const;
 
 const TRANSACTION_OWNERSHIP_VALUES: TransactionOwnership[] = ['all', 'mine', 'network'];
@@ -68,6 +70,13 @@ const TERMINAL_CONVERSATION_HANDOFF_POLICY_VALUES: TerminalConversationHandoffPo
   'allowed',
   'retry_required',
   'denied',
+];
+const TERMINAL_ENTERPRISE_READING_STAGE_VALUES: TerminalEnterpriseReadingStepId[] = [
+  'request-read',
+  'review-synthesized-need',
+  'request-fit',
+  'review-synthesized-asset-pack',
+  'buy-asset-pack-settle',
 ];
 export type TerminalTransactionDetailSection =
   | 'shippables'
@@ -102,6 +111,7 @@ export type TerminalConversationHandoffContext = {
   repositoryAnchor: string | null;
   sourceSelectors: string[];
   summary: string | null;
+  readingStage: TerminalEnterpriseReadingStepId | null;
 };
 
 function parseEnumValue<T extends string>(value: string | null, allowed: readonly T[], fallback: T): T {
@@ -206,6 +216,13 @@ export function readTerminalConversationHandoffContext(searchParams: URLSearchPa
     repositoryAnchor: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffRepositoryAnchor), '') || null,
     sourceSelectors,
     summary: parseTextValue(searchParams.get(SEARCH_PARAM_KEYS.handoffSummary), '') || null,
+    readingStage: searchParams.get(SEARCH_PARAM_KEYS.readingStage)
+      ? parseEnumValue(
+          searchParams.get(SEARCH_PARAM_KEYS.readingStage),
+          TERMINAL_ENTERPRISE_READING_STAGE_VALUES,
+          'request-read',
+        )
+      : null,
   };
 }
 

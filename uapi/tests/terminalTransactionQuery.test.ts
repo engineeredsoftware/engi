@@ -152,7 +152,26 @@ describe('terminal-transaction-query', () => {
       repositoryAnchor: 'engineeredsoftware/ENGI',
       sourceSelectors: ['repository:engineeredsoftware/ENGI', 'commit:07de'],
       summary: 'Find fits from approved Need.',
+      readingStage: null,
     });
+  });
+
+  it('reads source-safe enterprise Reading stage from Conversation handoff route state', () => {
+    const context = readTerminalConversationHandoffContext(
+      new URLSearchParams(
+        'conversationHandoff=1&handoffWorkflow=finding_fits&handoffPolicy=allowed&handoffProofRoot=conversation-terminal-handoff%3Aabc123&readingStage=request-fit',
+      ),
+    );
+
+    expect(context.readingStage).toBe('request-fit');
+
+    const fallback = readTerminalConversationHandoffContext(
+      new URLSearchParams(
+        'conversationHandoff=1&handoffWorkflow=finding_fits&handoffPolicy=allowed&handoffProofRoot=conversation-terminal-handoff%3Aabc123&readingStage=raw-source',
+      ),
+    );
+
+    expect(fallback.readingStage).toBe('request-read');
   });
 
   it('reads and writes transaction pagination through route query state', () => {

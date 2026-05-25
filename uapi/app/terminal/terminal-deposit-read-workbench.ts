@@ -1,5 +1,9 @@
 import type { KeyValueRow, Metric } from './terminal-shell-reading';
 import type { TerminalRepositoryContextState } from './terminal-repository-context';
+export {
+  TERMINAL_ENTERPRISE_READING_STEPS,
+  type TerminalEnterpriseReadingStepId,
+} from './terminal-enterprise-reading-ux-state';
 
 type InventoryEntrySnapshot = {
   inventoryEntryId?: string | null;
@@ -32,45 +36,6 @@ export type TerminalDepositedSourceRevision = TerminalSourceRevision & {
   depositorWalletId?: string | null;
   depositoryIndexState?: string | null;
 };
-
-export type TerminalEnterpriseReadingStepId =
-  | 'request-read'
-  | 'review-synthesized-need'
-  | 'request-fit'
-  | 'review-synthesized-asset-pack'
-  | 'buy-asset-pack-settle';
-
-export const TERMINAL_ENTERPRISE_READING_STEPS: Array<{
-  id: TerminalEnterpriseReadingStepId;
-  label: string;
-  detail: string;
-}> = [
-  {
-    id: 'request-read',
-    label: '1. Request Read',
-    detail: 'Repository, branch, commit, and reader request are framed.',
-  },
-  {
-    id: 'review-synthesized-need',
-    label: '2. Review synthesized Need',
-    detail: 'Bitcode shows requirements, measurements, constraints, proof expectations, and feedback history.',
-  },
-  {
-    id: 'request-fit',
-    label: '3. Request Fit',
-    detail: 'Only an accepted Need can search deposited source and synthesize fit evidence.',
-  },
-  {
-    id: 'review-synthesized-asset-pack',
-    label: '4. Review synthesized AssetPack',
-    detail: 'Source-safe preview shows measurements, roots, score, fee quote, disclosure policy, and range posture.',
-  },
-  {
-    id: 'buy-asset-pack-settle',
-    label: '5. Buy AssetPack, settle',
-    detail: 'Reader BTC payment, BTD range/license readback, journal, ledger, and pull-request delivery close the purchase.',
-  },
-];
 
 type ShellSnapshot = {
   canonLabel?: string | null;

@@ -71,7 +71,7 @@ No `_legacy/` source is active source truth.
 | Depository search scope | Gate 1 | depository-search source and tools, embedding policy, fit ranking expectations | drafted | Gate plan requires many-candidate Finding Fits across lexical, symbolic, path, metadata, measurement, vector, and provider channels. |
 | Settlement and delivery scope | Gate 1 | BTD receipts, source-to-shares compensation, ledger/database/storage synchronization, pull-request delivery | drafted | Gate plan keeps source-bearing AssetPack delivery blocked until settlement unlock. |
 | Depository supply indexing | Gate 2 | `packages/pipelines/asset-pack/src/depository-supply-index.ts`, `.bitcode/v39-depository-supply-indexing.json`, `packages/pipelines/asset-pack/src/__tests__/depository-supply-index.test.ts`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented | Deposited source becomes measurable, indexable, rights-aware, searchable, and repairable through source-safe `DepositorySupplyIndex` records. |
-| Enterprise Reading UX state machine | Gate 3 | Terminal route state, Conversation handoff, rich execution log, browser proof | pending | The five-step enterprise Reading UX is implemented with low-detail defaults and expandable source-safe detail. |
+| Enterprise Reading UX state machine | Gate 3 | `uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `TerminalDepositReadWorkbench.tsx`, Conversation handoff, Terminal route query, `.bitcode/v39-enterprise-reading-ux-state.json`, focused UAPI tests, opt-in browser proof workflow | implemented | The five-step enterprise Reading UX is implemented with low-detail defaults, expandable source-safe detail, route-state handoff, rich execution stream integration, and source-safe disclosure proof. |
 | ReadNeed review and resynthesis | Gate 4 | `ReadNeedComprehensionSynthesis`, Need storage, feedback, resynthesis, accepted-Need admission | pending | Finding Fits remains blocked until a reviewed Need is accepted. |
 | ReadFitsFinding runtime and replay | Gate 5 | `ReadFitsFindingSynthesis`, search tools, embeddings, ranking, selected-fit provenance, replay receipts | pending | Finding Fits searches the whole available Depository for many above-threshold candidates. |
 | AssetPack preview and quote boundary | Gate 6 | AssetPack preview tests, quote tests, disclosure leak scans, proof roots | pending | Preview is commercially sufficient without exposing source-bearing AssetPack content. |
@@ -93,7 +93,7 @@ No `_legacy/` source is active source truth.
 | Canon-quality workflow | Canon workflow validates promoted V38 canon, V39 draft family when present, and V38/V39 posture | drafted |
 | Package docs | README, protocol package README, demonstration README, and PR template state V38 active / V39 draft workflow | drafted |
 | Depository supply indexing | Deposits become measurable, embedded, indexable, rights-aware, searchable, and repairable | implemented |
-| Enterprise Reading UX | Terminal implements request read, review Need, request Finding Fits, review preview, buy and settle | pending |
+| Enterprise Reading UX | Terminal implements request read, review Need, request Finding Fits, review preview, buy and settle | implemented |
 | ReadNeed runtime | `ReadNeedComprehensionSynthesis` persists reviewable Needs, feedback, resynthesis, measurements, and accepted-Need admission | pending |
 | ReadFitsFinding runtime | `ReadFitsFindingSynthesis` searches many above-threshold deposits with replayable query, ranking, threshold, and selected-fit provenance receipts | pending |
 | Preview and quote | AssetPack preview is source-safe and quote is deterministic before settlement | pending |
@@ -138,16 +138,28 @@ No `_legacy/` source is active source truth.
 | Gate 2 proof artifact is source-safe | `.bitcode/v39-depository-supply-indexing.json`, `packages/protocol/src/canonical/v39-depository-supply-indexing.js`, `packages/protocol/test/v39-depository-supply-indexing.test.js` | implemented |
 | Gate 2 checker is wired | `scripts/check-v39-gate2-depository-supply-indexing.mjs`, `package.json`, canon/gate workflows | implemented |
 
+## Gate 3 Parity
+
+| Requirement | Source evidence | Current V39 judgment |
+| --- | --- | --- |
+| Five-step Reading state machine exists | `uapi/app/terminal/terminal-enterprise-reading-ux-state.ts`, `uapi/tests/terminalEnterpriseReadingUxState.test.ts` | implemented |
+| Terminal renders low-detail and expandable source-safe detail | `uapi/app/terminal/TerminalDepositReadWorkbench.tsx`, `uapi/tests/terminalDepositReadWorkbench.test.ts` | implemented |
+| Conversation handoff carries source-safe Reading stage intent | `uapi/app/conversations/conversation-terminal-handoff.ts`, `uapi/app/terminal/terminal-transaction-query.ts`, `uapi/tests/conversationTerminalHandoff.test.tsx`, `uapi/tests/terminalTransactionQuery.test.ts` | implemented |
+| Rich execution log remains the live Reading pipeline stream | `uapi/app/terminal/terminal-pipeline-harness-client.ts`, `uapi/tests/pipelineExecutionLogHeader.test.tsx` | implemented |
+| Proof artifact and checker exist | `.bitcode/v39-enterprise-reading-ux-state.json`, `packages/protocol/src/canonical/v39-enterprise-reading-ux-state.js`, `packages/protocol/test/v39-enterprise-reading-ux-state.test.js`, `scripts/check-v39-gate3-enterprise-reading-ux-state.mjs` | implemented |
+| Browser proof remains wired as opt-in gate-quality evidence | `.github/workflows/bitcode-gate-quality.yml`, `uapi/tests/terminalUxBrowserProof.test.tsx`, `uapi/tests/e2e/commercial-mvp.terminal-ux.spec.ts` | implemented |
+
 ## Later Gate Parity
 
-Later V39 gates must add gate-specific parity sections when their implementation begins. Gates 1 and 2 intentionally do not claim closure for enterprise Reading UX, Need review, Finding Fits runtime, preview/quote, settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
+Later V39 gates must add gate-specific parity sections when their implementation begins. Gates 1 through 3 intentionally do not claim closure for Need review, Finding Fits runtime, preview/quote, settlement/delivery, telemetry/repair, interface parity, rehearsal, or promotion readiness.
 
 ## accepted boundaries and reopen conditions
 
 V39 Gate 1 accepts only draft-family, roadmap, workflow, branch, and documentation posture closure.
 V39 Gate 2 accepts only Depository supply indexing, source-safe search document, vector projection, storage readback posture, rights boundary, repair posture, and Finding Fits handoff closure.
+V39 Gate 3 accepts only enterprise Reading UX state, source-safe route handoff/readback, low-detail/expandable Terminal rendering, rich stream-log integration, opt-in browser proof wiring, and generated UX proof artifact closure.
 Later gate scope is intentionally pending and must be reopened into gate-specific parity sections before implementation starts.
 
 ## completion condition
 
-V39 Gate 2 is complete when `check:v39-gate2`, package Depository supply tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, and promoted V38 spec-family validation all pass on a `v39/gate-2-*` branch.
+V39 Gate 3 is complete when `check:v39-gate3`, focused Terminal/Conversation/UAPI tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, and promoted V38 spec-family validation all pass on a `v39/gate-3-*` branch.

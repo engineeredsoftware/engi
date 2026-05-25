@@ -1,5 +1,6 @@
 import type { TerminalTransactionDetailSection } from '@/app/terminal/terminal-transaction-query';
 import { buildTerminalHref } from '@/app/terminal/terminal-routes';
+import type { TerminalEnterpriseReadingStepId } from '@/app/terminal/terminal-enterprise-reading-ux-state';
 
 import type { ConversationSourceSelectorPreview } from './conversation-source-selector';
 
@@ -16,6 +17,7 @@ export type ConversationTerminalHandoffPolicyState = 'allowed' | 'retry_required
 export type ConversationTerminalHandoffInput = {
   conversationId?: string | null;
   workflow: ConversationTerminalHandoffWorkflow;
+  readingStage?: TerminalEnterpriseReadingStepId | null;
   transactionId?: string | null;
   repositoryAnchor?: string | null;
   sourceSelectors?: ConversationSourceSelectorPreview[];
@@ -30,6 +32,7 @@ export type ConversationTerminalHandoffEnvelope = {
   repositoryAnchor: string | null;
   sourceSelectorRefs: string[];
   sourceSafeSummary: string;
+  readingStage: TerminalEnterpriseReadingStepId | null;
   policyResult: ConversationTerminalHandoffPolicyState;
   terminalRoute: string;
   transactionDetail: TerminalTransactionDetailSection;
@@ -45,6 +48,7 @@ export type ConversationTerminalHandoffEnvelope = {
     ledgerAuthorityClaimed: false;
     walletSigningAuthorityClaimed: false;
     terminalRemainsTransactionCockpit: true;
+    terminalEnterpriseReadingStage: TerminalEnterpriseReadingStepId | null;
   };
 };
 
@@ -95,6 +99,17 @@ export const CONVERSATION_TERMINAL_HANDOFF_WORKFLOWS: Array<{
 export function getConversationTerminalHandoffWorkflow(workflow: ConversationTerminalHandoffWorkflow) {
   return CONVERSATION_TERMINAL_HANDOFF_WORKFLOWS.find((candidate) => candidate.workflow === workflow)
     ?? CONVERSATION_TERMINAL_HANDOFF_WORKFLOWS[0];
+}
+
+export function inferConversationTerminalReadingStage(
+  workflow: ConversationTerminalHandoffWorkflow,
+): TerminalEnterpriseReadingStepId | null {
+  if (workflow === 'depositing') return 'request-read';
+  if (workflow === 'reading') return 'review-synthesized-need';
+  if (workflow === 'finding_fits') return 'request-fit';
+  if (workflow === 'exchange') return 'review-synthesized-asset-pack';
+  if (workflow === 'settlement' || workflow === 'delivery') return 'buy-asset-pack-settle';
+  return null;
 }
 
 function stableClientHash(value: string) {
@@ -178,8 +193,10 @@ export function buildConversationTerminalHandoffEnvelope(
     ...input,
     sourceSafeSummary: redactedSummary.text,
   });
+  const readingStage = input.readingStage || inferConversationTerminalReadingStage(input.workflow);
   const seed = JSON.stringify({
     workflow: input.workflow,
+    readingStage,
     conversationId: input.conversationId || null,
     transactionId: input.transactionId || null,
     repositoryAnchor: input.repositoryAnchor || null,
@@ -196,6 +213,7 @@ export function buildConversationTerminalHandoffEnvelope(
     repositoryAnchor: input.repositoryAnchor || null,
     sourceSelectorRefs,
     sourceSafeSummary: redactedSummary.text.slice(0, 420),
+    readingStage,
     policyResult: policy.policyResult,
     transactionDetail: workflow.terminalDetail,
     proofRoot,
@@ -208,6 +226,7 @@ export function buildConversationTerminalHandoffEnvelope(
     repositoryAnchor: input.repositoryAnchor || null,
     sourceSelectorRefs,
     sourceSafeSummary: redactedSummary.text.slice(0, 420) || 'No handoff summary prepared.',
+    readingStage,
     policyResult: policy.policyResult,
     terminalRoute: buildTerminalHref(terminalParams),
     transactionDetail: workflow.terminalDetail,
@@ -223,6 +242,7 @@ export function buildConversationTerminalHandoffEnvelope(
       ledgerAuthorityClaimed: false,
       walletSigningAuthorityClaimed: false,
       terminalRemainsTransactionCockpit: true,
+      terminalEnterpriseReadingStage: readingStage,
     },
   };
 }
@@ -234,6 +254,7 @@ export function buildConversationTerminalHandoffSearchParams(input: {
   repositoryAnchor: string | null;
   sourceSelectorRefs: string[];
   sourceSafeSummary: string;
+  readingStage?: TerminalEnterpriseReadingStepId | null;
   policyResult: ConversationTerminalHandoffPolicyState;
   transactionDetail: TerminalTransactionDetailSection;
   proofRoot: string;
@@ -246,6 +267,7 @@ export function buildConversationTerminalHandoffSearchParams(input: {
   params.set('transactionDetail', input.transactionDetail);
   if (input.conversationId) params.set('conversationId', input.conversationId);
   if (input.transactionId) params.set('transactionId', input.transactionId);
+  if (input.readingStage) params.set('readingStage', input.readingStage);
   if (input.repositoryAnchor) params.set('handoffRepositoryAnchor', input.repositoryAnchor);
   if (input.sourceSelectorRefs.length) params.set('handoffSourceSelectors', input.sourceSelectorRefs.join(' | ').slice(0, 900));
   if (input.sourceSafeSummary) params.set('handoffSummary', input.sourceSafeSummary.slice(0, 420));

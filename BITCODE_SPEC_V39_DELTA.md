@@ -99,7 +99,24 @@ Closure acceptance:
 
 Closure implementation:
 
-- Pending Gate 3 work must define route contracts, UI tests, and generated UX-state proof artifact.
+- Gate 3 defines `TerminalEnterpriseReadingUxState` as the Terminal-owned
+  route/UI state contract for the five Reading stages.
+- The state contract defaults to low-detail guidance, preserves expandable
+  source-safe detail, and forbids protected source, raw protected prompts, raw
+  provider responses, unpaid AssetPack source, wallet private material,
+  private settlement payloads, and ledger write authority.
+- Conversation handoff now serializes source-safe `readingStage` route intent
+  and `terminalEnterpriseReadingStage` metadata while Terminal keeps authority.
+- The Terminal workbench renders stable `terminal-enterprise-reading-step-*`
+  stage rows, state chips, blockers, and source-safe detail accordions.
+- `ReadFitsFindingSynthesis` telemetry continues to stream through the rich
+  execution log with pipeline phase, PTRR, Failsafe, ThricifiedGeneration, tool,
+  prompt, and schema metadata.
+- The deterministic proof artifact is
+  `.bitcode/v39-enterprise-reading-ux-state.json`; `pnpm run check:v39-gate3`
+  validates artifact freshness, protocol tests, focused UAPI tests, source-safe
+  disclosure, route contracts, stream-log integration, docs, and workflow
+  wiring.
 
 ### Gate 4: ReadNeed Review, Resynthesis, And Admission Runtime
 
