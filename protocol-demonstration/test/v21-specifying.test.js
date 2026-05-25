@@ -22,10 +22,11 @@ function expectedActiveCanonicalInputArtifactCount(version) {
     V32: 13,
     V33: 12,
     V34: 12,
-    V35: 0,
-    V36: 0,
-    V37: 0,
-    V38: 0,
+    V35: 11,
+    V36: 11,
+    V37: 11,
+    V38: 12,
+    V39: 12,
   };
   if (Object.hasOwn(expectedCountsByVersion, version)) {
     return expectedCountsByVersion[version];
