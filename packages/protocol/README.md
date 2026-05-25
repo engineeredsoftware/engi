@@ -100,6 +100,16 @@ the real Reading pipeline topology, Need runtime, Finding Fits search runtime,
 PTRR agents, preview/settlement/delivery boundaries, telemetry/readback,
 Terminal harness, generic primitives, host harnesses, and local/staging
 rehearsal linkage.
+V40 Gate 6 adds `V40ConversationTerminalIntegration` through
+`packages/protocol/src/canonical/v40-conversation-terminal-integration.js`,
+`packages/protocol/test/v40-conversation-terminal-integration.test.js`,
+`.bitcode/v40-conversation-terminal-integration.json`, and
+`check:v40-gate6`.
+The artifact is source-safe metadata only and closes integration coverage for
+Conversation handoff route contracts, Conversation stream-to-rich-log
+projection, route/API persistence and branch contracts, writing/source selector
+handoff, Terminal Reading state readback, Terminal harness log streaming,
+transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights
