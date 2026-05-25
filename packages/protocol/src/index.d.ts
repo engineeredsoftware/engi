@@ -337,6 +337,15 @@ export const V39_COMMERCIAL_READING_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: s
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
 export const V39_COMMERCIAL_READING_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
 export function buildV39CommercialReadingPromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V40_TEST_INVENTORY_COVERAGE_MATRIX_ARTIFACT_PATH: string;
+export const V40_TEST_INVENTORY_COVERAGE_MATRIX_CURRENT_TARGET: string;
+export const V40_TEST_INVENTORY_COVERAGE_MATRIX_SCHEMA_ID: string;
+export const V40_TEST_INVENTORY_COVERAGE_MATRIX_VERSION: string;
+export const V40_TEST_INVENTORY_COVERAGE_MATRIX_SOURCE_SAFETY_VERDICT: string;
+export const V40_TEST_INVENTORY_SURFACE_IDS: readonly string[];
+export const V40_TEST_INVENTORY_COVERAGE_TIERS: readonly string[];
+export const V40_TEST_INVENTORY_COVERAGE_ROWS: readonly Record<string, unknown>[];
+export function buildV40TestInventoryCoverageMatrix(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;
