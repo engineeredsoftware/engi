@@ -212,7 +212,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-gate5-expanded', SOURCE_ROOTS.v39Delta, delta.includes('Gate 5') && delta.includes('ReadFitsFindingRuntime')),
     predicateResult('notes-gate5-expanded', SOURCE_ROOTS.v39Notes, notes.includes('Gate 5 implementation notes') && notes.includes('source-safe replay receipt')),
     predicateResult('parity-gate5-expanded', SOURCE_ROOTS.v39Parity, parity.includes('Gate 5 Parity') && parity.includes('implemented')),
-    predicateResult('roadmap-advanced-to-gate5', SOURCE_ROOTS.roadmap, roadmap.includes('Current working gate: V39 Gate 5') && roadmap.includes('V39 Gate 5 closure anchor')),
+    predicateResult('roadmap-advanced-to-gate5', SOURCE_ROOTS.roadmap, roadmap.includes('V39 Gate 5 closure anchor') && roadmap.includes('ReadFitsFindingRuntime')),
     predicateResult('readmes-document-gate5', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 5') && assetPackReadme.includes('ReadFitsFinding Runtime') && protocolReadme.includes('V39ReadFitsFindingRuntime')),
     predicateResult('workflows-run-gate5-check', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate5-read-fits-finding-runtime.mjs') && canonWorkflow.includes('check-v39-gate5-read-fits-finding-runtime.mjs')),
   ];

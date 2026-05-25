@@ -14,6 +14,11 @@ import {
   buildAssetPackDisclosureReview,
   type AssetPackDisclosureReview,
 } from './asset-pack-disclosure';
+import {
+  buildAssetPackPreviewBoundary,
+  persistAssetPackPreviewBoundary,
+  type AssetPackPreviewBoundary,
+} from './asset-pack-preview-boundary';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -86,8 +91,17 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
   const sourceSafePreview = ensureAssetPackSourceSafePreview(execution, enhanced, prUrl);
   if (sourceSafePreview) {
     const assetPackDisclosureReview = ensureAssetPackDisclosureReview(execution, sourceSafePreview);
+    const assetPackPreviewBoundary = ensureAssetPackPreviewBoundary(
+      execution,
+      sourceSafePreview,
+      enhanced,
+    );
     (enhanced as any).sourceSafePreview = sourceSafePreview;
     (enhanced as any).assetPackDisclosureReview = assetPackDisclosureReview;
+    (enhanced as any).assetPackPreviewBoundary = assetPackPreviewBoundary;
+    (enhanced as any).assetPackQuoteReceipt = assetPackPreviewBoundary?.quoteReceipt;
+    (enhanced as any).assetPackSettlementInstructions = assetPackPreviewBoundary?.settlementInstructions;
+    (enhanced as any).assetPackDeliveryPosture = assetPackPreviewBoundary?.deliveryPosture;
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
@@ -173,6 +187,9 @@ export function buildAssetPackPostprocessedResult(
   const assetPackDisclosureReview = sourceSafePreview
     ? ensureAssetPackDisclosureReview(execution, sourceSafePreview)
     : undefined;
+  const assetPackPreviewBoundary = sourceSafePreview
+    ? ensureAssetPackPreviewBoundary(execution, sourceSafePreview, normalized)
+    : undefined;
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -216,6 +233,10 @@ export function buildAssetPackPostprocessedResult(
       ? {
           sourceSafePreview,
           assetPackDisclosureReview,
+          assetPackPreviewBoundary,
+          assetPackQuoteReceipt: assetPackPreviewBoundary?.quoteReceipt,
+          assetPackSettlementInstructions: assetPackPreviewBoundary?.settlementInstructions,
+          assetPackDeliveryPosture: assetPackPreviewBoundary?.deliveryPosture,
           feeQuote: sourceSafePreview.feeQuote,
         }
       : {}),
@@ -316,6 +337,38 @@ function ensureAssetPackDisclosureReview(
     execution.store('asset-pack/preview', 'disclosureReviewRoot', review.roots.reviewRoot);
   } catch {}
   return review;
+}
+
+function ensureAssetPackPreviewBoundary(
+  execution: Execution,
+  sourceSafePreview: AssetPackSourceSafePreview,
+  output: AssetPackOutput,
+): AssetPackPreviewBoundary | null {
+  const storedBoundary =
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary') ||
+    findStoredExecutionValue(execution, 'asset-pack', 'previewBoundary');
+  if (storedBoundary?.schema === 'bitcode.asset-pack.preview-boundary') {
+    return storedBoundary as AssetPackPreviewBoundary;
+  }
+
+  const acceptedNeed =
+    findStoredExecutionValue(execution, 'read/need', 'accepted') ||
+    findStoredExecutionValue(execution, 'read', 'acceptedNeed');
+  const fitResult =
+    (output as any).fitResult ||
+    findStoredExecutionValue(execution, 'fit', 'result');
+  const boundary = buildAssetPackPreviewBoundary({
+    need: isAcceptedReadNeed(acceptedNeed) ? acceptedNeed : null,
+    fitResult,
+    sourceSafePreview,
+    pullRequestTarget: firstString(
+      sourceSafePreview.delivery.pullRequestTarget,
+      output.deliveryMechanism?.prUrl,
+      output.shippable?.prUrl,
+    ),
+  });
+  persistAssetPackPreviewBoundary(execution, boundary);
+  return boundary;
 }
 
 function firstString(...values: unknown[]): string | null {

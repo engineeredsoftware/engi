@@ -146,6 +146,27 @@ candidate-count roots. It never serializes protected source, raw protected
 prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
 private material, or private settlement payloads.
 
+## AssetPack Preview Boundary
+
+`AssetPackPreviewBoundary` is the source-safe package primitive that turns a
+worthy Finding Fits result into a buyer-reviewable preview without
+crossing the unpaid source boundary. It composes `AssetPackSourceSafePreview`,
+selected-fit provenance, `AssetPackPreviewQuoteReceipt`,
+`AssetPackDisclosureReview`, `AssetPackPreviewSettlementInstructions`,
+`AssetPackPreviewDeliveryPosture`, `AssetPackPreviewReplayReceipt`, and repair
+posture.
+
+The deterministic quote uses the active share-to-fee formula
+`sum(measurement.weight * measurement.volume * admitted_fit_quality)` with the
+Need measurement vector, admitted fit quality, weighted admitted volume,
+minimum sats, dust floor, and reader-wallet-before-broadcast posture. The
+preview can show fit measurements, proof roots, quality reasons, score band,
+selected fit deposit ids, quote, settlement instructions, and delivery posture.
+It cannot show protected source, raw protected prompts, raw provider responses,
+wallet private material, private settlement payloads, credentials, or unpaid
+source-bearing AssetPack content. Pull-request delivery remains withheld until
+BTC settlement, BTD rights transfer, and ledger/database/storage readback agree.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

@@ -52,6 +52,7 @@ Current exported commercial helpers include:
 - `V39EnterpriseReadingUxState` helpers for V39 source-safe Terminal Reading stages, low-detail defaults, expandable detail, Conversation `readingStage` handoff, rich stream-log integration, component tests, and opt-in browser proof workflow posture;
 - `V39ReadNeedReviewResynthesis` helpers for V39 source-safe ReadNeed review, feedback/resynthesis lineage, accepted-Need admission, rejected-Need posture, runtime storage projection, and telemetry receipt proof;
 - `V39ReadFitsFindingRuntime` helpers for V39 source-safe Finding Fits runtime storage, many-candidate ranking, selected-fit provenance, replay receipts, repair posture, and active embedding policy proof;
+- `V39AssetPackPreviewQuoteBoundary` helpers for V39 source-safe AssetPack preview, deterministic share-to-fee BTC quote, disclosure leak scanning, settlement instructions, delivery lock, replay receipt, and repair posture proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -103,6 +104,17 @@ active OpenAI embedding policy, replay receipts, repair posture, runtime
 storage projection, package tests, protocol tests, and workflow wiring. The
 maintained commands are `pnpm run generate:v39-read-fits-finding-runtime` and
 `pnpm run check:v39-gate5`.
+V39 Gate 6 adds `V39AssetPackPreviewQuoteBoundary` through
+`packages/protocol/src/canonical/v39-assetpack-preview-quote-boundary.js` and
+the source-safe generated artifact
+`.bitcode/v39-assetpack-preview-quote-boundary.json`. The report proves
+source-safe AssetPack preview measurements, selected-fit provenance,
+deterministic share-to-fee BTC quote, disclosure leak scanning, reader payment
+settlement instructions, withheld pull-request delivery posture, replay
+receipt, repair posture, package tests, protocol tests, and workflow wiring.
+The maintained commands are
+`pnpm run generate:v39-assetpack-preview-quote-boundary` and
+`pnpm run check:v39-gate6`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,

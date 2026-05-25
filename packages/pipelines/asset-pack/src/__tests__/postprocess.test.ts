@@ -236,8 +236,24 @@ describe('normalizeAssetPackOutput', () => {
     expect(result.sourceSafePreview?.roots.previewRoot).toMatch(/^sha256:/);
     expect(result.assetPackDisclosureReview?.roots.reviewRoot).toMatch(/^sha256:/);
     expect(result.feeQuote?.finalityState).toBe('preview_not_paid');
+    expect(result.assetPackPreviewBoundary?.schema).toBe('bitcode.asset-pack.preview-boundary');
+    expect(result.assetPackQuoteReceipt?.quoteRoot).toBe(result.feeQuote?.quoteRoot);
+    expect(result.assetPackSettlementInstructions).toMatchObject({
+      payer: 'reader',
+      payee: 'depositor',
+      serverCustody: false,
+      settlementRequiredBeforeUnlock: true,
+    });
+    expect(result.assetPackDeliveryPosture).toMatchObject({
+      state: 'withheld_until_settlement',
+      sourceBearingDeliveryVisible: false,
+      availableAfterSettlement: true,
+    });
     expect(exec.get('asset-pack/preview', 'sourceSafe')?.previewId).toBe(
       normalized.sourceSafePreview.previewId
+    );
+    expect(exec.get('asset-pack/preview', 'boundary')?.boundaryId).toBe(
+      normalized.assetPackPreviewBoundary.boundaryId
     );
     expect(JSON.stringify(normalized.sourceSafePreview)).not.toContain('diff --git');
   });
