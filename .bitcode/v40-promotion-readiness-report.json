@@ -4,7 +4,7 @@
   "schemaId": "bitcode.v40.promotionReadinessReport.v1",
   "version": "V40",
   "currentTarget": "V39",
-  "generatedAt": "2026-05-25T20:29:56-03:00",
+  "generatedAt": "2026-05-25T20:37:16-03:00",
   "sourceSafetyVerdict": "source-safe-exhaustive-testing-promotion-readiness-metadata",
   "prePromotionPosture": "V39 active / V40 draft",
   "postPromotionPosture": "V40 active / V41 draft",
@@ -552,7 +552,7 @@
   "passed": true,
   "failures": [],
   "validationCommand": "pnpm run check:v40-gate11",
-  "proofSourceCommit": "67a54bee42468be6aae2629d85625b9763fd51c8",
+  "proofSourceCommit": "09e5c96f8f923936b62c44c92d161551fdb6f808",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "clean",
   "sourceSafe": true
