@@ -470,7 +470,12 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-documents-gate6', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 6 closes with package-backed `V40ConversationTerminalIntegration`')),
     predicateResult('notes-document-gate6', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 6 implementation notes') && notes.includes('Conversation and Terminal integration coverage')),
     predicateResult('parity-documents-gate6', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-conversation-terminal-integration') && parity.includes('| Gate 6 | Conversation/Terminal integration artifact | implemented |')),
-    predicateResult('roadmap-advanced-through-gate6', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('Current working gate: V40 Gate 6') && roadmap.includes('V40 Gate 6 closure anchor')),
+    predicateResult(
+      'roadmap-advanced-through-gate6',
+      'SPECIFICATIONS_ROADMAP.md',
+      /Current working gate: V40 Gate (6|7|8|9|10|11)\b/.test(roadmap) &&
+        roadmap.includes('V40 Gate 6 closure anchor'),
+    ),
     predicateResult('readmes-document-gate6', 'README.md', rootReadme.includes('V40 Gate 6') && protocolReadme.includes('V40ConversationTerminalIntegration')),
     predicateResult('roadmap-preserves-v41-prompt-programs', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('V41 should focus singularly on Prompt and PromptPart implementation') && roadmap.includes('prompts as programs')),
     ...rowPredicates,

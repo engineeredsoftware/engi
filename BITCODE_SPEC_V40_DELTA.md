@@ -58,6 +58,7 @@ Gate 6 closes with package-backed `V40ConversationTerminalIntegration`, determin
 ### Gate 7: Browser E2E, Accessibility, Responsive, And Visual Proof
 
 Close Playwright/browser paths, visual baselines, accessibility, responsive viewports, and interaction-state matrices.
+Gate 7 closes with package-backed `V40BrowserE2eVisualProof`, deterministic `.bitcode/v40-browser-e2e-visual-proof.json`, protocol exports, app-owned current browser proof contract, source-safe rows for Terminal, Conversations, Auxillaries, Exchange, Docs, responsive viewport overflow, screenshot/trace baselines, keyboard/landmark/status accessibility, a focused browser spec, workflow wiring, and `check:v40-gate7`.
 
 ### Gate 8: Ledger, Database, Storage, Wallet, And Delivery Synchronization
 
