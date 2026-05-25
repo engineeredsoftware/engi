@@ -349,6 +349,45 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V39
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V39 --draft-target V40
             node scripts/check-v39-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            if [ -f BITCODE_SPEC_V40.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V40 --mode draft --current-target V39
+              node scripts/check-v40-gate1-testing-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v40-gate2-test-inventory-coverage-matrix.mjs ]; then
+                node scripts/check-v40-gate2-test-inventory-coverage-matrix.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v40-gate3-unit-coverage.mjs ]; then
+                node scripts/check-v40-gate3-unit-coverage.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v40-gate4-api-integration-contracts.mjs ]; then
+                node scripts/check-v40-gate4-api-integration-contracts.mjs --skip-branch-check --skip-integration-tests
+              fi
+              if [ -f scripts/check-v40-gate5-reading-pipeline-integration.mjs ]; then
+                node scripts/check-v40-gate5-reading-pipeline-integration.mjs --skip-branch-check --skip-integration-tests
+              fi
+              if [ -f scripts/check-v40-gate6-conversation-terminal-integration.mjs ]; then
+                node scripts/check-v40-gate6-conversation-terminal-integration.mjs --skip-branch-check --skip-integration-tests
+              fi
+              if [ -f scripts/check-v40-gate7-browser-e2e-visual-proof.mjs ]; then
+                node scripts/check-v40-gate7-browser-e2e-visual-proof.mjs --skip-branch-check --skip-browser-tests
+              fi
+              if [ -f scripts/check-v40-gate8-ledger-storage-sync.mjs ]; then
+                node scripts/check-v40-gate8-ledger-storage-sync.mjs --skip-branch-check --skip-integration-tests
+              fi
+              if [ -f scripts/check-v40-gate9-local-staging-rehearsal-automation.mjs ]; then
+                node scripts/check-v40-gate9-local-staging-rehearsal-automation.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs ]; then
+                node scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v40-gate11-promotion-readiness.mjs ]; then
+                node scripts/check-v40-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+              fi
+            fi
+          elif [ "$POINTER" = "V40" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V40 --mode promoted --current-target V40
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V40
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41
+            node scripts/check-v40-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -422,7 +461,7 @@ jobs:
           pnpm --dir packages/chatgptapp exec jest --runTestsByPath src/__tests__/chatgpt-action-contract.test.ts src/__tests__/tools.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-harness.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --runTestsByPath src/__tests__/distributed-execution-runtime-receipt.test.ts --runInBand --forceExit
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand --forceExit
+          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/reading-pipeline-integration-coverage.test.ts src/__tests__/reading-pipeline-observability.test.ts src/__tests__/reading-pipeline-contract.test.ts src/__tests__/v32-reading-pipeline-proof-coverage.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-disclosure.test.ts src/__tests__/postprocess.test.ts src/__tests__/read-need.test.ts src/__tests__/read-need-review-resynthesis.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-preview-boundary.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --runTestsByPath src/__tests__/asset-pack-settlement-rights-delivery.test.ts --runInBand --forceExit
@@ -471,6 +510,21 @@ jobs:
           if [ -f packages/protocol/test/v39-promotion-readiness.test.js ]; then
             pnpm --dir packages/protocol exec node --test --test-force-exit test/v39-promotion-readiness.test.js
           fi
+          if [ -f packages/protocol/test/v40-conversation-terminal-integration.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-conversation-terminal-integration.test.js
+          fi
+          if [ -f packages/protocol/test/v40-ledger-storage-sync.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-ledger-storage-sync.test.js
+          fi
+          if [ -f packages/protocol/test/v40-local-staging-rehearsal-automation.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-local-staging-rehearsal-automation.test.js
+          fi
+          if [ -f packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-prompt-benchmark-smoke-v41-readiness.test.js
+          fi
+          if [ -f packages/protocol/test/v40-promotion-readiness.test.js ]; then
+            pnpm --dir packages/protocol exec node --test --test-force-exit test/v40-promotion-readiness.test.js
+          fi
           pnpm --filter @bitcode/protocol test
 
       - name: Test staged Reading route and Terminal harness contracts
@@ -487,6 +541,7 @@ jobs:
             tests/api/conversationSessionRouteHistoryContract.test.ts \
             tests/api/conversationStreamEventContract.test.ts \
             tests/conversationStreamPipelineLog.test.tsx \
+            tests/conversationTerminalIntegrationCoverage.test.tsx \
             tests/conversationTerminalHandoff.test.tsx \
             tests/api/conversationPersistencePrivacyRedaction.test.ts \
             tests/conversationPersistencePrivacyPanel.test.tsx \
@@ -513,11 +568,13 @@ jobs:
             tests/terminalInterfaceIntegrationRegression.test.ts \
             tests/terminalWalletBtcOperation.test.ts \
             tests/terminalJournalReconciliation.test.ts \
+            tests/bitcodeLedgerStorageSync.test.ts \
             tests/terminalOrganizationAuthority.test.ts \
             tests/protocolCommercialBoundary.test.ts \
             tests/terminalTransactionDetailCards.test.tsx \
             tests/terminalTransactionDetailSnapshot.test.ts \
             tests/terminalUxBrowserProof.test.tsx \
+            tests/bitcodeBrowserProof.test.ts \
             tests/bitcodeBrowserAccessibilityResponsiveProof.test.ts \
             tests/readingOperationalTelemetryPipelineLog.test.tsx \
             tests/pipelineExecutionLogHeader.test.tsx \
@@ -534,6 +591,10 @@ jobs:
       - name: Browser proof Terminal and Auxillaries responsive accessibility
         if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
         run: pnpm --dir uapi run test:e2e:v32-browser-proof
+
+      - name: Browser proof product surfaces
+        if: vars.BITCODE_ENABLE_GATE_BROWSER_PROOF == '1'
+        run: pnpm --dir uapi run test:e2e:browser-proof
 
       - name: Test pipeline readback verifier
         run: pnpm test:qa:v28:pipeline-readback

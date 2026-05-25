@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V38`; V39 is the active draft target for commercial Reading
-readiness after the promoted inference correctness canon.
+resolves to `V39`; V40 is the active draft target for exhaustive commercial
+application testing after the promoted commercial Reading readiness canon.
 
 ## Current Product Posture
 
@@ -260,6 +260,13 @@ AssetPack source, credentials, wallet private material, or private settlement
 payloads. Use `pnpm run generate:v39-promotion-readiness`,
 `pnpm run check:v39-promotion-readiness`, and `pnpm run check:v39-gate11`
 before closing the gate.
+V40 Gate 1 opens the exhaustive commercial application testing draft family and
+`check:v40-gate1` over active V39. V40 focuses on browser E2E, visual and
+screenshot proof, accessibility, responsive behavior, API and route integration,
+Reading pipeline integration, Conversation and Terminal integration,
+ledger/database/storage/wallet/delivery synchronization, local/staging rehearsal,
+unit coverage across packages and primitives, prompt benchmark smoke, and V41
+prompt-program readiness.
 V39 Gate 2 adds the package-owned `DepositorySupplyIndex` and source-safe
 generated artifact `.bitcode/v39-depository-supply-indexing.json`. Deposited
 source supply is normalized into rights-aware records with repository, branch,
@@ -514,6 +521,76 @@ through `pnpm run check:v39-gate8` and its generated
 `.bitcode/v39-operational-telemetry-repair-readback.json` artifact. V39 Gate 9
 is wired through `pnpm run check:v39-gate9` and its generated
 `.bitcode/v39-interface-conversation-product-parity.json` artifact.
+For V40, Gate 1 opens `version/v40` and the gate-quality posture through
+`pnpm run check:v40-gate1` before later gates add generated exhaustive testing
+artifacts and the V40 promotion workflow.
+V40 Gate 2 adds the package-backed `V40TestInventoryCoverageMatrix`, generated
+`.bitcode/v40-test-inventory-coverage-matrix.json`, and `check:v40-gate2` to
+inventory unit, API/route, Reading pipeline, Conversation/Terminal,
+browser/visual/accessibility/responsive, ledger/database/storage/wallet/delivery,
+local/staging, prompt benchmark smoke, demonstration, and CI/promotion testing
+surfaces before deeper V40 gates close their implementations.
+V40 Gate 3 adds the package-backed `V40UnitCoverageInventory`, generated
+`.bitcode/v40-unit-coverage-inventory.json`, and `check:v40-gate3` to close
+critical unit coverage for packages, primitives, isolated implementations,
+Reading AssetPack units, interface helpers, and demonstration boundary tests.
+V40 Gate 4 adds the package-backed `V40ApiIntegrationContracts`, generated
+`.bitcode/v40-api-integration-contracts.json`, and `check:v40-gate4` to close
+source-safe API, UAPI, MCP, ChatGPT App, persistence, authorization, and
+response-schema route integration contract coverage before later browser and
+pipeline gates.
+V40 Gate 5 adds the package-backed `V40ReadingPipelineIntegrationCoverage`,
+generated `.bitcode/v40-reading-pipeline-integration-coverage.json`, and
+`check:v40-gate5` to close source-safe integration coverage for
+`ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, many-fit
+Depository search, PTRR agent wiring, AssetPack preview/settlement/delivery,
+telemetry/readback, Terminal harnesses, pipeline primitives, hosts, and local
+staging rehearsal linkage.
+V40 Gate 6 adds the package-backed `V40ConversationTerminalIntegration`,
+generated `.bitcode/v40-conversation-terminal-integration.json`, and
+`check:v40-gate6` to close source-safe integration coverage for Conversation
+handoff route contracts, Conversation stream-to-rich-log projection,
+Conversation route/API persistence and branch contracts, writing/source
+selector handoff, Terminal Reading state readback, Terminal harness log
+streaming, transaction-cockpit authority boundaries, and rehearsal/docs parity.
+V40 Gate 7 adds the package-backed `V40BrowserE2eVisualProof`, generated
+`.bitcode/v40-browser-e2e-visual-proof.json`, and `check:v40-gate7` to close
+source-safe browser proof coverage for Terminal, Conversations, Auxillaries,
+Exchange, Docs, responsive viewport overflow, screenshot/trace baselines, and
+keyboard/landmark/status accessibility. The current app browser proof contract
+binds five product surfaces, thirteen route states, eighteen interaction
+states, four canonical viewports, and no screenshot-only approval.
+V40 Gate 8 adds the package-backed `V40LedgerStorageSync`, generated
+`.bitcode/v40-ledger-storage-sync.json`, and `check:v40-gate8` to close
+source-safe synchronization proof for BTC fee finality, BTD read-right
+projection, source-to-shares compensation, ledger/database/object-storage
+reconciliation, storage locks, no-custody wallet authority, Terminal readback,
+repair posture, and post-settlement pull-request delivery. The current app
+ledger/storage sync contract keeps source-bearing AssetPack delivery invisible
+until settlement, BTD rights, compensation, and projection readbacks agree.
+V40 Gate 9 adds the package-backed `V40LocalStagingRehearsalAutomation`,
+generated `.bitcode/v40-local-staging-rehearsal-automation.json`,
+`rehearse:v40-local-staging`, and `check:v40-gate9` to close source-safe local
+and staging-testnet rehearsal automation. Operator receipts use lane-bound
+secret-family readiness rather than secret values, are dry-run by default, bind
+staging-testnet to Supabase project `tkpyosihuouusyaxtbau`, and require explicit
+live execution opt-in before delegating to the Vercel Sandbox AssetPack harness.
+V40 Gate 10 adds the package-backed `V40PromptBenchmarkSmokeV41Readiness`,
+generated `.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`,
+`prompt-benchmark:smoke`, and `check:v40-gate10` to close source-safe PromptPart
+and composed Prompt benchmark smoke coverage before V41. The artifact binds the
+package benchmark report command, deterministic smoke receipts, V38 prompt
+benchmark inventory evidence, workflow wiring, and the V41 prompt-program
+worklist without rewriting prompt content or serializing raw prompt/provider
+payloads.
+V40 Gate 11 adds the package-backed `V40PromotionReadinessReport`, generated
+`.bitcode/v40-promotion-readiness-report.json`,
+`generate:v40-promotion-readiness`, `check:v40-promotion-readiness`,
+`check:v40-gate11`, and `.github/workflows/v40-canon-promotion.yml` to close
+canonical promotion readiness. The report binds every V40 testing artifact,
+`BITCODE_SPEC_V40_PROVEN.md`, gate/canon workflow posture, promotion scripts,
+active V40 / draft V41 runtime preparation, and source-safe value-bearing
+mainnet blocking without serializing secrets or protected payloads.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
@@ -552,9 +629,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V37.md](BITCODE_SPEC_V37.md) is the active promoted spec family.
-- [BITCODE_SPEC_V38.md](BITCODE_SPEC_V38.md) is the active draft target.
-- [BITCODE_SPEC_V38_PARITY_MATRIX.md](BITCODE_SPEC_V38_PARITY_MATRIX.md) tracks V38 gate parity.
+- [BITCODE_SPEC_V39.md](BITCODE_SPEC_V39.md) is the active promoted spec family.
+- [BITCODE_SPEC_V40.md](BITCODE_SPEC_V40.md) is the active draft target.
+- [BITCODE_SPEC_V40_PARITY_MATRIX.md](BITCODE_SPEC_V40_PARITY_MATRIX.md) tracks V40 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.

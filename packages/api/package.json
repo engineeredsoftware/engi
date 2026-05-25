@@ -29,6 +29,7 @@
     "@bitcode/observability": "workspace:*",
     "@bitcode/orm": "workspace:*",
     "@bitcode/pipeline-asset-pack": "workspace:*",
+    "@bitcode/pipelines-generics": "workspace:*",
     "@bitcode/procurement": "workspace:*",
     "@bitcode/networking": "workspace:*",
     "@bitcode/responses": "workspace:*",

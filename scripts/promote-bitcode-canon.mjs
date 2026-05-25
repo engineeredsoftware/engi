@@ -47,7 +47,7 @@ function printHelp() {
       'Usage: npm run promote:canon -- --version V20 --commit <proof-source-commit> [--dry-run]',
       '',
       'Options:',
-      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38.',
+      '  --version <VN>           Canonical version to promote. Accepted targets: V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40.',
       '  --commit <sha>           Proof-source commit to render into the generated appendix.',
       '  --dry-run                Print the promotion plan without executing commands or writing files.',
       '  --allow-dirty-start      Permit a dirty worktree before promotion. Not for canonical use.',
@@ -523,6 +523,25 @@ function buildCommandPlan(version, commit) {
   const v39PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V39']];
   const v39PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V39', '--mode', 'promoted', '--current-target', 'V39']];
   const v39PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V39', '--draft-target', 'V40']];
+  const v40DraftSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V40', '--mode', 'draft', '--current-target', 'V39']];
+  const v40CanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V39']];
+  const v40DraftCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V39', '--draft-target', 'V40']];
+  const v40Gate1Command = ['node', ['scripts/check-v40-gate1-testing-roadmap-opening.mjs', '--skip-branch-check']];
+  const v40Gate2Command = ['node', ['scripts/check-v40-gate2-test-inventory-coverage-matrix.mjs', '--skip-branch-check', '--skip-package-tests']];
+  const v40Gate3Command = ['node', ['scripts/check-v40-gate3-unit-coverage.mjs', '--skip-branch-check', '--skip-package-tests']];
+  const v40Gate4Command = ['node', ['scripts/check-v40-gate4-api-integration-contracts.mjs', '--skip-branch-check', '--skip-integration-tests']];
+  const v40Gate5Command = ['node', ['scripts/check-v40-gate5-reading-pipeline-integration.mjs', '--skip-branch-check', '--skip-integration-tests']];
+  const v40Gate6Command = ['node', ['scripts/check-v40-gate6-conversation-terminal-integration.mjs', '--skip-branch-check', '--skip-integration-tests']];
+  const v40Gate7Command = ['node', ['scripts/check-v40-gate7-browser-e2e-visual-proof.mjs', '--skip-branch-check', '--skip-browser-tests']];
+  const v40Gate8Command = ['node', ['scripts/check-v40-gate8-ledger-storage-sync.mjs', '--skip-branch-check', '--skip-integration-tests']];
+  const v40Gate9Command = ['node', ['scripts/check-v40-gate9-local-staging-rehearsal-automation.mjs', '--skip-branch-check', '--skip-package-tests']];
+  const v40Gate10Command = ['node', ['scripts/check-v40-gate10-prompt-benchmark-smoke-v41-readiness.mjs', '--skip-branch-check', '--skip-package-tests']];
+  const v40Gate11Command = ['node', ['scripts/check-v40-gate11-promotion-readiness.mjs', '--promotion-mode', '--skip-branch-check', '--skip-package-tests']];
+  const v40PreparePromotionSpecFamilyCommand = ['node', ['scripts/prepare-bitcode-spec-family-promotion.mjs', '--version', 'V40', '--commit', commit]];
+  const v40PrepareRuntimePromotionCommand = ['node', ['scripts/prepare-bitcode-runtime-canon-promotion.mjs', '--version', 'V40', '--next-draft', 'V41']];
+  const v40PromotedCanonicalInputCheckCommand = ['node', ['scripts/check-bitcode-canonical-inputs.mjs', '--current-target', 'V40']];
+  const v40PromotedSpecCheckCommand = ['node', ['scripts/check-bitcode-spec-family.mjs', '--version', 'V40', '--mode', 'promoted', '--current-target', 'V40']];
+  const v40PromotedCanonPostureDriftCommand = ['node', ['scripts/check-bitcode-canon-posture-drift.mjs', '--active-canon', 'V40', '--draft-target', 'V41']];
   const inheritedProofCommands = [
     ['npm', ['--prefix', 'protocol-demonstration', 'run', 'typecheck']],
     ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:unit']],
@@ -1113,7 +1132,43 @@ function buildCommandPlan(version, commit) {
       ['git', ['diff', '--check']]
     ];
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, or V39.`);
+  if (version === 'V40') {
+    return [
+      v40DraftSpecCheckCommand,
+      v40CanonicalInputCheckCommand,
+      v40DraftCanonPostureDriftCommand,
+      v40Gate1Command,
+      v40Gate2Command,
+      v40Gate3Command,
+      v40Gate4Command,
+      v40Gate5Command,
+      v40Gate6Command,
+      v40Gate7Command,
+      v40Gate8Command,
+      v40Gate9Command,
+      v40Gate10Command,
+      v40Gate11Command,
+      ['pnpm', ['--filter', '@bitcode/protocol', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/protocol', 'test']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/btd', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'test']],
+      ['npm', ['--prefix', 'protocol-demonstration', 'run', 'test:v28-mvp-qa']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'typecheck']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-asset-pack', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      ['pnpm', ['--filter', '@bitcode/pipeline-hosts', 'exec', 'jest', '--config', 'jest.config.cjs', '--passWithNoTests', '--forceExit']],
+      v40PreparePromotionSpecFamilyCommand,
+      v40PrepareRuntimePromotionCommand,
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--allow-dirty']],
+      ['node', ['scripts/generate-bitcode-proven.mjs', '--version', version, '--commit', commit, '--worktree-state', 'clean', '--output', archivedProvenOutput(version), '--check', '--allow-dirty']],
+      v40PromotedCanonicalInputCheckCommand,
+      v40PromotedSpecCheckCommand,
+      v40PromotedCanonPostureDriftCommand,
+      ['git', ['diff', '--check']]
+    ];
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, or V40.`);
 }
 
 /**
@@ -2048,6 +2103,62 @@ async function buildDerivedV39CommitMessageBody(commit) {
 }
 
 /**
+ * @param {string} commit
+ * @returns {Promise<string>}
+ */
+async function buildDerivedV40CommitMessageBody(commit) {
+  const { spec, delta, parity } = await readSpecFamily('V40');
+  const scope = extractStatusValue(spec, 'Scope') || 'V40 canonical system specification for exhaustive commercial application testing';
+  const focus = deriveScopeFocus(scope) === 'specifying-canon hardening'
+    ? 'exhaustive commercial application testing over promoted V39 commercial Reading readiness canon'
+    : deriveScopeFocus(scope);
+  const decisionSection = extractSection(delta, 'Accepted V40 decisions');
+  const acceptedDecisions = extractOrderedItems(decisionSection).map(stripMarkdown);
+  const parityRows = [
+    ...parseMarkdownTable(extractSection(parity, 'V40 implementation matrix')),
+    ...parseMarkdownTable(extractSection(parity, 'V40 implementation checklist'))
+  ];
+
+  /** @type {string[]} */
+  const bullets = [];
+  for (const decision of acceptedDecisions.slice(0, 4)) {
+    bullets.push(trimTrailingPeriod(decision));
+  }
+
+  const prioritizedAreas = [
+    'Draft family',
+    'Test inventory',
+    'Unit coverage',
+    'API integration contracts',
+    'Reading pipeline integration',
+    'Conversation and Terminal integration',
+    'Browser E2E and visual proof',
+    'Ledger storage synchronization',
+    'Local staging rehearsal automation',
+    'Prompt benchmark smoke',
+    'Promotion readiness'
+  ];
+  for (const area of prioritizedAreas) {
+    const row = findParityRow(parityRows, area);
+    if (!row) continue;
+    const closureSignal = trimTrailingPeriod(
+      stripMarkdown(row['Required V40 result'] || row['Closure requirement'] || row['Source evidence'] || '')
+    );
+    if (!closureSignal) continue;
+    bullets.push(`${stripMarkdown(area)}: ${closureSignal}`);
+  }
+
+  return [
+    `Promotes V40 as ${focus} for Bitcode.`,
+    '',
+    `Proof-source commit: ${commit}`,
+    '',
+    'The promotion carries:',
+    ...bullets.slice(0, 14).map((bullet) => `- ${bullet}`)
+  ].join('\n');
+}
+
+/**
  * @param {string} version
  * @param {string} commit
  * @returns {Promise<string>}
@@ -2137,7 +2248,10 @@ async function buildCommitMessageBody(version, commit) {
   if (version === 'V39') {
     return buildDerivedV39CommitMessageBody(commit);
   }
-  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, or V39.`);
+  if (version === 'V40') {
+    return buildDerivedV40CommitMessageBody(commit);
+  }
+  throw new Error(`Unsupported promotion target ${version}. Expected V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, or V40.`);
 }
 
 async function main() {
@@ -2148,8 +2262,8 @@ async function main() {
   }
 
   const version = args.version || '';
-  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29', 'V30', 'V31', 'V32', 'V33', 'V34', 'V35', 'V36', 'V37', 'V38', 'V39'].includes(version)) {
-    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, or V39. Received ${version || 'none'}.`);
+  if (!['V19', 'V20', 'V21', 'V22', 'V23', 'V24', 'V25', 'V28', 'V29', 'V30', 'V31', 'V32', 'V33', 'V34', 'V35', 'V36', 'V37', 'V38', 'V39', 'V40'].includes(version)) {
+    throw new Error(`Canonical promotion accepts --version V19, V20, V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, or V40. Received ${version || 'none'}.`);
   }
   const commit = args.commit || '';
   if (!commit) {

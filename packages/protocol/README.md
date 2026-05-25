@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V39` active, `V40` draft after V39 promotion);
+- active/draft canon posture (`V40` active, `V41` draft after V40 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -58,13 +58,101 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is the `V38` active, `V39` draft after V38 promotion posture accepted by
-V38 canonical promotion.
-V39 Gate 1 treats this package as promotion-critical runtime posture and opens
-the commercial Reading readiness specification family for active V38 / draft
-V39 work.
+This is the `V39` active, `V40` draft after V39 promotion posture accepted by
+V39 canonical promotion.
+V40 Gate 1 treats this package as promotion-critical runtime posture and opens
+the exhaustive testing specification family for active V39 / draft V40 work.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V38` active, `V39` draft after promotion.
+must remain aligned to `V39` active, `V40` draft after promotion.
+V40 Gate 1 is wired through `check:v40-gate1` and documents the exact browser
+E2E, visual/screenshot, API integration, pipeline integration, Conversation and
+Terminal integration, unit coverage, ledger/database/storage synchronization,
+local/staging rehearsal, prompt benchmark smoke, and V41 prompt-program
+readiness scope that later V40 gates must implement.
+V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
+`packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
+`packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,
+`.bitcode/v40-test-inventory-coverage-matrix.json`, and `check:v40-gate2`.
+The artifact is source-safe metadata only and inventories owners, commands,
+source roots, generated artifact targets, and closure gates for each V40 testing
+surface before the later gates implement deeper coverage.
+V40 Gate 3 adds `V40UnitCoverageInventory` through
+`packages/protocol/src/canonical/v40-unit-coverage-inventory.js`,
+`packages/protocol/test/v40-unit-coverage-inventory.test.js`,
+`.bitcode/v40-unit-coverage-inventory.json`, and `check:v40-gate3`.
+The artifact is source-safe metadata only and closes the unit layer for critical
+packages, primitives, isolated implementations, Reading AssetPack units,
+interface helpers, and the demonstration boundary.
+V40 Gate 4 adds `V40ApiIntegrationContracts` through
+`packages/protocol/src/canonical/v40-api-integration-contracts.js`,
+`packages/protocol/test/v40-api-integration-contracts.test.js`,
+`.bitcode/v40-api-integration-contracts.json`, and `check:v40-gate4`.
+The artifact is source-safe metadata only and closes API, UAPI, MCP, ChatGPT
+App, persistence, authorization, and response-schema integration contract
+coverage.
+V40 Gate 5 adds `V40ReadingPipelineIntegrationCoverage` through
+`packages/protocol/src/canonical/v40-reading-pipeline-integration-coverage.js`,
+`packages/protocol/test/v40-reading-pipeline-integration-coverage.test.js`,
+`.bitcode/v40-reading-pipeline-integration-coverage.json`, and
+`check:v40-gate5`.
+The artifact is source-safe metadata only and closes integration coverage for
+the real Reading pipeline topology, Need runtime, Finding Fits search runtime,
+PTRR agents, preview/settlement/delivery boundaries, telemetry/readback,
+Terminal harness, generic primitives, host harnesses, and local/staging
+rehearsal linkage.
+V40 Gate 6 adds `V40ConversationTerminalIntegration` through
+`packages/protocol/src/canonical/v40-conversation-terminal-integration.js`,
+`packages/protocol/test/v40-conversation-terminal-integration.test.js`,
+`.bitcode/v40-conversation-terminal-integration.json`, and
+`check:v40-gate6`.
+The artifact is source-safe metadata only and closes integration coverage for
+Conversation handoff route contracts, Conversation stream-to-rich-log
+projection, route/API persistence and branch contracts, writing/source selector
+handoff, Terminal Reading state readback, Terminal harness log streaming,
+transaction-cockpit authority boundaries, and rehearsal/docs/interface parity.
+V40 Gate 7 adds `V40BrowserE2eVisualProof` through
+`packages/protocol/src/canonical/v40-browser-e2e-visual-proof.js`,
+`packages/protocol/test/v40-browser-e2e-visual-proof.test.js`,
+`.bitcode/v40-browser-e2e-visual-proof.json`, and `check:v40-gate7`.
+The artifact is source-safe metadata only and closes browser E2E, visual,
+accessibility, responsive, interaction-state, screenshot/trace, and overflow
+coverage for Terminal, Conversations, Auxillaries, Exchange, and Docs.
+V40 Gate 8 adds `V40LedgerStorageSync` through
+`packages/protocol/src/canonical/v40-ledger-storage-sync.js`,
+`packages/protocol/test/v40-ledger-storage-sync.test.js`,
+`.bitcode/v40-ledger-storage-sync.json`, and `check:v40-gate8`.
+The artifact is source-safe metadata only and closes ledger, database,
+object-storage, wallet, settlement, BTD rights, source-to-shares compensation,
+repair, Terminal readback, and post-settlement pull-request delivery
+synchronization coverage.
+V40 Gate 9 adds `V40LocalStagingRehearsalAutomation` through
+`packages/protocol/src/canonical/v40-local-staging-rehearsal-automation.js`,
+`packages/protocol/test/v40-local-staging-rehearsal-automation.test.js`,
+`.bitcode/v40-local-staging-rehearsal-automation.json`, and `check:v40-gate9`.
+The artifact is source-safe metadata only and closes local/staging-testnet
+operator receipts, lane-bound secret-family checks, explicit live-execution
+opt-in, Vercel Sandbox harness evidence and telemetry capture, staging-testnet
+database stream/readback binding, Reading rehearsal continuity, synchronization
+continuity, and value-bearing mainnet blocking.
+V40 Gate 10 adds `V40PromptBenchmarkSmokeV41Readiness` through
+`packages/protocol/src/canonical/v40-prompt-benchmark-smoke-v41-readiness.js`,
+`packages/protocol/test/v40-prompt-benchmark-smoke-v41-readiness.test.js`,
+`.bitcode/v40-prompt-benchmark-smoke-v41-readiness.json`, and
+`check:v40-gate10`.
+The artifact is source-safe metadata only and closes PromptPart and composed
+Prompt benchmark smoke coverage before V41 by binding deterministic local smoke
+receipts, the package benchmark report command, V38 benchmark inventory
+evidence, workflow wiring, and the V41 prompt-program worklist without
+rewriting prompt content or serializing raw prompt/provider payloads.
+V40 Gate 11 adds `V40PromotionReadinessReport` through
+`packages/protocol/src/canonical/v40-promotion-readiness-report.js`,
+`packages/protocol/test/v40-promotion-readiness.test.js`,
+`.bitcode/v40-promotion-readiness-report.json`, `v40-canon-promotion.yml`, and
+`check:v40-gate11`.
+The report closes promotion readiness for the `V40` active, `V41` draft posture
+by binding every V40 testing artifact, generated proof support, gate/canon
+workflow support, promotion scripts, runtime canon rewriting, dry-run promotion,
+and source-safe value-bearing mainnet blocking.
 V39 Gate 1 is wired through `check:v39-gate1` and documents the exact
 Depository supply, five-step enterprise Reading UX, ReadNeed review,
 ReadFitsFinding runtime, AssetPack preview, deterministic BTC quote, BTD rights

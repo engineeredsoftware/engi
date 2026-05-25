@@ -146,6 +146,9 @@ importers:
       '@bitcode/pipeline-asset-pack':
         specifier: workspace:*
         version: link:../pipelines/asset-pack
+      '@bitcode/pipelines-generics':
+        specifier: workspace:*
+        version: link:../pipelines-generics
       '@bitcode/procurement':
         specifier: workspace:*
         version: link:../procurement

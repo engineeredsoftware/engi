@@ -117,6 +117,86 @@ const COMMERCIAL_MVP_AUXILLARY_DATA = {
   isOnboardingComplete: true,
 };
 
+const COMMERCIAL_MVP_VCS_REPOSITORY = {
+  id: 'mock-repo-bitcode',
+  name: 'bitcode',
+  fullName: 'bitcode/bitcode',
+  description: 'Browser proof repository for Terminal Reading and AssetPack review.',
+  private: true,
+  defaultBranch: 'main',
+  url: 'https://github.com/bitcode/bitcode',
+  cloneUrl: 'https://github.com/bitcode/bitcode.git',
+  sshUrl: 'git@github.com:bitcode/bitcode.git',
+  owner: {
+    id: 'bitcode',
+    username: 'bitcode',
+    type: 'organization',
+  },
+  createdAt: '2026-05-06T16:00:00.000Z',
+  updatedAt: '2026-05-06T18:12:00.000Z',
+  language: 'TypeScript',
+  topics: ['bitcode', 'terminal', 'browser-proof'],
+  archived: false,
+  fork: false,
+  forksCount: 0,
+  starsCount: 0,
+  size: 2048,
+};
+
+const COMMERCIAL_MVP_VCS_BRANCHES = [
+  {
+    name: 'main',
+    protected: true,
+    default: true,
+    commit: {
+      sha: '8d4d0a7b6c5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a',
+      message: 'Browser proof main branch head',
+      author: {
+        name: 'Bitcode Review',
+        email: 'reviewer@bitcode.ai',
+        date: '2026-05-06T18:12:00.000Z',
+      },
+    },
+  },
+  {
+    name: 'commercial-mvp',
+    protected: false,
+    default: false,
+    commit: {
+      sha: '4b7f2d9a9c3e1a8f6b5c4d3e2f1a0b9c8d7e6f5a',
+      message: 'Browser proof commercial MVP branch head',
+      author: {
+        name: 'Bitcode Review',
+        email: 'reviewer@bitcode.ai',
+        date: '2026-05-06T17:44:00.000Z',
+      },
+    },
+  },
+];
+
+const COMMERCIAL_MVP_VCS_COMMITS = [
+  {
+    sha: '8d4d0a7b6c5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a',
+    message: 'Browser proof main branch head',
+    author: {
+      name: 'Bitcode Review',
+      email: 'reviewer@bitcode.ai',
+      date: '2026-05-06T18:12:00.000Z',
+    },
+    parents: [],
+  },
+  {
+    sha: '4b7f2d9a9c3e1a8f6b5c4d3e2f1a0b9c8d7e6f5a',
+    message: 'Browser proof commercial MVP branch head',
+    author: {
+      name: 'Bitcode Review',
+      email: 'reviewer@bitcode.ai',
+      date: '2026-05-06T17:44:00.000Z',
+    },
+    parents: ['8d4d0a7b6c5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a'],
+  },
+];
+
 const NEXT_OVERLAY_PATTERNS = [
   /Unhandled Runtime Error/i,
   /Application error/i,
@@ -132,6 +212,73 @@ const BENIGN_DEV_NAVIGATION_ERROR_PATTERNS = [
 ];
 
 export async function installCommercialMvpApiMocks(page: Page) {
+  await page.route('**/api/vcs/*/connection', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        connected: true,
+        provider: 'github',
+        valid: true,
+        username: 'bitcode',
+        metadata: {
+          mock_mode: true,
+          repositories: 1,
+          account: 'bitcode',
+          status: 'connected',
+        },
+      }),
+    });
+  });
+
+  await page.route('**/api/vcs/*/repositories', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/json',
+      body: JSON.stringify({
+        repositories: [COMMERCIAL_MVP_VCS_REPOSITORY],
+        inventorySource: 'mock_repository_inventory',
+      }),
+    });
+  });
+
+  await page.route('**/api/vcs?**', async (route) => {
+    const url = new URL(route.request().url());
+    const resource = url.searchParams.get('resource');
+    if (resource === 'branches') {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          branches: COMMERCIAL_MVP_VCS_BRANCHES,
+          defaultBranch: 'main',
+        }),
+      });
+      return;
+    }
+    if (resource === 'commits') {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          commits: COMMERCIAL_MVP_VCS_COMMITS,
+        }),
+      });
+      return;
+    }
+    if (resource === 'repositories') {
+      await route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify({
+          repositories: [COMMERCIAL_MVP_VCS_REPOSITORY],
+        }),
+      });
+      return;
+    }
+    await route.continue();
+  });
+
   await page.route('**/api/auxillaries/data', async (route) => {
     await route.fulfill({
       status: 200,

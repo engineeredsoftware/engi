@@ -242,7 +242,14 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-gate8-expanded', SOURCE_ROOTS.v39Delta, delta.includes('Gate 8') && delta.includes('ReadingOperationalTelemetryRepairReadback')),
     predicateResult('notes-gate8-expanded', SOURCE_ROOTS.v39Notes, notes.includes('Gate 8 implementation notes') && notes.includes('operator readback')),
     predicateResult('parity-gate8-expanded', SOURCE_ROOTS.v39Parity, parity.includes('Gate 8 Parity') && parity.includes('ReadingOperationalTelemetryRepairReadback')),
-    predicateResult('roadmap-advanced-to-gate8', SOURCE_ROOTS.roadmap, /Current working gate: V39 Gate (?:8|9|10|11)\b/u.test(roadmap) && roadmap.includes('V39 Gate 8 closure anchor')),
+    predicateResult(
+      'roadmap-advanced-to-gate8',
+      SOURCE_ROOTS.roadmap,
+      roadmap.includes('V39 Gate 8 closure anchor') &&
+        (/Current working gate: V39 Gate (?:8|9|10|11)\b/u.test(roadmap) ||
+          roadmap.includes('Latest closed version: V39 Commercial Reading Readiness') ||
+          roadmap.includes('Recent V39 closure anchor')),
+    ),
     predicateResult('readmes-document-gate8', SOURCE_ROOTS.rootReadme, rootReadme.includes('V39 Gate 8') && assetPackReadme.includes('Operational Telemetry Repair Readback') && protocolReadme.includes('V39OperationalTelemetryRepairReadback')),
     predicateResult('workflows-run-gate8-check', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate8-operational-telemetry-repair-readback.mjs') && canonWorkflow.includes('check-v39-gate8-operational-telemetry-repair-readback.mjs')),
   ];

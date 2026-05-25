@@ -32,6 +32,8 @@ const explicitMapper = {
   '^@bitcode/prompts/(.*)$': '<rootDir>/../../../../packages/prompts/src/$1',
   '^@bitcode/doc-comment$': '<rootDir>/../../../../packages/doc-comment/src/index.ts',
   '^@bitcode/doc-comment/(.*)$': '<rootDir>/../../../../packages/doc-comment/src/$1',
+  '^@bitcode/generic-tools-editing$': '<rootDir>/../../../../packages/generic-tools/files-maintaining/src/index.ts',
+  '^@bitcode/generic-tools-editing/(.*)$': '<rootDir>/../../../../packages/generic-tools/files-maintaining/src/$1',
   '^@bitcode/vcs-tools$': '<rootDir>/../../../../packages/generic-tools/vcs/src/index.ts',
   '^@bitcode/editing$': '<rootDir>/../../../../packages/editing/src/index.ts',
   '^@bitcode/editing/(.*)$': '<rootDir>/../../../../packages/editing/src/$1',
