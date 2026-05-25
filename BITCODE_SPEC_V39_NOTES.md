@@ -1,0 +1,236 @@
+# Bitcode Spec V39 Notes
+
+## Status
+
+- Version: `V39`
+- V39 state: draft opened; V39 notes record planned commercial Reading readiness work over promoted V38 inference correctness
+- Current canonical/latest target: `V38`
+- Draft proof-source commit: unbound until V39 promotion
+- Current active draft target: `V39`
+- Prior canonical anchor: `BITCODE_SPEC_V38.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V38_PROVEN.md`
+- Generated structured artifact inventory: draft opening requires `.bitcode/v39-spec-family-report.json` and `.bitcode/v39-canonical-input-report.json`; later V39 gates must add package-backed source-safe artifacts for Depository indexing, Reading UX state, ReadNeed review/resynthesis, ReadFitsFinding runtime, AssetPack preview/quote, settlement/delivery rights, telemetry/repair, interface parity, rehearsal, and promotion readiness
+- Source parity state: V39 source-side parity is opened but not closed; each gate must close implementation, generated proof, tests, documentation, and source-safe telemetry before V39 promotion
+- Spec companion: `BITCODE_SPEC_V39.md`
+- Delta companion: `BITCODE_SPEC_V39_DELTA.md`
+- Parity companion: `BITCODE_SPEC_V39_PARITY_MATRIX.md`
+- Scope: V39 draft notes for commercial Reading readiness over promoted V38 inference correctness canon
+- Last fully realized canonical target preserved in source: `V38`
+
+This NOTES file does not promote V39. It is binding draft guidance while V39 gates are in flight.
+
+## Notes companion rule
+
+This file is the V39 notes companion.
+Requirements are binding for V39 gate work while `BITCODE_SPEC.txt` remains `V38`.
+
+## Simplified-spec reading rule
+
+Read `BITCODE_SPEC.txt` first.
+If it points to `V38`, V38 is active canon and V39 is the active draft target only when this V39 SPEC family exists on a V39 branch.
+Read `BITCODE_SPEC_V39.md`, this NOTES companion, the V39 DELTA, and the V39 PARITY matrix together before implementing inference work.
+
+## Concise current-system reading
+
+V38 is active canon and inference correctness is promoted.
+V39 is the draft target that focuses on commercial Reading readiness across deposited source supply, the five-step enterprise Reading UX, ReadNeed review/resynthesis, ReadFitsFinding many-candidate depository search, source-safe AssetPack preview, deterministic quote, settlement, BTD rights transfer, post-settlement delivery, and operational telemetry/repair.
+
+## Deferred from V38
+
+V38 promoted the inference stack and its source-safe telemetry/disclosure law.
+V39 should use that stack to close the commercial Reading product path end to
+end, fully using Bitcode's existing pipeline, agent, prompt, execution, tool,
+telemetry, registry, ledger, database, storage, wallet, and delivery primitives
+without weakening any runtime boundary.
+
+Source anchors already exist and must be audited before V39 implementation:
+
+- `packages/agent-generics/src/steps/failsafe-sequence.ts` defines
+  `FailsafeGenerationSequence` as prepare-concise-context, chunk-then-sum, and
+  stitch-until-complete wrappers over `ThricifiedGeneration`.
+- `packages/agent-generics/src/steps/thricified-generation.ts` defines
+  `ThricifiedGeneration` as the strict Reason, Judge, StructuredOutput chain.
+- `packages/agent-generics/src/agents/factories.ts` requires
+  `factoryAgentWithPTRR` callers to provide an agent prompt plus complete
+  Plan, Try, Refine, and Retry step prompt registries.
+- `packages/tools-generics/src/Tool.ts`,
+  `packages/tools-generics/src/doc-code-tool/DocCodeToolPrompt.ts`, and
+  `packages/tools-generics/src/doc-code-tool/formatUsableTools.ts` define the
+  doc-comment-backed tool prompt path that inference prompts must consume.
+- `packages/pipelines/asset-pack/src/reading-pipeline-contract.ts`,
+  `packages/pipelines/asset-pack/src/read-need.ts`,
+  `packages/pipelines/asset-pack/src/depository-search.ts`, and
+  `packages/pipelines/asset-pack/src/tools/*DepositorySearchTool*` define the
+  current `ReadNeedComprehensionSynthesis` and
+  `ReadFitsFindingSynthesis` contracts, tools, search result shape, and
+  source-safe preview boundary.
+
+Thricification remains the lowest-level inference call chain. It is the final
+place where phase, agent, step, substep, tool-documentation, and generation
+prompt registries are resolved, composed, interpolated, and constrained to the
+typed output. Failsafe chains may prepare context, chunk large inputs, summarize
+or stitch large outputs, retry repairable typed-output failures, and organize
+execution ancestry state around those calls, but inside PTRR agents they must
+delegate final reason, judge-reasoning, and structured typed response
+production to `ThricifiedGeneration`.
+
+Tools remain step-owned capability executions, not hidden children of
+`ThricifiedGeneration`. Tool definitions must still be represented in final
+prompts through the doc-comment `DocCodeToolPrompt` path, composed and
+interpolated at the lowest inference point with the same source-safe telemetry
+discipline as all other prompt material.
+
+## Candidate V39 workstreams
+
+- Make Depository supply operational for Reading: deposited source materials
+  must be measured, embedded, indexed, rights-aware, searchable, repairable,
+  and source-safe in all generated artifacts and logs.
+- Implement the five-step enterprise Reading UX: request read, review
+  synthesized Need, request Finding Fits, review source-safe AssetPack preview,
+  buy AssetPack and settle.
+- Make `ReadNeedComprehensionSynthesis` a persisted review loop with feedback
+  and resynthesis. Accepted Need is the only admission path into Finding Fits.
+- Make `ReadFitsFindingSynthesis` a runtime search pipeline over the whole
+  available Depository, gathering many above-threshold candidate deposits before
+  selected-fit provenance is handed into AssetPack synthesis.
+- Make source-safe AssetPack preview commercially sufficient without IP leakage:
+  show measurements, fit reasons, selected-fit provenance, quality posture,
+  proof roots, deterministic BTC quote, and delivery posture while withholding
+  source-bearing AssetPack content until settlement unlock.
+- Make settlement, BTD rights transfer, contributor compensation, post-settlement
+  delivery, ledger/database/object-storage synchronization, repair, and replay
+  auditable as one paid boundary.
+- Preserve V38 inference law throughout every Reading runtime surface. Pipeline
+  phases, PTRR agents, FailsafeGenerationSequence, ThricifiedGeneration,
+  DocCodeToolPrompt, prompt benchmarking, disclosure tiers, and telemetry roots
+  remain binding infrastructure, not optional implementation detail.
+- Audit every inference point used by the Reading product. The audit must count
+  base primitives and specific implementations separately: phase prompts, PTRR
+  agent prompts, step prompts, Failsafe substep prompts, ThricifiedGeneration
+  prompts, tool prompt definitions, prompt templates, interpolation bindings,
+  expected context fields, raw outputs, parsed typed outputs, and repair/failure
+  surfaces.
+- Specify the exact execution stack for pipeline agents without overlapping
+  names: PipelineExecution owns phases; PTRR agents own Plan, Try, Refine, and
+  Retry steps; FailsafeGenerationSequence owns context preparation, large input
+  handling, large output handling, and repair orchestration; ThricifiedGeneration
+  owns Reason, Judge, and StructuredOutput inference calls; ToolExecution owns
+  callable tools and tool input/output receipts.
+- Require all PTRR agent steps to use practical FailsafeGenerationSequence
+  layers above ThricifiedGeneration unless a source-backed exception is
+  specified, tested, and justified. The default Reading stack should be
+  PipelineExecution -> PTRR agent -> PTRR step -> FailsafeGenerationSequence ->
+  ThricifiedGeneration -> provider call.
+- Finish prompt and PromptPart benchmarking so semantically divided
+  PromptParts and complete Prompts are both benchmarkable. V39 Gate 1 should
+  inventory existing `benchmarks:` doc-comment metadata, the
+  `packages/prompts/src/benchmarking/*` runner, and all Reading and
+  conversation prompt surfaces, then define initial benchmark suites for every
+  prompt part and prompt used by active inference.
+- Complete prompt registry composition and interpolation rules from phase
+  prompts through agent prompts, step prompts, substep prompts, final generation
+  prompts, and tool documentation. The final inference call must expose the
+  unrendered template identity, interpolated prompt, context bindings, selected
+  tools, raw response, parsed output, and schema verdict to telemetry at the
+  proper disclosure tier.
+- Integrate this inference work with prior telemetry. Execution ancestry
+  state-stack data must be written, read, prepared by Failsafe layers,
+  interpolated into prompts, maintained through retries, and streamed as
+  source-safe phase, agent, step, Failsafe, ThricifiedGeneration, tool, input,
+  output, and typed-result events.
+- Complete `ReadFitsFindingSynthesis` depository-search internals as the
+  coupled second focus of V39. Fit-finding queries are inference-derived and
+  must search throughout the Bitcode Depository using lexical, symbolic, path,
+  metadata, measurement, embedding/vector, and provider-specific channels where
+  appropriate.
+- Harden the depository-search tool and primitive utility stack around source
+  embeddings, measurement embeddings, metadata embeddings, query synthesis,
+  ranking, verification, and AssetPack synthesis handoff. Existing OpenAI
+  embedding policy (`text-embedding-3-small`, 1536 dimensions, cosine
+  `match_deliverable_vectors`) is an active source anchor, and V39 may specify
+  additional LlamaIndex, Pinecone, or provider-backed channels only when their
+  boundaries, storage, credentials, telemetry, and tests are explicit.
+- Preserve the economic carry-through from found fits to AssetPack settlement:
+  selected fit deposits must remain traceable into source-safe preview,
+  post-settlement delivery, contributor compensation, exact ledger/database
+  synchronization, and proof receipts.
+- Clarify how Bitcoin, GitHub, compute, storage, and build/process boundaries
+  are represented in long-running inference and pipeline telemetry.
+- Confirm that source-safe telemetry exposes prompt templates, interpolated
+  prompts, raw provider responses, parsed typed results, repair attempts, and
+  failed-output evidence only at their permitted disclosure tier.
+
+The V39 acceptance posture is commercial Reading readiness: Bitcode's ability
+to maximize inference intelligence must become a reliable enterprise experience
+for depositing, finding, buying, rights-transferring, and delivering precise
+technical intelligence without leaking protected source before settlement.
+
+## Gate 1 implementation notes
+
+Gate 1 turns the loose post-V38 notes committed on `main` plus the promoted V38 posture into the formal V39 SPEC, DELTA, NOTES, and PARITY family.
+The opening must preserve every relevant V38 instruction while grounding V39 in existing source anchors: `FailsafeGenerationSequence`, `ThricifiedGeneration`, PTRR agent factories, tool doc-comment prompt definitions, Reading pipeline contracts, depository-search tools, embedding policy, ledger/database/storage receipts, delivery boundaries, and source-safe telemetry boundaries.
+Gate 1 adds `check:v39-gate1`, workflow posture updates, README and package documentation posture updates, and roadmap truth for V38 active / V39 draft.
+
+## Gate 2 implementation notes
+
+Gate 2 closes Depository supply indexing and searchable deposit lifecycle. The artifact must prove deposited source can be measured, embedded, indexed, rights-aware, and searched without exposing protected source or credentials.
+
+## Gate 3 implementation notes
+
+Gate 3 closes the enterprise Reading UX state machine. Terminal and Conversation handoff must expose the five-step Reading path with low-detail guidance by default and expandable source-safe pipeline detail.
+
+## Gate 4 implementation notes
+
+Gate 4 closes `ReadNeedComprehensionSynthesis` as a review, feedback, and resynthesis loop. Finding Fits remains blocked until a reviewed Need is accepted.
+
+## Gate 5 implementation notes
+
+Gate 5 closes `ReadFitsFindingSynthesis` as a runtime many-candidate search pipeline with replayable query, ranking, threshold, and selected-fit provenance receipts across lexical, symbolic, path, metadata, measurement, vector, and provider-specific channels.
+
+## Gate 6 implementation notes
+
+Gate 6 closes the source-safe AssetPack preview and deterministic BTC quote boundary. Preview can show measurements, fit reasons, quality posture, proof roots, quote, and delivery posture, but not source-bearing AssetPack content.
+
+## Gate 7 implementation notes
+
+Gate 7 closes settlement, BTD rights transfer, contributor compensation, and post-settlement delivery. Source-bearing delivery is unlocked only after settlement finality and rights transfer are auditable.
+
+## Gate 8 implementation notes
+
+Gate 8 closes operational telemetry, repair, and operator readback for Reading. Every pipeline, storage, ledger, wallet, delivery, and UI event must be source-safe, proof-rooted, and tied to repair/runbook posture.
+
+## Gate 9 implementation notes
+
+Gate 9 closes interface and Conversation product parity. Conversation, MCP/API, ChatGPT App, and package consumers may assist the flow but cannot bypass accepted-Need gating, preview disclosure, settlement, rights, or delivery law.
+
+## Gate 10 implementation notes
+
+Gate 10 closes local and staging commercial Reading rehearsal with real non-mocked inference where credentials are available, Depository search, source-safe preview, telemetry readback, ledger/database/storage synchronization, delivery posture, and blocked production-mainnet value-bearing admission.
+
+## Gate 11 implementation notes
+
+Gate 11 closes V39 by binding every commercial Reading gate artifact, V39 proof appendix generation, workflow posture, promotion command support, and post-promotion runtime posture into one source-safe promotion-readiness contract. After promotion, runtime posture must become active V39 / draft V40 and `BITCODE_SPEC.txt` may point to V39 only through the V39 promotion workflow.
+
+## V39 gate plan
+
+- Gate 1: V39 Commercial Reading Roadmap And Spec Opening
+- Gate 2: Depository Supply Indexing And Searchable Deposit Lifecycle
+- Gate 3: Enterprise Reading UX State Machine
+- Gate 4: ReadNeed Review, Resynthesis, And Admission Runtime
+- Gate 5: ReadFitsFinding Runtime, Ranking, And Replay
+- Gate 6: AssetPack Preview, Quote, And Disclosure Boundary
+- Gate 7: Settlement, BTD Rights Transfer, And Delivery
+- Gate 8: Operational Telemetry, Repair, And Operator Readback
+- Gate 9: Interface And Conversation Product Parity
+- Gate 10: Local And Staging Commercial Reading Rehearsal
+- Gate 11: V39 Promotion Readiness
+
+## Non-goals during V39 opening
+
+- No new production route, API version, source package name, or UI label should
+  carry V39 in source code during the notes-only opening.
+- No Bitcoin, GitHub, compute, storage, wallet, ledger, delivery, or
+  build/process runtime boundary may be weakened while commercial Reading is
+  being made product-ready.
+- No later V39 gate may begin until Gate 1 creates the full draft family,
+  updates the roadmap, and wires `check:v39-gate1`.

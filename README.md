@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V37`; V38 is the active draft target for inference stack and
-fit-finding correctness after the promoted Website Conversations canon.
+resolves to `V38`; V39 is the active draft target for commercial Reading
+readiness after the promoted inference correctness canon.
 
 ## Current Product Posture
 
@@ -99,8 +99,8 @@ AssetPack source, or wallet private material.
 Promotion hardening also keeps Conversation persistence and telemetry redaction
 on bounded private-key PEM scanning with closed/unclosed PEM tests so static
 security findings block promotion instead of being waived.
-V38 Gate 1 opens the inference stack draft family and `check:v38-gate1` over
-active V37. V38 focuses on commercial inference correctness: PTRR agents,
+V38 Gate 1 opened the inference stack draft family and `check:v38-gate1` over
+active V37. V38 promoted commercial inference correctness: PTRR agents,
 Plan/Try/Refine/Retry steps, `FailsafeGenerationSequence`,
 `ThricifiedGeneration`, prompt registry composition, prompt and PromptPart
 benchmarking, tool doc-comment prompts, source-safe inference telemetry,
@@ -242,6 +242,13 @@ AssetPack source, credentials, wallet private material, or private settlement
 payloads. Use `pnpm run generate:v38-promotion-readiness`,
 `pnpm run check:v38-promotion-readiness`, and `pnpm run check:v38-gate11`
 before closing the gate.
+V39 Gate 1 opens the commercial Reading readiness draft family and
+`check:v39-gate1` over active V38. V39 focuses on Depository supply indexing,
+the five-step enterprise Reading UX, ReadNeed review/resynthesis,
+ReadFitsFinding runtime and replay, source-safe AssetPack preview and
+deterministic BTC quote, settlement, BTD rights transfer, post-settlement
+delivery, ledger/database/storage synchronization, telemetry/repair, interface
+parity, local/staging rehearsal, and promotion readiness.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,
@@ -372,10 +379,10 @@ verified signatures.
 
 Use a version branch and gate-numbered branches:
 
-1. Create one base branch per draft target, such as `version/v38`.
+1. Create one base branch per draft target, such as `version/v39`.
 2. Create scoped gate branches from the version branch. Prefix every gate branch
-   with the gate number, for example `v38/gate-1-inference-stack-roadmap-opening`
-   or `v38/gate-7-read-fits-finding-search`.
+   with the gate number, for example `v39/gate-1-commercial-reading-roadmap-opening`
+   or `v39/gate-5-read-fits-finding-runtime-replay`.
 3. Group related work into clear commits with quality commit messages whose
    titles and bodies describe the proof, implementation, or documentation
    change.
@@ -384,7 +391,7 @@ Use a version branch and gate-numbered branches:
    closure review.
 5. Open pull requests from gate branches into the version branch as gates close.
    Title gate PRs with the uppercase version and gate prefix plus a topical
-   title, for example `V38 Gate 7: ReadFitsFindingSynthesis Depository Search`.
+   title, for example `V39 Gate 5: ReadFitsFinding Runtime And Replay`.
 6. Open the version branch back into `main` only after all gates close and the
    version is formally promoted as canon.
 
@@ -394,11 +401,14 @@ Jest suites, protocol-demonstration QA, and diff hygiene. The repository-wide
 canon quality workflow stays green during draft work by checking active/draft
 posture and promoted-spec proof posture, while full promoted-suite closure is
 reserved for the version promotion workflow. Version pull requests into `main`
-run the version promotion workflow. For V38, `v38-canon-promotion.yml` must validate the
+run the version promotion workflow. For V38, `v38-canon-promotion.yml` validates the
 inference stack, Reading pipeline, depository-search, prompt benchmark,
 telemetry, and rehearsal posture, generate `BITCODE_SPEC_V38_PROVEN.md`, and
 commit promotion artifacts plus the `BITCODE_SPEC.txt` pointer change from
 `V37` to `V38` on the version branch.
+For V39, Gate 1 opens `version/v39` and the gate-quality posture through
+`pnpm run check:v39-gate1` before later gates add generated commercial Reading
+artifacts and the V39 promotion workflow.
 V38 Gates 1 through 11 are wired through `pnpm run check:v38-gate1`,
 `pnpm run check:v38-gate2`, `pnpm run check:v38-gate3`,
 `pnpm run check:v38-gate4`, `pnpm run check:v38-gate5`,
