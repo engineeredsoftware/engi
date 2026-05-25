@@ -319,6 +319,16 @@ settlement unlock, BTD rights, and delivery boundaries cannot be bypassed, and
 source-bearing delivery remains locked until settlement and rights transfer.
 Use `pnpm run generate:v39-interface-conversation-product-parity` and
 `pnpm run check:v39-gate9` before closing the gate.
+V39 Gate 10 adds the package-owned `ReadingLocalStagingRehearsal` and
+source-safe generated artifact
+`.bitcode/v39-local-staging-reading-rehearsal.json`. Local and
+staging-testnet lanes now rehearse the five Reading stages, many-fit
+Depository search, source-safe preview, settlement/BTD rights delivery, rich
+telemetry readback, ledger/database/storage synchronization, and blocked
+value-bearing mainnet admission. Staging-testnet is bound to Supabase project
+`tkpyosihuouusyaxtbau`. Use
+`pnpm run generate:v39-local-staging-reading-rehearsal` and
+`pnpm run check:v39-gate10` before closing the gate.
 V36 Gate 2 anchors market-wide activity through the package-owned
 `ExchangeActivityBook` and the source-safe generated artifact
 `.bitcode/v36-exchange-activity-book.json`, including listing, bid, ask,

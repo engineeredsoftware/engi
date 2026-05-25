@@ -145,6 +145,17 @@ settlement unlock, BTD rights, delivery boundaries, package tests, interface
 tests, protocol tests, and workflow wiring. The maintained commands are
 `pnpm run generate:v39-interface-conversation-product-parity` and
 `pnpm run check:v39-gate9`.
+V39 Gate 10 adds `V39LocalStagingReadingRehearsal` through
+`packages/protocol/src/canonical/v39-local-staging-reading-rehearsal.js` and
+the source-safe generated artifact
+`.bitcode/v39-local-staging-reading-rehearsal.json`. The report proves local
+and staging-testnet lane readback, all five Reading stages, many-fit
+Depository search, source-safe preview, settlement rights delivery, rich
+telemetry readback, interface no-bypass posture, ledger/database/storage
+synchronization, blocked value-bearing mainnet admission, package tests,
+protocol tests, and workflow wiring. The maintained commands are
+`pnpm run generate:v39-local-staging-reading-rehearsal` and
+`pnpm run check:v39-gate10`.
 V38 Gate 1 is wired through `check:v38-gate1` and documents the exact
 PipelineExecution, PTRR agent, Plan/Try/Refine/Retry, FailsafeGenerationSequence,
 ThricifiedGeneration, ToolExecution, DocCodeToolPrompt, Reading pipeline,

@@ -78,7 +78,7 @@ No `_legacy/` source is active source truth.
 | Settlement, BTD rights, and delivery | Gate 7 | `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`, `.bitcode/v39-settlement-rights-delivery.json`, BTD receipt/source-to-shares/reconciliation primitives, package tests, protocol tests | implemented | Payment unlocks rights and delivery only when finality, source-to-shares, BTD rights, reconciliation, and pull-request delivery agree; repair paths are auditable. |
 | Operational telemetry and repair | Gate 8 | `ReadingOperationalTelemetryRepairReadback`, `.bitcode/v39-operational-telemetry-repair-readback.json`, package tests, UI tests, protocol tests | implemented | Reading is observable and repairable end to end through source-safe stream events, operator readback, runbook hooks, proof roots, and repair commands. |
 | Interface and Conversation parity | Gate 9 | `ReadingInterfaceProductParity`, `.bitcode/v39-interface-conversation-product-parity.json`, package/Conversation/MCP/ChatGPT/protocol tests | implemented | Terminal, Conversation, public API, MCP API, ChatGPT App, and package consumers share Terminal Reading authority; accepted Need, source-safe preview, settlement, BTD rights, and delivery boundaries cannot be bypassed. |
-| Local and staging rehearsal | Gate 10 | local/staging lanes, real-inference gates, depository search, preview, settlement/delivery posture | pending | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
+| Local and staging rehearsal | Gate 10 | `ReadingLocalStagingRehearsal`, `.bitcode/v39-local-staging-reading-rehearsal.json`, package/protocol tests | implemented | The full Reading flow rehearses in local and staging-testnet with production-mainnet value-bearing admission blocked. |
 | Promotion readiness | Gate 11 | V39 promotion report, generated proof appendix, promotion workflow, command dry-run | pending | V39 promotes only after all commercial Reading gates and source-safety evidence close. |
 
 ## V39 implementation checklist
@@ -253,6 +253,28 @@ interfaceRoots, sourceSafety, and parityRoot. The generated proof artifact is
 `.bitcode/v39-interface-conversation-product-parity.json` and the gate check
 is `pnpm run check:v39-gate9`.
 
+## Gate 10 Parity
+
+V39 Gate 10 is implemented when `ReadingLocalStagingRehearsal` binds the local
+and staging-testnet lanes to the five Reading stages: request read, review
+synthesized Need, request Finding Fits, review source-safe AssetPack preview,
+and buy/settle. The parity source is
+`packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts`.
+It composes `ReadNeedReviewResynthesisRuntime`, `ReadFitsFindingRuntime`,
+`AssetPackPreviewBoundary`, `AssetPackSettlementRightsDeliveryBoundary`,
+`ReadingOperationalTelemetryRepairReadback`, and
+`ReadingInterfaceProductParity` by proof root and persists
+`reading/rehearsal` rows, lane readback, stage readback, source safety, and
+proof roots. Staging-testnet is bound to Supabase project
+`tkpyosihuouusyaxtbau` and REST host
+`https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`. The generated proof
+artifact is `.bitcode/v39-local-staging-reading-rehearsal.json` and the gate
+check is `pnpm run check:v39-gate10`.
+
 ## completion condition
 
-V39 Gate 9 is complete when `check:v39-gate9`, focused AssetPack interface parity package tests, Conversation handoff parity tests, MCP ingress parity tests, ChatGPT source-safe delivery parity tests, V39 draft spec-family validation, V38/V39 canon-posture drift validation, promoted V38 spec-family validation, and Gate Quality pass on a `v39/gate-9-*` branch.
+V39 Gate 10 is complete when `check:v39-gate10`, focused AssetPack rehearsal
+package tests, protocol artifact tests, generated artifact freshness checks,
+V39 draft spec-family validation, V38/V39 canon-posture drift validation,
+promoted V38 spec-family validation, and Gate Quality pass on a
+`v39/gate-10-*` branch.

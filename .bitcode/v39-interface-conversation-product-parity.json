@@ -5,7 +5,7 @@
   "currentTarget": "V38",
   "generatedAt": "deterministic",
   "passed": true,
-  "artifactRoot": "v39-interface-conversation-product-parity:a9e11678a3fd38cc64eeb179",
+  "artifactRoot": "v39-interface-conversation-product-parity:2a964967cff8736ca4961195",
   "sourceSafetyVerdict": "source-safe-interface-conversation-product-parity",
   "coverage": {
     "rowCount": 9,
@@ -482,7 +482,7 @@
       "passed": true
     },
     {
-      "id": "roadmap-current-gate9",
+      "id": "roadmap-advanced-to-gate9",
       "sourcePath": "SPECIFICATIONS_ROADMAP.md",
       "passed": true
     },

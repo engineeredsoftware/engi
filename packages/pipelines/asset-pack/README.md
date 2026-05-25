@@ -226,6 +226,29 @@ rights transfer. The source-safe artifact is
 `.bitcode/v39-interface-conversation-product-parity.json`, checked by
 `pnpm run check:v39-gate9`.
 
+## Reading Local/Staging Rehearsal
+
+`ReadingLocalStagingRehearsal` is the source-safe package primitive that binds
+local and staging-testnet rehearsal readback to the complete five-step Reading
+flow: request read, review synthesized Need, request Finding Fits, review
+source-safe AssetPack preview, and buy/settle. It composes
+`ReadNeedReviewResynthesisRuntime`, `ReadFitsFindingRuntime`,
+`AssetPackPreviewBoundary`, `AssetPackSettlementRightsDeliveryBoundary`,
+`ReadingOperationalTelemetryRepairReadback`, and
+`ReadingInterfaceProductParity` by proof root.
+
+The rehearsal rows are persisted under `reading/rehearsal` with
+`localStagingRehearsal`, `rehearsalRows`, `laneReadback`, `stageReadback`,
+`sourceSafety`, and `proofRoots`. Staging-testnet is anchored to Supabase
+project `tkpyosihuouusyaxtbau` and REST host
+`https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`. Generated rehearsal
+evidence is metadata only: protected source, raw protected prompts, raw
+interpolated prompts, raw provider responses, unpaid AssetPack source, wallet
+private material, private settlement payloads, credentials, and live log
+payloads are not serialized. Value-bearing mainnet admission remains blocked.
+The source-safe artifact is `.bitcode/v39-local-staging-reading-rehearsal.json`,
+checked by `pnpm run check:v39-gate10`.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

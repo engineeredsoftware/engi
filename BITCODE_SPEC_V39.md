@@ -237,6 +237,31 @@ checked by `pnpm run check:v39-gate9`.
 Gate 10 proves V39 locally and in staging-testnet.
 It must run the five-step Reading flow with real non-mocked inference where credentials are available, Depository search, source-safe preview, telemetry streaming/readback, ledger/database/storage synchronization, PR delivery posture, and blocked production-mainnet value-bearing admission.
 
+The package-owned closure type is `ReadingLocalStagingRehearsal` in
+`packages/pipelines/asset-pack/src/reading-local-staging-rehearsal.ts`. It
+binds the local and staging-testnet lanes to the five Reading stages:
+request read, review synthesized Need, request Finding Fits, review
+source-safe AssetPack preview, and buy/settle. The rehearsal composes
+`ReadNeedReviewResynthesisRuntime`, `ReadFitsFindingRuntime`,
+`AssetPackPreviewBoundary`, `AssetPackSettlementRightsDeliveryBoundary`,
+`ReadingOperationalTelemetryRepairReadback`, and
+`ReadingInterfaceProductParity` by proof root and stores source-safe rows
+under `reading/rehearsal`.
+
+The staging-testnet lane is explicitly anchored to Supabase project
+`tkpyosihuouusyaxtbau` and REST host
+`https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`. Local and staging
+rehearsals may use untracked env files or host-provided runtime credentials,
+but generated artifacts, stream summaries, and storage projections must never
+serialize credentials, protected source, raw protected prompts, raw
+interpolated prompts, raw provider responses, unpaid AssetPack source, wallet
+private material, private settlement payloads, or live log payloads.
+Source-bearing pull-request delivery remains visible only after settlement
+and BTD rights transfer; value-bearing mainnet admission remains false. The
+deterministic source-safe proof artifact is
+`.bitcode/v39-local-staging-reading-rehearsal.json`, checked by
+`pnpm run check:v39-gate10`.
+
 ### Gate 11: V39 Promotion Readiness
 
 Gate 11 closes V39 with promotion readiness.

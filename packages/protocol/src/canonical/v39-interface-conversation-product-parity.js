@@ -231,7 +231,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-cover-gate9', SOURCE_ROOTS.v39Delta, delta.includes('ReadingInterfaceProductParity') && delta.includes('check:v39-gate9')),
     predicateResult('notes-cover-gate9', SOURCE_ROOTS.v39Notes, notes.includes('ReadingInterfaceProductParity') && notes.includes('Conversation')),
     predicateResult('parity-matrix-cover-gate9', SOURCE_ROOTS.v39Parity, parityMatrix.includes('Gate 9 Parity') && parityMatrix.includes('ReadingInterfaceProductParity')),
-    predicateResult('roadmap-current-gate9', SOURCE_ROOTS.roadmap, roadmap.includes('Current working gate: V39 Gate 9') && roadmap.includes('V39 Gate 9 closure anchor')),
+    predicateResult('roadmap-advanced-to-gate9', SOURCE_ROOTS.roadmap, /Current working gate: V39 Gate (?:9|10|11)\b/u.test(roadmap) && roadmap.includes('V39 Gate 9 closure anchor')),
     predicateResult('readmes-cover-gate9', SOURCE_ROOTS.assetPackReadme, assetPackReadme.includes('Interface Product Parity') && protocolReadme.includes('V39 Gate 9') && rootReadme.includes('V39 Gate 9')),
     predicateResult('workflows-cover-gate9', SOURCE_ROOTS.gateWorkflow, gateWorkflow.includes('check-v39-gate9-interface-conversation-product-parity') && canonWorkflow.includes('check-v39-gate9-interface-conversation-product-parity')),
   ];

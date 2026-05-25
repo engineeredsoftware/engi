@@ -290,7 +290,21 @@ source, wallet private material, private settlement payloads, and credentials.
 
 ## Gate 10 implementation notes
 
-Gate 10 closes local and staging commercial Reading rehearsal with real non-mocked inference where credentials are available, Depository search, source-safe preview, telemetry readback, ledger/database/storage synchronization, delivery posture, and blocked production-mainnet value-bearing admission.
+Gate 10 closes local and staging Reading rehearsal through
+`ReadingLocalStagingRehearsal`. The rehearsal composes the already closed
+Reading package objects instead of inventing a parallel runner:
+`ReadNeedReviewResynthesisRuntime`, `ReadFitsFindingRuntime`,
+`AssetPackPreviewBoundary`, `AssetPackSettlementRightsDeliveryBoundary`,
+`ReadingOperationalTelemetryRepairReadback`, and
+`ReadingInterfaceProductParity`.
+
+The artifact is `.bitcode/v39-local-staging-reading-rehearsal.json`. It proves
+local and staging-testnet lanes, all five Reading stages, many-fit Depository
+search, source-safe preview/quote, settlement/BTD rights delivery,
+ledger/database/storage synchronization, rich log readback, and blocked
+value-bearing mainnet admission. Staging-testnet is bound to Supabase project
+`tkpyosihuouusyaxtbau`; secrets remain outside tracked files and outside
+generated artifacts.
 
 ## Gate 11 implementation notes
 

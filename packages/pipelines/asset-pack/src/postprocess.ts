@@ -34,6 +34,11 @@ import {
   persistReadingInterfaceProductParity,
   type ReadingInterfaceProductParity,
 } from './reading-interface-product-parity';
+import {
+  buildReadingLocalStagingRehearsal,
+  persistReadingLocalStagingRehearsal,
+  type ReadingLocalStagingRehearsal,
+} from './reading-local-staging-rehearsal';
 
 export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Execution): AssetPackOutput {
   const enhanced = { ...output };
@@ -140,6 +145,12 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
       (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
       (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
     }
+    const localStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, enhanced);
+    if (localStagingRehearsal) {
+      (enhanced as any).readingLocalStagingRehearsal = localStagingRehearsal;
+      (enhanced as any).readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
+      (enhanced as any).readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
+    }
     (enhanced as any).feeQuote = sourceSafePreview.feeQuote;
   }
   if (!(enhanced as any).readingOperationalTelemetryRepairReadback) {
@@ -157,6 +168,14 @@ export function normalizeAssetPackOutput(output: AssetPackOutput, execution: Exe
       (enhanced as any).readingInterfaceProductParity = interfaceParity;
       (enhanced as any).readingInterfaceParityRows = interfaceParity.rows;
       (enhanced as any).readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
+    }
+  }
+  if (!(enhanced as any).readingLocalStagingRehearsal) {
+    const localStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, enhanced);
+    if (localStagingRehearsal) {
+      (enhanced as any).readingLocalStagingRehearsal = localStagingRehearsal;
+      (enhanced as any).readingLocalStagingRehearsalRows = localStagingRehearsal.rows;
+      (enhanced as any).readingLocalStagingRehearsalStageReadback = localStagingRehearsal.stageReadback;
     }
   }
   if (!enhanced.deliveryMechanism && enhanced.shippable) {
@@ -251,6 +270,7 @@ export function buildAssetPackPostprocessedResult(
   const readingOperationalTelemetryRepairReadback =
     ensureReadingOperationalTelemetryRepairReadback(execution, normalized);
   const readingInterfaceProductParity = ensureReadingInterfaceProductParity(execution, normalized);
+  const readingLocalStagingRehearsal = ensureReadingLocalStagingRehearsal(execution, normalized);
   const shippable = normalized.shippable || normalized.deliveryMechanism;
   const shippables =
     normalized.shippables ||
@@ -322,6 +342,13 @@ export function buildAssetPackPostprocessedResult(
                 readingInterfaceNoBypassReadback: readingInterfaceProductParity.noBypassReadback,
               }
             : {}),
+          ...(readingLocalStagingRehearsal
+            ? {
+                readingLocalStagingRehearsal,
+                readingLocalStagingRehearsalRows: readingLocalStagingRehearsal.rows,
+                readingLocalStagingRehearsalStageReadback: readingLocalStagingRehearsal.stageReadback,
+              }
+            : {}),
           feeQuote: sourceSafePreview.feeQuote,
         }
       : {}),
@@ -338,6 +365,13 @@ export function buildAssetPackPostprocessedResult(
           readingInterfaceProductParity,
           readingInterfaceParityRows: readingInterfaceProductParity.rows,
           readingInterfaceNoBypassReadback: readingInterfaceProductParity.noBypassReadback,
+        }
+      : {}),
+    ...(!sourceSafePreview && readingLocalStagingRehearsal
+      ? {
+          readingLocalStagingRehearsal,
+          readingLocalStagingRehearsalRows: readingLocalStagingRehearsal.rows,
+          readingLocalStagingRehearsalStageReadback: readingLocalStagingRehearsal.stageReadback,
         }
       : {}),
     read:
@@ -607,6 +641,60 @@ function ensureReadingInterfaceProductParity(
   });
   persistReadingInterfaceProductParity(execution, parity);
   return parity;
+}
+
+function ensureReadingLocalStagingRehearsal(
+  execution: Execution,
+  output: AssetPackOutput,
+): ReadingLocalStagingRehearsal | null {
+  const storedRehearsal =
+    findStoredExecutionValue(execution, 'reading/rehearsal', 'localStagingRehearsal') ||
+    (output as any).readingLocalStagingRehearsal;
+  if (storedRehearsal?.schema === 'bitcode.reading.local-staging-rehearsal') {
+    return storedRehearsal as ReadingLocalStagingRehearsal;
+  }
+
+  const readNeedRuntime =
+    (output as any).readNeedReviewRuntime ||
+    findStoredExecutionValue(execution, 'read-need-review', 'runtime');
+  const readFitsRuntime =
+    (output as any).readFitsFindingRuntime ||
+    findStoredExecutionValue(execution, 'read/finding-fits', 'runtime');
+  const previewBoundary =
+    (output as any).assetPackPreviewBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/preview', 'boundary');
+  const settlementBoundary =
+    (output as any).assetPackSettlementRightsDeliveryBoundary ||
+    findStoredExecutionValue(execution, 'asset-pack/settlement', 'boundary');
+  const operationalReadback =
+    (output as any).readingOperationalTelemetryRepairReadback ||
+    findStoredExecutionValue(execution, 'reading/operational', 'readback');
+  const interfaceParity =
+    (output as any).readingInterfaceProductParity ||
+    findStoredExecutionValue(execution, 'reading/interfaces', 'productParity');
+
+  const hasReadingContext =
+    readNeedRuntime || readFitsRuntime || previewBoundary || settlementBoundary || operationalReadback || interfaceParity;
+  if (!hasReadingContext) {
+    return null;
+  }
+
+  const rehearsal = buildReadingLocalStagingRehearsal({
+    runId:
+      firstString(
+        (output as any).runId,
+        findStoredExecutionValue(execution, 'execution', 'id'),
+        findStoredExecutionValue(execution, 'run', 'id'),
+      ) || undefined,
+    readNeedRuntime,
+    readFitsRuntime,
+    previewBoundary,
+    settlementBoundary,
+    operationalReadback,
+    interfaceParity,
+  });
+  persistReadingLocalStagingRehearsal(execution, rehearsal);
+  return rehearsal;
 }
 
 function firstString(...values: unknown[]): string | null {
