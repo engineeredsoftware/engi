@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, planned prompt-program catalogue artifacts, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: V41 source parity begins at specification and workflow posture; prompt rewrites are explicitly deferred until catalogue and benchmark gates close
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: V41 source parity now includes prompt inventory plus registry/interpolation contracts; prompt rewrites are explicitly deferred until catalogue, contract, and benchmark gates close
 - Scope: V41 draft delta for Prompt and PromptPart excellence over promoted V40
 
 ## Why V41 exists
@@ -39,6 +39,8 @@ It also records V42 as the subsequent MVP experience version for shortest-path D
 ### Gate 3: Registry Composition And Interpolation Contracts
 
 Prove registry composition, prompt context interpolation, execution ancestry, tool prompt injection, and parsed return type bindings.
+Gate 3 is package-backed by `buildV41RegistryInterpolationContracts`, emits `.bitcode/v41-registry-interpolation-contracts.json`, and currently covers 12 source-safe contract rows with 65 passing source predicates across Prompt registry totality, PromptPart interpolation, PTRR agent/step composition, FailsafeGenerationSequence context handling, ThricifiedGeneration final prompt resolution, execution ancestry overlays, tool doc-code prompt injection, Reading parser targets, Finding Fits search contracts, and AssetPack synthesis/finishing parser targets.
+It preserves V42 as subsequent reliable MVP experience planning while keeping V41 focused on prompt-program correctness.
 
 ### Gate 4: Reading Pipeline Prompt Benchmark Baselines
 

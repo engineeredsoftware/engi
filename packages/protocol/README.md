@@ -56,6 +56,7 @@ Current exported commercial helpers include:
 - `V39InterfaceConversationProductParity` helpers for V39 source-safe Terminal, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
 - `V39CommercialReadingPromotionReadinessReport` helpers for V39 source-safe commercial Reading promotion readiness across all V39 Reading artifacts, generated proof support, workflow posture, promotion dry-run support, and active V39 / draft V40 runtime preparation;
 - `V41PromptPartPromptInventory` helpers for V41 source-safe raw PromptPart and composed Prompt catalogue rows, registry owners, prompt families, template variables, benchmark fixture ids, validation commands, and V42 MVP roadmap posture;
+- `V41RegistryInterpolationContracts` helpers for V41 source-safe registry composition, interpolation key, execution ancestry, tool prompt injection, context handling, and parser target contracts;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -88,6 +89,19 @@ PromptPart rows plus 105 composed Prompt rows before any V41 prompt rewrite is
 admitted.
 It also records V42's planned MVP experience focus: shortest-path Depositing,
 shortest-path Reading, and the AI-reading dominant demonstration.
+V41 Gate 3 adds `V41RegistryInterpolationContracts` through
+`packages/protocol/src/canonical/v41-registry-interpolation-contracts.js`,
+`packages/protocol/test/v41-registry-interpolation-contracts.test.js`,
+`.bitcode/v41-registry-interpolation-contracts.json`,
+`generate:v41-registry-interpolation-contracts`,
+`check:v41-registry-interpolation-contracts`, and `check:v41-gate3`.
+The artifact is source-safe metadata only and currently covers 12
+registry/interpolation rows with 65 passing source predicates across Prompt
+registry totality, TemplatedPromptPart interpolation, PTRR agent/step prompt
+composition, FailsafeGenerationSequence context handling, ThricifiedGeneration
+final prompt resolution, execution ancestry overlays, tool doc-code prompt
+injection, Reading parser targets, Finding Fits search contracts, AssetPack
+synthesis/finishing parser targets, and Gate 2 inventory binding.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: Gate 1 closes spec, roadmap, docs, package script, workflow posture, and checker parity; Gate 2 closes source-safe prompt inventory parity; later gates own registry contracts, rewrite, benchmark, telemetry, and promotion parity
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: Gate 1 closes spec, roadmap, docs, package script, workflow posture, and checker parity; Gate 2 closes source-safe prompt inventory parity; Gate 3 closes source-safe registry/interpolation contract parity; later gates own rewrite, benchmark, telemetry, and promotion parity
 - Scope: V41 draft parity ledger for Prompt and PromptPart excellence
 - Last fully realized canonical target preserved in source: `V40`
 
@@ -35,7 +35,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Gate workflow | Gate quality knows active V40 and draft V41 Gate 1 | `.github/workflows/bitcode-gate-quality.yml` | drafted |
 | Canon workflow | Canon quality knows active V40 and draft V41 Gate 1 | `.github/workflows/bitcode-canon-quality.yml` | drafted |
 | Prompt inventory | Every raw PromptPart and composed Prompt catalogued | `.bitcode/v41-promptpart-prompt-inventory.json` | implemented |
-| Registry/interpolation | Registry composition and interpolation contracts proven | planned V41 Gate 3 artifact | pending |
+| Registry/interpolation | Registry composition and interpolation contracts proven | `.bitcode/v41-registry-interpolation-contracts.json` | implemented |
 | Reading baselines | Reading prompt benchmarks captured before rewrites | planned V41 Gate 4 artifact | pending |
 | ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | planned V41 Gate 5 artifact | pending |
 | Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | planned V41 Gate 6 artifact | pending |
@@ -49,7 +49,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | --- | --- | --- |
 | Gate 1 | Open V41 family, roadmap, docs, workflow posture, package script, and checker | closed |
 | Gate 2 | PromptPart and Prompt inventory artifact | implemented |
-| Gate 3 | Registry composition and interpolation artifact | pending |
+| Gate 3 | Registry composition and interpolation artifact | implemented |
 | Gate 4 | Reading prompt benchmark baseline artifact | pending |
 | Gate 5 | ReadNeedComprehensionSynthesis rewrite artifact | pending |
 | Gate 6 | ReadFitsFindingSynthesis rewrite artifact | pending |
@@ -66,6 +66,10 @@ Later gates may rewrite prompts only after catalogue, registry, interpolation, b
 V41 Gate 2 may catalogue PromptPart and Prompt metadata, hashes, registry owners, family ids, template variables, benchmark fixture ids, and validation commands.
 It may not serialize raw prompt text, raw provider responses, protected source, secrets, or unpaid AssetPack source.
 It also may record the V42 MVP roadmap posture as forward planning while preserving V41 as the active prompt-program draft target.
+
+V41 Gate 3 may catalogue registry ids, interpolation key ids, missing-key behavior ids, context-handling ids, tool prompt injection ids, execution ancestry frame ids, parser target ids, source hashes, and predicate verdicts.
+It may not serialize raw prompt text, raw provider responses, protected source, private context, credentials, settlement-private payloads, or unpaid AssetPack source.
+It closes prompt rewrites' precondition that prompt composition and interpolation contracts are observable before semantic PromptPart or Prompt rewrite work proceeds.
 
 ## V41 completion condition
 
