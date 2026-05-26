@@ -280,6 +280,9 @@ jobs:
               if [ -f scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs ]; then
                 node scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v41-gate8-prompt-program-benchmark-report.mjs ]; then
+                node scripts/check-v41-gate8-prompt-program-benchmark-report.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

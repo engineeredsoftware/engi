@@ -150,6 +150,18 @@ DocCodeToolPrompt and ToolPromptRegistry hierarchy, MCP API/public API tool
 schema posture, ChatGPT App action/tool prompt posture, Terminal/public
 summary source-safety, V38 Conversation/tool parity, and Gate 2 through Gate 6
 dependency roots.
+V41 Gate 8 adds `V41PromptProgramBenchmarkReport` through
+`packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js`,
+`packages/protocol/test/v41-prompt-program-benchmark-report.test.js`,
+`.bitcode/v41-prompt-program-benchmark-report.json`,
+`generate:v41-prompt-program-benchmark-report`,
+`check:v41-prompt-program-benchmark-report`, and `check:v41-gate8`.
+The artifact is source-safe metadata only and currently binds 9 benchmark
+telemetry rows across post-rewrite prompt deltas, Reading benchmark deltas,
+Conversation/tool/interface deltas, prompt registry lineage, Failsafe and
+ThricifiedGeneration receipts, parsed-output schema verdicts, rich stream
+telemetry, repair hooks, and V38/V39/V40 plus V41 Gate 2 through Gate 7
+dependency roots.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

@@ -8,7 +8,7 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, planned conversation rewrite artifact, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
 - Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, and promotion parity over active V40
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
@@ -30,6 +30,13 @@ Gate 6 is the first admitted semantic rewrite of Finding Fits after accepted-Nee
 It rewrites ReadFitsFindingSynthesis PromptParts and bounded inference prompts so the pipeline searches broadly through the Depository, selects every qualifying fit above threshold, preserves query/ranking/selected-fit provenance roots, synthesizes only source-safe AssetPack context before settlement, and keeps source-bearing delivery, BTD rights transfer, BTC finality claims, wallet private material, and settlement private payloads out of reader-visible surfaces until post-payment unlock.
 The package-backed hardening artifact currently emits 7 source-safe rows and 63 passing source predicates across prompt rewrite boundary, PTRR/Failsafe/Thricified composition, strict typed return parsing, source constraints, review/resynthesis, telemetry redaction, and read-comprehension tool prompt alignment.
 The report is metadata-only: ids, hashes, counts, fixtures, parser targets, predicate verdicts, and dependency roots are allowed; raw prompt payloads, interpolated prompts, provider responses, private context, protected source, credentials, and unpaid AssetPack source remain private.
+
+## Gate 8 implementation notes
+
+Gate 8 makes the post-rewrite prompt benchmark and telemetry readback source-checkable.
+It emits `V41PromptProgramBenchmarkReport` as `.bitcode/v41-prompt-program-benchmark-report.json`, binding V38 prompt benchmark rows, V38 inference telemetry disclosure, V38 PTRR/Failsafe/Thricified stack proof, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts.
+The report records prompt-program artifact ids, telemetry receipt ids, metric ids, source hashes, source-safe benchmark delta posture, predicate verdicts, and dependency roots only.
+It intentionally does not serialize raw prompt text, interpolated prompts, raw provider responses, protected prompts, protected source, private context, credentials, wallet private material, settlement private payloads, or unpaid AssetPack source.
 
 ## Gate 2 prompt inventory note
 

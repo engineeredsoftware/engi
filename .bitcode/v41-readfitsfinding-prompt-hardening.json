@@ -6,7 +6,7 @@
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-readfitsfinding-prompt-hardening.json",
   "sourceSafetyVerdict": "source-safe-readfitsfinding-prompt-hardening-metadata",
-  "artifactRoot": "v41-readfitsfinding-prompt-hardening:f5a01c099fd260fca0c081c8",
+  "artifactRoot": "v41-readfitsfinding-prompt-hardening:86e74080708372081079c021",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -1301,43 +1301,43 @@
         },
         {
           "sourcePath": "BITCODE_SPEC_V41.md",
-          "sourceHash": "d8c0b4c7f8c268964304aed1"
+          "sourceHash": "35ed9e60cecdcb8bd820caee"
         },
         {
           "sourcePath": "BITCODE_SPEC_V41_DELTA.md",
-          "sourceHash": "1d015ca6f1ee04481adc4d94"
+          "sourceHash": "68092aae6b6f8916ee5652a0"
         },
         {
           "sourcePath": "BITCODE_SPEC_V41_NOTES.md",
-          "sourceHash": "10535375dd3ba572d859cd96"
+          "sourceHash": "7ed03aa76aa39be60d45ab0c"
         },
         {
           "sourcePath": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
-          "sourceHash": "00a808cdce6b067b3b74c284"
+          "sourceHash": "77e1bfa9c3dd2d549d5123e3"
         },
         {
           "sourcePath": "SPECIFICATIONS_ROADMAP.md",
-          "sourceHash": "28927ec4df7539979189a250"
+          "sourceHash": "ea44c2816a4548954f32a742"
         },
         {
           "sourcePath": "README.md",
-          "sourceHash": "ea094a4cf3ceb26af0572f51"
+          "sourceHash": "64b27506f4fb734632abbb4f"
         },
         {
           "sourcePath": "packages/protocol/README.md",
-          "sourceHash": "a350f4f057f5cfd5378e0bde"
+          "sourceHash": "b755f91f456d78b111c14794"
         },
         {
           "sourcePath": "package.json",
-          "sourceHash": "9bd806a6dbff2448f0e5074e"
+          "sourceHash": "319d175fa7fedbc48b90cb37"
         },
         {
           "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
-          "sourceHash": "07c24c49b8ab517a4426ed6b"
+          "sourceHash": "4498ef474a10506a6cf781ce"
         },
         {
           "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
-          "sourceHash": "36d6ce8158e1595685f7856a"
+          "sourceHash": "75c13714eda5b1bf46ad896e"
         }
       ],
       "sourceRootsPresent": true,

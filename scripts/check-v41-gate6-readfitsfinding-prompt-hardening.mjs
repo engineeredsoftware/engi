@@ -248,14 +248,18 @@ function main() {
   const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
   assertCheck(
     failures,
-    roadmap.includes('Current working gate: V41 Gate 6') || roadmap.includes('Current working gate: V41 Gate 7'),
-    'Roadmap must name V41 Gate 6 or Gate 7 as current working gate.',
+    roadmap.includes('Current working gate: V41 Gate 6') ||
+      roadmap.includes('Current working gate: V41 Gate 7') ||
+      roadmap.includes('Current working gate: V41 Gate 8') ||
+      roadmap.includes('Current working gate: V41 Gate 9'),
+    'Roadmap must name V41 Gate 6 or later as current working gate.',
   );
   assertCheck(
     failures,
     roadmap.includes('Next queued gate after V41 Gate 6: V41 Conversation Tool And Interface Prompt Rewrite.') ||
-      roadmap.includes('Next queued gate after V41 Gate 7: V41 Prompt Benchmark Report And Telemetry Integration.'),
-    'Roadmap must name V41 Gate 7 or Gate 8 as next.',
+      roadmap.includes('Next queued gate after V41 Gate 7: V41 Prompt Benchmark Report And Telemetry Integration.') ||
+      roadmap.includes('Next queued gate after V41 Gate 8: V41 Promotion Readiness.'),
+    'Roadmap must name V41 Gate 7, Gate 8, or Gate 9 as next.',
   );
   assertCheck(failures, roadmap.includes('V41 Gate 6 closure anchor'), 'Roadmap must preserve V41 Gate 6 closure anchor.');
   assertCheck(failures, roadmap.includes('V43+ agentic depositing'), 'Roadmap must preserve V43+ agentic depositing note.');

@@ -64,6 +64,15 @@ composition, rich execution-log prompt/result disclosure, DocCodeToolPrompt and
 ToolPromptRegistry hierarchy, MCP API/public API schemas, ChatGPT App action
 prompt boundaries, Terminal/public summaries, V38 Conversation/tool parity, and
 Gate 2 through Gate 6 dependency roots with `check:v41-gate7`.
+V41 Gate 8 adds the package-backed `buildV41PromptProgramBenchmarkReport` and
+generated source-safe artifact `.bitcode/v41-prompt-program-benchmark-report.json`.
+The report binds post-rewrite PromptPart/Prompt deltas, Reading benchmark
+baselines, Conversation/tool/interface deltas, prompt registry lineage,
+Failsafe and ThricifiedGeneration receipts, parsed-output schema verdicts, rich
+stream telemetry, repair hooks, V38/V39/V40 proof roots, and V41 Gate 2 through
+Gate 7 dependency roots with `check:v41-gate8`, without serializing raw prompts,
+interpolated prompts, provider responses, protected source, or unpaid AssetPack
+source.
 V42 is now roadmapped as the next MVP experience version: shortest-path
 Depositing with later BTC compensation, shortest-path Reading through
 Need review/resynthesis, Finding Fits, source-safe AssetPack preview,
