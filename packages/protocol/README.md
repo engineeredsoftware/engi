@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V41` active, `V42` draft after V41 promotion);
+- active/draft canon posture (`V41` active, `V42` draft);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -176,6 +176,14 @@ runtime canon rewriting, dry-run promotion, source-safety, and value-bearing
 mainnet blocking without serializing raw prompts, provider responses, protected
 source, credentials, private settlement payloads, wallet material, or unpaid
 AssetPack source.
+V42 Gate 1 is wired through `check:v42-gate1` and opens the reliable MVP
+experience specification family for the `V41` active, `V42` draft posture:
+shortest-path Depositing with Depository admission proof and later BTC
+compensation visibility; shortest-path Reading through Read Request, reviewed
+Need, Finding Fits, source-safe AssetPack preview, BTD/BTC settlement, rights
+transfer, and repository delivery; and an AI-reading dominant standalone
+demonstration that proves an AssetPack can improve an AI system beyond a
+public-data-only baseline.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

@@ -1,0 +1,85 @@
+# Bitcode Spec V42 Delta
+
+## Status
+
+- Version: `V42`
+- V42 state: draft opened; this delta records the planned V41-to-V42 reliable MVP experience work
+- Current canonical/latest target: `V41`
+- Prior canonical anchor: `BITCODE_SPEC_V41.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V41_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, and later V42 gate artifacts for Depositing, Reading, Finding Fits, settlement/delivery, AI-reading demonstration, local/staging rehearsal, and promotion readiness
+- Source parity state: V42 source parity is opened by Gate 1 and remains incomplete until later gates implement the product paths
+- Scope: V42 draft delta for reliable MVP product experience over promoted V41 prompt-program excellence canon
+
+## Why V42 exists
+
+V42 turns the promoted V39 Reading product, V40 testing depth, and V41 prompt-program excellence into a reliable MVP enterprise experience.
+The version focuses on shortest-path Depositing, shortest-path Reading, settlement-gated AssetPack delivery, depositor compensation visibility, and an AI-reading dominant demonstration that proves AssetPacks improve an AI system beyond public-data-only baseline performance.
+
+## Accepted V42 decisions
+
+- V42 starts from active `V41` canon and keeps `BITCODE_SPEC.txt` at `V41` until promotion.
+- V42 product work stays unversioned in source paths.
+- Depositing must minimize the path to Depository admission proof and future compensation visibility.
+- Reading must use five product steps: request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview, and buy/settle/deliver AssetPack.
+- `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis` remain the formal Reading pipeline names.
+- Source-bearing AssetPack content remains withheld until BTC settlement, BTD rights transfer, and storage/delivery reconciliation.
+- The demonstration remains self-contained in `protocol-demonstration/` and must prove AI-reading value without importing commercial code.
+
+## V42 gate plan
+
+### Gate 1: MVP Experience Roadmap And Spec Opening
+
+Open the V42 full specification family, roadmap, package script, workflow posture, documentation posture, branch convention, and checker.
+
+### Gate 2: Depositing Shortest Path And Compensation Visibility
+
+Implement and prove the shortest path from source material to Depository admission proof and later compensation readback.
+
+### Gate 3: Reading Shortest Path State Machine
+
+Implement and prove the five-step Reading product state machine with low-detail defaults and expandable proof/telemetry detail.
+
+### Gate 4: ReadNeed Review And Resynthesis Product Closure
+
+Implement and prove reviewed synthesized Need flow, feedback/resynthesis, accepted-Need admission, storage projection, telemetry, and UI readback.
+
+### Gate 5: ReadFitsFinding AssetPack Preview And Quote Closure
+
+Implement and prove many-candidate Depository search, selected-fit provenance, source-safe AssetPack preview, deterministic BTD/BTC quote, and no pre-settlement source leakage.
+
+### Gate 6: Settlement Rights Transfer And Repository Delivery Closure
+
+Implement and prove purchase, settlement observation, BTD rights transfer, source unlock, repository pull request delivery, compensation accounting, and repair posture.
+
+### Gate 7: AI-Reading Dominant Demonstration MVP
+
+Implement and prove the standalone demonstration where deposited technical intelligence improves an AI system beyond a public-data-only baseline.
+
+### Gate 8: Local And Staging-Testnet Full MVP Rehearsal
+
+Run and prove the complete MVP path locally and in staging-testnet with value-bearing mainnet blocked.
+
+### Gate 9: V42 Promotion Readiness
+
+Bind every V42 product artifact, workflow, generated proof, promotion command, source-safety result, and active V42 / draft V43 runtime posture.
+
+## Explicitly deferred
+
+- V43+ agentic deposit AssetPack option synthesis remains deferred.
+- `/terminal` is not split into `/read` and `/deposit` during V42.
+- `/exchange` is not renamed to `/packs` during V42.
+- Production-mainnet value-bearing operation remains blocked unless a later promoted canon explicitly admits it.
+- V42 Gate 1 does not change route behavior, pipeline behavior, settlement behavior, or demonstration behavior.
+
+## Pre-Implementation Sequence
+
+1. Open `version/v42` and `v42/gate-1-mvp-experience-roadmap-opening`.
+2. Keep `BITCODE_SPEC.txt` at `V41`.
+3. Add the V42 spec family and Gate 1 checker.
+4. Update roadmap, docs, package scripts, and workflows for active V41 / draft V42.
+5. Validate V42 draft family and V41 active posture.
+
+## Commit-Body Direction
+
+V42 commits should name the product path, protocol object, pipeline or route ownership, source-safety boundary, generated artifact or checker, and tests run.

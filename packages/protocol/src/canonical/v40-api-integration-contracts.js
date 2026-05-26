@@ -365,7 +365,12 @@ function buildPredicateResults(repoRoot) {
     predicateResult('notes-document-gate4', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 4 implementation notes') && notes.includes('API route integration contracts')),
     predicateResult('parity-documents-gate4', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-api-integration-contracts') && parity.includes('| Gate 4 | API/route integration artifact | implemented |')),
     predicateResult('roadmap-advanced-through-gate4', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('V40 Gate 4 closure anchor')),
-    predicateResult('roadmap-documents-v41-prompt-programs', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('V41 should focus singularly on Prompt and PromptPart implementation') && roadmap.includes('meaningfully benchmarkable semantic parts')),
+    predicateResult(
+      'roadmap-documents-v41-prompt-programs',
+      'SPECIFICATIONS_ROADMAP.md',
+      roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` | active canon | Prompt and PromptPart excellence') &&
+        roadmap.includes('meaningfully benchmarkable semantic parts'),
+    ),
     ...rowPredicates,
   ];
 }

@@ -421,6 +421,10 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V41
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V41 --draft-target V42
             node scripts/check-v41-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            if [ -f BITCODE_SPEC_V42.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V42 --mode draft --current-target V41
+              node scripts/check-v42-gate1-mvp-experience-roadmap-opening.mjs --skip-branch-check
+            fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

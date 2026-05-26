@@ -578,7 +578,9 @@ function predicatesForRow(repoRoot, rowData) {
         'docs.current-gate-6',
         rowId,
         SOURCE_ROOTS.roadmap,
-        /Current working gate: V41 Gate (?:6|7|8|9)/u.test(source),
+        /Current working gate: V41 Gate (?:6|7|8|9)/u.test(source) ||
+          /Latest closed version: V41 Prompt And PromptPart Excellence/u.test(source) ||
+          /Recent V41 closure anchor/u.test(source),
       ),
       predicate(
         'docs.next-gate-7',
