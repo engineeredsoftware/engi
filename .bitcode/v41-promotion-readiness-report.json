@@ -207,7 +207,7 @@
     {
       "relativePath": "scripts/prepare-bitcode-runtime-canon-promotion.mjs",
       "present": true,
-      "digest": "sha256:9b556aca984dcdac18a611e46b71c4d753b2009f21b9a8769f205e8dd1e002fd",
+      "digest": "sha256:77b598b0257d7dc2aef367531126f0d8ef1238d1264a78c1e876c624909b4511",
       "requiredTokens": [
         {
           "token": "--next-draft",
