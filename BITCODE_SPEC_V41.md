@@ -155,6 +155,10 @@ The artifact may include ids, source hashes, counts, prompt surface ids, parser 
 
 Gate 8 must emit source-safe benchmark and telemetry artifacts after prompt rewrites.
 It binds benchmark deltas, prompt lineage, prompt registry versions, inference receipts, Failsafe and Thricified receipts, parsed outputs, redaction posture, and repair hooks without serializing raw provider responses or protected prompts.
+Gate 8 is closed by the package-backed `buildV41PromptProgramBenchmarkReport` source, deterministic `.bitcode/v41-prompt-program-benchmark-report.json` artifact, `generate:v41-prompt-program-benchmark-report`, `check:v41-prompt-program-benchmark-report`, `check:v41-gate8`, protocol tests, and gate/canon workflow wiring.
+The current source-safe benchmark telemetry report covers 9 rows for post-rewrite PromptPart and Prompt deltas, ReadNeedComprehensionSynthesis benchmark deltas, ReadFitsFindingSynthesis benchmark deltas, Conversation/tool/interface prompt deltas, registry lineage and version telemetry, PTRR/Failsafe/Thricified inference receipt projection, rich stream telemetry projection, repair hooks, parsed-output redaction posture, and tests/docs/workflow proof.
+The report binds V38 prompt benchmark, V38 inference telemetry disclosure, V38 PTRR/Failsafe/Thricified stack, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts.
+The artifact may include ids, source hashes, counts, prompt-program artifact ids, telemetry receipt ids, metric ids, predicate verdicts, dependency roots, source-safe benchmark deltas, parser/schema names, and disclosure posture, but no raw prompt text, interpolated prompts, raw provider responses, protected prompts, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
 ## V41 Gate 9 Promotion Readiness
 

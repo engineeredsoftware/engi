@@ -6,7 +6,7 @@
   "sourceSafetyVerdict": "source-safe-conversation-tool-interface-prompt-rewrite-metadata",
   "artifactPath": ".bitcode/v41-conversation-tool-interface-prompt-rewrite.json",
   "generatedAt": "2026-05-26T00:00:00.000Z",
-  "artifactRoot": "v41-conversation-tool-interface-prompt-rewrite:8acb0aa7e70efcf0b697d728",
+  "artifactRoot": "v41-conversation-tool-interface-prompt-rewrite:1c5fab85463bf1064cc5bce5",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -921,20 +921,20 @@
       "passed": true,
       "hardeningScore": 1,
       "sourceHashes": {
-        "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "5403f09cd3ea720e8cd45908",
+        "packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js": "3bf1de40f2dfd8f0d4e9be76",
         "packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js": "0f36d8bf304ccc54f6eae328",
         "scripts/generate-v41-conversation-tool-interface-prompt-rewrite.mjs": "16b23544d652ac6d7e1afa81",
-        "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs": "e092908fe6d7eeb486d919c0",
-        "BITCODE_SPEC_V41.md": "d8c0b4c7f8c268964304aed1",
-        "BITCODE_SPEC_V41_DELTA.md": "1d015ca6f1ee04481adc4d94",
-        "BITCODE_SPEC_V41_NOTES.md": "10535375dd3ba572d859cd96",
-        "BITCODE_SPEC_V41_PARITY_MATRIX.md": "00a808cdce6b067b3b74c284",
-        "SPECIFICATIONS_ROADMAP.md": "28927ec4df7539979189a250",
-        "README.md": "ea094a4cf3ceb26af0572f51",
-        "packages/protocol/README.md": "a350f4f057f5cfd5378e0bde",
-        "package.json": "9bd806a6dbff2448f0e5074e",
-        ".github/workflows/bitcode-gate-quality.yml": "07c24c49b8ab517a4426ed6b",
-        ".github/workflows/bitcode-canon-quality.yml": "36d6ce8158e1595685f7856a"
+        "scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs": "944c385a9d35dc0efaf024d1",
+        "BITCODE_SPEC_V41.md": "35ed9e60cecdcb8bd820caee",
+        "BITCODE_SPEC_V41_DELTA.md": "68092aae6b6f8916ee5652a0",
+        "BITCODE_SPEC_V41_NOTES.md": "7ed03aa76aa39be60d45ab0c",
+        "BITCODE_SPEC_V41_PARITY_MATRIX.md": "77e1bfa9c3dd2d549d5123e3",
+        "SPECIFICATIONS_ROADMAP.md": "ea44c2816a4548954f32a742",
+        "README.md": "64b27506f4fb734632abbb4f",
+        "packages/protocol/README.md": "b755f91f456d78b111c14794",
+        "package.json": "319d175fa7fedbc48b90cb37",
+        ".github/workflows/bitcode-gate-quality.yml": "4498ef474a10506a6cf781ce",
+        ".github/workflows/bitcode-canon-quality.yml": "75c13714eda5b1bf46ad896e"
       }
     }
   ],
@@ -1306,7 +1306,7 @@
     "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4",
     "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:82e956682fa1353ed9df6cff",
     "gate5ReadNeedPromptHardeningRoot": "v41-readneed-prompt-hardening:e93084e4403cc37d87fca2cf",
-    "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:f5a01c099fd260fca0c081c8"
+    "gate6ReadFitsFindingPromptHardeningRoot": "v41-readfitsfinding-prompt-hardening:86e74080708372081079c021"
   },
   "coverage": {
     "rowCount": 9,

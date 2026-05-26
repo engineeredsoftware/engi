@@ -68,6 +68,8 @@ Gate 7 is package-backed by `buildV41ConversationToolInterfacePromptRewrite`, em
 ### Gate 8: Prompt Benchmark Report And Telemetry Integration
 
 Close post-rewrite benchmark deltas, prompt lineage, telemetry integration, and source-safe rich stream projections.
+Gate 8 is package-backed by `buildV41PromptProgramBenchmarkReport`, emits `.bitcode/v41-prompt-program-benchmark-report.json`, and covers 9 source-safe rows across post-rewrite PromptPart/Prompt deltas, Reading benchmark deltas, Conversation/tool/interface benchmark deltas, prompt registry lineage, Failsafe and ThricifiedGeneration receipts, parsed-output schema verdicts, rich stream projections, repair hooks, and workflow proof.
+It binds V38 prompt benchmark and inference telemetry reports, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts without serializing raw prompt text, interpolated prompts, provider responses, protected prompts, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
 ### Gate 9: Promotion Readiness
 

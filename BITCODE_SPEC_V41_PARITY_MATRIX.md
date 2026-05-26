@@ -40,7 +40,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | `.bitcode/v41-readneed-prompt-hardening.json` | implemented |
 | Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | `.bitcode/v41-readfitsfinding-prompt-hardening.json` | implemented |
 | Conversation/tool/interface rewrite | Non-Reading prompt surfaces brought to same standard | `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json` | implemented |
-| Benchmark and telemetry | Prompt benchmark deltas and telemetry projections source-safe | planned V41 Gate 8 artifact | pending |
+| Benchmark and telemetry | Prompt benchmark deltas and telemetry projections source-safe | `.bitcode/v41-prompt-program-benchmark-report.json` | implemented |
 | Promotion readiness | V41 prompt-program proof and workflow promotion ready | planned V41 Gate 9 artifact | pending |
 
 ## V41 implementation checklist
@@ -54,7 +54,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Gate 5 | ReadNeedComprehensionSynthesis rewrite artifact | implemented |
 | Gate 6 | ReadFitsFindingSynthesis rewrite artifact | implemented |
 | Gate 7 | Conversation, tool, and interface prompt rewrite artifact | implemented |
-| Gate 8 | Prompt benchmark report and telemetry artifact | pending |
+| Gate 8 | Prompt benchmark report and telemetry artifact | implemented |
 | Gate 9 | Promotion readiness artifact and workflow | pending |
 
 ## V41 accepted boundaries

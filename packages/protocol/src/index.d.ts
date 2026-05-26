@@ -494,6 +494,15 @@ export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_METRIC_IDS: readonly
 export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_DISCLOSURE_TIERS: readonly string[];
 export const V41_CONVERSATION_TOOL_INTERFACE_PROMPT_REWRITE_ROWS: readonly Record<string, unknown>[];
 export function buildV41ConversationToolInterfacePromptRewrite(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_ARTIFACT_PATH: string;
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_CURRENT_TARGET: string;
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_SCHEMA_ID: string;
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_VERSION: string;
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_SOURCE_SAFETY_VERDICT: string;
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_METRIC_IDS: readonly string[];
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_DISCLOSURE_TIERS: readonly string[];
+export const V41_PROMPT_PROGRAM_BENCHMARK_REPORT_ROWS: readonly Record<string, unknown>[];
+export function buildV41PromptProgramBenchmarkReport(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;
