@@ -457,6 +457,16 @@ export const V41_REGISTRY_INTERPOLATION_COMPOSITION_LEVEL_IDS: readonly string[]
 export const V41_REGISTRY_INTERPOLATION_DISCLOSURE_TIERS: readonly string[];
 export const V41_REGISTRY_INTERPOLATION_CONTRACT_ROWS: readonly Record<string, unknown>[];
 export function buildV41RegistryInterpolationContracts(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V41_READING_PROMPT_BENCHMARK_BASELINES_ARTIFACT_PATH: string;
+export const V41_READING_PROMPT_BENCHMARK_BASELINES_CURRENT_TARGET: string;
+export const V41_READING_PROMPT_BENCHMARK_BASELINES_SCHEMA_ID: string;
+export const V41_READING_PROMPT_BENCHMARK_BASELINES_VERSION: string;
+export const V41_READING_PROMPT_BENCHMARK_BASELINES_SOURCE_SAFETY_VERDICT: string;
+export const V41_READING_PROMPT_BENCHMARK_PIPELINE_IDS: readonly string[];
+export const V41_READING_PROMPT_BENCHMARK_METRIC_IDS: readonly string[];
+export const V41_READING_PROMPT_BENCHMARK_DISCLOSURE_TIERS: readonly string[];
+export const V41_READING_PROMPT_BENCHMARK_BASELINE_ROWS: readonly Record<string, unknown>[];
+export function buildV41ReadingPromptBenchmarkBaselines(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

@@ -57,6 +57,7 @@ Current exported commercial helpers include:
 - `V39CommercialReadingPromotionReadinessReport` helpers for V39 source-safe commercial Reading promotion readiness across all V39 Reading artifacts, generated proof support, workflow posture, promotion dry-run support, and active V39 / draft V40 runtime preparation;
 - `V41PromptPartPromptInventory` helpers for V41 source-safe raw PromptPart and composed Prompt catalogue rows, registry owners, prompt families, template variables, benchmark fixture ids, validation commands, and V42 MVP roadmap posture;
 - `V41RegistryInterpolationContracts` helpers for V41 source-safe registry composition, interpolation key, execution ancestry, tool prompt injection, context handling, and parser target contracts;
+- `V41ReadingPromptBenchmarkBaselines` helpers for V41 source-safe Reading prompt baseline rows across `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, all five Reading UX steps, V38 benchmark fixtures, Gate 2 inventory roots, Gate 3 registry/interpolation roots, parser targets, deterministic scores, and source-safe disclosure tiers;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 

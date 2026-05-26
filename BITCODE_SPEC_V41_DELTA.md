@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: V41 source parity now includes prompt inventory plus registry/interpolation contracts; prompt rewrites are explicitly deferred until catalogue, contract, and benchmark gates close
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, planned rewrite artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: V41 source parity now includes prompt inventory, registry/interpolation contracts, and Reading benchmark baselines; prompt rewrites are explicitly deferred until catalogue, contract, and benchmark gates close
 - Scope: V41 draft delta for Prompt and PromptPart excellence over promoted V40
 
 ## Why V41 exists
@@ -45,6 +45,8 @@ It preserves V42 as subsequent reliable MVP experience planning while keeping V4
 ### Gate 4: Reading Pipeline Prompt Benchmark Baselines
 
 Create source-safe baseline benchmarks for Reading prompt surfaces before rewriting them.
+Gate 4 is package-backed by `buildV41ReadingPromptBenchmarkBaselines`, emits `.bitcode/v41-reading-prompt-benchmark-baselines.json`, and covers 10 source-safe baseline rows with 120 passing predicates across Read Request-to-Need synthesis, Need review/resynthesis, Need measurement and quote posture, Finding Fits query synthesis, many-candidate ranking, AssetPack synthesis context, source-safe AssetPack preview, settlement/rights/delivery, telemetry summaries, and failure/repair prompts.
+It binds Gate 2 PromptPart/Prompt inventory, Gate 3 registry/interpolation contracts, V38 benchmark fixtures, V40 prompt smoke readiness, both Reading pipelines, all five Reading UX steps, parser target ids, disclosure tiers, and source-safe score metadata without serializing raw prompt text, interpolated prompts, provider responses, protected source, private context, credentials, or unpaid AssetPack source.
 
 ### Gate 5: ReadNeedComprehensionSynthesis Prompt Rewrite And Return-Type Hardening
 
@@ -71,6 +73,7 @@ Bind all V41 prompt artifacts, tests, workflow checks, generated proof support, 
 - No prompt content is rewritten during Gate 1.
 - New commercial product behavior is deferred unless needed to make prompt-program tests truthful.
 - Production-mainnet value-bearing prompt rehearsals remain opt-in.
+- V43+ agentic enterprise depositing is deferred: deposit AssetPack option synthesis, repository-installed deposit agents, sub-critical/positive-ROI IP filtering, `/read` and `/deposit` route separation, and `/exchange` to `/packs` renaming are planning notes only until a later version explicitly opens that scope.
 
 ## Pre-Implementation Sequence
 

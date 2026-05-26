@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: Gate 1 closes spec, roadmap, docs, package script, workflow posture, and checker parity; Gate 2 closes source-safe prompt inventory parity; Gate 3 closes source-safe registry/interpolation contract parity; later gates own rewrite, benchmark, telemetry, and promotion parity
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, planned rewrite artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: Gate 1 closes spec, roadmap, docs, package script, workflow posture, and checker parity; Gate 2 closes source-safe prompt inventory parity; Gate 3 closes source-safe registry/interpolation contract parity; Gate 4 closes source-safe Reading benchmark baseline parity; later gates own rewrite, benchmark, telemetry, and promotion parity
 - Scope: V41 draft parity ledger for Prompt and PromptPart excellence
 - Last fully realized canonical target preserved in source: `V40`
 
@@ -36,7 +36,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Canon workflow | Canon quality knows active V40 and draft V41 Gate 1 | `.github/workflows/bitcode-canon-quality.yml` | drafted |
 | Prompt inventory | Every raw PromptPart and composed Prompt catalogued | `.bitcode/v41-promptpart-prompt-inventory.json` | implemented |
 | Registry/interpolation | Registry composition and interpolation contracts proven | `.bitcode/v41-registry-interpolation-contracts.json` | implemented |
-| Reading baselines | Reading prompt benchmarks captured before rewrites | planned V41 Gate 4 artifact | pending |
+| Reading baselines | Reading prompt benchmarks captured before rewrites | `.bitcode/v41-reading-prompt-benchmark-baselines.json` | implemented |
 | ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | planned V41 Gate 5 artifact | pending |
 | Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | planned V41 Gate 6 artifact | pending |
 | Conversation/tool/interface rewrite | Non-Reading prompt surfaces brought to same standard | planned V41 Gate 7 artifact | pending |
@@ -50,7 +50,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Gate 1 | Open V41 family, roadmap, docs, workflow posture, package script, and checker | closed |
 | Gate 2 | PromptPart and Prompt inventory artifact | implemented |
 | Gate 3 | Registry composition and interpolation artifact | implemented |
-| Gate 4 | Reading prompt benchmark baseline artifact | pending |
+| Gate 4 | Reading prompt benchmark baseline artifact | implemented |
 | Gate 5 | ReadNeedComprehensionSynthesis rewrite artifact | pending |
 | Gate 6 | ReadFitsFindingSynthesis rewrite artifact | pending |
 | Gate 7 | Conversation, tool, and interface prompt rewrite artifact | pending |
@@ -70,6 +70,10 @@ It also may record the V42 MVP roadmap posture as forward planning while preserv
 V41 Gate 3 may catalogue registry ids, interpolation key ids, missing-key behavior ids, context-handling ids, tool prompt injection ids, execution ancestry frame ids, parser target ids, source hashes, and predicate verdicts.
 It may not serialize raw prompt text, raw provider responses, protected source, private context, credentials, settlement-private payloads, or unpaid AssetPack source.
 It closes prompt rewrites' precondition that prompt composition and interpolation contracts are observable before semantic PromptPart or Prompt rewrite work proceeds.
+
+V41 Gate 4 may catalogue Reading benchmark baseline ids, fixture ids, metric ids, parser target ids, source path roots, predicate verdicts, deterministic baseline scores, inventory bindings, registry/interpolation bindings, and source-safe disclosure tiers for `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`.
+It may not serialize raw prompt text, interpolated prompts, provider responses, protected source, private context, credentials, settlement-private payloads, or unpaid AssetPack source.
+It closes Reading prompt rewrites' benchmark precondition by proving source-safe baselines for all five Reading UX steps before semantic PromptPart or Prompt rewrite work starts.
 
 ## V41 completion condition
 

@@ -8,7 +8,7 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, planned rewrite artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
 - Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, and promotion parity over active V40
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
@@ -33,11 +33,38 @@ Depositing must minimize the path to admitting source material and later receivi
 Reading must minimize the path from Read Request to synthesized Need review/resynthesis, Finding Fits, source-safe AssetPack preview, BTD/BTC purchase and settlement, and repository delivery.
 V42 must keep depositor compensation, reader purchase, BTD/AssetPack rights, and repository delivery visible in the shortest path without widening V41 beyond Prompt and PromptPart excellence.
 
+## V43+ agentic depositing roadmap note
+
+V43 or a later explicitly opened version should evolve the deposit side from manual source admission into an agentic AssetPack option experience for enterprises that own connected codebases.
+The central object is a deposit AssetPack option: an unminted AssetPack in all but BTD, synthesized from proprietary or otherwise non-public source material and held for enterprise review before Depository admission.
+BTD remains minted only when an industrial Need-Fit is made for a Reader; the deposit-side option is not BTD yet, but it is shaped as an AssetPack candidate so that future Finding Fits can search, rank, synthesize from, and compensate it cleanly.
+
+Bitcode Agents installed in an enterprise repository should compare three live contexts:
+
+- the enterprise's connected codebase and its evolving source/measurement state;
+- the existing Bitcode Depository and pre-existing deposits/AssetPacks;
+- current and historical Reading activity that indicates demand for technical knowledge.
+
+The deposit-side synthesis pipeline should propose AssetPack options only when the option appears sub-critical to the enterprise, not likely to leak strategic or protected IP the enterprise would not sell, and likely positive ROI after considering development cost, uniqueness, expected demand, and likely future BTD mint value.
+Those criteria must be configurable and promptable by the enterprise, but the default UX should minimize manual decision-making by surfacing clear approve/reject options with source-safe measurements, demand evidence, criticality assessment, ROI posture, and compensation route expectations.
+Approved options enter the Bitcode Depository and become eligible for Read-Need Finding Fits; rejected options remain out of the Depository and must not be searched or disclosed.
+
+That version should also split the product navigation now concentrated in `/terminal`.
+`/read` should own Read Request submission, synthesized Need review/resynthesis, Finding Fits, source-safe AssetPack preview, purchase, settlement, and repository delivery.
+`/deposit` should own connected repository state, agentic deposit AssetPack option synthesis, manual reruns reflecting the latest connected repositories and Bitcode state, approve/reject review, Depository admission, and later compensation readback.
+`/exchange` should be renamed to `/packs` across routes, code naming, docs, and operator vocabulary, because the product object is AssetPacks and BTD rights rather than a generic exchange abstraction.
+
 ## Gate 3 registry and interpolation contract note
 
 Gate 3 makes the prompt registry call chain source-checkable before prompt rewrites.
 The package-backed contract currently emits 12 rows and 65 source predicates for Prompt registry totality, TemplatedPromptPart interpolation, PTRR agent and step prompt composition, FailsafeGenerationSequence context handling, ThricifiedGeneration final prompt resolution, execution ancestry overlays, tool doc-code prompt injection, Reading parser targets, Finding Fits search and embedding contracts, AssetPack synthesis and finishing parser targets, and Gate 2 inventory binding.
 The artifact records ids, source paths, hashes, predicate verdicts, parser target ids, interpolation key ids, and ancestry frame ids only; it does not serialize raw prompt text, provider responses, private context, credentials, or unpaid AssetPack source.
+
+## Gate 4 Reading benchmark baseline note
+
+Gate 4 makes Reading prompt quality source-checkable before prompt rewrites.
+The package-backed baseline currently emits 10 rows and 120 source predicates for Read Request-to-Need synthesis, Need review/resynthesis, Need measurement and quote posture, Finding Fits query synthesis, many-candidate ranking, AssetPack synthesis context, source-safe AssetPack preview, settlement/rights/delivery, telemetry summaries, and failure/repair prompts.
+The artifact binds both Reading pipelines, all five Reading UX steps, Gate 2 prompt inventory, Gate 3 registry/interpolation contracts, V38 benchmark fixtures, V40 prompt smoke readiness, parser target ids, and source-safe score metadata only; it does not serialize raw prompt text, interpolated prompts, provider responses, private context, protected source, credentials, or unpaid AssetPack source.
 
 ## Concise current-system reading
 
