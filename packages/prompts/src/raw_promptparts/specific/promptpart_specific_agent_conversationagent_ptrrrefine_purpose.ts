@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRREFINE_PURPOSE: PromptPart =
-  'Refine the response for Bitcode clarity, evidence quality, formatting, and alignment with the Terminal prompt contract.' as PromptPart;
+  'Refine the response for Bitcode clarity, evidence quality, route-local source selection, stream-log metadata, formatting, typed schema alignment, and the Terminal prompt contract.' as PromptPart;

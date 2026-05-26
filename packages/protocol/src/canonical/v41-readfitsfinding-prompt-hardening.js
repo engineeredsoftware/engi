@@ -574,8 +574,18 @@ function predicatesForRow(repoRoot, rowData) {
 
   if (rowId === 'readfits-source-safe-tests-and-docs') {
     return [
-      predicate('docs.current-gate-6', rowId, SOURCE_ROOTS.roadmap, /Current working gate: V41 Gate 6/u.test(source)),
-      predicate('docs.next-gate-7', rowId, SOURCE_ROOTS.roadmap, /Next queued gate after V41 Gate 6: V41 Conversation Tool And Interface Prompt Rewrite/u.test(source)),
+      predicate(
+        'docs.current-gate-6',
+        rowId,
+        SOURCE_ROOTS.roadmap,
+        /Current working gate: V41 Gate (?:6|7)/u.test(source),
+      ),
+      predicate(
+        'docs.next-gate-7',
+        rowId,
+        SOURCE_ROOTS.roadmap,
+        /Next queued gate after V41 Gate (?:6|7): V41 (?:Conversation Tool And Interface Prompt Rewrite|Prompt Benchmark Report And Telemetry Integration)/u.test(source),
+      ),
       predicate('docs.gate6-closure-anchor', rowId, SOURCE_ROOTS.roadmap, /V41 Gate 6 closure anchor/u.test(source)),
       predicate('parity.finding-fits-implemented', rowId, SOURCE_ROOTS.parity, /Finding Fits rewrite.+implemented/us.test(source)),
       predicate('package.scripts-exposed', rowId, SOURCE_ROOTS.packageJson, /check:v41-gate6/u.test(source) && /generate:v41-readfitsfinding-prompt-hardening/u.test(source)),

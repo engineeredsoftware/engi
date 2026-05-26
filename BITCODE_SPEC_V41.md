@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V40`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, planned benchmark telemetry artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
 - Source parity state: V41 opens prompt-program parity over V40 exhaustive testing, V38 inference correctness, and V39 commercial Reading readiness; source-side prompt and PromptPart rewrites are blocked until catalogue, benchmark, interpolation, registry, callsite, and return-type surfaces are specified and checked
 - Notes companion: `BITCODE_SPEC_V41_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V41_DELTA.md`
@@ -147,6 +147,9 @@ The artifact may include ids, source hashes, counts, prompt surface ids, parser 
 
 Gate 7 applies the same prompt-program discipline to Conversation, tool-definition, MCP API, ChatGPT App, public API, Terminal summaries, and interface prompts.
 It must preserve route authority, source selection policy, rich stream log disclosure, tool schemas, and parsed return types.
+Gate 7 is closed by the package-backed `buildV41ConversationToolInterfacePromptRewrite` source, deterministic `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json` artifact, `generate:v41-conversation-tool-interface-prompt-rewrite`, `check:v41-conversation-tool-interface-prompt-rewrite`, `check:v41-gate7`, protocol tests, focused prompt-part rewrites, and gate/canon workflow wiring.
+The current source-safe rewrite report covers 9 rows and 60 passing source predicates for Conversation PTRR PromptParts, Terminal system prompt composition, rich execution-log prompt/result disclosure metadata, DocCodeToolPrompt composition, ToolPromptRegistry hierarchy, MCP API/public API tool schema posture, ChatGPT App action/tool prompt boundaries, Terminal/public summaries, V38 Conversation/tool parity, and Gate 2 through Gate 6 prompt-program dependency roots.
+The artifact may include ids, source hashes, counts, prompt surface ids, parser target ids, tool schema ids, fixture ids, predicate verdicts, dependency roots, and redaction posture, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
 ## V41 Gate 8 Prompt Benchmark Report And Telemetry Integration
 

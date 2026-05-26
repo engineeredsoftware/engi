@@ -63,6 +63,7 @@ It binds Gate 2 PromptPart/Prompt inventory, Gate 3 registry/interpolation contr
 ### Gate 7: Conversation Tool And Interface Prompt Rewrite
 
 Apply the same prompt-program discipline to Conversation, tool-definition, MCP API, ChatGPT App, public API, Terminal, and other interface prompts.
+Gate 7 is package-backed by `buildV41ConversationToolInterfacePromptRewrite`, emits `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, and covers 9 source-safe rewrite rows with 60 passing predicates across Conversation PTRR PromptParts, Terminal conversation system prompt boundaries, rich execution-log prompt/result disclosure, DocCodeToolPrompt and ToolPromptRegistry hierarchy, MCP API/public API prompt contract posture, ChatGPT App action/tool prompt boundaries, Terminal/public summary source-safety, V38 Conversation/tool parity, and Gate 2 through Gate 6 prompt-program dependency roots.
 
 ### Gate 8: Prompt Benchmark Report And Telemetry Integration
 

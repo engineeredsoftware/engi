@@ -137,6 +137,19 @@ accepted-Need integrity, many-candidate Depository search, embeddings and
 provider-ranking policy, selected-fit provenance, AssetPack context synthesis,
 source-safe preview and quote disclosure, post-settlement rights/delivery
 boundaries, telemetry redaction, and Gate 2 through Gate 5 dependency roots.
+V41 Gate 7 adds `V41ConversationToolInterfacePromptRewrite` through
+`packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js`,
+`packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js`,
+`.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`,
+`generate:v41-conversation-tool-interface-prompt-rewrite`,
+`check:v41-conversation-tool-interface-prompt-rewrite`, and `check:v41-gate7`.
+The artifact is source-safe metadata only and currently covers 9 rewrite rows
+with 60 passing predicates across Conversation PTRR PromptParts, Terminal
+conversation system prompts, rich execution-log disclosure metadata,
+DocCodeToolPrompt and ToolPromptRegistry hierarchy, MCP API/public API tool
+schema posture, ChatGPT App action/tool prompt posture, Terminal/public
+summary source-safety, V38 Conversation/tool parity, and Gate 2 through Gate 6
+dependency roots.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

@@ -13703,7 +13703,7 @@
       "rowRoot": "v41-prompt-inventory-row:d65663df8b30bf932783d1fc",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_identity_definition.ts",
-      "sourceHash": "485da90f48e8b7355b596c3c",
+      "sourceHash": "72c9665579f0db97896b3194",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_IDENTITY_DEFINITION"
       ],
@@ -13779,7 +13779,7 @@
       "rowRoot": "v41-prompt-inventory-row:c38394c4b35d940ff9f79408",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrplan_purpose.ts",
-      "sourceHash": "5e33ff9d434c3a1cdf5065c2",
+      "sourceHash": "0bd1566910a215a7d52d9f8b",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRPLAN_PURPOSE"
       ],
@@ -13817,7 +13817,7 @@
       "rowRoot": "v41-prompt-inventory-row:38b0dcbfc19970de026452c9",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrrefine_purpose.ts",
-      "sourceHash": "b7363be71084bda346b55e98",
+      "sourceHash": "0661a9bfd5a8063a2536d7b0",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRREFINE_PURPOSE"
       ],
@@ -13855,7 +13855,7 @@
       "rowRoot": "v41-prompt-inventory-row:ce5aa5e1da66dd9a2b9e3d2d",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrretry_purpose.ts",
-      "sourceHash": "2ca009cd0afa088e73e825fb",
+      "sourceHash": "0a88d2640092a4325ed6bc8e",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRRETRY_PURPOSE"
       ],
@@ -13893,7 +13893,7 @@
       "rowRoot": "v41-prompt-inventory-row:9fa549ef04e400f5e9e6b374",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_conversationagent_ptrrtry_purpose.ts",
-      "sourceHash": "2ec20c1a9541cbb32d6137a1",
+      "sourceHash": "6d063ca6ed8e670daa0a9a9e",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_PTRRTRY_PURPOSE"
       ],
@@ -13902,22 +13902,25 @@
       "promptFamilyIds": [
         "Conversation",
         "Interface",
-        "PromptBenchmark"
+        "PromptBenchmark",
+        "ReadFitsFindingSynthesis"
       ],
       "composedPromptMemberships": [
         "Conversation",
         "Interface",
-        "PromptBenchmark"
+        "PromptBenchmark",
+        "ReadFitsFindingSynthesis"
       ],
       "templateVariableNames": [],
       "benchmarkFixtureIds": [
         "fixture.conversation.terminal-system-boundary",
         "fixture.interface.source-safe-user-visible-prompting",
         "fixture.prompt.task-success",
-        "fixture.promptpart.intent-alignment"
+        "fixture.promptpart.intent-alignment",
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
       ],
       "disclosureTier": "promptpart_identity_source_safe",
-      "validationCommand": "pnpm run check:v41-gate7",
+      "validationCommand": "pnpm run check:v41-gate6",
       "docCommentPresent": true,
       "benchmarkDefinitionCount": 1,
       "currentVersionPresent": true,
@@ -31448,7 +31451,7 @@
       "rowRoot": "v41-prompt-inventory-row:80847dc8e5d8c350fb383fe7",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_capabilities_list.ts",
-      "sourceHash": "ec8e79a1a03230088cdac8e8",
+      "sourceHash": "cb04b9ba4b01cd81cec89376",
       "exportNames": [
         "PROMPTPART_SPECIFIC_SYSTEM_BITCODETERMINALCONVERSATION_CAPABILITIES_LIST"
       ],
@@ -31457,19 +31460,22 @@
       "promptFamilyIds": [
         "Conversation",
         "Interface",
-        "PromptBenchmark"
+        "PromptBenchmark",
+        "ToolDefinition"
       ],
       "composedPromptMemberships": [
         "Conversation",
         "Interface",
-        "PromptBenchmark"
+        "PromptBenchmark",
+        "ToolDefinition"
       ],
       "templateVariableNames": [],
       "benchmarkFixtureIds": [
         "fixture.conversation.terminal-system-boundary",
         "fixture.interface.source-safe-user-visible-prompting",
         "fixture.prompt.task-success",
-        "fixture.promptpart.intent-alignment"
+        "fixture.promptpart.intent-alignment",
+        "fixture.tool-definition.doc-code-contract"
       ],
       "disclosureTier": "promptpart_identity_source_safe",
       "validationCommand": "pnpm run check:v41-gate7",
@@ -31486,7 +31492,7 @@
       "rowRoot": "v41-prompt-inventory-row:28980bf94472ac3fa505df29",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_identity_corestatement.ts",
-      "sourceHash": "b736c6ab10d855982ac27415",
+      "sourceHash": "e9a890f6fc8bb33c5205c70f",
       "exportNames": [
         "PROMPTPART_SPECIFIC_SYSTEM_BITCODETERMINALCONVERSATION_IDENTITY_CORESTATEMENT"
       ],
@@ -31524,7 +31530,7 @@
       "rowRoot": "v41-prompt-inventory-row:efa8bfc05dece529473e30cf",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_system_bitcodeterminalconversation_usage_guidance.ts",
-      "sourceHash": "1b4aa3bf1583f1067e2efafe",
+      "sourceHash": "f8cfc824a9d3f39de3df5fb3",
       "exportNames": [
         "PROMPTPART_SPECIFIC_SYSTEM_BITCODETERMINALCONVERSATION_USAGE_GUIDANCE"
       ],
@@ -31533,22 +31539,25 @@
       "promptFamilyIds": [
         "Conversation",
         "Interface",
-        "PromptBenchmark"
+        "PromptBenchmark",
+        "ReadFitsFindingSynthesis"
       ],
       "composedPromptMemberships": [
         "Conversation",
         "Interface",
-        "PromptBenchmark"
+        "PromptBenchmark",
+        "ReadFitsFindingSynthesis"
       ],
       "templateVariableNames": [],
       "benchmarkFixtureIds": [
         "fixture.conversation.terminal-system-boundary",
         "fixture.interface.source-safe-user-visible-prompting",
         "fixture.prompt.task-success",
-        "fixture.promptpart.intent-alignment"
+        "fixture.promptpart.intent-alignment",
+        "fixture.read-fits.find-many-candidates-and-preserve-source-safety"
       ],
       "disclosureTier": "promptpart_identity_source_safe",
-      "validationCommand": "pnpm run check:v41-gate7",
+      "validationCommand": "pnpm run check:v41-gate6",
       "docCommentPresent": true,
       "benchmarkDefinitionCount": 1,
       "currentVersionPresent": true,
