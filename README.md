@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V39`; V40 is the active draft target for exhaustive commercial
-application testing after the promoted commercial Reading readiness canon.
+resolves to `V40`; V41 is the active draft target for Prompt and PromptPart
+excellence after the promoted exhaustive commercial application testing canon.
 
 ## Current Product Posture
 
@@ -11,6 +11,87 @@ The primary operator routes are:
 
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
+
+V41 Gate 1 opens the prompts-as-programs specification family over active V40
+with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
+Prompt, map registry composition and interpolation contracts, benchmark Reading
+prompt baselines, then harden `ReadNeedComprehensionSynthesis`,
+`ReadFitsFindingSynthesis`, Conversation, tool-definition, and interface prompts
+without exposing protected prompt payloads, raw provider responses, secrets,
+protected source, or unpaid AssetPack source.
+V41 Gate 2 adds the package-backed `buildV41PromptPartPromptInventory` and
+generated source-safe artifact `.bitcode/v41-promptpart-prompt-inventory.json`.
+The inventory currently covers 1,459 raw PromptPart rows and 105 composed Prompt
+rows across Reading, Conversation, tool-definition, interface, and benchmark
+surfaces, with `generate:v41-prompt-inventory`, `check:v41-prompt-inventory`,
+and `check:v41-gate2`.
+V41 Gate 3 adds the package-backed `buildV41RegistryInterpolationContracts` and
+generated source-safe artifact `.bitcode/v41-registry-interpolation-contracts.json`.
+The contract currently covers 12 registry/interpolation rows and 65 source
+predicates for Prompt registry totality, PromptPart interpolation, PTRR
+agent/step composition, Failsafe and Thricified prompt resolution, execution
+ancestry overlays, tool doc-code prompt injection, Reading parser targets,
+Finding Fits search contracts, AssetPack synthesis/finishing parser targets,
+and Gate 2 inventory binding with `check:v41-gate3`.
+V41 Gate 4 adds the package-backed `buildV41ReadingPromptBenchmarkBaselines`
+and generated source-safe artifact
+`.bitcode/v41-reading-prompt-benchmark-baselines.json`. The baseline currently
+covers 10 Reading prompt benchmark rows, 120 source predicates, all five Reading
+UX steps, both Reading pipelines, Gate 2 inventory, Gate 3 registry contracts,
+V38 benchmark fixtures, V40 prompt smoke readiness, parser targets, and
+source-safe disclosure tiers with `check:v41-gate4`.
+V41 Gate 5 adds the package-backed `buildV41ReadNeedPromptHardening` and
+generated source-safe artifact `.bitcode/v41-readneed-prompt-hardening.json`.
+The hardening report currently covers 7 ReadNeedComprehensionSynthesis rows and
+63 source predicates for exact Read Request boundary, source constraints, strict
+return types, review/resynthesis gates, telemetry redaction, PTRR/Failsafe/
+Thricified composition, and read-comprehension tool prompt alignment with
+`check:v41-gate5`.
+V41 Gate 6 adds the package-backed
+`buildV41ReadFitsFindingPromptHardening` and generated source-safe artifact
+`.bitcode/v41-readfitsfinding-prompt-hardening.json`. The hardening report
+currently covers 8 ReadFitsFindingSynthesis rows and 76 source predicates for
+many-candidate Depository search, embeddings and provider-ranking policy,
+selected-fit provenance, AssetPack context synthesis, source-safe preview and
+quote disclosure, post-settlement rights/delivery boundaries, and redacted
+telemetry with `check:v41-gate6`.
+V41 Gate 7 adds the package-backed
+`buildV41ConversationToolInterfacePromptRewrite` and generated source-safe
+artifact `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`. The
+rewrite report currently covers 9 Conversation/tool/interface rows and 60 source
+predicates for Conversation PTRR PromptParts, Terminal system prompt
+composition, rich execution-log prompt/result disclosure, DocCodeToolPrompt and
+ToolPromptRegistry hierarchy, MCP API/public API schemas, ChatGPT App action
+prompt boundaries, Terminal/public summaries, V38 Conversation/tool parity, and
+Gate 2 through Gate 6 dependency roots with `check:v41-gate7`.
+V41 Gate 8 adds the package-backed `buildV41PromptProgramBenchmarkReport` and
+generated source-safe artifact `.bitcode/v41-prompt-program-benchmark-report.json`.
+The report binds post-rewrite PromptPart/Prompt deltas, Reading benchmark
+baselines, Conversation/tool/interface deltas, prompt registry lineage,
+Failsafe and ThricifiedGeneration receipts, parsed-output schema verdicts, rich
+stream telemetry, repair hooks, V38/V39/V40 proof roots, and V41 Gate 2 through
+Gate 7 dependency roots with `check:v41-gate8`, without serializing raw prompts,
+interpolated prompts, provider responses, protected source, or unpaid AssetPack
+source.
+V41 Gate 9 adds the package-backed `buildV41PromotionReadinessReport` and
+generated source-safe artifact `.bitcode/v41-promotion-readiness-report.json`.
+The report binds every V41 prompt-program artifact, `BITCODE_SPEC_V41_PROVEN.md`
+generation support, `.github/workflows/v41-canon-promotion.yml`, promotion
+dry-run support, gate/canon workflow posture, active V41 / draft V42 runtime
+preparation, and source-safe value-bearing mainnet blocking through
+`generate:v41-promotion-readiness`, `check:v41-promotion-readiness`, and
+`check:v41-gate9`.
+V42 is now roadmapped as the next MVP experience version: shortest-path
+Depositing with later BTC compensation, shortest-path Reading through
+Need review/resynthesis, Finding Fits, source-safe AssetPack preview,
+BTD/BTC settlement, repository delivery, and an AI-reading dominant
+demonstration whose AssetPack measurably improves an AI system beyond
+public-data-only performance.
+V43+ is roadmapped as the later agentic depositing evolution: repository
+agents synthesize deposit AssetPack options from connected enterprise code,
+Depository state, and Reading demand; enterprises approve or reject
+sub-critical positive-ROI options; `/terminal` separates into `/read` and
+`/deposit`; and `/exchange` is renamed to `/packs` across product naming.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

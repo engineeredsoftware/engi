@@ -113,11 +113,11 @@ test('runtime promotion preparation rewrites current inline demonstration README
       '# Bitcode Protocol Demonstration - V29 canonical deterministic local prototype',
       '',
       '`BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently',
-      'resolves to `V29`; V30 is the active draft target for Protocol/BTD hardening.',
-      '`BITCODE_SPEC.txt -> V29`.',
-      'This demo is governed by the active V29 canonical spec and',
+      'resolves to `V29`; V30 is the active draft target for Protocol/BTD hardening. This',
+      'demo is governed by the active V29 canonical spec and',
       '`BITCODE_SPEC_V29_PROVEN.md` as the current generated appendix while V30 draft',
-      'work proceeds outside the demonstration runtime boundary.'
+      'work proceeds outside the demonstration runtime boundary.',
+      '`BITCODE_SPEC.txt -> V29`.',
     ].join('\n'),
     'utf8'
   );

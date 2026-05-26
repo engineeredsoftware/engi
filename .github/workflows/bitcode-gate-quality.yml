@@ -388,6 +388,39 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V40
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41
             node scripts/check-v40-gate11-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            if [ -f BITCODE_SPEC_V41.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V41 --mode draft --current-target V40
+              node scripts/check-v41-gate1-prompt-program-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v41-gate2-promptpart-prompt-inventory.mjs ]; then
+                node scripts/check-v41-gate2-promptpart-prompt-inventory.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v41-gate3-registry-interpolation-contracts.mjs ]; then
+                node scripts/check-v41-gate3-registry-interpolation-contracts.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v41-gate4-reading-prompt-benchmark-baselines.mjs ]; then
+                node scripts/check-v41-gate4-reading-prompt-benchmark-baselines.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v41-gate5-readneed-prompt-hardening.mjs ]; then
+                node scripts/check-v41-gate5-readneed-prompt-hardening.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v41-gate6-readfitsfinding-prompt-hardening.mjs ]; then
+                node scripts/check-v41-gate6-readfitsfinding-prompt-hardening.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs ]; then
+                node scripts/check-v41-gate7-conversation-tool-interface-prompt-rewrite.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v41-gate8-prompt-program-benchmark-report.mjs ]; then
+                node scripts/check-v41-gate8-prompt-program-benchmark-report.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v41-gate9-promotion-readiness.mjs ]; then
+                node scripts/check-v41-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+              fi
+            fi
+          elif [ "$POINTER" = "V41" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V41 --mode promoted --current-target V41
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V41
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V41 --draft-target V42
+            node scripts/check-v41-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V31 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, and V40.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, and V41.'
     ].join('\n')
   );
 }
@@ -528,8 +528,37 @@ function rewritePromotionStatus(version, commit, content, kind) {
     return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
   }
 
+  if (version === 'V41') {
+    const sharedInventory = 'active canonical `.bitcode/v41-spec-family-report.json`, `.bitcode/v41-canonical-input-report.json`, `.bitcode/v41-canon-posture-drift-report.json`, `.bitcode/v41-promptpart-prompt-inventory.json`, `.bitcode/v41-registry-interpolation-contracts.json`, `.bitcode/v41-reading-prompt-benchmark-baselines.json`, `.bitcode/v41-readneed-prompt-hardening.json`, `.bitcode/v41-readfitsfinding-prompt-hardening.json`, `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, `.bitcode/v41-prompt-program-benchmark-report.json`, `.bitcode/v41-promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion';
+    const scopeByKind = {
+      spec: 'V41 canonical system specification for prompt-program excellence across PromptPart and Prompt inventory, registry interpolation contracts, Reading prompt benchmarks, ReadNeedComprehensionSynthesis rewrite hardening, ReadFitsFindingSynthesis rewrite hardening, Conversation/tool/interface prompt rewrite, prompt benchmark telemetry integration, and promotion readiness surfaces',
+      delta: 'V41 canonical delta for prompt-program excellence over promoted V40 exhaustive commercial application testing canon',
+      notes: 'V41 canonical notes for prompt-program excellence over promoted V40 exhaustive commercial application testing canon',
+      parity: 'V41 canonical parity ledger for prompt-program excellence over promoted V40 exhaustive commercial application testing canon'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V41 is the active prompt-program excellence canon and the V41 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V40-to-V41 prompt-program excellence closure set',
+      notes: 'canonical promotion complete; V41 notes record accepted prompt inventory, registry/interpolation, Reading baselines, ReadNeed and ReadFitsFinding prompt hardening, Conversation/tool/interface prompt rewrite, benchmark telemetry, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V41 parity truth, generated prompt-program artifacts, gate closure, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V41`' }
+        : {}),
+      'Current canonical/latest target': '`V41`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V41 source-side PromptPart and Prompt inventory, registry interpolation contracts, Reading baselines, ReadNeedComprehensionSynthesis prompt hardening, ReadFitsFindingSynthesis prompt hardening, Conversation/tool/interface prompt rewrite, prompt benchmark telemetry report, workflow, and promotion surfaces are canonicalized in the promoted V41 file family',
+      'V41 state': stateByKind[kind]
+    });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, and V40. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, and V41. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

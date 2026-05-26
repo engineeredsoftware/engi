@@ -1,0 +1,19 @@
+{
+  "reportId": "v41-canonical-input-report",
+  "version": "V41",
+  "proofSourceCommit": "70be3860a54ff3dd3da5c0cac2c5b854a12910e1",
+  "generatedAt": "2026-05-26T15:32:33-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "checkedTargetVersion": "V41",
+  "pointerVersion": "V41",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "BITCODE_SPEC_V41.md",
+  "notesPath": "BITCODE_SPEC_V41_NOTES.md",
+  "provenPath": "BITCODE_SPEC_V41_PROVEN.md",
+  "parityPath": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [],
+  "requiredGeneratedArtifactCount": 0
+}

@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V40` active, `V41` draft after V40 promotion);
+- active/draft canon posture (`V41` active, `V42` draft after V41 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -55,20 +55,127 @@ Current exported commercial helpers include:
 - `V39AssetPackPreviewQuoteBoundary` helpers for V39 source-safe AssetPack preview, deterministic share-to-fee BTC quote, disclosure leak scanning, settlement instructions, delivery lock, replay receipt, and repair posture proof;
 - `V39InterfaceConversationProductParity` helpers for V39 source-safe Terminal, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
 - `V39CommercialReadingPromotionReadinessReport` helpers for V39 source-safe commercial Reading promotion readiness across all V39 Reading artifacts, generated proof support, workflow posture, promotion dry-run support, and active V39 / draft V40 runtime preparation;
+- `V41PromptPartPromptInventory` helpers for V41 source-safe raw PromptPart and composed Prompt catalogue rows, registry owners, prompt families, template variables, benchmark fixture ids, validation commands, and V42 MVP roadmap posture;
+- `V41RegistryInterpolationContracts` helpers for V41 source-safe registry composition, interpolation key, execution ancestry, tool prompt injection, context handling, and parser target contracts;
+- `V41ReadingPromptBenchmarkBaselines` helpers for V41 source-safe Reading prompt baseline rows across `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, all five Reading UX steps, V38 benchmark fixtures, Gate 2 inventory roots, Gate 3 registry/interpolation roots, parser targets, deterministic scores, and source-safe disclosure tiers;
+- `V41PromotionReadinessReport` helpers for V41 source-safe prompt-program promotion readiness across all V41 prompt artifacts, generated proof support, workflow posture, promotion dry-run support, and active V41 / draft V42 runtime preparation;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is the `V39` active, `V40` draft after V39 promotion posture accepted by
-V39 canonical promotion.
-V40 Gate 1 treats this package as promotion-critical runtime posture and opens
+Historical V39 promotion moved this package through the `V39` active, `V40`
+draft posture. V40 promotion has since advanced the current package posture to
+`V40` active, `V41` draft.
+V40 Gate 1 treated this package as promotion-critical runtime posture and opened
 the exhaustive testing specification family for active V39 / draft V40 work.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V39` active, `V40` draft after promotion.
+must remain aligned to `V40` active, `V41` draft after V40 promotion.
 V40 Gate 1 is wired through `check:v40-gate1` and documents the exact browser
 E2E, visual/screenshot, API integration, pipeline integration, Conversation and
 Terminal integration, unit coverage, ledger/database/storage synchronization,
 local/staging rehearsal, prompt benchmark smoke, and V41 prompt-program
 readiness scope that later V40 gates must implement.
+After V40 promotion this package is in the `V40` active, `V41` draft posture.
+V41 Gate 1 is wired through `check:v41-gate1` and opens the prompt-program
+specification family: every raw PromptPart, composed Prompt, registry binding,
+interpolation contract, inference callsite, benchmark fixture, parsed return
+type, and source-safe telemetry projection must become enumerable before later
+V41 gates rewrite Reading, Conversation, tool-definition, or interface prompts.
+V41 Gate 2 adds `V41PromptPartPromptInventory` through
+`packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js`,
+`packages/protocol/test/v41-promptpart-prompt-inventory.test.js`,
+`.bitcode/v41-promptpart-prompt-inventory.json`,
+`generate:v41-prompt-inventory`, `check:v41-prompt-inventory`, and
+`check:v41-gate2`.
+The artifact is source-safe metadata only and currently catalogues 1,459 raw
+PromptPart rows plus 105 composed Prompt rows before any V41 prompt rewrite is
+admitted.
+It also records V42's planned MVP experience focus: shortest-path Depositing,
+shortest-path Reading, and the AI-reading dominant demonstration.
+V41 Gate 3 adds `V41RegistryInterpolationContracts` through
+`packages/protocol/src/canonical/v41-registry-interpolation-contracts.js`,
+`packages/protocol/test/v41-registry-interpolation-contracts.test.js`,
+`.bitcode/v41-registry-interpolation-contracts.json`,
+`generate:v41-registry-interpolation-contracts`,
+`check:v41-registry-interpolation-contracts`, and `check:v41-gate3`.
+The artifact is source-safe metadata only and currently covers 12
+registry/interpolation rows with 65 passing source predicates across Prompt
+registry totality, TemplatedPromptPart interpolation, PTRR agent/step prompt
+composition, FailsafeGenerationSequence context handling, ThricifiedGeneration
+final prompt resolution, execution ancestry overlays, tool doc-code prompt
+injection, Reading parser targets, Finding Fits search contracts, AssetPack
+synthesis/finishing parser targets, and Gate 2 inventory binding.
+V41 Gate 4 adds `V41ReadingPromptBenchmarkBaselines` through
+`packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js`,
+`packages/protocol/test/v41-reading-prompt-benchmark-baselines.test.js`,
+`.bitcode/v41-reading-prompt-benchmark-baselines.json`,
+`generate:v41-reading-prompt-benchmark-baselines`,
+`check:v41-reading-prompt-benchmark-baselines`, and `check:v41-gate4`.
+The artifact is source-safe metadata only and currently covers 10 Reading
+baseline rows with 120 passing predicates across both Reading pipelines, all
+five Reading UX steps, parser targets, fixtures, source-safe scores, and
+pre-rewrite disclosure tiers.
+V41 Gate 5 adds `V41ReadNeedPromptHardening` through
+`packages/protocol/src/canonical/v41-readneed-prompt-hardening.js`,
+`packages/protocol/test/v41-readneed-prompt-hardening.test.js`,
+`.bitcode/v41-readneed-prompt-hardening.json`,
+`generate:v41-readneed-prompt-hardening`,
+`check:v41-readneed-prompt-hardening`, and `check:v41-gate5`.
+The artifact is source-safe metadata only and currently covers 7
+ReadNeedComprehensionSynthesis hardening rows with 63 passing predicates across
+exact Read Request boundary, source constraints, strict return types,
+review/resynthesis gates, telemetry redaction, PTRR/Failsafe/Thricified
+composition, read-comprehension tool prompt alignment, and Gate 2 through Gate
+4 dependency roots.
+V41 Gate 6 adds `V41ReadFitsFindingPromptHardening` through
+`packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js`,
+`packages/protocol/test/v41-readfitsfinding-prompt-hardening.test.js`,
+`.bitcode/v41-readfitsfinding-prompt-hardening.json`,
+`generate:v41-readfitsfinding-prompt-hardening`,
+`check:v41-readfitsfinding-prompt-hardening`, and `check:v41-gate6`.
+The artifact is source-safe metadata only and currently covers 8
+ReadFitsFindingSynthesis hardening rows with 76 passing predicates across
+accepted-Need integrity, many-candidate Depository search, embeddings and
+provider-ranking policy, selected-fit provenance, AssetPack context synthesis,
+source-safe preview and quote disclosure, post-settlement rights/delivery
+boundaries, telemetry redaction, and Gate 2 through Gate 5 dependency roots.
+V41 Gate 7 adds `V41ConversationToolInterfacePromptRewrite` through
+`packages/protocol/src/canonical/v41-conversation-tool-interface-prompt-rewrite.js`,
+`packages/protocol/test/v41-conversation-tool-interface-prompt-rewrite.test.js`,
+`.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`,
+`generate:v41-conversation-tool-interface-prompt-rewrite`,
+`check:v41-conversation-tool-interface-prompt-rewrite`, and `check:v41-gate7`.
+The artifact is source-safe metadata only and currently covers 9 rewrite rows
+with 60 passing predicates across Conversation PTRR PromptParts, Terminal
+conversation system prompts, rich execution-log disclosure metadata,
+DocCodeToolPrompt and ToolPromptRegistry hierarchy, MCP API/public API tool
+schema posture, ChatGPT App action/tool prompt posture, Terminal/public
+summary source-safety, V38 Conversation/tool parity, and Gate 2 through Gate 6
+dependency roots.
+V41 Gate 8 adds `V41PromptProgramBenchmarkReport` through
+`packages/protocol/src/canonical/v41-prompt-program-benchmark-report.js`,
+`packages/protocol/test/v41-prompt-program-benchmark-report.test.js`,
+`.bitcode/v41-prompt-program-benchmark-report.json`,
+`generate:v41-prompt-program-benchmark-report`,
+`check:v41-prompt-program-benchmark-report`, and `check:v41-gate8`.
+The artifact is source-safe metadata only and currently binds 9 benchmark
+telemetry rows across post-rewrite prompt deltas, Reading benchmark deltas,
+Conversation/tool/interface deltas, prompt registry lineage, Failsafe and
+ThricifiedGeneration receipts, parsed-output schema verdicts, rich stream
+telemetry, repair hooks, and V38/V39/V40 plus V41 Gate 2 through Gate 7
+dependency roots.
+V41 Gate 9 adds `V41PromotionReadinessReport` through
+`packages/protocol/src/canonical/v41-promotion-readiness-report.js`,
+`packages/protocol/test/v41-promotion-readiness.test.js`,
+`.bitcode/v41-promotion-readiness-report.json`,
+`generate:v41-promotion-readiness`, `check:v41-promotion-readiness`, and
+`check:v41-gate9`.
+The report closes promotion readiness for the `V41` active, `V42` draft posture
+by binding all V41 prompt-program artifacts, `BITCODE_SPEC_V41_PROVEN.md`,
+`v41-canon-promotion.yml`, gate/canon workflow support, promotion scripts,
+runtime canon rewriting, dry-run promotion, source-safety, and value-bearing
+mainnet blocking without serializing raw prompts, provider responses, protected
+source, credentials, private settlement payloads, wallet material, or unpaid
+AssetPack source.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

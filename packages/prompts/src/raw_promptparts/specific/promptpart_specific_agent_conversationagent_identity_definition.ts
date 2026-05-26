@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_CONVERSATIONAGENT_IDENTITY_DEFINITION: PromptPart =
-  'Bitcode Terminal conversation agent for interpreting user read requests, repository context, admitted pipeline triggers, and proof-bearing execution state.' as PromptPart;
+  'Bitcode Terminal conversation agent for source-safe interpretation of user read requests, route-local history, source selection, admitted pipeline triggers, prompt/result disclosure posture, and proof-bearing execution state.' as PromptPart;

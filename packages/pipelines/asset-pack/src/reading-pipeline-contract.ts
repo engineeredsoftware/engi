@@ -132,9 +132,10 @@ const READ_NEED_PROMPT_TEMPLATE = [
 
 const READ_FITS_FINDING_PROMPT_TEMPLATE = [
   'You are the ReadFitsFindingSynthesis AssetPack synthesis agent.',
-  'Use only the accepted Read-Need and source-bound depository evidence.',
-  'Return worthy_fit, no_worthy_fit, or blocked_readiness with search, ranking, synthesis, validation, preview, and settlement-readiness evidence.',
-  'Do not expose protected source before settlement and do not claim BTC/ledger finality without readback.',
+  'Use only the accepted Read-Need, many-candidate Depository search evidence, selected fit deposit asset ids, source revision, and source-safe proof/readback roots.',
+  'Return worthy_fit, no_worthy_fit, or blocked_readiness with query synthesis, search breadth, ranking, selected-fit provenance, synthesis, validation, preview, quote, and settlement-readiness evidence.',
+  'Before settlement expose only AssetPack measurements, fit provenance, quote, and source-safe preview metadata; do not expose unpaid AssetPack source.',
+  'Do not claim BTC finality, BTD rights transfer, ledger settlement, or source-bearing delivery without readback and delivery unlock.',
 ].join('\n');
 
 const readNeedTelemetry = (suffix: string) => `${READ_NEED_COMPREHENSION_SYNTHESIS}.telemetry.${suffix}`;
@@ -409,8 +410,8 @@ export const READ_FITS_FINDING_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           prompt: {
             templateId: 'ReadFitsFindingSynthesis.prompt.setup-plan',
             template:
-              'Produce one concise source-bound plan for the accepted Need to Finding Fits run. Do not claim settlement, delivery, or finality.',
-            interpolatedContextKeys: ['read', 'repository', 'sourceRevision', 'fitResult'],
+              'Produce one concise source-bound plan for the accepted Need to Finding Fits run: many-candidate Depository search, ranking, selected-fit provenance, source-safe AssetPack preview, quote, and settlement readiness. Do not claim settlement, delivery, or finality.',
+            interpolatedContextKeys: ['acceptedReadNeed', 'read', 'repository', 'sourceRevision', 'fitResult', 'searchObjectives'],
           },
           returnType: 'PlanSchema',
           inputType: 'AcceptedReadNeed + SourceRevision',
@@ -431,8 +432,8 @@ export const READ_FITS_FINDING_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           prompt: {
             templateId: 'ReadFitsFindingSynthesis.prompt.read-comprehension',
             template:
-              'Translate the accepted Need and expressed Read into one auditable Read model for AssetPack synthesis. Return source-bound evidence only.',
-            interpolatedContextKeys: ['read', 'definitionOfRead', 'repository', 'sourceRevision', 'deposit', 'fitResult'],
+              'Translate the accepted Need and expressed Read into one auditable model for Finding Fits search, ranking, and AssetPack synthesis context. Return source-bound evidence only.',
+            interpolatedContextKeys: ['acceptedReadNeed', 'read', 'definitionOfRead', 'repository', 'sourceRevision', 'sourceConstraints', 'deposit', 'fitResult'],
           },
           returnType: 'BoundedReadComprehensionSchema',
           inputType: 'AcceptedReadNeed + DepositorySearchBaseline',
@@ -505,7 +506,9 @@ export const READ_FITS_FINDING_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
               'depositorySearchResult',
               'fitDepositAssetIds',
               'fitDeposits',
+              'selectedFitProvenanceRoot',
               'sourceRevision',
+              'sourceSafeBoundary',
               'deliveryMechanismTemplate',
             ],
           },
@@ -535,7 +538,7 @@ export const READ_FITS_FINDING_SYNTHESIS_CONTRACT: ReadingPipelineContract = {
           prompt: {
             templateId: 'ReadFitsFindingSynthesis.prompt.fit-quality-validation',
             template:
-              'Validate the source-bound AssetPack synthesized from qualifying fit deposits against the accepted Need, search proof, disclosure policy, and finish-readiness gates.',
+              'Validate the source-bound AssetPack synthesized from qualifying fit deposits against the accepted Need, many-candidate search proof, selected-fit provenance, disclosure policy, quote posture, and finish-readiness gates.',
             interpolatedContextKeys: [
               'acceptedReadNeed',
               'depositorySearchResult',
