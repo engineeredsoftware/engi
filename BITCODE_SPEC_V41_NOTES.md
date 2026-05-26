@@ -33,6 +33,27 @@ Depositing must minimize the path to admitting source material and later receivi
 Reading must minimize the path from Read Request to synthesized Need review/resynthesis, Finding Fits, source-safe AssetPack preview, BTD/BTC purchase and settlement, and repository delivery.
 V42 must keep depositor compensation, reader purchase, BTD/AssetPack rights, and repository delivery visible in the shortest path without widening V41 beyond Prompt and PromptPart excellence.
 
+## V43+ agentic depositing roadmap note
+
+V43 or a later explicitly opened version should evolve the deposit side from manual source admission into an agentic AssetPack option experience for enterprises that own connected codebases.
+The central object is a deposit AssetPack option: an unminted AssetPack in all but BTD, synthesized from proprietary or otherwise non-public source material and held for enterprise review before Depository admission.
+BTD remains minted only when an industrial Need-Fit is made for a Reader; the deposit-side option is not BTD yet, but it is shaped as an AssetPack candidate so that future Finding Fits can search, rank, synthesize from, and compensate it cleanly.
+
+Bitcode Agents installed in an enterprise repository should compare three live contexts:
+
+- the enterprise's connected codebase and its evolving source/measurement state;
+- the existing Bitcode Depository and pre-existing deposits/AssetPacks;
+- current and historical Reading activity that indicates demand for technical knowledge.
+
+The deposit-side synthesis pipeline should propose AssetPack options only when the option appears sub-critical to the enterprise, not likely to leak strategic or protected IP the enterprise would not sell, and likely positive ROI after considering development cost, uniqueness, expected demand, and likely future BTD mint value.
+Those criteria must be configurable and promptable by the enterprise, but the default UX should minimize manual decision-making by surfacing clear approve/reject options with source-safe measurements, demand evidence, criticality assessment, ROI posture, and compensation route expectations.
+Approved options enter the Bitcode Depository and become eligible for Read-Need Finding Fits; rejected options remain out of the Depository and must not be searched or disclosed.
+
+That version should also split the product navigation now concentrated in `/terminal`.
+`/read` should own Read Request submission, synthesized Need review/resynthesis, Finding Fits, source-safe AssetPack preview, purchase, settlement, and repository delivery.
+`/deposit` should own connected repository state, agentic deposit AssetPack option synthesis, manual reruns reflecting the latest connected repositories and Bitcode state, approve/reject review, Depository admission, and later compensation readback.
+`/exchange` should be renamed to `/packs` across routes, code naming, docs, and operator vocabulary, because the product object is AssetPacks and BTD rights rather than a generic exchange abstraction.
+
 ## Gate 3 registry and interpolation contract note
 
 Gate 3 makes the prompt registry call chain source-checkable before prompt rewrites.

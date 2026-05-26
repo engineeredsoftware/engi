@@ -46,6 +46,11 @@ Need review/resynthesis, Finding Fits, source-safe AssetPack preview,
 BTD/BTC settlement, repository delivery, and an AI-reading dominant
 demonstration whose AssetPack measurably improves an AI system beyond
 public-data-only performance.
+V43+ is roadmapped as the later agentic depositing evolution: repository
+agents synthesize deposit AssetPack options from connected enterprise code,
+Depository state, and Reading demand; enterprises approve or reject
+sub-critical positive-ROI options; `/terminal` separates into `/read` and
+`/deposit`; and `/exchange` is renamed to `/packs` across product naming.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

@@ -73,6 +73,7 @@ Bind all V41 prompt artifacts, tests, workflow checks, generated proof support, 
 - No prompt content is rewritten during Gate 1.
 - New commercial product behavior is deferred unless needed to make prompt-program tests truthful.
 - Production-mainnet value-bearing prompt rehearsals remain opt-in.
+- V43+ agentic enterprise depositing is deferred: deposit AssetPack option synthesis, repository-installed deposit agents, sub-critical/positive-ROI IP filtering, `/read` and `/deposit` route separation, and `/exchange` to `/packs` renaming are planning notes only until a later version explicitly opens that scope.
 
 ## Pre-Implementation Sequence
 
