@@ -73,6 +73,14 @@ stream telemetry, repair hooks, V38/V39/V40 proof roots, and V41 Gate 2 through
 Gate 7 dependency roots with `check:v41-gate8`, without serializing raw prompts,
 interpolated prompts, provider responses, protected source, or unpaid AssetPack
 source.
+V41 Gate 9 adds the package-backed `buildV41PromotionReadinessReport` and
+generated source-safe artifact `.bitcode/v41-promotion-readiness-report.json`.
+The report binds every V41 prompt-program artifact, `BITCODE_SPEC_V41_PROVEN.md`
+generation support, `.github/workflows/v41-canon-promotion.yml`, promotion
+dry-run support, gate/canon workflow posture, active V41 / draft V42 runtime
+preparation, and source-safe value-bearing mainnet blocking through
+`generate:v41-promotion-readiness`, `check:v41-promotion-readiness`, and
+`check:v41-gate9`.
 V42 is now roadmapped as the next MVP experience version: shortest-path
 Depositing with later BTC compensation, shortest-path Reading through
 Need review/resynthesis, Finding Fits, source-safe AssetPack preview,

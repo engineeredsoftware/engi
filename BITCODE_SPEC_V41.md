@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V41`
-- V41 state: draft opened; V41 is the active Prompt and PromptPart excellence target over promoted V40 canon
+- V41 state: Gate 9 promotion readiness implemented; V41 is ready to be promoted from the active V40 canon when its version PR validates
 - Current canonical/latest target: `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V40`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, planned benchmark telemetry artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: V41 opens prompt-program parity over V40 exhaustive testing, V38 inference correctness, and V39 commercial Reading readiness; source-side prompt and PromptPart rewrites are blocked until catalogue, benchmark, interpolation, registry, callsite, and return-type surfaces are specified and checked
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, Gate 9 `.bitcode/v41-promotion-readiness-report.json`, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: V41 prompt-program parity is source-side complete for promotion readiness: prompt catalogue, benchmark, interpolation, registry, callsite, return-type, telemetry, workflow, generated-proof, promotion-command, and source-safety surfaces are specified and checked
 - Notes companion: `BITCODE_SPEC_V41_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V41_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V41_PARITY_MATRIX.md`
@@ -164,6 +164,11 @@ The artifact may include ids, source hashes, counts, prompt-program artifact ids
 
 Gate 9 closes V41 promotion readiness.
 It must bind all V41 prompt-program artifacts, generated proof support, workflow support, promotion commands, post-promotion active V41 / draft V42 posture, source-safe generated appendix output, and value-bearing mainnet blocking where relevant.
+
+V41 promotion readiness canon is package-backed by `buildV41PromotionReadinessReport`, emits `.bitcode/v41-promotion-readiness-report.json`, and covers every V41 prompt-program gate artifact from PromptPart/Prompt inventory through post-rewrite benchmark telemetry integration.
+The report must prove the V41 gate artifacts are present, parseable, source-safe, workflow-covered, generated-proof-covered, promotion-command-covered, and dry-run-promotable while `BITCODE_SPEC.txt` remains `V40`.
+The V41 promotion workflow is `.github/workflows/v41-canon-promotion.yml`; it validates all V41 gate checks, runs `node scripts/promote-bitcode-canon.mjs --version V41 --commit HEAD --dry-run`, and, on a version-branch PR into `main`, commits the standalone canonical promotion that rewrites the active runtime posture to V41 active / draft V42.
+Public V41 promotion artifacts may serialize ids, hashes, counts, paths, verdicts, proof roots, and source-safe summaries only; they may not serialize raw prompt text, interpolated prompts, raw provider responses, protected prompts, protected source, private context, credentials, private settlement payloads, wallet private material, or unpaid AssetPack source.
 
 ## V41 canonical subsystem surfaces
 
@@ -468,7 +473,8 @@ Generation must fail closed when artifact freshness, source-safety, benchmark co
 V41 Gate 1 validates with `pnpm run check:v41-gate1`, `node scripts/check-bitcode-spec-family.mjs --version V41 --mode draft --current-target V40`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41`, and `node scripts/check-bitcode-canonical-inputs.mjs --current-target V40`.
 V41 Gate 2 validates with `pnpm run generate:v41-prompt-inventory`, `pnpm run check:v41-prompt-inventory`, `pnpm run check:v41-gate2`, and `node --test --test-force-exit packages/protocol/test/v41-promptpart-prompt-inventory.test.js`.
 V41 Gate 3 validates with `pnpm run generate:v41-registry-interpolation-contracts`, `pnpm run check:v41-registry-interpolation-contracts`, `pnpm run check:v41-gate3`, and `node --test --test-force-exit packages/protocol/test/v41-registry-interpolation-contracts.test.js`.
-Later gates add focused generator, checker, package, benchmark, and workflow commands.
+V41 Gate 4 through Gate 8 validate with their focused generator, checker, and package tests for Reading baselines, ReadNeed hardening, ReadFitsFinding hardening, Conversation/tool/interface prompt rewrite, and prompt benchmark telemetry.
+V41 Gate 9 validates with `pnpm run generate:v41-promotion-readiness`, `pnpm run check:v41-promotion-readiness`, `pnpm run check:v41-gate9`, `node --test --test-force-exit packages/protocol/test/v41-promotion-readiness.test.js`, and `node scripts/promote-bitcode-canon.mjs --version V41 --commit HEAD --dry-run`.
 
 ## V41 promotion canon
 

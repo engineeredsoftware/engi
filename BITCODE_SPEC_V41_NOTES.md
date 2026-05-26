@@ -3,13 +3,13 @@
 ## Status
 
 - Version: `V41`
-- V41 state: draft opened; V41 notes now accompany the full prompt-program specification family
+- V41 state: Gate 9 promotion readiness implemented; V41 notes now accompany the full prompt-program specification family through promotion readiness
 - Current canonical/latest target: `V40`
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, and promotion parity over active V40
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, Gate 9 `.bitcode/v41-promotion-readiness-report.json`, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, promotion parity, and active V41 / draft V42 promotion posture over active V40
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
 
@@ -37,6 +37,12 @@ Gate 8 makes the post-rewrite prompt benchmark and telemetry readback source-che
 It emits `V41PromptProgramBenchmarkReport` as `.bitcode/v41-prompt-program-benchmark-report.json`, binding V38 prompt benchmark rows, V38 inference telemetry disclosure, V38 PTRR/Failsafe/Thricified stack proof, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts.
 The report records prompt-program artifact ids, telemetry receipt ids, metric ids, source hashes, source-safe benchmark delta posture, predicate verdicts, and dependency roots only.
 It intentionally does not serialize raw prompt text, interpolated prompts, raw provider responses, protected prompts, protected source, private context, credentials, wallet private material, settlement private payloads, or unpaid AssetPack source.
+
+## Gate 9: V41 Promotion Readiness Notes
+
+Gate 9 emits `V41PromotionReadinessReport` as `.bitcode/v41-promotion-readiness-report.json`.
+It binds all V41 prompt-program artifacts, source and documentation evidence, `v41-canon-promotion.yml`, gate/canon workflow posture, `BITCODE_SPEC_V41_PROVEN.md` generation support, promotion dry-run support, and active V41 / draft V42 runtime preparation.
+It remains metadata-only and source-safe: ids, hashes, counts, paths, verdicts, proof roots, and source-safe summaries may be public, while raw prompt text, interpolated prompts, provider responses, protected prompts, protected source, private context, credentials, wallet material, settlement private payloads, and unpaid AssetPack source stay private.
 
 ## Gate 2 prompt inventory note
 

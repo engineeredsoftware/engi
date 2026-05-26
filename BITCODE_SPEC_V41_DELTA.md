@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V41`
-- V41 state: draft opened; this delta records the V40-to-V41 prompt-program opening plan
+- V41 state: Gate 9 promotion readiness implemented; this delta records the V40-to-V41 prompt-program closure set
 - Current canonical/latest target: `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, planned rewrite artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: V41 source parity now includes prompt inventory, registry/interpolation contracts, and Reading benchmark baselines; prompt rewrites are explicitly deferred until catalogue, contract, and benchmark gates close
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, Gate 9 `.bitcode/v41-promotion-readiness-report.json`, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: V41 source parity now includes prompt inventory, registry/interpolation contracts, Reading benchmark baselines, semantic prompt rewrites, post-rewrite benchmark telemetry, promotion workflow support, generated proof support, and promotion-command dry-run support
 - Scope: V41 draft delta for Prompt and PromptPart excellence over promoted V40
 
 ## Why V41 exists
@@ -71,9 +71,12 @@ Close post-rewrite benchmark deltas, prompt lineage, telemetry integration, and 
 Gate 8 is package-backed by `buildV41PromptProgramBenchmarkReport`, emits `.bitcode/v41-prompt-program-benchmark-report.json`, and covers 9 source-safe rows across post-rewrite PromptPart/Prompt deltas, Reading benchmark deltas, Conversation/tool/interface benchmark deltas, prompt registry lineage, Failsafe and ThricifiedGeneration receipts, parsed-output schema verdicts, rich stream projections, repair hooks, and workflow proof.
 It binds V38 prompt benchmark and inference telemetry reports, V38 ReadFitsFinding search embeddings, V39 operational telemetry repair readback, V40 prompt benchmark smoke readiness, and V41 Gate 2 through Gate 7 artifacts without serializing raw prompt text, interpolated prompts, provider responses, protected prompts, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
-### Gate 9: Promotion Readiness
+### Gate 9: V41 Promotion Readiness
 
 Bind all V41 prompt artifacts, tests, workflow checks, generated proof support, promotion commands, and active V41 / draft V42 posture.
+Gate 9 is package-backed by `buildV41PromotionReadinessReport`, emits `.bitcode/v41-promotion-readiness-report.json`, and proves all V41 prompt-program artifacts are present, parseable, source-safe, covered by source/documentation/workflow evidence, and bound to `BITCODE_SPEC_V41_PROVEN.md` generation support.
+The promotion scripts support V41 through `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, and `.github/workflows/v41-canon-promotion.yml`.
+The promotion remains blocked when any V41 prompt-program artifact, source-safety proof, workflow check, generated proof support, promotion dry-run, or value-bearing mainnet block is missing.
 
 ## Explicitly deferred
 
