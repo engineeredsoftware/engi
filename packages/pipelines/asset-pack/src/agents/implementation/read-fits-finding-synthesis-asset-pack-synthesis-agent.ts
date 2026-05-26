@@ -170,24 +170,31 @@ async function runBoundedAssetPackSynthesis(
     promptTemplate: {
       templateId: 'ReadFitsFindingSynthesis.prompt.asset-pack-synthesis',
       system: [
-        'You are the Bitcode AssetPack synthesis agent.',
-        'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',
-        'Do not invent files, external proof, pull requests, BTC broadcasts, or ledger settlement.',
+        'You are the ReadFitsFindingSynthesis AssetPack synthesis agent.',
+        'Synthesize one Read-satisfaction AssetPack from the accepted Read-Need and source-bound Depository fit deposits selected above threshold.',
+        'Use query root, ranking root, selected fit provenance root, fit deposit asset ids, embedding policy, source revision, and proof/readback evidence as synthesis context.',
+        'Expose only source-safe preview measurements, review notes, and proof roots before settlement; do not expose unpaid AssetPack source.',
+        'Do not invent files, external proof, pull requests, BTC broadcasts, BTD rights transfer, ledger settlement, or delivery unlock.',
         'Return only typed JSON that can be validated and finished by the pipeline.',
       ].join('\n'),
       user: JSON.stringify({
         requestedShape: '{{requestedShape}}',
+        acceptedReadNeed: '{{acceptedReadNeed}}',
         read: '{{read}}',
         deliveryMechanismTemplate: '{{deliveryMechanismTemplate}}',
         sourceRevision: '{{sourceRevision}}',
         fitResult: '{{fitResult}}',
+        selectedFitProvenanceRoot: '{{selectedFitProvenanceRoot}}',
+        sourceSafeBoundary: '{{sourceSafeBoundary}}',
         baselineProofEvidence: '{{baselineProofEvidence}}',
       }, null, 2),
     },
     systemPrompt: [
-      'You are the Bitcode AssetPack synthesis agent.',
-      'Synthesize one Read-satisfaction AssetPack from source-bound depository fit evidence.',
-      'Do not invent files, external proof, pull requests, BTC broadcasts, or ledger settlement.',
+      'You are the ReadFitsFindingSynthesis AssetPack synthesis agent.',
+      'Synthesize one Read-satisfaction AssetPack from the accepted Read-Need and source-bound Depository fit deposits selected above threshold.',
+      'Use query root, ranking root, selected fit provenance root, fit deposit asset ids, embedding policy, source revision, and proof/readback evidence as synthesis context.',
+      'Expose only source-safe preview measurements, review notes, and proof roots before settlement; do not expose unpaid AssetPack source.',
+      'Do not invent files, external proof, pull requests, BTC broadcasts, BTD rights transfer, ledger settlement, or delivery unlock.',
       'Return only typed JSON that can be validated and finished by the pipeline.',
     ].join('\n'),
     userPrompt: JSON.stringify({
@@ -214,10 +221,34 @@ async function runBoundedAssetPackSynthesis(
           proofEvidence: ['string'],
         },
       },
+      acceptedReadNeed:
+        input?.acceptedReadNeed ??
+        findExecutionValue(execution, 'read/need', 'accepted'),
       read,
       deliveryMechanismTemplate,
       sourceRevision,
       fitResult: compactFitResult(fitResult),
+      selectedFitProvenanceRoot:
+        fitResult?.selectedFitProvenanceRoot ??
+        fitResult?.searchReceipt?.selectedFitProvenanceRoot ??
+        findExecutionValue(execution, 'depository/search', 'selectedFitProvenanceRoot'),
+      sourceSafeBoundary: {
+        preSettlementVisible: [
+          'AssetPack measurements',
+          'fit deposit asset ids',
+          'query/ranking/provenance roots',
+          'quote and disclosure posture',
+          'source-safe proof/readback roots',
+        ],
+        forbiddenBeforeSettlement: [
+          'unpaid AssetPack source',
+          'protected source payloads',
+          'raw provider responses',
+          'wallet private material',
+          'settlement private payloads',
+        ],
+        deliveryUnlock: 'source-bearing pull-request delivery only after settlement and BTD rights readback',
+      },
       baselineProofEvidence: baseline.assetPack.proofEvidence,
     }, null, 2),
   });
@@ -266,13 +297,14 @@ function buildDeterministicAssetPackSynthesis(
     `Fit deposit assets: ${fitDepositAssetIds.join(', ') || 'none'}`,
     `Query root: ${fitResult?.queryRoot ?? 'not recorded'}`,
     `Ranking root: ${fitResult?.rankingRoot ?? 'not recorded'}`,
+    `Selected fit provenance root: ${fitResult?.selectedFitProvenanceRoot ?? fitResult?.searchReceipt?.selectedFitProvenanceRoot ?? 'not recorded'}`,
     `Embedding policy: ${fitResult?.embeddingPolicy?.provider ?? 'unknown'} ${fitResult?.embeddingPolicy?.model ?? ''}`.trim()
   ];
   const summary = [
     'Source-bound Read-satisfaction AssetPack synthesized by the staging pipeline.',
     `The pack binds the admitted Read to ${repositoryLabel}.`,
     `Finding Fits posture: ${fitResult?.resultState ?? 'not-yet-classified'} with ${fitDepositAssetIds.length} qualifying fit deposit(s).`,
-    'Validation must preserve proof, telemetry, delivery, and ledger readback before settlement trust.'
+    'Validation must preserve proof, telemetry, source-safe preview, quote, BTD rights, delivery, and ledger readback before settlement trust or source-bearing visibility.'
   ].join(' ');
   return {
     success: true,
@@ -290,7 +322,8 @@ function buildDeterministicAssetPackSynthesis(
       proofEvidence,
       reviewNotes: [
         'This AssetPack is synthesized from source-bound depository fit evidence.',
-        'QA overlay runs remain blocked for source-revision settlement until deployed cleanly.'
+        'Only measurements, roots, quote, and source-safe preview metadata are visible before settlement.',
+        'Source-bearing delivery remains withheld until payment finality, BTD rights transfer, and delivery unlock.'
       ]
     },
     writtenAssets: {

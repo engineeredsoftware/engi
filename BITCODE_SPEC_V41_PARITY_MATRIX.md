@@ -38,7 +38,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Registry/interpolation | Registry composition and interpolation contracts proven | `.bitcode/v41-registry-interpolation-contracts.json` | implemented |
 | Reading baselines | Reading prompt benchmarks captured before rewrites | `.bitcode/v41-reading-prompt-benchmark-baselines.json` | implemented |
 | ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | `.bitcode/v41-readneed-prompt-hardening.json` | implemented |
-| Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | planned V41 Gate 6 artifact | pending |
+| Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | `.bitcode/v41-readfitsfinding-prompt-hardening.json` | implemented |
 | Conversation/tool/interface rewrite | Non-Reading prompt surfaces brought to same standard | planned V41 Gate 7 artifact | pending |
 | Benchmark and telemetry | Prompt benchmark deltas and telemetry projections source-safe | planned V41 Gate 8 artifact | pending |
 | Promotion readiness | V41 prompt-program proof and workflow promotion ready | planned V41 Gate 9 artifact | pending |
@@ -52,7 +52,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Gate 3 | Registry composition and interpolation artifact | implemented |
 | Gate 4 | Reading prompt benchmark baseline artifact | implemented |
 | Gate 5 | ReadNeedComprehensionSynthesis rewrite artifact | implemented |
-| Gate 6 | ReadFitsFindingSynthesis rewrite artifact | pending |
+| Gate 6 | ReadFitsFindingSynthesis rewrite artifact | implemented |
 | Gate 7 | Conversation, tool, and interface prompt rewrite artifact | pending |
 | Gate 8 | Prompt benchmark report and telemetry artifact | pending |
 | Gate 9 | Promotion readiness artifact and workflow | pending |

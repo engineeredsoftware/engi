@@ -112,17 +112,20 @@ async function runBoundedReadComprehension(input: any, execution: any) {
     promptTemplate: {
       templateId: 'ReadFitsFindingSynthesis.prompt.read-comprehension',
       system: [
-        'You are a Bitcode setup Read-comprehension agent.',
-        'Translate the expressed Read into one auditable Read model for AssetPack synthesis.',
-        'Return source-bound evidence only. Do not claim settlement or finality beyond provided proof roots/readbacks.',
+        'You are the ReadFitsFindingSynthesis setup Read-comprehension agent.',
+        'Translate the accepted Need and expressed Read into one auditable model for Finding Fits, Depository query synthesis, candidate ranking, and AssetPack synthesis context.',
+        'Preserve source constraints, target artifact kinds, closure criteria, failure modes, fit candidate state, and proof/readback roots as source-safe context.',
+        'Return source-bound evidence only. Do not claim settlement, finality, BTD rights transfer, delivery, or protected source visibility beyond provided proof roots/readbacks.',
         'Respond only with JSON matching the requested shape.',
       ].join('\n'),
       user: JSON.stringify({
         requestedShape: '{{requestedShape}}',
+        acceptedReadNeed: '{{acceptedReadNeed}}',
         read: '{{read}}',
         definitionOfRead: '{{definitionOfRead}}',
         repository: '{{repository}}',
         sourceRevision: '{{sourceRevision}}',
+        sourceConstraints: '{{sourceConstraints}}',
         deposit: '{{deposit}}',
         fitResult: '{{fitResult}}',
         baselineReadModel: '{{baselineReadModel}}',
@@ -130,9 +133,10 @@ async function runBoundedReadComprehension(input: any, execution: any) {
       }, null, 2),
     },
     systemPrompt: [
-      'You are a Bitcode setup Read-comprehension agent.',
-      'Translate the expressed Read into one auditable Read model for AssetPack synthesis.',
-      'Return source-bound evidence only. Do not claim settlement or finality beyond provided proof roots/readbacks.',
+      'You are the ReadFitsFindingSynthesis setup Read-comprehension agent.',
+      'Translate the accepted Need and expressed Read into one auditable model for Finding Fits, Depository query synthesis, candidate ranking, and AssetPack synthesis context.',
+      'Preserve source constraints, target artifact kinds, closure criteria, failure modes, fit candidate state, and proof/readback roots as source-safe context.',
+      'Return source-bound evidence only. Do not claim settlement, finality, BTD rights transfer, delivery, or protected source visibility beyond provided proof roots/readbacks.',
       'Respond only with JSON matching the requested shape.',
     ].join('\n'),
     userPrompt: JSON.stringify({
@@ -164,10 +168,12 @@ async function runBoundedReadComprehension(input: any, execution: any) {
         },
         success: true,
       },
+      acceptedReadNeed: input.acceptedReadNeed,
       read: input.read,
       definitionOfRead: input.definitionOfRead,
       repository: input.repository,
       sourceRevision: input.sourceRevision,
+      sourceConstraints: input.acceptedReadNeed?.sourceConstraints,
       deposit: input.deposit,
       fitResult: compactFitResult(input.fitResult ?? input.depositorySearchResult),
       baselineReadModel: baseline.read,
@@ -255,9 +261,11 @@ function buildDeterministicReadComprehension(input: any, execution: any) {
   const fitState = normalizeText(fitResult?.resultState) || 'not-yet-classified';
   const satisfactionCriteria = [
     'Repository revision evidence must match the admitted Read source revision.',
-    'Depository candidate evidence must be proof-bearing and relevant to the expressed Read.',
-    'AssetPack synthesis must remain source-bound and must not cite frontier, mock, or unrelated deposits.',
-    'Finish may ship only after validation records proof, telemetry, and delivery readiness.',
+    'Depository search must retrieve many candidate fit deposits above threshold, not stop at the first plausible match.',
+    'Depository candidate evidence must be proof-bearing, measurement-bearing, readback-aware, and relevant to the accepted Need.',
+    'AssetPack synthesis must remain source-bound to selected fit deposits and must not cite frontier, mock, rejected, blocked, or unrelated deposits.',
+    'Source-safe preview may expose measurements, quote, provenance, and validation posture but not unpaid AssetPack source.',
+    'Finish may ship source-bearing delivery only after validation, BTC settlement readback, BTD rights transfer, and delivery unlock.',
     'Ledger settlement must preserve depositor and reader ownership boundaries.'
   ];
   const readDefinitionAnalysis = [
@@ -314,15 +322,17 @@ function buildDeterministicReadComprehension(input: any, execution: any) {
     comprehension: {
       intent: 'Synthesize a Read-satisfying AssetPack from deposited repository evidence.',
       goals: [
-        'Select worthy depository candidates',
-        'Generate source-grounded AssetPack content',
-        'Validate proof and delivery readiness',
-        'Finish with audit and settlement evidence'
+        'Search every Depository candidate channel for worthy fit deposits',
+        'Rank and select many candidates above threshold with query/ranking/provenance roots',
+        'Generate source-grounded AssetPack context from selected fit deposits',
+        'Validate source-safe preview, proof, quote, and delivery readiness',
+        'Finish with settlement, BTD rights, audit, and delivery evidence after payment'
       ],
       requirements: satisfactionCriteria,
       constraints: [
         'No mock or frontier evidence may satisfy the Read',
         'No unrelated repository deposit may be used as a positive fit',
+        'No protected source or unpaid AssetPack source may be visible before settlement',
         'No settlement claim may be made without ledger evidence'
       ],
       successCriteria: satisfactionCriteria
@@ -341,7 +351,15 @@ function buildDeterministicReadComprehension(input: any, execution: any) {
         selectedCandidateAssetIds: candidates
       },
       requirements: satisfactionCriteria,
-      constraints: ['source-bound evidence', 'proof-bearing fit', 'auditable finish', 'ledgerized settlement']
+      constraints: [
+        'accepted Read-Need only',
+        'many-candidate Depository search',
+        'source-bound evidence',
+        'proof-bearing fit',
+        'source-safe preview only before settlement',
+        'auditable finish',
+        'ledgerized settlement'
+      ]
     },
     riskAdmissionInput: {
       read: expressedRead,

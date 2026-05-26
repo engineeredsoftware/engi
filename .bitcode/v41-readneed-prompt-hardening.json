@@ -6,7 +6,7 @@
   "generatedAt": "2026-05-26T00:00:00.000Z",
   "artifactPath": ".bitcode/v41-readneed-prompt-hardening.json",
   "sourceSafetyVerdict": "source-safe-readneed-prompt-hardening-metadata",
-  "artifactRoot": "v41-readneed-prompt-hardening:d2c173cb904dd9ea5caee63e",
+  "artifactRoot": "v41-readneed-prompt-hardening:e93084e4403cc37d87fca2cf",
   "passed": true,
   "failures": [],
   "metricIds": [
@@ -606,7 +606,7 @@
         },
         {
           "sourcePath": "packages/pipelines/asset-pack/src/reading-pipeline-contract.ts",
-          "sourceHash": "5f6b3abc1234a9a7ce936f88"
+          "sourceHash": "b19eba649308640b1854dea6"
         }
       ],
       "sourceRootsPresent": true,
@@ -1145,9 +1145,9 @@
     }
   ],
   "dependencyRoots": {
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:4398aef542cfe4aa0628a3f8",
-    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:d48666fa41462ca704afeae1",
-    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:5a51260fb89548d5ab768d45"
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
+    "gate3RegistryInterpolationRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4",
+    "gate4ReadingPromptBenchmarkBaselineRoot": "v41-reading-prompt-benchmark-baselines:82e956682fa1353ed9df6cff"
   },
   "coverage": {
     "rowCount": 7,
@@ -1219,8 +1219,8 @@
     "failedPredicateIds": [],
     "failingRowIds": [],
     "hardeningScoreMinimum": 1,
-    "readNeedInventoryPromptPartRowCount": 61,
-    "readNeedInventoryPromptRowCount": 6,
+    "readNeedInventoryPromptPartRowCount": 63,
+    "readNeedInventoryPromptRowCount": 8,
     "gate4ReadNeedBaselineRowCount": 3
   },
   "sourceSafety": {

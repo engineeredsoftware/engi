@@ -134,33 +134,54 @@ export default async function runReadFitsFindingSynthesisSetupPlanAgent(input: a
       promptTemplate: {
         templateId: 'ReadFitsFindingSynthesis.prompt.setup-plan',
         system: [
-          'You are the Bitcode AssetPack setup-plan agent.',
-          'Produce one concise source-bound plan for a Read/Fit pipeline run.',
-          'Do not claim settlement, delivery, or finality before later phases validate and finish.',
+          'You are the ReadFitsFindingSynthesis setup-plan agent.',
+          'Produce one concise source-bound plan for Finding Fits from an accepted Read-Need through many-candidate Depository search, ranking, AssetPack synthesis context, source-safe preview, and settlement readiness.',
+          'Preserve repository/source revision constraints, accepted Need identity, query/ranking/provenance roots when present, and the distinction between fit deposits and source-bearing AssetPack delivery.',
+          'Do not claim settlement, delivery, BTC finality, BTD rights transfer, or protected source visibility before later phases validate, settle, and finish.',
           'Respond only with JSON shaped as { "plan": string }.',
         ].join('\n'),
         user: JSON.stringify({
+          acceptedReadNeed: '{{acceptedReadNeed}}',
           read: '{{read}}',
           repository: '{{repository}}',
+          sourceRevision: '{{sourceRevision}}',
           fitResult: '{{fitResult}}',
+          searchObjectives: '{{searchObjectives}}',
           baselinePlan: '{{baselinePlan}}',
         }, null, 2),
       },
       systemPrompt: [
-        'You are the Bitcode AssetPack setup-plan agent.',
-        'Produce one concise source-bound plan for a Read/Fit pipeline run.',
-        'Do not claim settlement, delivery, or finality before later phases validate and finish.',
+        'You are the ReadFitsFindingSynthesis setup-plan agent.',
+        'Produce one concise source-bound plan for Finding Fits from an accepted Read-Need through many-candidate Depository search, ranking, AssetPack synthesis context, source-safe preview, and settlement readiness.',
+        'Preserve repository/source revision constraints, accepted Need identity, query/ranking/provenance roots when present, and the distinction between fit deposits and source-bearing AssetPack delivery.',
+        'Do not claim settlement, delivery, BTC finality, BTD rights transfer, or protected source visibility before later phases validate, settle, and finish.',
         'Respond only with JSON shaped as { "plan": string }.',
       ].join('\n'),
       userPrompt: JSON.stringify({
+        acceptedReadNeed: input?.acceptedReadNeed,
         read: input?.read ?? input?.definitionOfRead,
         repository: input?.repository ?? input?.sourceRevision,
+        sourceRevision: input?.sourceRevision,
         fitResult: {
           resultState: input?.fitResult?.resultState ?? input?.depositorySearchResult?.resultState,
           selectedCandidateAssetIds:
             input?.fitResult?.selectedCandidateAssetIds ??
             input?.depositorySearchResult?.selectedCandidateAssetIds,
+          fitDepositAssetIds:
+            input?.fitResult?.fitDepositAssetIds ??
+            input?.depositorySearchResult?.fitDepositAssetIds,
+          queryRoot: input?.fitResult?.queryRoot ?? input?.depositorySearchResult?.queryRoot,
+          rankingRoot: input?.fitResult?.rankingRoot ?? input?.depositorySearchResult?.rankingRoot,
+          selectedFitProvenanceRoot:
+            input?.fitResult?.selectedFitProvenanceRoot ??
+            input?.depositorySearchResult?.searchReceipt?.selectedFitProvenanceRoot,
         },
+        searchObjectives: [
+          'derive multi-channel Depository queries from the accepted Need',
+          'search for every candidate above threshold rather than the first fit',
+          'rank candidates with source-safe proof, measurement, and readback evidence',
+          'carry selected fit deposits into AssetPack synthesis without exposing unpaid source',
+        ],
         baselinePlan: baseline.plan,
       }, null, 2),
     });
@@ -255,7 +276,7 @@ function buildDeterministicSetupPlan(input: any, execution: any): z.infer<typeof
     `Read: ${String(read)}`,
     `Repository: ${repository}@${branch}:${commit}`,
     `Fit state: ${fitState}; candidate assets: ${candidateText}.`,
-    'Setup plan: preserve source revision evidence, carry the measured Read and depository-fit result into discovery, synthesize one Read-satisfaction AssetPack only from source-bound evidence, validate proof and delivery readiness, then finish with auditable delivery evidence.'
+    'Setup plan: preserve accepted Read-Need and source revision evidence, derive multi-channel Depository search, rank every candidate above threshold with query/ranking/provenance roots, synthesize one source-safe Read-satisfaction AssetPack only from selected fit deposits, validate proof and preview boundaries, then finish with auditable settlement and delivery evidence after payment unlock.'
   ].join('\n');
 
   return { plan };

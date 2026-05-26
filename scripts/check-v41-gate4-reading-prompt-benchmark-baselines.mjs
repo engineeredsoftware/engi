@@ -270,12 +270,13 @@ function main() {
   assertCheck(failures, packageJson.includes('check:v41-gate4'), 'package.json must expose check:v41-gate4.');
 
   const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
-  assertCheck(failures, /Current working gate: V41 Gate (?:4|5)\b/u.test(roadmap), 'Roadmap must name V41 Gate 4 or later as current working gate.');
+  assertCheck(failures, /Current working gate: V41 Gate (?:4|5|6)\b/u.test(roadmap), 'Roadmap must name V41 Gate 4 or later as current working gate.');
   assertCheck(
     failures,
-    roadmap.includes('V41 Gate 5 closure anchor: prompt-program work now owns package-backed `V41ReadNeedPromptHardening`') ||
+    roadmap.includes('V41 Gate 6 closure anchor: prompt-program work now owns package-backed `V41ReadFitsFindingPromptHardening`') ||
+      roadmap.includes('V41 Gate 5 closure anchor: prompt-program work now owns package-backed `V41ReadNeedPromptHardening`') ||
       roadmap.includes('Next queued gate after V41 Gate 4: V41 ReadNeedComprehensionSynthesis Prompt Rewrite And Return-Type Hardening.'),
-    'Roadmap must preserve V41 Gate 5 progression.',
+    'Roadmap must preserve V41 Gate 5 or Gate 6 progression.',
   );
   assertCheck(failures, roadmap.includes('V42 should focus on the reliable MVP product experience'), 'Roadmap must preserve V42 reliable MVP product note.');
   assertCheck(failures, roadmap.includes('AI-reading dominant demonstration'), 'Roadmap must preserve AI-reading dominant demonstration note.');

@@ -1241,7 +1241,7 @@
       "sourcePath": ".bitcode/v41-promptpart-prompt-inventory.json",
       "exists": true,
       "legacy": false,
-      "sourceHash": "a1142f915cc318296eeaf221"
+      "sourceHash": "49a887ca2258ef6f797a558d"
     },
     {
       "sourcePath": "packages/agent-generics/src/agents/factories.ts",
@@ -1343,7 +1343,7 @@
       "sourcePath": "packages/pipelines/asset-pack/src/agents/implementation/read-fits-finding-synthesis-asset-pack-synthesis-agent.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "f9680edcb458bbc9f711f685"
+      "sourceHash": "80d7185a2ecedd5d71880a27"
     },
     {
       "sourcePath": "packages/pipelines/asset-pack/src/depository-search.ts",
@@ -1462,7 +1462,7 @@
     "sourceRootPresentCount": 29,
     "missingSourceRoots": [],
     "legacySourceRoots": false,
-    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:4398aef542cfe4aa0628a3f8",
+    "gate2InventoryRoot": "v41-promptpart-prompt-inventory:296926f1c26d370f7e91a70d",
     "gate2PromptPartRowCount": 1459,
     "gate2PromptRowCount": 105,
     "gate2PromptRowsWithRegistryPaths": 87,
@@ -1506,5 +1506,5 @@
   },
   "failures": [],
   "passed": true,
-  "artifactRoot": "v41-registry-interpolation-contract:d48666fa41462ca704afeae1"
+  "artifactRoot": "v41-registry-interpolation-contract:fb4b99ad86f0cf6f4a9c04c4"
 }

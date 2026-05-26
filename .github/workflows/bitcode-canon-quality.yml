@@ -274,6 +274,9 @@ jobs:
               if [ -f scripts/check-v41-gate5-readneed-prompt-hardening.mjs ]; then
                 node scripts/check-v41-gate5-readneed-prompt-hardening.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v41-gate6-readfitsfinding-prompt-hardening.mjs ]; then
+                node scripts/check-v41-gate6-readfitsfinding-prompt-hardening.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

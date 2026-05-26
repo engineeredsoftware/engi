@@ -125,6 +125,18 @@ exact Read Request boundary, source constraints, strict return types,
 review/resynthesis gates, telemetry redaction, PTRR/Failsafe/Thricified
 composition, read-comprehension tool prompt alignment, and Gate 2 through Gate
 4 dependency roots.
+V41 Gate 6 adds `V41ReadFitsFindingPromptHardening` through
+`packages/protocol/src/canonical/v41-readfitsfinding-prompt-hardening.js`,
+`packages/protocol/test/v41-readfitsfinding-prompt-hardening.test.js`,
+`.bitcode/v41-readfitsfinding-prompt-hardening.json`,
+`generate:v41-readfitsfinding-prompt-hardening`,
+`check:v41-readfitsfinding-prompt-hardening`, and `check:v41-gate6`.
+The artifact is source-safe metadata only and currently covers 8
+ReadFitsFindingSynthesis hardening rows with 76 passing predicates across
+accepted-Need integrity, many-candidate Depository search, embeddings and
+provider-ranking policy, selected-fit provenance, AssetPack context synthesis,
+source-safe preview and quote disclosure, post-settlement rights/delivery
+boundaries, telemetry redaction, and Gate 2 through Gate 5 dependency roots.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

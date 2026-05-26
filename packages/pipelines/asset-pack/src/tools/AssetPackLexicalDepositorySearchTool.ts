@@ -12,10 +12,10 @@ const LEXICAL_DEPOSITORY_SEARCH_DOC_CODE_TOOL_PROMPT = {
   format() {
     return [
       'Tool: lexical-depository-search',
-      'Purpose: read back or rerun Bitcode depository Finding Fits discovery for the current Read/Fit pipeline run.',
-      'Inputs: optional read, repositoryFullName, sourceBranch, sourceCommit, queryTerms, assets, or depositoryAssets.',
-      'Output: depository search state, fit deposit ids, query/ranking roots, slim ranking evidence, and fit result evidence.',
-      'Use when a PTRR agent needs to verify the already computed Finding Fits depository result before AssetPack synthesis.',
+      'Purpose: read back or rerun Bitcode Depository Finding Fits discovery for the current ReadFitsFindingSynthesis run.',
+      'Inputs: accepted Read-Need or optional read, repositoryFullName, sourceBranch, sourceCommit, queryTerms, assets, depositoryAssets, candidateAssets, thresholds, and provider search context.',
+      'Output: source-safe search state, many qualifying fit deposit ids, query/ranking/selected-fit provenance roots, embedding policy, slim ranking evidence, and fit result evidence.',
+      'Use when a PTRR agent needs to verify Finding Fits breadth, ranking, and selected-fit provenance before AssetPack synthesis. Do not expose protected deposit source or unpaid AssetPack source through tool output.',
     ].join('\n');
   },
 };

@@ -139,6 +139,9 @@ The artifact may include ids, source hashes, counts, prompt surface ids, parser 
 
 Gate 6 may repartition, retitle, and rewrite ReadFitsFindingSynthesis PromptParts and Prompts after Gate 2 through Gate 4 evidence exists.
 It must improve query synthesis, Depository search breadth, embeddings usage, ranking, selected-fit provenance, AssetPack synthesis context, preview boundaries, quote explanation, and post-settlement delivery posture without exposing unpaid source.
+Gate 6 is closed by the package-backed `buildV41ReadFitsFindingPromptHardening` source, deterministic `.bitcode/v41-readfitsfinding-prompt-hardening.json` artifact, `generate:v41-readfitsfinding-prompt-hardening`, `check:v41-readfitsfinding-prompt-hardening`, `check:v41-gate6`, protocol tests, focused Finding Fits package tests, and gate/canon workflow wiring.
+The current source-safe hardening report covers 8 rows and 76 passing source predicates for AssetPack synthesis PromptPart rewrites, bounded inference prompt context, many-candidate Depository query/ranking/embedding policy, runtime replay telemetry, search tool prompt output boundaries, source-safe preview and quote disclosure, settlement/delivery/rights boundaries, and tests/docs/workflow proof.
+The artifact may include ids, source hashes, counts, prompt surface ids, parser target ids, fixture ids, predicate verdicts, dependency roots, query/ranking/provenance root metadata, and redaction posture, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
 ## V41 Gate 7 Conversation Tool And Interface Prompt Rewrite
 
