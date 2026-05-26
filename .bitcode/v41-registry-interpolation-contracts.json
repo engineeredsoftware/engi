@@ -1241,7 +1241,7 @@
       "sourcePath": ".bitcode/v41-promptpart-prompt-inventory.json",
       "exists": true,
       "legacy": false,
-      "sourceHash": "49a887ca2258ef6f797a558d"
+      "sourceHash": "927738d4b3bdab4f2f9734e7"
     },
     {
       "sourcePath": "packages/agent-generics/src/agents/factories.ts",

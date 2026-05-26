@@ -144,7 +144,7 @@ function main() {
   }
 
   assertCheck(failures, roadmap.includes('Current active canonical pointer: `BITCODE_SPEC.txt` -> `V40`'), 'Roadmap must state V40 active pointer.');
-  assertCheck(failures, /Current working gate: V41 Gate (?:1|2|3|4|5|6)\b/u.test(roadmap), 'Roadmap must state active V41 gate progression.');
+  assertCheck(failures, /Current working gate: V41 Gate (?:1|2|3|4|5|6|7)\b/u.test(roadmap), 'Roadmap must state active V41 gate progression.');
   assertCheck(failures, roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` | active draft target |'), 'Roadmap must list V41 as active draft target.');
   assertCheck(failures, readme.includes('resolves to `V40`; V41 is the active draft target'), 'README must state V40 active / V41 draft posture.');
   assertCheck(failures, protocolReadme.includes('V41 Gate 1') && protocolReadme.includes('V40` active, `V41` draft'), 'Protocol README must document V41 Gate 1 active/draft posture.');

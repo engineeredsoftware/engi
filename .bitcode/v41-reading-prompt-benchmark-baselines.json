@@ -571,7 +571,7 @@
         "promptFamilyIds": [
           "ReadFitsFindingSynthesis"
         ],
-        "promptPartRowCount": 488,
+        "promptPartRowCount": 490,
         "promptRowCount": 47,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
@@ -725,7 +725,7 @@
         "promptFamilyIds": [
           "ReadFitsFindingSynthesis"
         ],
-        "promptPartRowCount": 488,
+        "promptPartRowCount": 490,
         "promptRowCount": 47,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
@@ -877,7 +877,7 @@
         "promptFamilyIds": [
           "ReadFitsFindingSynthesis"
         ],
-        "promptPartRowCount": 488,
+        "promptPartRowCount": 490,
         "promptRowCount": 47,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
@@ -1031,7 +1031,7 @@
         "promptFamilyIds": [
           "ReadFitsFindingSynthesis"
         ],
-        "promptPartRowCount": 488,
+        "promptPartRowCount": 490,
         "promptRowCount": 47,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
@@ -1177,7 +1177,7 @@
         "promptFamilyIds": [
           "ReadFitsFindingSynthesis"
         ],
-        "promptPartRowCount": 488,
+        "promptPartRowCount": 490,
         "promptRowCount": 47,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
@@ -1338,7 +1338,7 @@
           "ReadNeedComprehensionSynthesis",
           "ReadFitsFindingSynthesis"
         ],
-        "promptPartRowCount": 488,
+        "promptPartRowCount": 490,
         "promptRowCount": 49,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
@@ -1497,7 +1497,7 @@
           "ReadNeedComprehensionSynthesis",
           "ReadFitsFindingSynthesis"
         ],
-        "promptPartRowCount": 488,
+        "promptPartRowCount": 490,
         "promptRowCount": 49,
         "benchmarkFixtureIds": [
           "fixture.conversation.terminal-system-boundary",
@@ -2881,7 +2881,7 @@
     "readFitsBaselineRowCount": 7,
     "readNeedInventoryPromptPartRowCount": 63,
     "readNeedInventoryPromptRowCount": 8,
-    "readFitsInventoryPromptPartRowCount": 488,
+    "readFitsInventoryPromptPartRowCount": 490,
     "readFitsInventoryPromptRowCount": 47,
     "baselineScoreMinimum": 1,
     "baselineScoreAverage": 1,

@@ -55,6 +55,15 @@ many-candidate Depository search, embeddings and provider-ranking policy,
 selected-fit provenance, AssetPack context synthesis, source-safe preview and
 quote disclosure, post-settlement rights/delivery boundaries, and redacted
 telemetry with `check:v41-gate6`.
+V41 Gate 7 adds the package-backed
+`buildV41ConversationToolInterfacePromptRewrite` and generated source-safe
+artifact `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`. The
+rewrite report currently covers 9 Conversation/tool/interface rows and 60 source
+predicates for Conversation PTRR PromptParts, Terminal system prompt
+composition, rich execution-log prompt/result disclosure, DocCodeToolPrompt and
+ToolPromptRegistry hierarchy, MCP API/public API schemas, ChatGPT App action
+prompt boundaries, Terminal/public summaries, V38 Conversation/tool parity, and
+Gate 2 through Gate 6 dependency roots with `check:v41-gate7`.
 V42 is now roadmapped as the next MVP experience version: shortest-path
 Depositing with later BTC compensation, shortest-path Reading through
 Need review/resynthesis, Finding Fits, source-safe AssetPack preview,

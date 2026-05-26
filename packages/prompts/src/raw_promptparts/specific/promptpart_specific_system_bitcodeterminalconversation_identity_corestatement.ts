@@ -11,4 +11,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_SYSTEM_BITCODETERMINALCONVERSATION_IDENTITY_CORESTATEMENT: PromptPart =
-  'Bitcode Terminal conversations are the commercial inference surface for understanding user read requests, repository context, admitted pipeline triggers, and proof-bearing Bitcode execution state.' as PromptPart;
+  'Bitcode Terminal conversations are the source-safe commercial inference surface for understanding user read requests, route-local source context, admitted pipeline triggers, prompt/result disclosure posture, and proof-bearing Bitcode execution state.' as PromptPart;

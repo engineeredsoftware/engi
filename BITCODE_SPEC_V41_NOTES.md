@@ -83,6 +83,7 @@ The artifact binds both Reading pipelines, all five Reading UX steps, Gate 2 pro
 Bitcode is active at V40.
 V41 now drafts the next canon: every PromptPart and composed Prompt must become catalogue-visible, benchmarkable, registry-bound, interpolation-checked, parser-typed, and source-safe.
 The first priority is Reading through `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`; Conversation, tool-definition, and interface prompts follow with the same discipline.
+Gate 7 currently applies that discipline to Conversation, tool-definition, MCP API, ChatGPT App, public API, Terminal, and other interface prompts with source-safe rows for route authority, source selection, rich stream-log disclosure, tool schemas, parsed return types, and no protected prompt/source/settlement/wallet/unpaid AssetPack payload serialization.
 
 ## Simplified-spec reading rule
 
