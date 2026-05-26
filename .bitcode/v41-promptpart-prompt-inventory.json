@@ -13352,7 +13352,7 @@
       "rowRoot": "v41-prompt-inventory-row:69cd94133b96a279f631cbe7",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_plan_strategy.ts",
-      "sourceHash": "9daac6e3684949a9bbf08af4",
+      "sourceHash": "647f0673a2f5e203a14d8d09",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_PLAN_STRATEGY"
       ],
@@ -13428,7 +13428,7 @@
       "rowRoot": "v41-prompt-inventory-row:24b890a3f81da9533becbd70",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_refine_optimization.ts",
-      "sourceHash": "c62b51c77222dedd2fd719c2",
+      "sourceHash": "289f59645fd696d9dfeb0697",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_REFINE_OPTIMIZATION"
       ],
@@ -13504,7 +13504,7 @@
       "rowRoot": "v41-prompt-inventory-row:bf86a608fe6dfc8eeb8b34cf",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_retry_strategy.ts",
-      "sourceHash": "2bfc57ef6882d0bff23a1cfa",
+      "sourceHash": "11855e7a874e55f17cabe176",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_RETRY_STRATEGY"
       ],
@@ -13583,7 +13583,7 @@
       "rowRoot": "v41-prompt-inventory-row:cc5d11c4b233afd6f7129479",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_system_instructions.ts",
-      "sourceHash": "169078b8ae3849d212f9934e",
+      "sourceHash": "84e4939b3446dcda67d6e489",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_SYSTEM_INSTRUCTIONS"
       ],
@@ -13659,7 +13659,7 @@
       "rowRoot": "v41-prompt-inventory-row:6945e29247d03c1ffcda01ce",
       "kind": "PromptPart",
       "sourcePath": "packages/prompts/src/raw_promptparts/specific/promptpart_specific_agent_comprehendread_try_directives.ts",
-      "sourceHash": "ef49d20d7c91a2f01632e6c2",
+      "sourceHash": "cf2eab4599a557f0fc4b3e24",
       "exportNames": [
         "PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_TRY_DIRECTIVES"
       ],

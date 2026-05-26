@@ -51,6 +51,8 @@ It binds Gate 2 PromptPart/Prompt inventory, Gate 3 registry/interpolation contr
 ### Gate 5: ReadNeedComprehensionSynthesis Prompt Rewrite And Return-Type Hardening
 
 Rewrite and repartition ReadNeed prompts only after evidence proves the rewrite improves exact Need comprehension and typed output reliability.
+Gate 5 is package-backed by `buildV41ReadNeedPromptHardening`, emits `.bitcode/v41-readneed-prompt-hardening.json`, and covers 7 source-safe hardening rows with 63 passing predicates across exact Read Request boundary, source constraints, strict typed return parsing, review/resynthesis admission, telemetry redaction, PTRR/Failsafe/Thricified composition, and read-comprehension tool prompt alignment.
+It binds Gate 2 PromptPart/Prompt inventory, Gate 3 registry/interpolation contracts, Gate 4 Reading prompt benchmark baselines, focused ReadNeed tests, and workflow checks without serializing raw prompt text, interpolated prompts, provider responses, protected source, private context, credentials, or unpaid AssetPack source.
 
 ### Gate 6: ReadFitsFindingSynthesis Prompt Rewrite Search And AssetPack Context Hardening
 

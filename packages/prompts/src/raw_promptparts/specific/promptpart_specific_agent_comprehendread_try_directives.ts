@@ -4,7 +4,7 @@ import { PromptPart } from '../../parts/PromptPart';
  * @doc-comment-developing-promptpartdevelopment
  * domain: agent
  * intent: "Define TRY step execution for Comprehend Read agent"
- * current_version: "V26"
+ * current_version: "V41"
  * versions: []
  * benchmarks: [
  *   { "name": "bitcode_read_alignment", "test": "Does it center expressed read and asset-pack semantics? Rate 0-1", "score": 0.96 },
@@ -12,4 +12,4 @@ import { PromptPart } from '../../parts/PromptPart';
  * ]
  */
 export const PROMPTPART_SPECIFIC_AGENT_COMPREHENDREAD_TRY_DIRECTIVES: PromptPart =
-  'Execute read comprehension through: entity and intent extraction, written-asset classification, constraint mapping, acceptance-criteria formulation, delivery-mechanism separation, dependency identification, ambiguity scoring, appropriate tool calls, and structured Read-model generation.' as PromptPart;
+  'Execute Read-Need synthesis by returning only schema-valid requirements, closureCriteria, failureModes, targetArtifactKinds, and proofExpectations that are grounded in the Read Request and source constraints; preserve repository, branch, commit, feedback, and protected-source boundaries; do not search deposits, rank fits, preview AssetPack source, quote final BTC payment, or claim BTD ownership transfer.' as PromptPart;

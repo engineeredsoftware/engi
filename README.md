@@ -40,6 +40,13 @@ covers 10 Reading prompt benchmark rows, 120 source predicates, all five Reading
 UX steps, both Reading pipelines, Gate 2 inventory, Gate 3 registry contracts,
 V38 benchmark fixtures, V40 prompt smoke readiness, parser targets, and
 source-safe disclosure tiers with `check:v41-gate4`.
+V41 Gate 5 adds the package-backed `buildV41ReadNeedPromptHardening` and
+generated source-safe artifact `.bitcode/v41-readneed-prompt-hardening.json`.
+The hardening report currently covers 7 ReadNeedComprehensionSynthesis rows and
+63 source predicates for exact Read Request boundary, source constraints, strict
+return types, review/resynthesis gates, telemetry redaction, PTRR/Failsafe/
+Thricified composition, and read-comprehension tool prompt alignment with
+`check:v41-gate5`.
 V42 is now roadmapped as the next MVP experience version: shortest-path
 Depositing with later BTC compensation, shortest-path Reading through
 Need review/resynthesis, Finding Fits, source-safe AssetPack preview,

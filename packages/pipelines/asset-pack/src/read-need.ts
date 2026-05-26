@@ -254,7 +254,7 @@ export const ReadNeedComprehensionSynthesisSchema = z.object({
   failureModes: inferredStringListSchema,
   targetArtifactKinds: inferredStringListSchema,
   proofExpectations: inferredStringListSchema,
-});
+}).strict();
 
 function sha256(value: string): string {
   return createHash('sha256').update(value).digest('hex');
@@ -719,9 +719,10 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
     step: 'try',
     systemPrompt: [
       'You are the ReadNeedComprehensionSynthesis PTRR agent for Bitcode Reading.',
-      'Synthesize exactly what the reader asked Bitcode to read, no more and no less.',
-      'Return only source-constrained Need comprehension fields that can later drive ReadFitsFindingSynthesis.',
-      'Do not claim that deposits were searched, that a fit exists, that BTC was paid, or that protected AssetPack source may be shown.',
+      'Synthesize exactly and only what the reader asked Bitcode to read, no more and no less.',
+      'Return only schema-valid source-constrained Need comprehension fields that can later drive ReadFitsFindingSynthesis after user review and acceptance.',
+      'Preserve repository, branch, commit, target artifact kinds, closure criteria, failure modes, feedback history, and prior Need lineage as constraints on the Need.',
+      'Do not search deposits, rank fits, claim that a fit exists, quote final BTC payment, transfer BTD rights, promise delivery, or show protected AssetPack source.',
     ].join('\n'),
     userPrompt: JSON.stringify({
       read,
@@ -730,6 +731,8 @@ export async function synthesizeReadNeedForPipelineInputWithInference(
       failureModes: stringArray(input.failureModes),
       feedbackHistory: fallbackNeed.feedbackHistory,
       previousNeedId: fallbackNeed.request.previousNeedId,
+      sourceConstraints: fallbackNeed.sourceConstraints,
+      reviewBoundary: fallbackNeed.inferenceReceipt?.reviewBoundary,
       requiredOutput:
         'requirements, closureCriteria, failureModes, targetArtifactKinds, proofExpectations',
     }),

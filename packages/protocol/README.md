@@ -103,6 +103,28 @@ composition, FailsafeGenerationSequence context handling, ThricifiedGeneration
 final prompt resolution, execution ancestry overlays, tool doc-code prompt
 injection, Reading parser targets, Finding Fits search contracts, AssetPack
 synthesis/finishing parser targets, and Gate 2 inventory binding.
+V41 Gate 4 adds `V41ReadingPromptBenchmarkBaselines` through
+`packages/protocol/src/canonical/v41-reading-prompt-benchmark-baselines.js`,
+`packages/protocol/test/v41-reading-prompt-benchmark-baselines.test.js`,
+`.bitcode/v41-reading-prompt-benchmark-baselines.json`,
+`generate:v41-reading-prompt-benchmark-baselines`,
+`check:v41-reading-prompt-benchmark-baselines`, and `check:v41-gate4`.
+The artifact is source-safe metadata only and currently covers 10 Reading
+baseline rows with 120 passing predicates across both Reading pipelines, all
+five Reading UX steps, parser targets, fixtures, source-safe scores, and
+pre-rewrite disclosure tiers.
+V41 Gate 5 adds `V41ReadNeedPromptHardening` through
+`packages/protocol/src/canonical/v41-readneed-prompt-hardening.js`,
+`packages/protocol/test/v41-readneed-prompt-hardening.test.js`,
+`.bitcode/v41-readneed-prompt-hardening.json`,
+`generate:v41-readneed-prompt-hardening`,
+`check:v41-readneed-prompt-hardening`, and `check:v41-gate5`.
+The artifact is source-safe metadata only and currently covers 7
+ReadNeedComprehensionSynthesis hardening rows with 63 passing predicates across
+exact Read Request boundary, source constraints, strict return types,
+review/resynthesis gates, telemetry redaction, PTRR/Failsafe/Thricified
+composition, read-comprehension tool prompt alignment, and Gate 2 through Gate
+4 dependency roots.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

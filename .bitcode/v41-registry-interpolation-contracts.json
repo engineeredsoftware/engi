@@ -1241,7 +1241,7 @@
       "sourcePath": ".bitcode/v41-promptpart-prompt-inventory.json",
       "exists": true,
       "legacy": false,
-      "sourceHash": "224c6859f978d2510acb5099"
+      "sourceHash": "a1142f915cc318296eeaf221"
     },
     {
       "sourcePath": "packages/agent-generics/src/agents/factories.ts",
@@ -1367,7 +1367,7 @@
       "sourcePath": "packages/pipelines/asset-pack/src/read-need.ts",
       "exists": true,
       "legacy": false,
-      "sourceHash": "e08e0b3a595588ddccc6890a"
+      "sourceHash": "eeb93c86b190cd11b3e0c059"
     },
     {
       "sourcePath": "packages/prompts/src/execution/PromptExecution.ts",
