@@ -55,6 +55,7 @@ Current exported commercial helpers include:
 - `V39AssetPackPreviewQuoteBoundary` helpers for V39 source-safe AssetPack preview, deterministic share-to-fee BTC quote, disclosure leak scanning, settlement instructions, delivery lock, replay receipt, and repair posture proof;
 - `V39InterfaceConversationProductParity` helpers for V39 source-safe Terminal, Conversation, public API, MCP API, ChatGPT App, and package-consumer Reading parity with no parallel authority or delivery bypass;
 - `V39CommercialReadingPromotionReadinessReport` helpers for V39 source-safe commercial Reading promotion readiness across all V39 Reading artifacts, generated proof support, workflow posture, promotion dry-run support, and active V39 / draft V40 runtime preparation;
+- `V41PromptPartPromptInventory` helpers for V41 source-safe raw PromptPart and composed Prompt catalogue rows, registry owners, prompt families, template variables, benchmark fixture ids, validation commands, and V42 MVP roadmap posture;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -76,6 +77,17 @@ specification family: every raw PromptPart, composed Prompt, registry binding,
 interpolation contract, inference callsite, benchmark fixture, parsed return
 type, and source-safe telemetry projection must become enumerable before later
 V41 gates rewrite Reading, Conversation, tool-definition, or interface prompts.
+V41 Gate 2 adds `V41PromptPartPromptInventory` through
+`packages/protocol/src/canonical/v41-promptpart-prompt-inventory.js`,
+`packages/protocol/test/v41-promptpart-prompt-inventory.test.js`,
+`.bitcode/v41-promptpart-prompt-inventory.json`,
+`generate:v41-prompt-inventory`, `check:v41-prompt-inventory`, and
+`check:v41-gate2`.
+The artifact is source-safe metadata only and currently catalogues 1,459 raw
+PromptPart rows plus 105 composed Prompt rows before any V41 prompt rewrite is
+admitted.
+It also records V42's planned MVP experience focus: shortest-path Depositing,
+shortest-path Reading, and the AI-reading dominant demonstration.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

@@ -108,6 +108,9 @@ It closes when active V40 / draft V41 truth is visible in the root docs, protoco
 Gate 2 must emit a source-safe inventory of every raw PromptPart and every composed Prompt.
 Rows must include prompt id, part id, source root, registry owner, semantic purpose, prompt family, composed prompt membership, current title, template variable names, benchmark fixture ids, disclosure tier, and validation command.
 The artifact may include ids, hashes, counts, and source-safe previews, but no raw protected prompt text.
+Gate 2 is closed by the package-backed `buildV41PromptPartPromptInventory` source, deterministic `.bitcode/v41-promptpart-prompt-inventory.json` artifact, `generate:v41-prompt-inventory`, `check:v41-prompt-inventory`, `check:v41-gate2`, protocol tests, and gate/canon workflow wiring.
+The current inventory source-safe count contract is 1,459 raw PromptPart rows, 105 composed Prompt rows, 59 generic PromptPart rows, 1,400 specific PromptPart rows, 49 Reading prompt rows, 2 Conversation prompt rows, 74 tool prompt rows, 10 interface prompt rows, 87 prompt rows with registry paths, 1,135 registry paths, 8 benchmark fixture families, V38 benchmark report binding, and V40 prompt benchmark smoke binding.
+Gate 2 also preserves V41 scope and prepares draft V42 only as forward roadmap truth: V42 will focus on shortest-path Depositing, shortest-path Reading, and an AI-reading dominant demonstration MVP.
 
 ## V41 Gate 3 Registry Composition And Interpolation Contracts
 
@@ -445,6 +448,7 @@ Generation must fail closed when artifact freshness, source-safety, benchmark co
 ### Appendix D. Validation and checking gate catalog
 
 V41 Gate 1 validates with `pnpm run check:v41-gate1`, `node scripts/check-bitcode-spec-family.mjs --version V41 --mode draft --current-target V40`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41`, and `node scripts/check-bitcode-canonical-inputs.mjs --current-target V40`.
+V41 Gate 2 validates with `pnpm run generate:v41-prompt-inventory`, `pnpm run check:v41-prompt-inventory`, `pnpm run check:v41-gate2`, and `node --test --test-force-exit packages/protocol/test/v41-promptpart-prompt-inventory.test.js`.
 Later gates add focused generator, checker, package, benchmark, and workflow commands.
 
 ## V41 promotion canon
