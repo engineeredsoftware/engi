@@ -258,7 +258,8 @@ function main() {
     failures,
     roadmap.includes('Next queued gate after V41 Gate 6: V41 Conversation Tool And Interface Prompt Rewrite.') ||
       roadmap.includes('Next queued gate after V41 Gate 7: V41 Prompt Benchmark Report And Telemetry Integration.') ||
-      roadmap.includes('Next queued gate after V41 Gate 8: V41 Promotion Readiness.'),
+      roadmap.includes('Next queued gate after V41 Gate 8: V41 Promotion Readiness.') ||
+      roadmap.includes('V41 Gate 9 closure anchor'),
     'Roadmap must name V41 Gate 7, Gate 8, or Gate 9 as next.',
   );
   assertCheck(failures, roadmap.includes('V41 Gate 6 closure anchor'), 'Roadmap must preserve V41 Gate 6 closure anchor.');

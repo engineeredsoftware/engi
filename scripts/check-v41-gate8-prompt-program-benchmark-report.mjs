@@ -281,8 +281,8 @@ function main() {
   assertCheck(failures, packageJson.includes('check:v41-gate8'), 'package.json must expose check:v41-gate8.');
 
   const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
-  assertCheck(failures, roadmap.includes('Current working gate: V41 Gate 8'), 'Roadmap must name V41 Gate 8 as current working gate.');
-  assertCheck(failures, roadmap.includes('Next queued gate after V41 Gate 8: V41 Promotion Readiness.'), 'Roadmap must name V41 Gate 9 as next.');
+  assertCheck(failures, /Current working gate: V41 Gate (?:8|9)\b/u.test(roadmap), 'Roadmap must name V41 Gate 8 or later V41 gate progression.');
+  assertCheck(failures, roadmap.includes('V41 Gate 9 closure anchor'), 'Roadmap must carry V41 Gate 9 closure anchor after Gate 8.');
   assertCheck(failures, roadmap.includes('V41 Gate 8 closure anchor'), 'Roadmap must preserve V41 Gate 8 closure anchor.');
   assertCheck(failures, roadmap.includes('V43+ agentic depositing'), 'Roadmap must preserve V43+ agentic depositing note.');
 

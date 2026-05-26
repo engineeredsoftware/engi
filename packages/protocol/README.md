@@ -58,6 +58,7 @@ Current exported commercial helpers include:
 - `V41PromptPartPromptInventory` helpers for V41 source-safe raw PromptPart and composed Prompt catalogue rows, registry owners, prompt families, template variables, benchmark fixture ids, validation commands, and V42 MVP roadmap posture;
 - `V41RegistryInterpolationContracts` helpers for V41 source-safe registry composition, interpolation key, execution ancestry, tool prompt injection, context handling, and parser target contracts;
 - `V41ReadingPromptBenchmarkBaselines` helpers for V41 source-safe Reading prompt baseline rows across `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, all five Reading UX steps, V38 benchmark fixtures, Gate 2 inventory roots, Gate 3 registry/interpolation roots, parser targets, deterministic scores, and source-safe disclosure tiers;
+- `V41PromotionReadinessReport` helpers for V41 source-safe prompt-program promotion readiness across all V41 prompt artifacts, generated proof support, workflow posture, promotion dry-run support, and active V41 / draft V42 runtime preparation;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -162,6 +163,19 @@ Conversation/tool/interface deltas, prompt registry lineage, Failsafe and
 ThricifiedGeneration receipts, parsed-output schema verdicts, rich stream
 telemetry, repair hooks, and V38/V39/V40 plus V41 Gate 2 through Gate 7
 dependency roots.
+V41 Gate 9 adds `V41PromotionReadinessReport` through
+`packages/protocol/src/canonical/v41-promotion-readiness-report.js`,
+`packages/protocol/test/v41-promotion-readiness.test.js`,
+`.bitcode/v41-promotion-readiness-report.json`,
+`generate:v41-promotion-readiness`, `check:v41-promotion-readiness`, and
+`check:v41-gate9`.
+The report closes promotion readiness for the `V41` active, `V42` draft posture
+by binding all V41 prompt-program artifacts, `BITCODE_SPEC_V41_PROVEN.md`,
+`v41-canon-promotion.yml`, gate/canon workflow support, promotion scripts,
+runtime canon rewriting, dry-run promotion, source-safety, and value-bearing
+mainnet blocking without serializing raw prompts, provider responses, protected
+source, credentials, private settlement payloads, wallet material, or unpaid
+AssetPack source.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

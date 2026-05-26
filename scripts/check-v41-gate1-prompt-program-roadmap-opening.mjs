@@ -138,7 +138,7 @@ function main() {
     'Gate 6: ReadFitsFindingSynthesis Prompt Rewrite Search And AssetPack Context Hardening',
     'Gate 7: Conversation Tool And Interface Prompt Rewrite',
     'Gate 8: Prompt Benchmark Report And Telemetry Integration',
-    'Gate 9: Promotion Readiness'
+    'Gate 9: V41 Promotion Readiness'
   ]) {
     assertCheck(failures, spec.includes(gate) || delta.includes(gate), `V41 gate plan is missing ${gate}.`);
   }

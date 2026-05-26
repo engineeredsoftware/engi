@@ -467,6 +467,18 @@ function buildV21LikeProfile(version) {
           '.bitcode/v40-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V41'
+        ? [
+          '.bitcode/v41-promptpart-prompt-inventory.json',
+          '.bitcode/v41-registry-interpolation-contracts.json',
+          '.bitcode/v41-reading-prompt-benchmark-baselines.json',
+          '.bitcode/v41-readneed-prompt-hardening.json',
+          '.bitcode/v41-readfitsfinding-prompt-hardening.json',
+          '.bitcode/v41-conversation-tool-interface-prompt-rewrite.json',
+          '.bitcode/v41-prompt-program-benchmark-report.json',
+          '.bitcode/v41-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',

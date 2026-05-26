@@ -831,8 +831,8 @@ function buildPredicateResults(repoRoot, context) {
       'gate8-tests-docs-workflows',
       SOURCE_ROOTS.roadmap,
       roadmap.includes('V41 Gate 8 closure anchor')
-        && roadmap.includes('Current working gate: V41 Gate 8')
-        && roadmap.includes('Next queued gate after V41 Gate 8'),
+        && /Current working gate: V41 Gate (?:8|9)/u.test(roadmap)
+        && (roadmap.includes('Next queued gate after V41 Gate 8') || roadmap.includes('V41 Gate 9 closure anchor')),
     ),
     predicate(
       'readmes-document-gate8-helpers',

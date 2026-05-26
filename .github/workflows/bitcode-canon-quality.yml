@@ -283,7 +283,15 @@ jobs:
               if [ -f scripts/check-v41-gate8-prompt-program-benchmark-report.mjs ]; then
                 node scripts/check-v41-gate8-prompt-program-benchmark-report.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v41-gate9-promotion-readiness.mjs ]; then
+                node scripts/check-v41-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+              fi
             fi
+          elif [ "$POINTER" = "V41" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V41 --mode promoted --current-target V41
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V41
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V41 --draft-target V42
+            node scripts/check-v41-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1

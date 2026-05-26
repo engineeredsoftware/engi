@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V41`
-- V41 state: draft opened; V41 parity begins with prompt-program specification and workflow posture
+- V41 state: Gate 9 promotion readiness implemented; V41 parity covers prompt-program specification through promotion readiness
 - Current canonical/latest target: `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, planned rewrite artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: Gate 1 closes spec, roadmap, docs, package script, workflow posture, and checker parity; Gate 2 closes source-safe prompt inventory parity; Gate 3 closes source-safe registry/interpolation contract parity; Gate 4 closes source-safe Reading benchmark baseline parity; later gates own rewrite, benchmark, telemetry, and promotion parity
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, Gate 9 `.bitcode/v41-promotion-readiness-report.json`, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: Gate 1 through Gate 9 close spec, roadmap, docs, package scripts, workflow posture, prompt inventory, registry/interpolation contracts, benchmark baselines, prompt rewrites, benchmark telemetry, and promotion-readiness parity
 - Scope: V41 draft parity ledger for Prompt and PromptPart excellence
 - Last fully realized canonical target preserved in source: `V40`
 
@@ -32,8 +32,8 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | --- | --- | --- | --- |
 | Draft family | V41 SPEC, DELTA, NOTES, and PARITY files exist over active V40 | `BITCODE_SPEC_V41.md` family | drafted |
 | Roadmap truth | Roadmap states V40 active, V41 draft, prompt-program Gate 1 active | `SPECIFICATIONS_ROADMAP.md` | drafted |
-| Gate workflow | Gate quality knows active V40 and draft V41 Gate 1 | `.github/workflows/bitcode-gate-quality.yml` | drafted |
-| Canon workflow | Canon quality knows active V40 and draft V41 Gate 1 | `.github/workflows/bitcode-canon-quality.yml` | drafted |
+| Gate workflow | Gate quality knows active V40 / draft V41 and promoted V41 / draft V42 posture | `.github/workflows/bitcode-gate-quality.yml` | implemented |
+| Canon workflow | Canon quality knows active V40 / draft V41 and promoted V41 / draft V42 posture | `.github/workflows/bitcode-canon-quality.yml` | implemented |
 | Prompt inventory | Every raw PromptPart and composed Prompt catalogued | `.bitcode/v41-promptpart-prompt-inventory.json` | implemented |
 | Registry/interpolation | Registry composition and interpolation contracts proven | `.bitcode/v41-registry-interpolation-contracts.json` | implemented |
 | Reading baselines | Reading prompt benchmarks captured before rewrites | `.bitcode/v41-reading-prompt-benchmark-baselines.json` | implemented |
@@ -41,7 +41,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | `.bitcode/v41-readfitsfinding-prompt-hardening.json` | implemented |
 | Conversation/tool/interface rewrite | Non-Reading prompt surfaces brought to same standard | `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json` | implemented |
 | Benchmark and telemetry | Prompt benchmark deltas and telemetry projections source-safe | `.bitcode/v41-prompt-program-benchmark-report.json` | implemented |
-| Promotion readiness | V41 prompt-program proof and workflow promotion ready | planned V41 Gate 9 artifact | pending |
+| Promotion readiness | V41 prompt-program proof and workflow promotion ready | `.bitcode/v41-promotion-readiness-report.json` | implemented |
 
 ## V41 implementation checklist
 
@@ -55,7 +55,17 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Gate 6 | ReadFitsFindingSynthesis rewrite artifact | implemented |
 | Gate 7 | Conversation, tool, and interface prompt rewrite artifact | implemented |
 | Gate 8 | Prompt benchmark report and telemetry artifact | implemented |
-| Gate 9 | Promotion readiness artifact and workflow | pending |
+| Gate 9 | Promotion readiness artifact and workflow | closed |
+
+## Gate 9 Promotion readiness parity
+
+| Area | Required V41 result | Source evidence | Judgment |
+| --- | --- | --- | --- |
+| Promotion artifact | Source-safe V41 prompt-program promotion report generated | `.bitcode/v41-promotion-readiness-report.json` | closed |
+| Promotion workflow | Version branch PR into `main` validates and promotes V41 only after checks pass | `.github/workflows/v41-canon-promotion.yml` | closed |
+| Promotion scripts | Canon promotion, spec-family promotion, runtime posture, and proven generation support V41 | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `packages/protocol/src/canonical/proven-generator.js` | closed |
+| Post-promotion posture | Promotion rewrites runtime state to V41 active / draft V42 | `scripts/prepare-bitcode-runtime-canon-promotion.mjs` | closed |
+| Disclosure boundary | Promotion report and generated proof use source-safe metadata only | `check:v41-gate9` | closed |
 
 ## V41 accepted boundaries
 

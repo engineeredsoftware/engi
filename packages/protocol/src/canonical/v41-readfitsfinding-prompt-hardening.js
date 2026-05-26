@@ -584,7 +584,8 @@ function predicatesForRow(repoRoot, rowData) {
         'docs.next-gate-7',
         rowId,
         SOURCE_ROOTS.roadmap,
-        /Next queued gate after V41 Gate (?:6|7|8): V41 (?:Conversation Tool And Interface Prompt Rewrite|Prompt Benchmark Report And Telemetry Integration|Promotion Readiness)/u.test(source),
+        /Next queued gate after V41 Gate (?:6|7|8): V41 (?:Conversation Tool And Interface Prompt Rewrite|Prompt Benchmark Report And Telemetry Integration|Promotion Readiness)/u.test(source)
+          || /V41 Gate 9 closure anchor/u.test(source),
       ),
       predicate('docs.gate6-closure-anchor', rowId, SOURCE_ROOTS.roadmap, /V41 Gate 6 closure anchor/u.test(source)),
       predicate('parity.finding-fits-implemented', rowId, SOURCE_ROOTS.parity, /Finding Fits rewrite.+implemented/us.test(source)),
