@@ -8,7 +8,7 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, planned rewrite artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
 - Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, and promotion parity over active V40
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
@@ -38,6 +38,12 @@ V42 must keep depositor compensation, reader purchase, BTD/AssetPack rights, and
 Gate 3 makes the prompt registry call chain source-checkable before prompt rewrites.
 The package-backed contract currently emits 12 rows and 65 source predicates for Prompt registry totality, TemplatedPromptPart interpolation, PTRR agent and step prompt composition, FailsafeGenerationSequence context handling, ThricifiedGeneration final prompt resolution, execution ancestry overlays, tool doc-code prompt injection, Reading parser targets, Finding Fits search and embedding contracts, AssetPack synthesis and finishing parser targets, and Gate 2 inventory binding.
 The artifact records ids, source paths, hashes, predicate verdicts, parser target ids, interpolation key ids, and ancestry frame ids only; it does not serialize raw prompt text, provider responses, private context, credentials, or unpaid AssetPack source.
+
+## Gate 4 Reading benchmark baseline note
+
+Gate 4 makes Reading prompt quality source-checkable before prompt rewrites.
+The package-backed baseline currently emits 10 rows and 120 source predicates for Read Request-to-Need synthesis, Need review/resynthesis, Need measurement and quote posture, Finding Fits query synthesis, many-candidate ranking, AssetPack synthesis context, source-safe AssetPack preview, settlement/rights/delivery, telemetry summaries, and failure/repair prompts.
+The artifact binds both Reading pipelines, all five Reading UX steps, Gate 2 prompt inventory, Gate 3 registry/interpolation contracts, V38 benchmark fixtures, V40 prompt smoke readiness, parser target ids, and source-safe score metadata only; it does not serialize raw prompt text, interpolated prompts, provider responses, private context, protected source, credentials, or unpaid AssetPack source.
 
 ## Concise current-system reading
 

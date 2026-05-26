@@ -272,7 +272,7 @@ function main() {
   assertCheck(failures, packageJson.includes('check:v41-gate3'), 'package.json must expose check:v41-gate3.');
 
   const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
-  assertCheck(failures, roadmap.includes('Current working gate: V41 Gate 3'), 'Roadmap must name V41 Gate 3 as current working gate.');
+  assertCheck(failures, /Current working gate: V41 Gate (?:3|4|5|6|7|8|9)\b/u.test(roadmap), 'Roadmap must name V41 Gate 3 or later as current working gate.');
   assertCheck(failures, roadmap.includes('V42 should focus on the reliable MVP product experience'), 'Roadmap must preserve V42 reliable MVP product note.');
   assertCheck(failures, roadmap.includes('AI-reading dominant demonstration'), 'Roadmap must preserve AI-reading dominant demonstration note.');
 

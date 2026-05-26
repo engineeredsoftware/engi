@@ -33,6 +33,13 @@ agent/step composition, Failsafe and Thricified prompt resolution, execution
 ancestry overlays, tool doc-code prompt injection, Reading parser targets,
 Finding Fits search contracts, AssetPack synthesis/finishing parser targets,
 and Gate 2 inventory binding with `check:v41-gate3`.
+V41 Gate 4 adds the package-backed `buildV41ReadingPromptBenchmarkBaselines`
+and generated source-safe artifact
+`.bitcode/v41-reading-prompt-benchmark-baselines.json`. The baseline currently
+covers 10 Reading prompt benchmark rows, 120 source predicates, all five Reading
+UX steps, both Reading pipelines, Gate 2 inventory, Gate 3 registry contracts,
+V38 benchmark fixtures, V40 prompt smoke readiness, parser targets, and
+source-safe disclosure tiers with `check:v41-gate4`.
 V42 is now roadmapped as the next MVP experience version: shortest-path
 Depositing with later BTC compensation, shortest-path Reading through
 Need review/resynthesis, Finding Fits, source-safe AssetPack preview,

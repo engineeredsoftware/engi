@@ -123,6 +123,9 @@ The current source-safe contract covers 12 rows, 65 passing source predicates, P
 
 Gate 4 must establish benchmark baselines for Reading prompt surfaces before rewrites.
 It covers `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, Need review, Finding Fits, depository query synthesis, many-candidate ranking, AssetPack preview, quote explanation, telemetry summaries, and failure/repair prompts.
+Gate 4 is closed by the package-backed `buildV41ReadingPromptBenchmarkBaselines` source, deterministic `.bitcode/v41-reading-prompt-benchmark-baselines.json` artifact, `generate:v41-reading-prompt-benchmark-baselines`, `check:v41-reading-prompt-benchmark-baselines`, `check:v41-gate4`, protocol tests, and gate/canon workflow wiring.
+The current source-safe baseline covers 10 rows, 120 passing source predicates, all five Reading UX steps, both Reading pipeline ids, Gate 2 PromptPart/Prompt inventory roots, Gate 3 registry/interpolation roots, V38 benchmark fixture roots, V40 prompt smoke roots, 36 parser target ids, 9 registry contract ids, deterministic baseline scores, and source-safe disclosure tiers.
+The artifact may include ids, hashes, counts, fixture ids, metric ids, parser target ids, baseline scores, source path roots, and verdicts, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, or unpaid AssetPack source.
 
 ## V41 Gate 5 ReadNeedComprehensionSynthesis Prompt Rewrite And Return-Type Hardening
 
