@@ -3,14 +3,15 @@
 ## Status
 
 - Version: `V41`
-- V41 state: Gate 9 promotion readiness implemented; V41 parity covers prompt-program specification through promotion readiness
-- Current canonical/latest target: `V40`
+- V41 state: canonical promotion complete; V41 parity truth, generated prompt-program artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V41`
+- Canonical proof-source commit: `70be3860a54ff3dd3da5c0cac2c5b854a12910e1`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, Gate 9 `.bitcode/v41-promotion-readiness-report.json`, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: Gate 1 through Gate 9 close spec, roadmap, docs, package scripts, workflow posture, prompt inventory, registry/interpolation contracts, benchmark baselines, prompt rewrites, benchmark telemetry, and promotion-readiness parity
-- Scope: V41 draft parity ledger for Prompt and PromptPart excellence
-- Last fully realized canonical target preserved in source: `V40`
+- Generated structured artifact inventory: active canonical `.bitcode/v41-spec-family-report.json`, `.bitcode/v41-canonical-input-report.json`, `.bitcode/v41-canon-posture-drift-report.json`, `.bitcode/v41-promptpart-prompt-inventory.json`, `.bitcode/v41-registry-interpolation-contracts.json`, `.bitcode/v41-reading-prompt-benchmark-baselines.json`, `.bitcode/v41-readneed-prompt-hardening.json`, `.bitcode/v41-readfitsfinding-prompt-hardening.json`, `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, `.bitcode/v41-prompt-program-benchmark-report.json`, `.bitcode/v41-promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
+- Source parity state: V41 source-side PromptPart and Prompt inventory, registry interpolation contracts, Reading baselines, ReadNeedComprehensionSynthesis prompt hardening, ReadFitsFindingSynthesis prompt hardening, Conversation/tool/interface prompt rewrite, prompt benchmark telemetry report, workflow, and promotion surfaces are canonicalized in the promoted V41 file family
+- Scope: V41 canonical parity ledger for prompt-program excellence over promoted V40 exhaustive commercial application testing canon
+- Last fully realized canonical target preserved in source: `V41`
 
 ## Purpose
 
@@ -30,8 +31,8 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 
 | Area | Required V41 result | Source evidence | Judgment |
 | --- | --- | --- | --- |
-| Draft family | V41 SPEC, DELTA, NOTES, and PARITY files exist over active V40 | `BITCODE_SPEC_V41.md` family | drafted |
-| Roadmap truth | Roadmap states V40 active, V41 draft, prompt-program Gate 1 active | `SPECIFICATIONS_ROADMAP.md` | drafted |
+| Draft family | V41 SPEC, DELTA, NOTES, and PARITY files exist over active V40 | `BITCODE_SPEC_V41.md` family | closed |
+| Roadmap truth | Roadmap states V40 active, V41 draft, prompt-program Gate 1 active | `SPECIFICATIONS_ROADMAP.md` | closed |
 | Gate workflow | Gate quality knows active V40 / draft V41 and promoted V41 / draft V42 posture | `.github/workflows/bitcode-gate-quality.yml` | implemented |
 | Canon workflow | Canon quality knows active V40 / draft V41 and promoted V41 / draft V42 posture | `.github/workflows/bitcode-canon-quality.yml` | implemented |
 | Prompt inventory | Every raw PromptPart and composed Prompt catalogued | `.bitcode/v41-promptpart-prompt-inventory.json` | implemented |

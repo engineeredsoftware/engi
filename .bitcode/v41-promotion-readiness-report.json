@@ -1,9 +1,10 @@
 {
+  "reportId": "v41-promotion-readiness-report",
   "artifactId": "v41-promotion-readiness-report",
   "schemaId": "bitcode.v41.promotionReadinessReport.v1",
   "version": "V41",
   "currentTarget": "V40",
-  "generatedAt": "2026-05-25T00:00:00.000Z",
+  "generatedAt": "2026-05-26T15:32:33-03:00",
   "sourceSafetyVerdict": "source-safe-prompt-program-promotion-readiness-metadata",
   "prePromotionPosture": "V40 active / V41 draft",
   "postPromotionPosture": "V41 active / V42 draft",
@@ -357,7 +358,7 @@
     {
       "relativePath": "BITCODE_SPEC_V41.md",
       "present": true,
-      "digest": "sha256:3f175df2d8a0e338c26b2e6471892f5b077374b8dab53bfdb6aaf30d9a3f8422",
+      "digest": "sha256:9174742d79d0b0045bb0eebf9e6f312a7ab53b62193a9d12d29bcdf7fda71d79",
       "requiredTokens": [
         {
           "token": "V41 promotion readiness canon",
@@ -376,7 +377,7 @@
     {
       "relativePath": "BITCODE_SPEC_V41_DELTA.md",
       "present": true,
-      "digest": "sha256:fc6702e82ebeccbbc4d8ef8804e5fd05d57c3927c0aadf85ab84789f7625429c",
+      "digest": "sha256:a368d8732b02b4f943017df9bfbb1762090d3e20b393031c533ebbc14f121836",
       "requiredTokens": [
         {
           "token": "Gate 9: V41 Promotion Readiness",
@@ -395,7 +396,7 @@
     {
       "relativePath": "BITCODE_SPEC_V41_NOTES.md",
       "present": true,
-      "digest": "sha256:94abe5cb7e5ef4cdf3f74b741bd67993fa9d91f65d1bb5c836a3e9ec0fb672d1",
+      "digest": "sha256:38e4d70e19dff8c367acf2792c499dd75fcb771f08f0ee1774097fbf7651ea87",
       "requiredTokens": [
         {
           "token": "Gate 9: V41 Promotion Readiness",
@@ -414,7 +415,7 @@
     {
       "relativePath": "BITCODE_SPEC_V41_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:19077212c19df64c25fce9fa4b620e2c3334ef7f9214f4feba824fc872a32f50",
+      "digest": "sha256:5f49852cfb6323d19db8be1c85a026a5ca68ed792c02990390b8bd07ea2ac617",
       "requiredTokens": [
         {
           "token": "## Gate 9 Promotion readiness parity",
@@ -463,7 +464,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:7df84eed1d322a7666597fde37d60fd179d52e12d8f125e1bcfc78a4adfdf468",
+      "digest": "sha256:0044363192ce02d2d3fe976dbd02556d51cf7533ba84ca1698c1a32b08b3a97c",
       "requiredTokens": [
         {
           "token": "V41 Gate 9",
@@ -524,5 +525,9 @@
   "artifactRoot": "prompt-program-promotion-readiness-report:f022f18a1688c843da8d626d",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v41-gate9"
+  "validationCommand": "pnpm run check:v41-gate9",
+  "proofSourceCommit": "70be3860a54ff3dd3da5c0cac2c5b854a12910e1",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }

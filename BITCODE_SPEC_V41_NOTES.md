@@ -3,15 +3,17 @@
 ## Status
 
 - Version: `V41`
-- V41 state: Gate 9 promotion readiness implemented; V41 notes now accompany the full prompt-program specification family through promotion readiness
-- Current canonical/latest target: `V40`
+- V41 state: canonical promotion complete; V41 notes record accepted prompt inventory, registry/interpolation, Reading baselines, ReadNeed and ReadFitsFinding prompt hardening, Conversation/tool/interface prompt rewrite, benchmark telemetry, and promotion-readiness evidence
+- Current canonical/latest target: `V41`
+- Canonical proof-source commit: `70be3860a54ff3dd3da5c0cac2c5b854a12910e1`
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, Gate 4 `.bitcode/v41-reading-prompt-benchmark-baselines.json`, Gate 5 `.bitcode/v41-readneed-prompt-hardening.json`, Gate 6 `.bitcode/v41-readfitsfinding-prompt-hardening.json`, Gate 7 `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, Gate 8 `.bitcode/v41-prompt-program-benchmark-report.json`, Gate 9 `.bitcode/v41-promotion-readiness-report.json`, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
-- Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, promotion parity, and active V41 / draft V42 promotion posture over active V40
+- Generated structured artifact inventory: active canonical `.bitcode/v41-spec-family-report.json`, `.bitcode/v41-canonical-input-report.json`, `.bitcode/v41-canon-posture-drift-report.json`, `.bitcode/v41-promptpart-prompt-inventory.json`, `.bitcode/v41-registry-interpolation-contracts.json`, `.bitcode/v41-reading-prompt-benchmark-baselines.json`, `.bitcode/v41-readneed-prompt-hardening.json`, `.bitcode/v41-readfitsfinding-prompt-hardening.json`, `.bitcode/v41-conversation-tool-interface-prompt-rewrite.json`, `.bitcode/v41-prompt-program-benchmark-report.json`, `.bitcode/v41-promotion-readiness-report.json`, V41 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V41_PROVEN.md` as the generated proof appendix for V41 promotion
+- Source parity state: V41 source-side PromptPart and Prompt inventory, registry interpolation contracts, Reading baselines, ReadNeedComprehensionSynthesis prompt hardening, ReadFitsFindingSynthesis prompt hardening, Conversation/tool/interface prompt rewrite, prompt benchmark telemetry report, workflow, and promotion surfaces are canonicalized in the promoted V41 file family
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
-- Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
+- Scope: V41 canonical notes for prompt-program excellence over promoted V40 exhaustive commercial application testing canon
+- Last fully realized canonical target preserved in source: `V41`
 
 ## Notes companion rule
 
