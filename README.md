@@ -47,6 +47,14 @@ The hardening report currently covers 7 ReadNeedComprehensionSynthesis rows and
 return types, review/resynthesis gates, telemetry redaction, PTRR/Failsafe/
 Thricified composition, and read-comprehension tool prompt alignment with
 `check:v41-gate5`.
+V41 Gate 6 adds the package-backed
+`buildV41ReadFitsFindingPromptHardening` and generated source-safe artifact
+`.bitcode/v41-readfitsfinding-prompt-hardening.json`. The hardening report
+currently covers 8 ReadFitsFindingSynthesis rows and 76 source predicates for
+many-candidate Depository search, embeddings and provider-ranking policy,
+selected-fit provenance, AssetPack context synthesis, source-safe preview and
+quote disclosure, post-settlement rights/delivery boundaries, and redacted
+telemetry with `check:v41-gate6`.
 V42 is now roadmapped as the next MVP experience version: shortest-path
 Depositing with later BTC compensation, shortest-path Reading through
 Need review/resynthesis, Finding Fits, source-safe AssetPack preview,

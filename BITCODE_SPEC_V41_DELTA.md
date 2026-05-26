@@ -57,6 +57,8 @@ It binds Gate 2 PromptPart/Prompt inventory, Gate 3 registry/interpolation contr
 ### Gate 6: ReadFitsFindingSynthesis Prompt Rewrite Search And AssetPack Context Hardening
 
 Rewrite and repartition Finding Fits prompts only after evidence proves the rewrite improves Depository search, ranking, selected-fit provenance, and AssetPack context source-safely.
+Gate 6 is package-backed by `buildV41ReadFitsFindingPromptHardening`, emits `.bitcode/v41-readfitsfinding-prompt-hardening.json`, and covers 8 source-safe hardening rows with 76 passing predicates across accepted-Need integrity, query synthesis breadth, embeddings and provider-ranking policy, many-candidate fit selection, selected-fit provenance traceability, AssetPack source-safe context synthesis, preview/quote disclosure, settlement/delivery/rights boundaries, runtime replay telemetry, search tool prompt boundaries, and tests/docs/workflow wiring.
+It binds Gate 2 PromptPart/Prompt inventory, Gate 3 registry/interpolation contracts, Gate 4 Reading prompt benchmark baselines, Gate 5 ReadNeed hardening, focused Finding Fits tests, and workflow checks without serializing raw prompt text, interpolated prompts, provider responses, protected source, private context, credentials, settlement private payloads, wallet private material, or unpaid AssetPack source.
 
 ### Gate 7: Conversation Tool And Interface Prompt Rewrite
 

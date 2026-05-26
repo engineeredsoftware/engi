@@ -234,8 +234,17 @@ function main() {
   assertCheck(failures, packageJson.includes('check:v41-gate5'), 'package.json must expose check:v41-gate5.');
 
   const roadmap = fileExists(root, 'SPECIFICATIONS_ROADMAP.md') ? read(root, 'SPECIFICATIONS_ROADMAP.md') : '';
-  assertCheck(failures, roadmap.includes('Current working gate: V41 Gate 5'), 'Roadmap must name V41 Gate 5 as current working gate.');
-  assertCheck(failures, roadmap.includes('Next queued gate after V41 Gate 5: V41 ReadFitsFindingSynthesis Prompt Rewrite Search And AssetPack Context Hardening.'), 'Roadmap must name V41 Gate 6 as next.');
+  assertCheck(
+    failures,
+    roadmap.includes('Current working gate: V41 Gate 5') || roadmap.includes('Current working gate: V41 Gate 6'),
+    'Roadmap must name V41 Gate 5 or Gate 6 as current working gate.',
+  );
+  assertCheck(
+    failures,
+    roadmap.includes('Next queued gate after V41 Gate 5: V41 ReadFitsFindingSynthesis Prompt Rewrite Search And AssetPack Context Hardening.') ||
+      roadmap.includes('Next queued gate after V41 Gate 6: V41 Conversation Tool And Interface Prompt Rewrite.'),
+    'Roadmap must preserve V41 Gate 6 progression.',
+  );
   assertCheck(failures, roadmap.includes('V43+ agentic depositing'), 'Roadmap must preserve V43+ agentic depositing note.');
 
   if (failures.length > 0) {
