@@ -142,7 +142,9 @@ function listFiles(repoRoot, sourcePath) {
 
   const files = [];
   const walk = (currentAbsolute, currentRelative) => {
-    for (const entry of readdirSync(currentAbsolute, { withFileTypes: true })) {
+    const entries = readdirSync(currentAbsolute, { withFileTypes: true });
+    const entryNames = new Set(entries.map((entry) => entry.name));
+    for (const entry of entries) {
       if (entry.name === 'dist' || entry.name === 'node_modules' || entry.name === '_legacy') continue;
       const nextAbsolute = path.join(currentAbsolute, entry.name);
       const nextRelative = path.join(currentRelative, entry.name);
@@ -150,6 +152,7 @@ function listFiles(repoRoot, sourcePath) {
         walk(nextAbsolute, nextRelative);
         continue;
       }
+      if (entry.name.endsWith('.js') && entryNames.has(`${entry.name.slice(0, -3)}.ts`)) continue;
       if (/\.(?:ts|tsx|js|mjs|md)$/u.test(entry.name) && !/\.d\.ts$/u.test(entry.name)) {
         files.push(nextRelative);
       }
