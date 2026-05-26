@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V39`; V40 is the active draft target for exhaustive commercial
-application testing after the promoted commercial Reading readiness canon.
+resolves to `V40`; V41 is the active draft target for Prompt and PromptPart
+excellence after the promoted exhaustive commercial application testing canon.
 
 ## Current Product Posture
 
@@ -11,6 +11,14 @@ The primary operator routes are:
 
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
+
+V41 Gate 1 opens the prompts-as-programs specification family over active V40
+with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
+Prompt, map registry composition and interpolation contracts, benchmark Reading
+prompt baselines, then harden `ReadNeedComprehensionSynthesis`,
+`ReadFitsFindingSynthesis`, Conversation, tool-definition, and interface prompts
+without exposing protected prompt payloads, raw provider responses, secrets,
+protected source, or unpaid AssetPack source.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
