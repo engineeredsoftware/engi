@@ -8,7 +8,7 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
 - Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, and promotion parity over active V40
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
@@ -29,7 +29,15 @@ This is an inventory and admission artifact, not a rewrite artifact.
 
 V42 is re-roadmapped as the MVP experience version after V41.
 Its focus is shortest-path Depositing, shortest-path Reading, and a strong AI-reading dominant demonstration where any deposit source can contribute proprietary or otherwise non-public training, prompt, context, or evaluation material to an AssetPack that measurably improves an AI system beyond public-data-only performance.
+Depositing must minimize the path to admitting source material and later receiving BTC compensation when the deposit participates in a synthesized AssetPack.
+Reading must minimize the path from Read Request to synthesized Need review/resynthesis, Finding Fits, source-safe AssetPack preview, BTD/BTC purchase and settlement, and repository delivery.
 V42 must keep depositor compensation, reader purchase, BTD/AssetPack rights, and repository delivery visible in the shortest path without widening V41 beyond Prompt and PromptPart excellence.
+
+## Gate 3 registry and interpolation contract note
+
+Gate 3 makes the prompt registry call chain source-checkable before prompt rewrites.
+The package-backed contract currently emits 12 rows and 65 source predicates for Prompt registry totality, TemplatedPromptPart interpolation, PTRR agent and step prompt composition, FailsafeGenerationSequence context handling, ThricifiedGeneration final prompt resolution, execution ancestry overlays, tool doc-code prompt injection, Reading parser targets, Finding Fits search and embedding contracts, AssetPack synthesis and finishing parser targets, and Gate 2 inventory binding.
+The artifact records ids, source paths, hashes, predicate verdicts, parser target ids, interpolation key ids, and ancestry frame ids only; it does not serialize raw prompt text, provider responses, private context, credentials, or unpaid AssetPack source.
 
 ## Concise current-system reading
 

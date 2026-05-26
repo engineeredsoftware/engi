@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
 - Active canonical pointer during draft opening: `BITCODE_SPEC.txt` -> `V40`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, planned prompt-program catalogue artifacts, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, Gate 3 `.bitcode/v41-registry-interpolation-contracts.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
 - Source parity state: V41 opens prompt-program parity over V40 exhaustive testing, V38 inference correctness, and V39 commercial Reading readiness; source-side prompt and PromptPart rewrites are blocked until catalogue, benchmark, interpolation, registry, callsite, and return-type surfaces are specified and checked
 - Notes companion: `BITCODE_SPEC_V41_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V41_DELTA.md`
@@ -116,6 +116,8 @@ Gate 2 also preserves V41 scope and prepares draft V42 only as forward roadmap t
 
 Gate 3 must prove the composition chain from phase and pipeline context through PTRR agents, PTRR steps, FailsafeGenerationSequence, and ThricifiedGeneration final prompt resolution.
 Rows must bind registry ids, execution ancestry frames, interpolation keys, missing-key behavior, tool doc-comment prompt injection, context-size handling, and parser targets.
+Gate 3 is closed by the package-backed `buildV41RegistryInterpolationContracts` source, deterministic `.bitcode/v41-registry-interpolation-contracts.json` artifact, `generate:v41-registry-interpolation-contracts`, `check:v41-registry-interpolation-contracts`, `check:v41-gate3`, protocol tests, and gate/canon workflow wiring.
+The current source-safe contract covers 12 rows, 65 passing source predicates, Prompt registry totality, TemplatedPromptPart interpolation, PTRR agent prompt composition, PTRR step prompt composition, FailsafeGenerationSequence context handling, ThricifiedGeneration final prompt resolution, execution ancestry overlays, tool doc-code prompt injection, `ReadNeedComprehensionSynthesis` parser targets, `ReadFitsFindingSynthesis` search/parser targets, AssetPack synthesis/finishing parser targets, and Gate 2 prompt inventory binding.
 
 ## V41 Gate 4 Reading Pipeline Prompt Benchmark Baselines
 
@@ -449,6 +451,7 @@ Generation must fail closed when artifact freshness, source-safety, benchmark co
 
 V41 Gate 1 validates with `pnpm run check:v41-gate1`, `node scripts/check-bitcode-spec-family.mjs --version V41 --mode draft --current-target V40`, `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V40 --draft-target V41`, and `node scripts/check-bitcode-canonical-inputs.mjs --current-target V40`.
 V41 Gate 2 validates with `pnpm run generate:v41-prompt-inventory`, `pnpm run check:v41-prompt-inventory`, `pnpm run check:v41-gate2`, and `node --test --test-force-exit packages/protocol/test/v41-promptpart-prompt-inventory.test.js`.
+V41 Gate 3 validates with `pnpm run generate:v41-registry-interpolation-contracts`, `pnpm run check:v41-registry-interpolation-contracts`, `pnpm run check:v41-gate3`, and `node --test --test-force-exit packages/protocol/test/v41-registry-interpolation-contracts.test.js`.
 Later gates add focused generator, checker, package, benchmark, and workflow commands.
 
 ## V41 promotion canon

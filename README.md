@@ -24,8 +24,19 @@ generated source-safe artifact `.bitcode/v41-promptpart-prompt-inventory.json`.
 The inventory currently covers 1,459 raw PromptPart rows and 105 composed Prompt
 rows across Reading, Conversation, tool-definition, interface, and benchmark
 surfaces, with `generate:v41-prompt-inventory`, `check:v41-prompt-inventory`,
-and `check:v41-gate2`. V42 is now roadmapped as the next MVP experience version:
-shortest-path Depositing, shortest-path Reading, and an AI-reading dominant
+and `check:v41-gate2`.
+V41 Gate 3 adds the package-backed `buildV41RegistryInterpolationContracts` and
+generated source-safe artifact `.bitcode/v41-registry-interpolation-contracts.json`.
+The contract currently covers 12 registry/interpolation rows and 65 source
+predicates for Prompt registry totality, PromptPart interpolation, PTRR
+agent/step composition, Failsafe and Thricified prompt resolution, execution
+ancestry overlays, tool doc-code prompt injection, Reading parser targets,
+Finding Fits search contracts, AssetPack synthesis/finishing parser targets,
+and Gate 2 inventory binding with `check:v41-gate3`.
+V42 is now roadmapped as the next MVP experience version: shortest-path
+Depositing with later BTC compensation, shortest-path Reading through
+Need review/resynthesis, Finding Fits, source-safe AssetPack preview,
+BTD/BTC settlement, repository delivery, and an AI-reading dominant
 demonstration whose AssetPack measurably improves an AI system beyond
 public-data-only performance.
 
