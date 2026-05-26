@@ -181,8 +181,8 @@
         "embeddingPolicyCount": 10,
         "rankingCount": 17,
         "previewCount": 34,
-        "quoteCount": 27,
-        "settlementCount": 34,
+        "quoteCount": 28,
+        "settlementCount": 35,
         "repairCount": 0
       },
       "metricScores": {
@@ -324,8 +324,8 @@
         "embeddingPolicyCount": 10,
         "rankingCount": 17,
         "previewCount": 34,
-        "quoteCount": 27,
-        "settlementCount": 36,
+        "quoteCount": 28,
+        "settlementCount": 37,
         "repairCount": 0
       },
       "metricScores": {
@@ -461,8 +461,8 @@
         "embeddingPolicyCount": 10,
         "rankingCount": 17,
         "previewCount": 34,
-        "quoteCount": 27,
-        "settlementCount": 34,
+        "quoteCount": 28,
+        "settlementCount": 35,
         "repairCount": 0
       },
       "metricScores": {
@@ -1074,8 +1074,8 @@
         "embeddingPolicyCount": 10,
         "rankingCount": 25,
         "previewCount": 255,
-        "quoteCount": 110,
-        "settlementCount": 110,
+        "quoteCount": 111,
+        "settlementCount": 111,
         "repairCount": 30
       },
       "metricScores": {
@@ -1593,8 +1593,8 @@
       "embeddingPolicyCount": 10,
       "rankingCount": 17,
       "previewCount": 34,
-      "quoteCount": 27,
-      "settlementCount": 34,
+      "quoteCount": 28,
+      "settlementCount": 35,
       "repairCount": 0
     },
     "readneed-review-resynthesis-baseline": {
@@ -1626,8 +1626,8 @@
       "embeddingPolicyCount": 10,
       "rankingCount": 17,
       "previewCount": 34,
-      "quoteCount": 27,
-      "settlementCount": 36,
+      "quoteCount": 28,
+      "settlementCount": 37,
       "repairCount": 0
     },
     "readneed-measurement-pricing-baseline": {
@@ -1657,8 +1657,8 @@
       "embeddingPolicyCount": 10,
       "rankingCount": 17,
       "previewCount": 34,
-      "quoteCount": 27,
-      "settlementCount": 34,
+      "quoteCount": 28,
+      "settlementCount": 35,
       "repairCount": 0
     },
     "readfits-query-synthesis-baseline": {
@@ -1807,8 +1807,8 @@
       "embeddingPolicyCount": 10,
       "rankingCount": 25,
       "previewCount": 255,
-      "quoteCount": 110,
-      "settlementCount": 110,
+      "quoteCount": 111,
+      "settlementCount": 111,
       "repairCount": 30
     },
     "settlement-rights-delivery-baseline": {

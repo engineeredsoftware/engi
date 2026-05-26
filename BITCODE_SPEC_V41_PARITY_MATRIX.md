@@ -37,7 +37,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Prompt inventory | Every raw PromptPart and composed Prompt catalogued | `.bitcode/v41-promptpart-prompt-inventory.json` | implemented |
 | Registry/interpolation | Registry composition and interpolation contracts proven | `.bitcode/v41-registry-interpolation-contracts.json` | implemented |
 | Reading baselines | Reading prompt benchmarks captured before rewrites | `.bitcode/v41-reading-prompt-benchmark-baselines.json` | implemented |
-| ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | planned V41 Gate 5 artifact | pending |
+| ReadNeed rewrite | ReadNeedComprehensionSynthesis prompts rewritten and type-hardened | `.bitcode/v41-readneed-prompt-hardening.json` | implemented |
 | Finding Fits rewrite | ReadFitsFindingSynthesis prompts rewritten for search and AssetPack context | planned V41 Gate 6 artifact | pending |
 | Conversation/tool/interface rewrite | Non-Reading prompt surfaces brought to same standard | planned V41 Gate 7 artifact | pending |
 | Benchmark and telemetry | Prompt benchmark deltas and telemetry projections source-safe | planned V41 Gate 8 artifact | pending |
@@ -51,7 +51,7 @@ This matrix records the prompt-program surfaces that must become promotion-grade
 | Gate 2 | PromptPart and Prompt inventory artifact | implemented |
 | Gate 3 | Registry composition and interpolation artifact | implemented |
 | Gate 4 | Reading prompt benchmark baseline artifact | implemented |
-| Gate 5 | ReadNeedComprehensionSynthesis rewrite artifact | pending |
+| Gate 5 | ReadNeedComprehensionSynthesis rewrite artifact | implemented |
 | Gate 6 | ReadFitsFindingSynthesis rewrite artifact | pending |
 | Gate 7 | Conversation, tool, and interface prompt rewrite artifact | pending |
 | Gate 8 | Prompt benchmark report and telemetry artifact | pending |
@@ -74,6 +74,10 @@ It closes prompt rewrites' precondition that prompt composition and interpolatio
 V41 Gate 4 may catalogue Reading benchmark baseline ids, fixture ids, metric ids, parser target ids, source path roots, predicate verdicts, deterministic baseline scores, inventory bindings, registry/interpolation bindings, and source-safe disclosure tiers for `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`.
 It may not serialize raw prompt text, interpolated prompts, provider responses, protected source, private context, credentials, settlement-private payloads, or unpaid AssetPack source.
 It closes Reading prompt rewrites' benchmark precondition by proving source-safe baselines for all five Reading UX steps before semantic PromptPart or Prompt rewrite work starts.
+
+V41 Gate 5 may catalogue ReadNeed hardening ids, prompt surface ids, parser target ids, benchmark fixture ids, dependency roots, source hashes, predicate verdicts, and disclosure posture.
+It may not serialize raw prompt text, raw interpolated prompt text, raw provider responses, protected source, private context, secrets, wallet material, or unpaid AssetPack source.
+It closes the first semantic prompt rewrite gate by proving ReadNeedComprehensionSynthesis is exact to the Read Request, source-constrained, strict-return-typed, review/resynthesis-gated, telemetry-redacted, and tool-prompt aligned before Finding Fits prompt work begins.
 
 ## V41 completion condition
 

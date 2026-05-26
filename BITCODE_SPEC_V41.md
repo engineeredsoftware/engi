@@ -131,6 +131,9 @@ The artifact may include ids, hashes, counts, fixture ids, metric ids, parser ta
 
 Gate 5 may repartition, retitle, and rewrite ReadNeedComprehensionSynthesis PromptParts and Prompts after Gate 2 through Gate 4 evidence exists.
 It must prove that synthesized Needs describe exactly and only the user's Read Request, preserve repository and policy context, produce valid parsed return types, support review/resynthesis, and keep source-safe telemetry.
+Gate 5 is closed by the package-backed `buildV41ReadNeedPromptHardening` source, deterministic `.bitcode/v41-readneed-prompt-hardening.json` artifact, `generate:v41-readneed-prompt-hardening`, `check:v41-readneed-prompt-hardening`, `check:v41-gate5`, protocol tests, focused ReadNeed tests, and gate/canon workflow wiring.
+The current source-safe hardening report covers 7 rows and 63 passing source predicates for ReadNeed PromptPart rewrites, PTRR/Failsafe/Thricified composition preservation, strict Zod return-type parsing, source-constraint preservation, review/resynthesis admission, telemetry redaction, and read-comprehension tool prompt alignment.
+The artifact may include ids, source hashes, counts, prompt surface ids, parser target ids, fixture ids, predicate verdicts, dependency roots, and redaction posture, but no raw prompt text, interpolated prompts, raw provider responses, protected source, private context, credentials, or unpaid AssetPack source.
 
 ## V41 Gate 6 ReadFitsFindingSynthesis Prompt Rewrite Search And AssetPack Context Hardening
 
