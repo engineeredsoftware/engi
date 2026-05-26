@@ -303,6 +303,7 @@
     "generate:v41-promotion-readiness": "node scripts/generate-v41-promotion-readiness-report.mjs",
     "check:v41-promotion-readiness": "node scripts/generate-v41-promotion-readiness-report.mjs --check",
     "check:v41-gate9": "node scripts/check-v41-gate9-promotion-readiness.mjs",
+    "check:v42-gate1": "node scripts/check-v42-gate1-mvp-experience-roadmap-opening.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",

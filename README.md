@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V40`; V41 is the active draft target for Prompt and PromptPart
-excellence after the promoted exhaustive commercial application testing canon.
+resolves to `V41`; V42 is the active draft target for reliable MVP product
+experience after the promoted Prompt and PromptPart excellence canon.
 
 ## Current Product Posture
 
@@ -81,12 +81,12 @@ dry-run support, gate/canon workflow posture, active V41 / draft V42 runtime
 preparation, and source-safe value-bearing mainnet blocking through
 `generate:v41-promotion-readiness`, `check:v41-promotion-readiness`, and
 `check:v41-gate9`.
-V42 is now roadmapped as the next MVP experience version: shortest-path
-Depositing with later BTC compensation, shortest-path Reading through
-Need review/resynthesis, Finding Fits, source-safe AssetPack preview,
-BTD/BTC settlement, repository delivery, and an AI-reading dominant
-demonstration whose AssetPack measurably improves an AI system beyond
-public-data-only performance.
+V42 Gate 1 opens the reliable MVP experience specification family over active
+V41 with `check:v42-gate1`. V42 is scoped to shortest-path Depositing with
+later BTC compensation, shortest-path Reading through Need review/resynthesis,
+Finding Fits, source-safe AssetPack preview, BTD/BTC settlement, repository
+delivery, and an AI-reading dominant demonstration whose AssetPack measurably
+improves an AI system beyond public-data-only performance.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject
@@ -710,9 +710,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V39.md](BITCODE_SPEC_V39.md) is the active promoted spec family.
-- [BITCODE_SPEC_V40.md](BITCODE_SPEC_V40.md) is the active draft target.
-- [BITCODE_SPEC_V40_PARITY_MATRIX.md](BITCODE_SPEC_V40_PARITY_MATRIX.md) tracks V40 gate parity.
+- [BITCODE_SPEC_V41.md](BITCODE_SPEC_V41.md) is the active promoted spec family.
+- [BITCODE_SPEC_V42.md](BITCODE_SPEC_V42.md) is the active draft target.
+- [BITCODE_SPEC_V42_PARITY_MATRIX.md](BITCODE_SPEC_V42_PARITY_MATRIX.md) tracks V42 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.
