@@ -19,6 +19,15 @@ prompt baselines, then harden `ReadNeedComprehensionSynthesis`,
 `ReadFitsFindingSynthesis`, Conversation, tool-definition, and interface prompts
 without exposing protected prompt payloads, raw provider responses, secrets,
 protected source, or unpaid AssetPack source.
+V41 Gate 2 adds the package-backed `buildV41PromptPartPromptInventory` and
+generated source-safe artifact `.bitcode/v41-promptpart-prompt-inventory.json`.
+The inventory currently covers 1,459 raw PromptPart rows and 105 composed Prompt
+rows across Reading, Conversation, tool-definition, interface, and benchmark
+surfaces, with `generate:v41-prompt-inventory`, `check:v41-prompt-inventory`,
+and `check:v41-gate2`. V42 is now roadmapped as the next MVP experience version:
+shortest-path Depositing, shortest-path Reading, and an AI-reading dominant
+demonstration whose AssetPack measurably improves an AI system beyond
+public-data-only performance.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

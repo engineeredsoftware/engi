@@ -33,6 +33,8 @@ Open the V41 full specification family, roadmap, package script, workflow postur
 ### Gate 2: PromptPart And Prompt Inventory Catalog
 
 Inventory every raw PromptPart and composed Prompt across Reading, Conversation, tool-definition, and interface inference surfaces.
+Gate 2 is package-backed by `buildV41PromptPartPromptInventory`, emits `.bitcode/v41-promptpart-prompt-inventory.json`, covers 1,459 raw PromptPart rows and 105 composed Prompt rows, binds V38/V40 benchmark handoff artifacts, and records only source-safe metadata.
+It also records V42 as the subsequent MVP experience version for shortest-path Depositing, shortest-path Reading, and an AI-reading dominant demonstration without expanding V41 beyond prompt-program work.
 
 ### Gate 3: Registry Composition And Interpolation Contracts
 

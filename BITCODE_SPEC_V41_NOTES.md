@@ -8,7 +8,7 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
 - Prior canonical anchor: `BITCODE_SPEC_V40.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, planned prompt-program catalogue artifacts, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, Gate 2 `.bitcode/v41-promptpart-prompt-inventory.json`, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
 - Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, and promotion parity over active V40
 - Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
@@ -18,6 +18,18 @@
 This notes companion records the working prompt-program plan and simplified reading for V41.
 It does not override `BITCODE_SPEC_V41.md`.
 Prompt content changes remain blocked until the relevant catalogue and benchmark gates admit them.
+
+## Gate 2 prompt inventory note
+
+Gate 2 makes the first prompt-program catalogue concrete.
+The package-backed inventory currently emits 1,459 raw PromptPart rows and 105 composed Prompt rows with source path, source hash, registry owner, semantic purpose id, prompt family ids, composed prompt memberships, template variable names, benchmark fixture ids, disclosure tier, validation command, and source-safe raw-payload exclusions.
+This is an inventory and admission artifact, not a rewrite artifact.
+
+## V42 forward roadmap note
+
+V42 is re-roadmapped as the MVP experience version after V41.
+Its focus is shortest-path Depositing, shortest-path Reading, and a strong AI-reading dominant demonstration where any deposit source can contribute proprietary or otherwise non-public training, prompt, context, or evaluation material to an AssetPack that measurably improves an AI system beyond public-data-only performance.
+V42 must keep depositor compensation, reader purchase, BTD/AssetPack rights, and repository delivery visible in the shortest path without widening V41 beyond Prompt and PromptPart excellence.
 
 ## Concise current-system reading
 
