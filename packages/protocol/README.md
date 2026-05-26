@@ -58,17 +58,24 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
-This is the `V39` active, `V40` draft after V39 promotion posture accepted by
-V39 canonical promotion.
-V40 Gate 1 treats this package as promotion-critical runtime posture and opens
+Historical V39 promotion moved this package through the `V39` active, `V40`
+draft posture. V40 promotion has since advanced the current package posture to
+`V40` active, `V41` draft.
+V40 Gate 1 treated this package as promotion-critical runtime posture and opened
 the exhaustive testing specification family for active V39 / draft V40 work.
 `packages/protocol/src/canon-posture.js` and `packages/protocol/data/state.json`
-must remain aligned to `V39` active, `V40` draft after promotion.
+must remain aligned to `V40` active, `V41` draft after V40 promotion.
 V40 Gate 1 is wired through `check:v40-gate1` and documents the exact browser
 E2E, visual/screenshot, API integration, pipeline integration, Conversation and
 Terminal integration, unit coverage, ledger/database/storage synchronization,
 local/staging rehearsal, prompt benchmark smoke, and V41 prompt-program
 readiness scope that later V40 gates must implement.
+After V40 promotion this package is in the `V40` active, `V41` draft posture.
+V41 Gate 1 is wired through `check:v41-gate1` and opens the prompt-program
+specification family: every raw PromptPart, composed Prompt, registry binding,
+interpolation contract, inference callsite, benchmark fixture, parsed return
+type, and source-safe telemetry projection must become enumerable before later
+V41 gates rewrite Reading, Conversation, tool-definition, or interface prompts.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

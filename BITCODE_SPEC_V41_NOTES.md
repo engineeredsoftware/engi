@@ -3,18 +3,37 @@
 ## Status
 
 - Version: `V41`
-- V41 state: notes-only draft opening
+- V41 state: draft opened; V41 notes now accompany the full prompt-program specification family
+- Current canonical/latest target: `V40`
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V40`
-- Active canonical anchor: `BITCODE_SPEC_V40.md`
-- Active generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
-- Draft target posture: V41 is opened as planning notes only until its first gate creates the full SPEC, DELTA, NOTES companion, and PARITY family.
+- Prior canonical anchor: `BITCODE_SPEC_V40.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V40_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v41-spec-family-report.json`, draft `.bitcode/v41-canonical-input-report.json`, planned prompt-program catalogue artifacts, planned benchmark artifacts, planned promotion-readiness artifact, and eventual `BITCODE_SPEC_V41_PROVEN.md` after V41 promotion
+- Source parity state: V41 notes track prompt-program planning, catalogue, benchmark, rewrite, telemetry, and promotion parity over active V40
+- Draft target posture: V41 Gate 1 creates the full SPEC, DELTA, NOTES, and PARITY family.
 - Scope: Prompt and PromptPart excellence over the promoted V40 exhaustive testing base.
+
+## Notes companion rule
+
+This notes companion records the working prompt-program plan and simplified reading for V41.
+It does not override `BITCODE_SPEC_V41.md`.
+Prompt content changes remain blocked until the relevant catalogue and benchmark gates admit them.
+
+## Concise current-system reading
+
+Bitcode is active at V40.
+V41 now drafts the next canon: every PromptPart and composed Prompt must become catalogue-visible, benchmarkable, registry-bound, interpolation-checked, parser-typed, and source-safe.
+The first priority is Reading through `ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`; Conversation, tool-definition, and interface prompts follow with the same discipline.
+
+## Simplified-spec reading rule
+
+Read V41 as prompts as programs.
+If a prompt cannot be found in the catalogue, traced through a registry, benchmarked against fixtures, tied to a parsed return type, and projected source-safely into telemetry, it is not V41-ready.
 
 ## Notes-only draft rule
 
-This file is the only opened V41 draft-target file until V41 Gate 1 formally creates the full V41 specification family.
-It records next-version intent so strict draft-target spec-quality can remain truthful after V40 promotion.
-It is not first-gate implementation evidence and does not by itself admit V41 source changes, route changes, generated artifact requirements, or promotion checks.
+This heading is retained as historical context only.
+V41 is no longer notes-only after Gate 1; the full V41 specification family is the draft target.
 
 ## Deferred from V40
 
