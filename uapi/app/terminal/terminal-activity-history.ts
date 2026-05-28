@@ -678,6 +678,23 @@ export function mapExecutionHistoryRunToWorkspaceRun(run: PipelineExecution): Wo
       contextString('lexicalDocumentRoot') || readNestedString(run.output, ['depositoryEvidence', 'lexicalDocumentRoot']),
     vectorDocumentRoot:
       contextString('vectorDocumentRoot') || readNestedString(run.output, ['depositoryEvidence', 'vectorDocumentRoot']),
+    compensationPreviewRoot:
+      contextString('compensationPreviewRoot') ||
+      readNestedString(run.output, ['depositoryEvidence', 'compensationPreviewRoot']) ||
+      readNestedString(run.output, ['depositoryEvidence', 'compensationPreview', 'roots', 'compensationPreviewRoot']),
+    sourceToSharesPreviewRoot:
+      contextString('sourceToSharesPreviewRoot') ||
+      readNestedString(run.output, ['depositoryEvidence', 'sourceToSharesPreviewRoot']) ||
+      readNestedString(run.output, ['depositoryEvidence', 'compensationPreview', 'roots', 'sourceToSharesPreviewRoot']),
+    compensationState:
+      contextString('compensationState') ||
+      readNestedString(run.output, ['depositoryEvidence', 'compensationPreview', 'state']),
+    compensationAllocationMethod:
+      contextString('compensationAllocationMethod') ||
+      readNestedString(run.output, ['depositoryEvidence', 'compensationPreview', 'compensationRoute', 'allocationMethod']),
+    compensationPriceAsset:
+      contextString('compensationPriceAsset') ||
+      readNestedString(run.output, ['depositoryEvidence', 'compensationPreview', 'compensationRoute', 'priceAsset']),
     depositorWalletId:
       contextString('depositorWalletId') ||
       readNestedString(run.output, ['depositoryEvidence', 'depositorBoundary', 'walletId']),

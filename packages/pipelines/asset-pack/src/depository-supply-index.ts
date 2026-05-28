@@ -11,6 +11,11 @@ export type DepositorySupplyLifecycleState =
   | 'indexed-repair-required'
   | 'blocked-readiness';
 
+export type DepositorySupplyCompensationState =
+  | 'eligible-if-selected-for-assetpack'
+  | 'repair-required-before-compensation'
+  | 'blocked-before-compensation';
+
 export type DepositorySupplySearchDocumentKind =
   | 'lexical'
   | 'metadata'
@@ -64,6 +69,7 @@ export interface DepositorySupplyRecord {
     settlementRequiredForSourceBearingAssetPack: true;
     btdOwnershipBoundary: 'depositor-retains-btd-until-settlement-transfer';
   };
+  compensationPreview: DepositorySupplyCompensationPreview;
   proofEvidence: {
     hasWalletOrAttestationProof: boolean;
     proofRoot: string | null;
@@ -88,6 +94,54 @@ export interface DepositorySupplyRecord {
     vectorProjectionRoot: string;
     storageProjectionRoot: string;
     rightsBoundaryRoot: string;
+    compensationPreviewRoot: string;
+  };
+}
+
+export interface DepositorySupplyCompensationPreview {
+  schema: 'bitcode.depository.supply-compensation-preview';
+  state: DepositorySupplyCompensationState;
+  assetId: string;
+  depositId: string;
+  depositorWalletId: string | null;
+  candidateBtdRange: string | null;
+  compensationRoute: {
+    payer: 'future-reader-after-settlement';
+    payee: 'depositing-wallet';
+    priceAsset: 'BTC';
+    allocationMethod: 'source-to-shares-largest-remainder';
+    sourceToSharesProofState: 'not-created-until-accepted-need-fit-and-settlement';
+    btdMintBoundary: 'not-minted-by-deposit-admission';
+    btdRightsTransferBoundary: 'reader-receives-rights-only-after-btc-settlement';
+  };
+  readiness: {
+    sourceBound: boolean;
+    proofReady: boolean;
+    measurementReady: boolean;
+    searchable: boolean;
+    depositorWalletReady: boolean;
+    eligibleForFindingFits: boolean;
+    eligibleForCompensationIfSelected: boolean;
+    blockers: string[];
+    warnings: string[];
+  };
+  visibility: {
+    beforeSettlement: 'source-safe-compensation-route-metadata';
+    protectedSourceVisible: false;
+    unpaidAssetPackSourceVisible: false;
+    walletPrivateMaterialVisible: false;
+    settlementPrivatePayloadVisible: false;
+  };
+  readback: {
+    ledgerAccountKeys: string[];
+    databaseProjectionTables: string[];
+    objectStorageVisibility: 'source-safe-metadata-only-before-settlement';
+  };
+  roots: {
+    compensationRouteRoot: string;
+    sourceToSharesPreviewRoot: string;
+    readbackRoot: string;
+    compensationPreviewRoot: string;
   };
 }
 
@@ -401,6 +455,117 @@ function buildVectorProjection(input: {
   };
 }
 
+function buildCompensationPreview(input: {
+  assetId: string;
+  depositId: string;
+  depositorWalletId: string | null;
+  btdRange: string | null;
+  sourceBound: boolean;
+  proofReady: boolean;
+  measurementReady: boolean;
+  searchable: boolean;
+  blockers: string[];
+  warnings: string[];
+}): DepositorySupplyCompensationPreview {
+  const compensationBlockers = [
+    ...input.blockers,
+    ...(!input.depositorWalletId ? ['depositor_wallet_missing'] : []),
+    ...(!input.proofReady ? ['wallet_or_attestation_proof_missing'] : []),
+    ...(!input.measurementReady ? ['asset_measurement_evidence_missing'] : []),
+    ...(!input.searchable ? ['depository_searchability_missing'] : []),
+  ];
+  const eligibleForCompensationIfSelected = compensationBlockers.length === 0;
+  const state: DepositorySupplyCompensationState = eligibleForCompensationIfSelected
+    ? 'eligible-if-selected-for-assetpack'
+    : input.blockers.length
+      ? 'blocked-before-compensation'
+      : 'repair-required-before-compensation';
+  const compensationRoute = {
+    payer: 'future-reader-after-settlement' as const,
+    payee: 'depositing-wallet' as const,
+    priceAsset: 'BTC' as const,
+    allocationMethod: 'source-to-shares-largest-remainder' as const,
+    sourceToSharesProofState: 'not-created-until-accepted-need-fit-and-settlement' as const,
+    btdMintBoundary: 'not-minted-by-deposit-admission' as const,
+    btdRightsTransferBoundary: 'reader-receives-rights-only-after-btc-settlement' as const,
+  };
+  const readback = {
+    ledgerAccountKeys: [
+      `supplier:${input.assetId}:pending_claims`,
+      ...(input.depositorWalletId
+        ? [
+            `depositor:${input.depositorWalletId}:deposited_assets`,
+            `depositor:${input.depositorWalletId}:eligible_compensation_routes`,
+          ]
+        : []),
+    ],
+    databaseProjectionTables: [
+      'deliverables',
+      'deliverable_vectors',
+      'ledger_entries',
+      'source_to_shares_allocations',
+    ],
+    objectStorageVisibility: 'source-safe-metadata-only-before-settlement' as const,
+  };
+  const compensationRouteRoot = root('sha256', compensationRoute);
+  const sourceToSharesPreviewRoot = root('sha256', {
+    assetId: input.assetId,
+    depositId: input.depositId,
+    depositorWalletId: input.depositorWalletId,
+    candidateBtdRange: input.btdRange,
+    allocationMethod: compensationRoute.allocationMethod,
+    sourceToSharesProofState: compensationRoute.sourceToSharesProofState,
+  });
+  const readbackRoot = root('sha256', readback);
+  const readiness = {
+    sourceBound: input.sourceBound,
+    proofReady: input.proofReady,
+    measurementReady: input.measurementReady,
+    searchable: input.searchable,
+    depositorWalletReady: Boolean(input.depositorWalletId),
+    eligibleForFindingFits: input.searchable,
+    eligibleForCompensationIfSelected,
+    blockers: uniqueSorted(compensationBlockers),
+    warnings: uniqueSorted(input.warnings),
+  };
+  const visibility = {
+    beforeSettlement: 'source-safe-compensation-route-metadata' as const,
+    protectedSourceVisible: false as const,
+    unpaidAssetPackSourceVisible: false as const,
+    walletPrivateMaterialVisible: false as const,
+    settlementPrivatePayloadVisible: false as const,
+  };
+  const compensationPreviewRoot = root('sha256', {
+    assetId: input.assetId,
+    depositId: input.depositId,
+    state,
+    readiness,
+    compensationRouteRoot,
+    sourceToSharesPreviewRoot,
+    readbackRoot,
+    visibility,
+  });
+
+  return {
+    schema: 'bitcode.depository.supply-compensation-preview',
+    state,
+    assetId: input.assetId,
+    depositId: input.depositId,
+    depositorWalletId: input.depositorWalletId,
+    candidateBtdRange: input.btdRange,
+    compensationRoute,
+    readiness,
+    visibility,
+    readback,
+    roots: {
+      compensationRouteRoot,
+      sourceToSharesPreviewRoot,
+      readbackRoot,
+      compensationPreviewRoot,
+    },
+  };
+}
+
 function recordEmbeddingInputs(record: Record<string, unknown>): Record<string, unknown> {
   return (
     recordValue(record.embeddings) ||
@@ -553,6 +718,8 @@ function buildSupplyRecord(input: {
     embeddings: recordEmbeddingInputs(record),
   });
   const storageProjection = buildStorageProjection();
+  const depositorWalletId = firstString(record.depositorWalletId, metadata.depositorWalletId, getPath(record, ['depositorBoundary', 'walletId']));
+  const btdRange = firstString(record.btdRange, metadata.btdRange, getPath(record, ['btd', 'range']));
   const blockers = [
     ...(!repositoryFullName ? ['repository_binding_missing'] : []),
     ...(!sourceBranch && !sourceCommit ? ['source_revision_binding_missing'] : []),
@@ -560,6 +727,7 @@ function buildSupplyRecord(input: {
   const warnings = [
     ...(!hasWalletOrAttestationProof ? ['wallet_or_attestation_proof_missing'] : []),
     ...(!hasAssetMeasurementEvidence ? ['asset_measurement_evidence_missing'] : []),
+    ...(!depositorWalletId ? ['depositor_wallet_missing'] : []),
     ...(vectorProjection.rows.some((row) => row.embeddingState === 'pending-embedding')
       ? ['embedding_rows_pending']
       : []),
@@ -584,11 +752,12 @@ function buildSupplyRecord(input: {
     ...(!sourceBranch && !sourceCommit ? ['bind-source-branch-or-commit'] : []),
     ...(!hasWalletOrAttestationProof ? ['collect-wallet-or-attestation-proof'] : []),
     ...(!hasAssetMeasurementEvidence ? ['compute-asset-measurement'] : []),
+    ...(!depositorWalletId ? ['bind-depositor-wallet-for-compensation'] : []),
     ...(!vectorProjectionReady ? ['sync-active-embedding-vector-rows'] : []),
   ]);
   const rightsBoundary = {
-    depositorWalletId: firstString(record.depositorWalletId, metadata.depositorWalletId, getPath(record, ['depositorBoundary', 'walletId'])),
-    btdRange: firstString(record.btdRange, metadata.btdRange, getPath(record, ['btd', 'range'])),
+    depositorWalletId,
+    btdRange,
     readerVisibilityBeforeSettlement: 'source-safe-metadata-only' as const,
     protectedSourceBeforeSettlementVisible: false as const,
     settlementRequiredForSourceBearingAssetPack: true as const,
@@ -625,12 +794,25 @@ function buildSupplyRecord(input: {
   const vectorProjectionRoot = root('sha256', vectorProjection);
   const storageProjectionRoot = root('sha256', storageProjection);
   const rightsBoundaryRoot = root('sha256', rightsBoundary);
+  const compensationPreview = buildCompensationPreview({
+    assetId,
+    depositId,
+    depositorWalletId,
+    btdRange,
+    sourceBound: Boolean(repositoryFullName && (sourceBranch || sourceCommit)),
+    proofReady,
+    measurementReady,
+    searchable,
+    blockers,
+    warnings,
+  });
   const supplyRoot = root('sha256', {
     assetId,
     depositId,
     sourceBinding,
     lifecycle: { state, searchable, blockers, warnings },
     rightsBoundaryRoot,
+    compensationPreviewRoot: compensationPreview.roots.compensationPreviewRoot,
     searchDocumentRoot,
     vectorProjectionRoot,
     storageProjectionRoot,
@@ -660,6 +842,7 @@ function buildSupplyRecord(input: {
       warnings,
     },
     rightsBoundary,
+    compensationPreview,
     proofEvidence,
     measurementEvidence,
     readbackEvidence,
@@ -674,6 +857,7 @@ function buildSupplyRecord(input: {
       vectorProjectionRoot,
       storageProjectionRoot,
       rightsBoundaryRoot,
+      compensationPreviewRoot: compensationPreview.roots.compensationPreviewRoot,
     },
   };
 }

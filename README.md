@@ -87,11 +87,22 @@ later BTC compensation, shortest-path Reading through Need review/resynthesis,
 Finding Fits, source-safe AssetPack preview, BTD/BTC settlement, repository
 delivery, and an AI-reading dominant demonstration whose AssetPack measurably
 improves an AI system beyond public-data-only performance.
+V42 Gate 2 adds source-safe Depositing compensation visibility with
+`DepositorySupplyCompensationPreview`, deposit route compensation evidence,
+Terminal compensation roots, `.bitcode/v42-depositing-shortest-path.json`,
+and `check:v42-gate2`. Deposit admission remains pre-mint and pre-rights
+transfer; BTC source-to-shares allocation is only a later paid AssetPack
+settlement route.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject
 sub-critical positive-ROI options; `/terminal` separates into `/read` and
 `/deposit`; and `/exchange` is renamed to `/packs` across product naming.
+That future route model treats AssetPacks as the product object in and out:
+`/deposit` proposes deposit AssetPack options from source and Bitcode demand,
+`/read` buys synthesized Need-Fit AssetPacks, and `/packs` becomes the
+searchable master-detail activity surface for pack measurements, values,
+settlement posture, compensation, delivery, proofs, and repair.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

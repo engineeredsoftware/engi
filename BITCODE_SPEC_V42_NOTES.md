@@ -27,6 +27,9 @@ It opens the reliable MVP experience version after V41 prompt-program promotion 
 The V42 Depositing path should minimize the journey from source material to Depository admission proof.
 The user needs to know that the source is admitted, searchable for future Need-Fit work, and eligible for BTC compensation if it contributes to a synthesized AssetPack.
 The UX can stay simple, but expandable details must show source authority, admission proof, storage projection, search-document posture, compensation route, and repair state.
+Gate 2 implements that note through `DepositorySupplyCompensationPreview`, deposit route `depositoryEvidence.compensationPreview`, Terminal compensation readback rows, and `.bitcode/v42-depositing-shortest-path.json`.
+Local/staging rehearsal for this gate means the deposit route, source-safe evidence projection, generated artifact, package test, and protocol route test can run without value-bearing mainnet behavior.
+The staging-testnet lane may read the same source-safe roots and ledger keys, but secrets and private source remain outside generated artifacts.
 
 ## Reading shortest-path note
 
@@ -59,6 +62,10 @@ V43 or a later explicitly opened version should evolve the deposit side into an 
 Repository-installed Bitcode Agents should compare a connected enterprise codebase, the current Bitcode Depository, and Reading activity to propose deposit AssetPack options.
 Those options should be source-safe, sub-critical, likely positive ROI, and approve/rejectable before Depository admission.
 That later version should split `/terminal` into `/read` and `/deposit`, and rename `/exchange` to `/packs` across routes, code naming, docs, and operator vocabulary.
+The route model should be AssetPacks in and AssetPacks out: `/deposit` creates reviewable deposit AssetPack options from connected source, depositor instructions, and Bitcode's observed Needs; `/read` creates reviewed Need-Fit AssetPack previews and only unlocks source-bearing delivery after settlement; `/packs` is the searchable master-detail activity route for deposited packs, settled read packs, compensation posture, quotes, rights transfer, delivery, and repair.
+The `/packs` master view should support column sorting, filtering, and search over measurements, synthesized AssetPack titles and descriptions, values, activity or transaction type, settlement posture, and compensation state.
+The detail view should expose the selected activity's source-safe data, proof roots, telemetry, ledger/database synchronization, and expandable payloads without replacing the short default path.
+Outside public documentation, product UX should avoid self-referential explanatory copy; route structure, concise labels, progressive detail, and proof-on-expand must make Depositing, Reading, and Pack activity self-explanatory.
 
 ## Concise current-system reading
 

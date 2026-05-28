@@ -98,8 +98,8 @@ deposited repository/material supply into searchable Depository records before
 Finding Fits runs. A `DepositorySupplyIndex` contains `DepositorySupplyRecord`
 entries with repository, branch, commit, proof root, measurement root,
 reconciliation readback root, BTD range, depositor wallet boundary, source-safe
-search documents, vector projection rows, storage readback posture, and repair
-actions.
+search documents, vector projection rows, storage readback posture, source-safe
+compensation preview, and repair actions.
 
 The index deliberately keeps protected source outside the serialized record.
 Lexical, metadata, measurement, and vector search documents use source-safe
@@ -107,6 +107,16 @@ titles, summaries, paths, symbol names, stack tags, constraints, and roots.
 Rows with missing or invalid embeddings remain visible as repair posture through
 `sync-active-embedding-vector-rows`; they are not treated as a fully searchable
 vector corpus.
+
+Each supply record also carries a `DepositorySupplyCompensationPreview`. That
+preview tells the depositor how BTC can later route back through
+source-to-shares if the deposit is selected into a paid AssetPack, while making
+the pre-fit boundary explicit: deposit admission does not mint BTD, does not
+transfer BTD rights, and does not expose protected source or unpaid
+source-bearing AssetPack content. The preview records compensation route roots,
+source-to-shares preview roots, ledger account keys such as pending claims and
+eligible compensation routes, and repair posture when a depositor wallet,
+proof, measurement, or searchability requirement is missing.
 
 `depositorySupplyAssetsFromIndex` converts indexed records into source-safe
 `DepositoryAsset` candidates for `ReadFitsFindingSynthesis`. This handoff lets

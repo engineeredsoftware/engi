@@ -33,7 +33,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Roadmap truth | Roadmap states V41 active and V42 draft reliable MVP experience | `SPECIFICATIONS_ROADMAP.md` | drafted |
 | Gate workflow | Gate quality knows active V41 / draft V42 posture and V42 Gate 1 | `.github/workflows/bitcode-gate-quality.yml` | drafted |
 | Canon workflow | Canon quality knows active V41 / draft V42 posture and V42 Gate 1 | `.github/workflows/bitcode-canon-quality.yml` | drafted |
-| Depositing shortest path | Source material can be admitted with Depository proof and compensation visibility | later V42 Gate 2 artifact | draft-required |
+| Depositing shortest path | Source material can be admitted with Depository proof and compensation visibility | `.bitcode/v42-depositing-shortest-path.json`, `DepositorySupplyCompensationPreview`, `/api/deposits`, Terminal deposit readback | implemented |
 | Reading state machine | Five-step Reading UX is route-owned, persistent, and source-safe | later V42 Gate 3 artifact | draft-required |
 | ReadNeed product closure | Need synthesis, review, feedback, resynthesis, and accepted-Need admission are product-ready | later V42 Gate 4 artifact | draft-required |
 | Finding Fits preview and quote | Many-candidate search, selected-fit provenance, source-safe preview, and quote are product-ready | later V42 Gate 5 artifact | draft-required |
@@ -47,7 +47,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Area | Closure requirement | Judgment |
 | --- | --- | --- |
 | Gate 1 | Open V42 family, roadmap, docs, workflow posture, package script, and checker | drafted |
-| Gate 2 | Depositing shortest path and compensation visibility artifact | draft-required |
+| Gate 2 | Depositing shortest path and compensation visibility artifact | implemented |
 | Gate 3 | Reading shortest path state machine artifact | draft-required |
 | Gate 4 | ReadNeed review and resynthesis product closure artifact | draft-required |
 | Gate 5 | ReadFitsFinding AssetPack preview and quote closure artifact | draft-required |

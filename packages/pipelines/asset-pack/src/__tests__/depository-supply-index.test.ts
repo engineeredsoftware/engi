@@ -111,6 +111,46 @@ describe('Depository supply index', () => {
       settlementRequiredForSourceBearingAssetPack: true,
       btdOwnershipBoundary: 'depositor-retains-btd-until-settlement-transfer',
     });
+    expect(record.compensationPreview).toMatchObject({
+      schema: 'bitcode.depository.supply-compensation-preview',
+      state: 'eligible-if-selected-for-assetpack',
+      depositorWalletId: 'wallet-depositor-1',
+      candidateBtdRange: 'btd:100:140',
+      compensationRoute: {
+        payer: 'future-reader-after-settlement',
+        payee: 'depositing-wallet',
+        priceAsset: 'BTC',
+        allocationMethod: 'source-to-shares-largest-remainder',
+        sourceToSharesProofState: 'not-created-until-accepted-need-fit-and-settlement',
+        btdMintBoundary: 'not-minted-by-deposit-admission',
+        btdRightsTransferBoundary: 'reader-receives-rights-only-after-btc-settlement',
+      },
+      readiness: {
+        proofReady: true,
+        measurementReady: true,
+        searchable: true,
+        depositorWalletReady: true,
+        eligibleForFindingFits: true,
+        eligibleForCompensationIfSelected: true,
+        blockers: [],
+      },
+      visibility: {
+        beforeSettlement: 'source-safe-compensation-route-metadata',
+        protectedSourceVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        walletPrivateMaterialVisible: false,
+        settlementPrivatePayloadVisible: false,
+      },
+    });
+    expect(record.compensationPreview.roots.compensationPreviewRoot).toMatch(/^sha256:/);
+    expect(record.compensationPreview.roots.sourceToSharesPreviewRoot).toMatch(/^sha256:/);
+    expect(record.compensationPreview.readback.ledgerAccountKeys).toEqual(
+      expect.arrayContaining([
+        'supplier:asset-terminal-engi:pending_claims',
+        'depositor:wallet-depositor-1:deposited_assets',
+        'depositor:wallet-depositor-1:eligible_compensation_routes',
+      ]),
+    );
     expect(record.vectorProjection.rows).toHaveLength(4);
     expect(record.vectorProjection.rows.every((row) => row.embeddingState === 'ready')).toBe(true);
     expect(record.storageProjection).toMatchObject({
@@ -163,7 +203,39 @@ describe('Depository supply index', () => {
     expect(index.records[0].lifecycle.blockers).toEqual(
       expect.arrayContaining(['repository_binding_missing', 'source_revision_binding_missing']),
     );
+    expect(index.records[0].compensationPreview.state).toBe('blocked-before-compensation');
+    expect(index.records[0].compensationPreview.readiness.blockers).toEqual(
+      expect.arrayContaining([
+        'repository_binding_missing',
+        'source_revision_binding_missing',
+        'depository_searchability_missing',
+      ]),
+    );
     expect(depositorySupplyAssetsFromIndex(index)).toHaveLength(0);
+  });
+
+  it('surfaces repair posture when deposit compensation cannot route to a wallet', () => {
+    const index = buildDepositorySupplyIndex({
+      deposits: [deposit({ depositorWalletId: null })],
+      createdAt: '2026-05-25T00:00:00.000Z',
+    });
+
+    const record = index.records[0];
+    expect(record.lifecycle.state).toBe('indexed-repair-required');
+    expect(record.lifecycle.warnings).toEqual(expect.arrayContaining(['depositor_wallet_missing']));
+    expect(record.repairActions).toContain('bind-depositor-wallet-for-compensation');
+    expect(record.compensationPreview.state).toBe('repair-required-before-compensation');
+    expect(record.compensationPreview.readiness).toMatchObject({
+      searchable: true,
+      proofReady: true,
+      measurementReady: true,
+      depositorWalletReady: false,
+      eligibleForFindingFits: true,
+      eligibleForCompensationIfSelected: false,
+    });
+    expect(record.compensationPreview.readiness.blockers).toEqual(
+      expect.arrayContaining(['depositor_wallet_missing']),
+    );
   });
 
   it('hands source-safe supply records to Finding Fits search as candidate deposits', async () => {
