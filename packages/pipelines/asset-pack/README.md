@@ -284,6 +284,16 @@ payloads are not serialized. Value-bearing mainnet admission remains blocked.
 The source-safe artifact is `.bitcode/v39-local-staging-reading-rehearsal.json`,
 checked by `pnpm run check:v39-gate10`.
 
+V42 Gate 8 reuses `ReadingLocalStagingRehearsal` as the package proof body for
+the reliable MVP local/staging full rehearsal. The V42 artifact
+`.bitcode/v42-local-staging-mvp-rehearsal.json` binds that package model to
+the closed V42 Depositing, Reading state, ReadNeed review/resynthesis, Finding
+Fits preview/quote, settlement rights delivery, and AI-reading demonstration
+artifacts. Use `pnpm run rehearse:v42-local-staging` for source-safe operator
+receipts and `pnpm run check:v42-gate8` for the full proof. Staging-testnet is
+bound to Supabase project `tkpyosihuouusyaxtbau`; value-bearing mainnet stays
+blocked, and generated rehearsal material remains metadata-only.
+
 ### Vector Embedding Contract
 
 Depository vector recall uses the shared AssetPack embedding contract:

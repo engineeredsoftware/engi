@@ -84,6 +84,14 @@ The demonstration must remain minimal, local, deterministic where feasible, and 
 Gate 7 records that proof as a public-data-only baseline, a reviewed local Need, a local Depository Finding Fits step, a selected AssetPack preview, an AssetPack-enhanced AI-reading answer, and deterministic benchmark uplift.
 The demonstration proves value without weakening the settlement-gated visibility boundary: protected source is still withheld until settlement, and the demonstration remains independent from product runtime imports.
 
+## Gate 8 local/staging rehearsal note
+
+Gate 8 records the source-safe full MVP rehearsal posture across local and staging-testnet lanes.
+It composes the already-closed V42 Depositing, Reading state, ReadNeed review/resynthesis, Finding Fits preview/quote, settlement rights delivery, and AI-reading demonstration proofs into one operator-readable rehearsal artifact.
+The rehearsal binds `ReadingLocalStagingRehearsal`, Vercel Sandbox operator receipts, staging-testnet Supabase project `tkpyosihuouusyaxtbau`, rich execution-log readback, database streaming, ledger/database/storage reconciliation, post-settlement pull-request delivery, and explicit value-bearing mainnet blocking.
+It is intentionally source-safe metadata only: secrets, protected source, raw protected prompts, raw interpolated prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, and live rehearsal logs remain outside tracked artifacts.
+Gate 8 does not implement the V43+ route vocabulary, but it keeps the future product shape visible: `/read`, `/deposit`, and `/packs` remain the next route cleanup once V42 proves the current MVP path.
+
 ## V43+ agentic depositing roadmap note
 
 V43 or a later explicitly opened version should evolve the deposit side into an agentic AssetPack option experience for enterprises.

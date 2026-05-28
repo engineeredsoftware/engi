@@ -377,7 +377,7 @@
       "passed": true
     },
     {
-      "id": "roadmap-advanced-to-gate7",
+      "id": "roadmap-records-gate7-closure",
       "sourcePath": "SPECIFICATIONS_ROADMAP.md",
       "passed": true
     },
@@ -412,5 +412,5 @@
     "failedPredicateIds": []
   },
   "passed": true,
-  "artifactRoot": "v42-ai-reading-demonstration:611a9f54deb36a9d6506adf5"
+  "artifactRoot": "v42-ai-reading-demonstration:8d5fb53a20ade8253f106da8"
 }

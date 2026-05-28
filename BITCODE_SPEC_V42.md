@@ -91,6 +91,10 @@ These objects bind to existing Bitcode objects: deposits, BTD ranges, AssetPacks
 
 The V42 operator chain is: admit source, prove Depository availability, expose compensation posture, accept a Read Request, synthesize a Need, review or resynthesize the Need, request Finding Fits, search many Depository candidates, rank and select fitting deposits, synthesize a source-safe AssetPack preview, quote BTD/BTC purchase terms, settle BTC, transfer BTD rights, unlock source-bearing delivery, create repository pull request, journal ledger/database/storage synchronization, and expose source-safe telemetry and proof readback.
 
+V42 Gate 8 must rehearse that whole chain locally and in staging-testnet before promotion.
+The local/staging full MVP rehearsal binds Gates 2 through 7 together as one operator-readable path: deposit source, request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview and quote, buy/settle, transfer BTD rights, receive repository delivery, and verify the AI-reading value demonstration remains valid.
+The rehearsal is source-safe metadata only: it may carry lane ids, stage ids, proof roots, staging-testnet project references, command ids, readiness families, database stream posture, telemetry roots, reconciliation roots, delivery roots, and blocker/repair summaries, but it may not serialize secrets, protected source, raw protected prompts, raw interpolated prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or live rehearsal logs.
+
 ## V42 Gate 1 MVP Experience Roadmap And Spec Opening
 
 Gate 1 opens the V42 spec family, branch posture, workflow posture, checker, roadmap, docs, and reliable MVP experience vocabulary.
@@ -165,6 +169,11 @@ The accepted proof is an AI-reading AssetPack improvement: public-only assistanc
 
 Gate 8 must rehearse the full MVP path locally and in staging-testnet without value-bearing mainnet behavior.
 It must exercise deposit, Read Request, Need synthesis/review/resynthesis, Finding Fits, AssetPack preview, quote, settlement simulation or testnet observation, BTD rights projection, repository delivery, telemetry, proof artifacts, and repair readback.
+Gate 8 implements the local/staging full MVP rehearsal proof.
+The generated artifact `.bitcode/v42-local-staging-mvp-rehearsal.json` binds the closed V42 product artifacts from Gates 2 through 7 to the package `ReadingLocalStagingRehearsal`, the Vercel Sandbox harness, staging-testnet Supabase project `tkpyosihuouusyaxtbau`, rich execution-log readback, ledger/database/object-storage reconciliation, post-settlement pull-request delivery, source-safe operator receipts, and blocked value-bearing mainnet posture.
+Gate 8 does not promote mainnet, does not split `/terminal`, and does not rename `/exchange`.
+It proves the current MVP path is rehearseable under local and staging-testnet lanes while preserving V43+ as the route-vocabulary cleanup and agentic deposit AssetPack option work.
+The validating command is `pnpm run check:v42-gate8`.
 
 ## V42 Gate 9 V42 Promotion Readiness
 

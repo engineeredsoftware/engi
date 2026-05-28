@@ -61,6 +61,7 @@ Current exported commercial helpers include:
 - `V41PromotionReadinessReport` helpers for V41 source-safe prompt-program promotion readiness across all V41 prompt artifacts, generated proof support, workflow posture, promotion dry-run support, and active V41 / draft V42 runtime preparation;
 - `V42SettlementRightsDelivery` helpers for V42 source-safe BTC payment observation, finality gating, source-to-shares compensation, BTD read-right transfer, repository delivery unlock, ledger/database/object-storage reconciliation, Terminal readback, and source-safe paid-boundary proof;
 - `V42AiReadingDemonstration` helpers for V42 source-safe AI-reading demonstration proof: public-data-only baseline, reviewed local Need, local Finding Fits, source-safe AssetPack preview, AssetPack-enhanced AI answer, deterministic benchmark uplift, self-contained demonstration boundary, and workflow wiring;
+- `V42LocalStagingMvpRehearsal` helpers for V42 source-safe local/staging-testnet full MVP rehearsal proof across Depositing, Reading, Finding Fits, preview/quote, settlement, BTD rights transfer, repository delivery, AI-reading uplift, telemetry/database readback, operator receipts, and blocked value-bearing mainnet;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -247,6 +248,18 @@ The artifact is source-safe metadata only and covers the self-contained
 local Need, local Depository fit selection, AssetPack preview, AssetPack-
 enhanced answer, deterministic benchmark uplift, settlement-gated source
 visibility, and workflow proof wiring.
+V42 Gate 8 adds `V42LocalStagingMvpRehearsal` through
+`packages/protocol/src/canonical/v42-local-staging-mvp-rehearsal.js`,
+`packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js`,
+`.bitcode/v42-local-staging-mvp-rehearsal.json`,
+`rehearse:v42-local-staging`,
+`generate:v42-local-staging-mvp-rehearsal`,
+`check:v42-local-staging-mvp-rehearsal`, and `check:v42-gate8`.
+The artifact is source-safe metadata only and binds Gates 2 through 7 into the
+local/staging full MVP rehearsal: deposit source, request read, review
+synthesized Need, request Finding Fits, review source-safe AssetPack preview
+and quote, buy/settle, receive repository delivery, inspect telemetry/database
+readback, and keep value-bearing mainnet blocked.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

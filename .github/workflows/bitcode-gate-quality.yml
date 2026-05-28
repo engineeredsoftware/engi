@@ -442,6 +442,9 @@ jobs:
               if [ -f scripts/check-v42-gate7-ai-reading-demonstration.mjs ]; then
                 node scripts/check-v42-gate7-ai-reading-demonstration.mjs --skip-branch-check --skip-package-tests --skip-demonstration-tests
               fi
+              if [ -f scripts/check-v42-gate8-local-staging-mvp-rehearsal.mjs ]; then
+                node scripts/check-v42-gate8-local-staging-mvp-rehearsal.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

@@ -188,7 +188,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v42-delta-expanded', SOURCE_ROOTS.v42Delta, sources.v42Delta.includes('Gate 7 now binds') && sources.v42Delta.includes('public-data-only baseline')),
     predicateResult('v42-notes-expanded', SOURCE_ROOTS.v42Notes, sources.v42Notes.includes('Gate 7 records') && sources.v42Notes.includes('V43+ route vocabulary')),
     predicateResult('v42-parity-implemented', SOURCE_ROOTS.v42Parity, sources.v42Parity.includes('AI-reading demonstration') && sources.v42Parity.includes('implemented')),
-    predicateResult('roadmap-advanced-to-gate7', SOURCE_ROOTS.roadmap, sources.roadmap.includes('Current working gate: V42 Gate 7') && sources.roadmap.includes('V42 Gate 7 closure anchor')),
+    predicateResult('roadmap-records-gate7-closure', SOURCE_ROOTS.roadmap, sources.roadmap.includes('V42 Gate 7 closure anchor') && sources.roadmap.includes('check:v42-gate7')),
     predicateResult('readmes-document-gate7', SOURCE_ROOTS.rootReadme, sources.rootReadme.includes('V42 Gate 7') && sources.demoReadme.includes('V42 AI-reading demonstration') && sources.protocolReadme.includes('V42AiReadingDemonstration')),
   ];
 }

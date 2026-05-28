@@ -67,6 +67,8 @@ Gate 7 now binds the local AI-reading demonstration runtime, public-data-only ba
 ### Gate 8: Local And Staging-Testnet Full MVP Rehearsal
 
 Run and prove the complete MVP path locally and in staging-testnet with value-bearing mainnet blocked.
+Gate 8 now binds staging-testnet full MVP rehearsal to the local lane, Vercel Sandbox operator receipt posture, Supabase project `tkpyosihuouusyaxtbau`, Gates 2 through 7 generated artifacts, `ReadingLocalStagingRehearsal`, source-safe telemetry/database readback, ledger/database/storage reconciliation, post-settlement repository delivery, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `rehearse:v42-local-staging`, and `check:v42-gate8`.
+The rehearsal artifact is metadata only and does not serialize secrets, protected source, raw prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or live rehearsal logs.
 
 ### Gate 9: V42 Promotion Readiness
 
