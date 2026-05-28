@@ -32,6 +32,10 @@ those surfaces own their own implementations outside this package.
 - `src/local-fit-finding.js`: standalone local Need/Need-Fit witness. It
   deliberately avoids pipeline, registry, prompt, agent, Vercel, Supabase, and
   UAPI imports.
+- `src/ai-reading-demonstration.js`: V42 AI-reading demonstration MVP. It
+  compares a public-data-only AI answer with an AssetPack-enhanced answer after
+  local Need synthesis and local Finding Fits, then emits deterministic
+  benchmark uplift and source-safe proof roots.
 - `src/canonical/proven-generator.js`: generated proof and checkpoint appendix builder.
 - `public/app.js`: standalone demonstration behavior.
 - `public/index.html`: direct demonstration shell for local validation and parity checks.
@@ -71,7 +75,26 @@ npm test
 pnpm test:fit-finding
 pnpm test:integration
 pnpm test:v28-mvp-qa
+pnpm test:v42-ai-reading-mvp
 ```
+
+## V42 AI-reading demonstration
+
+The V42 AI-reading demonstration proves the shortest local reason Bitcode
+matters for AI-dominant Reading: a deposited runbook AssetPack improves an AI
+incident assistant beyond a public-data-only baseline.
+
+The loop is intentionally minimal and local:
+
+1. synthesize and accept a ReadNeed from a source-bound Read;
+2. rank the local Depository and select `deposit-auth-migration-runbook`;
+3. expose only source-safe AssetPack preview metadata before settlement;
+4. compare the public-data-only answer with the AssetPack-enhanced answer;
+5. record deterministic basis-point uplift, query root, ranking root, and
+   AssetPack proof root.
+
+The demonstration remains self-contained and does not import product runtime
+code.
 
 ## Required Doc Companions
 

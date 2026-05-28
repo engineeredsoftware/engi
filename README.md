@@ -127,6 +127,14 @@ pull-request delivery only after paid readback agrees. Route summaries and
 Terminal detail remain source-safe metadata: unpaid AssetPack source, wallet
 private material, private settlement payloads, credentials, raw protected
 prompts, and raw provider responses are withheld.
+V42 Gate 7 adds the AI-reading dominant demonstration MVP with
+`protocol-demonstration/src/ai-reading-demonstration.js`,
+`.bitcode/v42-ai-reading-demonstration.json`, and `check:v42-gate7`.
+It compares a public-data-only AI remediation answer against an
+AssetPack-enhanced answer after a reviewed local Need and local Finding Fits
+step select the deposited runbook AssetPack. The benchmark uplift is
+deterministic, the demonstration stays self-contained, and protected source
+remains withheld before settlement.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject
@@ -806,4 +814,5 @@ Demonstration verification:
 cd protocol-demonstration
 pnpm test:integration
 pnpm test:v28-mvp-qa
+pnpm test:v42-ai-reading-mvp
 ```

@@ -60,6 +60,7 @@ Current exported commercial helpers include:
 - `V41ReadingPromptBenchmarkBaselines` helpers for V41 source-safe Reading prompt baseline rows across `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, all five Reading UX steps, V38 benchmark fixtures, Gate 2 inventory roots, Gate 3 registry/interpolation roots, parser targets, deterministic scores, and source-safe disclosure tiers;
 - `V41PromotionReadinessReport` helpers for V41 source-safe prompt-program promotion readiness across all V41 prompt artifacts, generated proof support, workflow posture, promotion dry-run support, and active V41 / draft V42 runtime preparation;
 - `V42SettlementRightsDelivery` helpers for V42 source-safe BTC payment observation, finality gating, source-to-shares compensation, BTD read-right transfer, repository delivery unlock, ledger/database/object-storage reconciliation, Terminal readback, and source-safe paid-boundary proof;
+- `V42AiReadingDemonstration` helpers for V42 source-safe AI-reading demonstration proof: public-data-only baseline, reviewed local Need, local Finding Fits, source-safe AssetPack preview, AssetPack-enhanced AI answer, deterministic benchmark uplift, self-contained demonstration boundary, and workflow wiring;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -235,6 +236,17 @@ posture, harness route summaries, Terminal settlement readback, and workflow
 proof wiring without serializing protected source, unpaid AssetPack source,
 wallet private material, private settlement payloads, credentials, raw
 protected prompts, or raw provider responses.
+V42 Gate 7 adds `V42AiReadingDemonstration` through
+`packages/protocol/src/canonical/v42-ai-reading-demonstration.js`,
+`packages/protocol/test/v42-ai-reading-demonstration.test.js`,
+`.bitcode/v42-ai-reading-demonstration.json`,
+`generate:v42-ai-reading-demonstration`,
+`check:v42-ai-reading-demonstration`, and `check:v42-gate7`.
+The artifact is source-safe metadata only and covers the self-contained
+`protocol-demonstration/` AI-reading loop: public-data-only baseline, reviewed
+local Need, local Depository fit selection, AssetPack preview, AssetPack-
+enhanced answer, deterministic benchmark uplift, settlement-gated source
+visibility, and workflow proof wiring.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

@@ -6,3 +6,7 @@ export {
   DEFAULT_BITCODE_PUBLIC_DIR
 } from '../server.js';
 export { ACTIVE_CANON_VERSION, DRAFT_TARGET_VERSION } from './canon-posture.js';
+export {
+  buildAiReadingDemonstrationInput,
+  runAiReadingDominantDemonstration
+} from './ai-reading-demonstration.js';

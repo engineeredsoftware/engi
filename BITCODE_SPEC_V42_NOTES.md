@@ -81,6 +81,8 @@ Protected source, private settlement payloads, wallet private material, raw prot
 The standalone demonstration should prove why Bitcode matters for AI-dominant Reading.
 A deposited proprietary or otherwise non-public technical intelligence source should contribute to an AssetPack that measurably improves an AI system's training, prompt/context, or evaluation result beyond what a public-data-only baseline can do.
 The demonstration must remain minimal, local, deterministic where feasible, and self-contained inside `protocol-demonstration/`.
+Gate 7 records that proof as a public-data-only baseline, a reviewed local Need, a local Depository Finding Fits step, a selected AssetPack preview, an AssetPack-enhanced AI-reading answer, and deterministic benchmark uplift.
+The demonstration proves value without weakening the settlement-gated visibility boundary: protected source is still withheld until settlement, and the demonstration remains independent from product runtime imports.
 
 ## V43+ agentic depositing roadmap note
 
@@ -93,7 +95,7 @@ The `/packs` master view should support column sorting, filtering, and search ov
 The detail view should expose the selected activity's source-safe data, proof roots, telemetry, ledger/database synchronization, and expandable payloads without replacing the short default path.
 Outside public documentation, product UX should avoid self-referential explanatory copy; route structure, concise labels, progressive detail, and proof-on-expand must make Depositing, Reading, and Pack activity self-explanatory.
 The current transitional Terminal/Exchange UX remains too dense for the final MVP posture.
-V43+ should explicitly own the broad UX cleanup: remove Exchange naming from route and component vocabulary in favor of Packs, split Terminal into `/read` and `/deposit`, keep `/packs` as searchable master-detail activity, and use rich themed reusable components without relying on in-product explanatory copy to compensate for unclear flows.
+V43+ route vocabulary must remove Exchange naming from route and component prefixes in favor of Packs, split Terminal into `/read` and `/deposit`, keep `/packs` as searchable master-detail activity, and use rich themed reusable components without relying on in-product explanatory copy to compensate for unclear flows.
 
 ## Concise current-system reading
 
