@@ -104,6 +104,24 @@ type TerminalReadNeedState = Record<string, unknown> & {
   };
 };
 
+type TerminalReadNeedReviewRuntimeState = Record<string, unknown> & {
+  schema?: 'bitcode.read-need-review-resynthesis-runtime';
+  runtimeId?: string;
+  action?: string;
+  reviewState?: string;
+  findingFitsAdmission?: {
+    admitted?: boolean;
+    blockers?: string[];
+  };
+  reviewLoop?: Record<string, unknown>;
+  proofRoots?: {
+    runtimeRoot?: string;
+    storageRoot?: string;
+    telemetryRoot?: string;
+    readRequestRoot?: string;
+  };
+};
+
 interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
   depositedSourceRevision?: TerminalDepositedSourceRevision | null;
@@ -134,9 +152,12 @@ export default function TerminalDepositReadWorkbench({
   const [harnessUserHasScrolled, setHarnessUserHasScrolled] = useState(false);
   const [readNeed, setReadNeed] = useState<TerminalReadNeedState | null>(null);
   const [acceptedReadNeed, setAcceptedReadNeed] = useState<TerminalReadNeedState | null>(null);
+  const [readNeedReviewRuntime, setReadNeedReviewRuntime] = useState<TerminalReadNeedReviewRuntimeState | null>(null);
+  const [readNeedStorageProjection, setReadNeedStorageProjection] = useState<Array<Record<string, unknown>>>([]);
+  const [readNeedTelemetry, setReadNeedTelemetry] = useState<Record<string, unknown> | null>(null);
   const [readNeedFeedback, setReadNeedFeedback] = useState('');
   const [readNeedMessage, setReadNeedMessage] = useState<string | null>(null);
-  const [readNeedAction, setReadNeedAction] = useState<'synthesize' | 'accept' | 'resynthesize' | null>(null);
+  const [readNeedAction, setReadNeedAction] = useState<'synthesize' | 'accept' | 'reject' | 'resynthesize' | null>(null);
   const [readNeedSynthesisCount, setReadNeedSynthesisCount] = useState(0);
   const workbenchSnapshot = useMemo(() => {
     const liveWorkbenchSnapshot = buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, depositedSourceRevision);
@@ -157,6 +178,9 @@ export default function TerminalDepositReadWorkbench({
     setHarnessEvents([]);
     setReadNeed(null);
     setAcceptedReadNeed(null);
+    setReadNeedReviewRuntime(null);
+    setReadNeedStorageProjection([]);
+    setReadNeedTelemetry(null);
     setReadNeedFeedback('');
     setReadNeedMessage(null);
     setReadNeedAction(null);
@@ -410,6 +434,23 @@ export default function TerminalDepositReadWorkbench({
       { label: 'Previous Need', value: shortIdentifier(currentReadNeed.request?.previousNeedId) || currentReadNeed.request?.previousNeedId || 'none' },
     ];
   }, [currentReadNeed]);
+  const readNeedRuntimeRows = useMemo(() => {
+    if (!readNeedReviewRuntime && !readNeedTelemetry && readNeedStorageProjection.length === 0) return [];
+    const admission = objectValue(readNeedReviewRuntime?.findingFitsAdmission);
+    const proofRoots = objectValue(readNeedReviewRuntime?.proofRoots);
+    return [
+      { label: 'Runtime', value: shortIdentifier(readNeedReviewRuntime?.runtimeId) || textValue(readNeedReviewRuntime?.runtimeId) || 'pending' },
+      { label: 'Action', value: textValue(readNeedReviewRuntime?.action) || 'pending' },
+      { label: 'Admission', value: admission?.admitted === true ? 'admitted' : 'blocked' },
+      { label: 'Blockers', value: stringList(admission?.blockers).join(', ') || 'none' },
+      { label: 'Storage records', value: String(readNeedStorageProjection.length || 'pending') },
+      { label: 'Runtime root', value: shortIdentifier(proofRoots?.runtimeRoot) || 'pending' },
+      { label: 'Storage root', value: shortIdentifier(proofRoots?.storageRoot) || 'pending' },
+      { label: 'Telemetry root', value: shortIdentifier(proofRoots?.telemetryRoot || readNeedTelemetry?.telemetryRoot) || 'pending' },
+      { label: 'PTRR step', value: shortIdentifier(readNeedTelemetry?.ptrrStepId) || textValue(readNeedTelemetry?.ptrrStepId) || 'pending' },
+      { label: 'Return type', value: textValue(readNeedTelemetry?.returnType) || 'pending' },
+    ];
+  }, [readNeedReviewRuntime, readNeedStorageProjection, readNeedTelemetry]);
   const stageCards = enterpriseReadingState.steps;
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
@@ -531,6 +572,9 @@ export default function TerminalDepositReadWorkbench({
       if (!nextNeed) throw new Error('Read-Need synthesis did not return a typed Need.');
       setReadNeed(nextNeed);
       setAcceptedReadNeed(null);
+      setReadNeedReviewRuntime(objectValue(payload?.readNeedReviewRuntime) as TerminalReadNeedReviewRuntimeState | null);
+      setReadNeedStorageProjection(Array.isArray(payload?.storageProjection) ? payload.storageProjection as Array<Record<string, unknown>> : []);
+      setReadNeedTelemetry(objectValue(payload?.telemetry));
       setReadNeedSynthesisCount((count) => count + 1);
       setReadNeedMessage(
         action === 'synthesize_read_need'
@@ -573,6 +617,9 @@ export default function TerminalDepositReadWorkbench({
       }
       setAcceptedReadNeed(accepted);
       setReadNeed(accepted);
+      setReadNeedReviewRuntime(objectValue(payload?.readNeedReviewRuntime) as TerminalReadNeedReviewRuntimeState | null);
+      setReadNeedStorageProjection(Array.isArray(payload?.storageProjection) ? payload.storageProjection as Array<Record<string, unknown>> : []);
+      setReadNeedTelemetry(objectValue(payload?.telemetry));
       setReadNeedMessage('Read-Need accepted. Finding Fits can now run against deposited source.');
       await onRecordActivity?.({
         type: 'agentic-execution:read-measurement',
@@ -603,6 +650,47 @@ export default function TerminalDepositReadWorkbench({
       setReadNeedAction(null);
     }
   }, [onRecordActivity, readNeed]);
+
+  const handleRejectReadNeed = useCallback(async () => {
+    if (!readNeed) return;
+
+    setReadNeedAction('reject');
+    setReadNeedMessage(null);
+
+    try {
+      const response = await fetch('/api/read-review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'reject_read_need',
+          readNeed,
+          feedback: readNeedFeedback.trim() ? [readNeedFeedback.trim()] : [],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(await readTerminalRouteError(response, 'Unable to reject the Read-Need.'));
+      }
+
+      const payload = objectValue(await response.json());
+      const rejected = terminalReadNeed(payload?.rejectedReadNeed || payload?.readNeed);
+      if (!rejected || rejected.reviewState !== 'rejected') {
+        throw new Error('Read-Need rejection did not return a rejected Need.');
+      }
+      setReadNeed(rejected);
+      setAcceptedReadNeed(null);
+      setReadNeedReviewRuntime(objectValue(payload?.readNeedReviewRuntime) as TerminalReadNeedReviewRuntimeState | null);
+      setReadNeedStorageProjection(Array.isArray(payload?.storageProjection) ? payload.storageProjection as Array<Record<string, unknown>> : []);
+      setReadNeedTelemetry(objectValue(payload?.telemetry));
+      setReadNeedMessage('Read-Need rejected. Finding Fits remains blocked until a resynthesized Need is accepted.');
+    } catch (error) {
+      setReadNeedMessage(error instanceof Error ? error.message : 'Unable to reject the Read-Need.');
+    } finally {
+      setReadNeedAction(null);
+    }
+  }, [readNeed, readNeedFeedback]);
 
   const handleRunLiveFit = useCallback(async () => {
     if (!harnessRequestState.ready) {
@@ -852,6 +940,16 @@ export default function TerminalDepositReadWorkbench({
               </button>
               <button
                 type="button"
+                disabled={readNeedAction !== null || !readNeed || readNeed.reviewState === 'accepted'}
+                onClick={() => {
+                  void handleRejectReadNeed();
+                }}
+                className="rounded-[1.2rem] border border-red-300/30 bg-red-300/10 px-4 py-3 text-sm font-medium text-red-100 transition hover:border-red-200/50 hover:bg-red-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+              >
+                {readNeedAction === 'reject' ? 'Rejecting…' : 'Reject Read-Need'}
+              </button>
+              <button
+                type="button"
                 disabled={!canRunLiveFit}
                 onClick={() => {
                   void handleRunLiveFit();
@@ -917,6 +1015,36 @@ export default function TerminalDepositReadWorkbench({
               </div>
             ))}
           </dl>
+        ) : null}
+
+        {readNeedRuntimeRows.length ? (
+          <details className="mt-4 rounded-[1.05rem] border border-white/8 bg-black/20 px-4 py-4">
+            <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em] text-sky-200/80">
+              Need runtime, storage, and telemetry
+            </summary>
+            <dl className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+              {readNeedRuntimeRows.map((row) => (
+                <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
+                  <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                  <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {readNeedStorageProjection.length ? (
+              <div className="mt-3 grid gap-2">
+                {readNeedStorageProjection.map((record, index) => (
+                  <div key={`${String(record.recordId || index)}`} className="rounded-[0.85rem] border border-white/8 bg-black/25 px-3 py-2">
+                    <p className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
+                      {textValue(record.recordKind) || 'storage record'}
+                    </p>
+                    <p className="mt-1 break-words font-mono text-[0.66rem] text-neutral-200">
+                      {shortIdentifier(record.root) || textValue(record.root) || 'pending'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </details>
         ) : null}
       </section>
 

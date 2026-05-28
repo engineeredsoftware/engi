@@ -115,6 +115,16 @@ settlement, and settlement readback gates delivery. The source-safe proof
 artifact is `.bitcode/v42-reading-shortest-path-state-machine.json`, checked by
 `pnpm run check:v42-gate3`.
 
+V42 Gate 4 closes the Terminal ReadNeed review loop. The staged Reading
+surface now keeps `ReadNeedReviewResynthesisRuntime`, storage projection rows,
+telemetry return type, runtime root, storage root, telemetry root, admission
+blockers, and rejected Need posture visible in expandable source-safe detail.
+Terminal exposes synthesize, resynthesize, accept, and reject actions before
+Finding Fits; accepting the Need is the only admission handoff to
+`ReadFitsFindingSynthesis`. The source-safe proof artifact is
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json`, checked by
+`pnpm run check:v42-gate4`.
+
 ## Live staging-testnet QA
 
 Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are

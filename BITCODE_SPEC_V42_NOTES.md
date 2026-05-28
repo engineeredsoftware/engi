@@ -47,6 +47,14 @@ Gate 3 implements the current V42 state-machine layer with `TerminalEnterpriseRe
 The recoverable route state includes transaction id presence, `readingStage`, active-stage hydration, retry and restart posture, source-safe failure kind, and repair actions.
 This makes refresh, route handoff, and recovery inspectable without disclosing protected source, protected prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or ledger authority.
 
+## Gate 4 implementation notes
+
+Gate 4 closes the ReadNeed product loop.
+`ReadNeedComprehensionSynthesis` now has a V42 proof target for source-safe Read Request persistence, synthesized Need storage, feedback and resynthesis lineage, Need measurement roots, accepted Need admission, rejected Need posture, runtime storage projection, and telemetry receipts.
+The Terminal readback must show the Need, review state, runtime root, storage root, telemetry root, blockers, PTRR step identity, and storage record roots without exposing protected source, raw protected prompts, raw provider responses, unpaid AssetPack source, wallet private material, or private settlement payloads.
+Finding Fits remains blocked until the Need is accepted.
+Rejecting a Need must preserve feedback and keep the user on the review/resynthesis step.
+
 ## AssetPack source-safety note
 
 V42 must make the preview valuable without leaking the source-bearing AssetPack before settlement.

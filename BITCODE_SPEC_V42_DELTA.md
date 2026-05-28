@@ -47,6 +47,7 @@ The state machine keeps Terminal guided by default while preserving proof-on-exp
 ### Gate 4: ReadNeed Review And Resynthesis Product Closure
 
 Implement and prove reviewed synthesized Need flow, feedback/resynthesis, accepted-Need admission, storage projection, telemetry, and UI readback.
+Gate 4 now binds `ReadNeedReviewResynthesisRuntime` (`readNeedReviewRuntime` route payloads), all four ReadNeed actions, source-safe storage projection, accepted and rejected review states, PTRR/Failsafe/Thricified telemetry receipts, Terminal runtime/storage/telemetry readback, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and `check:v42-gate4`.
 
 ### Gate 5: ReadFitsFinding AssetPack Preview And Quote Closure
 

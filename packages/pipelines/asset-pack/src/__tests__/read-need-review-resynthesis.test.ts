@@ -66,6 +66,9 @@ describe('ReadNeed review, resynthesis, and admission runtime', () => {
       'need_measurement',
       'telemetry_receipt',
     ]);
+    expect(runtime.storageProjection.every((record) => record.sourceSafety.protectedSourceVisible === false)).toBe(true);
+    expect(runtime.storageProjection.every((record) => record.sourceSafety.rawProviderResponseVisible === false)).toBe(true);
+    expect(runtime.storageProjection.every((record) => record.sourceSafety.unpaidAssetPackSourceVisible === false)).toBe(true);
     expect(runtime.telemetryReceipts[0]).toMatchObject({
       pipelineName: 'ReadNeedComprehensionSynthesis',
       needId: readNeed.needId,
