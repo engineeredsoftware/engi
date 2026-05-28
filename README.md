@@ -106,6 +106,16 @@ rejected Need blockers, PTRR/Failsafe/Thricified telemetry receipts,
 Terminal Need runtime readback,
 `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and
 `check:v42-gate4`.
+V42 Gate 5 adds Finding Fits preview and quote closure with
+accepted-Need-gated `ReadFitsFindingRuntime`, many-channel Depository search,
+selected-fit provenance, `AssetPackPreviewBoundary`, deterministic
+share-to-fee quote receipts, disclosure review, settlement instructions,
+delivery lock, harness evidence summaries, Terminal preview/quote/provenance
+readback, `.bitcode/v42-readfitsfinding-preview-quote.json`, and
+`check:v42-gate5`. The preview remains metadata-only before settlement:
+protected source, unpaid AssetPack source, wallet private material, private
+settlement payloads, credentials, raw protected prompts, and raw provider
+responses stay out of route and UI readback.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject

@@ -181,6 +181,10 @@ describe('ReadFitsFinding runtime, ranking, and replay', () => {
         'telemetry_receipt',
       ]),
     );
+    expect(runtime.storageProjection.every((record) => record.sourceSafety.protectedSourceVisible === false)).toBe(true);
+    expect(runtime.storageProjection.every((record) => record.sourceSafety.rawProviderResponseVisible === false)).toBe(true);
+    expect(runtime.searchSummary.selectedCandidateCount).toBe(2);
+    expect(runtime.searchSummary.fitDepositAssetIds).toEqual(['fit-deposit-runtime-1', 'fit-deposit-runtime-2']);
     expect(runtime.sourceSafety).toMatchObject({
       sourceSafetyClass: 'source_safe_read_fits_finding_runtime_metadata',
       protectedSourceVisible: false,

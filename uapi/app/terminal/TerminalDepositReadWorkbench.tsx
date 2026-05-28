@@ -311,9 +311,27 @@ export default function TerminalDepositReadWorkbench({
     }
     return null;
   }, [harnessEvents]);
-  const sourceSafePreview = objectValue(completedHarnessEvidence?.sourceSafePreview);
+  const assetPackPreviewBoundary = objectValue(completedHarnessEvidence?.assetPackPreviewBoundary);
+  const boundarySourceSafePreview = objectValue(assetPackPreviewBoundary?.sourceSafePreview);
+  const sourceSafePreview =
+    objectValue(completedHarnessEvidence?.sourceSafePreview) ||
+    boundarySourceSafePreview;
+  const assetPackSelectedFitProvenance =
+    objectValue(assetPackPreviewBoundary?.selectedFitProvenance);
+  const assetPackQuoteReceipt =
+    objectValue(assetPackPreviewBoundary?.quoteReceipt) ||
+    objectValue(completedHarnessEvidence?.assetPackQuoteReceipt);
+  const assetPackSettlementInstructions =
+    objectValue(assetPackPreviewBoundary?.settlementInstructions) ||
+    objectValue(completedHarnessEvidence?.assetPackSettlementInstructions);
+  const assetPackDeliveryPosture =
+    objectValue(assetPackPreviewBoundary?.deliveryPosture) ||
+    objectValue(completedHarnessEvidence?.assetPackDeliveryPosture);
+  const assetPackPreviewProofRoots = objectValue(assetPackPreviewBoundary?.proofRoots);
+  const assetPackPreviewReplayReceipt = objectValue(assetPackPreviewBoundary?.replayReceipt);
   const assetPackDisclosureReview =
     objectValue(completedHarnessEvidence?.assetPackDisclosureReview) ||
+    objectValue(assetPackPreviewBoundary?.disclosureReview) ||
     objectValue(sourceSafePreview?.disclosureReview);
   const disclosureAccess = objectValue(assetPackDisclosureReview?.access);
   const disclosurePolicy = objectValue(assetPackDisclosureReview?.policy);
@@ -321,12 +339,18 @@ export default function TerminalDepositReadWorkbench({
   const disclosureRoots = objectValue(assetPackDisclosureReview?.roots);
   const disclosureSourceSafe = disclosureLeakage?.protectedSourceDetected !== true;
   const ledgerSettlement = objectValue(completedHarnessEvidence?.ledgerSettlement);
-  const previewFeeQuote = objectValue(sourceSafePreview?.feeQuote);
+  const previewFeeQuote =
+    assetPackQuoteReceipt ||
+    objectValue(sourceSafePreview?.feeQuote);
   const protectedSourceUnlock =
     objectValue(sourceSafePreview?.unlock) ||
     objectValue(ledgerSettlement?.protectedSourceUnlock);
   const settledReadback = ledgerSettlement?.status === 'settled';
-  const pullRequestDelivered = settledReadback && Boolean(textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget));
+  const previewDelivery = objectValue(sourceSafePreview?.delivery);
+  const pullRequestDelivered = settledReadback && Boolean(
+    textValue(previewDelivery?.pullRequestTarget) ||
+      textValue(assetPackDeliveryPosture?.pullRequestTarget),
+  );
   const enterpriseReadingState = useMemo(
     () =>
       buildTerminalEnterpriseReadingUxState({
@@ -415,6 +439,99 @@ export default function TerminalDepositReadWorkbench({
       disclosureRoots?.reviewRoot,
       protectedSourceUnlock?.sourceAvailable,
       sourceSafePreview?.accessPolicy,
+    ],
+  );
+  const assetPackPreviewBoundaryRows = useMemo(
+    () => [
+      {
+        label: 'Boundary',
+        value: shortIdentifier(assetPackPreviewBoundary?.boundaryId) || 'pending',
+      },
+      {
+        label: 'Preview root',
+        value:
+          shortIdentifier(assetPackPreviewProofRoots?.previewRoot) ||
+          shortIdentifier(objectValue(sourceSafePreview?.roots)?.previewRoot) ||
+          'pending',
+      },
+      {
+        label: 'Quote',
+        value: numericValue(previewFeeQuote?.sats) ? `${String(previewFeeQuote?.sats)} sats` : 'pending',
+      },
+      {
+        label: 'Quote root',
+        value:
+          shortIdentifier(assetPackQuoteReceipt?.quoteRoot) ||
+          shortIdentifier(previewFeeQuote?.quoteRoot) ||
+          'pending',
+      },
+      {
+        label: 'Formula',
+        value: textValue(assetPackQuoteReceipt?.formula) || textValue(previewFeeQuote?.formula) || 'pending',
+      },
+      {
+        label: 'Deterministic',
+        value: assetPackQuoteReceipt?.deterministic === true ? 'yes' : 'pending',
+      },
+      {
+        label: 'Selected fits',
+        value: stringList(assetPackSelectedFitProvenance?.selectedCandidateAssetIds).join(', ') || 'pending',
+      },
+      {
+        label: 'Fit deposits',
+        value: stringList(assetPackSelectedFitProvenance?.fitDepositAssetIds).join(', ') || 'pending',
+      },
+      {
+        label: 'Provenance root',
+        value:
+          shortIdentifier(assetPackSelectedFitProvenance?.provenanceRoot) ||
+          shortIdentifier(assetPackPreviewProofRoots?.selectedFitProvenanceRoot) ||
+          'pending',
+      },
+      {
+        label: 'Settlement',
+        value: textValue(assetPackSettlementInstructions?.state) || 'pending',
+      },
+      {
+        label: 'Network',
+        value: textValue(assetPackSettlementInstructions?.btcNetwork) || 'pending',
+      },
+      {
+        label: 'Instructions root',
+        value: shortIdentifier(assetPackSettlementInstructions?.instructionsRoot) || 'pending',
+      },
+      {
+        label: 'Delivery',
+        value: textValue(assetPackDeliveryPosture?.state) || 'pending',
+      },
+      {
+        label: 'Delivery root',
+        value: shortIdentifier(assetPackDeliveryPosture?.deliveryRoot) || 'pending',
+      },
+      {
+        label: 'Replay root',
+        value:
+          shortIdentifier(assetPackPreviewReplayReceipt?.replayRoot) ||
+          shortIdentifier(assetPackPreviewProofRoots?.replayRoot) ||
+          'pending',
+      },
+      {
+        label: 'Storage records',
+        value: numericValue(assetPackPreviewBoundary?.storageRecordCount)
+          ? String(assetPackPreviewBoundary?.storageRecordCount)
+          : String(countList(assetPackPreviewBoundary?.storageProjection) || 0),
+      },
+    ],
+    [
+      assetPackDeliveryPosture,
+      assetPackPreviewBoundary,
+      assetPackPreviewProofRoots,
+      assetPackPreviewReplayReceipt,
+      assetPackQuoteReceipt,
+      assetPackSelectedFitProvenance,
+      assetPackSettlementInstructions,
+      previewFeeQuote,
+      sourceSafePreview?.roots,
     ],
   );
   const readNeedRows = useMemo(() => {
@@ -974,7 +1091,7 @@ export default function TerminalDepositReadWorkbench({
                 { label: 'Unlock', value: protectedSourceUnlock?.sourceAvailable === true ? 'source available' : textValue(protectedSourceUnlock?.state) || 'withheld' },
                 { label: 'Read license', value: shortIdentifier(ledgerSettlement?.readLicenseId) || 'pending' },
                 { label: 'BTC fee', value: shortIdentifier(ledgerSettlement?.btcFeeReceiptId) || 'pending' },
-                { label: 'PR target', value: textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget) || 'pending' },
+                { label: 'PR target', value: textValue(previewDelivery?.pullRequestTarget) || textValue(assetPackDeliveryPosture?.pullRequestTarget) || 'pending' },
               ].map((row) => (
                 <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">{row.label}</dt>
@@ -982,6 +1099,19 @@ export default function TerminalDepositReadWorkbench({
                 </div>
               ))}
             </dl>
+            <details className="mt-3 rounded-[0.9rem] border border-cyan-300/15 bg-cyan-300/[0.04] px-3 py-3">
+              <summary className="cursor-pointer text-[0.58rem] uppercase tracking-[0.14em] text-cyan-100/85">
+                Finding Fits preview, quote, and provenance
+              </summary>
+              <dl className="mt-3 grid gap-2 md:grid-cols-2">
+                {assetPackPreviewBoundaryRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+                    <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
             <div className="mt-3 rounded-[0.9rem] border border-emerald-400/15 bg-emerald-400/[0.04] px-3 py-3">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>

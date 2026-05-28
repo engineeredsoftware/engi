@@ -210,6 +210,16 @@ source-safe Read Request and Need storage, feedback lineage, Need measurement,
 accepted-Need admission, rejected Need blockers, PTRR/Failsafe/Thricified
 telemetry receipts, `/api/read-review` action coverage, Terminal runtime
 readback, and source-safe disclosure boundaries.
+V42 Gate 5 adds `V42ReadFitsFindingPreviewQuote` through
+`packages/protocol/src/canonical/v42-readfitsfinding-preview-quote.js`,
+`packages/protocol/test/v42-readfitsfinding-preview-quote.test.js`,
+`.bitcode/v42-readfitsfinding-preview-quote.json`, and `check:v42-gate5`.
+It proves accepted-Need-gated Finding Fits, many-channel Depository search,
+candidate ranking, selected-fit provenance, source-safe AssetPack preview,
+deterministic share-to-fee quote receipts, disclosure review, settlement
+instructions, delivery lock, harness route summaries, Terminal
+preview/quote/provenance readback, and no pre-settlement protected source or
+unpaid AssetPack source exposure.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

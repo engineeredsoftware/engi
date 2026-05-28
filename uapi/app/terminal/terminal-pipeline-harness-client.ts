@@ -635,8 +635,16 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
     const depositorySearch = recordValue(evidence?.depositorySearch);
     const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
     const sourceSafePreview = recordValue(evidence?.sourceSafePreview);
+    const assetPackPreviewBoundary = recordValue(evidence?.assetPackPreviewBoundary);
+    const boundaryQuoteReceipt = recordValue(assetPackPreviewBoundary?.quoteReceipt);
+    const boundarySelectedFitProvenance = recordValue(assetPackPreviewBoundary?.selectedFitProvenance);
+    const boundarySettlementInstructions = recordValue(assetPackPreviewBoundary?.settlementInstructions);
+    const boundaryDeliveryPosture = recordValue(assetPackPreviewBoundary?.deliveryPosture);
     const assetPackDisclosureReview = recordValue(evidence?.assetPackDisclosureReview);
-    const feeQuote = recordValue(sourceSafePreview?.feeQuote);
+    const feeQuote =
+      boundaryQuoteReceipt ||
+      recordValue(evidence?.assetPackQuoteReceipt) ||
+      recordValue(sourceSafePreview?.feeQuote);
     const unlock = recordValue(sourceSafePreview?.unlock) || recordValue(ledgerSettlement?.protectedSourceUnlock);
     const disclosureAccess = recordValue(assetPackDisclosureReview?.access);
     const disclosureLeakage = recordValue(assetPackDisclosureReview?.sourceLeakage);
@@ -646,7 +654,9 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       ? `ledger ${String(ledgerSettlement.status)}`
       : null;
     const selectedCandidateText = summarizeCandidateIds(
-      fitResult?.selectedCandidateAssetIds || depositorySearch?.selectedCandidateAssetIds,
+      boundarySelectedFitProvenance?.selectedCandidateAssetIds ||
+        fitResult?.selectedCandidateAssetIds ||
+        depositorySearch?.selectedCandidateAssetIds,
     );
     const telemetryLineCount = Number(data?.telemetryLineCount || 0);
     const telemetryText = telemetryLineCount > 0
@@ -654,6 +664,15 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       : ' telemetry artifact pending';
     const feeQuoteText = typeof feeQuote?.sats === 'number'
       ? ` fee ${feeQuote.sats} sats`
+      : null;
+    const quoteText = boundaryQuoteReceipt?.quoteRoot
+      ? ` quote ${shortIdentifier(boundaryQuoteReceipt.quoteRoot)}`
+      : null;
+    const settlementText = boundarySettlementInstructions?.state
+      ? ` settlement ${String(boundarySettlementInstructions.state)}`
+      : null;
+    const deliveryText = boundaryDeliveryPosture?.state
+      ? ` delivery ${String(boundaryDeliveryPosture.state)}`
       : null;
     const unlockText = unlock?.sourceAvailable === true
       ? ` source ${String(unlock.state || 'available')}`
@@ -678,6 +697,9 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       selectedCandidateText,
       ledgerStatus,
       feeQuoteText,
+      quoteText,
+      settlementText,
+      deliveryText,
       unlockText,
       disclosureText,
       leakageText,

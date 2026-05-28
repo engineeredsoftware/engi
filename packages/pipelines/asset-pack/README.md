@@ -185,6 +185,14 @@ wallet private material, private settlement payloads, credentials, or unpaid
 source-bearing AssetPack content. Pull-request delivery remains withheld until
 BTC settlement, BTD rights transfer, and ledger/database/storage readback agree.
 
+V42 Gate 5 binds this boundary into product closure through
+`.bitcode/v42-readfitsfinding-preview-quote.json` and `check:v42-gate5`.
+That proof requires accepted-Need admission, many-channel Depository search,
+candidate ranking, selected-fit provenance, deterministic quote receipts,
+source-safe disclosure review, settlement instructions, delivery lock, harness
+route summaries, Terminal preview/quote/provenance readback, and focused
+package/API/protocol tests before the paid boundary can proceed to Gate 6.
+
 ## Settlement Rights Delivery
 
 `AssetPackSettlementRightsDeliveryBoundary` is the paid-boundary package
