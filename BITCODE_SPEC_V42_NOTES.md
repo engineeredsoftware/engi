@@ -61,6 +61,14 @@ V42 must make the preview valuable without leaking the source-bearing AssetPack 
 Readers may see measurements, fit confidence, quote posture, selected-fit provenance summaries, proof roots, and source-safe explanations.
 They may not see protected source, raw provider responses, protected prompts, private settlement payloads, wallet private material, or unpaid AssetPack source before BTC settlement and BTD rights transfer.
 
+## Gate 5 implementation notes
+
+Gate 5 closes the source-safe Finding Fits preview boundary.
+`ReadFitsFindingSynthesis` must already have an accepted Need, then search many Depository candidates across lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific channels.
+Selected-fit provenance carries selected candidate ids, fit deposit ids, query and ranking roots, proof roots, measurement roots, and reconciliation readback roots.
+`AssetPackPreviewBoundary` is the review object before payment: it contains the source-safe preview, deterministic quote receipt, disclosure review, settlement instructions, delivery lock, storage projection, replay receipt, and repair posture.
+The route and Terminal readback expose those fields as metadata only; protected source and unpaid AssetPack source remain absent until Gate 6 settlement, rights transfer, and delivery unlock.
+
 ## AI-reading demonstration note
 
 The standalone demonstration should prove why Bitcode matters for AI-dominant Reading.

@@ -140,6 +140,8 @@ The artifact binds `ReadNeedReviewResynthesisRuntime`, all four review actions, 
 Gate 5 must make `ReadFitsFindingSynthesis` product-ready in the MVP flow.
 The pipeline must search the Depository for many candidates above threshold, rank candidates, select fits, synthesize source-safe AssetPack measurements and preview metadata, keep source-bearing content withheld, calculate deterministic BTD/BTC quote posture, and expose a reviewable preview.
 It must cover vector search and provider search tooling, selected-fit provenance, prompt/tool return types, telemetry, quote formula readback, source-safe UI, and failure/repair states.
+Gate 5 is implemented by `.bitcode/v42-readfitsfinding-preview-quote.json`.
+The artifact binds the accepted-Need gate, many-channel Depository search, candidate ranking, selected-fit provenance, `AssetPackPreviewBoundary`, deterministic share-to-fee quote receipt, disclosure review, settlement instructions, delivery lock, harness route summary, Terminal preview/quote/provenance readback, and the package/API/protocol tests that prove no protected source or unpaid AssetPack source crosses the pre-settlement boundary.
 
 ## V42 Gate 6 Settlement Rights Transfer And Repository Delivery Closure
 

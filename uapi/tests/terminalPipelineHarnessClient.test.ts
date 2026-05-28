@@ -188,11 +188,27 @@ describe('terminal pipeline harness client', () => {
           },
           sourceSafePreview: {
             feeQuote: {
-              sats: 546,
+              sats: 500,
             },
             unlock: {
               state: 'licensed_read',
               sourceAvailable: true,
+            },
+          },
+          assetPackPreviewBoundary: {
+            quoteReceipt: {
+              sats: 546,
+              quoteRoot: 'sha256:asset-pack-preview-quote-root',
+            },
+            selectedFitProvenance: {
+              selectedCandidateAssetIds: ['asset-repository-revision'],
+              fitDepositAssetIds: ['deposit-asset-pack'],
+            },
+            settlementInstructions: {
+              state: 'quote_ready_settlement_required',
+            },
+            deliveryPosture: {
+              state: 'withheld_until_settlement',
             },
           },
           assetPackDisclosureReview: {
@@ -214,6 +230,9 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('candidate asset-repository-revision');
     expect(summary).toContain('ledger settled');
     expect(summary).toContain('fee 546 sats');
+    expect(summary).toContain('quote sha256:asset');
+    expect(summary).toContain('settlement quote_ready_settlement_required');
+    expect(summary).toContain('delivery withheld_until_settlement');
     expect(summary).toContain('source licensed_read');
     expect(summary).toContain('disclosure available_after_settlement');
     expect(summary).toContain('leakage none');

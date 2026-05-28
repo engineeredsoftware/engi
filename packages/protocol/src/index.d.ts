@@ -538,6 +538,14 @@ export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_SOURCE_SAFETY_VERDI
 export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ROW_IDS: readonly string[];
 export const V42_READNEED_REVIEW_RESYNTHESIS_PRODUCT_CLOSURE_ROWS: readonly Record<string, unknown>[];
 export function buildV42ReadNeedReviewResynthesisProductClosure(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V42_READFITSFINDING_PREVIEW_QUOTE_ARTIFACT_PATH: string;
+export const V42_READFITSFINDING_PREVIEW_QUOTE_CURRENT_TARGET: string;
+export const V42_READFITSFINDING_PREVIEW_QUOTE_SCHEMA_ID: string;
+export const V42_READFITSFINDING_PREVIEW_QUOTE_VERSION: string;
+export const V42_READFITSFINDING_PREVIEW_QUOTE_SOURCE_SAFETY_VERDICT: string;
+export const V42_READFITSFINDING_PREVIEW_QUOTE_ROW_IDS: readonly string[];
+export const V42_READFITSFINDING_PREVIEW_QUOTE_ROWS: readonly Record<string, unknown>[];
+export function buildV42ReadFitsFindingPreviewQuote(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

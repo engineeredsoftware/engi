@@ -52,6 +52,7 @@ Gate 4 now binds `ReadNeedReviewResynthesisRuntime` (`readNeedReviewRuntime` rou
 ### Gate 5: ReadFitsFinding AssetPack Preview And Quote Closure
 
 Implement and prove many-candidate Depository search, selected-fit provenance, source-safe AssetPack preview, deterministic BTD/BTC quote, and no pre-settlement source leakage.
+Gate 5 now binds `ReadFitsFindingRuntime`, many-channel Depository search, `AssetPackPreviewBoundary`, quote receipt readback, selected-fit provenance, settlement instructions, delivery posture, harness evidence summaries, Terminal preview/quote/provenance rows, `.bitcode/v42-readfitsfinding-preview-quote.json`, and `check:v42-gate5`.
 
 ### Gate 6: Settlement Rights Transfer And Repository Delivery Closure
 

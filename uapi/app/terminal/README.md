@@ -125,6 +125,16 @@ Finding Fits; accepting the Need is the only admission handoff to
 `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, checked by
 `pnpm run check:v42-gate4`.
 
+V42 Gate 5 closes the Terminal Finding Fits preview and quote readback. The
+source-safe preview panel now reads `AssetPackPreviewBoundary` summaries from
+pipeline harness evidence, including selected-fit provenance, deterministic
+quote receipt, settlement instructions, delivery posture, replay root, and
+storage record count. Terminal keeps those rows expandable and metadata-only:
+protected source and unpaid AssetPack source stay withheld until settlement
+and rights-transfer readback. The source-safe proof artifact is
+`.bitcode/v42-readfitsfinding-preview-quote.json`, checked by
+`pnpm run check:v42-gate5`.
+
 ## Live staging-testnet QA
 
 Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are
