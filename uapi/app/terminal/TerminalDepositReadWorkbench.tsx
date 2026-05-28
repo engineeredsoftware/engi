@@ -339,6 +339,25 @@ export default function TerminalDepositReadWorkbench({
   const disclosureRoots = objectValue(assetPackDisclosureReview?.roots);
   const disclosureSourceSafe = disclosureLeakage?.protectedSourceDetected !== true;
   const ledgerSettlement = objectValue(completedHarnessEvidence?.ledgerSettlement);
+  const assetPackSettlementRightsDeliveryBoundary = objectValue(
+    completedHarnessEvidence?.assetPackSettlementRightsDeliveryBoundary,
+  );
+  const assetPackSettlementPaymentObservation = objectValue(
+    assetPackSettlementRightsDeliveryBoundary?.paymentObservation,
+  );
+  const assetPackSettlementFinalityReceipt = objectValue(
+    assetPackSettlementRightsDeliveryBoundary?.finalityReceipt,
+  );
+  const assetPackSettlementDeliveryUnlock =
+    objectValue(assetPackSettlementRightsDeliveryBoundary?.deliveryUnlock) ||
+    objectValue(completedHarnessEvidence?.assetPackDeliveryUnlock);
+  const assetPackSettlementReplayReceipt =
+    objectValue(assetPackSettlementRightsDeliveryBoundary?.replayReceipt) ||
+    objectValue(completedHarnessEvidence?.assetPackSettlementReplayReceipt);
+  const assetPackSettlementReconciliation =
+    objectValue(assetPackSettlementRightsDeliveryBoundary?.reconciliationReport) ||
+    objectValue(completedHarnessEvidence?.assetPackLedgerDatabaseStorageReconciliation);
+  const assetPackSettlementProofRoots = objectValue(assetPackSettlementRightsDeliveryBoundary?.proofRoots);
   const previewFeeQuote =
     assetPackQuoteReceipt ||
     objectValue(sourceSafePreview?.feeQuote);
@@ -532,6 +551,91 @@ export default function TerminalDepositReadWorkbench({
       assetPackSettlementInstructions,
       previewFeeQuote,
       sourceSafePreview?.roots,
+    ],
+  );
+  const assetPackSettlementBoundaryRows = useMemo(
+    () => [
+      {
+        label: 'Boundary',
+        value: shortIdentifier(assetPackSettlementRightsDeliveryBoundary?.boundaryId) || 'pending',
+      },
+      {
+        label: 'State',
+        value: textValue(assetPackSettlementRightsDeliveryBoundary?.state) || 'pending',
+      },
+      {
+        label: 'Payment',
+        value:
+          numericValue(assetPackSettlementPaymentObservation?.observedDebitSats) &&
+          numericValue(assetPackSettlementPaymentObservation?.expectedSats)
+            ? `${String(assetPackSettlementPaymentObservation?.observedDebitSats)}/${String(assetPackSettlementPaymentObservation?.expectedSats)} sats`
+            : 'pending',
+      },
+      {
+        label: 'Payment root',
+        value: shortIdentifier(assetPackSettlementPaymentObservation?.paymentReceiptRoot) || 'pending',
+      },
+      {
+        label: 'Finality',
+        value: textValue(assetPackSettlementFinalityReceipt?.finalityState) || 'pending',
+      },
+      {
+        label: 'Finality root',
+        value: shortIdentifier(assetPackSettlementFinalityReceipt?.finalityRoot) || 'pending',
+      },
+      {
+        label: 'Source-to-shares',
+        value: shortIdentifier(assetPackSettlementProofRoots?.sourceToSharesRoot) || 'pending',
+      },
+      {
+        label: 'Rights transfer',
+        value: shortIdentifier(assetPackSettlementProofRoots?.rightsTransferRoot) || 'pending',
+      },
+      {
+        label: 'Read receipt',
+        value: shortIdentifier(assetPackSettlementProofRoots?.btdReadReceiptRoot) || 'pending',
+      },
+      {
+        label: 'Delivery unlock',
+        value: textValue(assetPackSettlementDeliveryUnlock?.state) || 'pending',
+      },
+      {
+        label: 'Delivery root',
+        value: shortIdentifier(assetPackSettlementDeliveryUnlock?.deliveryRoot) || 'pending',
+      },
+      {
+        label: 'Reconciliation',
+        value: textValue(assetPackSettlementReconciliation?.state) || 'pending',
+      },
+      {
+        label: 'Reconciliation root',
+        value:
+          shortIdentifier(objectValue(assetPackSettlementReconciliation?.proofRoots)?.repairPlanRoot) ||
+          shortIdentifier(assetPackSettlementProofRoots?.reconciliationRoot) ||
+          'pending',
+      },
+      {
+        label: 'Replay root',
+        value:
+          shortIdentifier(assetPackSettlementReplayReceipt?.replayRoot) ||
+          shortIdentifier(assetPackSettlementProofRoots?.replayRoot) ||
+          'pending',
+      },
+      {
+        label: 'Storage records',
+        value: numericValue(assetPackSettlementRightsDeliveryBoundary?.storageRecordCount)
+          ? String(assetPackSettlementRightsDeliveryBoundary?.storageRecordCount)
+          : String(countList(assetPackSettlementRightsDeliveryBoundary?.storageProjection) || 0),
+      },
+    ],
+    [
+      assetPackSettlementDeliveryUnlock,
+      assetPackSettlementFinalityReceipt,
+      assetPackSettlementPaymentObservation,
+      assetPackSettlementProofRoots,
+      assetPackSettlementReconciliation,
+      assetPackSettlementReplayReceipt,
+      assetPackSettlementRightsDeliveryBoundary,
     ],
   );
   const readNeedRows = useMemo(() => {
@@ -1105,6 +1209,19 @@ export default function TerminalDepositReadWorkbench({
               </summary>
               <dl className="mt-3 grid gap-2 md:grid-cols-2">
                 {assetPackPreviewBoundaryRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+                    <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
+            <details className="mt-3 rounded-[0.9rem] border border-amber-300/15 bg-amber-300/[0.04] px-3 py-3">
+              <summary className="cursor-pointer text-[0.58rem] uppercase tracking-[0.14em] text-amber-100/85">
+                Settlement rights, compensation, and delivery
+              </summary>
+              <dl className="mt-3 grid gap-2 md:grid-cols-2">
+                {assetPackSettlementBoundaryRows.map((row) => (
                   <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
                     <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
                     <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>

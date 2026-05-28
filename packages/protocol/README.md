@@ -59,6 +59,7 @@ Current exported commercial helpers include:
 - `V41RegistryInterpolationContracts` helpers for V41 source-safe registry composition, interpolation key, execution ancestry, tool prompt injection, context handling, and parser target contracts;
 - `V41ReadingPromptBenchmarkBaselines` helpers for V41 source-safe Reading prompt baseline rows across `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, all five Reading UX steps, V38 benchmark fixtures, Gate 2 inventory roots, Gate 3 registry/interpolation roots, parser targets, deterministic scores, and source-safe disclosure tiers;
 - `V41PromotionReadinessReport` helpers for V41 source-safe prompt-program promotion readiness across all V41 prompt artifacts, generated proof support, workflow posture, promotion dry-run support, and active V41 / draft V42 runtime preparation;
+- `V42SettlementRightsDelivery` helpers for V42 source-safe BTC payment observation, finality gating, source-to-shares compensation, BTD read-right transfer, repository delivery unlock, ledger/database/object-storage reconciliation, Terminal readback, and source-safe paid-boundary proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -220,6 +221,20 @@ deterministic share-to-fee quote receipts, disclosure review, settlement
 instructions, delivery lock, harness route summaries, Terminal
 preview/quote/provenance readback, and no pre-settlement protected source or
 unpaid AssetPack source exposure.
+V42 Gate 6 adds `V42SettlementRightsDelivery` through
+`packages/protocol/src/canonical/v42-settlement-rights-delivery.js`,
+`packages/protocol/test/v42-settlement-rights-delivery.test.js`,
+`.bitcode/v42-settlement-rights-delivery.json`,
+`generate:v42-settlement-rights-delivery`,
+`check:v42-settlement-rights-delivery`, and `check:v42-gate6`.
+The artifact is source-safe metadata only and covers paid quote observation,
+BTC/testnet finality, BTD rights transfer, paid read receipts,
+source-to-shares compensation conservation, repository pull-request delivery
+unlock, ledger/database/object-storage reconciliation, fail-closed repair
+posture, harness route summaries, Terminal settlement readback, and workflow
+proof wiring without serializing protected source, unpaid AssetPack source,
+wallet private material, private settlement payloads, credentials, raw
+protected prompts, or raw provider responses.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

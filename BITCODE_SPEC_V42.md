@@ -148,6 +148,9 @@ The artifact binds the accepted-Need gate, many-channel Depository search, candi
 Gate 6 must make purchase and delivery reliable.
 The accepted user path is: review the AssetPack preview, choose to buy, receive settlement instructions, observe BTC/testnet settlement in the admitted lane, transfer BTD rights to the Reader, unlock source-bearing AssetPack delivery, and create the repository pull request.
 It must prove ledger/database/object-storage synchronization, delivery locks, no pre-settlement source leakage, compensation accounting, repair actions, and operator readback.
+Gate 6 is implemented by `.bitcode/v42-settlement-rights-delivery.json`.
+The artifact binds `AssetPackSettlementRightsDeliveryBoundary`, `AssetPackSettlementPaymentObservation`, confirmed BTC/testnet finality, `BtdRightsTransferReceipt`, `BtdReadReceipt`, `SourceToSharesProof`, `AssetPackDeliveryUnlockReceipt`, ledger/database/object-storage reconciliation, live harness materialization, source-safe route summaries, and Terminal settlement rights readback.
+Source-bearing AssetPack delivery remains withheld until payment, finality, BTD rights transfer, source-to-shares compensation conservation, reconciliation readback, and pull-request delivery all agree.
 
 ## V42 Gate 7 AI-Reading Dominant Demonstration MVP
 

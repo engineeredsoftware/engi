@@ -69,6 +69,13 @@ Selected-fit provenance carries selected candidate ids, fit deposit ids, query a
 `AssetPackPreviewBoundary` is the review object before payment: it contains the source-safe preview, deterministic quote receipt, disclosure review, settlement instructions, delivery lock, storage projection, replay receipt, and repair posture.
 The route and Terminal readback expose those fields as metadata only; protected source and unpaid AssetPack source remain absent until Gate 6 settlement, rights transfer, and delivery unlock.
 
+## Gate 6 implementation notes
+
+Gate 6 closes the paid settlement and source-bearing delivery boundary.
+`AssetPackSettlementRightsDeliveryBoundary` is the reviewable post-payment object: it records BTC payment observation, confirmed finality, source-to-shares compensation, BTD read and rights transfer receipts, settlement unlock, source-bearing pull-request delivery unlock, ledger/database/object-storage reconciliation, storage projection, replay receipt, and repair posture.
+The live Vercel Sandbox harness materializes this boundary after ledger readback, the route summarizes it as source-safe metadata, and Terminal renders settlement rights, source-to-shares compensation, delivery unlock, reconciliation, and replay roots.
+Protected source, private settlement payloads, wallet private material, raw protected prompts, raw provider responses, and credentials remain absent from the generated artifact, route summaries, and pre-delivery readback.
+
 ## AI-reading demonstration note
 
 The standalone demonstration should prove why Bitcode matters for AI-dominant Reading.
