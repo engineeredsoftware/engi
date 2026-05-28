@@ -41,6 +41,8 @@ The compensation preview is deliberately pre-mint: it records BTC/source-to-shar
 ### Gate 3: Reading Shortest Path State Machine
 
 Implement and prove the five-step Reading product state machine with low-detail defaults and expandable proof/telemetry detail.
+Gate 3 now binds route-owned Reading state to transaction recovery, `readingStage` route hydration, retry/restart posture, source-safe failure repair, accepted-Need blockers, source-safe preview blockers, rich execution stream readback, and `.bitcode/v42-reading-shortest-path-state-machine.json`.
+The state machine keeps Terminal guided by default while preserving proof-on-expand detail for operators.
 
 ### Gate 4: ReadNeed Review And Resynthesis Product Closure
 
@@ -71,6 +73,7 @@ Bind every V42 product artifact, workflow, generated proof, promotion command, s
 - V43+ agentic deposit AssetPack option synthesis remains deferred.
 - `/terminal` is not split into `/read` and `/deposit` during V42.
 - `/exchange` is not renamed to `/packs` during V42.
+- V43+ must take the route-vocabulary cleanup seriously: `/packs` replaces Exchange as the searchable master-detail activity route, while `/read` and `/deposit` become the short core paths for buying and selling AssetPacks.
 - Production-mainnet value-bearing operation remains blocked unless a later promoted canon explicitly admits it.
 - V42 Gate 1 does not change route behavior, pipeline behavior, settlement behavior, or demonstration behavior.
 

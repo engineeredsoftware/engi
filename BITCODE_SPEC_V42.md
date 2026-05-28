@@ -118,6 +118,15 @@ Gate 3 must make the five Reading steps a coherent product state machine: reques
 It must simplify default Terminal experience while preserving expandable proof, execution, telemetry, ledger, and storage detail.
 It must prove route persistence, transaction ids, stage transitions, restart/retry behavior, source-safe UI rendering, and failure states.
 
+Gate 3 implements that state machine through `TerminalEnterpriseReadingUxState` and `TerminalEnterpriseReadingRouteState`.
+The route-owned state carries a recoverable transaction id, `readingStage` stage intent, retry and restart posture, source-safe failure kind, and repair action metadata.
+Route state may hydrate the active stage on refresh or Conversation handoff, but it does not waive blockers: Finding Fits still requires accepted Need, source-safe AssetPack preview still gates settlement, and delivery still requires settlement readback.
+
+Gate 3 proof artifact: `.bitcode/v42-reading-shortest-path-state-machine.json`.
+This is the canonical V42 reading shortest path state machine artifact for the MVP Reading route contract.
+The artifact must prove nine source-safe rows: five-step Reading path, transaction/stage route persistence, accepted-Need transition, restart/retry/failure repair, low-detail proof-on-expand UI, rich Reading pipeline telemetry, activity/workbench readback, route/component/stream tests, and SPEC/DELTA/NOTES/PARITY/README/workflow closure.
+Validating command: `pnpm run check:v42-gate3`.
+
 ## V42 Gate 4 ReadNeed Review And Resynthesis Product Closure
 
 Gate 4 must make `ReadNeedComprehensionSynthesis` product-ready in the MVP flow.
@@ -413,7 +422,7 @@ V42 inherits operator-quality expectations for browser proof, accessibility, vis
 | `.bitcode/v42-canonical-input-report.json` | `check-bitcode-canonical-inputs` | source-safe metadata | canonical input proof |
 | `.bitcode/v42-canon-posture-drift-report.json` | `check-bitcode-canon-posture-drift` | source-safe metadata | active V41 / draft V42 posture proof |
 | `.bitcode/v42-depositing-shortest-path.json` | V42 Gate 2 | source-safe metadata | deposit MVP proof |
-| `.bitcode/v42-reading-state-machine.json` | V42 Gate 3 | source-safe metadata | Reading product state proof |
+| `.bitcode/v42-reading-shortest-path-state-machine.json` | V42 Gate 3 | source-safe metadata | Reading product state proof |
 | `.bitcode/v42-readneed-review-resynthesis.json` | V42 Gate 4 | source-safe metadata | Need review proof |
 | `.bitcode/v42-readfitsfinding-preview-quote.json` | V42 Gate 5 | source-safe metadata | Finding Fits, preview, and quote proof |
 | `.bitcode/v42-settlement-rights-delivery.json` | V42 Gate 6 | source-safe metadata | settlement/delivery proof |

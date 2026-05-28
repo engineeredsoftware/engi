@@ -691,6 +691,7 @@ export default function TerminalPageClient() {
                       repositoryContext={repositoryContext}
                       depositedSourceRevision={depositedSourceRevision}
                       admittedReadActivityId={admittedReadActivityId}
+                      routeReadingStage={conversationHandoffContext.readingStage}
                       onRecordActivity={handleRecordActivity}
                       onHarnessCompleted={refreshLiveRuns}
                       showDemonstrationWorkbench={showDemonstrationSurfaces}

@@ -93,11 +93,18 @@ Terminal compensation roots, `.bitcode/v42-depositing-shortest-path.json`,
 and `check:v42-gate2`. Deposit admission remains pre-mint and pre-rights
 transfer; BTC source-to-shares allocation is only a later paid AssetPack
 settlement route.
+V42 Gate 3 adds the Reading shortest path state machine with
+`TerminalEnterpriseReadingRouteState`, recoverable transaction ids,
+`readingStage` hydration, retry/restart posture, source-safe failure repair,
+accepted-Need blockers, source-safe preview blockers,
+`.bitcode/v42-reading-shortest-path-state-machine.json`, and
+`check:v42-gate3`.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject
 sub-critical positive-ROI options; `/terminal` separates into `/read` and
-`/deposit`; and `/exchange` is renamed to `/packs` across product naming.
+`/deposit`; and `/exchange` is renamed to `/packs` across routes, component
+prefixes, tests, docs, and product naming.
 That future route model treats AssetPacks as the product object in and out:
 `/deposit` proposes deposit AssetPack options from source and Bitcode demand,
 `/read` buys synthesized Need-Fit AssetPacks, and `/packs` becomes the

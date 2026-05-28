@@ -192,6 +192,15 @@ It proves deposit route readiness, Depository search/vector/storage projection,
 source-safe compensation preview roots, source-to-shares ledger readback keys,
 Terminal compensation visibility, and the pre-mint/no-pre-settlement-source
 boundary.
+V42 Gate 3 adds the V42 Reading shortest path state machine,
+`V42ReadingShortestPathStateMachine`, through
+`packages/protocol/src/canonical/v42-reading-shortest-path-state-machine.js`,
+`packages/protocol/test/v42-reading-shortest-path-state-machine.test.js`,
+`.bitcode/v42-reading-shortest-path-state-machine.json`, and
+`check:v42-gate3`. It proves the five-step Reading path, transaction/stage
+route persistence, accepted-Need gating, restart/retry/failure repair,
+low-detail proof-on-expand UI posture, rich Reading pipeline telemetry
+readback, activity/workbench readback, and source-safe disclosure boundaries.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,
