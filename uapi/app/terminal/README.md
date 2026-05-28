@@ -135,6 +135,19 @@ and rights-transfer readback. The source-safe proof artifact is
 `.bitcode/v42-readfitsfinding-preview-quote.json`, checked by
 `pnpm run check:v42-gate5`.
 
+V42 Gate 6 closes Terminal Settlement rights readback. The paid-boundary panel
+now reads `AssetPackSettlementRightsDeliveryBoundary` summaries from pipeline
+harness evidence, including BTC payment observation, finality, source-to-shares
+compensation, BTD rights transfer, paid read receipt, source-bearing
+pull-request delivery unlock, ledger/database/object-storage reconciliation,
+replay root, repair posture, and storage record count. Terminal keeps these
+rows expandable and source-safe: it may show that delivery is unlocked for the
+paid Reader after settlement, but it must not expose unpaid AssetPack source,
+protected source, wallet private material, private settlement payloads,
+credentials, raw protected prompts, or raw provider responses. The source-safe
+proof artifact is `.bitcode/v42-settlement-rights-delivery.json`, checked by
+`pnpm run check:v42-gate6`.
+
 ## Live staging-testnet QA
 
 Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are

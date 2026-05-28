@@ -57,6 +57,7 @@ Gate 5 now binds `ReadFitsFindingRuntime`, many-channel Depository search, `Asse
 ### Gate 6: Settlement Rights Transfer And Repository Delivery Closure
 
 Implement and prove purchase, settlement observation, BTD rights transfer, source unlock, repository pull request delivery, compensation accounting, and repair posture.
+Gate 6 now binds settlement rights transfer through `AssetPackSettlementRightsDeliveryBoundary` to the live harness, route summary, Terminal readback, source-to-shares conservation, BTD read/right receipts, and ledger/database/object-storage reconciliation through `.bitcode/v42-settlement-rights-delivery.json`.
 
 ### Gate 7: AI-Reading Dominant Demonstration MVP
 

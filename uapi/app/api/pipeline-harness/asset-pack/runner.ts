@@ -444,6 +444,34 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
     : assetPackPreviewBoundary?.disclosureReview && typeof assetPackPreviewBoundary.disclosureReview === 'object'
       ? (assetPackPreviewBoundary.disclosureReview as Record<string, unknown>)
       : null;
+  const assetPackSettlementRightsDeliveryBoundary =
+    output?.assetPackSettlementRightsDeliveryBoundary && typeof output.assetPackSettlementRightsDeliveryBoundary === 'object'
+      ? (output.assetPackSettlementRightsDeliveryBoundary as Record<string, unknown>)
+      : record.assetPackSettlementRightsDeliveryBoundary && typeof record.assetPackSettlementRightsDeliveryBoundary === 'object'
+        ? (record.assetPackSettlementRightsDeliveryBoundary as Record<string, unknown>)
+        : null;
+  const assetPackSettlementReplayReceipt =
+    output?.assetPackSettlementReplayReceipt && typeof output.assetPackSettlementReplayReceipt === 'object'
+      ? (output.assetPackSettlementReplayReceipt as Record<string, unknown>)
+      : assetPackSettlementRightsDeliveryBoundary?.replayReceipt &&
+          typeof assetPackSettlementRightsDeliveryBoundary.replayReceipt === 'object'
+        ? (assetPackSettlementRightsDeliveryBoundary.replayReceipt as Record<string, unknown>)
+        : null;
+  const assetPackDeliveryUnlock =
+    output?.assetPackDeliveryUnlock && typeof output.assetPackDeliveryUnlock === 'object'
+      ? (output.assetPackDeliveryUnlock as Record<string, unknown>)
+      : assetPackSettlementRightsDeliveryBoundary?.deliveryUnlock &&
+          typeof assetPackSettlementRightsDeliveryBoundary.deliveryUnlock === 'object'
+        ? (assetPackSettlementRightsDeliveryBoundary.deliveryUnlock as Record<string, unknown>)
+        : null;
+  const assetPackLedgerDatabaseStorageReconciliation =
+    output?.assetPackLedgerDatabaseStorageReconciliation &&
+    typeof output.assetPackLedgerDatabaseStorageReconciliation === 'object'
+      ? (output.assetPackLedgerDatabaseStorageReconciliation as Record<string, unknown>)
+      : assetPackSettlementRightsDeliveryBoundary?.reconciliationReport &&
+          typeof assetPackSettlementRightsDeliveryBoundary.reconciliationReport === 'object'
+        ? (assetPackSettlementRightsDeliveryBoundary.reconciliationReport as Record<string, unknown>)
+        : null;
   const summarizeCandidate = (candidate: unknown) => {
     if (!candidate || typeof candidate !== 'object' || Array.isArray(candidate)) return null;
     const record = candidate as Record<string, unknown>;
@@ -604,6 +632,51 @@ function summarizeEvidence(evidence: unknown): Record<string, unknown> | null {
           policy: assetPackDisclosureReview.policy,
           sourceLeakage: assetPackDisclosureReview.sourceLeakage,
           roots: assetPackDisclosureReview.roots,
+        }
+      : null,
+    assetPackSettlementRightsDeliveryBoundary: summarizeAssetPackSettlementRightsDeliveryBoundary(
+      assetPackSettlementRightsDeliveryBoundary,
+    ),
+    assetPackSettlementReplayReceipt: assetPackSettlementReplayReceipt
+      ? {
+          schema: assetPackSettlementReplayReceipt.schema,
+          replayMode: assetPackSettlementReplayReceipt.replayMode,
+          previewBoundaryRoot: assetPackSettlementReplayReceipt.previewBoundaryRoot,
+          quoteRoot: assetPackSettlementReplayReceipt.quoteRoot,
+          paymentReceiptRoot: assetPackSettlementReplayReceipt.paymentReceiptRoot,
+          finalityRoot: assetPackSettlementReplayReceipt.finalityRoot,
+          sourceToSharesRoot: assetPackSettlementReplayReceipt.sourceToSharesRoot,
+          rightsTransferRoot: assetPackSettlementReplayReceipt.rightsTransferRoot,
+          readReceiptRoot: assetPackSettlementReplayReceipt.readReceiptRoot,
+          deliveryRoot: assetPackSettlementReplayReceipt.deliveryRoot,
+          reconciliationRoot: assetPackSettlementReplayReceipt.reconciliationRoot,
+          replayRoot: assetPackSettlementReplayReceipt.replayRoot,
+          verified: assetPackSettlementReplayReceipt.verified,
+        }
+      : null,
+    assetPackDeliveryUnlock: assetPackDeliveryUnlock
+      ? {
+          schema: assetPackDeliveryUnlock.schema,
+          state: assetPackDeliveryUnlock.state,
+          deliveryMechanism: assetPackDeliveryUnlock.deliveryMechanism,
+          pullRequestTarget: assetPackDeliveryUnlock.pullRequestTarget,
+          sourceBearingDeliveryVisibleToReader:
+            assetPackDeliveryUnlock.sourceBearingDeliveryVisibleToReader,
+          protectedSourcePayloadSerialized:
+            assetPackDeliveryUnlock.protectedSourcePayloadSerialized,
+          requiredReceipts: assetPackDeliveryUnlock.requiredReceipts,
+          blockerCodes: assetPackDeliveryUnlock.blockerCodes,
+          deliveryRoot: assetPackDeliveryUnlock.deliveryRoot,
+        }
+      : null,
+    assetPackLedgerDatabaseStorageReconciliation: assetPackLedgerDatabaseStorageReconciliation
+      ? {
+          schema: assetPackLedgerDatabaseStorageReconciliation.schema,
+          reconciliationId: assetPackLedgerDatabaseStorageReconciliation.reconciliationId,
+          state: assetPackLedgerDatabaseStorageReconciliation.state,
+          blocking: assetPackLedgerDatabaseStorageReconciliation.blocking,
+          repairActions: assetPackLedgerDatabaseStorageReconciliation.repairActions,
+          proofRoots: assetPackLedgerDatabaseStorageReconciliation.proofRoots,
         }
       : null,
     depositorySearch: depositorySearch
@@ -775,6 +848,142 @@ function summarizeAssetPackPreviewBoundary(
         }
       : null,
     repairPosture,
+    storageProjection: storageProjection.map((record) => ({
+      recordId: record.recordId,
+      recordKind: record.recordKind,
+      namespace: record.namespace,
+      key: record.key,
+      root: record.root,
+      sourceSafety: record.sourceSafety,
+    })),
+    storageRecordCount: storageProjection.length,
+  };
+}
+
+function summarizeAssetPackSettlementRightsDeliveryBoundary(
+  boundary: Record<string, unknown> | null,
+): Record<string, unknown> | null {
+  if (!boundary) return null;
+  const paymentObservation = boundary.paymentObservation && typeof boundary.paymentObservation === 'object'
+    ? (boundary.paymentObservation as Record<string, unknown>)
+    : null;
+  const finalityReceipt = boundary.finalityReceipt && typeof boundary.finalityReceipt === 'object'
+    ? (boundary.finalityReceipt as Record<string, unknown>)
+    : null;
+  const deliveryUnlock = boundary.deliveryUnlock && typeof boundary.deliveryUnlock === 'object'
+    ? (boundary.deliveryUnlock as Record<string, unknown>)
+    : null;
+  const settlementUnlock = boundary.settlementUnlock && typeof boundary.settlementUnlock === 'object'
+    ? (boundary.settlementUnlock as Record<string, unknown>)
+    : null;
+  const reconciliationReport = boundary.reconciliationReport && typeof boundary.reconciliationReport === 'object'
+    ? (boundary.reconciliationReport as Record<string, unknown>)
+    : null;
+  const replayReceipt = boundary.replayReceipt && typeof boundary.replayReceipt === 'object'
+    ? (boundary.replayReceipt as Record<string, unknown>)
+    : null;
+  const repairPosture = boundary.repairPosture && typeof boundary.repairPosture === 'object'
+    ? (boundary.repairPosture as Record<string, unknown>)
+    : null;
+  const proofRoots = boundary.proofRoots && typeof boundary.proofRoots === 'object'
+    ? (boundary.proofRoots as Record<string, unknown>)
+    : null;
+  const sourceSafety = boundary.sourceSafety && typeof boundary.sourceSafety === 'object'
+    ? (boundary.sourceSafety as Record<string, unknown>)
+    : null;
+  const storageProjection = Array.isArray(boundary.storageProjection)
+    ? boundary.storageProjection
+        .map((record) => record && typeof record === 'object' && !Array.isArray(record)
+          ? record as Record<string, unknown>
+          : null)
+        .filter((record): record is Record<string, unknown> => Boolean(record))
+    : [];
+
+  return {
+    schema: boundary.schema,
+    boundaryId: boundary.boundaryId,
+    state: boundary.state,
+    assetPackId: boundary.assetPackId,
+    readId: boundary.readId,
+    orderId: boundary.orderId,
+    previewBoundaryRoot: boundary.previewBoundaryRoot,
+    paymentObservation: paymentObservation
+      ? {
+          paymentReceiptId: paymentObservation.paymentReceiptId,
+          payer: paymentObservation.payer,
+          payee: paymentObservation.payee,
+          payerWalletId: paymentObservation.payerWalletId,
+          payeeWalletId: paymentObservation.payeeWalletId,
+          btcNetwork: paymentObservation.btcNetwork,
+          expectedSats: paymentObservation.expectedSats,
+          observedDebitSats: paymentObservation.observedDebitSats,
+          observedCreditSats: paymentObservation.observedCreditSats,
+          txid: paymentObservation.txid,
+          serverCustody: paymentObservation.serverCustody,
+          paymentReceiptRoot: paymentObservation.paymentReceiptRoot,
+        }
+      : null,
+    finalityReceipt: finalityReceipt
+      ? {
+          finalityState: finalityReceipt.finalityState,
+          confirmations: finalityReceipt.confirmations,
+          blockHeight: finalityReceipt.blockHeight,
+          txid: finalityReceipt.txid,
+          finalityRoot: finalityReceipt.finalityRoot,
+        }
+      : null,
+    sourceToSharesRoot: proofRoots?.sourceToSharesRoot ?? null,
+    btdReadReceiptRoot: proofRoots?.btdReadReceiptRoot ?? null,
+    rightsTransferRoot: proofRoots?.rightsTransferRoot ?? null,
+    settlementUnlock: settlementUnlock
+      ? {
+          state: settlementUnlock.state,
+          sourceAvailable: settlementUnlock.sourceAvailable,
+          reason: settlementUnlock.reason,
+          readLicenseId: settlementUnlock.readLicenseId,
+          pullRequestTarget: settlementUnlock.pullRequestTarget,
+          missingReadbackKeys: settlementUnlock.missingReadbackKeys,
+        }
+      : null,
+    deliveryUnlock: deliveryUnlock
+      ? {
+          state: deliveryUnlock.state,
+          deliveryMechanism: deliveryUnlock.deliveryMechanism,
+          pullRequestTarget: deliveryUnlock.pullRequestTarget,
+          sourceBearingDeliveryVisibleToReader:
+            deliveryUnlock.sourceBearingDeliveryVisibleToReader,
+          requiredReceipts: deliveryUnlock.requiredReceipts,
+          blockerCodes: deliveryUnlock.blockerCodes,
+          deliveryRoot: deliveryUnlock.deliveryRoot,
+        }
+      : null,
+    reconciliationReport: reconciliationReport
+      ? {
+          reconciliationId: reconciliationReport.reconciliationId,
+          state: reconciliationReport.state,
+          blocking: reconciliationReport.blocking,
+          repairActions: reconciliationReport.repairActions,
+          proofRoots: reconciliationReport.proofRoots,
+        }
+      : null,
+    replayReceipt: replayReceipt
+      ? {
+          replayMode: replayReceipt.replayMode,
+          quoteRoot: replayReceipt.quoteRoot,
+          paymentReceiptRoot: replayReceipt.paymentReceiptRoot,
+          finalityRoot: replayReceipt.finalityRoot,
+          sourceToSharesRoot: replayReceipt.sourceToSharesRoot,
+          rightsTransferRoot: replayReceipt.rightsTransferRoot,
+          readReceiptRoot: replayReceipt.readReceiptRoot,
+          deliveryRoot: replayReceipt.deliveryRoot,
+          reconciliationRoot: replayReceipt.reconciliationRoot,
+          replayRoot: replayReceipt.replayRoot,
+          verified: replayReceipt.verified,
+        }
+      : null,
+    repairPosture,
+    sourceSafety,
+    proofRoots,
     storageProjection: storageProjection.map((record) => ({
       recordId: record.recordId,
       recordKind: record.recordKind,

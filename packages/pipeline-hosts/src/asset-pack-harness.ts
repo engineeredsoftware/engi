@@ -1678,10 +1678,14 @@ try {
       assetPackPipeline,
       acceptReadNeed,
       buildAssetPackDisclosureReview,
+      buildAssetPackPreviewBoundary,
+      buildAssetPackSettlementRightsDeliveryBoundary,
       buildAssetPackSourceSafePreview,
       buildReadingPipelineObservabilityInventory,
       assertAssetPackDisclosureSourceSafe,
       isAcceptedReadNeed,
+      persistAssetPackPreviewBoundary,
+      persistAssetPackSettlementRightsDeliveryBoundary,
       resolveReadingPipelineTelemetryProjection,
       summarizeReadingPipelineObservabilityCoverage,
       synthesizeReadNeedForPipelineInput,
@@ -1824,6 +1828,16 @@ try {
   const sourceSafeDisclosureReview = buildAssetPackDisclosureReview({ preview: sourceSafePreview });
   assertAssetPackDisclosureSourceSafe(sourceSafeDisclosureReview);
   execution.store('asset-pack/preview', 'disclosureReview', sourceSafeDisclosureReview);
+  let assetPackPreviewBoundary = output?.assetPackPreviewBoundary || null;
+  if (!assetPackPreviewBoundary || assetPackPreviewBoundary.schema !== 'bitcode.asset-pack.preview-boundary') {
+    assetPackPreviewBoundary = buildAssetPackPreviewBoundary({
+      need: readNeed,
+      fitResult,
+      sourceSafePreview,
+      pullRequestTarget: pullRequestUrl || null,
+    });
+  }
+  persistAssetPackPreviewBoundary(execution, assetPackPreviewBoundary);
   const pipelineResultReasons = Array.isArray(fitResult?.resultReasons)
     ? fitResult.resultReasons
     : Array.isArray(depositorySearch?.resultReasons)
@@ -2014,26 +2028,64 @@ try {
     reason: settlementUnlock.reason,
   });
   assertAssetPackDisclosureSourceSafe(assetPackDisclosureReview);
-	  const organizationAuthority = [
-	    evaluateBtdOrganizationInterfaceAuthority({
-	      actorId: userId || readerWalletId,
-	      organizationId: manifest.organizationId || manifest.organization?.id || 'staging-testnet-organization',
-	      organizationRole: 'admin',
-	      organizationPermissionGrants: ['asset_pack:deliver'],
-	      interfaceSurface: 'terminal',
-	      action: 'deliver_asset_pack',
-	      walletId: readerWalletId,
-	      targetAnchor: pullRequestUrl || null,
-	      readAccessDecision: settlementUnlock.sourceAvailable
-	        ? {
-	            decision: 'licensed_read',
-	            accessPolicyHash: ledgerSettlement.accessPolicyHash || sourceSafePreview?.accessPolicy?.accessPolicyHash || 'policy-pending',
-	            reason: settlementUnlock.reason,
-	          }
-	        : null,
-	      settlementState: settlementUnlock.sourceAvailable ? 'settled' : 'pending',
-	      confirmed: ledgerSettlement.settlementAdmissible === true,
-	      repairApprovalState: 'not_required',
+  const settlementFinalityConfirmed =
+    ledgerSettlement?.status === 'settled' && ledgerSettlement?.settlementAdmissible === true;
+  const settlementObservedSats =
+    Number(ledgerSettlement?.btcFee?.satsPaid || assetPackPreviewBoundary?.quoteReceipt?.sats || 0) ||
+    Number(assetPackPreviewBoundary?.quoteReceipt?.sats || 0);
+  const assetPackSettlementRightsDeliveryBoundary = assetPackPreviewBoundary
+    ? buildAssetPackSettlementRightsDeliveryBoundary({
+        previewBoundary: assetPackPreviewBoundary,
+        paymentObservation: {
+          paymentReceiptId: ledgerSettlement?.btcFeeReceiptId || undefined,
+          payerWalletId: readerWalletId,
+          payeeWalletId: depositorWalletId,
+          btcNetwork: ledgerSettlement?.btcFee?.network || 'testnet',
+          expectedSats: assetPackPreviewBoundary.quoteReceipt.sats,
+          observedDebitSats: settlementObservedSats,
+          observedCreditSats: settlementObservedSats,
+          txid:
+            ledgerSettlement?.btcFee?.txid ||
+            ledgerSettlement?.btcFeeReceiptId ||
+            'staging-testnet-' + runId,
+        },
+        finality: {
+          finalityState: settlementFinalityConfirmed ? 'confirmed' : 'prepared',
+          confirmations: settlementFinalityConfirmed ? 1 : 0,
+          blockHeight: null,
+        },
+        readerWalletId,
+        depositorWalletId,
+        orderId: ledgerSettlement?.ownershipEventId || undefined,
+        readId: manifest.read?.id || runId,
+        readLicenseId: ledgerSettlement?.readLicenseId || undefined,
+        ledgerAnchorId: ledgerSettlement?.ledgerAnchorId || undefined,
+        pullRequestTarget: pullRequestUrl || null,
+      })
+    : null;
+  if (assetPackSettlementRightsDeliveryBoundary) {
+    persistAssetPackSettlementRightsDeliveryBoundary(execution, assetPackSettlementRightsDeliveryBoundary);
+  }
+  const organizationAuthority = [
+    evaluateBtdOrganizationInterfaceAuthority({
+      actorId: userId || readerWalletId,
+      organizationId: manifest.organizationId || manifest.organization?.id || 'staging-testnet-organization',
+      organizationRole: 'admin',
+      organizationPermissionGrants: ['asset_pack:deliver'],
+      interfaceSurface: 'terminal',
+      action: 'deliver_asset_pack',
+      walletId: readerWalletId,
+      targetAnchor: pullRequestUrl || null,
+      readAccessDecision: settlementUnlock.sourceAvailable
+        ? {
+            decision: 'licensed_read',
+            accessPolicyHash: ledgerSettlement.accessPolicyHash || sourceSafePreview?.accessPolicy?.accessPolicyHash || 'policy-pending',
+            reason: settlementUnlock.reason,
+          }
+        : null,
+      settlementState: settlementUnlock.sourceAvailable ? 'settled' : 'pending',
+      confirmed: ledgerSettlement.settlementAdmissible === true,
+      repairApprovalState: 'not_required',
 	    }),
 	  ];
   execution.store('asset-pack/preview', 'sourceSafe', settledSourceSafePreview);
@@ -2044,7 +2096,13 @@ try {
   output = {
     ...(output || {}),
     sourceSafePreview: settledSourceSafePreview,
+    assetPackPreviewBoundary,
     assetPackDisclosureReview,
+    assetPackSettlementRightsDeliveryBoundary,
+    assetPackSettlementReplayReceipt: assetPackSettlementRightsDeliveryBoundary?.replayReceipt || null,
+    assetPackDeliveryUnlock: assetPackSettlementRightsDeliveryBoundary?.deliveryUnlock || null,
+    assetPackLedgerDatabaseStorageReconciliation:
+      assetPackSettlementRightsDeliveryBoundary?.reconciliationReport || null,
     organizationAuthority,
     ledgerSettlement: {
       ...ledgerSettlement,
@@ -2090,6 +2148,8 @@ try {
     fitResult,
     depositorySearch,
     sourceSafePreview: settledSourceSafePreview,
+    assetPackPreviewBoundary,
+    assetPackSettlementRightsDeliveryBoundary,
     assetPackDisclosureReview,
     assetPackSynthesisArtifacts: output?.assetPackSynthesisArtifacts || null,
     writtenAssets: output?.writtenAssets || null,

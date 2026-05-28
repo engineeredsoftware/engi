@@ -212,6 +212,15 @@ source, raw protected prompts, raw provider responses, wallet private material,
 private settlement payloads, credentials, or unpaid source-bearing AssetPack
 content.
 
+V42 Gate 6 binds Settlement Rights Delivery into product closure through
+`.bitcode/v42-settlement-rights-delivery.json` and `check:v42-gate6`.
+That proof requires paid BTC observation, finality gating, BTD rights transfer,
+source-to-shares conservation, repository delivery unlock,
+ledger/database/object-storage reconciliation, live harness materialization,
+route readback, Terminal readback, focused package/API/protocol tests, and
+source-safe docs before the paid AssetPack can cross the Reader visibility
+boundary.
+
 ## Operational Telemetry Repair Readback
 
 `ReadingOperationalTelemetryRepairReadback` is the source-safe package

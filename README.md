@@ -116,6 +116,17 @@ readback, `.bitcode/v42-readfitsfinding-preview-quote.json`, and
 protected source, unpaid AssetPack source, wallet private material, private
 settlement payloads, credentials, raw protected prompts, and raw provider
 responses stay out of route and UI readback.
+V42 Gate 6 adds paid settlement, BTD rights transfer, source-to-shares
+compensation, and repository delivery closure with
+`AssetPackSettlementRightsDeliveryBoundary`,
+`.bitcode/v42-settlement-rights-delivery.json`, and `check:v42-gate6`.
+The boundary observes the quote payment, confirms BTC/testnet finality,
+allocates depositor compensation, records BTD read-right receipts, reconciles
+ledger/database/object-storage projections, and unlocks source-bearing
+pull-request delivery only after paid readback agrees. Route summaries and
+Terminal detail remain source-safe metadata: unpaid AssetPack source, wallet
+private material, private settlement payloads, credentials, raw protected
+prompts, and raw provider responses are withheld.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject

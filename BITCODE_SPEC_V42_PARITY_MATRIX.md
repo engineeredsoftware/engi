@@ -37,7 +37,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Reading state machine | Five-step Reading UX is route-owned, persistent, and source-safe | `.bitcode/v42-reading-shortest-path-state-machine.json`, `TerminalEnterpriseReadingRouteState`, `readingStage`, route/retry/failure tests | implemented |
 | ReadNeed product closure | Need synthesis, review, feedback, resynthesis, accepted-Need admission, rejected Need blockers, source-safe telemetry, and Terminal runtime readback are product-ready | `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `ReadNeedReviewResynthesisRuntime`, `/api/read-review`, Terminal Need runtime readback | implemented |
 | Finding Fits preview and quote | Many-candidate search, selected-fit provenance, source-safe preview, and quote are product-ready | `.bitcode/v42-readfitsfinding-preview-quote.json`, `ReadFitsFindingRuntime`, `AssetPackPreviewBoundary`, harness preview summary, Terminal preview/quote/provenance readback | implemented |
-| Settlement and delivery | BTC/BTD settlement, rights transfer, compensation, and repository PR delivery are synchronized | later V42 Gate 6 artifact | draft-required |
+| Settlement and delivery | BTC/BTD settlement, rights transfer, compensation, and repository PR delivery are synchronized | `.bitcode/v42-settlement-rights-delivery.json`, `AssetPackSettlementRightsDeliveryBoundary`, live harness settlement boundary, route summary, Terminal settlement readback | implemented |
 | AI-reading demonstration | Standalone demonstration proves AssetPack improves AI beyond public-data-only baseline | later V42 Gate 7 artifact | draft-required |
 | Local/staging rehearsal | Full MVP path rehearsed locally and in staging-testnet with mainnet blocked | later V42 Gate 8 artifact | draft-required |
 | Promotion readiness | V42 proof and workflow promotion ready | later V42 Gate 9 artifact | draft-required |
@@ -51,7 +51,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Gate 3 | Reading shortest path state machine artifact | implemented |
 | Gate 4 | ReadNeed review and resynthesis product closure artifact | implemented |
 | Gate 5 | ReadFitsFinding AssetPack preview and quote closure artifact | implemented |
-| Gate 6 | Settlement rights transfer and repository delivery closure artifact | draft-required |
+| Gate 6 | Settlement rights transfer and repository delivery closure artifact | implemented |
 | Gate 7 | AI-reading dominant demonstration MVP artifact | draft-required |
 | Gate 8 | Local and staging-testnet full MVP rehearsal artifact | draft-required |
 | Gate 9 | Promotion readiness artifact and workflow | draft-required |
