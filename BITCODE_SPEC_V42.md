@@ -99,9 +99,18 @@ It closes when active V41 / draft V42 truth is visible in the root docs, protoco
 
 ## V42 Gate 2 Depositing Shortest Path And Compensation Visibility
 
-Gate 2 must make the shortest deposit path explicit and testable.
+Gate 2 makes the shortest deposit path explicit and testable.
 The accepted user path is: provide source material, select repository/source anchor, admit deposit to the Depository, receive source-safe admission proof, and see how later BTC compensation will be attributed if the deposit participates in a synthesized AssetPack.
-It must cover route/API contracts, source validation, storage projection, Depository search-document creation, BTD/source-to-shares compensation readback, telemetry, and local/staging rehearsal.
+The implemented path covers route/API contracts, source validation, storage projection, Depository search-document creation, BTD/source-to-shares compensation readback, telemetry, and local/staging rehearsal posture.
+
+Gate 2 introduces source-safe compensation visibility as a first-class Depository admission readback.
+`DepositorySupplyRecord.compensationPreview` and deposit route `depositoryEvidence.compensationPreview` expose only source-safe metadata: compensation state, depositor wallet id, BTC price asset, source-to-shares largest-remainder allocation method, compensation route root, source-to-shares preview root, ledger readback keys, database projection tables, and repair blockers.
+The compensation route preview is not a BTD mint and not a rights transfer.
+It states that source-to-shares proof, BTC allocation, BTD rights transfer, and source-bearing AssetPack delivery occur only after an accepted Need-Fit creates a paid AssetPack and settlement finality is observed.
+
+Gate 2 proof artifact: `.bitcode/v42-depositing-shortest-path.json`.
+The artifact must prove eight source-safe rows: source-to-admission path, deposit route readiness contract, Depository record compensation preview, source-safe search/vector projection, storage readback projection, source-to-shares compensation ledger readback, Terminal compensation visibility readback, and local/staging deposit readback posture.
+Validating command: `pnpm run check:v42-gate2`.
 
 ## V42 Gate 3 Reading Shortest Path State Machine
 

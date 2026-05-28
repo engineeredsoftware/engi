@@ -16,6 +16,11 @@ export type WorkspaceRun = Pick<PipelineExecution, 'id' | 'created_at' | 'type' 
   depositorySearchDocumentRoot?: string | null;
   lexicalDocumentRoot?: string | null;
   vectorDocumentRoot?: string | null;
+  compensationPreviewRoot?: string | null;
+  sourceToSharesPreviewRoot?: string | null;
+  compensationState?: string | null;
+  compensationAllocationMethod?: string | null;
+  compensationPriceAsset?: string | null;
   depositorWalletId?: string | null;
   depositoryIndexState?: string | null;
   participant?: string | null;

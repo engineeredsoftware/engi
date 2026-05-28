@@ -565,6 +565,90 @@ function buildDepositoryEvidence(input, inputState) {
     measurementRoot,
     reconciliationReadbackRoot
   });
+  const compensationRoute = {
+    payer: 'future-reader-after-settlement',
+    payee: 'depositing-wallet',
+    priceAsset: 'BTC',
+    allocationMethod: 'source-to-shares-largest-remainder',
+    sourceToSharesProofState: 'not-created-until-accepted-need-fit-and-settlement',
+    btdMintBoundary: 'not-minted-by-deposit-admission',
+    btdRightsTransferBoundary: 'reader-receives-rights-only-after-btc-settlement'
+  };
+  const compensationRouteRoot = stableHashObject(compensationRoute);
+  const sourceToSharesPreviewRoot = stableHashObject({
+    schema: 'bitcode.depository.source-to-shares-preview',
+    assetId: inputState.assetId,
+    repositoryFullName,
+    sourceBranch,
+    sourceCommit,
+    depositorWalletId: walletId,
+    proofRoot,
+    measurementRoot,
+    reconciliationReadbackRoot,
+    allocationMethod: compensationRoute.allocationMethod,
+    sourceToSharesProofState: compensationRoute.sourceToSharesProofState
+  });
+  const compensationReadback = {
+    ledgerAccountKeys: [
+      `supplier:${inputState.assetId}:pending_claims`,
+      ...(walletId
+        ? [
+            `depositor:${walletId}:deposited_assets`,
+            `depositor:${walletId}:eligible_compensation_routes`
+          ]
+        : [])
+    ],
+    databaseProjectionTables: [
+      'deliverables',
+      'deliverable_vectors',
+      'ledger_entries',
+      'source_to_shares_allocations'
+    ],
+    objectStorageVisibility: 'source-safe-metadata-only-before-settlement'
+  };
+  const compensationReadbackRoot = stableHashObject(compensationReadback);
+  const compensationPreviewWithoutRoot = {
+    schema: 'bitcode.depository.supply-compensation-preview',
+    state: walletId
+      ? 'eligible-if-selected-for-assetpack'
+      : 'repair-required-before-compensation',
+    assetId: inputState.assetId,
+    depositorWalletId: walletId,
+    candidateBtdRange: null,
+    compensationRoute,
+    readiness: {
+      sourceBound: Boolean(repositoryFullName && (sourceBranch || sourceCommit)),
+      proofReady: true,
+      measurementReady: true,
+      searchable: true,
+      depositorWalletReady: Boolean(walletId),
+      eligibleForFindingFits: true,
+      eligibleForCompensationIfSelected: Boolean(walletId),
+      blockers: walletId ? [] : ['depositor_wallet_missing'],
+      warnings: []
+    },
+    visibility: {
+      beforeSettlement: 'source-safe-compensation-route-metadata',
+      protectedSourceVisible: false,
+      unpaidAssetPackSourceVisible: false,
+      walletPrivateMaterialVisible: false,
+      settlementPrivatePayloadVisible: false
+    },
+    readback: compensationReadback,
+    roots: {
+      compensationRouteRoot,
+      sourceToSharesPreviewRoot,
+      readbackRoot: compensationReadbackRoot
+    }
+  };
+  const compensationPreviewRoot = stableHashObject(compensationPreviewWithoutRoot);
+  const compensationPreview = {
+    ...compensationPreviewWithoutRoot,
+    roots: {
+      ...compensationPreviewWithoutRoot.roots,
+      compensationPreviewRoot
+    }
+  };
 
   return {
     schema: 'bitcode.depository.deposit-evidence',
@@ -579,6 +663,9 @@ function buildDepositoryEvidence(input, inputState) {
     depositorySearchDocumentRoot,
     lexicalDocumentRoot,
     vectorDocumentRoot,
+    compensationPreview,
+    compensationPreviewRoot,
+    sourceToSharesPreviewRoot,
     searchDocuments: {
       lexical: {
         ...lexicalDocument,
@@ -3207,7 +3294,10 @@ export function makeCandidateAsset(input) {
     depositorySearchDocumentRoot: depositoryEvidence.depositorySearchDocumentRoot,
     lexicalDocumentRoot: depositoryEvidence.lexicalDocumentRoot,
     vectorDocumentRoot: depositoryEvidence.vectorDocumentRoot,
+    compensationPreviewRoot: depositoryEvidence.compensationPreviewRoot,
+    sourceToSharesPreviewRoot: depositoryEvidence.sourceToSharesPreviewRoot,
     depositorWalletId: depositoryEvidence.depositorBoundary.walletId,
+    compensationPreview: depositoryEvidence.compensationPreview,
     depositoryEvidence,
     sourceMaterialBinding: {
       mode: input.bindingMode || 'read-only-mounted-copy',
@@ -3284,7 +3374,9 @@ export function makeCandidateAsset(input) {
       reconciliationReadbackRoot: depositoryEvidence.reconciliationReadbackRoot,
       depositorySearchDocumentRoot: depositoryEvidence.depositorySearchDocumentRoot,
       lexicalDocumentRoot: depositoryEvidence.lexicalDocumentRoot,
-      vectorDocumentRoot: depositoryEvidence.vectorDocumentRoot
+      vectorDocumentRoot: depositoryEvidence.vectorDocumentRoot,
+      compensationPreviewRoot: depositoryEvidence.compensationPreviewRoot,
+      sourceToSharesPreviewRoot: depositoryEvidence.sourceToSharesPreviewRoot
     },
     metadata: {
       author: input.author,

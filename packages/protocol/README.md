@@ -184,6 +184,14 @@ Need, Finding Fits, source-safe AssetPack preview, BTD/BTC settlement, rights
 transfer, and repository delivery; and an AI-reading dominant standalone
 demonstration that proves an AssetPack can improve an AI system beyond a
 public-data-only baseline.
+V42 Gate 2 adds `V42DepositingShortestPath` through
+`packages/protocol/src/canonical/v42-depositing-shortest-path.js`,
+`packages/protocol/test/v42-depositing-shortest-path.test.js`,
+`.bitcode/v42-depositing-shortest-path.json`, and `check:v42-gate2`.
+It proves deposit route readiness, Depository search/vector/storage projection,
+source-safe compensation preview roots, source-to-shares ledger readback keys,
+Terminal compensation visibility, and the pre-mint/no-pre-settlement-source
+boundary.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,

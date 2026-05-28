@@ -35,6 +35,8 @@ Open the V42 full specification family, roadmap, package script, workflow postur
 ### Gate 2: Depositing Shortest Path And Compensation Visibility
 
 Implement and prove the shortest path from source material to Depository admission proof and later compensation readback.
+Gate 2 now binds Depository admission proof to a source-safe compensation route preview, route/API readiness, Depository search documents, vector/storage projection, source-to-shares readback keys, Terminal activity/history/readback fields, and `.bitcode/v42-depositing-shortest-path.json`.
+The compensation preview is deliberately pre-mint: it records BTC/source-to-shares eligibility if the deposit is selected into a later paid AssetPack, but it does not mint BTD, transfer rights, expose source, or allocate BTC before accepted Need-Fit and settlement.
 
 ### Gate 3: Reading Shortest Path State Machine
 
