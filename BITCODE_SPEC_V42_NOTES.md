@@ -43,6 +43,9 @@ The V42 Reading path should be a five-step enterprise flow:
 
 The default UI should be guided and low-detail.
 The rich execution log, proof roots, telemetry rows, and ledger/storage details remain available on expansion.
+Gate 3 implements the current V42 state-machine layer with `TerminalEnterpriseReadingRouteState`.
+The recoverable route state includes transaction id presence, `readingStage`, active-stage hydration, retry and restart posture, source-safe failure kind, and repair actions.
+This makes refresh, route handoff, and recovery inspectable without disclosing protected source, protected prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, or ledger authority.
 
 ## AssetPack source-safety note
 
@@ -66,6 +69,8 @@ The route model should be AssetPacks in and AssetPacks out: `/deposit` creates r
 The `/packs` master view should support column sorting, filtering, and search over measurements, synthesized AssetPack titles and descriptions, values, activity or transaction type, settlement posture, and compensation state.
 The detail view should expose the selected activity's source-safe data, proof roots, telemetry, ledger/database synchronization, and expandable payloads without replacing the short default path.
 Outside public documentation, product UX should avoid self-referential explanatory copy; route structure, concise labels, progressive detail, and proof-on-expand must make Depositing, Reading, and Pack activity self-explanatory.
+The current transitional Terminal/Exchange UX remains too dense for the final MVP posture.
+V43+ should explicitly own the broad UX cleanup: remove Exchange naming from route and component vocabulary in favor of Packs, split Terminal into `/read` and `/deposit`, keep `/packs` as searchable master-detail activity, and use rich themed reusable components without relying on in-product explanatory copy to compensate for unclear flows.
 
 ## Concise current-system reading
 

@@ -105,6 +105,16 @@ parses it only as operator posture. The source-safe generated artifact is
 `.bitcode/v39-enterprise-reading-ux-state.json`, checked by
 `pnpm run check:v39-gate3`.
 
+V42 Gate 3 extends that state into the current Reading shortest path recovery
+contract. `TerminalEnterpriseReadingRouteState` binds transaction id presence,
+the `readingStage` query parameter, active-stage hydration, retry and restart
+posture, source-safe failure kind, and repair actions. Terminal may restore a
+later stage from route state after refresh or handoff, but blockers still hold:
+accepted Need gates Finding Fits, source-safe AssetPack preview gates
+settlement, and settlement readback gates delivery. The source-safe proof
+artifact is `.bitcode/v42-reading-shortest-path-state-machine.json`, checked by
+`pnpm run check:v42-gate3`.
+
 ## Live staging-testnet QA
 
 Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are

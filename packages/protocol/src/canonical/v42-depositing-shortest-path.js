@@ -217,7 +217,11 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v42-delta-gate2-implemented', SOURCE_ROOTS.v42Delta, delta.includes('Gate 2') && delta.includes('Depository admission proof')),
     predicateResult('v42-notes-gate2-rehearsal', SOURCE_ROOTS.v42Notes, notes.includes('Gate 2') && notes.includes('staging-testnet')),
     predicateResult('v42-parity-gate2-closed', SOURCE_ROOTS.v42Parity, parity.includes('Depositing shortest path') && parity.includes('implemented')),
-    predicateResult('roadmap-current-gate-advanced', SOURCE_ROOTS.roadmap, roadmap.includes('Current working gate: V42 Gate 2') && roadmap.includes('V42 Gate 2 closure anchor')),
+    predicateResult(
+      'roadmap-records-gate2-closure',
+      SOURCE_ROOTS.roadmap,
+      roadmap.includes('Current working gate: V42 Gate') && roadmap.includes('V42 Gate 2 closure anchor'),
+    ),
   ];
 }
 

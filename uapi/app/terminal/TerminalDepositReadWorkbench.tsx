@@ -108,6 +108,7 @@ interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
   depositedSourceRevision?: TerminalDepositedSourceRevision | null;
   admittedReadActivityId?: string | null;
+  routeReadingStage?: TerminalEnterpriseReadingStepId | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   onHarnessCompleted?: () => Promise<unknown> | unknown;
   showDemonstrationWorkbench?: boolean;
@@ -117,6 +118,7 @@ export default function TerminalDepositReadWorkbench({
   repositoryContext = null,
   depositedSourceRevision = null,
   admittedReadActivityId = null,
+  routeReadingStage = null,
   onRecordActivity,
   onHarnessCompleted,
   showDemonstrationWorkbench = true,
@@ -304,6 +306,8 @@ export default function TerminalDepositReadWorkbench({
   const enterpriseReadingState = useMemo(
     () =>
       buildTerminalEnterpriseReadingUxState({
+        transactionId: recordedAdmittedReadActivityId || harnessReadActivityId || admittedReadActivityId || null,
+        routeReadingStage,
         hasRepositorySource: Boolean(workbench?.sourceRevision),
         hasReadMeasurement: readFitsFindingProgress !== 'draft' || Boolean(harnessReadActivityId),
         hasSynthesizedNeed: Boolean(readNeed),
@@ -312,18 +316,24 @@ export default function TerminalDepositReadWorkbench({
         hasSourceSafePreview: Boolean(sourceSafePreview),
         hasSettlementReadback: settledReadback,
         hasDeliveryReadback: pullRequestDelivered,
+        retryRequested: readNeedSynthesisCount > 1 || harnessState === 'failed',
+        failureKind: harnessState === 'failed' ? 'fits_finding_failed' : null,
         sourceSafePreviewBlocked: Boolean(sourceSafePreview && !disclosureSourceSafe),
         disclosureLeakageDetected: disclosureLeakage?.protectedSourceDetected === true,
       }),
     [
       acceptedReadNeed,
+      admittedReadActivityId,
       disclosureLeakage?.protectedSourceDetected,
       disclosureSourceSafe,
       harnessReadActivityId,
       harnessState,
+      readNeedSynthesisCount,
       pullRequestDelivered,
       readFitsFindingProgress,
+      recordedAdmittedReadActivityId,
       readNeed,
+      routeReadingStage,
       settledReadback,
       sourceSafePreview,
       workbench?.sourceRevision,
@@ -711,7 +721,12 @@ export default function TerminalDepositReadWorkbench({
         />
       </div>
 
-      <section className="mt-5 rounded-[1.45rem] border border-sky-300/18 bg-sky-300/[0.06] px-5 py-5">
+      <section
+        className="mt-5 rounded-[1.45rem] border border-sky-300/18 bg-sky-300/[0.06] px-5 py-5"
+        data-reading-route-stage={enterpriseReadingState.routeState.routeReadingStage || ''}
+        data-reading-transaction-present={enterpriseReadingState.routeState.transactionIdPresent ? 'true' : 'false'}
+        data-reading-failure-kind={enterpriseReadingState.routeState.failureKind}
+      >
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-sky-200/80">staged reading</p>

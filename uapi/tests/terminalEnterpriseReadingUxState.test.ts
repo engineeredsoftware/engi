@@ -90,6 +90,7 @@ describe('terminal-enterprise-reading-ux-state', () => {
 
   it('admits only source-safe low-detail and expandable metadata before settlement', () => {
     const state = buildTerminalEnterpriseReadingUxState({
+      transactionId: 'reading-transaction-1',
       hasRepositorySource: true,
       hasReadMeasurement: true,
       hasSynthesizedNeed: true,
@@ -98,13 +99,49 @@ describe('terminal-enterprise-reading-ux-state', () => {
     });
 
     expect(state.activeStepId).toBe('request-fit');
+    expect(state.routeState.transactionId).toBe('reading-transaction-1');
+    expect(state.routeState.transactionIdPresent).toBe(true);
+    expect(state.routeState.readingStageQueryParam).toBe('readingStage');
     expect(state.routeContract.acceptedNeedRequiredBeforeFindingFits).toBe(true);
     expect(state.routeContract.sourceSafePreviewRequiredBeforeSettlement).toBe(true);
     expect(state.routeContract.deliveryRequiresSettlementUnlock).toBe(true);
+    expect(state.routeContract.restartRestoresReadingStage).toBe(true);
+    expect(state.routeContract.retryPreservesSourceSafeLineage).toBe(true);
+    expect(state.routeContract.failureStatesSourceSafe).toBe(true);
     expect(state.proofRoot).toMatch(/^terminal-enterprise-reading-ux:/u);
     expect(assertTerminalEnterpriseReadingUxStateSourceSafe(state)).toEqual({
       admitted: true,
       reason: 'source_safe_enterprise_reading_ux_metadata',
     });
+  });
+
+  it('hydrates later route stages, retry posture, and source-safe failure repair actions', () => {
+    const state = buildTerminalEnterpriseReadingUxState({
+      transactionId: 'reading-transaction-2',
+      routeReadingStage: 'buy-asset-pack-settle',
+      hasRepositorySource: true,
+      hasReadMeasurement: true,
+      hasSynthesizedNeed: true,
+      hasAcceptedNeed: true,
+      retryRequested: true,
+      restartRequested: true,
+      failureKind: 'settlement_blocked',
+    });
+
+    expect(state.activeStepId).toBe('buy-asset-pack-settle');
+    expect(state.routeState.routeReadingStage).toBe('buy-asset-pack-settle');
+    expect(state.routeState.activeStageHydratedFromRoute).toBe(true);
+    expect(state.routeState.retryRequested).toBe(true);
+    expect(state.routeState.retryPreservesNeedLineage).toBe(true);
+    expect(state.routeState.retryPreservesSettlementBoundary).toBe(true);
+    expect(state.routeState.restartRequested).toBe(true);
+    expect(state.routeState.restartRestoresActiveStage).toBe(true);
+    expect(state.routeState.failureKind).toBe('settlement_blocked');
+    expect(state.routeState.failureStateSourceSafe).toBe(true);
+    expect(state.routeState.failureRepairActions).toContain('repair-settlement-readback');
+    expect(state.steps.find((step) => step.id === 'buy-asset-pack-settle')?.blockers).toContain(
+      'source-safe AssetPack preview required',
+    );
+    expect(assertTerminalEnterpriseReadingUxStateSourceSafe(state).admitted).toBe(true);
   });
 });
