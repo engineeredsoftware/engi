@@ -39,7 +39,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Finding Fits preview and quote | Many-candidate search, selected-fit provenance, source-safe preview, and quote are product-ready | `.bitcode/v42-readfitsfinding-preview-quote.json`, `ReadFitsFindingRuntime`, `AssetPackPreviewBoundary`, harness preview summary, Terminal preview/quote/provenance readback | implemented |
 | Settlement and delivery | BTC/BTD settlement, rights transfer, compensation, and repository PR delivery are synchronized | `.bitcode/v42-settlement-rights-delivery.json`, `AssetPackSettlementRightsDeliveryBoundary`, live harness settlement boundary, route summary, Terminal settlement readback | implemented |
 | AI-reading demonstration | Standalone demonstration proves AssetPack improves AI beyond public-data-only baseline | `.bitcode/v42-ai-reading-demonstration.json`, `protocol-demonstration/src/ai-reading-demonstration.js`, `test:v42-ai-reading-mvp` | implemented |
-| Local/staging rehearsal | Full MVP path rehearsed locally and in staging-testnet with mainnet blocked | later V42 Gate 8 artifact | draft-required |
+| Local/staging rehearsal | Full MVP path rehearsed locally and in staging-testnet with mainnet blocked | `.bitcode/v42-local-staging-mvp-rehearsal.json`, `ReadingLocalStagingRehearsal`, `rehearse:v42-local-staging`, `check:v42-gate8` | implemented |
 | Promotion readiness | V42 proof and workflow promotion ready | later V42 Gate 9 artifact | draft-required |
 
 ## V42 implementation checklist
@@ -53,7 +53,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Gate 5 | ReadFitsFinding AssetPack preview and quote closure artifact | implemented |
 | Gate 6 | Settlement rights transfer and repository delivery closure artifact | implemented |
 | Gate 7 | AI-reading dominant demonstration MVP artifact | implemented |
-| Gate 8 | Local and staging-testnet full MVP rehearsal artifact | draft-required |
+| Gate 8 | Local and staging-testnet full MVP rehearsal artifact | implemented |
 | Gate 9 | Promotion readiness artifact and workflow | draft-required |
 
 ## V42 accepted boundaries

@@ -135,6 +135,18 @@ AssetPack-enhanced answer after a reviewed local Need and local Finding Fits
 step select the deposited runbook AssetPack. The benchmark uplift is
 deterministic, the demonstration stays self-contained, and protected source
 remains withheld before settlement.
+V42 Gate 8 adds the local/staging-testnet full MVP rehearsal with
+`ReadingLocalStagingRehearsal`,
+`scripts/rehearse-v42-local-staging-mvp.mjs`,
+`.bitcode/v42-local-staging-mvp-rehearsal.json`, and `check:v42-gate8`.
+It binds Gates 2 through 7 into one source-safe operator path: deposit source,
+request read, review synthesized Need, request Finding Fits, review source-safe
+AssetPack preview and quote, buy/settle, receive repository delivery, and
+verify AI-reading uplift. The staging lane is bound to Supabase project
+`tkpyosihuouusyaxtbau`; operator receipts and generated artifacts never
+serialize secrets, protected source, raw prompts, provider responses, unpaid
+AssetPack source, wallet private material, private settlement payloads, or
+live rehearsal logs.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject

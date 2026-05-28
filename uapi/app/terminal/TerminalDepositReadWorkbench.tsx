@@ -358,6 +358,10 @@ export default function TerminalDepositReadWorkbench({
     objectValue(assetPackSettlementRightsDeliveryBoundary?.reconciliationReport) ||
     objectValue(completedHarnessEvidence?.assetPackLedgerDatabaseStorageReconciliation);
   const assetPackSettlementProofRoots = objectValue(assetPackSettlementRightsDeliveryBoundary?.proofRoots);
+  const readingLocalStagingRehearsal = objectValue(completedHarnessEvidence?.readingLocalStagingRehearsal);
+  const readingLocalStagingCoverage = objectValue(readingLocalStagingRehearsal?.coverage);
+  const readingLocalStagingProofRoots = objectValue(readingLocalStagingRehearsal?.proofRoots);
+  const readingLocalStagingStageReadback = objectValue(readingLocalStagingRehearsal?.stageReadback);
   const previewFeeQuote =
     assetPackQuoteReceipt ||
     objectValue(sourceSafePreview?.feeQuote);
@@ -636,6 +640,64 @@ export default function TerminalDepositReadWorkbench({
       assetPackSettlementReconciliation,
       assetPackSettlementReplayReceipt,
       assetPackSettlementRightsDeliveryBoundary,
+    ],
+  );
+  const readingLocalStagingRehearsalRows = useMemo(
+    () => [
+      {
+        label: 'Rehearsal',
+        value: shortIdentifier(readingLocalStagingRehearsal?.rehearsalId) || 'pending',
+      },
+      {
+        label: 'Run',
+        value: shortIdentifier(readingLocalStagingRehearsal?.runId) || textValue(readingLocalStagingRehearsal?.runId) || 'pending',
+      },
+      {
+        label: 'Lanes',
+        value: stringList(readingLocalStagingRehearsal?.lanes).join(', ') || 'pending',
+      },
+      {
+        label: 'Stages complete',
+        value: `${Object.values(readingLocalStagingStageReadback || {}).filter((status) => status === 'completed').length}/${String(countList(readingLocalStagingRehearsal?.stageIds) || 0)}`,
+      },
+      {
+        label: 'Staging',
+        value: textValue(readingLocalStagingCoverage?.stagingProjectRef) || 'pending',
+      },
+      {
+        label: 'Many fits',
+        value: readingLocalStagingCoverage?.depositoryManyFitsCovered === true ? 'covered' : 'pending',
+      },
+      {
+        label: 'Telemetry',
+        value: readingLocalStagingCoverage?.telemetryStreamingReadbackCovered === true ? 'readback covered' : 'pending',
+      },
+      {
+        label: 'Sync',
+        value: readingLocalStagingCoverage?.ledgerDatabaseStorageSynchronized === true ? 'aligned' : 'pending',
+      },
+      {
+        label: 'Delivery',
+        value: readingLocalStagingCoverage?.postSettlementPullRequestDeliveryCovered === true ? 'post-settlement PR' : 'pending',
+      },
+      {
+        label: 'Mainnet',
+        value: readingLocalStagingCoverage?.valueBearingMainnetAdmitted === false ? 'blocked' : 'pending',
+      },
+      {
+        label: 'Root',
+        value: shortIdentifier(readingLocalStagingProofRoots?.rehearsalRoot) || 'pending',
+      },
+      {
+        label: 'Rows',
+        value: String(countList(readingLocalStagingRehearsal?.rows) || 'pending'),
+      },
+    ],
+    [
+      readingLocalStagingCoverage,
+      readingLocalStagingProofRoots?.rehearsalRoot,
+      readingLocalStagingRehearsal,
+      readingLocalStagingStageReadback,
     ],
   );
   const readNeedRows = useMemo(() => {
@@ -1222,6 +1284,19 @@ export default function TerminalDepositReadWorkbench({
               </summary>
               <dl className="mt-3 grid gap-2 md:grid-cols-2">
                 {assetPackSettlementBoundaryRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+                    <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
+            <details className="mt-3 rounded-[0.9rem] border border-violet-300/15 bg-violet-300/[0.04] px-3 py-3">
+              <summary className="cursor-pointer text-[0.58rem] uppercase tracking-[0.14em] text-violet-100/85">
+                Local/staging MVP rehearsal
+              </summary>
+              <dl className="mt-3 grid gap-2 md:grid-cols-2">
+                {readingLocalStagingRehearsalRows.map((row) => (
                   <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
                     <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
                     <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>

@@ -148,6 +148,19 @@ credentials, raw protected prompts, or raw provider responses. The source-safe
 proof artifact is `.bitcode/v42-settlement-rights-delivery.json`, checked by
 `pnpm run check:v42-gate6`.
 
+V42 Gate 8 closes local/staging full MVP rehearsal readback for Terminal.
+The route remains `/terminal` during V42, but the proof now binds the whole
+MVP chain: deposit source, request read, review synthesized Need, request
+Finding Fits, review source-safe AssetPack preview and quote, buy/settle,
+receive repository delivery, and inspect rich stream telemetry/database
+readback. The source-safe proof artifact is
+`.bitcode/v42-local-staging-mvp-rehearsal.json`, checked by
+`pnpm run check:v42-gate8`. Generated rehearsal data may carry lane ids,
+stage ids, roots, staging-testnet project `tkpyosihuouusyaxtbau`, and repair
+posture; it must not carry protected source, unpaid AssetPack source, raw
+prompts, provider responses, credentials, wallet private material, private
+settlement payloads, or live logs.
+
 ## Live staging-testnet QA
 
 Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are
