@@ -92,6 +92,12 @@ The rehearsal binds `ReadingLocalStagingRehearsal`, Vercel Sandbox operator rece
 It is intentionally source-safe metadata only: secrets, protected source, raw protected prompts, raw interpolated prompts, raw provider responses, unpaid AssetPack source, wallet private material, private settlement payloads, and live rehearsal logs remain outside tracked artifacts.
 Gate 8 does not implement the V43+ route vocabulary, but it keeps the future product shape visible: `/read`, `/deposit`, and `/packs` remain the next route cleanup once V42 proves the current MVP path.
 
+## Gate 9: V42 Promotion Readiness
+
+Gate 9 records the V42 promotion-readiness closure state.
+The generated artifact `.bitcode/v42-promotion-readiness-report.json` binds every V42 product proof from Gates 2 through 8, the V42 promotion workflow, generated proof appendix support, promotion dry-run support, source-safety checks, and value-bearing mainnet blocking.
+The intended post-promotion runtime posture is active V42 / draft V43, so V43 can start from the reliable MVP experience canon and focus on the next product vocabulary and deposit-side evolution.
+
 ## V43+ agentic depositing roadmap note
 
 V43 or a later explicitly opened version should evolve the deposit side into an agentic AssetPack option experience for enterprises.

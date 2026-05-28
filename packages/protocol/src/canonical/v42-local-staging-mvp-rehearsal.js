@@ -325,7 +325,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v42-delta-expanded', SOURCE_ROOTS.v42Delta, sources.v42Delta.includes('Gate 8 now binds') && sources.v42Delta.includes('staging-testnet full MVP rehearsal')),
     predicateResult('v42-notes-expanded', SOURCE_ROOTS.v42Notes, sources.v42Notes.includes('Gate 8 records') && sources.v42Notes.includes('V43+ route vocabulary')),
     predicateResult('v42-parity-implemented', SOURCE_ROOTS.v42Parity, sources.v42Parity.includes('Local/staging rehearsal') && sources.v42Parity.includes('implemented')),
-    predicateResult('roadmap-advanced-to-gate8', SOURCE_ROOTS.roadmap, sources.roadmap.includes('Current working gate: V42 Gate 8') && sources.roadmap.includes('V42 Gate 8 closure anchor')),
+    predicateResult(
+      'roadmap-advanced-to-gate8',
+      SOURCE_ROOTS.roadmap,
+      sources.roadmap.includes('V42 Gate 8 closure anchor') &&
+        (sources.roadmap.includes('Current working gate: V42 Gate 8') ||
+          sources.roadmap.includes('Current working gate: V42 Gate 9')),
+    ),
     predicateResult('readmes-document-gate8', SOURCE_ROOTS.rootReadme, sources.rootReadme.includes('V42 Gate 8') && sources.protocolReadme.includes('V42LocalStagingMvpRehearsal') && sources.assetPackReadme.includes('ReadingLocalStagingRehearsal') && sources.terminalReadme.includes('local/staging')),
   ];
 }

@@ -40,7 +40,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Settlement and delivery | BTC/BTD settlement, rights transfer, compensation, and repository PR delivery are synchronized | `.bitcode/v42-settlement-rights-delivery.json`, `AssetPackSettlementRightsDeliveryBoundary`, live harness settlement boundary, route summary, Terminal settlement readback | implemented |
 | AI-reading demonstration | Standalone demonstration proves AssetPack improves AI beyond public-data-only baseline | `.bitcode/v42-ai-reading-demonstration.json`, `protocol-demonstration/src/ai-reading-demonstration.js`, `test:v42-ai-reading-mvp` | implemented |
 | Local/staging rehearsal | Full MVP path rehearsed locally and in staging-testnet with mainnet blocked | `.bitcode/v42-local-staging-mvp-rehearsal.json`, `ReadingLocalStagingRehearsal`, `rehearse:v42-local-staging`, `check:v42-gate8` | implemented |
-| Promotion readiness | V42 proof and workflow promotion ready | later V42 Gate 9 artifact | draft-required |
+| Promotion readiness | V42 proof and workflow promotion ready | `.bitcode/v42-promotion-readiness-report.json`, `BITCODE_SPEC_V42_PROVEN.md`, `.github/workflows/v42-canon-promotion.yml`, `check:v42-gate9` | closed |
 
 ## V42 implementation checklist
 
@@ -54,7 +54,17 @@ This matrix records the reliable MVP product surfaces that must become promotion
 | Gate 6 | Settlement rights transfer and repository delivery closure artifact | implemented |
 | Gate 7 | AI-reading dominant demonstration MVP artifact | implemented |
 | Gate 8 | Local and staging-testnet full MVP rehearsal artifact | implemented |
-| Gate 9 | Promotion readiness artifact and workflow | draft-required |
+| Gate 9 | Promotion readiness artifact and workflow | closed |
+
+## Gate 9 Promotion readiness parity
+
+| Area | Closure evidence | Judgment |
+| --- | --- | --- |
+| V42 gate artifacts | Gates 2 through 8 generated artifacts are covered, parseable, and source-safe | closed |
+| Promotion workflow | `.github/workflows/v42-canon-promotion.yml` validates V42 before canon promotion and prepares the V42 active / V43 draft posture | closed |
+| Promotion scripts | `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, and runtime canon promotion support V42 | closed |
+| Generated proof appendix | `BITCODE_SPEC_V42_PROVEN.md` generation includes `.bitcode/v42-promotion-readiness-report.json` | closed |
+| Value-bearing mainnet | V42 promotion readiness keeps value-bearing mainnet blocked | closed |
 
 ## V42 accepted boundaries
 
@@ -64,6 +74,7 @@ It may not implement route, pipeline, settlement, or demonstration behavior.
 V42 later gates may implement product behavior only if source-safe disclosure, Need review, BTD/BTC settlement, depositor compensation, repository delivery, telemetry, and generated proof obligations are represented in tests and artifacts.
 
 V42 may not split `/terminal` into `/read` and `/deposit`, and may not rename `/exchange` to `/packs`; those are V43+ roadmap items unless explicitly reopened.
+The V43+ parity target is stricter than a route rename: `/packs` must become the searchable master-detail activity route for AssetPacks in and out, `/deposit` must propose and admit reviewable deposit AssetPack options from connected source and Bitcode demand, `/read` must own the Reading purchase path, and product UX outside public documentation must be self-explanatory without self-referential copy.
 
 ## V42 completion condition
 

@@ -72,6 +72,19 @@ Non-goals:
 
 Design principles: shortest credible path, source-safe preview, proof-on-expand, purchase-before-source, depositor compensation visibility, AI-reading demonstration value, and production-hardening through tests.
 
+## V43+ route vocabulary and pack activity cleanup
+
+V42 proves the current MVP path before route vocabulary is renamed.
+The next product cleanup must remove the transitional Terminal/Exchange posture from the core experience.
+`/terminal` should split into `/deposit` and `/read`, and `/exchange` should become `/packs` across route names, component prefixes, tests, docs, and operator vocabulary.
+`/packs` is the searchable master-detail activity surface for all pack activity: deposited AssetPack options, admitted Depository AssetPacks, Finding Fits previews, settled Need-Fit AssetPacks, quotes, rights transfers, compensation posture, repository delivery, proofs, and repair states.
+Its master view must support column sorting, filtering, and search over measurements, synthesized AssetPack titles and descriptions, values, activity or transaction type, settlement state, compensation state, and proof roots.
+Its detail view exposes the selected activity's source-safe proof, telemetry, ledger/database/storage synchronization, and expandable metadata.
+`/deposit` should let enterprises connect source, instruct or accept Bitcode's proposed deposit AssetPack options, review source-safe measurements and likely demand/ROI posture, and approve or reject Depository admission.
+`/read` should own the shortest Reading path from Read Request through reviewed Need, Finding Fits, preview, settlement, and delivery.
+AssetPacks become the in/out simplification: Depositing creates AssetPacks for the Depository, and Reading buys synthesized Need-Fit AssetPacks.
+Outside public documentation, product UX must not rely on self-referential explanatory copy; route structure, progressive detail, labels, and reusable rich components must make core behavior self-explanatory while preserving power-user inspection depth.
+
 ## V42 system architecture and layer boundaries
 
 V42 acts through existing layers:
@@ -180,6 +193,8 @@ The validating command is `pnpm run check:v42-gate8`.
 Gate 9 closes V42 promotion readiness.
 It must bind every V42 artifact, test, workflow, generated proof support, promotion command, active V42 / draft V43 runtime preparation, source-safe generated appendix output, and value-bearing mainnet blocking where relevant.
 It closes only when V42 can be promoted as the reliable MVP experience canon.
+The V42 promotion readiness canon is the generated artifact `.bitcode/v42-promotion-readiness-report.json`, the `BITCODE_SPEC_V42_PROVEN.md` generation path, `.github/workflows/v42-canon-promotion.yml`, package scripts, and promotion dry-run support.
+The accepted post-promotion posture is V42 active / draft V43, with value-bearing mainnet still blocked unless a later promoted canon admits it.
 
 ## V42 canonical subsystem surfaces
 

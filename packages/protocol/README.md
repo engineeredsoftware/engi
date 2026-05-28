@@ -62,6 +62,7 @@ Current exported commercial helpers include:
 - `V42SettlementRightsDelivery` helpers for V42 source-safe BTC payment observation, finality gating, source-to-shares compensation, BTD read-right transfer, repository delivery unlock, ledger/database/object-storage reconciliation, Terminal readback, and source-safe paid-boundary proof;
 - `V42AiReadingDemonstration` helpers for V42 source-safe AI-reading demonstration proof: public-data-only baseline, reviewed local Need, local Finding Fits, source-safe AssetPack preview, AssetPack-enhanced AI answer, deterministic benchmark uplift, self-contained demonstration boundary, and workflow wiring;
 - `V42LocalStagingMvpRehearsal` helpers for V42 source-safe local/staging-testnet full MVP rehearsal proof across Depositing, Reading, Finding Fits, preview/quote, settlement, BTD rights transfer, repository delivery, AI-reading uplift, telemetry/database readback, operator receipts, and blocked value-bearing mainnet;
+- `V42PromotionReadinessReport` helpers for V42 source-safe promotion readiness across all V42 reliable MVP artifacts, generated proof support, workflow posture, promotion dry-run support, value-bearing mainnet blocking, and `V42` active, `V43` draft runtime preparation;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -260,6 +261,19 @@ local/staging full MVP rehearsal: deposit source, request read, review
 synthesized Need, request Finding Fits, review source-safe AssetPack preview
 and quote, buy/settle, receive repository delivery, inspect telemetry/database
 readback, and keep value-bearing mainnet blocked.
+V42 Gate 9 adds `V42PromotionReadinessReport` through
+`packages/protocol/src/canonical/v42-promotion-readiness-report.js`,
+`packages/protocol/test/v42-promotion-readiness.test.js`,
+`.bitcode/v42-promotion-readiness-report.json`,
+`generate:v42-promotion-readiness`, `check:v42-promotion-readiness`, and
+`check:v42-gate9`.
+The report closes the reliable MVP promotion path by binding all V42 gate
+artifacts, `BITCODE_SPEC_V42_PROVEN.md`, `v42-canon-promotion.yml`,
+promotion scripts, runtime canon rewriting, dry-run promotion, source-safety,
+value-bearing mainnet blocking, and the `V42` active, `V43` draft posture
+without serializing protected source, credentials, private settlement payloads,
+wallet material, raw protected prompts, raw provider responses, or unpaid
+AssetPack source.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,
