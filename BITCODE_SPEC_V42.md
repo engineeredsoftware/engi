@@ -132,6 +132,8 @@ Validating command: `pnpm run check:v42-gate3`.
 Gate 4 must make `ReadNeedComprehensionSynthesis` product-ready in the MVP flow.
 The pipeline must synthesize exactly the user's Need from the Read Request, store source-safe Need data, allow user feedback and resynthesis, preserve lineage, and admit Finding Fits only after the Need is accepted.
 It must cover PTRR agents, FailsafeGenerationSequence, ThricifiedGeneration, prompts, parser return types, telemetry rows, database projection, tests, and UI readback.
+Gate 4 is implemented by `.bitcode/v42-readneed-review-resynthesis-product-closure.json`.
+The artifact binds `ReadNeedReviewResynthesisRuntime`, all four review actions, source-safe storage projection, rejection posture, accepted-Need admission into `ReadFitsFindingSynthesis`, Terminal runtime/storage/telemetry readback, and the package/API/protocol tests that prove the path.
 
 ## V42 Gate 5 ReadFitsFinding AssetPack Preview And Quote Closure
 
@@ -423,7 +425,7 @@ V42 inherits operator-quality expectations for browser proof, accessibility, vis
 | `.bitcode/v42-canon-posture-drift-report.json` | `check-bitcode-canon-posture-drift` | source-safe metadata | active V41 / draft V42 posture proof |
 | `.bitcode/v42-depositing-shortest-path.json` | V42 Gate 2 | source-safe metadata | deposit MVP proof |
 | `.bitcode/v42-reading-shortest-path-state-machine.json` | V42 Gate 3 | source-safe metadata | Reading product state proof |
-| `.bitcode/v42-readneed-review-resynthesis.json` | V42 Gate 4 | source-safe metadata | Need review proof |
+| `.bitcode/v42-readneed-review-resynthesis-product-closure.json` | V42 Gate 4 | source-safe metadata | Need review proof |
 | `.bitcode/v42-readfitsfinding-preview-quote.json` | V42 Gate 5 | source-safe metadata | Finding Fits, preview, and quote proof |
 | `.bitcode/v42-settlement-rights-delivery.json` | V42 Gate 6 | source-safe metadata | settlement/delivery proof |
 | `.bitcode/v42-ai-reading-demonstration.json` | V42 Gate 7 | source-safe metadata | demonstration value proof |

@@ -139,6 +139,14 @@ for resynthesis. The runtime never serializes protected source, raw protected
 prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
 private material, or private settlement payloads.
 
+V42 Gate 4 binds this runtime into product closure through
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json` and
+`check:v42-gate4`. That proof requires all four review actions
+(`synthesize_read_need`, `resynthesize_read_need`, `accept_read_need`,
+`reject_read_need`), PTRR/Failsafe/Thricified telemetry receipts, source-safe
+storage projection, accepted-Need admission, rejected Need blockers, and
+Terminal runtime readback before Finding Fits can run.
+
 ## ReadFitsFinding Runtime
 
 `ReadFitsFindingRuntime` is the source-safe package primitive that turns

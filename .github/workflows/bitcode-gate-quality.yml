@@ -430,6 +430,9 @@ jobs:
               if [ -f scripts/check-v42-gate3-reading-shortest-path-state-machine.mjs ]; then
                 node scripts/check-v42-gate3-reading-shortest-path-state-machine.mjs --skip-branch-check --skip-uapi-tests
               fi
+              if [ -f scripts/check-v42-gate4-readneed-review-resynthesis-product-closure.mjs ]; then
+                node scripts/check-v42-gate4-readneed-review-resynthesis-product-closure.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

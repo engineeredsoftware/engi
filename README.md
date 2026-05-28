@@ -99,6 +99,13 @@ V42 Gate 3 adds the Reading shortest path state machine with
 accepted-Need blockers, source-safe preview blockers,
 `.bitcode/v42-reading-shortest-path-state-machine.json`, and
 `check:v42-gate3`.
+V42 Gate 4 adds ReadNeed product closure with
+`ReadNeedReviewResynthesisRuntime`, source-safe storage projection,
+feedback/resynthesis lineage, accepted-Need Finding Fits admission,
+rejected Need blockers, PTRR/Failsafe/Thricified telemetry receipts,
+Terminal Need runtime readback,
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and
+`check:v42-gate4`.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject

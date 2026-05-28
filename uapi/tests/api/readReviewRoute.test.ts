@@ -402,8 +402,18 @@ describe('/api/read-review', () => {
         rejectedNeedPosturePersisted: true,
         findingFitsBlockedUntilAcceptedNeed: true,
       },
+      sourceSafety: {
+        protectedSourceVisible: false,
+        rawProviderResponseVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        credentialsSerialized: false,
+      },
     });
     expect(payload.storageProjection.map((record: { recordKind: string }) => record.recordKind)).toContain('rejected_need_posture');
+    expect(payload.runtimeSummary).toMatchObject({
+      findingFitsAdmitted: false,
+      storageRecordCount: payload.storageProjection.length,
+    });
     expect(payload.telemetry).toMatchObject({
       schema: 'bitcode.read-need.rejection-telemetry',
       returnType: 'RejectedReadNeed',

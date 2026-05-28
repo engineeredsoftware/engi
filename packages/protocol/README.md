@@ -201,6 +201,15 @@ V42 Gate 3 adds the V42 Reading shortest path state machine,
 route persistence, accepted-Need gating, restart/retry/failure repair,
 low-detail proof-on-expand UI posture, rich Reading pipeline telemetry
 readback, activity/workbench readback, and source-safe disclosure boundaries.
+V42 Gate 4 adds `V42ReadNeedReviewResynthesisProductClosure` through
+`packages/protocol/src/canonical/v42-readneed-review-resynthesis-product-closure.js`,
+`packages/protocol/test/v42-readneed-review-resynthesis-product-closure.test.js`,
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and
+`check:v42-gate4`. It proves ReadNeed review/resynthesis product closure:
+source-safe Read Request and Need storage, feedback lineage, Need measurement,
+accepted-Need admission, rejected Need blockers, PTRR/Failsafe/Thricified
+telemetry receipts, `/api/read-review` action coverage, Terminal runtime
+readback, and source-safe disclosure boundaries.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,
 `packages/protocol/test/v40-test-inventory-coverage-matrix.test.js`,
