@@ -31,3 +31,6 @@ export function startServer(
 
 export const ACTIVE_CANON_VERSION: string;
 export const DRAFT_TARGET_VERSION: string;
+
+export function buildAiReadingDemonstrationInput(): Record<string, unknown>;
+export function runAiReadingDominantDemonstration(input?: Record<string, unknown>): Record<string, unknown>;

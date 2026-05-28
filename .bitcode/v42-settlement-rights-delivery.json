@@ -521,7 +521,7 @@
       "passed": true
     },
     {
-      "id": "roadmap-advanced-to-gate6",
+      "id": "roadmap-records-gate6-closure",
       "sourcePath": "SPECIFICATIONS_ROADMAP.md",
       "passed": true
     },
@@ -583,5 +583,5 @@
     "failedPredicateIds": []
   },
   "passed": true,
-  "artifactRoot": "v42-settlement-rights-delivery:09c7a0fd5dd0b1952aa75eb9"
+  "artifactRoot": "v42-settlement-rights-delivery:6866f71624c147178c383189"
 }

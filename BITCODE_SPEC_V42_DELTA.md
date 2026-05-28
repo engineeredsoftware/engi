@@ -62,6 +62,7 @@ Gate 6 now binds settlement rights transfer through `AssetPackSettlementRightsDe
 ### Gate 7: AI-Reading Dominant Demonstration MVP
 
 Implement and prove the standalone demonstration where deposited technical intelligence improves an AI system beyond a public-data-only baseline.
+Gate 7 now binds the local AI-reading demonstration runtime, public-data-only baseline, reviewed Need, local Depository fit selection, source-safe AssetPack preview, AssetPack-enhanced answer, deterministic basis-point uplift, settlement-gated source boundary, `.bitcode/v42-ai-reading-demonstration.json`, and `check:v42-gate7`.
 
 ### Gate 8: Local And Staging-Testnet Full MVP Rehearsal
 
@@ -76,7 +77,7 @@ Bind every V42 product artifact, workflow, generated proof, promotion command, s
 - V43+ agentic deposit AssetPack option synthesis remains deferred.
 - `/terminal` is not split into `/read` and `/deposit` during V42.
 - `/exchange` is not renamed to `/packs` during V42.
-- V43+ must take the route-vocabulary cleanup seriously: `/packs` replaces Exchange as the searchable master-detail activity route, while `/read` and `/deposit` become the short core paths for buying and selling AssetPacks.
+- V43+ must take the route-vocabulary cleanup seriously: `/packs` replaces Exchange as the searchable master-detail activity route, including route names, component prefixes, tests, docs, and product vocabulary, while `/read` and `/deposit` become the short core paths for buying and selling AssetPacks.
 - Production-mainnet value-bearing operation remains blocked unless a later promoted canon explicitly admits it.
 - V42 Gate 1 does not change route behavior, pipeline behavior, settlement behavior, or demonstration behavior.
 

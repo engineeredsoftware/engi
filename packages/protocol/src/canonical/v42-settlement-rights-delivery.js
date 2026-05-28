@@ -226,7 +226,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v42-delta-expanded', SOURCE_ROOTS.v42Delta, sources.v42Delta.includes('Gate 6') && sources.v42Delta.includes('settlement rights transfer')),
     predicateResult('v42-notes-expanded', SOURCE_ROOTS.v42Notes, sources.v42Notes.includes('Gate 6') && sources.v42Notes.includes('source-to-shares compensation')),
     predicateResult('v42-parity-implemented', SOURCE_ROOTS.v42Parity, sources.v42Parity.includes('Settlement and delivery') && sources.v42Parity.includes('implemented')),
-    predicateResult('roadmap-advanced-to-gate6', SOURCE_ROOTS.roadmap, sources.roadmap.includes('Current working gate: V42 Gate 6') && sources.roadmap.includes('V42 Gate 6 closure anchor')),
+    predicateResult('roadmap-records-gate6-closure', SOURCE_ROOTS.roadmap, sources.roadmap.includes('V42 Gate 6 closure anchor') && sources.roadmap.includes('check:v42-gate6')),
     predicateResult('readmes-document-gate6', SOURCE_ROOTS.rootReadme, sources.rootReadme.includes('V42 Gate 6') && sources.assetPackReadme.includes('Settlement Rights Delivery') && sources.protocolReadme.includes('V42SettlementRightsDelivery') && sources.terminalReadme.includes('Settlement rights')),
     predicateResult('protocol-exports-gate6', SOURCE_ROOTS.protocolIndex, sources.protocolIndex.includes('buildV42SettlementRightsDelivery') && sources.protocolTypes.includes('buildV42SettlementRightsDelivery')),
     predicateResult('package-scripts-wire-gate6', SOURCE_ROOTS.packageJson, sources.packageJson.includes('generate:v42-settlement-rights-delivery') && sources.packageJson.includes('check:v42-gate6')),

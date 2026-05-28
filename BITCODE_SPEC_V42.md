@@ -157,6 +157,9 @@ Source-bearing AssetPack delivery remains withheld until payment, finality, BTD 
 Gate 7 must update the standalone demonstration so it proves Bitcode's AI-reading value.
 The demonstration should show deposited non-public technical intelligence becoming an AssetPack that measurably improves an AI system's training, prompt/context, or evaluation performance beyond a public-data-only baseline.
 It must remain minimal, self-contained inside `protocol-demonstration/`, and independent from commercial product code.
+Gate 7 is implemented by `.bitcode/v42-ai-reading-demonstration.json`.
+The artifact binds the local public-data-only baseline, reviewed ReadNeed synthesis, local Depository Finding Fits, selected AssetPack preview, AssetPack-enhanced AI-reading answer, basis-point benchmark uplift, settlement-gated source-safety boundary, self-contained demonstration import boundary, demonstration tests, protocol tests, docs, package scripts, and workflow wiring.
+The accepted proof is an AI-reading AssetPack improvement: public-only assistance scores below the AssetPack-enhanced result, selected deposit provenance is explicit, protected source remains withheld before settlement, and the demonstration can run locally without product runtime imports.
 
 ## V42 Gate 8 Local And Staging-Testnet Full MVP Rehearsal
 
