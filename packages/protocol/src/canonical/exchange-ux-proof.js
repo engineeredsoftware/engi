@@ -98,7 +98,10 @@ const SHARED_FAIL_CLOSED_REASONS = Object.freeze([
 ]);
 
 const sourceRoots = Object.freeze([
-  'uapi/app/exchange/ExchangePageClient.tsx',
+  'uapi/app/packs/PacksPageClient.tsx',
+  'uapi/app/packs/page.tsx',
+  'uapi/app/api/packs/activity/route.ts',
+  'uapi/components/base/bitcode/activity/pack-activity-model.ts',
   'uapi/app/exchange/page.tsx',
   'uapi/app/exchange/README.md',
   'uapi/app/terminal/TerminalPageClient.tsx',
@@ -112,7 +115,8 @@ const sourceRoots = Object.freeze([
   'uapi/app/terminal/terminal-transaction-read-model.ts',
   'uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx',
   'uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx',
-  'uapi/tests/exchangePageClient.test.tsx',
+  'uapi/tests/packsPageClient.test.tsx',
+  'uapi/tests/packActivityModel.test.ts',
   'uapi/tests/exchangeTerminalHandoff.test.ts',
 ]);
 
@@ -258,7 +262,8 @@ export const EXCHANGE_UX_PROOF_ROWS = Object.freeze([
     collapsedStatus: 'The Exchange header and table describe the selected activity and data mode.',
     expandedDetail: 'The selected detail pane exposes activity identity, AssetPack evidence, proof posture, history, and journal sections.',
     sourceRoots: [
-      'uapi/app/exchange/ExchangePageClient.tsx',
+      'uapi/app/packs/PacksPageClient.tsx',
+      'uapi/app/api/packs/activity/route.ts',
       'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
       'uapi/components/base/bitcode/execution/BitcodeTransactionsTable.tsx',
     ],
@@ -273,7 +278,8 @@ export const EXCHANGE_UX_PROOF_ROWS = Object.freeze([
     collapsedStatus: 'Search, status, ownership, lens, repository, participant, proof, sort, and pagination remain route-owned.',
     expandedDetail: 'Filter chips and pagination expose filter state without source-bearing payloads.',
     sourceRoots: [
-      'uapi/app/exchange/ExchangePageClient.tsx',
+      'uapi/app/packs/PacksPageClient.tsx',
+      'uapi/components/base/bitcode/activity/pack-activity-model.ts',
       'uapi/app/terminal/terminal-transaction-query.ts',
       'uapi/components/base/bitcode/execution/BitcodeTransactionsFilterBar.tsx',
     ],

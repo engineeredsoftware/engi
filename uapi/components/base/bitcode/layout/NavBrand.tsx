@@ -25,7 +25,7 @@ const SURFACE_COPY: Record<Exclude<NavBrandSurface, null>, { eyebrow: string; ti
   },
   network: {
     eyebrow: "Bitcode",
-    title: "exchange",
+    title: "packs",
   },
   docs: {
     eyebrow: "Bitcode",

@@ -110,9 +110,12 @@ const rehearsalRows = Object.freeze([
     phaseIds: EXCHANGE_REHEARSAL_PHASE_IDS,
     flowIds: EXCHANGE_REHEARSAL_FLOW_IDS,
     sourceRoots: [
-      'uapi/app/exchange/ExchangePageClient.tsx',
+      'uapi/app/packs/PacksPageClient.tsx',
+      'uapi/app/packs/page.tsx',
+      'uapi/app/api/packs/activity/route.ts',
       'uapi/app/exchange/README.md',
-      'uapi/tests/exchangePageClient.test.tsx',
+      'uapi/tests/packsPageClient.test.tsx',
+      'uapi/tests/packActivityModel.test.ts',
       'uapi/tests/exchangeTerminalHandoff.test.ts',
       '.github/workflows/bitcode-gate-quality.yml',
     ],
@@ -128,7 +131,7 @@ const rehearsalRows = Object.freeze([
     validationCommands: [
       'pnpm run check:v36-gate2',
       'pnpm run check:v36-gate8',
-      'pnpm --dir uapi exec jest --runTestsByPath tests/exchangePageClient.test.tsx tests/exchangeTerminalHandoff.test.ts --runInBand',
+      'pnpm --dir uapi exec jest --runTestsByPath tests/packsPageClient.test.tsx tests/packActivityModel.test.ts tests/exchangeTerminalHandoff.test.ts --runInBand',
     ],
     valueBearingMainnetAdmission: false,
   }),
@@ -141,7 +144,8 @@ const rehearsalRows = Object.freeze([
     phaseIds: EXCHANGE_REHEARSAL_PHASE_IDS,
     flowIds: EXCHANGE_REHEARSAL_FLOW_IDS,
     sourceRoots: [
-      'uapi/app/exchange/ExchangePageClient.tsx',
+      'uapi/app/packs/PacksPageClient.tsx',
+      'uapi/app/api/packs/activity/route.ts',
       'uapi/app/terminal/TerminalTransactionWorkspace.tsx',
       'uapi/app/terminal/TerminalTransactionDetailSurface.tsx',
       'uapi/app/terminal/terminal-transaction-read-model.ts',
@@ -195,7 +199,8 @@ const rehearsalRows = Object.freeze([
     phaseIds: ['market_activity_listing', 'history_review', 'source_safe_evidence_review'],
     flowIds: ['list', 'history'],
     sourceRoots: [
-      'uapi/app/exchange/ExchangePageClient.tsx',
+      'uapi/app/packs/PacksPageClient.tsx',
+      'uapi/components/base/bitcode/activity/pack-activity-model.ts',
       'uapi/app/terminal/TerminalTransactionActivitySurface.tsx',
       'uapi/tests/pipelineExecutionLogHeader.test.tsx',
       'packages/protocol/src/canonical/exchange-ux-proof.js',

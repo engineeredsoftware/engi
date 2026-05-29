@@ -66,7 +66,7 @@ describe('BitcodeTransactionsActiveFilters', () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it('renders exchange ownership copy for network-scoped transaction filters', () => {
+  it('renders pack activity ownership copy for network-scoped transaction filters', () => {
     render(
       <BitcodeTransactionsActiveFilters
         filters={{
@@ -83,6 +83,6 @@ describe('BitcodeTransactionsActiveFilters', () => {
       />,
     );
 
-    expect(screen.getByRole('button', { name: 'Ownership: Exchange transactions ×' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Ownership: Pack activity ×' })).toBeTruthy();
   });
 });

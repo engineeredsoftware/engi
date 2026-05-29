@@ -144,7 +144,7 @@ function main() {
     );
   }
 
-  assertCheck(failures, roadmap.includes('Current working gate: V43 Gate 2'), 'Roadmap must state active V43 Gate 2.');
+  assertCheck(failures, roadmap.includes('Current working gate: V43 Gate'), 'Roadmap must state active V43 gate work.');
   assertCheck(failures, roadmap.includes('V43 Gate 2 closure anchor'), 'Roadmap must include V43 Gate 2 closure anchor.');
   assertCheck(failures, readme.includes('V43 Gate 2'), 'README must document V43 Gate 2.');
   assertCheck(failures, protocolReadme.includes('V43 Gate 2'), 'Protocol README must document V43 Gate 2.');
