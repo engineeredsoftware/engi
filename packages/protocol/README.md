@@ -96,6 +96,17 @@ V43 Gate 3 adds `V43PacksActivityMasterDetail` through
 display, settlement/compensation/delivery/repair state readback, source-safe
 metadata expansion, and no-source leak tests.
 
+V43 Gate 4 adds `V43ReadRouteFiveStepUx` through
+`packages/protocol/src/canonical/v43-read-route-five-step-ux.js`,
+`packages/protocol/test/v43-read-route-five-step-ux.test.js`,
+`.bitcode/v43-read-route-five-step-ux.json`,
+`generate:v43-read-route-five-step-ux`,
+`check:v43-read-route-five-step-ux`, and `check:v43-gate4`. It binds
+`ReadRouteSession`, `/read`, five-step Reading UX, Need review,
+accepted-Need-gated Finding Fits, source-safe AssetPack preview, BTC
+settlement/delivery posture, retained execution stream readback, route
+navigation, and no-source leak tests.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

@@ -112,9 +112,11 @@ describe('Nav public shell', () => {
     expect(screen.getByText('Brand home')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
     expect(screen.getByRole('link', { name: 'Packs' })).not.toHaveAttribute('aria-current');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.getByRole('button', { name: 'Explain Packs' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Read' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
 
@@ -159,6 +161,7 @@ describe('Nav public shell', () => {
 
     expect(screen.getByText('Brand home')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
     expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByText('Notifications')).toBeInTheDocument();
 
@@ -184,6 +187,16 @@ describe('Nav public shell', () => {
     expect(screen.getByText('Brand network')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('aria-current', 'page');
+  });
+
+  it('renders read brand posture and active nav on read routes', () => {
+    mockPathname = '/read';
+
+    render(<Nav />);
+
+    expect(screen.getByText('Brand read')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('aria-current', 'page');
   });
 
   it('treats /edgetimes as a docs-branded public route', () => {

@@ -5,7 +5,7 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-route-vocabulary-inventory-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-route-vocabulary-inventory:b688a0d8808d69db7a52e9a3",
+  "artifactRoot": "v43-route-vocabulary-inventory:eaf71f2ad8280bd95492dfaf",
   "passed": true,
   "tokenIds": [
     "route:/exchange",
@@ -2081,7 +2081,7 @@
     },
     {
       "path": "BITCODE_SPEC_V43.md",
-      "pathRoot": "v43-route-vocabulary-file:62434c4fdd4c9f3528a85995",
+      "pathRoot": "v43-route-vocabulary-file:ce66628152ade64c13fde56d",
       "categories": [
         "doc",
         "spec",
@@ -2091,12 +2091,12 @@
         "route:/exchange": 5,
         "route:/terminal": 5,
         "route:/packs": 17,
-        "route:/read": 15,
+        "route:/read": 18,
         "route:/deposit": 12,
         "symbol:Exchange": 4,
         "symbol:Terminal": 2,
         "symbol:Packs": 5,
-        "symbol:Reading": 18,
+        "symbol:Reading": 19,
         "symbol:Depositing": 6,
         "symbol:PackActivity": 7,
         "symbol:DepositAssetPackOption": 3,
@@ -2104,14 +2104,14 @@
         "word:terminal": 5,
         "word:self-referential": 4
       },
-      "totalMatches": 114,
+      "totalMatches": 118,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "BITCODE_SPEC_V43_DELTA.md",
-      "pathRoot": "v43-route-vocabulary-file:51a071d9a3afa207dfb4ab0a",
+      "pathRoot": "v43-route-vocabulary-file:1a4a0d31ddfd6e15643adc83",
       "categories": [
         "doc",
         "spec",
@@ -2121,11 +2121,11 @@
         "route:/exchange": 4,
         "route:/terminal": 2,
         "route:/packs": 11,
-        "route:/read": 6,
+        "route:/read": 8,
         "route:/deposit": 6,
         "symbol:Exchange": 2,
-        "symbol:Terminal": 3,
-        "symbol:Reading": 5,
+        "symbol:Terminal": 4,
+        "symbol:Reading": 6,
         "symbol:Depositing": 2,
         "symbol:PackActivity": 2,
         "symbol:DepositAssetPackOption": 1,
@@ -2133,14 +2133,14 @@
         "word:terminal": 2,
         "word:self-referential": 3
       },
-      "totalMatches": 53,
+      "totalMatches": 57,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "BITCODE_SPEC_V43_NOTES.md",
-      "pathRoot": "v43-route-vocabulary-file:6124e4c464a3b6d540784a13",
+      "pathRoot": "v43-route-vocabulary-file:e6e5a72d3e61ddf3e9114804",
       "categories": [
         "doc",
         "spec",
@@ -2150,12 +2150,12 @@
         "route:/exchange": 2,
         "route:/terminal": 1,
         "route:/packs": 7,
-        "route:/read": 3,
+        "route:/read": 5,
         "route:/deposit": 3,
         "symbol:Exchange": 1,
         "symbol:Terminal": 1,
         "symbol:Packs": 1,
-        "symbol:Reading": 3,
+        "symbol:Reading": 5,
         "symbol:Depositing": 2,
         "symbol:PackActivity": 2,
         "symbol:DepositAssetPackOption": 1,
@@ -2163,14 +2163,14 @@
         "word:terminal": 1,
         "word:self-referential": 2
       },
-      "totalMatches": 32,
+      "totalMatches": 36,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
-      "pathRoot": "v43-route-vocabulary-file:2770ebfb7d7d041cdba2b10b",
+      "pathRoot": "v43-route-vocabulary-file:7c19070cc1f7520ff19c9a5a",
       "categories": [
         "doc",
         "spec"
@@ -2179,7 +2179,7 @@
         "route:/exchange": 3,
         "route:/terminal": 1,
         "route:/packs": 6,
-        "route:/read": 3,
+        "route:/read": 5,
         "route:/deposit": 3,
         "symbol:Packs": 1,
         "symbol:Reading": 1,
@@ -2188,7 +2188,7 @@
         "word:terminal": 1,
         "word:self-referential": 2
       },
-      "totalMatches": 28,
+      "totalMatches": 30,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -2313,7 +2313,7 @@
     },
     {
       "path": "README.md",
-      "pathRoot": "v43-route-vocabulary-file:73b543d9a3b0adf7e22a6607",
+      "pathRoot": "v43-route-vocabulary-file:a6a889bc09b179592c5b0ada",
       "categories": [
         "doc",
         "telemetry"
@@ -2322,12 +2322,12 @@
         "route:/exchange": 5,
         "route:/terminal": 5,
         "route:/packs": 9,
-        "route:/read": 6,
+        "route:/read": 8,
         "route:/deposit": 5,
         "symbol:Exchange": 16,
         "symbol:Terminal": 31,
         "symbol:Packs": 3,
-        "symbol:Reading": 29,
+        "symbol:Reading": 30,
         "symbol:Depositing": 5,
         "symbol:PackActivity": 1,
         "symbol:DepositAssetPackOption": 1,
@@ -2335,14 +2335,14 @@
         "word:terminal": 7,
         "word:self-referential": 2
       },
-      "totalMatches": 142,
+      "totalMatches": 145,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "SPECIFICATIONS_ROADMAP.md",
-      "pathRoot": "v43-route-vocabulary-file:f70d9ecba6970b8e789d6086",
+      "pathRoot": "v43-route-vocabulary-file:e7927caadf523179bfaa6da0",
       "categories": [
         "doc",
         "spec",
@@ -2353,10 +2353,9 @@
         "route:/terminal": 3,
         "route:/packs": 9,
         "route:/read": 10,
-        "route:/deposit": 6,
+        "route:/deposit": 7,
         "symbol:Exchange": 25,
         "symbol:Terminal": 42,
-        "symbol:Packs": 1,
         "symbol:Reading": 59,
         "symbol:Depositing": 10,
         "symbol:PackActivity": 1,
@@ -5853,7 +5852,7 @@
     },
     {
       "path": "packages/protocol/README.md",
-      "pathRoot": "v43-route-vocabulary-file:60fa87c9d02ec336e59f0754",
+      "pathRoot": "v43-route-vocabulary-file:6f26321e8ae41a9daaf0318f",
       "categories": [
         "doc",
         "package",
@@ -5863,19 +5862,19 @@
         "route:/exchange": 4,
         "route:/terminal": 2,
         "route:/packs": 6,
-        "route:/read": 4,
+        "route:/read": 5,
         "route:/deposit": 2,
         "symbol:Exchange": 17,
         "symbol:Terminal": 29,
         "symbol:Packs": 1,
-        "symbol:Reading": 33,
+        "symbol:Reading": 34,
         "symbol:Depositing": 5,
         "symbol:PackActivity": 1,
         "word:exchange": 16,
         "word:terminal": 6,
         "word:self-referential": 1
       },
-      "totalMatches": 127,
+      "totalMatches": 129,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -7091,6 +7090,25 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "packages/protocol/src/canonical/v43-read-route-five-step-ux.js",
+      "pathRoot": "v43-route-vocabulary-file:3ccff3998243a1b97320bb01",
+      "categories": [
+        "package",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/terminal": 3,
+        "route:/read": 14,
+        "symbol:Terminal": 1,
+        "symbol:Reading": 4,
+        "word:terminal": 6
+      },
+      "totalMatches": 28,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "packages/protocol/src/canonical/v43-route-vocabulary-inventory.js",
       "pathRoot": "v43-route-vocabulary-file:157fd43a1b0d92c5e4c6d901",
       "categories": [
@@ -7573,6 +7591,22 @@
       ],
       "tokenCounts": {
         "word:terminal": 1
+      },
+      "totalMatches": 1,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/test/v43-read-route-five-step-ux.test.js",
+      "pathRoot": "v43-route-vocabulary-file:806897d387b0667a60afa16b",
+      "categories": [
+        "package",
+        "telemetry",
+        "test"
+      ],
+      "tokenCounts": {
+        "symbol:Reading": 1
       },
       "totalMatches": 1,
       "sourceSafeMetadataOnly": true,
@@ -9821,6 +9855,24 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "scripts/check-v43-gate4-read-route-five-step-ux.mjs",
+      "pathRoot": "v43-route-vocabulary-file:da4ac3fe0a23b346fb67f8ec",
+      "categories": [
+        "script",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/terminal": 3,
+        "route:/read": 4,
+        "symbol:Reading": 2,
+        "word:terminal": 5
+      },
+      "totalMatches": 14,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "scripts/code-review/README.md",
       "pathRoot": "v43-route-vocabulary-file:fef2886ffeed000a3327379c",
       "categories": [
@@ -11439,6 +11491,55 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "uapi/app/read/ReadPageClient.tsx",
+      "pathRoot": "v43-route-vocabulary-file:5c1c473c8882148acde2c91d",
+      "categories": [
+        "component",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/terminal": 11,
+        "route:/packs": 1,
+        "route:/read": 1,
+        "symbol:Reading": 10,
+        "word:terminal": 24
+      },
+      "totalMatches": 47,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "uapi/app/read/page.tsx",
+      "pathRoot": "v43-route-vocabulary-file:f1683a164e5711d6c44ca7bb",
+      "categories": [
+        "component",
+        "route"
+      ],
+      "tokenCounts": {
+        "route:/read": 1,
+        "symbol:Reading": 2
+      },
+      "totalMatches": 3,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "uapi/app/read/read-route-model.ts",
+      "pathRoot": "v43-route-vocabulary-file:7ed5cb28ad6ce5145fde430c",
+      "categories": [],
+      "tokenCounts": {
+        "route:/terminal": 1,
+        "route:/read": 3,
+        "word:terminal": 2
+      },
+      "totalMatches": 6,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "uapi/app/terminal/DemonstrationWitnessHost.tsx",
       "pathRoot": "v43-route-vocabulary-file:f8afe98c7e64ad58029103f7",
       "categories": [
@@ -12170,10 +12271,10 @@
     },
     {
       "path": "uapi/app/terminal/terminal-enterprise-reading-ux-state.ts",
-      "pathRoot": "v43-route-vocabulary-file:45f29adac7d2ef8957565abd",
+      "pathRoot": "v43-route-vocabulary-file:a378af5edaf9522d2acf8dd7",
       "categories": [],
       "tokenCounts": {
-        "symbol:Terminal": 2,
+        "symbol:Reading": 2,
         "word:terminal": 4
       },
       "totalMatches": 6,
@@ -12323,14 +12424,15 @@
     },
     {
       "path": "uapi/app/terminal/terminal-routes.ts",
-      "pathRoot": "v43-route-vocabulary-file:5b2837a2fd797d37c7e1cc22",
+      "pathRoot": "v43-route-vocabulary-file:5ae21a330067f5fa7dfa9242",
       "categories": [],
       "tokenCounts": {
         "route:/terminal": 1,
         "route:/packs": 1,
+        "route:/read": 1,
         "word:terminal": 1
       },
-      "totalMatches": 3,
+      "totalMatches": 4,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -12750,42 +12852,44 @@
     },
     {
       "path": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
-      "pathRoot": "v43-route-vocabulary-file:412ecc29f4428f038c5886e1",
+      "pathRoot": "v43-route-vocabulary-file:646809312925807d1f21caca",
       "categories": [
         "component"
       ],
       "tokenCounts": {
-        "route:/terminal": 2,
+        "route:/terminal": 1,
         "route:/packs": 1,
+        "route:/read": 2,
         "symbol:Exchange": 1,
-        "symbol:Terminal": 11,
+        "symbol:Terminal": 10,
         "symbol:Packs": 3,
-        "word:terminal": 2
+        "word:terminal": 1
       },
-      "totalMatches": 20,
+      "totalMatches": 19,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
-      "pathRoot": "v43-route-vocabulary-file:28f8f398092588ce2a6bca66",
+      "pathRoot": "v43-route-vocabulary-file:1b3d3ce34897b3eabcb8c8af",
       "categories": [
         "component",
         "telemetry"
       ],
       "tokenCounts": {
         "symbol:Terminal": 6,
-        "symbol:Packs": 3
+        "symbol:Packs": 3,
+        "symbol:Reading": 2
       },
-      "totalMatches": 9,
+      "totalMatches": 11,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "uapi/components/base/bitcode/layout/footer.tsx",
-      "pathRoot": "v43-route-vocabulary-file:3000d2c67388973f3286435f",
+      "pathRoot": "v43-route-vocabulary-file:afb21919438b54679e7b0268",
       "categories": [
         "component",
         "telemetry"
@@ -12793,18 +12897,20 @@
       "tokenCounts": {
         "route:/terminal": 1,
         "route:/packs": 1,
+        "route:/read": 1,
         "symbol:Terminal": 2,
         "symbol:Packs": 1,
+        "symbol:Reading": 1,
         "word:terminal": 3
       },
-      "totalMatches": 8,
+      "totalMatches": 10,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "uapi/components/base/bitcode/layout/nav.tsx",
-      "pathRoot": "v43-route-vocabulary-file:4aed694260e75cefbe14e7fb",
+      "pathRoot": "v43-route-vocabulary-file:c54a92d1d257e0d7723e08d5",
       "categories": [
         "component",
         "telemetry"
@@ -12813,20 +12919,21 @@
         "route:/exchange": 2,
         "route:/terminal": 4,
         "route:/packs": 3,
+        "route:/read": 1,
         "symbol:Terminal": 1,
         "symbol:Packs": 1,
         "symbol:Reading": 1,
         "word:exchange": 4,
         "word:terminal": 8
       },
-      "totalMatches": 24,
+      "totalMatches": 25,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "uapi/components/base/bitcode/layout/workspace-surface.ts",
-      "pathRoot": "v43-route-vocabulary-file:ba39215e224d7b3caa1774b2",
+      "pathRoot": "v43-route-vocabulary-file:ccd540d4cf278c1df7c76c0d",
       "categories": [
         "component"
       ],
@@ -12834,10 +12941,11 @@
         "route:/exchange": 1,
         "route:/terminal": 1,
         "route:/packs": 1,
+        "route:/read": 1,
         "word:exchange": 1,
         "word:terminal": 3
       },
-      "totalMatches": 7,
+      "totalMatches": 8,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -14028,7 +14136,7 @@
     },
     {
       "path": "uapi/tests/footerPublicShell.test.tsx",
-      "pathRoot": "v43-route-vocabulary-file:edb631b94192c2da190f6ee3",
+      "pathRoot": "v43-route-vocabulary-file:bf8039afbee4702eee091b81",
       "categories": [
         "component",
         "telemetry",
@@ -14037,30 +14145,32 @@
       "tokenCounts": {
         "route:/terminal": 1,
         "route:/packs": 1,
+        "route:/read": 1,
         "symbol:Terminal": 3,
         "symbol:Packs": 2,
+        "symbol:Reading": 1,
         "word:terminal": 1
       },
-      "totalMatches": 8,
+      "totalMatches": 10,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "uapi/tests/marketingLandingPage.test.tsx",
-      "pathRoot": "v43-route-vocabulary-file:396e2bcdfd734c71da6ee829",
+      "pathRoot": "v43-route-vocabulary-file:df81318f9d51cb8a9316408a",
       "categories": [
         "component",
         "telemetry",
         "test"
       ],
       "tokenCounts": {
-        "route:/terminal": 3,
+        "route:/terminal": 2,
+        "route:/read": 1,
         "symbol:Exchange": 1,
-        "symbol:Terminal": 1,
-        "word:terminal": 3
+        "word:terminal": 2
       },
-      "totalMatches": 8,
+      "totalMatches": 6,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -14100,7 +14210,7 @@
     },
     {
       "path": "uapi/tests/navPublicShell.test.tsx",
-      "pathRoot": "v43-route-vocabulary-file:faa43e8aaf2e3b9832734a9a",
+      "pathRoot": "v43-route-vocabulary-file:a27152a1a8389fff1b870985",
       "categories": [
         "component",
         "telemetry",
@@ -14109,12 +14219,13 @@
       "tokenCounts": {
         "route:/terminal": 2,
         "route:/packs": 3,
+        "route:/read": 4,
         "symbol:Terminal": 4,
         "symbol:Packs": 5,
         "symbol:Reading": 1,
         "word:terminal": 2
       },
-      "totalMatches": 17,
+      "totalMatches": 21,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -14271,6 +14382,39 @@
         "word:terminal": 2
       },
       "totalMatches": 12,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "uapi/tests/readPageClient.test.tsx",
+      "pathRoot": "v43-route-vocabulary-file:fb00863fdbde452acfa6d023",
+      "categories": [
+        "component",
+        "telemetry",
+        "test"
+      ],
+      "tokenCounts": {
+        "route:/terminal": 4,
+        "route:/read": 2,
+        "symbol:Reading": 5,
+        "word:terminal": 7
+      },
+      "totalMatches": 18,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "uapi/tests/readRouteModel.test.ts",
+      "pathRoot": "v43-route-vocabulary-file:fb15e6d162f430fc0e8c9868",
+      "categories": [
+        "test"
+      ],
+      "tokenCounts": {
+        "route:/read": 2
+      },
+      "totalMatches": 2,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -15251,34 +15395,34 @@
     }
   ],
   "coverage": {
-    "sourceFileCount": 897,
+    "sourceFileCount": 905,
     "tokenTotals": {
       "route:/exchange": 147,
-      "route:/terminal": 1435,
-      "route:/packs": 151,
-      "route:/read": 242,
-      "route:/deposit": 84,
+      "route:/terminal": 1455,
+      "route:/packs": 152,
+      "route:/read": 293,
+      "route:/deposit": 85,
       "symbol:Exchange": 1964,
-      "symbol:Terminal": 3092,
-      "symbol:Packs": 51,
-      "symbol:Reading": 1288,
+      "symbol:Terminal": 3090,
+      "symbol:Packs": 50,
+      "symbol:Reading": 1324,
       "symbol:Depositing": 234,
       "symbol:PackActivity": 28,
       "symbol:DepositAssetPackOption": 12,
       "word:exchange": 1708,
-      "word:terminal": 3655,
+      "word:terminal": 3697,
       "word:self-referential": 30
     },
     "categoryTotals": {
-      "route": 12,
-      "component": 144,
-      "test": 215,
+      "route": 13,
+      "component": 147,
+      "test": 218,
       "doc": 169,
       "api": 43,
-      "telemetry": 647,
+      "telemetry": 652,
       "workflow": 12,
-      "script": 117,
-      "package": 309,
+      "script": 118,
+      "package": 311,
       "spec": 76
     },
     "routeVocabularyInventoryComplete": true,

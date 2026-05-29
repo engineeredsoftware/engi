@@ -156,6 +156,15 @@ withheld.
 
 Gate 4 must move the Reading default experience into `/read`: request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview, and settle/buy/deliver. It must preserve V42 telemetry, execution log streaming, proof expansion, retry/restart, and failure repair.
 
+Gate 4 closes with `ReadRouteSession`, `/read`, and
+`V43ReadRouteFiveStepUx`. `/read` owns the route query state, five visible
+Reading stages, source-safe session readback, Need review posture,
+accepted-Need gating for the Finding Fits request, AssetPack preview disclosure, BTC quote
+and settlement posture, and delivery unlock posture. The retained debug
+cockpit remains compatible but cannot bypass `/read` invariants: no Finding
+Fits without an accepted Need, no source-bearing AssetPack preview before
+settlement, and no repository delivery before paid read rights are proven.
+
 ## V43 Gate 5 Deposit Route And Agentic AssetPack Option Synthesis
 
 Gate 5 must move the Depositing default experience into `/deposit` and introduce the deposit AssetPack option synthesis pipeline. The pipeline must use connected source, depositor instructions, Depository state, and Reading demand to propose multiple source-safe AssetPack options for review.

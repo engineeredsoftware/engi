@@ -16,6 +16,17 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Keeps proof and settlement detail expandable without exposing unpaid source',
     ],
   }),
+  read: buildExplainer({
+    kicker: 'Bitcode Read',
+    title: 'Read',
+    summary: 'Request Reading, review a synthesized Need, request Finding Fits, inspect source-safe AssetPack preview, and settle for delivery.',
+    detail:
+      'Use this route for the enterprise Reading path. It keeps source-bearing AssetPack contents withheld before settlement while exposing measurements, proof roots, quote posture, and delivery state.',
+    points: [
+      'Separates Read-Need review from Finding Fits',
+      'Keeps AssetPack preview source-safe until paid read rights unlock delivery',
+    ],
+  }),
   transactions: buildExplainer({
     kicker: 'Live Terminal',
     title: 'Terminal',

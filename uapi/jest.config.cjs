@@ -127,6 +127,8 @@ module.exports = {
     '<rootDir>/tests/workspaceSurface.test.ts',
     '<rootDir>/tests/packsPageClient.test.tsx',
     '<rootDir>/tests/packActivityModel.test.ts',
+    '<rootDir>/tests/readRouteModel.test.ts',
+    '<rootDir>/tests/readPageClient.test.tsx',
     '<rootDir>/tests/exchangeTerminalHandoff.test.ts',
     '<rootDir>/tests/terminalPreservedShellSurface.test.tsx',
     '<rootDir>/tests/terminalFloatingDebugWidget.test.tsx',
