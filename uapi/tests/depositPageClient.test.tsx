@@ -196,6 +196,17 @@ describe("DepositPageClient", () => {
     expect(
       screen.getAllByText("DepositorEarningSupplyIntelligence").length,
     ).toBeGreaterThan(0);
+    expect(
+      screen.getByTestId("deposit-enterprise-economic-summary"),
+    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
+    expect(screen.getByTestId("deposit-keyboard-navigation")).toHaveAttribute(
+      "data-enterprise-ux",
+      "keyboard-navigation",
+    );
+    expect(screen.getByTestId("deposit-expandable-proof-detail")).toHaveAttribute(
+      "data-enterprise-ux",
+      "expandable-proof-detail",
+    );
     expect(screen.getByText("Supply opportunity")).toBeInTheDocument();
     expect(screen.getAllByText(/Earning estimate/u).length).toBeGreaterThan(0);
     expect(

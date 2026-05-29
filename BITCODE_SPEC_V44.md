@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 7 organization policy wallet authority work over promoted V43 product routes
+- V44 state: draft Gate 8 enterprise product UX work over promoted V43 product routes
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, Gate 5 Depositor earnings supply opportunity, Gate 6 BTD/BTC compensation statement, and Gate 7 organization policy wallet authority reports; all remain source-safe metadata only
-- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 7 binds source-safe organization roles, budget approvals, source criticality approvals, spend/deposit limits, wallet authority, route action statements, and `/packs` governance readback without exposing unpaid source, wallet private material, or admitting value-bearing mainnet
+- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, Gate 5 Depositor earnings supply opportunity, Gate 6 BTD/BTC compensation statement, Gate 7 organization policy wallet authority, and Gate 8 enterprise product UX reports; all remain source-safe metadata only
+- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 8 binds source-safe enterprise economic summaries, keyboard navigation, dense Packs activity table operation, and expandable proof detail across `/packs`, `/read`, and `/deposit` without exposing unpaid source, wallet private material, raw inference payloads, or admitting value-bearing mainnet
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -309,6 +309,23 @@ private material, or value-bearing mainnet admission.
 Gate 8 must make portfolio, budget, compensation, market signal, and governance
 surfaces legible and polished: dense tables, expandable proof detail, keyboard
 navigation, responsive layouts, concise copy, and visual regression coverage.
+
+Gate 8 closes through `V44EnterpriseProductUx` in
+`packages/protocol/src/canonical/v44-enterprise-product-ux.js`,
+deterministic `.bitcode/v44-enterprise-product-ux.json`,
+`generate:v44-enterprise-product-ux`, `check:v44-enterprise-product-ux`,
+and `check:v44-gate8`. The shared product route shell now exposes
+`ProductRouteEnterpriseSummary`, `ProductRouteKeyboardHint`, and
+`ProductRouteProofDetail`. `/packs` renders an enterprise economy overview,
+keyboard navigation, a sticky dense economic operation table, and expandable
+accounting/governance/proof roots. `/read` renders Reading economy summary,
+keyboard navigation, and route/procurement/authority proof detail. `/deposit`
+renders Depositing economy summary, keyboard navigation, and synthesis,
+policy, admission, earnings, and authority proof detail. Focused tests bind
+the visual regression hooks and source-safe expansion controls without
+serializing protected source, raw source text, unpaid AssetPack source, raw
+prompts, raw provider responses, credentials, wallet private material,
+private settlement payloads, or value-bearing mainnet admission.
 
 ## V44 Gate 9 Scaled Local/Staging Network Rehearsal
 
@@ -655,7 +672,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | implemented-source-safe |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | implemented-source-safe |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
-| `.bitcode/v44-enterprise-economic-ux.json` | enterprise economic UX | planned |
+| `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
 | `.bitcode/v44-scaled-network-rehearsal.json` | scaled network rehearsal | planned |
 | `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | planned |
 
@@ -667,7 +684,7 @@ Required draft artifacts include `.bitcode/v44-economic-domain-model.json`,
 `.bitcode/v44-depositor-earnings-supply-opportunities.json`,
 `.bitcode/v44-btd-btc-compensation-statements.json`,
 `.bitcode/v44-organization-policy-wallet-authority.json`,
-`.bitcode/v44-enterprise-economic-ux.json`,
+`.bitcode/v44-enterprise-product-ux.json`,
 `.bitcode/v44-scaled-network-rehearsal.json`, and
 `.bitcode/v44-promotion-readiness-report.json`.
 
@@ -739,6 +756,8 @@ Gate 7 validates with
 `pnpm run generate:v44-organization-policy-wallet-authority`,
 `pnpm run check:v44-organization-policy-wallet-authority`, and
 `pnpm run check:v44-gate7`.
+Gate 8 validates with `pnpm run generate:v44-enterprise-product-ux`,
+`pnpm run check:v44-enterprise-product-ux`, and `pnpm run check:v44-gate8`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
@@ -816,7 +835,7 @@ Inherited.
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | implemented-source-safe |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | implemented-source-safe |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
-| `.bitcode/v44-enterprise-economic-ux.json` | enterprise economic UX | planned |
+| `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
 | `.bitcode/v44-scaled-network-rehearsal.json` | scaled rehearsal | planned |
 | `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | planned |
 
@@ -833,6 +852,7 @@ Gate 5 adds deterministic
 `.bitcode/v44-depositor-earnings-supply-opportunities.json`.
 Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`.
 Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`.
+Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`.
 
 ### Shared generated-artifact fields
 

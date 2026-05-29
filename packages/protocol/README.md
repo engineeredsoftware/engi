@@ -254,6 +254,18 @@ policy, budget approval, source criticality approval, spend/deposit limits,
 wallet authority, `/read` and `/deposit` authority readback, `/packs`
 governance readback, package exports, workflow wiring, and source-safety tests.
 
+V44 Gate 8 adds `V44EnterpriseProductUx` through
+`packages/protocol/src/canonical/v44-enterprise-product-ux.js`,
+`packages/protocol/test/v44-enterprise-product-ux.test.js`,
+`.bitcode/v44-enterprise-product-ux.json`,
+`generate:v44-enterprise-product-ux`,
+`check:v44-enterprise-product-ux`, and `check:v44-gate8`. It binds shared
+enterprise UX primitives, `/packs` dense economic operation, `/read`
+procurement proof readback, `/deposit` synthesis/earnings/authority proof
+readback, route tests, package exports, workflow wiring, generated artifact
+freshness, and source-safety tests for the enterprise economic operation
+surface.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

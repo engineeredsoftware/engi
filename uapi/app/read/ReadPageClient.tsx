@@ -20,6 +20,9 @@ import type { PipelineExecution } from "@/types/api";
 
 import {
   ProductRouteDisclosure,
+  ProductRouteEnterpriseSummary,
+  ProductRouteKeyboardHint,
+  ProductRouteProofDetail,
   ProductRouteShell,
   ProductRouteStatePanel,
   ProductRouteStepGrid,
@@ -496,6 +499,50 @@ export default function ReadPageClient() {
           }
         />
 
+        <ProductRouteEnterpriseSummary
+          testId="read-enterprise-economic-summary"
+          tone="sky"
+          title="Reading economy overview"
+          metrics={[
+            {
+              label: "Need review",
+              value: readRouteSession.readObjects.acceptedNeedPresent
+                ? "accepted"
+                : "pending",
+              state: "pre-fit",
+              description: "Finding Fits remains blocked until the Need is accepted.",
+            },
+            {
+              label: "Quote",
+              value: formatSats(
+                readRouteSession.procurementGovernance.quotePolicy.shareToFee
+                  .grossSats,
+              ),
+              state: readRouteSession.procurementGovernance.quotePolicy.state,
+              description: "Measurement-weight-volume fee calculation.",
+            },
+            {
+              label: "Settlement",
+              value: readRouteSession.procurementGovernance.settlement.readiness.replace(
+                /-/g,
+                " ",
+              ),
+              state: "BTC/BTD",
+              description: "Source remains withheld until rights are paid.",
+            },
+            {
+              label: "Authority",
+              value:
+                readRouteSession.organizationPolicyWalletAuthority.aggregate
+                  .state,
+              state:
+                readRouteSession.organizationPolicyWalletAuthority
+                  .walletAuthority.state,
+              description: "Organization spend and wallet policy readback.",
+            },
+          ]}
+        />
+
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.6fr)]">
           <div className="grid min-w-0 gap-5">
             <div className="grid gap-5 xl:grid-cols-2">
@@ -521,6 +568,16 @@ export default function ReadPageClient() {
           </div>
 
           <aside className="grid h-fit gap-5" aria-label="Reading route state">
+            <ProductRouteKeyboardHint
+              testId="read-keyboard-navigation"
+              tone="sky"
+              shortcuts={[
+                { keys: "Tab", label: "Move through the five Reading steps and source controls." },
+                { keys: "Enter", label: "Activate the focused step, refresh, or route action." },
+                { keys: "Space", label: "Open or close source-safe proof detail." },
+              ]}
+            />
+
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -557,6 +614,44 @@ export default function ReadPageClient() {
                   settlement readback, delivery posture. Withheld until paid
                   rights: source-bearing AssetPack contents.
                 </ProductRouteDisclosure>
+              </div>
+              <div className="mt-3">
+                <ProductRouteProofDetail
+                  testId="read-expandable-proof-detail"
+                  title="Reading proof detail"
+                  tone="sky"
+                  roots={[
+                    {
+                      id: "route-session-root",
+                      label: "Route session root",
+                      root: readRouteSession.proofRoot,
+                    },
+                    {
+                      id: "budget-policy-root",
+                      label: "Budget policy root",
+                      root: readRouteSession.procurementGovernance.budgetPolicy
+                        .policyRoot,
+                    },
+                    {
+                      id: "quote-root",
+                      label: "Quote root",
+                      root: readRouteSession.procurementGovernance.quotePolicy
+                        .quoteRoot,
+                    },
+                    {
+                      id: "settlement-readiness-root",
+                      label: "Settlement readiness root",
+                      root: readRouteSession.procurementGovernance.settlement
+                        .readinessRoot,
+                    },
+                    {
+                      id: "authority-root",
+                      label: "Authority root",
+                      root: readRouteSession.organizationPolicyWalletAuthority
+                        .roots.authorityRoot,
+                    },
+                  ]}
+                />
               </div>
             </section>
 

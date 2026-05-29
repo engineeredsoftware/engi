@@ -177,6 +177,17 @@ describe("ReadPageClient", () => {
       screen.getByText("ReadNeedComprehensionSynthesis"),
     ).toBeInTheDocument();
     expect(screen.getByText("ReadFitsFindingSynthesis")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("read-enterprise-economic-summary"),
+    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
+    expect(screen.getByTestId("read-keyboard-navigation")).toHaveAttribute(
+      "data-enterprise-ux",
+      "keyboard-navigation",
+    );
+    expect(screen.getByTestId("read-expandable-proof-detail")).toHaveAttribute(
+      "data-enterprise-ux",
+      "expandable-proof-detail",
+    );
 
     await waitFor(() =>
       expect(

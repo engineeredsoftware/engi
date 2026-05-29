@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft notes include Gate 7 organization policy wallet authority work over promoted V43
+- V44 state: draft notes include Gate 8 enterprise product UX work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`
-- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, accounting and governance readback, `/read` budget quote policy and organization authority, and `/deposit` earning supply opportunity and deposit authority for active V43 / draft V44
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`; Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`
+- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, accounting/governance readback and enterprise proof expansion, `/read` budget quote policy, organization authority and proof detail, and `/deposit` earning supply opportunity, deposit authority and proof detail for active V43 / draft V44
 - Scope: V44 notes for digitizing and tokenizing scaled engineering economies through enterprise AssetPack portfolio, market intelligence, BTD/BTC accounting, governance, and compensation operation
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -138,6 +138,19 @@ source unlock, delivery, repair, and administration. `/packs` can render that
 policy as governance readback. It cannot disclose protected source, unpaid
 AssetPack source, raw prompts, provider responses, credentials, wallet private
 material, private settlement payloads, or value-bearing mainnet authority.
+
+## Gate 8 note
+
+Gate 8 makes the already-implemented V44 economic state operable by enterprise
+users. The route layer can show dense source-safe economic summaries, keyboard
+navigation affordances, sticky activity tables, expandable proof roots, and
+responsive low-detail defaults that still expand into full metadata. `/packs`
+becomes the main economic operation table; `/read` shows quote, budget,
+settlement, and authority roots; `/deposit` shows option synthesis, policy,
+admission, earnings, and authority roots. It cannot expose protected source,
+raw source text, unpaid AssetPack source, raw prompts, provider responses,
+credentials, wallet private material, private settlement payloads, or
+value-bearing mainnet authority.
 
 ## Gate 3 note
 

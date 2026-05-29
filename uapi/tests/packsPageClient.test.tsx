@@ -205,8 +205,26 @@ describe("PacksPageClient", () => {
     expect(screen.getByText("Proof roots")).toBeInTheDocument();
     expect(screen.getByText("Accounting")).toBeInTheDocument();
     expect(screen.getByText("Governance")).toBeInTheDocument();
-    expect(screen.getByText("btd-btc-accounting-root-abc")).toBeInTheDocument();
-    expect(screen.getByText("organization-authority-root-abc")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("packs-enterprise-economic-summary"),
+    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
+    expect(screen.getByTestId("packs-keyboard-navigation")).toHaveAttribute(
+      "data-enterprise-ux",
+      "keyboard-navigation",
+    );
+    expect(
+      screen.getByTestId("packs-enterprise-activity-grid"),
+    ).toHaveAccessibleName("Pack activity economic operation table");
+    expect(screen.getByTestId("packs-expandable-proof-detail")).toHaveAttribute(
+      "data-enterprise-ux",
+      "expandable-proof-detail",
+    );
+    expect(
+      screen.getAllByText("btd-btc-accounting-root-abc").length,
+    ).toBeGreaterThan(1);
+    expect(
+      screen.getAllByText("organization-authority-root-abc").length,
+    ).toBeGreaterThan(1);
     expect(screen.getByText("settlement-root-def")).toBeInTheDocument();
     expect(screen.getAllByText("quote_ready").length).toBeGreaterThan(0);
     expect(

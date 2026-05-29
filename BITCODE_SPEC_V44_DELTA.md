@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 7 organization policy wallet authority work over promoted V43
+- V44 state: draft Gate 8 enterprise product UX work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`
-- Source parity state: Gate 7 binds package-backed organization policy wallet authority, BTD deposit authority actions, `/read` and `/deposit` authority readback, `/packs` governance readback, docs, workflow, package scripts, checker, and protocol/package/UAPI tests
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`; Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`
+- Source parity state: Gate 8 binds package-backed enterprise product UX proof, shared route UX primitives, `/packs` dense economic operation table and proof detail, `/read` economic summary and proof detail, `/deposit` economic summary and proof detail, docs, workflow, package scripts, checker, and protocol/UAPI tests
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -93,6 +93,19 @@ execute value-bearing mainnet movement, or let policy bypass Need review,
 Finding Fits, settlement, BTD rights transfer, delivery, or source-to-shares
 law.
 
+V44 Gate 8 closes enterprise product UX for economic operation. It adds
+package-backed `V44EnterpriseProductUx`; deterministic
+`.bitcode/v44-enterprise-product-ux.json`; shared
+`ProductRouteEnterpriseSummary`, `ProductRouteKeyboardHint`, and
+`ProductRouteProofDetail` primitives; `/packs` enterprise economy overview,
+keyboard navigation, sticky dense activity table, and expandable proof detail;
+`/read` Reading economy overview and route/procurement/authority proof detail;
+`/deposit` Depositing economy overview and synthesis/policy/admission/earning/
+authority proof detail; focused route tests; and `check:v44-gate8`. It does
+not disclose protected source, raw source text, unpaid AssetPack source, raw
+prompts, provider payloads, credentials, wallet private material, private
+settlement payloads, or value-bearing mainnet operation.
+
 ## Pre-Implementation Sequence
 
 1. Open V44 spec family, roadmap, checker, package script, workflow posture,
@@ -104,8 +117,8 @@ law.
 5. Add deposit revenue, demand, ROI, and supply opportunity readback.
 6. Add BTD/BTC/source-to-shares compensation statements and reconciliation.
 7. Add organization policy, approval, spend authority, and wallet authority.
-8. Rehearse scaled many-pack local/staging-testnet economic operation.
-9. Polish enterprise economy UX and operator dashboards.
+8. Polish enterprise economy UX and operator dashboards.
+9. Rehearse scaled many-pack local/staging-testnet economic operation.
 10. Close V44 promotion readiness and prepare active V44 / draft V45 posture.
 
 ## Validation direction
@@ -132,6 +145,8 @@ Gate 7 validates with
 `pnpm run generate:v44-organization-policy-wallet-authority`,
 `pnpm run check:v44-organization-policy-wallet-authority`, and
 `pnpm run check:v44-gate7`.
+Gate 8 validates with `pnpm run generate:v44-enterprise-product-ux`,
+`pnpm run check:v44-enterprise-product-ux`, and `pnpm run check:v44-gate8`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
