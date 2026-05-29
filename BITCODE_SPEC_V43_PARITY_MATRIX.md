@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V42`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
-- Source parity state: V43 Gate 1 parity is documentation/workflow posture; V43 Gate 2 parity is source-safe inventory and migration planning; V43 Gate 3 parity is PackActivity source-safe master-detail implementation; V43 Gate 4 parity is `/read`; V43 Gate 5 parity is `/deposit` and source-safe DepositAssetPackOption synthesis; V43 Gate 6 parity is source-safe deposit policy and compensation scoring; V43 Gate 7 parity is source-safe deposit option review, admission, indexing, storage projection, telemetry, and `/packs` synchronization; V43 Gate 8 parity is shared product route UX, concise copy, progressive disclosure, and loading/empty/error route states; V43 Gate 9 parity is cross-route rehearsal, telemetry/database readback, ledger/database/storage synchronization, and repair posture
+- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, and V43 gate artifacts through `.bitcode/v43-promotion-readiness-report.json`
+- Source parity state: V43 Gate 1 parity is documentation/workflow posture; V43 Gate 2 parity is source-safe inventory and migration planning; V43 Gate 3 parity is PackActivity source-safe master-detail implementation; V43 Gate 4 parity is `/read`; V43 Gate 5 parity is `/deposit` and source-safe DepositAssetPackOption synthesis; V43 Gate 6 parity is source-safe deposit policy and compensation scoring; V43 Gate 7 parity is source-safe deposit option review, admission, indexing, storage projection, telemetry, and `/packs` synchronization; V43 Gate 8 parity is shared product route UX, concise copy, progressive disclosure, and loading/empty/error route states; V43 Gate 9 parity is cross-route rehearsal, telemetry/database readback, ledger/database/storage synchronization, and repair posture; V43 Gate 10 parity is promotion readiness and active V43 / draft V44 posture
 
 ## Purpose
 
@@ -22,7 +22,7 @@ Audit V43 against `BITCODE_SPEC_V43.md`, V42 active canon, route source, package
 
 | Area | Required V43 result | Source evidence | Judgment |
 | --- | --- | --- | --- |
-| Gate 1 roadmap | Active V42 / draft V43 posture, route vocabulary, gate plan, docs, checker, workflows | `BITCODE_SPEC_V43.md`, `scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs` | drafted |
+| Gate 1 roadmap | Active V42 / draft V43 posture, route vocabulary, gate plan, docs, checker, workflows | `BITCODE_SPEC_V43.md`, `scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs` | implemented |
 | Route vocabulary | `/exchange` to `/packs` and `/terminal` to `/read`/`/deposit` are inventoried with route vocabulary inventory, migration matrix, retained debug cockpit boundary, redirect compatibility, self-referential copy audit, and source-safe file/token counts | `packages/protocol/src/canonical/v43-route-vocabulary-inventory.js`, `.bitcode/v43-route-vocabulary-inventory.json`, `scripts/check-v43-gate2-route-vocabulary-inventory.mjs` | implemented |
 | Packs master-detail | Searchable, sortable, filterable pack activity table, source-safe detail route, proof-root display, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirect | `packages/protocol/src/canonical/v43-packs-activity-master-detail.js`, `.bitcode/v43-packs-activity-master-detail.json`, `uapi/app/packs`, `uapi/app/api/packs/activity/route.ts`, `uapi/components/base/bitcode/activity/pack-activity-model.ts` | implemented |
 | Read route | `ReadRouteSession` and five-step Reading UX own Read Request, synthesized Need review, accepted-Need-gated Finding Fits, source-safe AssetPack preview, BTC settlement, and delivery posture | `packages/protocol/src/canonical/v43-read-route-five-step-ux.js`, `.bitcode/v43-read-route-five-step-ux.json`, `uapi/app/read`, `uapi/app/read/read-route-model.ts` | implemented |
@@ -31,16 +31,16 @@ Audit V43 against `BITCODE_SPEC_V43.md`, V42 active canon, route source, package
 | Deposit option admission | Approved, policy-eligible deposit options enter source-safe Depository projections and `/packs` activity while rejected, resynthesis, pending, and policy-blocked options stay out | `packages/protocol/src/canonical/v43-deposit-option-admission.js`, `.bitcode/v43-deposit-option-admission.json`, `packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts`, `/deposit` admission readback, `/packs` activity model | implemented |
 | UX/UI product excellence | Self-explanatory, polished, progressive-detail UI without self-referential product copy | `packages/protocol/src/canonical/v43-route-ux-product-excellence.js`, `.bitcode/v43-route-ux-product-excellence.json`, `uapi/components/base/bitcode/routes/product-route-shell.tsx`, `/packs`, `/read`, `/deposit` route clients | implemented |
 | Cross-route rehearsal | Local/staging-testnet cross-route path verifies `/deposit`, `/read`, `/packs`, deposit admission, Reading Need review, Finding Fits, source-safe preview, settlement, compensation, delivery, telemetry/database readback, ledger/database/storage synchronization, and repair posture | `packages/protocol/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js`, `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`, `scripts/rehearse-v43-cross-route-product-flow.mjs` | implemented |
-| Promotion readiness | V43 generated proof and active V43 / draft V44 posture ready | future Gate 10 artifact | draft-required |
+| Promotion readiness | V43 generated proof and active V43 / draft V44 posture ready | `packages/protocol/src/canonical/v43-promotion-readiness-report.js`, `.bitcode/v43-promotion-readiness-report.json`, `.github/workflows/v43-canon-promotion.yml`, `scripts/check-v43-gate10-promotion-readiness.mjs` | closed |
 
 ## V43 implementation checklist
 
 | Area | Closure requirement | Current judgment |
 | --- | --- | --- |
-| Specification family | V43 SPEC, DELTA, NOTES, PARITY files exist and pass spec-family check | drafted |
-| Package script | `check:v43-gate1` exists | drafted |
-| Workflows | Gate/canon quality know active V42 / draft V43 | drafted |
-| Documentation | README and roadmap name V43 route/product scope | drafted |
+| Specification family | V43 SPEC, DELTA, NOTES, PARITY files exist and pass spec-family check | closed |
+| Package script | `check:v43-gate1` through `check:v43-gate10` exist | closed |
+| Workflows | Gate/canon quality know active V42 / draft V43 and promoted V43 / draft V44 | closed |
+| Documentation | README and roadmap name V43 route/product scope and promotion readiness | closed |
 | Gate 2 package proof | `V43RouteVocabularyInventory` exports, generated artifact, package test, workflow checks, and `check:v43-gate2` exist | implemented |
 | Gate 3 PackActivity proof | `V43PacksActivityMasterDetail` exports, generated artifact, source-safe model/API/UI tests, workflow checks, and `check:v43-gate3` exist | implemented |
 | Gate 4 Read route proof | `V43ReadRouteFiveStepUx` exports, generated artifact, source-safe route model/UI tests, workflow checks, and `check:v43-gate4` exist | implemented |
@@ -49,7 +49,16 @@ Audit V43 against `BITCODE_SPEC_V43.md`, V42 active canon, route source, package
 | Gate 7 Deposit option admission proof | `DepositAssetPackOptionAdmissionReport`, generated artifact, source-safe route model/UI tests, asset-pack admission tests, PackActivity sync tests, workflow checks, and `check:v43-gate7` exist | implemented |
 | Gate 8 route UX proof | `ProductRouteShell`, `ProductRouteStepGrid`, `ProductRouteStatePanel`, `ProductRouteDisclosure`, generated artifact, source-safe route shell tests, workflow checks, and `check:v43-gate8` exist | implemented |
 | Gate 9 rehearsal proof | `V43CrossRouteRehearsalTelemetryRepair`, generated artifact, source-safe operator script, focused checks, workflow checks, and `check:v43-gate9` exist | implemented |
+| Gate 10 promotion proof | `V43PromotionReadinessReport`, generated artifact, source-safe promotion workflow, promotion scripts, generated PROVEN support, workflow checks, and `check:v43-gate10` exist | closed |
 | Implementation | Route and pipeline source changes are not part of Gates 1 or 2; Gate 3 implements only `/packs` and PackActivity; Gate 4 implements `/read`; Gate 5 implements `/deposit` option synthesis; Gate 6 implements policy scoring; Gate 7 implements depositor decisions, admission receipts, index/storage projections, telemetry, and `/packs` synchronization; Gate 8 implements shared route UX only; Gate 9 implements source-safe cross-route proof/rehearsal only | accepted boundary |
+
+## Gate 10 Promotion readiness parity
+
+V43 Gate 10 is closed when `.bitcode/v43-promotion-readiness-report.json`
+covers every V43 gate artifact, generated proof output, workflow, promotion
+script, package export, protocol test, documentation evidence, source-safety
+boundary, and active V43 / draft V44 post-promotion posture. The readiness
+artifact is source-safe metadata only and keeps value-bearing mainnet blocked.
 
 ## V43 accepted boundaries
 
