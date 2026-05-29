@@ -107,7 +107,10 @@ generated PROVEN hook, and source-safety boundary needed for the eventual
 The expected post-promotion runtime posture is active V43 / draft V44. The
 promotion workflow must generate `BITCODE_SPEC_V43_PROVEN.md`, prepare the
 runtime canon files, advance `BITCODE_SPEC.txt` to `V43`, and then verify the
-posture drift and canonical inputs. The readiness report remains source-safe
+posture drift and canonical inputs. The promotion validation shell groups every
+promotion command and bounds package validations so greenable promotion failures
+identify the failing proof surface instead of hanging opaquely. The readiness
+report remains source-safe
 metadata only; if a secret, protected source body, raw prompt/provider payload,
 unpaid AssetPack source, wallet private material, or value-bearing mainnet
 admission appears in the proof, promotion remains blocked.

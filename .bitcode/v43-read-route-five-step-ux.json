@@ -5,7 +5,7 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-read-route-five-step-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-read-route-five-step-ux:14e3d7a5e414b21968709fad",
+  "artifactRoot": "v43-read-route-five-step-ux:be32f7d049c3df0746f5c305",
   "passed": true,
   "stepIds": [
     "request-read",
@@ -118,8 +118,8 @@
   "sourceRoots": {
     "activePointer": "BITCODE_SPEC.txt:75f3f6d81f999da998f40cb6",
     "spec": "BITCODE_SPEC_V43.md:276f928dbae1236a7bc367d3",
-    "delta": "BITCODE_SPEC_V43_DELTA.md:6ca7e12f61eb8c0ddac56322",
-    "notes": "BITCODE_SPEC_V43_NOTES.md:a88be069723574df6b41d973",
+    "delta": "BITCODE_SPEC_V43_DELTA.md:2903a709b782ea69cecb3bb0",
+    "notes": "BITCODE_SPEC_V43_NOTES.md:16afebc86b2bb502f0b919c4",
     "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:a5a5bf2fdee2d02f6221d00f",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:33994a7cf33bb6e3138b932a",
     "readme": "README.md:e492ee74bfb581f11a687148",

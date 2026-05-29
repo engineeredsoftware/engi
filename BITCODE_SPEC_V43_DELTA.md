@@ -178,7 +178,9 @@ bound to active V42 / draft V43 before promotion. The promotion workflow must
 produce V43 active / draft V44 posture, create `BITCODE_SPEC_V43_PROVEN.md`,
 and refuse promotion when any artifact, workflow, promotion script, generated
 proof output, documentation evidence, source-safety boundary, or value-bearing
-mainnet block is missing.
+mainnet block is missing. Its validation commands are grouped and package
+validation commands are bounded so the promotion pull request remains
+inspectable and greenable under GitHub Actions.
 
 ## Commit-Body Direction
 

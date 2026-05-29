@@ -56,42 +56,58 @@ jobs:
 
       - name: Validate V43 promotion readiness
         run: |
+          set -euo pipefail
+
+          run_checked() {
+            echo "::group::$*"
+            "$@"
+            echo "::endgroup::"
+          }
+
+          run_bounded() {
+            local limit="$1"
+            shift
+            echo "::group::$*"
+            timeout --kill-after=30s "$limit" "$@"
+            echo "::endgroup::"
+          }
+
           POINTER="$(cat BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V42" ]; then
-            node scripts/check-bitcode-spec-family.mjs --version V43 --mode draft --current-target V42
-            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V42 --draft-target V43
-            node scripts/check-bitcode-canonical-inputs.mjs --current-target V42
-            node scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs --skip-branch-check
-            node scripts/check-v43-gate2-route-vocabulary-inventory.mjs --skip-branch-check
-            node scripts/check-v43-gate3-packs-activity-master-detail.mjs --skip-branch-check --skip-uapi-tests
-            node scripts/check-v43-gate4-read-route-five-step-ux.mjs --skip-branch-check --skip-uapi-tests
-            node scripts/check-v43-gate5-deposit-route-options.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
-            node scripts/check-v43-gate6-deposit-policy-compensation.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
-            node scripts/check-v43-gate7-deposit-option-admission.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
-            node scripts/check-v43-gate8-route-ux-product-excellence.mjs --skip-branch-check --skip-uapi-tests
-            node scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
-            node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            node scripts/promote-bitcode-canon.mjs --version V43 --commit HEAD --dry-run
+            run_checked node scripts/check-bitcode-spec-family.mjs --version V43 --mode draft --current-target V42
+            run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V42 --draft-target V43
+            run_checked node scripts/check-bitcode-canonical-inputs.mjs --current-target V42
+            run_checked node scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs --skip-branch-check
+            run_checked node scripts/check-v43-gate2-route-vocabulary-inventory.mjs --skip-branch-check
+            run_checked node scripts/check-v43-gate3-packs-activity-master-detail.mjs --skip-branch-check --skip-uapi-tests
+            run_checked node scripts/check-v43-gate4-read-route-five-step-ux.mjs --skip-branch-check --skip-uapi-tests
+            run_checked node scripts/check-v43-gate5-deposit-route-options.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+            run_checked node scripts/check-v43-gate6-deposit-policy-compensation.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+            run_checked node scripts/check-v43-gate7-deposit-option-admission.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+            run_checked node scripts/check-v43-gate8-route-ux-product-excellence.mjs --skip-branch-check --skip-uapi-tests
+            run_checked node scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+            run_checked node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            run_checked node scripts/promote-bitcode-canon.mjs --version V43 --commit HEAD --dry-run
           elif [ "$POINTER" = "V43" ]; then
-            node scripts/check-bitcode-spec-family.mjs --version V43 --mode promoted --current-target V43
-            node scripts/check-bitcode-canonical-inputs.mjs --current-target V43
-            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44
-            node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            run_checked node scripts/check-bitcode-spec-family.mjs --version V43 --mode promoted --current-target V43
+            run_checked node scripts/check-bitcode-canonical-inputs.mjs --current-target V43
+            run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44
+            run_checked node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
           fi
-          pnpm --filter @bitcode/protocol typecheck
-          pnpm --filter @bitcode/protocol test
-          pnpm --filter @bitcode/btd typecheck
-          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
-          npm --prefix protocol-demonstration test
-          npm --prefix protocol-demonstration run test:v28-mvp-qa
-          pnpm --filter @bitcode/pipeline-asset-pack typecheck
-          pnpm --filter @bitcode/pipeline-hosts typecheck
-          pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
-          pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
-          git diff --check
+          run_bounded 5m pnpm --filter @bitcode/protocol typecheck
+          run_bounded 5m pnpm --filter @bitcode/protocol test
+          run_bounded 5m pnpm --filter @bitcode/btd typecheck
+          run_bounded 5m pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
+          run_bounded 5m npm --prefix protocol-demonstration test
+          run_bounded 5m npm --prefix protocol-demonstration run test:v28-mvp-qa
+          run_bounded 5m pnpm --filter @bitcode/pipeline-asset-pack typecheck
+          run_bounded 5m pnpm --filter @bitcode/pipeline-hosts typecheck
+          run_bounded 5m pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          run_bounded 5m pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+          run_checked git diff --check
 
       - name: Promote V43 canon files
         if: >-
