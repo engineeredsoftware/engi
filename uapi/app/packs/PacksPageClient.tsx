@@ -240,6 +240,10 @@ export default function PacksPageClient() {
           label: "Settlement",
           value: formatCount(summary?.settlementReady || 0),
         },
+        {
+          label: "Compensation",
+          value: formatCount(summary?.compensationReady || 0),
+        },
       ]}
     >
       <section className="grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
@@ -686,6 +690,57 @@ export default function PacksPageClient() {
                   </div>
                 </div>
               </DetailSection>
+
+              {detail.accounting && (
+                <DetailSection title="Accounting">
+                  <dl className="grid gap-3 text-sm tablet:grid-cols-2">
+                    <div>
+                      <dt className="text-neutral-500">BTD/BTC state</dt>
+                      <dd className="mt-1 text-neutral-100">
+                        {detail.accounting.state || "not recorded"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-neutral-500">BTD range</dt>
+                      <dd className="mt-1 text-neutral-100">
+                        {detail.accounting.btdRangeState || "not recorded"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-neutral-500">BTC settlement</dt>
+                      <dd className="mt-1 text-neutral-100">
+                        {detail.accounting.btcSettlementState || "not recorded"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-neutral-500">Treasury route</dt>
+                      <dd className="mt-1 text-neutral-100">
+                        {detail.accounting.treasuryRouteState || "not recorded"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-neutral-500">Contributors</dt>
+                      <dd className="mt-1 font-mono text-neutral-100">
+                        {detail.accounting.contributorCount}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt className="text-neutral-500">Allocated</dt>
+                      <dd className="mt-1 font-mono text-neutral-100">
+                        {formatSats(detail.accounting.allocatedContributorSats)}
+                      </dd>
+                    </div>
+                    {detail.accounting.statementRoot && (
+                      <div className="tablet:col-span-2">
+                        <dt className="text-neutral-500">Accounting root</dt>
+                        <dd className="mt-1 break-all font-mono text-xs text-emerald-100">
+                          {detail.accounting.statementRoot}
+                        </dd>
+                      </div>
+                    )}
+                  </dl>
+                </DetailSection>
+              )}
 
               <DetailSection title="Proof roots">
                 <div className="grid gap-2">

@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 5 Depositor earnings supply opportunity work over promoted V43 product routes
+- V44 state: draft Gate 6 BTD/BTC compensation statement work over promoted V43 product routes
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, and Gate 5 Depositor earnings supply opportunity reports; all remain source-safe metadata only
-- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 5 binds `/deposit` earning, demand, ROI, criticality, compensation range, and source-safe supply recommendation readback without minting BTD or admitting value-bearing mainnet
+- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, Gate 5 Depositor earnings supply opportunity, and Gate 6 BTD/BTC compensation statement reports; all remain source-safe metadata only
+- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 6 binds source-safe BTD range state, BTC settlement observations, source-to-shares contributor allocations, depositor summaries, treasury routes, reconciliation, repair state, and `/packs` accounting readback without exposing unpaid source or admitting value-bearing mainnet
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -265,6 +265,20 @@ private settlement payloads, or value-bearing mainnet admission.
 Gate 6 must bind BTD range state, BTC settlement observations, source-to-shares
 allocation, contributor statements, depositor earning summaries, treasury
 routes, repair states, and ledger/database/object-storage reconciliation.
+
+Gate 6 closes through `V44BtdBtcCompensationStatements` in
+`packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js`,
+deterministic `.bitcode/v44-btd-btc-compensation-statements.json`,
+`generate:v44-btd-btc-compensation-statements`,
+`check:v44-btd-btc-compensation-statements`, and `check:v44-gate6`.
+The settlement boundary now projects `BtdBtcCompensationStatements` with
+source-safe BTD range state, BTC settlement observation, source-to-shares
+contributor allocations, depositor earning summaries, treasury routes,
+ledger/database/object-storage reconciliation, and repair statements. `/packs`
+renders the accounting readback without exposing protected source, raw source
+text, unpaid AssetPack source, raw prompts, interpolated prompts, raw provider
+responses, wallet private material, private settlement payloads, or
+value-bearing mainnet admission.
 
 ## V44 Gate 7 Organization Policy, Approval, And Wallet Authority
 
@@ -622,7 +636,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | implemented-source-safe |
 | `.bitcode/v44-reading-budget-quote-policy.json` | Reading budget and quote policy | implemented-source-safe |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | implemented-source-safe |
-| `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | planned |
+| `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | implemented-source-safe |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | planned |
 | `.bitcode/v44-enterprise-economic-ux.json` | enterprise economic UX | planned |
 | `.bitcode/v44-scaled-network-rehearsal.json` | scaled network rehearsal | planned |
@@ -700,6 +714,10 @@ Gate 5 validates with
 `pnpm run generate:v44-depositor-earnings-supply-opportunities`,
 `pnpm run check:v44-depositor-earnings-supply-opportunities`, and
 `pnpm run check:v44-gate5`.
+Gate 6 validates with
+`pnpm run generate:v44-btd-btc-compensation-statements`,
+`pnpm run check:v44-btd-btc-compensation-statements`, and
+`pnpm run check:v44-gate6`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
@@ -775,7 +793,7 @@ Inherited.
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | portfolio and market intelligence | implemented-source-safe |
 | `.bitcode/v44-reading-budget-quote-policy.json` | budget and quote policy | implemented-source-safe |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | implemented-source-safe |
-| `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | planned |
+| `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | implemented-source-safe |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | planned |
 | `.bitcode/v44-enterprise-economic-ux.json` | enterprise economic UX | planned |
 | `.bitcode/v44-scaled-network-rehearsal.json` | scaled rehearsal | planned |
@@ -789,6 +807,10 @@ Inherited.
 Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`.
 Gate 3 adds deterministic
 `.bitcode/v44-packs-portfolio-market-intelligence.json`.
+Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`.
+Gate 5 adds deterministic
+`.bitcode/v44-depositor-earnings-supply-opportunities.json`.
+Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`.
 
 ### Shared generated-artifact fields
 

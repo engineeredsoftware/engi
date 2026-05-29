@@ -32,6 +32,35 @@ describe('pack-activity-model', () => {
       compensationState: 'source_to_shares_preview_ready',
       deliveryState: 'locked_until_settlement',
       repairState: 'not_required',
+      btdBtcCompensationStatements: {
+        schema: 'bitcode.asset-pack.btd-btc-compensation-statements',
+        statements: 'BtdBtcCompensationStatements',
+        state: 'settlement-accounted',
+        btdRange: {
+          rangeState: 'transferred-to-reader',
+        },
+        btcSettlement: {
+          state: 'final-settlement-observed',
+        },
+        treasuryRoutes: [
+          {
+            schema: 'bitcode.asset-pack.treasury-route-statement',
+            routeState: 'routed',
+          },
+        ],
+        reconciliation: {
+          state: 'aligned',
+        },
+        aggregate: {
+          contributorCount: 2,
+          depositorCount: 2,
+          finalSettlementSats: 3200,
+          allocatedContributorSats: 3200,
+        },
+        roots: {
+          accountingRoot: 'btd-btc-accounting-root-abc',
+        },
+      },
       assetPackMeasurementRoot: 'measurement-root-abc',
       settlementReceiptRoot: 'settlement-root-def',
       protectedSource: 'protected source body',
@@ -58,6 +87,15 @@ describe('pack-activity-model', () => {
     expect(record.measurements.some((measurement) => measurement.id === 'measured-btd')).toBe(true);
     expect(record.values.some((value) => value.id === 'btc-fee')).toBe(true);
     expect(record.proofRoots.map((proofRoot) => proofRoot.root)).toContain('settlement-root-def');
+    expect(record.accounting).toMatchObject({
+      state: 'settlement-accounted',
+      btdRangeState: 'transferred-to-reader',
+      btcSettlementState: 'final-settlement-observed',
+      treasuryRouteState: 'routed',
+      contributorCount: 2,
+      allocatedContributorSats: 3200,
+      statementRoot: 'btd-btc-accounting-root-abc',
+    });
     expect(assertPackActivitySourceSafe(record)).toBe(true);
     expect(JSON.stringify(record)).not.toContain('protected source body');
     expect(JSON.stringify(record)).not.toContain('raw prompt text');
@@ -94,6 +132,7 @@ describe('pack-activity-model', () => {
 
     const detail = buildPackActivityDetailProjection(result.records[0]);
     expect(detail.states.settlement).toBe('quote_ready');
+    expect(detail.accounting?.statementRoot).toBe('btd-btc-accounting-root-abc');
     expect(detail.proofRoots.length).toBeGreaterThan(0);
     expect(assertPackActivitySourceSafe(detail)).toBe(true);
   });

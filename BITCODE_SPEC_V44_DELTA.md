@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 5 Depositor earnings supply opportunity work over promoted V43
+- V44 state: draft Gate 6 BTD/BTC compensation statement work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`
-- Source parity state: Gate 5 binds package-backed Depositor earning supply intelligence, `/deposit` route/UI projections, docs, workflow, package script, checker, and protocol/package/UAPI tests
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`
+- Source parity state: Gate 6 binds package-backed BTD/BTC compensation statements, `/packs` accounting readback, docs, workflow, package script, checker, and protocol/package/UAPI tests
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -74,6 +74,13 @@ intelligence over source-safe deposit options. It does not execute payout,
 mint BTD, disclose protected source, or convert estimated compensation ranges
 into final settlement truth.
 
+V44 Gate 6 closes BTD/BTC/source-to-shares compensation statements over the
+settlement rights delivery boundary. It projects BTD range state, BTC
+settlement observations, contributor allocations, depositor earning summaries,
+treasury routes, reconciliation, and repair posture into source-safe `/packs`
+accounting readback. It does not disclose unpaid source, serialize wallet
+private material, execute payout, or admit value-bearing mainnet operation.
+
 ## Pre-Implementation Sequence
 
 1. Open V44 spec family, roadmap, checker, package script, workflow posture,
@@ -105,6 +112,10 @@ Gate 5 validates with
 `pnpm run generate:v44-depositor-earnings-supply-opportunities`,
 `pnpm run check:v44-depositor-earnings-supply-opportunities`, and
 `pnpm run check:v44-gate5`.
+Gate 6 validates with
+`pnpm run generate:v44-btd-btc-compensation-statements`,
+`pnpm run check:v44-btd-btc-compensation-statements`, and
+`pnpm run check:v44-gate6`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,

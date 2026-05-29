@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft notes include Gate 5 Depositor earnings supply opportunity work over promoted V43
+- V44 state: draft notes include Gate 6 BTD/BTC compensation statement work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`
-- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, `/read` budget quote policy, and `/deposit` earning supply opportunity intelligence for active V43 / draft V44
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`
+- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence and accounting readback, `/read` budget quote policy, and `/deposit` earning supply opportunity intelligence for active V43 / draft V44
 - Scope: V44 notes for digitizing and tokenizing scaled engineering economies through enterprise AssetPack portfolio, market intelligence, BTD/BTC accounting, governance, and compensation operation
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -115,6 +115,17 @@ and source-safe supply recommendations. It cannot mint BTD, execute
 compensation, disclose protected source, or treat estimated earning ranges as
 final settlement truth. Source-to-shares remains the future receipt-backed
 allocation method after a paid Need-Fit settlement selects admitted supply.
+
+## Gate 6 note
+
+Gate 6 makes paid settlement accounting inspectable without changing settlement
+law. The settlement rights delivery boundary can now emit source-safe BTD/BTC
+compensation statements that distinguish BTD range state, BTC settlement
+observation, source-to-shares contributor allocations, depositor earning
+summaries, treasury routes, reconciliation state, and repair blockers. `/packs`
+can render those statements as accounting readback. It cannot disclose unpaid
+AssetPack source, raw source text, wallet private material, private settlement
+payloads, raw prompts, provider responses, or value-bearing mainnet authority.
 
 ## Gate 3 note
 

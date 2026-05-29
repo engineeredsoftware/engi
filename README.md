@@ -17,7 +17,9 @@ The active V44 draft target makes those routes economically operable at
 enterprise scale: `/packs` becomes the portfolio and market-intelligence
 surface, `/read` gains budgeted procurement and quote governance, and
 `/deposit` gains earning, demand, ROI, compensation-range, and source-safe
-supply opportunity visibility.
+supply opportunity visibility. Gate 6 adds `/packs` accounting readback for
+source-safe BTD/BTC/source-to-shares compensation statements over paid
+settlement receipts.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
@@ -334,6 +336,19 @@ earning statements, supply recommendations, route UI readback, and tests that
 continue withholding protected source, raw source text, unpaid AssetPack
 source, prompts, provider payloads, wallet private material, private
 settlement payloads, and value-bearing mainnet operation.
+
+V44 Gate 6 adds `V44BtdBtcCompensationStatements`,
+`.bitcode/v44-btd-btc-compensation-statements.json`,
+`generate:v44-btd-btc-compensation-statements`,
+`check:v44-btd-btc-compensation-statements`, and `check:v44-gate6`. It binds
+settlement rights delivery boundaries to source-safe
+`BtdBtcCompensationStatements`: BTD range state, BTC settlement observations,
+source-to-shares contributor allocations, depositor earning summaries,
+treasury routes, ledger/database/object-storage reconciliation, repair
+statements, `/packs` accounting readback, and tests that continue withholding
+protected source, raw source text, unpaid AssetPack source, prompts, provider
+payloads, wallet private material, private settlement payloads, and
+value-bearing mainnet operation.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

@@ -231,6 +231,18 @@ estimate-only BTC compensation ranges, source-to-shares proof boundaries,
 earning statements, supply recommendations, route UI readback, and
 source-safety tests.
 
+V44 Gate 6 adds `V44BtdBtcCompensationStatements` through
+`packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js`,
+`packages/protocol/test/v44-btd-btc-compensation-statements.test.js`,
+`.bitcode/v44-btd-btc-compensation-statements.json`,
+`generate:v44-btd-btc-compensation-statements`,
+`check:v44-btd-btc-compensation-statements`, and `check:v44-gate6`. It binds
+settlement rights delivery boundaries to source-safe BTD range accounting, BTC
+settlement observations, source-to-shares contributor compensation statements,
+depositor earning summaries, treasury routes, ledger/database/object-storage
+reconciliation, repair statements, `/packs` accounting readback, package
+exports, workflow wiring, and source-safety tests.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.
