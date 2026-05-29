@@ -53,6 +53,7 @@ module.exports = {
     '^@bitcode/pipeline-asset-pack/reading-interface-product-parity$': '<rootDir>/../packages/pipelines/asset-pack/src/reading-interface-product-parity.ts',
     '^@bitcode/pipeline-asset-pack/reading-pipeline-contract$': '<rootDir>/../packages/pipelines/asset-pack/src/reading-pipeline-contract.ts',
     '^@bitcode/pipeline-asset-pack/deposit-asset-pack-options$': '<rootDir>/../packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts',
+    '^@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy$': '<rootDir>/../packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
     '^@bitcode/pipeline-asset-pack/src/(.+)$': '<rootDir>/../packages/pipelines/asset-pack/src/$1',
     '^@bitcode/([^/]+)/src/(.+)$': '<rootDir>/../packages/$1/src/$2',
     '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',

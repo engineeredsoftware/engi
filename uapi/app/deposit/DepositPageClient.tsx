@@ -34,6 +34,7 @@ import { deriveTerminalTransactionReadiness } from '@/app/terminal/terminal-tran
 import { buildDepositRouteSession, readDepositRouteStage, writeDepositRouteStage } from './deposit-route-model';
 
 const DEPOSIT_OPTION_PIPELINE_ID = 'DepositAssetPackOptionSynthesis';
+const DEPOSIT_OPTION_POLICY_ID = 'DepositAssetPackOptionPolicy';
 
 function shortIdentifier(value: string | null | undefined) {
   if (!value) return 'pending';
@@ -205,6 +206,27 @@ export default function DepositPageClient() {
     () => sourcePathHintsText.split(/\r?\n|,/u).map((entry) => entry.trim()).filter(Boolean),
     [sourcePathHintsText],
   );
+  const sourceCriticalitySignals = useMemo(
+    () => [
+      {
+        id: 'depositor-sub-critical-intent',
+        label: 'Depositor intends this option set to avoid critical source exposure.',
+        severity: 'sub-critical' as const,
+        weight: 0.74,
+      },
+      ...(sourcePathHints.some((path) => /secret|credential|wallet|auth|key|payment|settlement/iu.test(path))
+        ? [
+            {
+              id: 'source-path-sensitive-scope-warning',
+              label: 'Source path hints include sensitive operational terms requiring review.',
+              severity: 'warning' as const,
+              weight: 0.64,
+            },
+          ]
+        : []),
+    ],
+    [sourcePathHints],
+  );
   const hasSubmittedDeposit = useMemo(() => {
     const selectedRepository = repositoryContext?.selectedRepository || null;
     if (!selectedRepository) return false;
@@ -257,6 +279,10 @@ export default function DepositPageClient() {
             weight: 0.58,
           },
         ],
+        sourceCriticalitySignals,
+        developmentCostSats: Math.max(1600, 1200 + sourcePathHints.length * 240),
+        expectedSettlementSats: Math.max(4200, 3600 + sourcePathHints.length * 360 + liveRuns.length * 90),
+        depositorWalletId: preferredSignerAddress ? 'connected-depositor-wallet' : null,
         hasRepositorySource: Boolean(repositoryContext?.selectedRepository),
         optionsRequested,
         hasReviewedOption: Boolean(reviewedOptionId),
@@ -273,7 +299,9 @@ export default function DepositPageClient() {
       routeDepositStage,
       selectedRun?.id,
       selectedTransactionId,
+      sourceCriticalitySignals,
       sourcePathHints,
+      preferredSignerAddress,
     ],
   );
 
@@ -283,7 +311,9 @@ export default function DepositPageClient() {
     { label: 'Commit', value: shortIdentifier(depositRouteSession.routeState.sourceCommit) },
     { label: 'Transaction', value: shortIdentifier(depositRouteSession.routeState.transactionId) },
     { label: 'Pipeline', value: DEPOSIT_OPTION_PIPELINE_ID },
+    { label: 'Policy', value: DEPOSIT_OPTION_POLICY_ID },
     { label: 'Option roots', value: String(depositRouteSession.synthesis.roots.optionRoots.length) },
+    { label: 'Positive ROI options', value: String(depositRouteSession.policy.reviewablePositiveRoiCount) },
   ];
 
   const recentDepositRuns = useMemo(
@@ -469,7 +499,7 @@ export default function DepositPageClient() {
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">Options</p>
                     <h2 className="mt-2 text-lg font-semibold text-white">Source-safe AssetPack proposals</h2>
                     <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-                      Gate 5 proposes reviewable options only. Criticality, ROI, compensation policy, and admission are explicitly deferred to later gates.
+                      Policy scores criticality, demand, ROI, BTD potential, and compensation route before admission.
                     </p>
                   </div>
                   <span className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100">
@@ -479,6 +509,9 @@ export default function DepositPageClient() {
                 <div className="mt-5 grid gap-3 xl:grid-cols-3">
                   {depositRouteSession.synthesis.options.map((option) => {
                     const reviewed = reviewedOptionId === option.optionId;
+                    const policyEvaluation = depositRouteSession.policy.evaluations.find(
+                      (evaluation) => evaluation.optionId === option.optionId,
+                    );
                     return (
                       <article
                         key={option.optionId}
@@ -493,6 +526,42 @@ export default function DepositPageClient() {
                           <p className="mt-2 text-sm leading-6 text-neutral-400">{option.summary}</p>
                         </div>
                         <dl className="grid gap-2">
+                          {policyEvaluation ? (
+                            <>
+                              <div className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-2">
+                                <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">Policy</dt>
+                                <dd className="mt-1 text-sm text-emerald-100">{policyEvaluation.policyDecision}</dd>
+                              </div>
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">Criticality</dt>
+                                  <dd className="mt-1 text-sm text-neutral-200">{policyEvaluation.sourceCriticality.state}</dd>
+                                </div>
+                                <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">Demand</dt>
+                                  <dd className="mt-1 text-sm text-neutral-200">{policyEvaluation.demand.state}</dd>
+                                </div>
+                              </div>
+                              <div className="grid grid-cols-2 gap-2">
+                                <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">ROI</dt>
+                                  <dd className="mt-1 text-sm text-neutral-200">
+                                    {policyEvaluation.roi.state} / {policyEvaluation.roi.expectedNetSats} sats net
+                                  </dd>
+                                </div>
+                                <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">BTD potential</dt>
+                                  <dd className="mt-1 text-sm text-neutral-200">{policyEvaluation.btdPotential.state}</dd>
+                                </div>
+                              </div>
+                              <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">Compensation</dt>
+                                <dd className="mt-1 text-sm text-neutral-200">
+                                  {policyEvaluation.compensation.state} / BTC source-to-shares preview
+                                </dd>
+                              </div>
+                            </>
+                          ) : null}
                           {option.measurements.map((measurement) => (
                             <div key={measurement.id} className="border border-white/8 bg-white/[0.035] px-3 py-2">
                               <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">{measurement.label}</dt>
@@ -573,7 +642,7 @@ export default function DepositPageClient() {
                     Disclosure boundary
                   </summary>
                   <p className="mt-2 text-xs leading-5 text-neutral-300">
-                    Deposit options expose measurements, demand signal roots, source path roots, and policy posture only. Raw source, unpaid AssetPack source, prompts, provider responses, and wallet private material are not serialized.
+                    Deposit options expose measurements, demand signal roots, source path roots, policy roots, estimated ROI, BTD potential, and compensation route metadata only. Raw source, unpaid AssetPack source, prompts, provider responses, settlement private payloads, and wallet private material are not serialized.
                   </p>
                 </details>
               </section>

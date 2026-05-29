@@ -93,6 +93,21 @@ state. Source criticality, demand/ROI, compensation policy, deposit admission,
 and indexing remain explicit Gate 6/Gate 7 boundaries. The route and artifact
 remain source-safe metadata only.
 
+## Gate 6 delta closure
+
+Gate 6 adds `DepositAssetPackOptionPolicy`,
+`DepositAssetPackOptionPolicyReport`, the generated
+`.bitcode/v43-deposit-policy-compensation.json` artifact, package exports,
+protocol tests, workflow checks, `/deposit` policy readback, and focused
+route/package tests. The policy scores each source-safe deposit option for
+criticality, likely demand, estimated gross BTC value, development-cost ROI,
+estimate-only BTD potential, and future-reader BTC source-to-shares
+compensation route. Critical IP is blocked before admission, negative expected
+value is not reviewable as positive-ROI supply, and missing wallet posture
+requires compensation repair. Admission, Depository indexing, storage
+projection, `/packs` synchronization, and final approve/reject/resynthesize
+decisions remain Gate 7 boundaries.
+
 ## Commit-Body Direction
 
 V43 gate commits should state the route/product surface changed, the protocol objects preserved, the proof/test commands run, and the source-safety boundaries maintained. Gate PR titles must begin with `V43 Gate N:`.

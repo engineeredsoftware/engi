@@ -228,6 +228,17 @@ reuse, navigation/footer route ownership, and focused UAPI/package/protocol
 tests. `/deposit` does not decide source criticality, ROI, compensation policy,
 admission, or indexing; those stay deferred to V43 Gates 6 and 7.
 
+V43 Gate 6 adds `DepositAssetPackOptionPolicyReport`,
+`.bitcode/v43-deposit-policy-compensation.json`,
+`generate:v43-deposit-policy-compensation`,
+`check:v43-deposit-policy-compensation`, and `check:v43-gate6`. It implements
+source-safe policy scoring for source criticality, likely demand, estimated
+ROI, estimate-only BTD potential, and future-reader BTC source-to-shares
+compensation route. Critical source is blocked before admission, negative
+expected value is not treated as positive-ROI supply, and Gate 7 still owns
+approval, admission, indexing, storage projection, telemetry, and `/packs`
+activity synchronization.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

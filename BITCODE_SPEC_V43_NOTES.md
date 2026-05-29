@@ -53,6 +53,16 @@ review posture, and proof roots; it may not serialize raw source, unpaid
 AssetPack source, prompts, provider responses, credentials, or wallet private
 material.
 
+Gate 6 closes the criticality, demand, ROI, BTD-potential, and compensation
+policy layer without admitting source into the Depository. `DepositAssetPackOptionPolicyReport`
+is source-safe metadata: it records signal roots, policy decisions, expected net
+sats, estimate-only BTD posture, and future BTC source-to-shares compensation
+route. It must not serialize raw source, unpaid AssetPack source, prompts,
+provider responses, wallet private material, or private settlement payloads.
+Gate 7 remains responsible for depositor approval, reject/resynthesize
+decisions, Depository admission receipts, indexing, storage projection,
+telemetry, and `/packs` activity synchronization.
+
 ## V43 copy boundary
 
 Outside public docs, avoid self-referential copy such as text explaining that a component is powerful or that Bitcode is doing a thing. Use clear route names, labels, status rows, measurement summaries, empty states, and expandable proof metadata. Public docs may explain the protocol; product UI should operate it.
