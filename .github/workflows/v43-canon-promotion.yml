@@ -84,7 +84,7 @@ jobs:
           pnpm --filter @bitcode/protocol typecheck
           pnpm --filter @bitcode/protocol test
           pnpm --filter @bitcode/btd typecheck
-          pnpm --filter @bitcode/btd test
+          pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
           npm --prefix protocol-demonstration test
           npm --prefix protocol-demonstration run test:v28-mvp-qa
           pnpm --filter @bitcode/pipeline-asset-pack typecheck
