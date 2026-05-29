@@ -98,8 +98,8 @@ deposited repository/material supply into searchable Depository records before
 Finding Fits runs. A `DepositorySupplyIndex` contains `DepositorySupplyRecord`
 entries with repository, branch, commit, proof root, measurement root,
 reconciliation readback root, BTD range, depositor wallet boundary, source-safe
-search documents, vector projection rows, storage readback posture, and repair
-actions.
+search documents, vector projection rows, storage readback posture, source-safe
+compensation preview, and repair actions.
 
 The index deliberately keeps protected source outside the serialized record.
 Lexical, metadata, measurement, and vector search documents use source-safe
@@ -107,6 +107,16 @@ titles, summaries, paths, symbol names, stack tags, constraints, and roots.
 Rows with missing or invalid embeddings remain visible as repair posture through
 `sync-active-embedding-vector-rows`; they are not treated as a fully searchable
 vector corpus.
+
+Each supply record also carries a `DepositorySupplyCompensationPreview`. That
+preview tells the depositor how BTC can later route back through
+source-to-shares if the deposit is selected into a paid AssetPack, while making
+the pre-fit boundary explicit: deposit admission does not mint BTD, does not
+transfer BTD rights, and does not expose protected source or unpaid
+source-bearing AssetPack content. The preview records compensation route roots,
+source-to-shares preview roots, ledger account keys such as pending claims and
+eligible compensation routes, and repair posture when a depositor wallet,
+proof, measurement, or searchability requirement is missing.
 
 `depositorySupplyAssetsFromIndex` converts indexed records into source-safe
 `DepositoryAsset` candidates for `ReadFitsFindingSynthesis`. This handoff lets
@@ -128,6 +138,14 @@ Need. Rejected or still-unreviewed Needs emit blockers and preserve feedback
 for resynthesis. The runtime never serializes protected source, raw protected
 prompts, raw provider responses, unpaid AssetPack source, credentials, wallet
 private material, or private settlement payloads.
+
+V42 Gate 4 binds this runtime into product closure through
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json` and
+`check:v42-gate4`. That proof requires all four review actions
+(`synthesize_read_need`, `resynthesize_read_need`, `accept_read_need`,
+`reject_read_need`), PTRR/Failsafe/Thricified telemetry receipts, source-safe
+storage projection, accepted-Need admission, rejected Need blockers, and
+Terminal runtime readback before Finding Fits can run.
 
 ## ReadFitsFinding Runtime
 
@@ -167,6 +185,14 @@ wallet private material, private settlement payloads, credentials, or unpaid
 source-bearing AssetPack content. Pull-request delivery remains withheld until
 BTC settlement, BTD rights transfer, and ledger/database/storage readback agree.
 
+V42 Gate 5 binds this boundary into product closure through
+`.bitcode/v42-readfitsfinding-preview-quote.json` and `check:v42-gate5`.
+That proof requires accepted-Need admission, many-channel Depository search,
+candidate ranking, selected-fit provenance, deterministic quote receipts,
+source-safe disclosure review, settlement instructions, delivery lock, harness
+route summaries, Terminal preview/quote/provenance readback, and focused
+package/API/protocol tests before the paid boundary can proceed to Gate 6.
+
 ## Settlement Rights Delivery
 
 `AssetPackSettlementRightsDeliveryBoundary` is the paid-boundary package
@@ -185,6 +211,15 @@ delivery is unlocked for the paid Reader, but it never serializes protected
 source, raw protected prompts, raw provider responses, wallet private material,
 private settlement payloads, credentials, or unpaid source-bearing AssetPack
 content.
+
+V42 Gate 6 binds Settlement Rights Delivery into product closure through
+`.bitcode/v42-settlement-rights-delivery.json` and `check:v42-gate6`.
+That proof requires paid BTC observation, finality gating, BTD rights transfer,
+source-to-shares conservation, repository delivery unlock,
+ledger/database/object-storage reconciliation, live harness materialization,
+route readback, Terminal readback, focused package/API/protocol tests, and
+source-safe docs before the paid AssetPack can cross the Reader visibility
+boundary.
 
 ## Operational Telemetry Repair Readback
 
@@ -248,6 +283,16 @@ private material, private settlement payloads, credentials, and live log
 payloads are not serialized. Value-bearing mainnet admission remains blocked.
 The source-safe artifact is `.bitcode/v39-local-staging-reading-rehearsal.json`,
 checked by `pnpm run check:v39-gate10`.
+
+V42 Gate 8 reuses `ReadingLocalStagingRehearsal` as the package proof body for
+the reliable MVP local/staging full rehearsal. The V42 artifact
+`.bitcode/v42-local-staging-mvp-rehearsal.json` binds that package model to
+the closed V42 Depositing, Reading state, ReadNeed review/resynthesis, Finding
+Fits preview/quote, settlement rights delivery, and AI-reading demonstration
+artifacts. Use `pnpm run rehearse:v42-local-staging` for source-safe operator
+receipts and `pnpm run check:v42-gate8` for the full proof. Staging-testnet is
+bound to Supabase project `tkpyosihuouusyaxtbau`; value-bearing mainnet stays
+blocked, and generated rehearsal material remains metadata-only.
 
 ### Vector Embedding Contract
 

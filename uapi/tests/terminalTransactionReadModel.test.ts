@@ -144,7 +144,7 @@ describe('terminal transaction read model', () => {
     expect(model.route.href).toContain('transactionDetail=proofs');
     expect(model.route.href).toContain('provider=github');
     expect(model.route.href).not.toContain('runId=legacy-run');
-    expect(model.route.exchangeHref).toContain('/exchange?');
+    expect(model.route.exchangeHref).toContain('/packs?');
     expect(model.route.exchangeHref).toContain('transactionId=tx-read-1');
     expect(model.route.exchangeHref).toContain('transactionDetail=proofs');
     expect(model.route.exchangeHref).toContain('provider=github');

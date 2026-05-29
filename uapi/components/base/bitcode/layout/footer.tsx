@@ -23,14 +23,16 @@ import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disab
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 const TERMINAL_URL = '/terminal';
-const EXCHANGE_URL = '/exchange';
+const PACKS_URL = '/packs';
+const DEPOSIT_URL = '/deposit';
+const READ_URL = '/read';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
 const DISABLED_FEATURE_TOOLTIPS = {
-  exchange:
-    'Disabled for launch mode. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
+  packs:
+    'Disabled for launch mode. When enabled, Packs opens the public Source Shares activity and pack-reading surface.',
   terminal:
     'Disabled for launch mode. When enabled, Terminal opens the full deposit-to-settle ledger, proofs, and history workspace.',
   auxillaries:
@@ -121,10 +123,10 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     : BITCODE_PUBLIC_COPY.footer.guestCta;
   const footerLinks = useMemo(() => [
     {
-      ariaLabel: 'Exchange',
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.network,
       label: BITCODE_PUBLIC_COPY.footer.links.network,
-      meta: 'Public exchange',
-      href: EXCHANGE_URL,
+      meta: 'Pack activity',
+      href: PACKS_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.network,
       icon: (
         <span
@@ -147,6 +149,67 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
             <path d="M6.5 12h11" />
             <path d="M12 6.5c2.8 2.4 2.8 8.6 0 11" />
             <path d="M12 6.5c-2.8 2.4-2.8 8.6 0 11" />
+          </svg>
+        </span>
+      ),
+    },
+    {
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.deposit,
+      label: BITCODE_PUBLIC_COPY.footer.links.deposit,
+      meta: 'Depositing flow',
+      href: DEPOSIT_URL,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.deposit,
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(16,185,129,0.66)) drop-shadow(0 0 15px rgba(16,185,129,0.33))',
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[15px] w-[15px] text-emerald-300"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M4 7.5 12 3l8 4.5-8 4.5L4 7.5Z" />
+            <path d="M4 12.5 12 17l8-4.5" />
+            <path d="M4 17.5 12 22l8-4.5" />
+          </svg>
+        </span>
+      ),
+    },
+    {
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.read,
+      label: BITCODE_PUBLIC_COPY.footer.links.read,
+      meta: 'Reading flow',
+      href: READ_URL,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.read,
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(56,189,248,0.66)) drop-shadow(0 0 15px rgba(56,189,248,0.33))',
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[15px] w-[15px] text-sky-300"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M5 6.5h9" />
+            <path d="M5 11.5h14" />
+            <path d="M5 16.5h8" />
+            <path d="m16 15 2 2 3-4" />
           </svg>
         </span>
       ),
@@ -237,7 +300,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
   ], []);
   const isExternalHref = (href: string) => href.startsWith('http');
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
-  const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
+  const disablePacksLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
   const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
 
   return (
@@ -374,7 +437,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
               <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-[repeat(4,minmax(0,1fr))]">
                 {footerLinks.map((social) => {
                   const isDisabledRoute =
-                    (social.href === EXCHANGE_URL && disableExchangeLink) ||
+                    (social.href === PACKS_URL && disablePacksLink) ||
                     (social.href === TERMINAL_URL && disableTerminalLink);
                   const explainerButton = social.explainer ? (
                     <BitcodeInlineExplainer
@@ -405,8 +468,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                     <span key={social.ariaLabel} className="block w-full">
                       <DisabledTooltipWrapper
                         tooltip={
-                          social.href === EXCHANGE_URL
-                            ? DISABLED_FEATURE_TOOLTIPS.exchange
+                          social.href === PACKS_URL
+                            ? DISABLED_FEATURE_TOOLTIPS.packs
                             : DISABLED_FEATURE_TOOLTIPS.terminal
                         }
                         className="w-full"

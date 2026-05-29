@@ -1,5 +1,5 @@
 export type WorkspaceSurface = 'terminal' | 'conversations' | null;
-export type PublicShellSurface = 'home' | 'network' | 'docs' | null;
+export type PublicShellSurface = 'home' | 'network' | 'deposit' | 'read' | 'docs' | null;
 
 export function getWorkspaceSurface(pathname: string | null | undefined): WorkspaceSurface {
   if (!pathname) return null;
@@ -19,7 +19,9 @@ export function usesPublicShellChrome(pathname: string | null | undefined): bool
 export function getPublicShellSurface(pathname: string | null | undefined): PublicShellSurface {
   if (!pathname) return null;
   if (pathname === '/') return 'home';
-  if (pathname.startsWith('/exchange')) return 'network';
+  if (pathname.startsWith('/packs') || pathname.startsWith('/exchange')) return 'network';
+  if (pathname.startsWith('/deposit')) return 'deposit';
+  if (pathname.startsWith('/read')) return 'read';
   if (pathname.startsWith('/docs') || pathname.startsWith('/demo-video') || pathname.startsWith('/edgetimes')) return 'docs';
   return null;
 }

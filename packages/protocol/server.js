@@ -810,6 +810,13 @@ export function createAppContext({
       state.ledger.accounts[depositorAssetsKey] = String(
         Number.isFinite(priorDepositorAssetCount) ? priorDepositorAssetCount + 1 : 1
       );
+      if (asset.depositoryEvidence?.compensationPreview?.state === 'eligible-if-selected-for-assetpack') {
+        const compensationRoutesKey = `depositor:${asset.depositoryEvidence.depositorBoundary.walletId}:eligible_compensation_routes`;
+        const priorRouteCount = Number(state.ledger.accounts[compensationRoutesKey] || '0');
+        state.ledger.accounts[compensationRoutesKey] = String(
+          Number.isFinite(priorRouteCount) ? priorRouteCount + 1 : 1
+        );
+      }
     }
     writeState(state);
     return { ok: true, asset, depositoryEvidence: asset.depositoryEvidence || null };

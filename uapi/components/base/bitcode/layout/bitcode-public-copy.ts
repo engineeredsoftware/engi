@@ -10,8 +10,8 @@ export const BITCODE_PUBLIC_COPY = {
     'MOCKED TERMINAL',
   ],
   primaryCta: {
-    href: '/terminal',
-    label: 'Open Terminal',
+    href: '/read',
+    label: 'Request Read',
   },
   secondaryCta: {
     href: '/docs',
@@ -40,7 +40,7 @@ export const BITCODE_PUBLIC_COPY = {
     ],
   },
   terminalPreview: {
-    pill: 'Exchange',
+    pill: 'Packs',
     kicker: 'Terminal preview',
     rail: ['deposit', 'read', 'settle'],
   },
@@ -51,7 +51,7 @@ export const BITCODE_PUBLIC_COPY = {
     modes: ['Proofs', 'Conversations', 'Auxillaries', 'Deposit + Read'],
   },
   giveContribution: {
-    title: 'Exchange supply',
+    title: 'Pack supply',
   },
   sourceToSettlement: {
     title: 'Source to settlement',
@@ -71,7 +71,9 @@ export const BITCODE_PUBLIC_COPY = {
     guestCta: 'Open Auxillaries',
     userCta: 'Open Auxillaries',
     links: {
-      network: 'Exchange',
+      network: 'Packs',
+      deposit: 'Deposit',
+      read: 'Read',
       transactions: 'Terminal',
       docs: 'Docs',
       github: 'Bitcode on GitHub',
@@ -79,7 +81,9 @@ export const BITCODE_PUBLIC_COPY = {
   },
   publicNav: {
     links: [
-      { href: '/exchange', label: 'Exchange' },
+      { href: '/packs', label: 'Packs' },
+      { href: '/deposit', label: 'Deposit' },
+      { href: '/read', label: 'Read' },
       { href: '/terminal', label: 'Terminal' },
       { href: '/docs', label: 'Docs' },
     ],

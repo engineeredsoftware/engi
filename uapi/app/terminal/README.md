@@ -105,6 +105,62 @@ parses it only as operator posture. The source-safe generated artifact is
 `.bitcode/v39-enterprise-reading-ux-state.json`, checked by
 `pnpm run check:v39-gate3`.
 
+V42 Gate 3 extends that state into the current Reading shortest path recovery
+contract. `TerminalEnterpriseReadingRouteState` binds transaction id presence,
+the `readingStage` query parameter, active-stage hydration, retry and restart
+posture, source-safe failure kind, and repair actions. Terminal may restore a
+later stage from route state after refresh or handoff, but blockers still hold:
+accepted Need gates Finding Fits, source-safe AssetPack preview gates
+settlement, and settlement readback gates delivery. The source-safe proof
+artifact is `.bitcode/v42-reading-shortest-path-state-machine.json`, checked by
+`pnpm run check:v42-gate3`.
+
+V42 Gate 4 closes the Terminal ReadNeed review loop. The staged Reading
+surface now keeps `ReadNeedReviewResynthesisRuntime`, storage projection rows,
+telemetry return type, runtime root, storage root, telemetry root, admission
+blockers, and rejected Need posture visible in expandable source-safe detail.
+Terminal exposes synthesize, resynthesize, accept, and reject actions before
+Finding Fits; accepting the Need is the only admission handoff to
+`ReadFitsFindingSynthesis`. The source-safe proof artifact is
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json`, checked by
+`pnpm run check:v42-gate4`.
+
+V42 Gate 5 closes the Terminal Finding Fits preview and quote readback. The
+source-safe preview panel now reads `AssetPackPreviewBoundary` summaries from
+pipeline harness evidence, including selected-fit provenance, deterministic
+quote receipt, settlement instructions, delivery posture, replay root, and
+storage record count. Terminal keeps those rows expandable and metadata-only:
+protected source and unpaid AssetPack source stay withheld until settlement
+and rights-transfer readback. The source-safe proof artifact is
+`.bitcode/v42-readfitsfinding-preview-quote.json`, checked by
+`pnpm run check:v42-gate5`.
+
+V42 Gate 6 closes Terminal Settlement rights readback. The paid-boundary panel
+now reads `AssetPackSettlementRightsDeliveryBoundary` summaries from pipeline
+harness evidence, including BTC payment observation, finality, source-to-shares
+compensation, BTD rights transfer, paid read receipt, source-bearing
+pull-request delivery unlock, ledger/database/object-storage reconciliation,
+replay root, repair posture, and storage record count. Terminal keeps these
+rows expandable and source-safe: it may show that delivery is unlocked for the
+paid Reader after settlement, but it must not expose unpaid AssetPack source,
+protected source, wallet private material, private settlement payloads,
+credentials, raw protected prompts, or raw provider responses. The source-safe
+proof artifact is `.bitcode/v42-settlement-rights-delivery.json`, checked by
+`pnpm run check:v42-gate6`.
+
+V42 Gate 8 closes local/staging full MVP rehearsal readback for Terminal.
+The route remains `/terminal` during V42, but the proof now binds the whole
+MVP chain: deposit source, request read, review synthesized Need, request
+Finding Fits, review source-safe AssetPack preview and quote, buy/settle,
+receive repository delivery, and inspect rich stream telemetry/database
+readback. The source-safe proof artifact is
+`.bitcode/v42-local-staging-mvp-rehearsal.json`, checked by
+`pnpm run check:v42-gate8`. Generated rehearsal data may carry lane ids,
+stage ids, roots, staging-testnet project `tkpyosihuouusyaxtbau`, and repair
+posture; it must not carry protected source, unpaid AssetPack source, raw
+prompts, provider responses, credentials, wallet private material, private
+settlement payloads, or live logs.
+
 ## Live staging-testnet QA
 
 Terminal Deposit/Read QA starts only after Wallet and Externals prerequisites are

@@ -29,6 +29,7 @@ import { buildTerminalHref } from './terminal-routes';
 interface TerminalSupplySelectionPanelProps {
   repositoryContext?: TerminalRepositoryContextState | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
+  buildRouteHref?: (params?: URLSearchParams | string | null) => string;
 }
 
 function formatRepositoryOptionLabel(
@@ -49,6 +50,7 @@ function formatSelectedCommit(value?: string | null) {
 export default function TerminalSupplySelectionPanel({
   repositoryContext = null,
   onRecordActivity,
+  buildRouteHref = buildTerminalHref,
 }: TerminalSupplySelectionPanelProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -113,7 +115,7 @@ export default function TerminalSupplySelectionPanel({
     nextParams.delete('sourceCommit');
     nextParams.delete('branch');
     nextParams.delete('commit');
-    router.replace(buildTerminalHref(nextParams), { scroll: false });
+    router.replace(buildRouteHref(nextParams), { scroll: false });
   };
 
   const selectRepositoryEntry = (entryId: string) => {

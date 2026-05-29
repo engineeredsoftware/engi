@@ -635,8 +635,23 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
     const depositorySearch = recordValue(evidence?.depositorySearch);
     const ledgerSettlement = recordValue(evidence?.ledgerSettlement);
     const sourceSafePreview = recordValue(evidence?.sourceSafePreview);
+    const assetPackPreviewBoundary = recordValue(evidence?.assetPackPreviewBoundary);
+    const settlementBoundary = recordValue(evidence?.assetPackSettlementRightsDeliveryBoundary);
+    const deliveryUnlock = recordValue(settlementBoundary?.deliveryUnlock) ||
+      recordValue(evidence?.assetPackDeliveryUnlock);
+    const paymentObservation = recordValue(settlementBoundary?.paymentObservation);
+    const finalityReceipt = recordValue(settlementBoundary?.finalityReceipt);
+    const reconciliationReport = recordValue(settlementBoundary?.reconciliationReport) ||
+      recordValue(evidence?.assetPackLedgerDatabaseStorageReconciliation);
+    const boundaryQuoteReceipt = recordValue(assetPackPreviewBoundary?.quoteReceipt);
+    const boundarySelectedFitProvenance = recordValue(assetPackPreviewBoundary?.selectedFitProvenance);
+    const boundarySettlementInstructions = recordValue(assetPackPreviewBoundary?.settlementInstructions);
+    const boundaryDeliveryPosture = recordValue(assetPackPreviewBoundary?.deliveryPosture);
     const assetPackDisclosureReview = recordValue(evidence?.assetPackDisclosureReview);
-    const feeQuote = recordValue(sourceSafePreview?.feeQuote);
+    const feeQuote =
+      boundaryQuoteReceipt ||
+      recordValue(evidence?.assetPackQuoteReceipt) ||
+      recordValue(sourceSafePreview?.feeQuote);
     const unlock = recordValue(sourceSafePreview?.unlock) || recordValue(ledgerSettlement?.protectedSourceUnlock);
     const disclosureAccess = recordValue(assetPackDisclosureReview?.access);
     const disclosureLeakage = recordValue(assetPackDisclosureReview?.sourceLeakage);
@@ -646,7 +661,9 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       ? `ledger ${String(ledgerSettlement.status)}`
       : null;
     const selectedCandidateText = summarizeCandidateIds(
-      fitResult?.selectedCandidateAssetIds || depositorySearch?.selectedCandidateAssetIds,
+      boundarySelectedFitProvenance?.selectedCandidateAssetIds ||
+        fitResult?.selectedCandidateAssetIds ||
+        depositorySearch?.selectedCandidateAssetIds,
     );
     const telemetryLineCount = Number(data?.telemetryLineCount || 0);
     const telemetryText = telemetryLineCount > 0
@@ -654,6 +671,34 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       : ' telemetry artifact pending';
     const feeQuoteText = typeof feeQuote?.sats === 'number'
       ? ` fee ${feeQuote.sats} sats`
+      : null;
+    const quoteText = boundaryQuoteReceipt?.quoteRoot
+      ? ` quote ${shortIdentifier(boundaryQuoteReceipt.quoteRoot)}`
+      : null;
+    const settlementText = boundarySettlementInstructions?.state
+      ? ` settlement ${String(boundarySettlementInstructions.state)}`
+      : null;
+    const deliveryText = boundaryDeliveryPosture?.state
+      ? ` delivery ${String(boundaryDeliveryPosture.state)}`
+      : null;
+    const settlementBoundaryText = settlementBoundary?.state
+      ? ` settlement-boundary ${String(settlementBoundary.state)}`
+      : null;
+    const paymentText = typeof paymentObservation?.observedDebitSats === 'number' &&
+      typeof paymentObservation?.expectedSats === 'number'
+        ? ` paid ${paymentObservation.observedDebitSats}/${paymentObservation.expectedSats} sats`
+        : null;
+    const finalityText = finalityReceipt?.finalityState
+      ? ` finality ${String(finalityReceipt.finalityState)}`
+      : null;
+    const rightsText = settlementBoundary?.rightsTransferRoot
+      ? ` rights ${shortIdentifier(settlementBoundary.rightsTransferRoot)}`
+      : null;
+    const deliveredText = deliveryUnlock?.state
+      ? ` delivery-unlock ${String(deliveryUnlock.state)}`
+      : null;
+    const reconciliationText = reconciliationReport?.state
+      ? ` reconciliation ${String(reconciliationReport.state)}`
       : null;
     const unlockText = unlock?.sourceAvailable === true
       ? ` source ${String(unlock.state || 'available')}`
@@ -678,6 +723,15 @@ export function summarizeTerminalReadFitsFindingSynthesisHarnessEvent(
       selectedCandidateText,
       ledgerStatus,
       feeQuoteText,
+      quoteText,
+      settlementText,
+      deliveryText,
+      settlementBoundaryText,
+      paymentText,
+      finalityText,
+      rightsText,
+      deliveredText,
+      reconciliationText,
       unlockText,
       disclosureText,
       leakageText,

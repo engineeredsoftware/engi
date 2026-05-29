@@ -60,6 +60,8 @@ test('@bitcode/protocol commercial formalization exports package-native canon he
     V38: { activeCanon: 'V38', draftTarget: 'V39' },
     V39: { activeCanon: 'V39', draftTarget: 'V40' },
     V40: { activeCanon: 'V40', draftTarget: 'V41' },
+    V41: { activeCanon: 'V41', draftTarget: 'V42' },
+    V42: { activeCanon: 'V42', draftTarget: 'V43' },
   };
   const expectedPosture = expectedPostureByPointer[pointer];
 
@@ -153,6 +155,31 @@ test('@bitcode/protocol accepts live repository revision deposits without demo i
     assert.equal(result.depositoryEvidence.searchDocuments.vector.embeddingPolicy.model, 'text-embedding-3-small');
     assert.equal(result.depositoryEvidence.searchDocuments.vector.embeddingPolicy.dimensions, 1536);
     assert.equal(result.depositoryEvidence.searchDocuments.vector.embeddingPolicy.vectorStore.rpc, 'match_deliverable_vectors');
+    assert.equal(result.depositoryEvidence.compensationPreview.state, 'eligible-if-selected-for-assetpack');
+    assert.equal(result.depositoryEvidence.compensationPreview.compensationRoute.priceAsset, 'BTC');
+    assert.equal(
+      result.depositoryEvidence.compensationPreview.compensationRoute.allocationMethod,
+      'source-to-shares-largest-remainder',
+    );
+    assert.equal(
+      result.depositoryEvidence.compensationPreview.compensationRoute.btdMintBoundary,
+      'not-minted-by-deposit-admission',
+    );
+    assert.equal(result.depositoryEvidence.compensationPreview.visibility.protectedSourceVisible, false);
+    assert.equal(result.depositoryEvidence.compensationPreview.visibility.unpaidAssetPackSourceVisible, false);
+    assert.equal(result.depositoryEvidence.compensationPreview.readiness.eligibleForFindingFits, true);
+    assert.equal(result.depositoryEvidence.compensationPreview.readiness.eligibleForCompensationIfSelected, true);
+    assert.match(result.depositoryEvidence.compensationPreviewRoot, /^sha256:[a-f0-9]{64}$/);
+    assert.match(result.depositoryEvidence.sourceToSharesPreviewRoot, /^sha256:[a-f0-9]{64}$/);
+    assert.equal(
+      result.asset.compensationPreview.roots.compensationPreviewRoot,
+      result.depositoryEvidence.compensationPreviewRoot,
+    );
+    const state = app.getState('internal');
+    assert.equal(
+      state.ledger.accounts[`depositor:${result.depositoryEvidence.depositorBoundary.walletId}:eligible_compensation_routes`],
+      '1',
+    );
     const depositedText = result.asset.contentUnits?.[0]?.text;
     assert.match(depositedText, /Bitcode repository revision deposit/);
     assert.match(depositedText, /Repository: engineeredsoftware\/ENGI/);

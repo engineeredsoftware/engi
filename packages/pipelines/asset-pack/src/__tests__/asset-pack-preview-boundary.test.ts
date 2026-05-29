@@ -191,9 +191,15 @@ describe('AssetPack preview quote boundary', () => {
     expect(boundary.quoteReceipt.quoteRoot).toBe(boundary.sourceSafePreview.feeQuote.quoteRoot);
     expect(boundary.quoteReceipt.sats).toBeGreaterThanOrEqual(546);
     expect(boundary.quoteReceipt.quoteRoot).toBe(repeated.quoteReceipt.quoteRoot);
+    expect(boundary.quoteReceipt.deterministic).toBe(true);
+    expect(boundary.quoteReceipt.weightedAdmittedVolume).toBe(boundary.sourceSafePreview.feeQuote.weightedAdmittedVolume);
+    expect(boundary.settlementInstructions.sats).toBe(boundary.quoteReceipt.sats);
+    expect(boundary.settlementInstructions.quoteRoot).toBe(boundary.quoteReceipt.quoteRoot);
     expect(boundary.proofRoots.boundaryRoot).toBe(repeated.proofRoots.boundaryRoot);
     expect(boundary.selectedFitProvenance.selectedCandidates).toHaveLength(2);
     expect(boundary.selectedFitProvenance.selectedCandidates[0].proofRoot).toBe('sha256:proof-1');
+    expect(boundary.storageProjection.every((record) => record.sourceSafety.sourceSafeMetadataOnly)).toBe(true);
+    expect(boundary.storageProjection.every((record) => record.sourceSafety.unpaidAssetPackSourceVisible === false)).toBe(true);
     expect(boundary.replayReceipt.verified).toEqual({
       quoteRootMatchesPreview: true,
       disclosureReviewRootMatchesReview: true,

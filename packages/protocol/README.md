@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V41` active, `V42` draft after V41 promotion);
+- active/draft canon posture (`V43` active, `V44` draft after V43 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -59,8 +59,123 @@ Current exported commercial helpers include:
 - `V41RegistryInterpolationContracts` helpers for V41 source-safe registry composition, interpolation key, execution ancestry, tool prompt injection, context handling, and parser target contracts;
 - `V41ReadingPromptBenchmarkBaselines` helpers for V41 source-safe Reading prompt baseline rows across `ReadNeedComprehensionSynthesis`, `ReadFitsFindingSynthesis`, all five Reading UX steps, V38 benchmark fixtures, Gate 2 inventory roots, Gate 3 registry/interpolation roots, parser targets, deterministic scores, and source-safe disclosure tiers;
 - `V41PromotionReadinessReport` helpers for V41 source-safe prompt-program promotion readiness across all V41 prompt artifacts, generated proof support, workflow posture, promotion dry-run support, and active V41 / draft V42 runtime preparation;
+- `V42SettlementRightsDelivery` helpers for V42 source-safe BTC payment observation, finality gating, source-to-shares compensation, BTD read-right transfer, repository delivery unlock, ledger/database/object-storage reconciliation, Terminal readback, and source-safe paid-boundary proof;
+- `V42AiReadingDemonstration` helpers for V42 source-safe AI-reading demonstration proof: public-data-only baseline, reviewed local Need, local Finding Fits, source-safe AssetPack preview, AssetPack-enhanced AI answer, deterministic benchmark uplift, self-contained demonstration boundary, and workflow wiring;
+- `V42LocalStagingMvpRehearsal` helpers for V42 source-safe local/staging-testnet full MVP rehearsal proof across Depositing, Reading, Finding Fits, preview/quote, settlement, BTD rights transfer, repository delivery, AI-reading uplift, telemetry/database readback, operator receipts, and blocked value-bearing mainnet;
+- `V42PromotionReadinessReport` helpers for V42 source-safe promotion readiness across all V42 reliable MVP artifacts, generated proof support, workflow posture, promotion dry-run support, value-bearing mainnet blocking, and `V42` active, `V43` draft runtime preparation;
+- `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/terminal` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
+- `V43PacksActivityMasterDetail` helpers for V43 source-safe PackActivity contracts, `/api/packs/activity`, `/packs` master-detail search/filter/sort/detail projection, proof roots, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirection;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
+
+V43 Gate 1 opens the Packs, Read, Deposit draft over `V42` active, `V43`
+draft posture. It specifies `/exchange` to `/packs`, `/terminal` separation
+into `/read` and `/deposit`, agentic deposit AssetPack option synthesis,
+searchable pack activity master-detail, source-safe option review, and product
+UX cleanup through `check:v43-gate1`.
+
+V43 Gate 2 adds `V43RouteVocabularyInventory` through
+`packages/protocol/src/canonical/v43-route-vocabulary-inventory.js`,
+`packages/protocol/test/v43-route-vocabulary-inventory.test.js`,
+`.bitcode/v43-route-vocabulary-inventory.json`,
+`generate:v43-route-vocabulary-inventory`,
+`check:v43-route-vocabulary-inventory`, and `check:v43-gate2`.
+The artifact is source-safe metadata only: it records file paths, token counts,
+category counts, migration rows, and proof roots, but never source snippets,
+protected source, raw prompts, provider responses, unpaid AssetPack source,
+credentials, wallet private material, or private settlement payloads.
+
+V43 Gate 3 adds `V43PacksActivityMasterDetail` through
+`packages/protocol/src/canonical/v43-packs-activity-master-detail.js`,
+`packages/protocol/test/v43-packs-activity-master-detail.test.js`,
+`.bitcode/v43-packs-activity-master-detail.json`,
+`generate:v43-packs-activity-master-detail`,
+`check:v43-packs-activity-master-detail`, and `check:v43-gate3`. It binds
+`PackActivityRecord`, `PacksActivityDetail`, `/api/packs/activity`, `/packs`,
+`/exchange` compatibility redirection, search, filtering, sorting, proof-root
+display, settlement/compensation/delivery/repair state readback, source-safe
+metadata expansion, and no-source leak tests.
+
+V43 Gate 4 adds `V43ReadRouteFiveStepUx` through
+`packages/protocol/src/canonical/v43-read-route-five-step-ux.js`,
+`packages/protocol/test/v43-read-route-five-step-ux.test.js`,
+`.bitcode/v43-read-route-five-step-ux.json`,
+`generate:v43-read-route-five-step-ux`,
+`check:v43-read-route-five-step-ux`, and `check:v43-gate4`. It binds
+`ReadRouteSession`, `/read`, five-step Reading UX, Need review,
+accepted-Need-gated Finding Fits, source-safe AssetPack preview, BTC
+settlement/delivery posture, retained execution stream readback, route
+navigation, and no-source leak tests.
+
+V43 Gate 5 adds `V43DepositRouteOptions` through
+`packages/protocol/src/canonical/v43-deposit-route-options.js`,
+`packages/protocol/test/v43-deposit-route-options.test.js`,
+`.bitcode/v43-deposit-route-options.json`,
+`generate:v43-deposit-route-options`,
+`check:v43-deposit-route-options`, and `check:v43-gate5`. It binds
+`DepositRouteSession`, `/deposit`, five-step Depositing UX,
+`DepositAssetPackOptionSynthesis`, multiple source-safe AssetPack options,
+demand signal roots, option measurement roots, retained deposit composer reuse,
+route navigation, and no-source leak tests while leaving Gate 6 policy and Gate
+7 admission/indexing deferred.
+
+V43 Gate 6 adds `DepositAssetPackOptionPolicyReport` through
+`packages/protocol/src/canonical/v43-deposit-policy-compensation.js`,
+`packages/protocol/test/v43-deposit-policy-compensation.test.js`,
+`.bitcode/v43-deposit-policy-compensation.json`,
+`generate:v43-deposit-policy-compensation`,
+`check:v43-deposit-policy-compensation`, and `check:v43-gate6`. It binds
+source criticality, likely demand, deterministic ROI, estimate-only BTD
+potential, critical-source pre-admission blocking, and BTC source-to-shares
+compensation route preview while keeping Gate 7 responsible for depositor
+approval, admission, indexing, storage projection, telemetry, and `/packs`
+activity synchronization.
+
+V43 Gate 7 adds `DepositAssetPackOptionAdmissionReport` through
+`packages/protocol/src/canonical/v43-deposit-option-admission.js`,
+`packages/protocol/test/v43-deposit-option-admission.test.js`,
+`.bitcode/v43-deposit-option-admission.json`,
+`generate:v43-deposit-option-admission`,
+`check:v43-deposit-option-admission`, and `check:v43-gate7`. It binds
+depositor approve/reject/resynthesis decisions, source-safe admission receipts,
+Depository index/storage projections, BTC source-to-shares compensation preview
+continuity, execution-stream telemetry, and `/packs` `depository-assetpack`
+synchronization while keeping BTD mint, rights transfer, settlement broadcast,
+and unpaid AssetPack source disclosure outside deposit-side admission.
+
+V43 Gate 8 adds `V43RouteUxProductExcellence` through
+`packages/protocol/src/canonical/v43-route-ux-product-excellence.js`,
+`packages/protocol/test/v43-route-ux-product-excellence.test.js`,
+`.bitcode/v43-route-ux-product-excellence.json`,
+`generate:v43-route-ux-product-excellence`,
+`check:v43-route-ux-product-excellence`, and `check:v43-gate8`. It binds the
+shared product route shell, Reading/Depositing step grid, loading/empty/error
+state panels, progressive disclosure, concise route copy, focused route tests,
+and workflow wiring for `/packs`, `/read`, and `/deposit` without exposing
+protected source, unpaid AssetPack source, prompts, provider responses, wallet
+private material, or private settlement payloads.
+
+V43 Gate 9 adds `V43CrossRouteRehearsalTelemetryRepair` through
+`packages/protocol/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js`,
+`packages/protocol/test/v43-cross-route-rehearsal-telemetry-repair.test.js`,
+`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`,
+`scripts/rehearse-v43-cross-route-product-flow.mjs`,
+`generate:v43-cross-route-rehearsal`, `check:v43-cross-route-rehearsal`, and
+`check:v43-gate9`. It binds local/staging-testnet rehearsal rows for
+`/deposit`, `/read`, `/packs`, telemetry/database readback,
+ledger/database/storage synchronization, repair posture, settlement delivery,
+and compensation readback while keeping receipts source-safe and value-bearing
+mainnet execution blocked.
+
+V43 Gate 10 adds `V43PromotionReadinessReport` through
+`packages/protocol/src/canonical/v43-promotion-readiness-report.js`,
+`packages/protocol/test/v43-promotion-readiness.test.js`,
+`.bitcode/v43-promotion-readiness-report.json`,
+`generate:v43-promotion-readiness`, `check:v43-promotion-readiness`,
+`check:v43-gate10`, and `v43-canon-promotion.yml`. It binds all V43 product
+route artifacts, workflows, generated PROVEN support, promotion scripts,
+source-safety checks, documentation evidence, and the `V43` active, `V44` draft
+posture needed before canonical promotion.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
@@ -175,6 +290,100 @@ by binding all V41 prompt-program artifacts, `BITCODE_SPEC_V41_PROVEN.md`,
 runtime canon rewriting, dry-run promotion, source-safety, and value-bearing
 mainnet blocking without serializing raw prompts, provider responses, protected
 source, credentials, private settlement payloads, wallet material, or unpaid
+AssetPack source.
+V42 Gate 1 is wired through `check:v42-gate1` and opens the reliable MVP
+experience specification family for the `V41` active, `V42` draft posture:
+shortest-path Depositing with Depository admission proof and later BTC
+compensation visibility; shortest-path Reading through Read Request, reviewed
+Need, Finding Fits, source-safe AssetPack preview, BTD/BTC settlement, rights
+transfer, and repository delivery; and an AI-reading dominant standalone
+demonstration that proves an AssetPack can improve an AI system beyond a
+public-data-only baseline.
+V42 Gate 2 adds `V42DepositingShortestPath` through
+`packages/protocol/src/canonical/v42-depositing-shortest-path.js`,
+`packages/protocol/test/v42-depositing-shortest-path.test.js`,
+`.bitcode/v42-depositing-shortest-path.json`, and `check:v42-gate2`.
+It proves deposit route readiness, Depository search/vector/storage projection,
+source-safe compensation preview roots, source-to-shares ledger readback keys,
+Terminal compensation visibility, and the pre-mint/no-pre-settlement-source
+boundary.
+V42 Gate 3 adds the V42 Reading shortest path state machine,
+`V42ReadingShortestPathStateMachine`, through
+`packages/protocol/src/canonical/v42-reading-shortest-path-state-machine.js`,
+`packages/protocol/test/v42-reading-shortest-path-state-machine.test.js`,
+`.bitcode/v42-reading-shortest-path-state-machine.json`, and
+`check:v42-gate3`. It proves the five-step Reading path, transaction/stage
+route persistence, accepted-Need gating, restart/retry/failure repair,
+low-detail proof-on-expand UI posture, rich Reading pipeline telemetry
+readback, activity/workbench readback, and source-safe disclosure boundaries.
+V42 Gate 4 adds `V42ReadNeedReviewResynthesisProductClosure` through
+`packages/protocol/src/canonical/v42-readneed-review-resynthesis-product-closure.js`,
+`packages/protocol/test/v42-readneed-review-resynthesis-product-closure.test.js`,
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and
+`check:v42-gate4`. It proves ReadNeed review/resynthesis product closure:
+source-safe Read Request and Need storage, feedback lineage, Need measurement,
+accepted-Need admission, rejected Need blockers, PTRR/Failsafe/Thricified
+telemetry receipts, `/api/read-review` action coverage, Terminal runtime
+readback, and source-safe disclosure boundaries.
+V42 Gate 5 adds `V42ReadFitsFindingPreviewQuote` through
+`packages/protocol/src/canonical/v42-readfitsfinding-preview-quote.js`,
+`packages/protocol/test/v42-readfitsfinding-preview-quote.test.js`,
+`.bitcode/v42-readfitsfinding-preview-quote.json`, and `check:v42-gate5`.
+It proves accepted-Need-gated Finding Fits, many-channel Depository search,
+candidate ranking, selected-fit provenance, source-safe AssetPack preview,
+deterministic share-to-fee quote receipts, disclosure review, settlement
+instructions, delivery lock, harness route summaries, Terminal
+preview/quote/provenance readback, and no pre-settlement protected source or
+unpaid AssetPack source exposure.
+V42 Gate 6 adds `V42SettlementRightsDelivery` through
+`packages/protocol/src/canonical/v42-settlement-rights-delivery.js`,
+`packages/protocol/test/v42-settlement-rights-delivery.test.js`,
+`.bitcode/v42-settlement-rights-delivery.json`,
+`generate:v42-settlement-rights-delivery`,
+`check:v42-settlement-rights-delivery`, and `check:v42-gate6`.
+The artifact is source-safe metadata only and covers paid quote observation,
+BTC/testnet finality, BTD rights transfer, paid read receipts,
+source-to-shares compensation conservation, repository pull-request delivery
+unlock, ledger/database/object-storage reconciliation, fail-closed repair
+posture, harness route summaries, Terminal settlement readback, and workflow
+proof wiring without serializing protected source, unpaid AssetPack source,
+wallet private material, private settlement payloads, credentials, raw
+protected prompts, or raw provider responses.
+V42 Gate 7 adds `V42AiReadingDemonstration` through
+`packages/protocol/src/canonical/v42-ai-reading-demonstration.js`,
+`packages/protocol/test/v42-ai-reading-demonstration.test.js`,
+`.bitcode/v42-ai-reading-demonstration.json`,
+`generate:v42-ai-reading-demonstration`,
+`check:v42-ai-reading-demonstration`, and `check:v42-gate7`.
+The artifact is source-safe metadata only and covers the self-contained
+`protocol-demonstration/` AI-reading loop: public-data-only baseline, reviewed
+local Need, local Depository fit selection, AssetPack preview, AssetPack-
+enhanced answer, deterministic benchmark uplift, settlement-gated source
+visibility, and workflow proof wiring.
+V42 Gate 8 adds `V42LocalStagingMvpRehearsal` through
+`packages/protocol/src/canonical/v42-local-staging-mvp-rehearsal.js`,
+`packages/protocol/test/v42-local-staging-mvp-rehearsal.test.js`,
+`.bitcode/v42-local-staging-mvp-rehearsal.json`,
+`rehearse:v42-local-staging`,
+`generate:v42-local-staging-mvp-rehearsal`,
+`check:v42-local-staging-mvp-rehearsal`, and `check:v42-gate8`.
+The artifact is source-safe metadata only and binds Gates 2 through 7 into the
+local/staging full MVP rehearsal: deposit source, request read, review
+synthesized Need, request Finding Fits, review source-safe AssetPack preview
+and quote, buy/settle, receive repository delivery, inspect telemetry/database
+readback, and keep value-bearing mainnet blocked.
+V42 Gate 9 adds `V42PromotionReadinessReport` through
+`packages/protocol/src/canonical/v42-promotion-readiness-report.js`,
+`packages/protocol/test/v42-promotion-readiness.test.js`,
+`.bitcode/v42-promotion-readiness-report.json`,
+`generate:v42-promotion-readiness`, `check:v42-promotion-readiness`, and
+`check:v42-gate9`.
+The report closes the reliable MVP promotion path by binding all V42 gate
+artifacts, `BITCODE_SPEC_V42_PROVEN.md`, `v42-canon-promotion.yml`,
+promotion scripts, runtime canon rewriting, dry-run promotion, source-safety,
+value-bearing mainnet blocking, and the `V42` active, `V43` draft posture
+without serializing protected source, credentials, private settlement payloads,
+wallet material, raw protected prompts, raw provider responses, or unpaid
 AssetPack source.
 V40 Gate 2 adds `V40TestInventoryCoverageMatrix` through
 `packages/protocol/src/canonical/v40-test-inventory-coverage-matrix.js`,

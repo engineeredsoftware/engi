@@ -126,6 +126,7 @@ export async function POST(request: Request) {
       const { acceptReadNeed, admitReadFitsFinding } = await import('@bitcode/pipeline-asset-pack/read-need');
       const {
         buildReadNeedReviewResynthesisRuntime,
+        persistReadNeedReviewResynthesisRuntime,
         summarizeReadNeedReviewResynthesisRuntime,
       } = await import('@bitcode/pipeline-asset-pack/read-need-review-resynthesis');
       const {
@@ -145,10 +146,12 @@ export async function POST(request: Request) {
         acceptedReadNeed,
         requireAcceptedReadNeed: true,
       });
+      const inferenceCapture = createRouteInferenceCapture();
       const reviewRuntime = buildReadNeedReviewResynthesisRuntime({
         action,
         readNeed: acceptedReadNeed,
       });
+      persistReadNeedReviewResynthesisRuntime(inferenceCapture.execution, reviewRuntime);
       const acceptanceStep =
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
           .flatMap((phase) => phase.agents)
@@ -197,6 +200,7 @@ export async function POST(request: Request) {
       const { rejectReadNeed, admitReadFitsFinding } = await import('@bitcode/pipeline-asset-pack/read-need');
       const {
         buildReadNeedReviewResynthesisRuntime,
+        persistReadNeedReviewResynthesisRuntime,
         summarizeReadNeedReviewResynthesisRuntime,
       } = await import('@bitcode/pipeline-asset-pack/read-need-review-resynthesis');
       const {
@@ -219,11 +223,13 @@ export async function POST(request: Request) {
         readNeed: rejectedReadNeed,
         requireAcceptedReadNeed: true,
       });
+      const inferenceCapture = createRouteInferenceCapture();
       const reviewRuntime = buildReadNeedReviewResynthesisRuntime({
         action,
         readNeed: rejectedReadNeed,
         feedback: stringArray(body.feedback || body.readNeedFeedback),
       });
+      persistReadNeedReviewResynthesisRuntime(inferenceCapture.execution, reviewRuntime);
       const reviewStep =
         READ_NEED_COMPREHENSION_SYNTHESIS_CONTRACT.phases
           .flatMap((phase) => phase.agents)

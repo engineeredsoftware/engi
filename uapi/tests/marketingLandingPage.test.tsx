@@ -83,8 +83,8 @@ describe('MarketingLandingPage', () => {
       screen.getByText('Bitcode is auditable market infrastructure for technical knowledge.'),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('link', { name: 'Open Terminal' }),
-    ).toHaveAttribute('href', '/terminal');
+      screen.getByRole('link', { name: 'Request Read' }),
+    ).toHaveAttribute('href', '/read');
     expect(screen.getByRole('link', { name: 'Read docs' })).toHaveAttribute(
       'href',
       '/docs',

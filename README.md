@@ -1,16 +1,23 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V40`; V41 is the active draft target for Prompt and PromptPart
-excellence after the promoted exhaustive commercial application testing canon.
+resolves to `V42`; V43 is the active draft target for the Packs, Read, Deposit
+route model, agentic deposit AssetPack options, and product UX cleanup after the
+promoted reliable MVP experience canon.
 
 ## Current Product Posture
 
 Bitcode is the protocol and the commercial source tree implements it in-place.
-The primary operator routes are:
+The promoted V42 operator route is still:
 
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
+
+The active V43 draft target moves the primary enterprise routes to:
+
+- `/packs` for searchable master-detail pack activity.
+- `/read` for the five-step Reading path from Read Request to settlement-gated delivery.
+- `/deposit` for connected-source deposit AssetPack option synthesis, review, and admission.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
@@ -81,17 +88,197 @@ dry-run support, gate/canon workflow posture, active V41 / draft V42 runtime
 preparation, and source-safe value-bearing mainnet blocking through
 `generate:v41-promotion-readiness`, `check:v41-promotion-readiness`, and
 `check:v41-gate9`.
-V42 is now roadmapped as the next MVP experience version: shortest-path
-Depositing with later BTC compensation, shortest-path Reading through
-Need review/resynthesis, Finding Fits, source-safe AssetPack preview,
-BTD/BTC settlement, repository delivery, and an AI-reading dominant
-demonstration whose AssetPack measurably improves an AI system beyond
-public-data-only performance.
-V43+ is roadmapped as the later agentic depositing evolution: repository
+V42 Gate 1 opens the reliable MVP experience specification family over active
+V41 with `check:v42-gate1`. V42 is scoped to shortest-path Depositing with
+later BTC compensation, shortest-path Reading through Need review/resynthesis,
+Finding Fits, source-safe AssetPack preview, BTD/BTC settlement, repository
+delivery, and an AI-reading dominant demonstration whose AssetPack measurably
+improves an AI system beyond public-data-only performance.
+V42 Gate 2 adds source-safe Depositing compensation visibility with
+`DepositorySupplyCompensationPreview`, deposit route compensation evidence,
+Terminal compensation roots, `.bitcode/v42-depositing-shortest-path.json`,
+and `check:v42-gate2`. Deposit admission remains pre-mint and pre-rights
+transfer; BTC source-to-shares allocation is only a later paid AssetPack
+settlement route.
+V42 Gate 3 adds the Reading shortest path state machine with
+`TerminalEnterpriseReadingRouteState`, recoverable transaction ids,
+`readingStage` hydration, retry/restart posture, source-safe failure repair,
+accepted-Need blockers, source-safe preview blockers,
+`.bitcode/v42-reading-shortest-path-state-machine.json`, and
+`check:v42-gate3`.
+V42 Gate 4 adds ReadNeed product closure with
+`ReadNeedReviewResynthesisRuntime`, source-safe storage projection,
+feedback/resynthesis lineage, accepted-Need Finding Fits admission,
+rejected Need blockers, PTRR/Failsafe/Thricified telemetry receipts,
+Terminal Need runtime readback,
+`.bitcode/v42-readneed-review-resynthesis-product-closure.json`, and
+`check:v42-gate4`.
+V42 Gate 5 adds Finding Fits preview and quote closure with
+accepted-Need-gated `ReadFitsFindingRuntime`, many-channel Depository search,
+selected-fit provenance, `AssetPackPreviewBoundary`, deterministic
+share-to-fee quote receipts, disclosure review, settlement instructions,
+delivery lock, harness evidence summaries, Terminal preview/quote/provenance
+readback, `.bitcode/v42-readfitsfinding-preview-quote.json`, and
+`check:v42-gate5`. The preview remains metadata-only before settlement:
+protected source, unpaid AssetPack source, wallet private material, private
+settlement payloads, credentials, raw protected prompts, and raw provider
+responses stay out of route and UI readback.
+V42 Gate 6 adds paid settlement, BTD rights transfer, source-to-shares
+compensation, and repository delivery closure with
+`AssetPackSettlementRightsDeliveryBoundary`,
+`.bitcode/v42-settlement-rights-delivery.json`, and `check:v42-gate6`.
+The boundary observes the quote payment, confirms BTC/testnet finality,
+allocates depositor compensation, records BTD read-right receipts, reconciles
+ledger/database/object-storage projections, and unlocks source-bearing
+pull-request delivery only after paid readback agrees. Route summaries and
+Terminal detail remain source-safe metadata: unpaid AssetPack source, wallet
+private material, private settlement payloads, credentials, raw protected
+prompts, and raw provider responses are withheld.
+V42 Gate 7 adds the AI-reading dominant demonstration MVP with
+`protocol-demonstration/src/ai-reading-demonstration.js`,
+`.bitcode/v42-ai-reading-demonstration.json`, and `check:v42-gate7`.
+It compares a public-data-only AI remediation answer against an
+AssetPack-enhanced answer after a reviewed local Need and local Finding Fits
+step select the deposited runbook AssetPack. The benchmark uplift is
+deterministic, the demonstration stays self-contained, and protected source
+remains withheld before settlement.
+V42 Gate 8 adds the local/staging-testnet full MVP rehearsal with
+`ReadingLocalStagingRehearsal`,
+`scripts/rehearse-v42-local-staging-mvp.mjs`,
+`.bitcode/v42-local-staging-mvp-rehearsal.json`, and `check:v42-gate8`.
+It binds Gates 2 through 7 into one source-safe operator path: deposit source,
+request read, review synthesized Need, request Finding Fits, review source-safe
+AssetPack preview and quote, buy/settle, receive repository delivery, and
+verify AI-reading uplift. The staging lane is bound to Supabase project
+`tkpyosihuouusyaxtbau`; operator receipts and generated artifacts never
+serialize secrets, protected source, raw prompts, provider responses, unpaid
+AssetPack source, wallet private material, private settlement payloads, or
+live rehearsal logs.
+V42 Gate 9 adds promotion readiness with `buildV42PromotionReadinessReport`,
+`.bitcode/v42-promotion-readiness-report.json`,
+`BITCODE_SPEC_V42_PROVEN.md`, `.github/workflows/v42-canon-promotion.yml`,
+`generate:v42-promotion-readiness`, `check:v42-promotion-readiness`, and
+`check:v42-gate9`.
+The report binds every V42 product artifact, workflow posture, promotion
+script, generated proof path, source-safety result, value-bearing mainnet
+block, and post-promotion V42 active / draft V43 runtime preparation.
+V43 Gate 1 opens the Packs, Read, Deposit roadmap over active V42 with
+`check:v43-gate1`. V43 owns the agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject
 sub-critical positive-ROI options; `/terminal` separates into `/read` and
-`/deposit`; and `/exchange` is renamed to `/packs` across product naming.
+`/deposit`; and `/exchange` is renamed to `/packs` across routes, component
+prefixes, tests, docs, telemetry labels, and product naming.
+The V43 route model treats AssetPacks as the product object in and out:
+`/deposit` proposes deposit AssetPack options from source and Bitcode demand,
+`/read` buys synthesized Need-Fit AssetPacks, and `/packs` becomes the
+searchable master-detail activity surface for pack measurements, values,
+settlement posture, compensation, delivery, proofs, and repair.
+The `/packs` master view should sort, filter, and search over measurements,
+synthesized AssetPack titles and descriptions, values, activity or transaction
+type, settlement posture, compensation state, and proof roots, while its detail
+view exposes source-safe activity data, telemetry, ledger/database/storage
+synchronization, and expandable proof metadata.
+That later UX cleanup should remove self-referential product copy outside
+public docs and make Depositing, Reading, and Pack activity understandable
+through route structure, concise labels, progressive disclosure, and rich
+themed reusable components.
+V43 Gate 2 adds `V43RouteVocabularyInventory`,
+`.bitcode/v43-route-vocabulary-inventory.json`,
+`generate:v43-route-vocabulary-inventory`,
+`check:v43-route-vocabulary-inventory`, and `check:v43-gate2`. It inventories
+`/exchange`, Exchange, `/terminal`, Terminal, `/packs`, `/read`, `/deposit`,
+Reading, Depositing, PackActivity, DepositAssetPackOption, and
+self-referential copy references as source-safe file/token counts. It also
+records the migration matrix for `/packs`, `/read`, `/deposit`, retained debug
+cockpit boundaries, redirect compatibility, and later copy cleanup without
+renaming routes in Gate 2 or serializing source snippets, protected source, raw
+prompts, provider responses, unpaid AssetPack source, credentials, or wallet
+and settlement private material.
+V43 Gate 3 adds `V43PacksActivityMasterDetail`,
+`.bitcode/v43-packs-activity-master-detail.json`,
+`generate:v43-packs-activity-master-detail`,
+`check:v43-packs-activity-master-detail`, and `check:v43-gate3`. It implements
+`PackActivityRecord`, `/api/packs/activity`, `/packs`, `/exchange` to `/packs`
+compatibility redirection, search, type/state filtering, column sorting,
+detail projection, proof-root display, settlement/compensation/delivery/repair
+state readback, and no-source leak tests. The Packs projection remains
+source-safe metadata only and does not serialize protected source, unpaid
+AssetPack source, raw prompts, provider responses, credentials, wallet private
+material, or private settlement payloads.
+V43 Gate 4 adds `V43ReadRouteFiveStepUx`,
+`.bitcode/v43-read-route-five-step-ux.json`,
+`generate:v43-read-route-five-step-ux`,
+`check:v43-read-route-five-step-ux`, and `check:v43-gate4`. It implements
+`ReadRouteSession`, `/read`, source-safe route state, the five-step Reading UX,
+Need review, accepted-Need-gated Finding Fits, source-safe AssetPack preview,
+BTC settlement/delivery posture, retained execution stream readback, nav/footer
+route ownership, and focused tests. `/read` does not expose protected source,
+unpaid AssetPack source, raw prompts, interpolated prompts, raw provider
+responses, wallet private material, or private settlement payloads before paid
+read rights are proven.
+
+V43 Gate 5 adds `V43DepositRouteOptions`,
+`.bitcode/v43-deposit-route-options.json`,
+`generate:v43-deposit-route-options`,
+`check:v43-deposit-route-options`, and `check:v43-gate5`. It implements
+`DepositRouteSession`, `/deposit`, source-safe connected-source AssetPack option
+synthesis, option measurements, demand signal roots, retained deposit composer
+reuse, navigation/footer route ownership, and focused UAPI/package/protocol
+tests. `/deposit` does not decide source criticality, ROI, compensation policy,
+admission, or indexing; those stay deferred to V43 Gates 6 and 7.
+
+V43 Gate 6 adds `DepositAssetPackOptionPolicyReport`,
+`.bitcode/v43-deposit-policy-compensation.json`,
+`generate:v43-deposit-policy-compensation`,
+`check:v43-deposit-policy-compensation`, and `check:v43-gate6`. It implements
+source-safe policy scoring for source criticality, likely demand, estimated
+ROI, estimate-only BTD potential, and future-reader BTC source-to-shares
+compensation route. Critical source is blocked before admission, negative
+expected value is not treated as positive-ROI supply, and Gate 7 still owns
+approval, admission, indexing, storage projection, telemetry, and `/packs`
+activity synchronization.
+
+V43 Gate 7 adds `DepositAssetPackOptionAdmissionReport`,
+`.bitcode/v43-deposit-option-admission.json`,
+`generate:v43-deposit-option-admission`,
+`check:v43-deposit-option-admission`, and `check:v43-gate7`. It implements
+depositor approve/reject/resynthesis decisions, source-safe admission receipts,
+Depository index and storage projections, BTC source-to-shares compensation
+preview continuity, execution-stream telemetry, and `/packs`
+`depository-assetpack` synchronization for approved policy-eligible deposit
+options. It still does not mint BTD, transfer rights, or reveal unpaid
+AssetPack source.
+
+V43 Gate 8 adds `ProductRouteShell`, `ProductRouteStepGrid`,
+`ProductRouteStatePanel`, `ProductRouteDisclosure`,
+`.bitcode/v43-route-ux-product-excellence.json`,
+`generate:v43-route-ux-product-excellence`,
+`check:v43-route-ux-product-excellence`, and `check:v43-gate8`. It refines
+`/packs`, `/read`, and `/deposit` into a shared themed route frame with concise
+copy, source-safe route metrics, keyboard current-step semantics, loading/
+empty/error states, and progressive disclosure boundaries while keeping every
+Reading, Depositing, settlement, and source-safety invariant intact.
+
+V43 Gate 9 adds `V43CrossRouteRehearsalTelemetryRepair`,
+`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`,
+`scripts/rehearse-v43-cross-route-product-flow.mjs`,
+`generate:v43-cross-route-rehearsal`, and `check:v43-gate9`. It binds the
+local and staging-testnet product route rehearsal across `/deposit`, `/read`,
+and `/packs`: deposit option synthesis/admission, Reading Need review, Finding
+Fits, source-safe AssetPack preview, BTC/BTD settlement, repository delivery,
+source-to-shares compensation readback, pack activity inspection, telemetry
+database readback, ledger/database/storage synchronization, and repair posture.
+The staging lane is bound to Supabase project `tkpyosihuouusyaxtbau`; receipts
+and generated artifacts remain source-safe metadata only.
+
+V43 Gate 10 adds `V43PromotionReadinessReport`,
+`.bitcode/v43-promotion-readiness-report.json`,
+`generate:v43-promotion-readiness`, `check:v43-promotion-readiness`,
+`check:v43-gate10`, and `v43-canon-promotion.yml`. It binds every V43 gate
+artifact, promotion script, generated PROVEN hook, workflow, source-safety
+boundary, documentation update, and post-promotion V43 active / draft V44
+runtime posture before the version branch can promote canon.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
@@ -710,9 +897,9 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V39.md](BITCODE_SPEC_V39.md) is the active promoted spec family.
-- [BITCODE_SPEC_V40.md](BITCODE_SPEC_V40.md) is the active draft target.
-- [BITCODE_SPEC_V40_PARITY_MATRIX.md](BITCODE_SPEC_V40_PARITY_MATRIX.md) tracks V40 gate parity.
+- [BITCODE_SPEC_V41.md](BITCODE_SPEC_V41.md) is the active promoted spec family.
+- [BITCODE_SPEC_V42.md](BITCODE_SPEC_V42.md) is the active draft target.
+- [BITCODE_SPEC_V42_PARITY_MATRIX.md](BITCODE_SPEC_V42_PARITY_MATRIX.md) tracks V42 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
 - [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
 - [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.
@@ -760,4 +947,5 @@ Demonstration verification:
 cd protocol-demonstration
 pnpm test:integration
 pnpm test:v28-mvp-qa
+pnpm test:v42-ai-reading-mvp
 ```

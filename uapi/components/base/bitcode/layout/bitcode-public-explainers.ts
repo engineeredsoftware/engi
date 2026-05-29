@@ -6,14 +6,36 @@ function buildExplainer(explainer: BitcodeExplainer): BitcodeExplainer {
 
 export const BITCODE_PUBLIC_EXPLAINERS = {
   network: buildExplainer({
-    kicker: 'Bitcode Exchange',
-    title: 'Exchange',
-    summary: 'Read the public Bitcode exchange frame where source supply, measured read, settlement posture, and teaching surfaces meet.',
+    kicker: 'Bitcode Packs',
+    title: 'Packs',
+    summary: 'Read pack activity where source supply, measured reads, settlement posture, compensation, delivery, and repair state meet.',
     detail:
-      'Use this route when you want the highest-level public view of how Source Shares become measurable technical intelligence before you dive into full detail.',
+      'Use this route when you need the activity master-detail view for AssetPack proposals, admitted packs, previews, proof roots, settlement, and delivery state.',
     points: [
-      'Frames Bitcode as the exchange for source-backed technical value',
-      'Connects public narrative directly to Terminal, docs, and Source Shares',
+      'Searches and filters source-safe pack activity',
+      'Keeps proof and settlement detail expandable without exposing unpaid source',
+    ],
+  }),
+  read: buildExplainer({
+    kicker: 'Bitcode Read',
+    title: 'Read',
+    summary: 'Request Reading, review a synthesized Need, request Finding Fits, inspect source-safe AssetPack preview, and settle for delivery.',
+    detail:
+      'Use this route for the enterprise Reading path. It keeps source-bearing AssetPack contents withheld before settlement while exposing measurements, proof roots, quote posture, and delivery state.',
+    points: [
+      'Separates Read-Need review from Finding Fits',
+      'Keeps AssetPack preview source-safe until paid read rights unlock delivery',
+    ],
+  }),
+  deposit: buildExplainer({
+    kicker: 'Bitcode Deposit',
+    title: 'Deposit',
+    summary: 'Connect repository source, synthesize source-safe AssetPack options, review measurements, and submit supply.',
+    detail:
+      'Use this route for the enterprise depositing path. It proposes multiple AssetPack options from connected source, depositor instruction, Depository demand, and Reading demand without serializing protected source.',
+    points: [
+      'Synthesize reviewable AssetPack options before admission',
+      'Keeps criticality, ROI, compensation policy, and admission boundaries explicit',
     ],
   }),
   transactions: buildExplainer({
@@ -46,7 +68,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Use this when you want the auxillary access layer directly. Connect Wallet is for first-time wallet identity and onboarding; Open Auxillaries is for entering the contained shell.',
     points: [
       'Opens the contained auxillary shell',
-      'Keeps Auxillaries distinct from Exchange, Terminal, and Docs',
+      'Keeps Auxillaries distinct from Packs, Terminal, and Docs',
     ],
   }),
   protocolSpec: buildExplainer({

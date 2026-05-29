@@ -16,7 +16,7 @@ export type BitcodeTransactionActiveFilterChip = {
 
 const OWNERSHIP_LABELS: Record<Exclude<TransactionOwnership, 'all'>, string> = {
   mine: 'My transactions',
-  network: 'Exchange transactions',
+  network: 'Pack activity',
 };
 
 const LENS_LABELS: Record<Exclude<TransactionLens, 'all'>, string> = {

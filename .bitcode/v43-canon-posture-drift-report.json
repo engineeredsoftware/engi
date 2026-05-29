@@ -1,0 +1,77 @@
+{
+  "reportId": "v43-canon-posture-drift-report",
+  "version": "V43",
+  "checkedActiveCanonVersion": "V43",
+  "checkedDraftTargetVersion": "V44",
+  "pointerVersion": "V43",
+  "proofSourceCommit": "3c7a9f998656635cc28c8b4584ae964ac04154fa",
+  "generatedAt": "2026-05-29T15:19:41-03:00",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "passed": true,
+  "checkCount": 10,
+  "blockingFailureCount": 0,
+  "blockingFailures": [],
+  "runtimeSpecVersion": "Bitcode Spec V43 active canon / V44 system draft",
+  "publicSpecVersion": "Bitcode Spec V43 active canon / V44 system draft",
+  "activeProvenAppendixPath": "BITCODE_SPEC_V43_PROVEN.md",
+  "policyRef": "policy://bitcode/spec-v43-active-v44-system-draft/current",
+  "checkedFiles": [
+    "protocol-demonstration/README.md",
+    "protocol-demonstration/public/index.html",
+    "protocol-demonstration/public/app.js",
+    "protocol-demonstration/server.js"
+  ],
+  "checks": [
+    {
+      "checkId": "pointer-active-canon-alignment",
+      "passed": true,
+      "detail": "BITCODE_SPEC.txt points to V43 while runtime expects V43."
+    },
+    {
+      "checkId": "canon-posture-constant-alignment",
+      "passed": true,
+      "detail": "canon-posture constants resolve V43/V44 with operator label V43 active canon / V44 system draft."
+    },
+    {
+      "checkId": "proven-appendix-alignment",
+      "passed": true,
+      "detail": "active generated appendix path is BITCODE_SPEC_V43_PROVEN.md."
+    },
+    {
+      "checkId": "policy-ref-alignment",
+      "passed": true,
+      "detail": "policy reference is policy://bitcode/spec-v43-active-v44-system-draft/current."
+    },
+    {
+      "checkId": "runtime-state-alignment",
+      "passed": true,
+      "detail": "buildInitialState() reports Bitcode Spec V43 active canon / V44 system draft with canon posture V43/V44."
+    },
+    {
+      "checkId": "public-state-alignment",
+      "passed": true,
+      "detail": "publicState() reports Bitcode Spec V43 active canon / V44 system draft with canon posture V43/V44."
+    },
+    {
+      "checkId": "server-api-alignment",
+      "passed": true,
+      "detail": "server.js keeps API posture sourced from SPEC_VERSION and buildPublicState(...)."
+    },
+    {
+      "checkId": "browser-shell-placeholder-alignment",
+      "passed": true,
+      "detail": "public/index.html exposes canon-posture placeholders and no stale hardcoded hero posture."
+    },
+    {
+      "checkId": "browser-shell-render-alignment",
+      "passed": true,
+      "detail": "public/app.js renders canon posture from runtime state and omits stale V15 explainer keys."
+    },
+    {
+      "checkId": "readme-alignment",
+      "passed": true,
+      "detail": "README states V43 active canon and BITCODE_SPEC_V43_PROVEN.md as the current generated appendix."
+    }
+  ]
+}

@@ -70,6 +70,12 @@
       "@bitcode/pipeline-asset-pack/reading-pipeline-contract": [
         "../packages/pipelines/asset-pack/src/reading-pipeline-contract.ts"
       ],
+      "@bitcode/pipeline-asset-pack/deposit-asset-pack-options": [
+        "../packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts"
+      ],
+      "@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy": [
+        "../packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts"
+      ],
       "@bitcode/*": [
         "../packages/*/src",
         "../packages/*"

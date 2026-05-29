@@ -329,6 +329,11 @@ export default function TerminalPageClient() {
       depositorySearchDocumentRoot: matchingSubmission.depositorySearchDocumentRoot || null,
       lexicalDocumentRoot: matchingSubmission.lexicalDocumentRoot || null,
       vectorDocumentRoot: matchingSubmission.vectorDocumentRoot || null,
+      compensationPreviewRoot: matchingSubmission.compensationPreviewRoot || null,
+      sourceToSharesPreviewRoot: matchingSubmission.sourceToSharesPreviewRoot || null,
+      compensationState: matchingSubmission.compensationState || null,
+      compensationAllocationMethod: matchingSubmission.compensationAllocationMethod || null,
+      compensationPriceAsset: matchingSubmission.compensationPriceAsset || null,
       depositorWalletId: matchingSubmission.depositorWalletId || null,
       depositoryIndexState: matchingSubmission.depositoryIndexState || null,
     };
@@ -686,6 +691,7 @@ export default function TerminalPageClient() {
                       repositoryContext={repositoryContext}
                       depositedSourceRevision={depositedSourceRevision}
                       admittedReadActivityId={admittedReadActivityId}
+                      routeReadingStage={conversationHandoffContext.readingStage}
                       onRecordActivity={handleRecordActivity}
                       onHarnessCompleted={refreshLiveRuns}
                       showDemonstrationWorkbench={showDemonstrationSurfaces}

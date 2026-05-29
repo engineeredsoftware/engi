@@ -7,6 +7,16 @@ export type TerminalEnterpriseReadingStepId =
 
 export type TerminalEnterpriseReadingStepState = 'complete' | 'current' | 'blocked';
 
+export type TerminalEnterpriseReadingFailureKind =
+  | 'none'
+  | 'read_request_invalid'
+  | 'need_review_required'
+  | 'fits_finding_failed'
+  | 'asset_pack_preview_blocked'
+  | 'settlement_blocked'
+  | 'delivery_blocked'
+  | 'source_safety_blocked';
+
 export type TerminalEnterpriseReadingSourceSafeField =
   | 'read_request_summary'
   | 'read_need_measurements'
@@ -46,6 +56,8 @@ export type TerminalEnterpriseReadingStepView = TerminalEnterpriseReadingStepDef
 };
 
 export type TerminalEnterpriseReadingUxStateInput = {
+  transactionId?: string | null;
+  routeReadingStage?: TerminalEnterpriseReadingStepId | null;
   hasRepositorySource?: boolean;
   hasReadMeasurement?: boolean;
   hasSynthesizedNeed?: boolean;
@@ -54,8 +66,28 @@ export type TerminalEnterpriseReadingUxStateInput = {
   hasSourceSafePreview?: boolean;
   hasSettlementReadback?: boolean;
   hasDeliveryReadback?: boolean;
+  retryRequested?: boolean;
+  restartRequested?: boolean;
+  failureKind?: TerminalEnterpriseReadingFailureKind | null;
   sourceSafePreviewBlocked?: boolean;
   disclosureLeakageDetected?: boolean;
+};
+
+export type TerminalEnterpriseReadingRouteState = {
+  transactionId: string | null;
+  transactionIdPresent: boolean;
+  transactionIdRequiredForRecovery: true;
+  readingStageQueryParam: 'readingStage';
+  activeStageHydratedFromRoute: boolean;
+  routeReadingStage: TerminalEnterpriseReadingStepId | null;
+  restartRequested: boolean;
+  restartRestoresActiveStage: true;
+  retryRequested: boolean;
+  retryPreservesNeedLineage: true;
+  retryPreservesSettlementBoundary: true;
+  failureKind: TerminalEnterpriseReadingFailureKind;
+  failureStateSourceSafe: true;
+  failureRepairActions: string[];
 };
 
 export type TerminalEnterpriseReadingUxState = {
@@ -78,10 +110,15 @@ export type TerminalEnterpriseReadingUxState = {
   routeContract: {
     terminalOwnsTransactionAuthority: true;
     conversationMayHandoffIntent: true;
+    transactionRouteRequiredForRecovery: true;
     acceptedNeedRequiredBeforeFindingFits: true;
     sourceSafePreviewRequiredBeforeSettlement: true;
     deliveryRequiresSettlementUnlock: true;
+    restartRestoresReadingStage: true;
+    retryPreservesSourceSafeLineage: true;
+    failureStatesSourceSafe: true;
   };
+  routeState: TerminalEnterpriseReadingRouteState;
   proofRoot: string;
 };
 
@@ -102,7 +139,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
     label: '1. Request Read',
     lowDetailGuidance: 'Frame repository, branch, commit, and the reader request.',
     expandableDetail:
-      'Terminal captures source anchors, enterprise intent, constraints, disclosure posture, target artifact kinds, and the measured Read posture that can be reviewed before Need synthesis.',
+      'Reading captures source anchors, enterprise intent, constraints, disclosure posture, target artifact kinds, and the measured Read posture that can be reviewed before Need synthesis.',
     primaryAction: 'Record read posture',
     sourceSafeVisibleFields: ['read_request_summary', 'proof_roots'],
     forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
@@ -124,7 +161,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
     label: '3. Request Finding Fits',
     lowDetailGuidance: 'Run Finding Fits only from an accepted Need.',
     expandableDetail:
-      'Terminal hands the accepted Need, deposit/source anchors, proof roots, measurement roots, and source-safe search posture to ReadFitsFindingSynthesis without exposing protected deposit source.',
+      'Reading hands the accepted Need, deposit/source anchors, proof roots, measurement roots, and source-safe search posture to ReadFitsFindingSynthesis without exposing protected deposit source.',
     primaryAction: 'Request Finding Fits',
     sourceSafeVisibleFields: ['read_need_measurements', 'depository_candidate_counts', 'proof_roots'],
     forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
@@ -183,6 +220,47 @@ export function inferTerminalEnterpriseReadingActiveStep(
   return 'request-read';
 }
 
+function normalizeTransactionId(value: string | null | undefined): string | null {
+  const normalized = value?.trim();
+  return normalized ? normalized : null;
+}
+
+function routeStageOrNull(value: TerminalEnterpriseReadingStepId | null | undefined): TerminalEnterpriseReadingStepId | null {
+  return value && STEP_ORDER.includes(value) ? value : null;
+}
+
+function chooseActiveStep(
+  input: TerminalEnterpriseReadingUxStateInput,
+): { activeStepId: TerminalEnterpriseReadingStepId; routeReadingStage: TerminalEnterpriseReadingStepId | null } {
+  const inferredStep = inferTerminalEnterpriseReadingActiveStep(input);
+  const routeReadingStage = routeStageOrNull(input.routeReadingStage);
+  if (!routeReadingStage) return { activeStepId: inferredStep, routeReadingStage };
+
+  const inferredIndex = STEP_ORDER.indexOf(inferredStep);
+  const routeIndex = STEP_ORDER.indexOf(routeReadingStage);
+  return {
+    activeStepId: routeIndex > inferredIndex ? routeReadingStage : inferredStep,
+    routeReadingStage,
+  };
+}
+
+function failureKindFor(input: TerminalEnterpriseReadingUxStateInput): TerminalEnterpriseReadingFailureKind {
+  if (input.disclosureLeakageDetected) return 'source_safety_blocked';
+  if (input.sourceSafePreviewBlocked) return 'asset_pack_preview_blocked';
+  return input.failureKind || 'none';
+}
+
+function repairActionsForFailure(kind: TerminalEnterpriseReadingFailureKind): string[] {
+  if (kind === 'none') return [];
+  if (kind === 'read_request_invalid') return ['repair-read-request'];
+  if (kind === 'need_review_required') return ['review-or-resynthesize-need'];
+  if (kind === 'fits_finding_failed') return ['retry-finding-fits-from-accepted-need'];
+  if (kind === 'asset_pack_preview_blocked') return ['repair-source-safe-preview'];
+  if (kind === 'settlement_blocked') return ['repair-settlement-readback'];
+  if (kind === 'delivery_blocked') return ['repair-repository-delivery'];
+  return ['repair-source-safety-disclosure'];
+}
+
 function blockersFor(stepId: TerminalEnterpriseReadingStepId, input: TerminalEnterpriseReadingUxStateInput) {
   const blockers: string[] = [];
   if (stepId === 'request-read' && !input.hasRepositorySource) blockers.push('repository source required');
@@ -208,8 +286,10 @@ function blockersFor(stepId: TerminalEnterpriseReadingStepId, input: TerminalEnt
 export function buildTerminalEnterpriseReadingUxState(
   input: TerminalEnterpriseReadingUxStateInput = {},
 ): TerminalEnterpriseReadingUxState {
-  const activeStepId = inferTerminalEnterpriseReadingActiveStep(input);
+  const { activeStepId, routeReadingStage } = chooseActiveStep(input);
   const activeIndex = STEP_ORDER.indexOf(activeStepId);
+  const transactionId = normalizeTransactionId(input.transactionId);
+  const failureKind = failureKindFor(input);
   const steps = TERMINAL_ENTERPRISE_READING_STEPS.map((step, index) => {
     const blockers = blockersFor(step.id, input);
     const state: TerminalEnterpriseReadingStepState =
@@ -232,6 +312,10 @@ export function buildTerminalEnterpriseReadingUxState(
     hasSourceSafePreview: Boolean(input.hasSourceSafePreview),
     hasSettlementReadback: Boolean(input.hasSettlementReadback),
     hasDeliveryReadback: Boolean(input.hasDeliveryReadback),
+    transactionId,
+    routeReadingStage,
+    retryRequested: Boolean(input.retryRequested),
+    failureKind,
   });
 
   return {
@@ -254,9 +338,29 @@ export function buildTerminalEnterpriseReadingUxState(
     routeContract: {
       terminalOwnsTransactionAuthority: true,
       conversationMayHandoffIntent: true,
+      transactionRouteRequiredForRecovery: true,
       acceptedNeedRequiredBeforeFindingFits: true,
       sourceSafePreviewRequiredBeforeSettlement: true,
       deliveryRequiresSettlementUnlock: true,
+      restartRestoresReadingStage: true,
+      retryPreservesSourceSafeLineage: true,
+      failureStatesSourceSafe: true,
+    },
+    routeState: {
+      transactionId,
+      transactionIdPresent: Boolean(transactionId),
+      transactionIdRequiredForRecovery: true,
+      readingStageQueryParam: 'readingStage',
+      activeStageHydratedFromRoute: routeReadingStage === activeStepId,
+      routeReadingStage,
+      restartRequested: Boolean(input.restartRequested),
+      restartRestoresActiveStage: true,
+      retryRequested: Boolean(input.retryRequested),
+      retryPreservesNeedLineage: true,
+      retryPreservesSettlementBoundary: true,
+      failureKind,
+      failureStateSourceSafe: true,
+      failureRepairActions: repairActionsForFailure(failureKind),
     },
     proofRoot: `terminal-enterprise-reading-ux:${stableHash(seed)}`,
   };
@@ -276,9 +380,19 @@ export function assertTerminalEnterpriseReadingUxStateSourceSafe(state: Terminal
     state.disclosure.ledgerAuthorityClaimed === false &&
     state.routeContract.terminalOwnsTransactionAuthority === true &&
     state.routeContract.conversationMayHandoffIntent === true &&
+    state.routeContract.transactionRouteRequiredForRecovery === true &&
     state.routeContract.acceptedNeedRequiredBeforeFindingFits === true &&
     state.routeContract.sourceSafePreviewRequiredBeforeSettlement === true &&
     state.routeContract.deliveryRequiresSettlementUnlock === true &&
+    state.routeContract.restartRestoresReadingStage === true &&
+    state.routeContract.retryPreservesSourceSafeLineage === true &&
+    state.routeContract.failureStatesSourceSafe === true &&
+    state.routeState.transactionIdRequiredForRecovery === true &&
+    state.routeState.readingStageQueryParam === 'readingStage' &&
+    state.routeState.restartRestoresActiveStage === true &&
+    state.routeState.retryPreservesNeedLineage === true &&
+    state.routeState.retryPreservesSettlementBoundary === true &&
+    state.routeState.failureStateSourceSafe === true &&
     TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS.every((field) =>
       state.disclosure.hiddenBeforeSettlement.includes(field),
     );

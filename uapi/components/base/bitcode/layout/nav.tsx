@@ -57,7 +57,7 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
 
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:
-    'Disabled for launch mode. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
+    'Disabled for launch mode. When enabled, Packs opens the public Source Shares activity and pack-reading surface.',
   terminal:
     'Disabled for launch mode. When enabled, Terminal opens the full deposit-to-settle ledger, proofs, and history workspace.',
   auxillaries:
@@ -393,13 +393,15 @@ export default function Nav() {
   const publicRouteLinks = usesProductChrome ? (
     <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
-        const isExchangeRoute = href === '/exchange';
+        const isPacksRoute = href === '/packs';
+        const isDepositRoute = href === '/deposit';
+        const isReadRoute = href === '/read';
         const isDisabledRoute =
-          (isExchangeRoute && disableExchangeLink) ||
+          (isPacksRoute && disableExchangeLink) ||
           (href === '/terminal' && disableTerminalLink);
         const isActiveRoute =
-          isExchangeRoute
-            ? pathname === '/exchange' || pathname?.startsWith('/exchange/')
+          isPacksRoute
+            ? pathname === '/packs' || pathname?.startsWith('/packs/') || pathname === '/exchange' || pathname?.startsWith('/exchange/')
             : href === '/docs'
               ? pathname === '/docs' || pathname?.startsWith('/docs/')
             : pathname === href || pathname?.startsWith(`${href}/`);
@@ -413,7 +415,7 @@ export default function Nav() {
             <span className="inline-flex items-center gap-1.5">
               {isDisabledRoute ? (
                 <DisabledTooltipWrapper
-                  tooltip={isExchangeRoute ? DISABLED_FEATURE_TOOLTIPS.exchange : DISABLED_FEATURE_TOOLTIPS.terminal}
+                  tooltip={isPacksRoute ? DISABLED_FEATURE_TOOLTIPS.exchange : DISABLED_FEATURE_TOOLTIPS.terminal}
                 >
                   <span
                     role="link"
@@ -443,9 +445,21 @@ export default function Nav() {
                   {label}
                 </Link>
               )}
-              {isExchangeRoute ? (
+              {isPacksRoute ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.network}
+                  side="bottom"
+                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                />
+              ) : isDepositRoute ? (
+                <BitcodeInlineExplainer
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.deposit}
+                  side="bottom"
+                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                />
+              ) : isReadRoute ? (
+                <BitcodeInlineExplainer
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.read}
                   side="bottom"
                   triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                 />

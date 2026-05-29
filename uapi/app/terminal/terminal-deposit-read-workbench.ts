@@ -33,6 +33,11 @@ export type TerminalDepositedSourceRevision = TerminalSourceRevision & {
   depositorySearchDocumentRoot?: string | null;
   lexicalDocumentRoot?: string | null;
   vectorDocumentRoot?: string | null;
+  compensationPreviewRoot?: string | null;
+  sourceToSharesPreviewRoot?: string | null;
+  compensationState?: string | null;
+  compensationAllocationMethod?: string | null;
+  compensationPriceAsset?: string | null;
   depositorWalletId?: string | null;
   depositoryIndexState?: string | null;
 };
@@ -94,6 +99,11 @@ type ShellSnapshot = {
     depositorySearchDocumentRoot?: string | null;
     lexicalDocumentRoot?: string | null;
     vectorDocumentRoot?: string | null;
+    compensationPreviewRoot?: string | null;
+    sourceToSharesPreviewRoot?: string | null;
+    compensationState?: string | null;
+    compensationAllocationMethod?: string | null;
+    compensationPriceAsset?: string | null;
     depositorWalletId?: string | null;
     depositoryIndexState?: string | null;
   } | null;
@@ -232,6 +242,11 @@ export function buildLiveTerminalDepositReadWorkbenchSnapshot(
       depositorySearchDocumentRoot: matchingDepositedRevision?.depositorySearchDocumentRoot || null,
       lexicalDocumentRoot: matchingDepositedRevision?.lexicalDocumentRoot || null,
       vectorDocumentRoot: matchingDepositedRevision?.vectorDocumentRoot || null,
+      compensationPreviewRoot: matchingDepositedRevision?.compensationPreviewRoot || null,
+      sourceToSharesPreviewRoot: matchingDepositedRevision?.sourceToSharesPreviewRoot || null,
+      compensationState: matchingDepositedRevision?.compensationState || null,
+      compensationAllocationMethod: matchingDepositedRevision?.compensationAllocationMethod || null,
+      compensationPriceAsset: matchingDepositedRevision?.compensationPriceAsset || null,
       depositorWalletId: matchingDepositedRevision?.depositorWalletId || null,
       depositoryIndexState: matchingDepositedRevision?.depositoryIndexState || null,
     },
@@ -406,6 +421,11 @@ export function normalizeTerminalDepositReadWorkbench(
   const depositorySearchDocumentRoot = textValue(snapshot.depositingSurface?.depositorySearchDocumentRoot);
   const lexicalDocumentRoot = textValue(snapshot.depositingSurface?.lexicalDocumentRoot);
   const vectorDocumentRoot = textValue(snapshot.depositingSurface?.vectorDocumentRoot);
+  const compensationPreviewRoot = textValue(snapshot.depositingSurface?.compensationPreviewRoot);
+  const sourceToSharesPreviewRoot = textValue(snapshot.depositingSurface?.sourceToSharesPreviewRoot);
+  const compensationState = textValue(snapshot.depositingSurface?.compensationState);
+  const compensationAllocationMethod = textValue(snapshot.depositingSurface?.compensationAllocationMethod);
+  const compensationPriceAsset = textValue(snapshot.depositingSurface?.compensationPriceAsset);
   const depositorWalletId = textValue(snapshot.depositingSurface?.depositorWalletId);
   const depositoryIndexState = textValue(snapshot.depositingSurface?.depositoryIndexState);
   const sourceProofRootCount = [
@@ -417,6 +437,10 @@ export function normalizeTerminalDepositReadWorkbench(
     depositorySearchDocumentRoot,
     lexicalDocumentRoot,
     vectorDocumentRoot,
+  ].filter(Boolean).length;
+  const compensationRootCount = [
+    compensationPreviewRoot,
+    sourceToSharesPreviewRoot,
   ].filter(Boolean).length;
   const sourceRevisionRepository = textValue(snapshot.sourceRevision?.repositoryFullName) || repositoryLabel;
   const sourceRevisionBranch =
@@ -448,6 +472,7 @@ export function normalizeTerminalDepositReadWorkbench(
         },
         { label: 'Source proof roots', value: numberValue(sourceProofRootCount) },
         { label: 'Search document roots', value: numberValue(searchDocumentRootCount) },
+        { label: 'Compensation roots', value: numberValue(compensationRootCount) },
       ]
     : [
         { label: 'Selected refs', value: numberValue(snapshot.inventory?.selectedCount) },
@@ -456,6 +481,7 @@ export function normalizeTerminalDepositReadWorkbench(
         { label: 'Authenticated repos', value: numberValue(snapshot.repoSupplySummary?.repoCount) },
         { label: 'Source proof roots', value: numberValue(sourceProofRootCount) },
         { label: 'Search document roots', value: numberValue(searchDocumentRootCount) },
+        { label: 'Compensation roots', value: numberValue(compensationRootCount) },
       ];
 
   return {
@@ -546,6 +572,26 @@ export function normalizeTerminalDepositReadWorkbench(
         {
           label: 'Vector document root',
           value: vectorDocumentRoot || '—',
+        },
+        {
+          label: 'Compensation state',
+          value: compensationState || '—',
+        },
+        {
+          label: 'Compensation asset',
+          value: compensationPriceAsset || '—',
+        },
+        {
+          label: 'Source-to-shares method',
+          value: compensationAllocationMethod || '—',
+        },
+        {
+          label: 'Compensation preview root',
+          value: compensationPreviewRoot || '—',
+        },
+        {
+          label: 'Source-to-shares preview root',
+          value: sourceToSharesPreviewRoot || '—',
         },
         {
           label: 'Depository index',

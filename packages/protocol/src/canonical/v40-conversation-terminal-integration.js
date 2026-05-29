@@ -479,7 +479,13 @@ function buildPredicateResults(repoRoot) {
           roadmap.includes('Recent V40 closure anchor')),
     ),
     predicateResult('readmes-document-gate6', 'README.md', rootReadme.includes('V40 Gate 6') && protocolReadme.includes('V40ConversationTerminalIntegration')),
-    predicateResult('roadmap-preserves-v41-prompt-programs', 'SPECIFICATIONS_ROADMAP.md', roadmap.includes('V41 should focus singularly on Prompt and PromptPart implementation') && roadmap.includes('prompts as programs')),
+    predicateResult(
+      'roadmap-preserves-v41-prompt-programs',
+      'SPECIFICATIONS_ROADMAP.md',
+      roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` |') &&
+        roadmap.includes('Prompt and PromptPart excellence') &&
+        roadmap.includes('prompts as programs'),
+    ),
     ...rowPredicates,
   ];
 }

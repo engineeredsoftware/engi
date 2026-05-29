@@ -163,8 +163,12 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('pipeline-stream-event');
     expect(source).toContain('synthesizeReadNeedForPipelineInput');
     expect(source).toContain('buildAssetPackSourceSafePreview');
+    expect(source).toContain('buildAssetPackPreviewBoundary');
+    expect(source).toContain('persistAssetPackPreviewBoundary');
     expect(source).toContain('buildAssetPackDisclosureReview');
     expect(source).toContain('assertAssetPackDisclosureSourceSafe');
+    expect(source).toContain('buildAssetPackSettlementRightsDeliveryBoundary');
+    expect(source).toContain('persistAssetPackSettlementRightsDeliveryBoundary');
     expect(source).toContain('buildAssetPackSettlementUnlock');
     expect(source).toContain('applyAssetPackSettlementUnlockToPreview');
     expect(source).toContain('acceptedReadNeed: readNeed');
@@ -212,6 +216,9 @@ describe('asset-pack sandbox harness plan', () => {
     expect(source).toContain('asset_pack_source_safe_preview');
     expect(source).toContain('staging-testnet-readback-');
     expect(source).toContain("execution.store('asset-pack/settlement', 'ledgerDatabaseReconciliation'");
+    expect(source).toContain('assetPackSettlementRightsDeliveryBoundary');
+    expect(source).toContain('assetPackSettlementReplayReceipt');
+    expect(source).toContain('assetPackDeliveryUnlock');
     expect(source).toContain("execution.store('asset-pack/settlement', 'organizationAuthority'");
     expect(source).toContain('organizationAuthorityDecision');
     expect(source).toContain('organizationAuthorityRoot');

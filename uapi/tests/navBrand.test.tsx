@@ -12,12 +12,12 @@ describe('NavBrand', () => {
     expect(screen.getByText('terminal')).toBeTruthy();
   });
 
-  it('renders exchange copy for mounted exchange routes', () => {
+  it('renders packs copy for mounted pack activity routes', () => {
     render(<NavBrand surface="network" onClick={() => {}} />);
 
     expect(screen.getByLabelText('Bitcode logo')).toBeTruthy();
     expect(screen.getByText('Bitcode')).toBeTruthy();
-    expect(screen.getByText('exchange')).toBeTruthy();
+    expect(screen.getByText('packs')).toBeTruthy();
   });
 
   it('renders homepage copy for the public homepage', () => {

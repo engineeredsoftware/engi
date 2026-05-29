@@ -104,10 +104,29 @@ type TerminalReadNeedState = Record<string, unknown> & {
   };
 };
 
+type TerminalReadNeedReviewRuntimeState = Record<string, unknown> & {
+  schema?: 'bitcode.read-need-review-resynthesis-runtime';
+  runtimeId?: string;
+  action?: string;
+  reviewState?: string;
+  findingFitsAdmission?: {
+    admitted?: boolean;
+    blockers?: string[];
+  };
+  reviewLoop?: Record<string, unknown>;
+  proofRoots?: {
+    runtimeRoot?: string;
+    storageRoot?: string;
+    telemetryRoot?: string;
+    readRequestRoot?: string;
+  };
+};
+
 interface TerminalDepositReadWorkbenchProps {
   repositoryContext?: TerminalRepositoryContextState | null;
   depositedSourceRevision?: TerminalDepositedSourceRevision | null;
   admittedReadActivityId?: string | null;
+  routeReadingStage?: TerminalEnterpriseReadingStepId | null;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   onHarnessCompleted?: () => Promise<unknown> | unknown;
   showDemonstrationWorkbench?: boolean;
@@ -117,6 +136,7 @@ export default function TerminalDepositReadWorkbench({
   repositoryContext = null,
   depositedSourceRevision = null,
   admittedReadActivityId = null,
+  routeReadingStage = null,
   onRecordActivity,
   onHarnessCompleted,
   showDemonstrationWorkbench = true,
@@ -132,9 +152,12 @@ export default function TerminalDepositReadWorkbench({
   const [harnessUserHasScrolled, setHarnessUserHasScrolled] = useState(false);
   const [readNeed, setReadNeed] = useState<TerminalReadNeedState | null>(null);
   const [acceptedReadNeed, setAcceptedReadNeed] = useState<TerminalReadNeedState | null>(null);
+  const [readNeedReviewRuntime, setReadNeedReviewRuntime] = useState<TerminalReadNeedReviewRuntimeState | null>(null);
+  const [readNeedStorageProjection, setReadNeedStorageProjection] = useState<Array<Record<string, unknown>>>([]);
+  const [readNeedTelemetry, setReadNeedTelemetry] = useState<Record<string, unknown> | null>(null);
   const [readNeedFeedback, setReadNeedFeedback] = useState('');
   const [readNeedMessage, setReadNeedMessage] = useState<string | null>(null);
-  const [readNeedAction, setReadNeedAction] = useState<'synthesize' | 'accept' | 'resynthesize' | null>(null);
+  const [readNeedAction, setReadNeedAction] = useState<'synthesize' | 'accept' | 'reject' | 'resynthesize' | null>(null);
   const [readNeedSynthesisCount, setReadNeedSynthesisCount] = useState(0);
   const workbenchSnapshot = useMemo(() => {
     const liveWorkbenchSnapshot = buildLiveTerminalDepositReadWorkbenchSnapshot(repositoryContext, depositedSourceRevision);
@@ -155,6 +178,9 @@ export default function TerminalDepositReadWorkbench({
     setHarnessEvents([]);
     setReadNeed(null);
     setAcceptedReadNeed(null);
+    setReadNeedReviewRuntime(null);
+    setReadNeedStorageProjection([]);
+    setReadNeedTelemetry(null);
     setReadNeedFeedback('');
     setReadNeedMessage(null);
     setReadNeedAction(null);
@@ -285,9 +311,27 @@ export default function TerminalDepositReadWorkbench({
     }
     return null;
   }, [harnessEvents]);
-  const sourceSafePreview = objectValue(completedHarnessEvidence?.sourceSafePreview);
+  const assetPackPreviewBoundary = objectValue(completedHarnessEvidence?.assetPackPreviewBoundary);
+  const boundarySourceSafePreview = objectValue(assetPackPreviewBoundary?.sourceSafePreview);
+  const sourceSafePreview =
+    objectValue(completedHarnessEvidence?.sourceSafePreview) ||
+    boundarySourceSafePreview;
+  const assetPackSelectedFitProvenance =
+    objectValue(assetPackPreviewBoundary?.selectedFitProvenance);
+  const assetPackQuoteReceipt =
+    objectValue(assetPackPreviewBoundary?.quoteReceipt) ||
+    objectValue(completedHarnessEvidence?.assetPackQuoteReceipt);
+  const assetPackSettlementInstructions =
+    objectValue(assetPackPreviewBoundary?.settlementInstructions) ||
+    objectValue(completedHarnessEvidence?.assetPackSettlementInstructions);
+  const assetPackDeliveryPosture =
+    objectValue(assetPackPreviewBoundary?.deliveryPosture) ||
+    objectValue(completedHarnessEvidence?.assetPackDeliveryPosture);
+  const assetPackPreviewProofRoots = objectValue(assetPackPreviewBoundary?.proofRoots);
+  const assetPackPreviewReplayReceipt = objectValue(assetPackPreviewBoundary?.replayReceipt);
   const assetPackDisclosureReview =
     objectValue(completedHarnessEvidence?.assetPackDisclosureReview) ||
+    objectValue(assetPackPreviewBoundary?.disclosureReview) ||
     objectValue(sourceSafePreview?.disclosureReview);
   const disclosureAccess = objectValue(assetPackDisclosureReview?.access);
   const disclosurePolicy = objectValue(assetPackDisclosureReview?.policy);
@@ -295,15 +339,46 @@ export default function TerminalDepositReadWorkbench({
   const disclosureRoots = objectValue(assetPackDisclosureReview?.roots);
   const disclosureSourceSafe = disclosureLeakage?.protectedSourceDetected !== true;
   const ledgerSettlement = objectValue(completedHarnessEvidence?.ledgerSettlement);
-  const previewFeeQuote = objectValue(sourceSafePreview?.feeQuote);
+  const assetPackSettlementRightsDeliveryBoundary = objectValue(
+    completedHarnessEvidence?.assetPackSettlementRightsDeliveryBoundary,
+  );
+  const assetPackSettlementPaymentObservation = objectValue(
+    assetPackSettlementRightsDeliveryBoundary?.paymentObservation,
+  );
+  const assetPackSettlementFinalityReceipt = objectValue(
+    assetPackSettlementRightsDeliveryBoundary?.finalityReceipt,
+  );
+  const assetPackSettlementDeliveryUnlock =
+    objectValue(assetPackSettlementRightsDeliveryBoundary?.deliveryUnlock) ||
+    objectValue(completedHarnessEvidence?.assetPackDeliveryUnlock);
+  const assetPackSettlementReplayReceipt =
+    objectValue(assetPackSettlementRightsDeliveryBoundary?.replayReceipt) ||
+    objectValue(completedHarnessEvidence?.assetPackSettlementReplayReceipt);
+  const assetPackSettlementReconciliation =
+    objectValue(assetPackSettlementRightsDeliveryBoundary?.reconciliationReport) ||
+    objectValue(completedHarnessEvidence?.assetPackLedgerDatabaseStorageReconciliation);
+  const assetPackSettlementProofRoots = objectValue(assetPackSettlementRightsDeliveryBoundary?.proofRoots);
+  const readingLocalStagingRehearsal = objectValue(completedHarnessEvidence?.readingLocalStagingRehearsal);
+  const readingLocalStagingCoverage = objectValue(readingLocalStagingRehearsal?.coverage);
+  const readingLocalStagingProofRoots = objectValue(readingLocalStagingRehearsal?.proofRoots);
+  const readingLocalStagingStageReadback = objectValue(readingLocalStagingRehearsal?.stageReadback);
+  const previewFeeQuote =
+    assetPackQuoteReceipt ||
+    objectValue(sourceSafePreview?.feeQuote);
   const protectedSourceUnlock =
     objectValue(sourceSafePreview?.unlock) ||
     objectValue(ledgerSettlement?.protectedSourceUnlock);
   const settledReadback = ledgerSettlement?.status === 'settled';
-  const pullRequestDelivered = settledReadback && Boolean(textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget));
+  const previewDelivery = objectValue(sourceSafePreview?.delivery);
+  const pullRequestDelivered = settledReadback && Boolean(
+    textValue(previewDelivery?.pullRequestTarget) ||
+      textValue(assetPackDeliveryPosture?.pullRequestTarget),
+  );
   const enterpriseReadingState = useMemo(
     () =>
       buildTerminalEnterpriseReadingUxState({
+        transactionId: recordedAdmittedReadActivityId || harnessReadActivityId || admittedReadActivityId || null,
+        routeReadingStage,
         hasRepositorySource: Boolean(workbench?.sourceRevision),
         hasReadMeasurement: readFitsFindingProgress !== 'draft' || Boolean(harnessReadActivityId),
         hasSynthesizedNeed: Boolean(readNeed),
@@ -312,18 +387,24 @@ export default function TerminalDepositReadWorkbench({
         hasSourceSafePreview: Boolean(sourceSafePreview),
         hasSettlementReadback: settledReadback,
         hasDeliveryReadback: pullRequestDelivered,
+        retryRequested: readNeedSynthesisCount > 1 || harnessState === 'failed',
+        failureKind: harnessState === 'failed' ? 'fits_finding_failed' : null,
         sourceSafePreviewBlocked: Boolean(sourceSafePreview && !disclosureSourceSafe),
         disclosureLeakageDetected: disclosureLeakage?.protectedSourceDetected === true,
       }),
     [
       acceptedReadNeed,
+      admittedReadActivityId,
       disclosureLeakage?.protectedSourceDetected,
       disclosureSourceSafe,
       harnessReadActivityId,
       harnessState,
+      readNeedSynthesisCount,
       pullRequestDelivered,
       readFitsFindingProgress,
+      recordedAdmittedReadActivityId,
       readNeed,
+      routeReadingStage,
       settledReadback,
       sourceSafePreview,
       workbench?.sourceRevision,
@@ -383,6 +464,242 @@ export default function TerminalDepositReadWorkbench({
       sourceSafePreview?.accessPolicy,
     ],
   );
+  const assetPackPreviewBoundaryRows = useMemo(
+    () => [
+      {
+        label: 'Boundary',
+        value: shortIdentifier(assetPackPreviewBoundary?.boundaryId) || 'pending',
+      },
+      {
+        label: 'Preview root',
+        value:
+          shortIdentifier(assetPackPreviewProofRoots?.previewRoot) ||
+          shortIdentifier(objectValue(sourceSafePreview?.roots)?.previewRoot) ||
+          'pending',
+      },
+      {
+        label: 'Quote',
+        value: numericValue(previewFeeQuote?.sats) ? `${String(previewFeeQuote?.sats)} sats` : 'pending',
+      },
+      {
+        label: 'Quote root',
+        value:
+          shortIdentifier(assetPackQuoteReceipt?.quoteRoot) ||
+          shortIdentifier(previewFeeQuote?.quoteRoot) ||
+          'pending',
+      },
+      {
+        label: 'Formula',
+        value: textValue(assetPackQuoteReceipt?.formula) || textValue(previewFeeQuote?.formula) || 'pending',
+      },
+      {
+        label: 'Deterministic',
+        value: assetPackQuoteReceipt?.deterministic === true ? 'yes' : 'pending',
+      },
+      {
+        label: 'Selected fits',
+        value: stringList(assetPackSelectedFitProvenance?.selectedCandidateAssetIds).join(', ') || 'pending',
+      },
+      {
+        label: 'Fit deposits',
+        value: stringList(assetPackSelectedFitProvenance?.fitDepositAssetIds).join(', ') || 'pending',
+      },
+      {
+        label: 'Provenance root',
+        value:
+          shortIdentifier(assetPackSelectedFitProvenance?.provenanceRoot) ||
+          shortIdentifier(assetPackPreviewProofRoots?.selectedFitProvenanceRoot) ||
+          'pending',
+      },
+      {
+        label: 'Settlement',
+        value: textValue(assetPackSettlementInstructions?.state) || 'pending',
+      },
+      {
+        label: 'Network',
+        value: textValue(assetPackSettlementInstructions?.btcNetwork) || 'pending',
+      },
+      {
+        label: 'Instructions root',
+        value: shortIdentifier(assetPackSettlementInstructions?.instructionsRoot) || 'pending',
+      },
+      {
+        label: 'Delivery',
+        value: textValue(assetPackDeliveryPosture?.state) || 'pending',
+      },
+      {
+        label: 'Delivery root',
+        value: shortIdentifier(assetPackDeliveryPosture?.deliveryRoot) || 'pending',
+      },
+      {
+        label: 'Replay root',
+        value:
+          shortIdentifier(assetPackPreviewReplayReceipt?.replayRoot) ||
+          shortIdentifier(assetPackPreviewProofRoots?.replayRoot) ||
+          'pending',
+      },
+      {
+        label: 'Storage records',
+        value: numericValue(assetPackPreviewBoundary?.storageRecordCount)
+          ? String(assetPackPreviewBoundary?.storageRecordCount)
+          : String(countList(assetPackPreviewBoundary?.storageProjection) || 0),
+      },
+    ],
+    [
+      assetPackDeliveryPosture,
+      assetPackPreviewBoundary,
+      assetPackPreviewProofRoots,
+      assetPackPreviewReplayReceipt,
+      assetPackQuoteReceipt,
+      assetPackSelectedFitProvenance,
+      assetPackSettlementInstructions,
+      previewFeeQuote,
+      sourceSafePreview?.roots,
+    ],
+  );
+  const assetPackSettlementBoundaryRows = useMemo(
+    () => [
+      {
+        label: 'Boundary',
+        value: shortIdentifier(assetPackSettlementRightsDeliveryBoundary?.boundaryId) || 'pending',
+      },
+      {
+        label: 'State',
+        value: textValue(assetPackSettlementRightsDeliveryBoundary?.state) || 'pending',
+      },
+      {
+        label: 'Payment',
+        value:
+          numericValue(assetPackSettlementPaymentObservation?.observedDebitSats) &&
+          numericValue(assetPackSettlementPaymentObservation?.expectedSats)
+            ? `${String(assetPackSettlementPaymentObservation?.observedDebitSats)}/${String(assetPackSettlementPaymentObservation?.expectedSats)} sats`
+            : 'pending',
+      },
+      {
+        label: 'Payment root',
+        value: shortIdentifier(assetPackSettlementPaymentObservation?.paymentReceiptRoot) || 'pending',
+      },
+      {
+        label: 'Finality',
+        value: textValue(assetPackSettlementFinalityReceipt?.finalityState) || 'pending',
+      },
+      {
+        label: 'Finality root',
+        value: shortIdentifier(assetPackSettlementFinalityReceipt?.finalityRoot) || 'pending',
+      },
+      {
+        label: 'Source-to-shares',
+        value: shortIdentifier(assetPackSettlementProofRoots?.sourceToSharesRoot) || 'pending',
+      },
+      {
+        label: 'Rights transfer',
+        value: shortIdentifier(assetPackSettlementProofRoots?.rightsTransferRoot) || 'pending',
+      },
+      {
+        label: 'Read receipt',
+        value: shortIdentifier(assetPackSettlementProofRoots?.btdReadReceiptRoot) || 'pending',
+      },
+      {
+        label: 'Delivery unlock',
+        value: textValue(assetPackSettlementDeliveryUnlock?.state) || 'pending',
+      },
+      {
+        label: 'Delivery root',
+        value: shortIdentifier(assetPackSettlementDeliveryUnlock?.deliveryRoot) || 'pending',
+      },
+      {
+        label: 'Reconciliation',
+        value: textValue(assetPackSettlementReconciliation?.state) || 'pending',
+      },
+      {
+        label: 'Reconciliation root',
+        value:
+          shortIdentifier(objectValue(assetPackSettlementReconciliation?.proofRoots)?.repairPlanRoot) ||
+          shortIdentifier(assetPackSettlementProofRoots?.reconciliationRoot) ||
+          'pending',
+      },
+      {
+        label: 'Replay root',
+        value:
+          shortIdentifier(assetPackSettlementReplayReceipt?.replayRoot) ||
+          shortIdentifier(assetPackSettlementProofRoots?.replayRoot) ||
+          'pending',
+      },
+      {
+        label: 'Storage records',
+        value: numericValue(assetPackSettlementRightsDeliveryBoundary?.storageRecordCount)
+          ? String(assetPackSettlementRightsDeliveryBoundary?.storageRecordCount)
+          : String(countList(assetPackSettlementRightsDeliveryBoundary?.storageProjection) || 0),
+      },
+    ],
+    [
+      assetPackSettlementDeliveryUnlock,
+      assetPackSettlementFinalityReceipt,
+      assetPackSettlementPaymentObservation,
+      assetPackSettlementProofRoots,
+      assetPackSettlementReconciliation,
+      assetPackSettlementReplayReceipt,
+      assetPackSettlementRightsDeliveryBoundary,
+    ],
+  );
+  const readingLocalStagingRehearsalRows = useMemo(
+    () => [
+      {
+        label: 'Rehearsal',
+        value: shortIdentifier(readingLocalStagingRehearsal?.rehearsalId) || 'pending',
+      },
+      {
+        label: 'Run',
+        value: shortIdentifier(readingLocalStagingRehearsal?.runId) || textValue(readingLocalStagingRehearsal?.runId) || 'pending',
+      },
+      {
+        label: 'Lanes',
+        value: stringList(readingLocalStagingRehearsal?.lanes).join(', ') || 'pending',
+      },
+      {
+        label: 'Stages complete',
+        value: `${Object.values(readingLocalStagingStageReadback || {}).filter((status) => status === 'completed').length}/${String(countList(readingLocalStagingRehearsal?.stageIds) || 0)}`,
+      },
+      {
+        label: 'Staging',
+        value: textValue(readingLocalStagingCoverage?.stagingProjectRef) || 'pending',
+      },
+      {
+        label: 'Many fits',
+        value: readingLocalStagingCoverage?.depositoryManyFitsCovered === true ? 'covered' : 'pending',
+      },
+      {
+        label: 'Telemetry',
+        value: readingLocalStagingCoverage?.telemetryStreamingReadbackCovered === true ? 'readback covered' : 'pending',
+      },
+      {
+        label: 'Sync',
+        value: readingLocalStagingCoverage?.ledgerDatabaseStorageSynchronized === true ? 'aligned' : 'pending',
+      },
+      {
+        label: 'Delivery',
+        value: readingLocalStagingCoverage?.postSettlementPullRequestDeliveryCovered === true ? 'post-settlement PR' : 'pending',
+      },
+      {
+        label: 'Mainnet',
+        value: readingLocalStagingCoverage?.valueBearingMainnetAdmitted === false ? 'blocked' : 'pending',
+      },
+      {
+        label: 'Root',
+        value: shortIdentifier(readingLocalStagingProofRoots?.rehearsalRoot) || 'pending',
+      },
+      {
+        label: 'Rows',
+        value: String(countList(readingLocalStagingRehearsal?.rows) || 'pending'),
+      },
+    ],
+    [
+      readingLocalStagingCoverage,
+      readingLocalStagingProofRoots?.rehearsalRoot,
+      readingLocalStagingRehearsal,
+      readingLocalStagingStageReadback,
+    ],
+  );
   const readNeedRows = useMemo(() => {
     if (!currentReadNeed) return [];
     return [
@@ -400,6 +717,23 @@ export default function TerminalDepositReadWorkbench({
       { label: 'Previous Need', value: shortIdentifier(currentReadNeed.request?.previousNeedId) || currentReadNeed.request?.previousNeedId || 'none' },
     ];
   }, [currentReadNeed]);
+  const readNeedRuntimeRows = useMemo(() => {
+    if (!readNeedReviewRuntime && !readNeedTelemetry && readNeedStorageProjection.length === 0) return [];
+    const admission = objectValue(readNeedReviewRuntime?.findingFitsAdmission);
+    const proofRoots = objectValue(readNeedReviewRuntime?.proofRoots);
+    return [
+      { label: 'Runtime', value: shortIdentifier(readNeedReviewRuntime?.runtimeId) || textValue(readNeedReviewRuntime?.runtimeId) || 'pending' },
+      { label: 'Action', value: textValue(readNeedReviewRuntime?.action) || 'pending' },
+      { label: 'Admission', value: admission?.admitted === true ? 'admitted' : 'blocked' },
+      { label: 'Blockers', value: stringList(admission?.blockers).join(', ') || 'none' },
+      { label: 'Storage records', value: String(readNeedStorageProjection.length || 'pending') },
+      { label: 'Runtime root', value: shortIdentifier(proofRoots?.runtimeRoot) || 'pending' },
+      { label: 'Storage root', value: shortIdentifier(proofRoots?.storageRoot) || 'pending' },
+      { label: 'Telemetry root', value: shortIdentifier(proofRoots?.telemetryRoot || readNeedTelemetry?.telemetryRoot) || 'pending' },
+      { label: 'PTRR step', value: shortIdentifier(readNeedTelemetry?.ptrrStepId) || textValue(readNeedTelemetry?.ptrrStepId) || 'pending' },
+      { label: 'Return type', value: textValue(readNeedTelemetry?.returnType) || 'pending' },
+    ];
+  }, [readNeedReviewRuntime, readNeedStorageProjection, readNeedTelemetry]);
   const stageCards = enterpriseReadingState.steps;
   const canRunLiveFit =
     !showDemonstrationWorkbench &&
@@ -521,6 +855,9 @@ export default function TerminalDepositReadWorkbench({
       if (!nextNeed) throw new Error('Read-Need synthesis did not return a typed Need.');
       setReadNeed(nextNeed);
       setAcceptedReadNeed(null);
+      setReadNeedReviewRuntime(objectValue(payload?.readNeedReviewRuntime) as TerminalReadNeedReviewRuntimeState | null);
+      setReadNeedStorageProjection(Array.isArray(payload?.storageProjection) ? payload.storageProjection as Array<Record<string, unknown>> : []);
+      setReadNeedTelemetry(objectValue(payload?.telemetry));
       setReadNeedSynthesisCount((count) => count + 1);
       setReadNeedMessage(
         action === 'synthesize_read_need'
@@ -563,6 +900,9 @@ export default function TerminalDepositReadWorkbench({
       }
       setAcceptedReadNeed(accepted);
       setReadNeed(accepted);
+      setReadNeedReviewRuntime(objectValue(payload?.readNeedReviewRuntime) as TerminalReadNeedReviewRuntimeState | null);
+      setReadNeedStorageProjection(Array.isArray(payload?.storageProjection) ? payload.storageProjection as Array<Record<string, unknown>> : []);
+      setReadNeedTelemetry(objectValue(payload?.telemetry));
       setReadNeedMessage('Read-Need accepted. Finding Fits can now run against deposited source.');
       await onRecordActivity?.({
         type: 'agentic-execution:read-measurement',
@@ -593,6 +933,47 @@ export default function TerminalDepositReadWorkbench({
       setReadNeedAction(null);
     }
   }, [onRecordActivity, readNeed]);
+
+  const handleRejectReadNeed = useCallback(async () => {
+    if (!readNeed) return;
+
+    setReadNeedAction('reject');
+    setReadNeedMessage(null);
+
+    try {
+      const response = await fetch('/api/read-review', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          action: 'reject_read_need',
+          readNeed,
+          feedback: readNeedFeedback.trim() ? [readNeedFeedback.trim()] : [],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(await readTerminalRouteError(response, 'Unable to reject the Read-Need.'));
+      }
+
+      const payload = objectValue(await response.json());
+      const rejected = terminalReadNeed(payload?.rejectedReadNeed || payload?.readNeed);
+      if (!rejected || rejected.reviewState !== 'rejected') {
+        throw new Error('Read-Need rejection did not return a rejected Need.');
+      }
+      setReadNeed(rejected);
+      setAcceptedReadNeed(null);
+      setReadNeedReviewRuntime(objectValue(payload?.readNeedReviewRuntime) as TerminalReadNeedReviewRuntimeState | null);
+      setReadNeedStorageProjection(Array.isArray(payload?.storageProjection) ? payload.storageProjection as Array<Record<string, unknown>> : []);
+      setReadNeedTelemetry(objectValue(payload?.telemetry));
+      setReadNeedMessage('Read-Need rejected. Finding Fits remains blocked until a resynthesized Need is accepted.');
+    } catch (error) {
+      setReadNeedMessage(error instanceof Error ? error.message : 'Unable to reject the Read-Need.');
+    } finally {
+      setReadNeedAction(null);
+    }
+  }, [readNeed, readNeedFeedback]);
 
   const handleRunLiveFit = useCallback(async () => {
     if (!harnessRequestState.ready) {
@@ -711,7 +1092,12 @@ export default function TerminalDepositReadWorkbench({
         />
       </div>
 
-      <section className="mt-5 rounded-[1.45rem] border border-sky-300/18 bg-sky-300/[0.06] px-5 py-5">
+      <section
+        className="mt-5 rounded-[1.45rem] border border-sky-300/18 bg-sky-300/[0.06] px-5 py-5"
+        data-reading-route-stage={enterpriseReadingState.routeState.routeReadingStage || ''}
+        data-reading-transaction-present={enterpriseReadingState.routeState.transactionIdPresent ? 'true' : 'false'}
+        data-reading-failure-kind={enterpriseReadingState.routeState.failureKind}
+      >
         <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
           <div>
             <p className="text-[0.66rem] uppercase tracking-[0.2em] text-sky-200/80">staged reading</p>
@@ -837,6 +1223,16 @@ export default function TerminalDepositReadWorkbench({
               </button>
               <button
                 type="button"
+                disabled={readNeedAction !== null || !readNeed || readNeed.reviewState === 'accepted'}
+                onClick={() => {
+                  void handleRejectReadNeed();
+                }}
+                className="rounded-[1.2rem] border border-red-300/30 bg-red-300/10 px-4 py-3 text-sm font-medium text-red-100 transition hover:border-red-200/50 hover:bg-red-300/15 disabled:cursor-not-allowed disabled:opacity-55"
+              >
+                {readNeedAction === 'reject' ? 'Rejecting…' : 'Reject Read-Need'}
+              </button>
+              <button
+                type="button"
                 disabled={!canRunLiveFit}
                 onClick={() => {
                   void handleRunLiveFit();
@@ -861,7 +1257,7 @@ export default function TerminalDepositReadWorkbench({
                 { label: 'Unlock', value: protectedSourceUnlock?.sourceAvailable === true ? 'source available' : textValue(protectedSourceUnlock?.state) || 'withheld' },
                 { label: 'Read license', value: shortIdentifier(ledgerSettlement?.readLicenseId) || 'pending' },
                 { label: 'BTC fee', value: shortIdentifier(ledgerSettlement?.btcFeeReceiptId) || 'pending' },
-                { label: 'PR target', value: textValue(objectValue(sourceSafePreview?.delivery)?.pullRequestTarget) || 'pending' },
+                { label: 'PR target', value: textValue(previewDelivery?.pullRequestTarget) || textValue(assetPackDeliveryPosture?.pullRequestTarget) || 'pending' },
               ].map((row) => (
                 <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">{row.label}</dt>
@@ -869,6 +1265,45 @@ export default function TerminalDepositReadWorkbench({
                 </div>
               ))}
             </dl>
+            <details className="mt-3 rounded-[0.9rem] border border-cyan-300/15 bg-cyan-300/[0.04] px-3 py-3">
+              <summary className="cursor-pointer text-[0.58rem] uppercase tracking-[0.14em] text-cyan-100/85">
+                Finding Fits preview, quote, and provenance
+              </summary>
+              <dl className="mt-3 grid gap-2 md:grid-cols-2">
+                {assetPackPreviewBoundaryRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+                    <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
+            <details className="mt-3 rounded-[0.9rem] border border-amber-300/15 bg-amber-300/[0.04] px-3 py-3">
+              <summary className="cursor-pointer text-[0.58rem] uppercase tracking-[0.14em] text-amber-100/85">
+                Settlement rights, compensation, and delivery
+              </summary>
+              <dl className="mt-3 grid gap-2 md:grid-cols-2">
+                {assetPackSettlementBoundaryRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+                    <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
+            <details className="mt-3 rounded-[0.9rem] border border-violet-300/15 bg-violet-300/[0.04] px-3 py-3">
+              <summary className="cursor-pointer text-[0.58rem] uppercase tracking-[0.14em] text-violet-100/85">
+                Local/staging MVP rehearsal
+              </summary>
+              <dl className="mt-3 grid gap-2 md:grid-cols-2">
+                {readingLocalStagingRehearsalRows.map((row) => (
+                  <div key={row.label} className="rounded-[0.75rem] border border-white/8 bg-black/20 px-3 py-2">
+                    <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
             <div className="mt-3 rounded-[0.9rem] border border-emerald-400/15 bg-emerald-400/[0.04] px-3 py-3">
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
@@ -902,6 +1337,36 @@ export default function TerminalDepositReadWorkbench({
               </div>
             ))}
           </dl>
+        ) : null}
+
+        {readNeedRuntimeRows.length ? (
+          <details className="mt-4 rounded-[1.05rem] border border-white/8 bg-black/20 px-4 py-4">
+            <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em] text-sky-200/80">
+              Need runtime, storage, and telemetry
+            </summary>
+            <dl className="mt-3 grid gap-3 md:grid-cols-2 xl:grid-cols-5">
+              {readNeedRuntimeRows.map((row) => (
+                <div key={row.label} className="rounded-[0.9rem] border border-white/8 bg-white/[0.03] px-3 py-2">
+                  <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">{row.label}</dt>
+                  <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-100">{row.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {readNeedStorageProjection.length ? (
+              <div className="mt-3 grid gap-2">
+                {readNeedStorageProjection.map((record, index) => (
+                  <div key={`${String(record.recordId || index)}`} className="rounded-[0.85rem] border border-white/8 bg-black/25 px-3 py-2">
+                    <p className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
+                      {textValue(record.recordKind) || 'storage record'}
+                    </p>
+                    <p className="mt-1 break-words font-mono text-[0.66rem] text-neutral-200">
+                      {shortIdentifier(record.root) || textValue(record.root) || 'pending'}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            ) : null}
+          </details>
         ) : null}
       </section>
 

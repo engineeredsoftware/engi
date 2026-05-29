@@ -60,12 +60,16 @@ interface TerminalRepositoryContextPanelProps {
   preferredRepository?: string | null;
   onContextChange?: (context: TerminalRepositoryContextState) => void;
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
+  routePath?: string;
+  buildRouteHref?: (params?: URLSearchParams | string | null) => string;
 }
 
 export default function TerminalRepositoryContextPanel({
   preferredRepository,
   onContextChange,
   onRecordActivity,
+  routePath = TERMINAL_ROUTE,
+  buildRouteHref = buildTerminalHref,
 }: TerminalRepositoryContextPanelProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -322,12 +326,12 @@ export default function TerminalRepositoryContextPanel({
   useEffect(() => {
     const hasRouteContext =
       typeof window !== 'undefined'
-        ? window.location.pathname === TERMINAL_ROUTE && window.location.search.length > 1
+        ? window.location.pathname === routePath && window.location.search.length > 1
         : searchParams.toString().length > 0;
     if (!hasRouteContext) return;
 
     const nextParams =
-      typeof window !== 'undefined' && window.location.pathname === TERMINAL_ROUTE
+      typeof window !== 'undefined' && window.location.pathname === routePath
         ? new URLSearchParams(window.location.search)
         : new URLSearchParams(searchParams.toString());
     let changed = false;
@@ -384,8 +388,8 @@ export default function TerminalRepositoryContextPanel({
     }
 
     if (!changed) return;
-    if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
-    router.replace(buildTerminalHref(nextParams), { scroll: false });
+    if (typeof window !== 'undefined' && window.location.pathname !== routePath) return;
+    router.replace(buildRouteHref(nextParams), { scroll: false });
   }, [
     isLoadingBranches,
     isLoadingCommits,
@@ -396,6 +400,8 @@ export default function TerminalRepositoryContextPanel({
     selectedBranch,
     selectedCommit,
     selectedRepository,
+    routePath,
+    buildRouteHref,
   ]);
 
   const refreshRepositoryContext = () => {
@@ -488,8 +494,8 @@ export default function TerminalRepositoryContextPanel({
                       nextParams.delete('sourceCommit');
                       nextParams.delete('branch');
                       nextParams.delete('commit');
-                      if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
-                      router.replace(buildTerminalHref(nextParams), { scroll: false });
+                      if (typeof window !== 'undefined' && window.location.pathname !== routePath) return;
+                      router.replace(buildRouteHref(nextParams), { scroll: false });
                     }}
                     className={`rounded-full border px-3 py-2 text-[0.72rem] uppercase tracking-[0.18em] transition ${
                       isActive
@@ -521,8 +527,8 @@ export default function TerminalRepositoryContextPanel({
                   nextParams.delete('sourceCommit');
                   nextParams.delete('branch');
                   nextParams.delete('commit');
-                  if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
-                  router.replace(buildTerminalHref(nextParams), { scroll: false });
+                  if (typeof window !== 'undefined' && window.location.pathname !== routePath) return;
+                  router.replace(buildRouteHref(nextParams), { scroll: false });
                 }}
                 placeholder={
                   connectionStatus?.connected
@@ -572,8 +578,8 @@ export default function TerminalRepositoryContextPanel({
                     nextParams.delete('sourceCommit');
                     nextParams.delete('branch');
                     nextParams.delete('commit');
-                    if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
-                    router.replace(buildTerminalHref(nextParams), { scroll: false });
+                    if (typeof window !== 'undefined' && window.location.pathname !== routePath) return;
+                    router.replace(buildRouteHref(nextParams), { scroll: false });
                   }}
                   className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
                 >
@@ -607,8 +613,8 @@ export default function TerminalRepositoryContextPanel({
                     nextParams.set('sourceCommit', event.target.value);
                     nextParams.delete('branch');
                     nextParams.delete('commit');
-                    if (typeof window !== 'undefined' && window.location.pathname !== TERMINAL_ROUTE) return;
-                    router.replace(buildTerminalHref(nextParams), { scroll: false });
+                    if (typeof window !== 'undefined' && window.location.pathname !== routePath) return;
+                    router.replace(buildRouteHref(nextParams), { scroll: false });
                   }}
                   className="mt-3 w-full rounded-xl border border-white/10 bg-[rgba(10,15,30,0.88)] px-3 py-3 text-sm text-white outline-none transition focus:border-emerald-400/40 disabled:cursor-not-allowed disabled:opacity-60"
                 >

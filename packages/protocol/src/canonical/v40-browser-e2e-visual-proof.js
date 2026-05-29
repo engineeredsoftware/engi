@@ -240,12 +240,17 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     routeStates: ['/exchange', '/exchange?assetPack=asset-pack-run-branch-remediation&intent=buy-existing-btd'],
     sourceRoots: [
       'uapi/app/bitcode-browser-proof.ts',
-      'uapi/app/exchange/ExchangePageClient.tsx',
+      'uapi/app/packs/PacksPageClient.tsx',
+      'uapi/app/packs/page.tsx',
+      'uapi/app/api/packs/activity/route.ts',
+      'uapi/app/exchange/page.tsx',
       'uapi/app/terminal/terminal-routes.ts',
     ],
     testPaths: [
       'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
       'uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
+      'uapi/tests/packsPageClient.test.tsx',
+      'uapi/tests/packActivityModel.test.ts',
       'uapi/tests/exchangeTerminalHandoff.test.ts',
     ],
     commandIds: [
@@ -254,15 +259,15 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
-      'ExchangePageClient',
-      'Read market activity',
-      'buildExchangeHref',
+      'PacksPageClient',
+      'Search pack activity',
+      'buildPacksHref',
     ],
     requiredTestMarkers: [
-      'Exchange rights review',
-      'signed-in BTD widget',
-      'Exchange filters',
-      'source-safe preview',
+      'renders searchable Packs activity',
+      'Proof roots',
+      'source-safe detail readback',
+      'builds Packs links',
     ],
     expectedCounts: {
       routeStateCount: 2,
@@ -495,7 +500,14 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-documents-gate7', 'BITCODE_SPEC_V40_DELTA.md', delta.includes('Gate 7 closes with package-backed `V40BrowserE2eVisualProof`')),
     predicateResult('notes-document-gate7', 'BITCODE_SPEC_V40_NOTES.md', notes.includes('Gate 7 implementation notes') && notes.includes('browser E2E, visual, accessibility, and responsive proof')),
     predicateResult('parity-documents-gate7', 'BITCODE_SPEC_V40_PARITY_MATRIX.md', parity.includes('v40-browser-e2e-visual-proof') && parity.includes('| Gate 7 | Browser/visual/accessibility/responsive artifact | implemented |')),
-    predicateResult('roadmap-advanced-through-gate7', 'SPECIFICATIONS_ROADMAP.md', (/Current working gate: V40 Gate (?:7|8|9|10|11)\b/u.test(roadmap) || roadmap.includes('Latest closed version: V40')) && roadmap.includes('V40 Gate 7 closure anchor')),
+    predicateResult(
+      'roadmap-advanced-through-gate7',
+      'SPECIFICATIONS_ROADMAP.md',
+      (/Current working gate: V40 Gate (?:7|8|9|10|11)\b/u.test(roadmap) ||
+        roadmap.includes('Latest closed version: V40') ||
+        roadmap.includes('Recent V40 closure anchor')) &&
+        roadmap.includes('V40 Gate 7 closure anchor'),
+    ),
     predicateResult('readmes-document-gate7', 'README.md', rootReadme.includes('V40 Gate 7') && protocolReadme.includes('V40BrowserE2eVisualProof')),
     ...rowPredicates,
   ];

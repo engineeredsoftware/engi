@@ -44,6 +44,24 @@ type TerminalDepositResponseEvidence = {
   depositorySearchDocumentRoot?: string | null;
   lexicalDocumentRoot?: string | null;
   vectorDocumentRoot?: string | null;
+  compensationPreviewRoot?: string | null;
+  sourceToSharesPreviewRoot?: string | null;
+  compensationPreview?: {
+    state?: string | null;
+    readiness?: {
+      eligibleForFindingFits?: boolean | null;
+      eligibleForCompensationIfSelected?: boolean | null;
+      blockers?: string[] | null;
+      warnings?: string[] | null;
+    } | null;
+    compensationRoute?: {
+      priceAsset?: string | null;
+      allocationMethod?: string | null;
+      sourceToSharesProofState?: string | null;
+      btdMintBoundary?: string | null;
+      btdRightsTransferBoundary?: string | null;
+    } | null;
+  } | null;
   depositorBoundary?: {
     walletId?: string | null;
   } | null;
@@ -318,6 +336,7 @@ export default function TerminalDepositComposer({
         depositoryEvidence?: TerminalDepositResponseEvidence | null;
       };
       const depositoryEvidence = payload.depositoryEvidence || payload.asset?.depositoryEvidence || null;
+      const compensationPreview = depositoryEvidence?.compensationPreview || null;
 
       await runControl((controls) => controls.refresh?.());
       setTitle('');
@@ -355,6 +374,15 @@ export default function TerminalDepositComposer({
             depositorySearchDocumentRoot: depositoryEvidence?.depositorySearchDocumentRoot || null,
             lexicalDocumentRoot: depositoryEvidence?.lexicalDocumentRoot || null,
             vectorDocumentRoot: depositoryEvidence?.vectorDocumentRoot || null,
+            compensationPreviewRoot: depositoryEvidence?.compensationPreviewRoot || null,
+            sourceToSharesPreviewRoot: depositoryEvidence?.sourceToSharesPreviewRoot || null,
+            compensationState: compensationPreview?.state || null,
+            compensationAllocationMethod: compensationPreview?.compensationRoute?.allocationMethod || null,
+            compensationPriceAsset: compensationPreview?.compensationRoute?.priceAsset || null,
+            compensationEligibleForFindingFits:
+              compensationPreview?.readiness?.eligibleForFindingFits ?? null,
+            compensationEligibleIfSelected:
+              compensationPreview?.readiness?.eligibleForCompensationIfSelected ?? null,
             depositorWalletId: depositoryEvidence?.depositorBoundary?.walletId || null,
             depositoryIndexState: depositoryEvidence?.indexState?.vector || depositoryEvidence?.indexState?.lexical || null,
           },
@@ -787,6 +815,16 @@ export default function TerminalDepositComposer({
               Submitting refreshes the working chain so selected supply, measured demand, fit, and later branch, proof,
               and settlement reads stay aligned in the same Bitcode Terminal.
             </p>
+            <dl className="mt-4 grid gap-2 text-xs text-neutral-300">
+              <div className="rounded-xl border border-white/8 bg-white/5 px-3 py-2">
+                <dt className="text-[0.58rem] uppercase tracking-[0.16em] text-neutral-500">Compensation route</dt>
+                <dd className="mt-1 text-neutral-100">BTC source-to-shares preview if this deposit is selected into a paid AssetPack</dd>
+              </div>
+              <div className="rounded-xl border border-white/8 bg-white/5 px-3 py-2">
+                <dt className="text-[0.58rem] uppercase tracking-[0.16em] text-neutral-500">Pre-fit boundary</dt>
+                <dd className="mt-1 text-neutral-100">No BTD mint or source-bearing reader visibility at deposit admission</dd>
+              </div>
+            </dl>
           </div>
         </aside>
       </div>

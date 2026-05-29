@@ -866,9 +866,11 @@ function buildPredicateResults(repoRoot) {
       'conversation-tool-interface-tests-docs-workflows',
       SOURCE_ROOTS.roadmap,
       roadmap.includes('V41 Gate 7 closure anchor') &&
-        /Current working gate: V41 Gate (?:7|8|9)/u.test(roadmap) &&
-        (/Next queued gate after V41 Gate (?:7|8): V41 (?:Prompt Benchmark Report And Telemetry Integration|Promotion Readiness)/u.test(roadmap) ||
-          /V41 Gate 9 closure anchor/u.test(roadmap)),
+        ((/Current working gate: V41 Gate (?:7|8|9)/u.test(roadmap) &&
+          (/Next queued gate after V41 Gate (?:7|8): V41 (?:Prompt Benchmark Report And Telemetry Integration|Promotion Readiness)/u.test(roadmap) ||
+            /V41 Gate 9 closure anchor/u.test(roadmap))) ||
+          /Latest closed version: V41 Prompt And PromptPart Excellence/u.test(roadmap) ||
+          /Recent V41 closure anchor/u.test(roadmap)),
     ),
     predicate(
       'readmes-document-gate7-helpers',

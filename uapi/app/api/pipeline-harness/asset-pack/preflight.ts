@@ -8,6 +8,9 @@ export type PipelineHarnessPreflightBody = {
 
 type PipelineHarnessRuntimeEnv = Record<string, string | undefined>;
 
+const STAGING_TESTNET_SUPABASE_PROJECT_REF = 'tkpyosihuouusyaxtbau';
+const STAGING_TESTNET_SUPABASE_REST_HOST = `${STAGING_TESTNET_SUPABASE_PROJECT_REF}.supabase.co`;
+
 const SUPABASE_ADMIN_CREDENTIAL_KEYS = [
   'SUPABASE_SECRET_KEY',
   'SUPABASE_ADMIN_KEY',
@@ -214,6 +217,9 @@ export function summarizeHarnessPreflight(
     supabaseUrlProvided: isUsableSupabaseUrl(supabaseUrl),
     supabaseHost,
     supabaseDbHost,
+    stagingTestnetProjectRef: STAGING_TESTNET_SUPABASE_PROJECT_REF,
+    stagingTestnetSupabaseHostMatched:
+      normalizeSupabaseHost(supabaseHost) === STAGING_TESTNET_SUPABASE_REST_HOST,
     supabaseRestDbHostAligned:
       !normalizedSupabaseHost ||
       !normalizedSupabaseDbHost ||

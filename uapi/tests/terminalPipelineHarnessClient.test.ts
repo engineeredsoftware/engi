@@ -188,11 +188,44 @@ describe('terminal pipeline harness client', () => {
           },
           sourceSafePreview: {
             feeQuote: {
-              sats: 546,
+              sats: 500,
             },
             unlock: {
               state: 'licensed_read',
               sourceAvailable: true,
+            },
+          },
+          assetPackPreviewBoundary: {
+            quoteReceipt: {
+              sats: 546,
+              quoteRoot: 'sha256:asset-pack-preview-quote-root',
+            },
+            selectedFitProvenance: {
+              selectedCandidateAssetIds: ['asset-repository-revision'],
+              fitDepositAssetIds: ['deposit-asset-pack'],
+            },
+            settlementInstructions: {
+              state: 'quote_ready_settlement_required',
+            },
+            deliveryPosture: {
+              state: 'withheld_until_settlement',
+            },
+          },
+          assetPackSettlementRightsDeliveryBoundary: {
+            state: 'settlement_delivered',
+            rightsTransferRoot: 'sha256:settlement-rights-root',
+            paymentObservation: {
+              expectedSats: 546,
+              observedDebitSats: 546,
+            },
+            finalityReceipt: {
+              finalityState: 'confirmed',
+            },
+            deliveryUnlock: {
+              state: 'source_bearing_pull_request_ready',
+            },
+            reconciliationReport: {
+              state: 'aligned',
             },
           },
           assetPackDisclosureReview: {
@@ -214,6 +247,15 @@ describe('terminal pipeline harness client', () => {
     expect(summary).toContain('candidate asset-repository-revision');
     expect(summary).toContain('ledger settled');
     expect(summary).toContain('fee 546 sats');
+    expect(summary).toContain('quote sha256:asset');
+    expect(summary).toContain('settlement quote_ready_settlement_required');
+    expect(summary).toContain('delivery withheld_until_settlement');
+    expect(summary).toContain('settlement-boundary settlement_delivered');
+    expect(summary).toContain('paid 546/546 sats');
+    expect(summary).toContain('finality confirmed');
+    expect(summary).toContain('rights sha256:settl');
+    expect(summary).toContain('delivery-unlock source_bearing_pull_request_ready');
+    expect(summary).toContain('reconciliation aligned');
     expect(summary).toContain('source licensed_read');
     expect(summary).toContain('disclosure available_after_settlement');
     expect(summary).toContain('leakage none');
