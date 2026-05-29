@@ -147,6 +147,14 @@ verify AI-reading uplift. The staging lane is bound to Supabase project
 serialize secrets, protected source, raw prompts, provider responses, unpaid
 AssetPack source, wallet private material, private settlement payloads, or
 live rehearsal logs.
+V42 Gate 9 adds promotion readiness with `buildV42PromotionReadinessReport`,
+`.bitcode/v42-promotion-readiness-report.json`,
+`BITCODE_SPEC_V42_PROVEN.md`, `.github/workflows/v42-canon-promotion.yml`,
+`generate:v42-promotion-readiness`, `check:v42-promotion-readiness`, and
+`check:v42-gate9`.
+The report binds every V42 product artifact, workflow posture, promotion
+script, generated proof path, source-safety result, value-bearing mainnet
+block, and post-promotion V42 active / draft V43 runtime preparation.
 V43+ is roadmapped as the later agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject
@@ -158,6 +166,15 @@ That future route model treats AssetPacks as the product object in and out:
 `/read` buys synthesized Need-Fit AssetPacks, and `/packs` becomes the
 searchable master-detail activity surface for pack measurements, values,
 settlement posture, compensation, delivery, proofs, and repair.
+The `/packs` master view should sort, filter, and search over measurements,
+synthesized AssetPack titles and descriptions, values, activity or transaction
+type, settlement posture, compensation state, and proof roots, while its detail
+view exposes source-safe activity data, telemetry, ledger/database/storage
+synchronization, and expandable proof metadata.
+That later UX cleanup should remove self-referential product copy outside
+public docs and make Depositing, Reading, and Pack activity understandable
+through route structure, concise labels, progressive disclosure, and rich
+themed reusable components.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

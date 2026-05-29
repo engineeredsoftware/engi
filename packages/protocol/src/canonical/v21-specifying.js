@@ -479,6 +479,18 @@ function buildV21LikeProfile(version) {
           '.bitcode/v41-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V42'
+        ? [
+          '.bitcode/v42-depositing-shortest-path.json',
+          '.bitcode/v42-reading-shortest-path-state-machine.json',
+          '.bitcode/v42-readneed-review-resynthesis-product-closure.json',
+          '.bitcode/v42-readfitsfinding-preview-quote.json',
+          '.bitcode/v42-settlement-rights-delivery.json',
+          '.bitcode/v42-ai-reading-demonstration.json',
+          '.bitcode/v42-local-staging-mvp-rehearsal.json',
+          '.bitcode/v42-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1579,6 +1591,12 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V40') {
     artifacts.push(...buildV21LikeProfile('V40').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V41') {
+    artifacts.push(...buildV21LikeProfile('V41').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V42') {
+    artifacts.push(...buildV21LikeProfile('V42').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

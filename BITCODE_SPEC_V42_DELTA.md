@@ -73,6 +73,10 @@ The rehearsal artifact is metadata only and does not serialize secrets, protecte
 ### Gate 9: V42 Promotion Readiness
 
 Bind every V42 product artifact, workflow, generated proof, promotion command, source-safety result, and active V42 / draft V43 runtime posture.
+Gate 9 now closes through `.bitcode/v42-promotion-readiness-report.json`.
+The report proves all V42 gate artifacts are covered, parseable, source-safe, workflow-bound, generated-proof-bound, and blocked from value-bearing mainnet admission.
+The promotion scripts support V42 through `scripts/promote-bitcode-canon.mjs`, `scripts/prepare-bitcode-spec-family-promotion.mjs`, `scripts/prepare-bitcode-runtime-canon-promotion.mjs`, and `.github/workflows/v42-canon-promotion.yml`.
+After promotion, the maintained runtime posture is V42 active / draft V43.
 
 ## Explicitly deferred
 
@@ -80,6 +84,11 @@ Bind every V42 product artifact, workflow, generated proof, promotion command, s
 - `/terminal` is not split into `/read` and `/deposit` during V42.
 - `/exchange` is not renamed to `/packs` during V42.
 - V43+ must take the route-vocabulary cleanup seriously: `/packs` replaces Exchange as the searchable master-detail activity route, including route names, component prefixes, tests, docs, and product vocabulary, while `/read` and `/deposit` become the short core paths for buying and selling AssetPacks.
+- `/packs` must cover all pack activity, including deposited AssetPack options, Depository admission, Finding Fits previews, settled Need-Fit AssetPacks, quotes, rights transfers, compensation posture, delivery, proofs, and repair.
+- `/packs` master view must support column sorting, filtering, and search over measurements, synthesized AssetPack titles and descriptions, values, activity or transaction type, settlement posture, compensation state, and proof roots; the detail view must expose selected source-safe activity data with expandable telemetry, ledger, database, storage, and proof metadata.
+- `/deposit` must evolve beyond manual admission into an agentic connected-repository flow where Bitcode proposes source-safe deposit AssetPack options from enterprise code, depositor instructions, Depository state, and Reading demand; enterprises review measurements, likely demand, likely positive ROI, and sub-criticality before approval.
+- `/read` must own the shortest Reading path without requiring the old Terminal cockpit as the default experience.
+- Outside public documentation, product copy should not compensate for unclear flows with self-referential explanations; V43+ UX should use route structure, concise labels, progressive disclosure, and rich reusable themed components to make core behavior legible.
 - Production-mainnet value-bearing operation remains blocked unless a later promoted canon explicitly admits it.
 - V42 Gate 1 does not change route behavior, pipeline behavior, settlement behavior, or demonstration behavior.
 
