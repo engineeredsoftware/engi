@@ -257,7 +257,11 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'roadmap-records-gate3-closure',
       SOURCE_ROOTS.roadmap,
-      roadmap.includes('Current working gate: V42 Gate') && roadmap.includes('V42 Gate 3 closure anchor'),
+      roadmap.includes('V42 Gate 3 closure anchor') &&
+        (roadmap.includes('Current working gate: V42 Gate') ||
+          roadmap.includes('Latest closed version: V42 Reliable MVP Experience') ||
+          roadmap.includes('Recent V42 canonical promotion anchor') ||
+          roadmap.includes('Current working gate: V43 Gate')),
     ),
     predicateResult('readmes-document-gate3', SOURCE_ROOTS.rootReadme, rootReadme.includes('V42 Gate 3') && terminalReadme.includes('TerminalEnterpriseReadingUxState') && protocolReadme.includes('V42 Reading shortest path')),
   ];
