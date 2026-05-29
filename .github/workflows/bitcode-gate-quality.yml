@@ -479,6 +479,16 @@ jobs:
 
       - name: Test gate packages
         run: |
+          POINTER="$(cat BITCODE_SPEC.txt)"
+          if [ "$POINTER" = "V41" ] || [ "$POINTER" = "V42" ]; then
+            pnpm run check:v42-gate9
+            pnpm --filter @bitcode/protocol test
+            pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
+            pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
+            pnpm --filter @bitcode/pipeline-hosts exec jest --config jest.config.cjs --passWithNoTests --forceExit
+            exit 0
+          fi
+
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btc-fee-operation.test.ts --runInBand --forceExit
           pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runTestsByPath __tests__/btd.test.ts --runInBand --forceExit
           if [ -f packages/btd/__tests__/asset-pack-economic-traceability.test.ts ]; then

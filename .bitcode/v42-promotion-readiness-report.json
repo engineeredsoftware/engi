@@ -249,7 +249,7 @@
     {
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "present": true,
-      "digest": "sha256:339a0bf2f790a3ee1ef407b13d639f26299b55edea05eb35485fed829db105be",
+      "digest": "sha256:46e934cd46a036684922f7213b2a4d67f11b26ab7f866389118b4bf8d388b389",
       "requiredTokens": [
         {
           "token": "check-v42-gate9-promotion-readiness.mjs",
