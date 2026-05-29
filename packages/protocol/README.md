@@ -131,6 +131,18 @@ compensation route preview while keeping Gate 7 responsible for depositor
 approval, admission, indexing, storage projection, telemetry, and `/packs`
 activity synchronization.
 
+V43 Gate 7 adds `DepositAssetPackOptionAdmissionReport` through
+`packages/protocol/src/canonical/v43-deposit-option-admission.js`,
+`packages/protocol/test/v43-deposit-option-admission.test.js`,
+`.bitcode/v43-deposit-option-admission.json`,
+`generate:v43-deposit-option-admission`,
+`check:v43-deposit-option-admission`, and `check:v43-gate7`. It binds
+depositor approve/reject/resynthesis decisions, source-safe admission receipts,
+Depository index/storage projections, BTC source-to-shares compensation preview
+continuity, execution-stream telemetry, and `/packs` `depository-assetpack`
+synchronization while keeping BTD mint, rights transfer, settlement broadcast,
+and unpaid AssetPack source disclosure outside deposit-side admission.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

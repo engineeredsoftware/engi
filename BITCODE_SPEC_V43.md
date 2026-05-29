@@ -201,6 +201,21 @@ and `/packs` synchronization remain Gate 7 responsibilities.
 
 Gate 7 must implement option accept/reject/resynthesize decisions, admission receipts, Depository indexing, storage projection, compensation preview, telemetry, and `/packs` activity synchronization for approved deposit AssetPacks.
 
+Gate 7 closes with `DepositAssetPackOptionAdmissionReport`,
+`DepositOptionAdmissionReceipt`, `DepositOptionReviewDecision`, and the
+generated `.bitcode/v43-deposit-option-admission.json` proof. The admission
+report consumes source-safe Gate 5 option synthesis plus Gate 6 policy scoring
+and emits per-option receipts for pending review, depositor approval, depositor
+rejection, depositor-requested resynthesis, and policy-blocked outcomes. Only
+approved, policy-eligible, source-safe options are admitted to the Depository.
+Admitted options receive source-safe semantic, lexical, and metadata index
+projection roots, object-storage metadata roots, external raw-source pointer
+roots, preserved BTC source-to-shares compensation preview, execution-stream
+telemetry roots, and `/packs` synchronization as `depository-assetpack`
+activity. Gate 7 does not mint BTD, transfer rights, broadcast settlement, or
+show unpaid AssetPack source; those remain gated by future accepted Need-Fit
+settlement.
+
 ## V43 Gate 8 UX/UI Product Excellence Pass
 
 Gate 8 must improve route layout, visual hierarchy, copy, progressive disclosure, execution stream usage, empty/error/loading states, keyboard/responsive behavior, and reusable themed components across `/packs`, `/read`, and `/deposit`. It must remove in-app self-referential explanatory copy outside public docs.
@@ -217,13 +232,13 @@ Gate 10 must bind every V43 artifact, workflow, generated proof, docs update, ro
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: DepositRouteSession, DepositAssetPackOption, DepositOptionSynthesisRequest, DepositAssetPackOptionSynthesis, DepositAssetPackOptionPolicy, DepositAssetPackOptionPolicyReport, Depository record, source admission proof, compensation preview, `.bitcode/v43-deposit-route-options.json`, and `.bitcode/v43-deposit-policy-compensation.json`.
-- Current algorithms and derivation rules: connected-source selection, depositor instruction rooting, source path rooting, Depository demand signal roots, Reading demand signal roots, existing supply signal roots, option grouping, measurement projection, source-safe review posture, source criticality scoring, weighted demand scoring, deterministic gross-minus-cost ROI scoring, estimate-only BTD potential, and future-reader BTC source-to-shares compensation route preview.
-- Current invariants and fail-closed conditions: invalid repository binding, missing source hints, critical-source block, negative expected value warning/block, missing wallet compensation repair posture, admission/indexing deferred to Gate 7, and protected-source leak.
-- Current proof obligations: source-safe option synthesis, option policy report, option review boundary, future admission boundary, compensation route preview, BTD mint boundary, and activity synchronization.
-- Current source-bearing implementation basis: `/deposit` route, `DepositRouteSession`, asset-pack pipeline package option synthesis, asset-pack package policy report, existing deposit composer, source-safe route tests, package tests, and generated protocol artifacts.
-- Current validating commands and parity basis: `pnpm run check:v43-gate5`, `pnpm run check:v43-gate6`, package tests, API tests, and generated artifacts.
-- Current accepted boundaries: options are not BTD mints and do not expose source to readers before settlement.
+- Current canonical objects and emitted artifacts: DepositRouteSession, DepositAssetPackOption, DepositOptionSynthesisRequest, DepositAssetPackOptionSynthesis, DepositAssetPackOptionPolicy, DepositAssetPackOptionPolicyReport, DepositAssetPackOptionAdmissionReport, DepositOptionAdmissionReceipt, DepositOptionReviewDecision, Depository record projection, source admission proof, compensation preview, `.bitcode/v43-deposit-route-options.json`, `.bitcode/v43-deposit-policy-compensation.json`, and `.bitcode/v43-deposit-option-admission.json`.
+- Current algorithms and derivation rules: connected-source selection, depositor instruction rooting, source path rooting, Depository demand signal roots, Reading demand signal roots, existing supply signal roots, option grouping, measurement projection, source-safe review posture, source criticality scoring, weighted demand scoring, deterministic gross-minus-cost ROI scoring, estimate-only BTD potential, future-reader BTC source-to-shares compensation route preview, depositor approve/reject/resynthesis decisions, approved-policy-eligible admission, Depository index projection, storage metadata projection, and `/packs` activity synchronization.
+- Current invariants and fail-closed conditions: invalid repository binding, missing source hints, critical-source block, negative expected value warning/block, missing wallet compensation repair posture, missing depositor review, rejected option, resynthesis request, policy-blocked option, and protected-source leak.
+- Current proof obligations: source-safe option synthesis, option policy report, option review boundary, admission receipts, compensation route preview, Depository index/storage projections, BTD mint boundary, telemetry, and activity synchronization.
+- Current source-bearing implementation basis: `/deposit` route, `DepositRouteSession`, asset-pack pipeline package option synthesis, asset-pack package policy report, asset-pack package admission report, existing deposit composer, `/packs` activity projection, source-safe route tests, package tests, and generated protocol artifacts.
+- Current validating commands and parity basis: `pnpm run check:v43-gate5`, `pnpm run check:v43-gate6`, `pnpm run check:v43-gate7`, package tests, API tests, and generated artifacts.
+- Current accepted boundaries: options are not BTD mints and do not expose source to readers before settlement; admitted deposit AssetPacks publish only source-safe metadata and external source pointer roots until a future paid Need-Fit settlement.
 
 ### Reading and prompt/inference ownership
 

@@ -263,8 +263,18 @@ function inferPackActivityType(record: BitcodeActivityRecord): PackActivityType 
     .join(' ')
     .toLowerCase();
 
+  if (
+    includesAny(haystack, [
+      'depository assetpack',
+      'depository asset pack',
+      'deposit admission',
+      'deposit-option-admission',
+      'admitted to the depository',
+    ])
+  ) {
+    return 'depository-assetpack';
+  }
   if (includesAny(haystack, ['deposit option', 'deposit-option', 'option synthesis'])) return 'deposit-option';
-  if (includesAny(haystack, ['depository assetpack', 'depository asset pack', 'deposit admission'])) return 'depository-assetpack';
   if (includesAny(haystack, ['finding fits', 'fits finding', 'read-fits', 'fit preview', 'assetpack preview'])) return 'read-need-fit-preview';
   if (includesAny(haystack, ['settled assetpack', 'settled asset pack', 'rights transfer'])) return 'settled-assetpack';
   if (includesAny(haystack, ['settlement', 'btc', 'finality'])) return 'settlement';
@@ -313,7 +323,8 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
     ['token-total', ['total_tokens', 'tokenTotal', 'totalTokens'], 'tokens'],
     ['duration', ['duration_ms', 'durationMs', 'runtimeMs'], 'ms'],
     ['cost', ['total_cost', 'totalCost'], 'USD'],
-    ['candidate-count', ['candidateCount', 'fitCandidateCount', 'targetKindCount'], 'count'],
+    ['candidate-count', ['candidateCount', 'fitCandidateCount', 'targetKindCount', 'optionCount'], 'count'],
+    ['admitted-count', ['admittedCount'], 'count'],
     ['closure-criteria', ['closureCriteriaCount', 'closureCount'], 'count'],
   ];
 
@@ -329,6 +340,8 @@ function buildMeasurements(record: BitcodeActivityRecord): PackActivityMeasureme
     'depositMeasurementRoot',
     'assetPackMeasurementRoot',
     'readNeedMeasurementRoot',
+    'admissionReportRoot',
+    'admissionRoot',
   ]);
   if (measurementRoot) {
     measurements.push({

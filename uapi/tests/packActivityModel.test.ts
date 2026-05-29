@@ -96,4 +96,35 @@ describe('pack-activity-model', () => {
     expect(detail.proofRoots.length).toBeGreaterThan(0);
     expect(assertPackActivitySourceSafe(detail)).toBe(true);
   });
+
+  it('projects approved deposit admission receipts as Depository AssetPack activity', () => {
+    const record = normalizePackActivityRecord({
+      ...baseRecord,
+      id: 'pack-activity-deposit-admission',
+      title: 'Pipeline execution',
+      summary: 'Admitted Repository capability AssetPack option to the Depository.',
+      state: 'completed',
+      payload: {
+        type: 'pipeline:deposit-option-admission',
+        assetPackTitle: 'Repository capability AssetPack option',
+        optionCount: 3,
+        admittedCount: 1,
+        admissionState: 'admitted-to-depository',
+        compensationState: 'compensation-preview-ready',
+        packActivitySyncState: 'synchronized-to-packs',
+        admissionReportRoot: 'deposit-admission-report-root',
+        protectedSource: 'protected source body',
+        rawProviderResponse: 'raw provider response',
+      },
+    });
+
+    expect(record.type).toBe('depository-assetpack');
+    expect(record.assetPackTitle).toBe('Repository capability AssetPack option');
+    expect(record.measurements.some((measurement) => measurement.id === 'admitted-count')).toBe(true);
+    expect(record.compensationState).toBe('compensation-preview-ready');
+    expect(record.proofRoots.map((proofRoot) => proofRoot.root)).toContain('deposit-admission-report-root');
+    expect(assertPackActivitySourceSafe(record)).toBe(true);
+    expect(JSON.stringify(record)).not.toContain('protected source body');
+    expect(JSON.stringify(record)).not.toContain('raw provider response');
+  });
 });

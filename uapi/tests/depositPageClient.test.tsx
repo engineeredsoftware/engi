@@ -151,7 +151,10 @@ describe('DepositPageClient', () => {
     expect(screen.getByText('Source-safe deposit state')).toBeInTheDocument();
     expect(screen.getAllByText('DepositAssetPackOptionSynthesis').length).toBeGreaterThan(0);
     expect(screen.getAllByText('DepositAssetPackOptionPolicy').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('DepositAssetPackOptionAdmissionReport').length).toBeGreaterThan(0);
     expect(screen.getAllByText(/BTC source-to-shares preview/u).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Approve for Depository/u).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/not-admitted-pending-review/u).length).toBeGreaterThan(0);
     expect(screen.getByTestId('deposit-option-capability-slice')).toBeInTheDocument();
     expect(screen.getByTestId('deposit-option-implementation-pattern')).toBeInTheDocument();
     expect(screen.getByTestId('deposit-option-proof-operations-slice')).toBeInTheDocument();
