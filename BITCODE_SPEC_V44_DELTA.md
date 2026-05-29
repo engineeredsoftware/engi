@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 2 economic domain model work over promoted V43
+- V44 state: draft Gate 3 Packs portfolio market intelligence work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`
-- Source parity state: Gate 2 binds package-backed economic object contracts, receipt taxonomy, docs, workflow, package script, checker, and protocol tests
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`
+- Source parity state: Gate 3 binds package-backed Packs portfolio/market intelligence, route/API/UI projections, docs, workflow, package script, checker, and protocol/UAPI tests
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -61,6 +61,10 @@ only. It does not implement route dashboards, quote engines, settlement
 observation, compensation payout execution, organization wallet authority, or
 scaled rehearsals.
 
+V44 Gate 3 closes `/packs` portfolio and market intelligence over the existing
+PackActivity source-safe API. It does not implement quote approval, payment
+observation, contributor payouts, wallet authority, or scaled rehearsals.
+
 ## Pre-Implementation Sequence
 
 1. Open V44 spec family, roadmap, checker, package script, workflow posture,
@@ -81,6 +85,10 @@ scaled rehearsals.
 Gate 1 validates with `pnpm run check:v44-gate1`. Gate 2 validates with
 `pnpm run generate:v44-economic-domain-model`,
 `pnpm run check:v44-economic-domain-model`, and `pnpm run check:v44-gate2`.
+Gate 3 validates with
+`pnpm run generate:v44-packs-portfolio-market-intelligence`,
+`pnpm run check:v44-packs-portfolio-market-intelligence`, and
+`pnpm run check:v44-gate3`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,

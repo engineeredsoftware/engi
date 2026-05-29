@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft parity includes Gate 2 economic domain model work
+- V44 state: draft parity includes Gate 3 Packs portfolio market intelligence work
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`
-- Source parity state: Gate 2 requires package/docs/workflow/checker/test parity for the economic receipt taxonomy
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`
+- Source parity state: Gate 3 requires package/API/UI/docs/workflow/checker/test parity for Packs portfolio market intelligence
 - Scope: parity for V44 enterprise economic operation over promoted V43 product routes
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -30,7 +30,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | --- | --- | --- |
 | Gate 1 roadmap | V43 active / V44 draft posture, spec family, docs, workflow, package script, checker | implemented |
 | Economic domain model | Portfolio positions, market signals, quote states, settlement states, statements, repair cases | implemented |
-| Packs portfolio | `/packs` portfolio search, market intelligence, saved filters, economic facets | drafted |
+| Packs portfolio | `/packs` portfolio search, market intelligence, saved filters, economic facets | implemented |
 | Reading procurement | Budget, quote policy, approval thresholds, purchase governance | drafted |
 | Depositor earnings | ROI, demand, compensation opportunity, supply recommendations | drafted |
 | Accounting statements | BTD/BTC/source-to-shares statements and reconciliation | drafted |
@@ -47,7 +47,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Economic labels | Estimate, quote, observed payment, settlement, allocation, delivery, repair are distinct | implemented |
 | Ledger reconciliation | Portfolio statements reconcile to receipts before finality | drafted |
 | Route authority | `/packs`, `/read`, `/deposit` do not bypass protocol law | drafted |
-| Tests and proofs | Each gate has generated artifacts, package tests, route tests, and workflow checks | drafted |
+| Tests and proofs | Each gate has generated artifacts, package tests, route tests, and workflow checks | implemented prerequisite |
 
 ## Accepted boundaries
 

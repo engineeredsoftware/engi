@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft notes include Gate 2 economic domain model work over promoted V43
+- V44 state: draft notes include Gate 3 Packs portfolio market intelligence work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`
-- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, and receipt taxonomy for active V43 / draft V44
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`
+- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, and `/packs` portfolio market intelligence for active V43 / draft V44
 - Scope: V44 notes for digitizing and tokenizing scaled engineering economies through enterprise AssetPack portfolio, market intelligence, BTD/BTC accounting, governance, and compensation operation
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -94,3 +94,12 @@ payment, final settlement, contributor allocation, delivery, and repair state.
 This is intentionally source-safe: it carries identifiers, roots, states, and
 contracts, not protected source, unpaid AssetPack source, raw prompts, provider
 payloads, credentials, wallet private material, or private settlement payloads.
+
+## Gate 3 note
+
+Gate 3 makes `/packs` the first scaled economic inspection surface. It keeps
+PackActivity as the source of truth but adds saved filters, portfolio position
+projections, organization views, demand signals, supply signals, unfit Need
+signals, settlement facets, compensation facets, delivery facets, repair
+facets, and proof-root drilldown. The route remains source-safe: generated and
+runtime projections are metadata, measurements, roots, and state labels only.

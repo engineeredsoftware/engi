@@ -208,6 +208,18 @@ market-intelligence operation: saved filters, organization views, demand/supply
 signals, unfound Need surfaces, compensation and settlement facets, proof-root
 drilldown, and no-source-leak tests.
 
+Gate 3 closes through `V44PacksPortfolioMarketIntelligence` in
+`packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js`,
+deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`,
+`generate:v44-packs-portfolio-market-intelligence`,
+`check:v44-packs-portfolio-market-intelligence`, and `check:v44-gate3`. The
+`/api/packs/activity` projection now returns `marketIntelligence` with
+source-safe portfolio positions, demand/supply/unfit-Need/settlement/
+compensation/delivery/repair signals, saved filter presets, and settlement,
+compensation, delivery, and repair facets. `/packs` renders those portfolio
+positions, saved filters, market signals, and facet filters while retaining
+proof-root drilldown and no-source-leak tests.
+
 ## V44 Gate 4 Reading Budget, Quote Policy, And Procurement Governance
 
 Gate 4 must bind Reading spend controls: budget envelopes, approval thresholds,
@@ -579,7 +591,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-canonical-input-report.json` | generated artifact inventories | draft-required |
 | `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
 | `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
-| `.bitcode/v44-packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | planned |
+| `.bitcode/v44-packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | implemented-source-safe |
 | `.bitcode/v44-reading-budget-quote-policy.json` | Reading budget and quote policy | planned |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | planned |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | planned |
@@ -649,6 +661,10 @@ explicit later launch authority, or economic receipts cannot reconcile.
 Gate 1 validates with `pnpm run check:v44-gate1`. Gate 2 validates with
 `pnpm run generate:v44-economic-domain-model`,
 `pnpm run check:v44-economic-domain-model`, and `pnpm run check:v44-gate2`.
+Gate 3 validates with
+`pnpm run generate:v44-packs-portfolio-market-intelligence`,
+`pnpm run check:v44-packs-portfolio-market-intelligence`, and
+`pnpm run check:v44-gate3`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
@@ -721,7 +737,7 @@ Inherited.
 | `.bitcode/v44-canonical-input-report.json` | exact generated-artifact inventory | draft-required |
 | `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
 | `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
-| `.bitcode/v44-packs-portfolio-market-intelligence.json` | portfolio and market intelligence | planned |
+| `.bitcode/v44-packs-portfolio-market-intelligence.json` | portfolio and market intelligence | implemented-source-safe |
 | `.bitcode/v44-reading-budget-quote-policy.json` | budget and quote policy | planned |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | planned |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | planned |
@@ -736,6 +752,8 @@ Inherited.
 `.bitcode/v44-canonical-input-report.json`, and
 `.bitcode/v44-canon-posture-drift-report.json` are the opening artifacts.
 Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`.
+Gate 3 adds deterministic
+`.bitcode/v44-packs-portfolio-market-intelligence.json`.
 
 ### Shared generated-artifact fields
 
