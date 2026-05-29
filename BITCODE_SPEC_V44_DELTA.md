@@ -3,7 +3,7 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 3 Packs portfolio market intelligence work over promoted V43
+- V44 state: draft Gate 4 Reading budget quote policy work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
@@ -65,6 +65,10 @@ V44 Gate 3 closes `/packs` portfolio and market intelligence over the existing
 PackActivity source-safe API. It does not implement quote approval, payment
 observation, contributor payouts, wallet authority, or scaled rehearsals.
 
+V44 Gate 4 closes `/read` budget and quote governance around source-safe
+AssetPack previews. It does not observe payment, transfer BTD rights, execute
+contributor payouts, or admit value-bearing mainnet operation.
+
 ## Pre-Implementation Sequence
 
 1. Open V44 spec family, roadmap, checker, package script, workflow posture,
@@ -89,6 +93,9 @@ Gate 3 validates with
 `pnpm run generate:v44-packs-portfolio-market-intelligence`,
 `pnpm run check:v44-packs-portfolio-market-intelligence`, and
 `pnpm run check:v44-gate3`.
+Gate 4 validates with `pnpm run generate:v44-reading-budget-quote-policy`,
+`pnpm run check:v44-reading-budget-quote-policy`, and
+`pnpm run check:v44-gate4`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,

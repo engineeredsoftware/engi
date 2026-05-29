@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft notes include Gate 3 Packs portfolio market intelligence work over promoted V43
+- V44 state: draft notes include Gate 4 Reading budget quote policy work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`
-- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, and `/packs` portfolio market intelligence for active V43 / draft V44
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`
+- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, and `/read` budget quote policy for active V43 / draft V44
 - Scope: V44 notes for digitizing and tokenizing scaled engineering economies through enterprise AssetPack portfolio, market intelligence, BTD/BTC accounting, governance, and compensation operation
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -93,7 +93,18 @@ network-rehearsal receipts. Its value labels remain estimate, quote, observed
 payment, final settlement, contributor allocation, delivery, and repair state.
 This is intentionally source-safe: it carries identifiers, roots, states, and
 contracts, not protected source, unpaid AssetPack source, raw prompts, provider
-payloads, credentials, wallet private material, or private settlement payloads.
+responses, credentials, wallet private material, private settlement payloads,
+or value-bearing mainnet admission.
+
+## Gate 4 note
+
+Gate 4 makes `/read` budgeted without changing Reading law. The route can show
+budget envelope state, quote state, approval posture, buyer and wallet
+authority, deterministic measurement-weight-volume share-to-fee calculation,
+and settlement readiness blockers before purchase. It cannot reveal source or
+settlement private material, and it cannot treat a quote as final settlement.
+Payment observation, BTD rights transfer, delivery unlock, and contributor
+compensation remain later receipt-backed steps.
 
 ## Gate 3 note
 

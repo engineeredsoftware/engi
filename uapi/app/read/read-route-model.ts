@@ -16,6 +16,88 @@ export type ReadRouteSessionInput = TerminalEnterpriseReadingUxStateInput & {
   readNeedId?: string | null;
   assetPackPreviewId?: string | null;
   settlementQuoteId?: string | null;
+  budgetEnvelopeSats?: number | null;
+  approvalThresholdSats?: number | null;
+  quoteSats?: number | null;
+  quoteIssuedAt?: string | null;
+  quoteExpiresAt?: string | null;
+  quoteObservedAt?: string | null;
+  procurementApproved?: boolean;
+  buyerAuthorized?: boolean;
+  walletAuthorityPresent?: boolean;
+  measuredBtd?: number | null;
+};
+
+export type ReadProcurementBudgetState =
+  | 'awaiting-quote'
+  | 'within-budget'
+  | 'approval-required'
+  | 'exceeded';
+
+export type ReadProcurementQuoteState =
+  | 'awaiting-preview'
+  | 'quoted'
+  | 'expired'
+  | 'approved'
+  | 'blocked';
+
+export type ReadProcurementSettlementReadiness =
+  | 'awaiting-preview'
+  | 'awaiting-approval'
+  | 'awaiting-buyer-authority'
+  | 'awaiting-wallet-authority'
+  | 'ready-for-testnet-settlement'
+  | 'blocked-budget'
+  | 'blocked-expired-quote';
+
+export type ReadProcurementGovernance = {
+  schema: 'bitcode.read.procurement-governance';
+  budgetPolicy: {
+    policyId: string;
+    budgetEnvelopeSats: number;
+    approvalThresholdSats: number;
+    quoteSats: number;
+    state: ReadProcurementBudgetState;
+    approvalRequired: boolean;
+    policyRoot: string;
+  };
+  quotePolicy: {
+    quoteId: string | null;
+    state: ReadProcurementQuoteState;
+    feeAsset: 'BTC';
+    pricingVersion: 'measurement-weight-volume';
+    issuedAt: string | null;
+    expiresAt: string | null;
+    quoteRoot: string;
+    shareToFee: {
+      measurementWeight: number;
+      measurementVolume: number;
+      pricePerWeightedUnitSats: number;
+      grossSats: number;
+      deterministic: true;
+      calculationRoot: string;
+    };
+  };
+  approval: {
+    buyerAuthorized: boolean;
+    walletAuthorityPresent: boolean;
+    procurementApproved: boolean;
+    approvalRoot: string;
+  };
+  settlement: {
+    readiness: ReadProcurementSettlementReadiness;
+    btcBtdSettlementReady: boolean;
+    blockers: string[];
+    readinessRoot: string;
+  };
+  prePurchaseReview: {
+    sourceSafePreviewVisible: boolean;
+    protectedSourceVisible: false;
+    unpaidAssetPackSourceVisible: false;
+    walletPrivateMaterialVisible: false;
+    settlementPrivatePayloadVisible: false;
+    reviewRoot: string;
+  };
 };
 
 export type ReadRouteSession = {
@@ -51,6 +133,7 @@ export type ReadRouteSession = {
     deliveryRequiresPaidReadRights: true;
     retainedTerminalDebugCompatible: true;
   };
+  procurementGovernance: ReadProcurementGovernance;
   disclosure: {
     sourceSafetyClass: 'source_safe_read_route_metadata';
     lowDetailDefault: true;
@@ -83,6 +166,153 @@ function normalizedText(value: string | null | undefined) {
   return normalized ? normalized : null;
 }
 
+function normalizeSafeNumber(value: number | null | undefined, fallback: number) {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0
+    ? Math.round(value)
+    : fallback;
+}
+
+function isExpired(now: string | null | undefined, expiresAt: string | null | undefined) {
+  if (!now || !expiresAt) return false;
+  const nowMs = new Date(now).getTime();
+  const expiresMs = new Date(expiresAt).getTime();
+  return Number.isFinite(nowMs) && Number.isFinite(expiresMs) && nowMs > expiresMs;
+}
+
+export function buildReadProcurementGovernance(
+  input: ReadRouteSessionInput = {},
+): ReadProcurementGovernance {
+  const sourceSafePreviewVisible = Boolean(input.hasSourceSafePreview);
+  const budgetEnvelopeSats = normalizeSafeNumber(input.budgetEnvelopeSats, 250_000);
+  const approvalThresholdSats = normalizeSafeNumber(input.approvalThresholdSats, 100_000);
+  const measurementWeight = sourceSafePreviewVisible ? 1_000 : 0;
+  const measurementVolume = sourceSafePreviewVisible
+    ? Math.max(1, normalizeSafeNumber(input.measuredBtd, 0))
+    : 0;
+  const pricePerWeightedUnitSats = 25;
+  const grossSats =
+    input.quoteSats !== null && input.quoteSats !== undefined
+      ? normalizeSafeNumber(input.quoteSats, 0)
+      : Math.round((measurementWeight * measurementVolume * pricePerWeightedUnitSats) / 1_000);
+  const approvalRequired = grossSats >= approvalThresholdSats;
+  const quoteExpired = isExpired(input.quoteObservedAt || input.quoteIssuedAt, input.quoteExpiresAt);
+  const budgetState: ReadProcurementBudgetState =
+    grossSats <= 0
+      ? 'awaiting-quote'
+      : grossSats > budgetEnvelopeSats
+        ? 'exceeded'
+        : approvalRequired && !input.procurementApproved
+          ? 'approval-required'
+          : 'within-budget';
+  const quoteState: ReadProcurementQuoteState = !sourceSafePreviewVisible
+    ? 'awaiting-preview'
+    : budgetState === 'exceeded'
+      ? 'blocked'
+      : quoteExpired
+        ? 'expired'
+        : input.procurementApproved
+          ? 'approved'
+          : 'quoted';
+  const buyerAuthorized = input.buyerAuthorized !== false;
+  const walletAuthorityPresent = Boolean(input.walletAuthorityPresent);
+  const procurementApproved = Boolean(input.procurementApproved) || !approvalRequired;
+  const blockers = [
+    !sourceSafePreviewVisible ? 'source-safe AssetPack preview required' : '',
+    budgetState === 'exceeded' ? 'quote exceeds Reading budget envelope' : '',
+    quoteState === 'expired' ? 'quote expired' : '',
+    approvalRequired && !procurementApproved ? 'procurement approval required' : '',
+    !buyerAuthorized ? 'buyer authorization required' : '',
+    !walletAuthorityPresent ? 'wallet authority required' : '',
+  ].filter(Boolean);
+  const readiness: ReadProcurementSettlementReadiness = !sourceSafePreviewVisible
+    ? 'awaiting-preview'
+    : budgetState === 'exceeded'
+      ? 'blocked-budget'
+      : quoteState === 'expired'
+        ? 'blocked-expired-quote'
+        : approvalRequired && !procurementApproved
+          ? 'awaiting-approval'
+          : !buyerAuthorized
+            ? 'awaiting-buyer-authority'
+            : !walletAuthorityPresent
+              ? 'awaiting-wallet-authority'
+              : 'ready-for-testnet-settlement';
+  const calculationSeed = JSON.stringify({
+    measurementWeight,
+    measurementVolume,
+    pricePerWeightedUnitSats,
+    grossSats,
+  });
+  const policySeed = JSON.stringify({
+    budgetEnvelopeSats,
+    approvalThresholdSats,
+    grossSats,
+    budgetState,
+  });
+  const approvalSeed = JSON.stringify({
+    buyerAuthorized,
+    walletAuthorityPresent,
+    procurementApproved,
+    approvalRequired,
+  });
+  const readinessSeed = JSON.stringify({ readiness, blockers, quoteState });
+  const reviewSeed = JSON.stringify({
+    sourceSafePreviewVisible,
+    protectedSourceVisible: false,
+    unpaidAssetPackSourceVisible: false,
+  });
+
+  return {
+    schema: 'bitcode.read.procurement-governance',
+    budgetPolicy: {
+      policyId: 'reading-budget-policy:default-source-safe',
+      budgetEnvelopeSats,
+      approvalThresholdSats,
+      quoteSats: grossSats,
+      state: budgetState,
+      approvalRequired,
+      policyRoot: `reading-budget-policy:${stableHash(policySeed)}`,
+    },
+    quotePolicy: {
+      quoteId: normalizedText(input.settlementQuoteId),
+      state: quoteState,
+      feeAsset: 'BTC',
+      pricingVersion: 'measurement-weight-volume',
+      issuedAt: normalizedText(input.quoteIssuedAt),
+      expiresAt: normalizedText(input.quoteExpiresAt),
+      quoteRoot: `reading-quote-policy:${stableHash(`${calculationSeed}:${quoteState}`)}`,
+      shareToFee: {
+        measurementWeight,
+        measurementVolume,
+        pricePerWeightedUnitSats,
+        grossSats,
+        deterministic: true,
+        calculationRoot: `reading-share-to-fee:${stableHash(calculationSeed)}`,
+      },
+    },
+    approval: {
+      buyerAuthorized,
+      walletAuthorityPresent,
+      procurementApproved,
+      approvalRoot: `reading-procurement-approval:${stableHash(approvalSeed)}`,
+    },
+    settlement: {
+      readiness,
+      btcBtdSettlementReady: readiness === 'ready-for-testnet-settlement',
+      blockers,
+      readinessRoot: `reading-settlement-readiness:${stableHash(readinessSeed)}`,
+    },
+    prePurchaseReview: {
+      sourceSafePreviewVisible,
+      protectedSourceVisible: false,
+      unpaidAssetPackSourceVisible: false,
+      walletPrivateMaterialVisible: false,
+      settlementPrivatePayloadVisible: false,
+      reviewRoot: `reading-pre-purchase-review:${stableHash(reviewSeed)}`,
+    },
+  };
+}
+
 export function readReadRouteStage(params: URLSearchParams): ReadRouteStepId | null {
   const stage = params.get('readingStage')?.trim();
   return READ_ROUTE_STAGE_IDS.includes(stage as ReadRouteStepId) ? (stage as ReadRouteStepId) : null;
@@ -97,6 +327,7 @@ export function writeReadRouteStage(params: URLSearchParams, stage: ReadRouteSte
 
 export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRouteSession {
   const enterpriseState = buildTerminalEnterpriseReadingUxState(input);
+  const procurementGovernance = buildReadProcurementGovernance(input);
   const seed = JSON.stringify({
     activeStepId: enterpriseState.activeStepId,
     transactionId: enterpriseState.routeState.transactionId,
@@ -107,6 +338,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
     assetPackPreviewId: normalizedText(input.assetPackPreviewId),
     settlementQuoteId: normalizedText(input.settlementQuoteId),
     steps: enterpriseState.steps.map((step) => ({ id: step.id, state: step.state, blockers: step.blockers })),
+    procurementGovernance,
   });
 
   return {
@@ -142,6 +374,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
       deliveryRequiresPaidReadRights: true,
       retainedTerminalDebugCompatible: true,
     },
+    procurementGovernance,
     disclosure: {
       sourceSafetyClass: 'source_safe_read_route_metadata',
       lowDetailDefault: true,
@@ -182,6 +415,16 @@ export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
     session.pipelineOwnership.acceptedNeedRequiredBeforeFindingFits === true &&
     session.pipelineOwnership.previewSourceSafeBeforeSettlement === true &&
     session.pipelineOwnership.deliveryRequiresPaidReadRights === true &&
+    session.procurementGovernance.schema === 'bitcode.read.procurement-governance' &&
+    session.procurementGovernance.quotePolicy.pricingVersion === 'measurement-weight-volume' &&
+    session.procurementGovernance.quotePolicy.shareToFee.deterministic === true &&
+    (session.procurementGovernance.budgetPolicy.budgetEnvelopeSats >=
+      session.procurementGovernance.budgetPolicy.quoteSats ||
+      session.procurementGovernance.settlement.readiness === 'blocked-budget') &&
+    session.procurementGovernance.prePurchaseReview.protectedSourceVisible === false &&
+    session.procurementGovernance.prePurchaseReview.unpaidAssetPackSourceVisible === false &&
+    session.procurementGovernance.prePurchaseReview.walletPrivateMaterialVisible === false &&
+    session.procurementGovernance.prePurchaseReview.settlementPrivatePayloadVisible === false &&
     session.disclosure.sourceSafetyClass === 'source_safe_read_route_metadata' &&
     session.disclosure.protectedSourceVisible === false &&
     session.disclosure.unpaidAssetPackSourceVisible === false &&

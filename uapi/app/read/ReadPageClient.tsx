@@ -4,10 +4,13 @@ import Link from "next/link";
 import React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  BadgeDollarSign,
+  Clock3,
   GitBranch,
   GitCommitHorizontal,
   RefreshCw,
   ShieldCheck,
+  Wallet,
   Workflow,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -63,6 +66,11 @@ function formatDate(value: string | null | undefined) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function formatSats(value: number | null | undefined) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "pending";
+  return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value)} sats`;
 }
 
 export default function ReadPageClient() {
@@ -273,6 +281,22 @@ export default function ReadPageClient() {
         hasDeliveryReadback: Boolean(
           selectedRun?.closureFocus?.toLowerCase().includes("delivery"),
         ),
+        measuredBtd: selectedRun?.measuredBtd ?? null,
+        quoteSats:
+          typeof selectedRun?.btcFeeUsdEquivalent === "number"
+            ? Math.max(1, Math.round(selectedRun.btcFeeUsdEquivalent * 10_000))
+            : null,
+        settlementQuoteId: selectedRun?.id ? `quote:${selectedRun.id}` : null,
+        procurementApproved: Boolean(
+          selectedRun?.closureFocus?.toLowerCase().includes("settlement") ||
+            selectedRun?.closureFocus?.toLowerCase().includes("delivery"),
+        ),
+        buyerAuthorized: true,
+        walletAuthorityPresent: Boolean(
+          selectedRun?.closureFocus?.toLowerCase().includes("wallet") ||
+            selectedRun?.closureFocus?.toLowerCase().includes("settlement") ||
+            selectedRun?.closureFocus?.toLowerCase().includes("delivery"),
+        ),
       }),
     [
       admittedReadActivityId,
@@ -375,6 +399,36 @@ export default function ReadPageClient() {
     },
   ];
 
+  const procurementRows = [
+    {
+      label: "Budget",
+      value: formatSats(
+        readRouteSession.procurementGovernance.budgetPolicy.budgetEnvelopeSats,
+      ),
+    },
+    {
+      label: "Quote",
+      value: formatSats(
+        readRouteSession.procurementGovernance.quotePolicy.shareToFee.grossSats,
+      ),
+    },
+    {
+      label: "Approval",
+      value: readRouteSession.procurementGovernance.budgetPolicy.approvalRequired
+        ? readRouteSession.procurementGovernance.approval.procurementApproved
+          ? "approved"
+          : "required"
+        : "not required",
+    },
+    {
+      label: "Settlement",
+      value: readRouteSession.procurementGovernance.settlement.readiness.replace(
+        /-/g,
+        " ",
+      ),
+    },
+  ];
+
   return (
     <TerminalShellBridgeProvider>
       <ProductRouteShell
@@ -394,6 +448,12 @@ export default function ReadPageClient() {
             value: isLoadingRuns ? "reading" : String(liveRuns.length),
           },
           { label: "Boundary", value: "source-safe" },
+          {
+            label: "Quote",
+            value: formatSats(
+              readRouteSession.procurementGovernance.budgetPolicy.quoteSats,
+            ),
+          },
         ]}
       >
         <ProductRouteStepGrid
@@ -472,6 +532,73 @@ export default function ReadPageClient() {
                   rights: source-bearing AssetPack contents.
                 </ProductRouteDisclosure>
               </div>
+            </section>
+
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+                    Procurement
+                  </p>
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Budget and quote
+                  </h2>
+                </div>
+                <BadgeDollarSign
+                  className="h-5 w-5 text-emerald-200"
+                  aria-hidden="true"
+                />
+              </div>
+              <dl className="mt-4 grid gap-2">
+                {procurementRows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="border border-white/8 bg-black/20 px-3 py-2"
+                  >
+                    <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-200">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-4 grid gap-2 text-xs text-neutral-400">
+                <div className="flex items-center gap-2">
+                  <Clock3 className="h-3.5 w-3.5 text-sky-200" aria-hidden="true" />
+                  <span>
+                    {readRouteSession.procurementGovernance.quotePolicy.state.replace(
+                      /-/g,
+                      " ",
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Wallet
+                    className="h-3.5 w-3.5 text-sky-200"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    {readRouteSession.procurementGovernance.approval.walletAuthorityPresent
+                      ? "wallet authority present"
+                      : "wallet authority pending"}
+                  </span>
+                </div>
+              </div>
+              {readRouteSession.procurementGovernance.settlement.blockers
+                .length ? (
+                <div className="mt-3">
+                  <ProductRouteDisclosure
+                    title="Procurement blockers"
+                    tone="sky"
+                  >
+                    {readRouteSession.procurementGovernance.settlement.blockers.join(
+                      "; ",
+                    )}
+                  </ProductRouteDisclosure>
+                </div>
+              ) : null}
             </section>
 
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">

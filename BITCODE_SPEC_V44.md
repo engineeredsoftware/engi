@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft opened for scaled engineering economy and tokenized AssetPack network work over promoted V43 product routes
+- V44 state: draft Gate 4 Reading budget quote policy work over promoted V43 product routes
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts begin with the V44 Gate 1 roadmap/spec posture and must remain source-safe metadata only until later V44 gates generate package-backed reports
-- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 1 is specification and workflow posture only
+- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, and Gate 4 Reading budget quote policy reports; all remain source-safe metadata only
+- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 4 binds `/read` budget and quote policy without changing settlement law
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -225,6 +225,20 @@ proof-root drilldown and no-source-leak tests.
 Gate 4 must bind Reading spend controls: budget envelopes, approval thresholds,
 quote expiry, deterministic share-to-fee policy, buyer authorization, BTC/BTD
 settlement readiness, and source-safe pre-purchase review.
+
+Gate 4 closes through `V44ReadingBudgetQuotePolicy` in
+`packages/protocol/src/canonical/v44-reading-budget-quote-policy.js`,
+deterministic `.bitcode/v44-reading-budget-quote-policy.json`,
+`generate:v44-reading-budget-quote-policy`,
+`check:v44-reading-budget-quote-policy`, and `check:v44-gate4`. The `/read`
+route session now projects `ReadProcurementGovernance` with source-safe budget
+policy, quote policy, procurement approval, buyer and wallet authority,
+settlement readiness blockers, pre-purchase review roots, and deterministic
+measurement-weight-volume share-to-fee calculation. `/read` renders those
+budget, quote, approval, wallet authority, and settlement-readiness fields
+without exposing protected source, unpaid AssetPack source, raw prompts, raw
+provider responses, wallet private material, private settlement payloads, or
+value-bearing mainnet admission.
 
 ## V44 Gate 5 Depositor Earnings, ROI, And Supply Opportunity Intelligence
 
@@ -592,7 +606,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
 | `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | implemented-source-safe |
-| `.bitcode/v44-reading-budget-quote-policy.json` | Reading budget and quote policy | planned |
+| `.bitcode/v44-reading-budget-quote-policy.json` | Reading budget and quote policy | implemented-source-safe |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | planned |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | planned |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | planned |
@@ -665,6 +679,9 @@ Gate 3 validates with
 `pnpm run generate:v44-packs-portfolio-market-intelligence`,
 `pnpm run check:v44-packs-portfolio-market-intelligence`, and
 `pnpm run check:v44-gate3`.
+Gate 4 validates with `pnpm run generate:v44-reading-budget-quote-policy`,
+`pnpm run check:v44-reading-budget-quote-policy`, and
+`pnpm run check:v44-gate4`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
@@ -738,7 +755,7 @@ Inherited.
 | `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
 | `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | portfolio and market intelligence | implemented-source-safe |
-| `.bitcode/v44-reading-budget-quote-policy.json` | budget and quote policy | planned |
+| `.bitcode/v44-reading-budget-quote-policy.json` | budget and quote policy | implemented-source-safe |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | planned |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | planned |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | planned |

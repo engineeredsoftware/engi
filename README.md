@@ -310,6 +310,18 @@ and market intelligence with saved filters, organization views, demand/supply
 signals, unfit Need signals, settlement and compensation facets, proof-root
 drilldown, API/UI projection tests, and no-source-leak checks.
 
+V44 Gate 4 adds `V44ReadingBudgetQuotePolicy`,
+`.bitcode/v44-reading-budget-quote-policy.json`,
+`generate:v44-reading-budget-quote-policy`,
+`check:v44-reading-budget-quote-policy`, and `check:v44-gate4`. It binds
+`/read` to source-safe `ReadProcurementGovernance`: budget envelopes, approval
+thresholds, quote expiry, deterministic measurement-weight-volume
+share-to-fee policy, buyer authorization, wallet authority, BTC/BTD
+settlement readiness blockers, pre-purchase review boundaries, route UI
+readback, and tests that continue withholding protected source, unpaid
+AssetPack source, raw prompts, provider payloads, wallet private material,
+private settlement payloads, and value-bearing mainnet operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

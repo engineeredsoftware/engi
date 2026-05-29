@@ -207,6 +207,18 @@ saved filters, organization views, demand/supply/unfit-Need market signals,
 settlement and compensation facets, proof-root drilldown, and no-source-leak
 tests.
 
+V44 Gate 4 adds `V44ReadingBudgetQuotePolicy` through
+`packages/protocol/src/canonical/v44-reading-budget-quote-policy.js`,
+`packages/protocol/test/v44-reading-budget-quote-policy.test.js`,
+`.bitcode/v44-reading-budget-quote-policy.json`,
+`generate:v44-reading-budget-quote-policy`,
+`check:v44-reading-budget-quote-policy`, and `check:v44-gate4`. It binds
+`/read` to source-safe Reading procurement governance: budget envelopes,
+approval thresholds, quote expiry, deterministic measurement-weight-volume
+share-to-fee policy, buyer authorization, wallet authority, BTC/BTD
+settlement readiness blockers, pre-purchase review boundaries, route UI
+readback, BTD fee/source-to-shares prerequisites, and source-safety tests.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

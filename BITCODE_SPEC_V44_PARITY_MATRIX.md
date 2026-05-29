@@ -3,7 +3,7 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft parity includes Gate 3 Packs portfolio market intelligence work
+- V44 state: draft parity includes Gate 4 Reading budget quote policy work
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
@@ -31,7 +31,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Gate 1 roadmap | V43 active / V44 draft posture, spec family, docs, workflow, package script, checker | implemented |
 | Economic domain model | Portfolio positions, market signals, quote states, settlement states, statements, repair cases | implemented |
 | Packs portfolio | `/packs` portfolio search, market intelligence, saved filters, economic facets | implemented |
-| Reading procurement | Budget, quote policy, approval thresholds, purchase governance | drafted |
+| Reading procurement | Budget, quote policy, approval thresholds, purchase governance through `.bitcode/v44-reading-budget-quote-policy.json` | implemented |
 | Depositor earnings | ROI, demand, compensation opportunity, supply recommendations | drafted |
 | Accounting statements | BTD/BTC/source-to-shares statements and reconciliation | drafted |
 | Organization governance | Roles, budgets, wallet authority, source criticality, approvals | drafted |
@@ -46,7 +46,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Source safety | No protected source, unpaid source, raw prompts, provider payloads, credentials, wallet secrets | implemented |
 | Economic labels | Estimate, quote, observed payment, settlement, allocation, delivery, repair are distinct | implemented |
 | Ledger reconciliation | Portfolio statements reconcile to receipts before finality | drafted |
-| Route authority | `/packs`, `/read`, `/deposit` do not bypass protocol law | drafted |
+| Route authority | `/packs`, `/read`, `/deposit` do not bypass protocol law | implemented prerequisite |
 | Tests and proofs | Each gate has generated artifacts, package tests, route tests, and workflow checks | implemented prerequisite |
 
 ## Accepted boundaries
