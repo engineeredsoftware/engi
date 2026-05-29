@@ -481,7 +481,11 @@ jobs:
         run: |
           POINTER="$(cat BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V41" ] || [ "$POINTER" = "V42" ]; then
-            pnpm run check:v42-gate9
+            if [ "$POINTER" = "V41" ]; then
+              node scripts/check-v42-gate9-promotion-readiness.mjs --skip-branch-check
+            else
+              node scripts/check-v42-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check
+            fi
             pnpm --filter @bitcode/protocol test
             pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
             pnpm --filter @bitcode/pipeline-asset-pack exec jest --config jest.config.cjs --passWithNoTests --forceExit
