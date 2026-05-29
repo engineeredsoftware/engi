@@ -108,6 +108,21 @@ requires compensation repair. Admission, Depository indexing, storage
 projection, `/packs` synchronization, and final approve/reject/resynthesize
 decisions remain Gate 7 boundaries.
 
+## Gate 7 delta closure
+
+Gate 7 adds `DepositAssetPackOptionAdmissionReport`,
+`DepositOptionAdmissionReceipt`, `DepositOptionReviewDecision`, the generated
+`.bitcode/v43-deposit-option-admission.json` artifact, package exports,
+protocol tests, workflow checks, `/deposit` approve/reject/resynthesize controls,
+admission readback, and `/packs` activity synchronization. Admission consumes
+source-safe option synthesis and policy reports; only depositor-approved,
+policy-eligible options enter the Depository. Admitted options project
+measurement/metadata indexes, object-storage metadata records, external
+raw-source pointer roots, BTC source-to-shares compensation preview continuity,
+and execution-stream telemetry. Gate 7 still does not mint BTD, transfer rights,
+or disclose unpaid AssetPack source; those boundaries stay with future
+Need-Fit settlement.
+
 ## Commit-Body Direction
 
 V43 gate commits should state the route/product surface changed, the protocol objects preserved, the proof/test commands run, and the source-safety boundaries maintained. Gate PR titles must begin with `V43 Gate N:`.

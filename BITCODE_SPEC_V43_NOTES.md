@@ -63,6 +63,16 @@ Gate 7 remains responsible for depositor approval, reject/resynthesize
 decisions, Depository admission receipts, indexing, storage projection,
 telemetry, and `/packs` activity synchronization.
 
+Gate 7 closes depositor approval and admission as source-safe metadata.
+`DepositAssetPackOptionAdmissionReport` records review decisions, admission
+receipts, Depository index projections, object-storage metadata projections,
+BTC source-to-shares compensation preview continuity, execution-stream
+telemetry roots, and `/packs` synchronization as `depository-assetpack`
+activity. Rejected, pending, resynthesis-requested, or policy-blocked options
+must not enter the Depository. Admitted options still do not mint BTD, transfer
+rights, reveal unpaid AssetPack source, or serialize prompts, provider
+responses, wallet material, or private settlement payloads.
+
 ## V43 copy boundary
 
 Outside public docs, avoid self-referential copy such as text explaining that a component is powerful or that Bitcode is doing a thing. Use clear route names, labels, status rows, measurement summaries, empty states, and expandable proof metadata. Public docs may explain the protocol; product UI should operate it.

@@ -32,9 +32,14 @@ import { TerminalShellBridgeProvider } from '@/app/terminal/terminal-shell-bridg
 import { deriveTerminalTransactionReadiness } from '@/app/terminal/terminal-transaction-readiness-source';
 
 import { buildDepositRouteSession, readDepositRouteStage, writeDepositRouteStage } from './deposit-route-model';
+import type {
+  DepositOptionReviewDecision,
+  DepositOptionReviewDecisionState,
+} from '@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission';
 
 const DEPOSIT_OPTION_PIPELINE_ID = 'DepositAssetPackOptionSynthesis';
 const DEPOSIT_OPTION_POLICY_ID = 'DepositAssetPackOptionPolicy';
+const DEPOSIT_OPTION_ADMISSION_ID = 'DepositAssetPackOptionAdmissionReport';
 
 function shortIdentifier(value: string | null | undefined) {
   if (!value) return 'pending';
@@ -93,7 +98,7 @@ export default function DepositPageClient() {
     ].join('\n'),
   );
   const [optionsRequested, setOptionsRequested] = useState(false);
-  const [reviewedOptionId, setReviewedOptionId] = useState<string | null>(null);
+  const [optionReviewDecisions, setOptionReviewDecisions] = useState<Record<string, DepositOptionReviewDecisionState>>({});
 
   const readCurrentSearchParams = useCallback(
     () =>
@@ -248,61 +253,80 @@ export default function DepositPageClient() {
       ),
     [liveRuns],
   );
-  const depositRouteSession = useMemo(
+  const optionReviewDecisionRecords = useMemo<DepositOptionReviewDecision[]>(
     () =>
-      buildDepositRouteSession({
-        transactionId: selectedTransactionId || selectedRun?.id || null,
-        depositStage: routeDepositStage,
-        repositoryFullName: repositoryContext?.selectedRepository?.fullName || null,
-        sourceBranch: repositoryContext?.selectedBranch || null,
-        sourceCommit: repositoryContext?.selectedCommit || null,
-        depositorInstructions,
-        sourcePathHints,
-        depositoryDemandSignals: [
-          {
-            id: 'depository-gap-source-safe-pack-options',
-            label: 'Depository benefits from reviewable source-safe AssetPack supply options.',
-            weight: 0.72,
-          },
-        ],
-        readingDemandSignals: [
-          {
-            id: 'reading-demand-fit-ready-source-supply',
-            label: 'Reading demand needs searchable, proof-bearing source supply for Finding Fits.',
-            weight: 0.8,
-          },
-        ],
-        existingDepositorySignals: [
-          {
-            id: 'existing-supply-compensation-route',
-            label: 'Existing supply expects proof roots, vector projections, and compensation previews.',
-            weight: 0.58,
-          },
-        ],
-        sourceCriticalitySignals,
-        developmentCostSats: Math.max(1600, 1200 + sourcePathHints.length * 240),
-        expectedSettlementSats: Math.max(4200, 3600 + sourcePathHints.length * 360 + liveRuns.length * 90),
-        depositorWalletId: preferredSignerAddress ? 'connected-depositor-wallet' : null,
-        hasRepositorySource: Boolean(repositoryContext?.selectedRepository),
-        optionsRequested,
-        hasReviewedOption: Boolean(reviewedOptionId),
-        hasSubmittedDeposit,
-        hasDepositoryReadback,
-      }),
+      Object.entries(optionReviewDecisions).map(([optionId, decision]) => ({
+        optionId,
+        decision,
+        reviewerId: user?.id || preferredSignerAddress || null,
+      })),
+    [optionReviewDecisions, preferredSignerAddress, user?.id],
+  );
+  const depositRouteInput = useMemo(
+    () => ({
+      transactionId: selectedTransactionId || selectedRun?.id || null,
+      depositStage: routeDepositStage,
+      repositoryFullName: repositoryContext?.selectedRepository?.fullName || null,
+      sourceBranch: repositoryContext?.selectedBranch || null,
+      sourceCommit: repositoryContext?.selectedCommit || null,
+      depositorInstructions,
+      sourcePathHints,
+      depositoryDemandSignals: [
+        {
+          id: 'depository-gap-source-safe-pack-options',
+          label: 'Depository benefits from reviewable source-safe AssetPack supply options.',
+          weight: 0.72,
+        },
+      ],
+      readingDemandSignals: [
+        {
+          id: 'reading-demand-fit-ready-source-supply',
+          label: 'Reading demand needs searchable, proof-bearing source supply for Finding Fits.',
+          weight: 0.8,
+        },
+      ],
+      existingDepositorySignals: [
+        {
+          id: 'existing-supply-compensation-route',
+          label: 'Existing supply expects proof roots, vector projections, and compensation previews.',
+          weight: 0.58,
+        },
+      ],
+      sourceCriticalitySignals,
+      developmentCostSats: Math.max(1600, 1200 + sourcePathHints.length * 240),
+      expectedSettlementSats: Math.max(4200, 3600 + sourcePathHints.length * 360 + liveRuns.length * 90),
+      depositorWalletId: preferredSignerAddress ? 'connected-depositor-wallet' : null,
+      reviewerId: user?.id || preferredSignerAddress || null,
+      hasRepositorySource: Boolean(repositoryContext?.selectedRepository),
+      optionsRequested,
+      hasReviewedOption: optionReviewDecisionRecords.length > 0,
+      hasSubmittedDeposit,
+      hasDepositoryReadback,
+    }),
     [
       depositorInstructions,
       hasDepositoryReadback,
       hasSubmittedDeposit,
+      liveRuns.length,
       optionsRequested,
+      optionReviewDecisionRecords.length,
+      preferredSignerAddress,
       repositoryContext,
-      reviewedOptionId,
       routeDepositStage,
       selectedRun?.id,
       selectedTransactionId,
       sourceCriticalitySignals,
       sourcePathHints,
-      preferredSignerAddress,
+      user?.id,
     ],
+  );
+  const depositRouteSession = useMemo(
+    () =>
+      buildDepositRouteSession({
+        ...depositRouteInput,
+        optionReviewDecisions: optionReviewDecisionRecords,
+      }),
+    [depositRouteInput, optionReviewDecisionRecords],
   );
 
   const sessionRows = [
@@ -312,8 +336,10 @@ export default function DepositPageClient() {
     { label: 'Transaction', value: shortIdentifier(depositRouteSession.routeState.transactionId) },
     { label: 'Pipeline', value: DEPOSIT_OPTION_PIPELINE_ID },
     { label: 'Policy', value: DEPOSIT_OPTION_POLICY_ID },
+    { label: 'Admission', value: DEPOSIT_OPTION_ADMISSION_ID },
     { label: 'Option roots', value: String(depositRouteSession.synthesis.roots.optionRoots.length) },
     { label: 'Positive ROI options', value: String(depositRouteSession.policy.reviewablePositiveRoiCount) },
+    { label: 'Admitted options', value: String(depositRouteSession.admission.admittedCount) },
   ];
 
   const recentDepositRuns = useMemo(
@@ -353,6 +379,79 @@ export default function DepositPageClient() {
       return nextRun;
     },
     [refreshLiveRuns, replaceDepositRouteTransaction, repositoryContext, selectedRun],
+  );
+
+  const handleOptionReviewDecision = useCallback(
+    async (optionId: string, decision: DepositOptionReviewDecisionState) => {
+      const nextDecisions = {
+        ...optionReviewDecisions,
+        [optionId]: decision,
+      };
+      setOptionsRequested(true);
+      setOptionReviewDecisions(nextDecisions);
+
+      const nextDecisionRecords = Object.entries(nextDecisions).map(([entryOptionId, entryDecision]) => ({
+        optionId: entryOptionId,
+        decision: entryDecision,
+        reviewerId: user?.id || preferredSignerAddress || null,
+      }));
+      const nextSession = buildDepositRouteSession({
+        ...depositRouteInput,
+        optionsRequested: true,
+        hasReviewedOption: true,
+        optionReviewDecisions: nextDecisionRecords,
+      });
+      const receipt = nextSession.admission.receipts.find((entry) => entry.optionId === optionId);
+      const admitted = receipt?.admission.state === 'admitted-to-depository';
+      replaceDepositSearchParams(
+        writeDepositRouteStage(readCurrentSearchParams(), admitted ? 'read-depository-state' : 'review-options'),
+      );
+
+      if (!receipt) return;
+
+      try {
+        await handleRecordActivity({
+          type: admitted ? 'pipeline:deposit-option-admission' : 'pipeline:deposit-option-review',
+          status: 'completed',
+          summary: admitted
+            ? `Admitted ${receipt.title} to the Depository.`
+            : `Recorded ${decision.replace(/-/g, ' ')} for ${receipt.title}.`,
+          selectAfterRecord: admitted,
+          output: {
+            assetPackTitle: receipt.title,
+            depositAdmission: nextSession.admission,
+            admissionState: receipt.admission.state,
+            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
+            compensationState: receipt.compensationPreview.state,
+            packActivitySyncState: receipt.packsActivitySync.state,
+            packsActivityRoot: receipt.packsActivitySync.activityRoot,
+          },
+          context: {
+            source: 'deposit-option-review-admission',
+            workbench: 'deposit-option-review',
+            optionId,
+            reviewDecision: decision,
+            admissionState: receipt.admission.state,
+            depositoryAssetPackId: receipt.admission.depositoryAssetPackId,
+            compensationState: receipt.compensationPreview.state,
+            packActivitySyncState: receipt.packsActivitySync.state,
+            packActivityType: receipt.packsActivitySync.activityType,
+            packsRoute: receipt.packsActivitySync.route,
+          },
+        });
+      } catch (error) {
+        setRunsLoadError(error instanceof Error ? error.message : 'Unable to record deposit option review.');
+      }
+    },
+    [
+      depositRouteInput,
+      handleRecordActivity,
+      optionReviewDecisions,
+      preferredSignerAddress,
+      readCurrentSearchParams,
+      replaceDepositSearchParams,
+      user?.id,
+    ],
   );
 
   const handleRepositorySourceBranchChange = useCallback(
@@ -508,9 +607,13 @@ export default function DepositPageClient() {
                 </div>
                 <div className="mt-5 grid gap-3 xl:grid-cols-3">
                   {depositRouteSession.synthesis.options.map((option) => {
-                    const reviewed = reviewedOptionId === option.optionId;
+                    const reviewDecision = optionReviewDecisions[option.optionId] || 'pending-depositor-review';
+                    const reviewed = reviewDecision !== 'pending-depositor-review';
                     const policyEvaluation = depositRouteSession.policy.evaluations.find(
                       (evaluation) => evaluation.optionId === option.optionId,
+                    );
+                    const admissionReceipt = depositRouteSession.admission.receipts.find(
+                      (receipt) => receipt.optionId === option.optionId,
                     );
                     return (
                       <article
@@ -560,6 +663,14 @@ export default function DepositPageClient() {
                                   {policyEvaluation.compensation.state} / BTC source-to-shares preview
                                 </dd>
                               </div>
+                              {admissionReceipt ? (
+                                <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">Admission</dt>
+                                  <dd className="mt-1 text-sm text-neutral-200">
+                                    {admissionReceipt.admission.state} / {admissionReceipt.packsActivitySync.state}
+                                  </dd>
+                                </div>
+                              ) : null}
                             </>
                           ) : null}
                           {option.measurements.map((measurement) => (
@@ -584,16 +695,40 @@ export default function DepositPageClient() {
                             ))}
                           </dl>
                         </details>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setReviewedOptionId(option.optionId);
-                            replaceDepositSearchParams(writeDepositRouteStage(readCurrentSearchParams(), 'submit-deposit'));
-                          }}
-                          className="border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-medium text-neutral-100 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-                        >
-                          {reviewed ? 'Reviewed' : 'Mark reviewed'}
-                        </button>
+                        <div className="grid gap-2">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              void handleOptionReviewDecision(option.optionId, 'approved-for-admission');
+                            }}
+                            className="border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18"
+                          >
+                            {reviewDecision === 'approved-for-admission' ? 'Approved for Depository' : 'Approve for Depository'}
+                          </button>
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                void handleOptionReviewDecision(option.optionId, 'rejected-by-depositor');
+                              }}
+                              className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-red-300/30 hover:bg-red-300/10"
+                            >
+                              {reviewDecision === 'rejected-by-depositor' ? 'Rejected' : 'Reject'}
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                void handleOptionReviewDecision(option.optionId, 'resynthesis-requested');
+                              }}
+                              className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-amber-300/30 hover:bg-amber-300/10"
+                            >
+                              {reviewDecision === 'resynthesis-requested' ? 'Resynthesis queued' : 'Resynthesize'}
+                            </button>
+                          </div>
+                          <p className="text-[0.66rem] uppercase tracking-[0.14em] text-neutral-500">
+                            {reviewed ? reviewDecision.replace(/-/g, ' ') : 'Pending depositor review'}
+                          </p>
+                        </div>
                       </article>
                     );
                   })}
@@ -702,7 +837,7 @@ export default function DepositPageClient() {
                   )}
                 </div>
                 <Link
-                  href="/packs?type=deposit"
+                  href="/packs?type=depository-assetpack"
                   className="mt-3 inline-flex w-full items-center justify-center border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
                 >
                   Open pack activity

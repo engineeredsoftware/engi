@@ -239,6 +239,17 @@ expected value is not treated as positive-ROI supply, and Gate 7 still owns
 approval, admission, indexing, storage projection, telemetry, and `/packs`
 activity synchronization.
 
+V43 Gate 7 adds `DepositAssetPackOptionAdmissionReport`,
+`.bitcode/v43-deposit-option-admission.json`,
+`generate:v43-deposit-option-admission`,
+`check:v43-deposit-option-admission`, and `check:v43-gate7`. It implements
+depositor approve/reject/resynthesis decisions, source-safe admission receipts,
+Depository index and storage projections, BTC source-to-shares compensation
+preview continuity, execution-stream telemetry, and `/packs`
+`depository-assetpack` synchronization for approved policy-eligible deposit
+options. It still does not mint BTD, transfer rights, or reveal unpaid
+AssetPack source.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

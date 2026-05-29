@@ -14,6 +14,7 @@
     "./reading-local-staging-rehearsal": "./src/reading-local-staging-rehearsal.ts",
     "./deposit-asset-pack-options": "./src/deposit-asset-pack-options.ts",
     "./deposit-asset-pack-option-policy": "./src/deposit-asset-pack-option-policy.ts",
+    "./deposit-asset-pack-option-admission": "./src/deposit-asset-pack-option-admission.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
     "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",

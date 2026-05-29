@@ -25,6 +25,12 @@ describe('deposit-route-model', () => {
       ],
       depositorWalletId: 'wallet-depositor-1',
       optionsRequested: true,
+      optionReviewDecisions: [
+        {
+          optionId: 'will-be-ignored-until-synthesis-option-id-is-known',
+          decision: 'pending-depositor-review',
+        },
+      ],
     });
 
     expect(session.schema).toBe('bitcode.deposit.route-session');
@@ -41,10 +47,11 @@ describe('deposit-route-model', () => {
     expect(session.pipelineOwnership).toMatchObject({
       depositOptionPipeline: 'DepositAssetPackOptionSynthesis',
       depositOptionPolicy: 'DepositAssetPackOptionPolicy',
+      depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport',
       reviewRequiredBeforeDepositAdmission: true,
       sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
       sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
-      admissionAndIndexingDeferredToGate7: true,
+      admissionAndIndexingOwnedByGate7: true,
       retainedTerminalDebugCompatible: true,
     });
     expect(session.synthesis.schema).toBe('bitcode.deposit.asset-pack-option-synthesis');
@@ -52,6 +59,8 @@ describe('deposit-route-model', () => {
     expect(session.policy.schema).toBe('bitcode.deposit.asset-pack-option-policy-report');
     expect(session.policy.reviewablePositiveRoiCount).toBeGreaterThan(0);
     expect(session.policy.aggregatePolicy.compensationPolicy).toBe('future-reader-btc-source-to-shares-route-preview');
+    expect(session.admission.schema).toBe('bitcode.deposit.asset-pack-option-admission-report');
+    expect(session.admission.receipts.every((receipt) => receipt.admission.state === 'not-admitted-pending-review')).toBe(true);
     expect(session.synthesis.options[0].reviewBoundary.state).toBe('reviewable-source-safe-option');
     expect(session.disclosure).toMatchObject({
       sourceSafetyClass: 'source_safe_deposit_option_route_metadata',
@@ -106,8 +115,44 @@ describe('deposit-route-model', () => {
 
     expect(session.policy.blockedCount).toBe(3);
     expect(session.policy.evaluations.every((evaluation) => evaluation.policyDecision === 'blocked-before-admission')).toBe(true);
-    expect(session.pipelineOwnership.admissionAndIndexingDeferredToGate7).toBe(true);
+    expect(session.pipelineOwnership.admissionAndIndexingOwnedByGate7).toBe(true);
     expect(assertDepositRouteSessionSourceSafe(session).admitted).toBe(true);
+  });
+
+  it('admits approved policy-eligible deposit options into source-safe Depository projections', () => {
+    const initial = buildDepositRouteSession({
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
+      depositorWalletId: 'wallet-depositor-1',
+      optionsRequested: true,
+    });
+    const approved = buildDepositRouteSession({
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
+      depositorWalletId: 'wallet-depositor-1',
+      optionsRequested: true,
+      optionReviewDecisions: [
+        {
+          optionId: initial.synthesis.options[0].optionId,
+          decision: 'approved-for-admission',
+          reviewerId: 'depositor-1',
+        },
+      ],
+    });
+
+    expect(approved.admission.approvedCount).toBe(1);
+    expect(approved.admission.admittedCount).toBe(1);
+    expect(approved.admission.receipts[0].admission.state).toBe('admitted-to-depository');
+    expect(approved.admission.receipts[0].depositoryIndexProjection.state).toBe('indexed-for-finding-fits');
+    expect(approved.admission.receipts[0].storageProjection.state).toBe('projected-to-object-storage');
+    expect(approved.admission.receipts[0].packsActivitySync.state).toBe('synchronized-to-packs');
+    expect(assertDepositRouteSessionSourceSafe(approved).admitted).toBe(true);
   });
 
   it('reads and writes the route-owned depositStage query parameter', () => {

@@ -10,6 +10,12 @@ import {
   type DepositAssetPackOptionPolicyReport,
   type DepositOptionCriticalitySignal,
 } from '@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy';
+import {
+  assertDepositAssetPackOptionAdmissionReportSourceSafe,
+  buildDepositAssetPackOptionAdmissionReport,
+  type DepositAssetPackOptionAdmissionReport,
+  type DepositOptionReviewDecision,
+} from '@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission';
 
 export type DepositRouteStepId =
   | 'connect-source'
@@ -27,6 +33,8 @@ export interface DepositRouteSessionInput extends DepositOptionSynthesisRequest 
   developmentCostSats?: number | null;
   expectedSettlementSats?: number | null;
   depositorWalletId?: string | null;
+  optionReviewDecisions?: DepositOptionReviewDecision[] | null;
+  reviewerId?: string | null;
   hasRepositorySource?: boolean;
   optionsRequested?: boolean;
   hasReviewedOption?: boolean;
@@ -58,14 +66,16 @@ export interface DepositRouteSession {
   pipelineOwnership: {
     depositOptionPipeline: 'DepositAssetPackOptionSynthesis';
     depositOptionPolicy: 'DepositAssetPackOptionPolicy';
+    depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport';
     reviewRequiredBeforeDepositAdmission: true;
     sourceCriticalityDemandRoiPolicyOwnedByGate6: true;
     sourceCriticalityDemandRoiPolicyDeferredToGate6: true;
-    admissionAndIndexingDeferredToGate7: true;
+    admissionAndIndexingOwnedByGate7: true;
     retainedTerminalDebugCompatible: true;
   };
   synthesis: DepositAssetPackOptionSynthesis;
   policy: DepositAssetPackOptionPolicyReport;
+  admission: DepositAssetPackOptionAdmissionReport;
   disclosure: {
     sourceSafetyClass: 'source_safe_deposit_option_route_metadata';
     lowDetailDefault: true;
@@ -129,34 +139,53 @@ function normalizedText(value: string | null | undefined) {
   return normalized ? normalized : null;
 }
 
-function resolveActiveStep(input: DepositRouteSessionInput): DepositRouteStepId {
+function hasReviewDecision(input: DepositRouteSessionInput) {
+  return Boolean(
+    input.hasReviewedOption ||
+      input.optionReviewDecisions?.some((decision) => decision.decision !== 'pending-depositor-review'),
+  );
+}
+
+function resolveActiveStep(input: DepositRouteSessionInput, admittedCount = 0): DepositRouteStepId {
   if (input.depositStage && DEPOSIT_ROUTE_STAGE_IDS.includes(input.depositStage)) return input.depositStage;
   if (input.hasDepositoryReadback) return 'read-depository-state';
-  if (input.hasSubmittedDeposit) return 'submit-deposit';
-  if (input.hasReviewedOption) return 'review-options';
+  if (input.hasSubmittedDeposit || admittedCount > 0) return 'submit-deposit';
+  if (hasReviewDecision(input)) return 'review-options';
   if (input.optionsRequested || input.hasRepositorySource) return 'synthesize-options';
   return 'connect-source';
 }
 
-function stepState(input: DepositRouteSessionInput, stepId: DepositRouteStepId, activeStepId: DepositRouteStepId): DepositRouteStepState {
+function stepState(
+  input: DepositRouteSessionInput,
+  stepId: DepositRouteStepId,
+  activeStepId: DepositRouteStepId,
+  admittedCount: number,
+): DepositRouteStepState {
+  const reviewed = hasReviewDecision(input);
+  const submitted = Boolean(input.hasSubmittedDeposit || admittedCount > 0);
   if (stepId === activeStepId) return 'current';
   if (stepId === 'connect-source') return input.hasRepositorySource ? 'complete' : 'ready';
   if (stepId === 'synthesize-options') return input.optionsRequested ? 'complete' : input.hasRepositorySource ? 'ready' : 'blocked';
-  if (stepId === 'review-options') return input.hasReviewedOption ? 'complete' : input.optionsRequested ? 'ready' : 'blocked';
-  if (stepId === 'submit-deposit') return input.hasSubmittedDeposit ? 'complete' : input.hasReviewedOption ? 'ready' : 'blocked';
-  return input.hasDepositoryReadback ? 'complete' : input.hasSubmittedDeposit ? 'ready' : 'blocked';
+  if (stepId === 'review-options') return reviewed ? 'complete' : input.optionsRequested ? 'ready' : 'blocked';
+  if (stepId === 'submit-deposit') return submitted ? 'complete' : reviewed ? 'ready' : 'blocked';
+  return input.hasDepositoryReadback ? 'complete' : submitted ? 'ready' : 'blocked';
 }
 
-function stepBlockers(input: DepositRouteSessionInput, stepId: DepositRouteStepId): string[] {
+function stepBlockers(input: DepositRouteSessionInput, stepId: DepositRouteStepId, admittedCount: number): string[] {
   const blockers: string[] = [];
+  const reviewed = hasReviewDecision(input);
+  const submitted = Boolean(input.hasSubmittedDeposit || admittedCount > 0);
   if (stepId !== 'connect-source' && !input.hasRepositorySource) blockers.push('repository source required');
   if (['review-options', 'submit-deposit', 'read-depository-state'].includes(stepId) && !input.optionsRequested) {
     blockers.push('deposit AssetPack options required');
   }
-  if (['submit-deposit', 'read-depository-state'].includes(stepId) && !input.hasReviewedOption) {
+  if (['submit-deposit', 'read-depository-state'].includes(stepId) && !reviewed) {
     blockers.push('depositor option review required');
   }
-  if (stepId === 'read-depository-state' && !input.hasSubmittedDeposit) blockers.push('submitted deposit required');
+  if (['submit-deposit', 'read-depository-state'].includes(stepId) && reviewed && admittedCount === 0) {
+    blockers.push('approved admissible option required');
+  }
+  if (stepId === 'read-depository-state' && !submitted) blockers.push('submitted deposit required');
   return blockers;
 }
 
@@ -173,7 +202,6 @@ export function writeDepositRouteStage(params: URLSearchParams, stage: DepositRo
 }
 
 export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): DepositRouteSession {
-  const activeStepId = resolveActiveStep(input);
   const repositoryFullName = normalizedText(input.repositoryFullName);
   const sourceBranch = normalizedText(input.sourceBranch);
   const sourceCommit = normalizedText(input.sourceCommit);
@@ -196,10 +224,19 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     depositorWalletId: input.depositorWalletId,
     createdAt: input.createdAt,
   });
+  const admission = buildDepositAssetPackOptionAdmissionReport({
+    synthesis,
+    policy,
+    decisions: input.optionReviewDecisions,
+    reviewerId: input.reviewerId,
+    telemetryRunId: normalizedText(input.transactionId),
+    createdAt: input.createdAt,
+  });
+  const activeStepId = resolveActiveStep(input, admission.admittedCount);
   const steps = DEPOSIT_ROUTE_STEPS.map((step) => ({
     ...step,
-    state: stepState(input, step.id, activeStepId),
-    blockers: stepBlockers(input, step.id),
+    state: stepState(input, step.id, activeStepId, admission.admittedCount),
+    blockers: stepBlockers(input, step.id, admission.admittedCount),
   }));
   const seed = JSON.stringify({
     transactionId: normalizedText(input.transactionId),
@@ -209,6 +246,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     sourceCommit,
     synthesisRoot: synthesis.roots.synthesisRoot,
     policyReportRoot: policy.roots.policyReportRoot,
+    admissionReportRoot: admission.roots.admissionReportRoot,
     steps: steps.map((step) => ({ id: step.id, state: step.state, blockers: step.blockers })),
   });
 
@@ -228,14 +266,16 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     pipelineOwnership: {
       depositOptionPipeline: 'DepositAssetPackOptionSynthesis',
       depositOptionPolicy: 'DepositAssetPackOptionPolicy',
+      depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport',
       reviewRequiredBeforeDepositAdmission: true,
       sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
       sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
-      admissionAndIndexingDeferredToGate7: true,
+      admissionAndIndexingOwnedByGate7: true,
       retainedTerminalDebugCompatible: true,
     },
     synthesis,
     policy,
+    admission,
     disclosure: {
       sourceSafetyClass: 'source_safe_deposit_option_route_metadata',
       lowDetailDefault: true,
@@ -255,18 +295,21 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
 export function assertDepositRouteSessionSourceSafe(session: DepositRouteSession) {
   const synthesisSafety = assertDepositAssetPackOptionSynthesisSourceSafe(session.synthesis);
   const policySafety = assertDepositAssetPackOptionPolicyReportSourceSafe(session.policy);
+  const admissionSafety = assertDepositAssetPackOptionAdmissionReportSourceSafe(session.admission);
   const sourceSafe =
     synthesisSafety.admitted &&
     policySafety.admitted &&
+    admissionSafety.admitted &&
     session.schema === 'bitcode.deposit.route-session' &&
     session.route === '/deposit' &&
     session.stageCount === 5 &&
     session.pipelineOwnership.depositOptionPipeline === 'DepositAssetPackOptionSynthesis' &&
     session.pipelineOwnership.depositOptionPolicy === 'DepositAssetPackOptionPolicy' &&
+    session.pipelineOwnership.depositOptionAdmission === 'DepositAssetPackOptionAdmissionReport' &&
     session.pipelineOwnership.reviewRequiredBeforeDepositAdmission === true &&
     session.pipelineOwnership.sourceCriticalityDemandRoiPolicyOwnedByGate6 === true &&
     session.pipelineOwnership.sourceCriticalityDemandRoiPolicyDeferredToGate6 === true &&
-    session.pipelineOwnership.admissionAndIndexingDeferredToGate7 === true &&
+    session.pipelineOwnership.admissionAndIndexingOwnedByGate7 === true &&
     session.disclosure.sourceSafetyClass === 'source_safe_deposit_option_route_metadata' &&
     session.disclosure.protectedSourceVisible === false &&
     session.disclosure.rawSourceTextVisible === false &&
