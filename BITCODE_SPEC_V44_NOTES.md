@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft notes include Gate 4 Reading budget quote policy work over promoted V43
+- V44 state: draft notes include Gate 5 Depositor earnings supply opportunity work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`
-- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, and `/read` budget quote policy for active V43 / draft V44
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`
+- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, `/read` budget quote policy, and `/deposit` earning supply opportunity intelligence for active V43 / draft V44
 - Scope: V44 notes for digitizing and tokenizing scaled engineering economies through enterprise AssetPack portfolio, market intelligence, BTD/BTC accounting, governance, and compensation operation
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -105,6 +105,16 @@ and settlement readiness blockers before purchase. It cannot reveal source or
 settlement private material, and it cannot treat a quote as final settlement.
 Payment observation, BTD rights transfer, delivery unlock, and contributor
 compensation remain later receipt-backed steps.
+
+## Gate 5 note
+
+Gate 5 makes `/deposit` economically clearer without changing deposit law.
+The route can show likely demand, unfit Need opportunities, source
+criticality, ROI, estimate-only BTC compensation ranges, earning statements,
+and source-safe supply recommendations. It cannot mint BTD, execute
+compensation, disclose protected source, or treat estimated earning ranges as
+final settlement truth. Source-to-shares remains the future receipt-backed
+allocation method after a paid Need-Fit settlement selects admitted supply.
 
 ## Gate 3 note
 

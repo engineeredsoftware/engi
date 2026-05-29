@@ -219,6 +219,18 @@ share-to-fee policy, buyer authorization, wallet authority, BTC/BTD
 settlement readiness blockers, pre-purchase review boundaries, route UI
 readback, BTD fee/source-to-shares prerequisites, and source-safety tests.
 
+V44 Gate 5 adds `V44DepositorEarningsSupplyOpportunities` through
+`packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js`,
+`packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js`,
+`.bitcode/v44-depositor-earnings-supply-opportunities.json`,
+`generate:v44-depositor-earnings-supply-opportunities`,
+`check:v44-depositor-earnings-supply-opportunities`, and `check:v44-gate5`.
+It binds `/deposit` to source-safe Depositor earning supply intelligence:
+likely demand, unfit Need opportunities, source criticality, ROI posture,
+estimate-only BTC compensation ranges, source-to-shares proof boundaries,
+earning statements, supply recommendations, route UI readback, and
+source-safety tests.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

@@ -502,6 +502,9 @@ jobs:
               if [ -f scripts/check-v44-gate4-reading-budget-quote-policy.mjs ]; then
                 node scripts/check-v44-gate4-reading-budget-quote-policy.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
               fi
+              if [ -f scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs ]; then
+                node scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -545,6 +548,9 @@ jobs:
             fi
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate4-reading-budget-quote-policy.mjs ]; then
               node scripts/check-v44-gate4-reading-budget-quote-policy.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+            fi
+            if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs ]; then
+              node scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
             fi
             if [ "$POINTER" != "V43" ]; then
               if [ -f scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs ]; then

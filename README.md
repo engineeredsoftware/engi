@@ -16,7 +16,8 @@ The promoted V43 enterprise routes are:
 The active V44 draft target makes those routes economically operable at
 enterprise scale: `/packs` becomes the portfolio and market-intelligence
 surface, `/read` gains budgeted procurement and quote governance, and
-`/deposit` gains earning, demand, ROI, and compensation-statement visibility.
+`/deposit` gains earning, demand, ROI, compensation-range, and source-safe
+supply opportunity visibility.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
@@ -321,6 +322,18 @@ settlement readiness blockers, pre-purchase review boundaries, route UI
 readback, and tests that continue withholding protected source, unpaid
 AssetPack source, raw prompts, provider payloads, wallet private material,
 private settlement payloads, and value-bearing mainnet operation.
+
+V44 Gate 5 adds `V44DepositorEarningsSupplyOpportunities`,
+`.bitcode/v44-depositor-earnings-supply-opportunities.json`,
+`generate:v44-depositor-earnings-supply-opportunities`,
+`check:v44-depositor-earnings-supply-opportunities`, and `check:v44-gate5`.
+It binds `/deposit` to source-safe `DepositorEarningSupplyIntelligence`:
+likely demand, unfit Need opportunities, source criticality, ROI posture,
+estimate-only BTC compensation ranges, source-to-shares proof boundaries,
+earning statements, supply recommendations, route UI readback, and tests that
+continue withholding protected source, raw source text, unpaid AssetPack
+source, prompts, provider payloads, wallet private material, private
+settlement payloads, and value-bearing mainnet operation.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

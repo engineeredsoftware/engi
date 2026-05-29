@@ -48,6 +48,7 @@ describe('deposit-route-model', () => {
       depositOptionPipeline: 'DepositAssetPackOptionSynthesis',
       depositOptionPolicy: 'DepositAssetPackOptionPolicy',
       depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport',
+      depositorEarningSupplyIntelligence: 'DepositorEarningSupplyIntelligence',
       reviewRequiredBeforeDepositAdmission: true,
       sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
       sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
@@ -59,6 +60,11 @@ describe('deposit-route-model', () => {
     expect(session.policy.schema).toBe('bitcode.deposit.asset-pack-option-policy-report');
     expect(session.policy.reviewablePositiveRoiCount).toBeGreaterThan(0);
     expect(session.policy.aggregatePolicy.compensationPolicy).toBe('future-reader-btc-source-to-shares-route-preview');
+    expect(session.earningSupplyIntelligence.schema).toBe('bitcode.deposit.earning-supply-intelligence');
+    expect(session.earningSupplyIntelligence.intelligence).toBe('DepositorEarningSupplyIntelligence');
+    expect(session.earningSupplyIntelligence.aggregate.valueLabel).toBe('estimate');
+    expect(session.earningSupplyIntelligence.earningStatements).toHaveLength(3);
+    expect(session.earningSupplyIntelligence.supplyRecommendations).toHaveLength(3);
     expect(session.admission.schema).toBe('bitcode.deposit.asset-pack-option-admission-report');
     expect(session.admission.receipts.every((receipt) => receipt.admission.state === 'not-admitted-pending-review')).toBe(true);
     expect(session.synthesis.options[0].reviewBoundary.state).toBe('reviewable-source-safe-option');
@@ -114,8 +120,50 @@ describe('deposit-route-model', () => {
     });
 
     expect(session.policy.blockedCount).toBe(3);
+    expect(session.earningSupplyIntelligence.aggregate.blockedCriticalSourceCount).toBe(3);
+    expect(
+      session.earningSupplyIntelligence.supplyRecommendations.every(
+        (recommendation) => recommendation.action === 'withhold-critical-source',
+      ),
+    ).toBe(true);
     expect(session.policy.evaluations.every((evaluation) => evaluation.policyDecision === 'blocked-before-admission')).toBe(true);
     expect(session.pipelineOwnership.admissionAndIndexingOwnedByGate7).toBe(true);
+    expect(assertDepositRouteSessionSourceSafe(session).admitted).toBe(true);
+  });
+
+  it('projects source-safe depositor earnings and unfit Need opportunities', () => {
+    const session = buildDepositRouteSession({
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.9 }],
+      unfitNeedOpportunitySignals: [
+        {
+          id: 'unfit-need-route-proof',
+          label: 'Unfit Reads need route proof and source-safe delivery evidence.',
+          weight: 0.84,
+        },
+      ],
+      depositorWalletId: 'wallet-depositor-1',
+      developmentCostSats: 1500,
+      expectedSettlementSats: 6200,
+      optionsRequested: true,
+    });
+
+    expect(session.earningSupplyIntelligence.likelyDemand.state).toBe('strong-demand-opportunity');
+    expect(session.earningSupplyIntelligence.unfitNeedOpportunities.opportunityCount).toBe(1);
+    expect(session.earningSupplyIntelligence.aggregate.totalExpectedCompensationSats).toBeGreaterThan(0);
+    expect(session.earningSupplyIntelligence.aggregate.expectedCompensationRangeSats.priceAsset).toBe('BTC');
+    expect(
+      session.earningSupplyIntelligence.earningStatements.every(
+        (statement) =>
+          statement.valueLabel === 'estimate' &&
+          statement.sourceToShares.allocationMethod === 'source-to-shares-largest-remainder',
+      ),
+    ).toBe(true);
+    expect(session.earningSupplyIntelligence.disclosure.protectedSourceVisible).toBe(false);
+    expect(session.earningSupplyIntelligence.disclosure.valueBearingMainnetAdmitted).toBe(false);
     expect(assertDepositRouteSessionSourceSafe(session).admitted).toBe(true);
   });
 

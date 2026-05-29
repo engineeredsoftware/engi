@@ -54,6 +54,8 @@ import {
   synthesizeReadNeedForPipelineInput,
 } from './read-need';
 
+export * from './depositor-earning-supply-intelligence';
+
 // ==================== FACTORIES ====================
 
 function storePreprocessedSnapshot(
@@ -411,7 +413,7 @@ function factoryDevelopPhase(): Executor<any, any> {
 
 /**
  * Main AssetPack written-asset synthesis pipeline with guided gate execution.
- * Routes execution through Design → Develop → Digest gates
+ * Routes execution through Design -> Develop -> Digest gates
  */
 export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecution({
   Design: async (input, execution) => {
