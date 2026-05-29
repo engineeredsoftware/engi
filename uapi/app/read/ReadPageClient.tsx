@@ -429,6 +429,32 @@ export default function ReadPageClient() {
     },
   ];
 
+  const authorityRows = [
+    {
+      label: "Authority",
+      value: readRouteSession.organizationPolicyWalletAuthority.aggregate.state,
+    },
+    {
+      label: "Wallet",
+      value: readRouteSession.organizationPolicyWalletAuthority.walletAuthority.state,
+    },
+    {
+      label: "Spend",
+      value: readRouteSession.organizationPolicyWalletAuthority.budgetApproval.state,
+    },
+    {
+      label: "Required denials",
+      value: String(
+        readRouteSession.organizationPolicyWalletAuthority.aggregate
+          .requiredDeniedActionCount,
+      ),
+    },
+    {
+      label: "Authority root",
+      value: readRouteSession.organizationPolicyWalletAuthority.roots.authorityRoot,
+    },
+  ];
+
   return (
     <TerminalShellBridgeProvider>
       <ProductRouteShell
@@ -532,6 +558,51 @@ export default function ReadPageClient() {
                   rights: source-bearing AssetPack contents.
                 </ProductRouteDisclosure>
               </div>
+            </section>
+
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+                    Governance
+                  </p>
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Organization authority
+                  </h2>
+                </div>
+                <ShieldCheck
+                  className="h-5 w-5 text-sky-200"
+                  aria-hidden="true"
+                />
+              </div>
+              <dl className="mt-4 grid gap-2">
+                {authorityRows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="border border-white/8 bg-black/20 px-3 py-2"
+                  >
+                    <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-200">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {readRouteSession.organizationPolicyWalletAuthority.aggregate
+                .blockers.length ? (
+                <div className="mt-3">
+                  <ProductRouteDisclosure
+                    title="Authority blockers"
+                    tone="sky"
+                  >
+                    {readRouteSession.organizationPolicyWalletAuthority.aggregate.blockers.join(
+                      "; ",
+                    )}
+                  </ProductRouteDisclosure>
+                </div>
+              ) : null}
             </section>
 
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">

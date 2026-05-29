@@ -17,6 +17,7 @@
     "./deposit-asset-pack-option-admission": "./src/deposit-asset-pack-option-admission.ts",
     "./depositor-earning-supply-intelligence": "./src/depositor-earning-supply-intelligence.ts",
     "./btd-btc-compensation-statements": "./src/btd-btc-compensation-statements.ts",
+    "./organization-policy-wallet-authority": "./src/organization-policy-wallet-authority.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
     "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",

@@ -21,6 +21,12 @@ import {
   buildDepositorEarningSupplyIntelligence,
   type DepositorEarningSupplyIntelligence,
 } from '@bitcode/pipeline-asset-pack/depositor-earning-supply-intelligence';
+import {
+  assertOrganizationPolicyWalletAuthoritySourceSafe,
+  buildOrganizationPolicyWalletAuthority,
+  type OrganizationPolicyWalletAuthority,
+  type OrganizationPolicyWalletAuthorityInput,
+} from '@bitcode/pipeline-asset-pack/organization-policy-wallet-authority';
 import type { DepositOptionDemandSignal } from '@bitcode/pipeline-asset-pack/deposit-asset-pack-options';
 
 export type DepositRouteStepId =
@@ -40,6 +46,18 @@ export interface DepositRouteSessionInput extends DepositOptionSynthesisRequest 
   developmentCostSats?: number | null;
   expectedSettlementSats?: number | null;
   depositorWalletId?: string | null;
+  depositApproved?: boolean | null;
+  depositLimitSats?: number | null;
+  sourceCriticalityApproved?: boolean | null;
+  actorId?: string | null;
+  organizationId?: string | null;
+  teamId?: string | null;
+  memberId?: string | null;
+  organizationRole?: OrganizationPolicyWalletAuthorityInput['organizationRole'];
+  organizationPermissionGrants?: string[] | null;
+  organizationPolicyId?: string | null;
+  organizationPolicyHash?: string | null;
+  walletAuthorityPresent?: boolean | null;
   optionReviewDecisions?: DepositOptionReviewDecision[] | null;
   reviewerId?: string | null;
   hasRepositorySource?: boolean;
@@ -76,15 +94,16 @@ export interface DepositRouteSession {
     depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport';
     depositorEarningSupplyIntelligence: 'DepositorEarningSupplyIntelligence';
     reviewRequiredBeforeDepositAdmission: true;
-    sourceCriticalityDemandRoiPolicyOwnedByGate6: true;
-    sourceCriticalityDemandRoiPolicyDeferredToGate6: true;
-    admissionAndIndexingOwnedByGate7: true;
+    sourceCriticalityDemandRoiPolicyPresent: true;
+    sourceCriticalityDemandRoiPolicySourceSafe: true;
+    admissionAndIndexingPolicyPresent: true;
     retainedTerminalDebugCompatible: true;
   };
   synthesis: DepositAssetPackOptionSynthesis;
   policy: DepositAssetPackOptionPolicyReport;
   admission: DepositAssetPackOptionAdmissionReport;
   earningSupplyIntelligence: DepositorEarningSupplyIntelligence;
+  organizationPolicyWalletAuthority: OrganizationPolicyWalletAuthority;
   disclosure: {
     sourceSafetyClass: 'source_safe_deposit_option_route_metadata';
     lowDetailDefault: true;
@@ -246,6 +265,39 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     unfitNeedOpportunitySignals: input.unfitNeedOpportunitySignals,
     createdAt: input.createdAt,
   });
+  const sourceCriticalityState =
+    policy.blockedCount > 0
+      ? 'blocked-critical-source'
+      : policy.warningCount > 0
+        ? 'review-warning'
+        : 'sub-critical';
+  const depositApproved =
+    input.depositApproved === true ||
+    admission.approvedCount > 0 ||
+    admission.admittedCount > 0 ||
+    Boolean(input.hasSubmittedDeposit);
+  const organizationPolicyWalletAuthority = buildOrganizationPolicyWalletAuthority({
+    route: '/deposit',
+    actorId: normalizedText(input.actorId) || normalizedText(input.reviewerId),
+    organizationId: normalizedText(input.organizationId),
+    teamId: normalizedText(input.teamId),
+    memberId: normalizedText(input.memberId),
+    organizationRole: input.organizationRole || null,
+    organizationPermissionGrants: input.organizationPermissionGrants || null,
+    policyId: normalizedText(input.organizationPolicyId),
+    policyHash: normalizedText(input.organizationPolicyHash),
+    walletId: normalizedText(input.depositorWalletId),
+    walletAuthorityPresent: input.walletAuthorityPresent ?? Boolean(input.depositorWalletId),
+    sourceCriticalityState,
+    sourceCriticalityApproved: input.sourceCriticalityApproved ?? policy.blockedCount === 0,
+    depositApproved,
+    expectedSettlementSats: input.expectedSettlementSats,
+    depositLimitSats: input.depositLimitSats,
+    accountAdmitted: Boolean(input.actorId || input.reviewerId || repositoryFullName),
+    interfaceAdmitted: true,
+    targetAnchor: normalizedText(input.transactionId) || repositoryFullName || '/deposit',
+    createdAt: input.createdAt,
+  });
   const activeStepId = resolveActiveStep(input, admission.admittedCount);
   const steps = DEPOSIT_ROUTE_STEPS.map((step) => ({
     ...step,
@@ -262,6 +314,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     policyReportRoot: policy.roots.policyReportRoot,
     admissionReportRoot: admission.roots.admissionReportRoot,
     earningSupplyIntelligenceRoot: earningSupplyIntelligence.roots.intelligenceRoot,
+    organizationPolicyWalletAuthorityRoot: organizationPolicyWalletAuthority.roots.authorityRoot,
     steps: steps.map((step) => ({ id: step.id, state: step.state, blockers: step.blockers })),
   });
 
@@ -284,15 +337,16 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
       depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport',
       depositorEarningSupplyIntelligence: 'DepositorEarningSupplyIntelligence',
       reviewRequiredBeforeDepositAdmission: true,
-      sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
-      sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
-      admissionAndIndexingOwnedByGate7: true,
+      sourceCriticalityDemandRoiPolicyPresent: true,
+      sourceCriticalityDemandRoiPolicySourceSafe: true,
+      admissionAndIndexingPolicyPresent: true,
       retainedTerminalDebugCompatible: true,
     },
     synthesis,
     policy,
     admission,
     earningSupplyIntelligence,
+    organizationPolicyWalletAuthority,
     disclosure: {
       sourceSafetyClass: 'source_safe_deposit_option_route_metadata',
       lowDetailDefault: true,
@@ -314,11 +368,15 @@ export function assertDepositRouteSessionSourceSafe(session: DepositRouteSession
   const policySafety = assertDepositAssetPackOptionPolicyReportSourceSafe(session.policy);
   const admissionSafety = assertDepositAssetPackOptionAdmissionReportSourceSafe(session.admission);
   const earningSupplySafety = assertDepositorEarningSupplyIntelligenceSourceSafe(session.earningSupplyIntelligence);
+  const organizationSafety = assertOrganizationPolicyWalletAuthoritySourceSafe(
+    session.organizationPolicyWalletAuthority,
+  );
   const sourceSafe =
     synthesisSafety.admitted &&
     policySafety.admitted &&
     admissionSafety.admitted &&
     earningSupplySafety.admitted &&
+    organizationSafety.admitted &&
     session.schema === 'bitcode.deposit.route-session' &&
     session.route === '/deposit' &&
     session.stageCount === 5 &&
@@ -334,9 +392,14 @@ export function assertDepositRouteSessionSourceSafe(session: DepositRouteSession
     session.earningSupplyIntelligence.disclosure.unpaidAssetPackSourceVisible === false &&
     session.earningSupplyIntelligence.disclosure.walletPrivateMaterialVisible === false &&
     session.earningSupplyIntelligence.disclosure.settlementPrivatePayloadVisible === false &&
-    session.pipelineOwnership.sourceCriticalityDemandRoiPolicyOwnedByGate6 === true &&
-    session.pipelineOwnership.sourceCriticalityDemandRoiPolicyDeferredToGate6 === true &&
-    session.pipelineOwnership.admissionAndIndexingOwnedByGate7 === true &&
+    session.pipelineOwnership.sourceCriticalityDemandRoiPolicyPresent === true &&
+    session.pipelineOwnership.sourceCriticalityDemandRoiPolicySourceSafe === true &&
+    session.pipelineOwnership.admissionAndIndexingPolicyPresent === true &&
+    session.organizationPolicyWalletAuthority.schema === 'bitcode.organization.policy-wallet-authority' &&
+    session.organizationPolicyWalletAuthority.route === '/deposit' &&
+    session.organizationPolicyWalletAuthority.disclosure.sourceSafeMetadataOnly === true &&
+    session.organizationPolicyWalletAuthority.disclosure.protectedSourceVisible === false &&
+    session.organizationPolicyWalletAuthority.disclosure.walletPrivateMaterialVisible === false &&
     session.disclosure.sourceSafetyClass === 'source_safe_deposit_option_route_metadata' &&
     session.disclosure.protectedSourceVisible === false &&
     session.disclosure.rawSourceTextVisible === false &&

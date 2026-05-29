@@ -183,6 +183,7 @@ describe("DepositPageClient", () => {
       screen.getByTestId("deposit-route-step-review-options"),
     ).toHaveAttribute("aria-current", "step");
     expect(screen.getByText("Source-safe deposit state")).toBeInTheDocument();
+    expect(screen.getByText("Organization authority")).toBeInTheDocument();
     expect(
       screen.getAllByText("DepositAssetPackOptionSynthesis").length,
     ).toBeGreaterThan(0);

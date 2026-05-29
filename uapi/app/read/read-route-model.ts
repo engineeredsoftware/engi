@@ -6,6 +6,12 @@ import {
   type TerminalEnterpriseReadingStepId,
   type TerminalEnterpriseReadingUxStateInput,
 } from '@/app/terminal/terminal-enterprise-reading-ux-state';
+import {
+  assertOrganizationPolicyWalletAuthoritySourceSafe,
+  buildOrganizationPolicyWalletAuthority,
+  type OrganizationPolicyWalletAuthority,
+  type OrganizationPolicyWalletAuthorityInput,
+} from '@bitcode/pipeline-asset-pack/organization-policy-wallet-authority';
 
 export type ReadRouteStepId = TerminalEnterpriseReadingStepId;
 
@@ -25,6 +31,16 @@ export type ReadRouteSessionInput = TerminalEnterpriseReadingUxStateInput & {
   procurementApproved?: boolean;
   buyerAuthorized?: boolean;
   walletAuthorityPresent?: boolean;
+  walletId?: string | null;
+  actorId?: string | null;
+  organizationId?: string | null;
+  teamId?: string | null;
+  memberId?: string | null;
+  organizationRole?: OrganizationPolicyWalletAuthorityInput['organizationRole'];
+  organizationPermissionGrants?: string[] | null;
+  organizationPolicyId?: string | null;
+  organizationPolicyHash?: string | null;
+  spendLimitSats?: number | null;
   measuredBtd?: number | null;
 };
 
@@ -134,6 +150,7 @@ export type ReadRouteSession = {
     retainedTerminalDebugCompatible: true;
   };
   procurementGovernance: ReadProcurementGovernance;
+  organizationPolicyWalletAuthority: OrganizationPolicyWalletAuthority;
   disclosure: {
     sourceSafetyClass: 'source_safe_read_route_metadata';
     lowDetailDefault: true;
@@ -328,6 +345,29 @@ export function writeReadRouteStage(params: URLSearchParams, stage: ReadRouteSte
 export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRouteSession {
   const enterpriseState = buildTerminalEnterpriseReadingUxState(input);
   const procurementGovernance = buildReadProcurementGovernance(input);
+  const organizationPolicyWalletAuthority = buildOrganizationPolicyWalletAuthority({
+    route: '/read',
+    actorId: normalizedText(input.actorId),
+    organizationId: normalizedText(input.organizationId),
+    teamId: normalizedText(input.teamId),
+    memberId: normalizedText(input.memberId),
+    organizationRole: input.organizationRole || null,
+    organizationPermissionGrants: input.organizationPermissionGrants || null,
+    policyId: normalizedText(input.organizationPolicyId),
+    policyHash: normalizedText(input.organizationPolicyHash),
+    walletId: normalizedText(input.walletId) || (input.walletAuthorityPresent ? 'connected-reader-wallet' : null),
+    walletAuthorityPresent: input.walletAuthorityPresent,
+    quoteSats: procurementGovernance.quotePolicy.shareToFee.grossSats,
+    budgetEnvelopeSats: procurementGovernance.budgetPolicy.budgetEnvelopeSats,
+    approvalThresholdSats: procurementGovernance.budgetPolicy.approvalThresholdSats,
+    spendLimitSats: input.spendLimitSats || procurementGovernance.budgetPolicy.budgetEnvelopeSats,
+    procurementApproved: procurementGovernance.approval.procurementApproved,
+    buyerAuthorized: procurementGovernance.approval.buyerAuthorized,
+    settlementState: input.hasDeliveryReadback ? 'settled' : 'pending',
+    accountAdmitted: Boolean(input.actorId || input.repositoryFullName),
+    interfaceAdmitted: true,
+    targetAnchor: normalizedText(input.settlementQuoteId) || normalizedText(input.transactionId) || '/read',
+  });
   const seed = JSON.stringify({
     activeStepId: enterpriseState.activeStepId,
     transactionId: enterpriseState.routeState.transactionId,
@@ -339,6 +379,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
     settlementQuoteId: normalizedText(input.settlementQuoteId),
     steps: enterpriseState.steps.map((step) => ({ id: step.id, state: step.state, blockers: step.blockers })),
     procurementGovernance,
+    organizationPolicyWalletAuthorityRoot: organizationPolicyWalletAuthority.roots.authorityRoot,
   });
 
   return {
@@ -375,6 +416,7 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
       retainedTerminalDebugCompatible: true,
     },
     procurementGovernance,
+    organizationPolicyWalletAuthority,
     disclosure: {
       sourceSafetyClass: 'source_safe_read_route_metadata',
       lowDetailDefault: true,
@@ -406,9 +448,13 @@ export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
       hasDeliveryReadback: session.readObjects.deliveryUnlocked,
     }),
   );
+  const organizationSafety = assertOrganizationPolicyWalletAuthoritySourceSafe(
+    session.organizationPolicyWalletAuthority,
+  );
 
   const sourceSafe =
     enterpriseSafety.admitted &&
+    organizationSafety.admitted &&
     session.schema === 'bitcode.read.route-session' &&
     session.route === '/read' &&
     session.stageCount === 5 &&
@@ -425,6 +471,11 @@ export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
     session.procurementGovernance.prePurchaseReview.unpaidAssetPackSourceVisible === false &&
     session.procurementGovernance.prePurchaseReview.walletPrivateMaterialVisible === false &&
     session.procurementGovernance.prePurchaseReview.settlementPrivatePayloadVisible === false &&
+    session.organizationPolicyWalletAuthority.schema === 'bitcode.organization.policy-wallet-authority' &&
+    session.organizationPolicyWalletAuthority.route === '/read' &&
+    session.organizationPolicyWalletAuthority.disclosure.sourceSafeMetadataOnly === true &&
+    session.organizationPolicyWalletAuthority.disclosure.protectedSourceVisible === false &&
+    session.organizationPolicyWalletAuthority.disclosure.walletPrivateMaterialVisible === false &&
     session.disclosure.sourceSafetyClass === 'source_safe_read_route_metadata' &&
     session.disclosure.protectedSourceVisible === false &&
     session.disclosure.unpaidAssetPackSourceVisible === false &&

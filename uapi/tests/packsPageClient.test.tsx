@@ -67,6 +67,16 @@ describe("PacksPageClient", () => {
               allocatedContributorSats: 3200,
               statementRoot: "btd-btc-accounting-root-abc",
             },
+            governance: {
+              state: "allowed",
+              route: "/read",
+              walletState: "verified",
+              spendState: "within-limit",
+              depositState: "not-applicable",
+              requiredDeniedActionCount: 0,
+              blockerCount: 0,
+              authorityRoot: "organization-authority-root-abc",
+            },
             proofRoots: [
               {
                 id: "settlement-root",
@@ -132,6 +142,16 @@ describe("PacksPageClient", () => {
             allocatedContributorSats: 3200,
             statementRoot: "btd-btc-accounting-root-abc",
           },
+          governance: {
+            state: "allowed",
+            route: "/read",
+            walletState: "verified",
+            spendState: "within-limit",
+            depositState: "not-applicable",
+            requiredDeniedActionCount: 0,
+            blockerCount: 0,
+            authorityRoot: "organization-authority-root-abc",
+          },
           proofRoots: [
             {
               id: "settlement-root",
@@ -184,7 +204,9 @@ describe("PacksPageClient", () => {
     );
     expect(screen.getByText("Proof roots")).toBeInTheDocument();
     expect(screen.getByText("Accounting")).toBeInTheDocument();
+    expect(screen.getByText("Governance")).toBeInTheDocument();
     expect(screen.getByText("btd-btc-accounting-root-abc")).toBeInTheDocument();
+    expect(screen.getByText("organization-authority-root-abc")).toBeInTheDocument();
     expect(screen.getByText("settlement-root-def")).toBeInTheDocument();
     expect(screen.getAllByText("quote_ready").length).toBeGreaterThan(0);
     expect(

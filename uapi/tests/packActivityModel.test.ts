@@ -61,6 +61,28 @@ describe('pack-activity-model', () => {
           accountingRoot: 'btd-btc-accounting-root-abc',
         },
       },
+      organizationPolicyWalletAuthority: {
+        schema: 'bitcode.organization.policy-wallet-authority',
+        statement: 'OrganizationPolicyWalletAuthority',
+        route: '/read',
+        walletAuthority: {
+          state: 'verified',
+        },
+        budgetApproval: {
+          state: 'within-limit',
+        },
+        depositApproval: {
+          state: 'not-applicable',
+        },
+        aggregate: {
+          state: 'allowed',
+          requiredDeniedActionCount: 0,
+          blockerCount: 0,
+        },
+        roots: {
+          authorityRoot: 'organization-authority-root-abc',
+        },
+      },
       assetPackMeasurementRoot: 'measurement-root-abc',
       settlementReceiptRoot: 'settlement-root-def',
       protectedSource: 'protected source body',
@@ -95,6 +117,13 @@ describe('pack-activity-model', () => {
       contributorCount: 2,
       allocatedContributorSats: 3200,
       statementRoot: 'btd-btc-accounting-root-abc',
+    });
+    expect(record.governance).toMatchObject({
+      state: 'allowed',
+      route: '/read',
+      walletState: 'verified',
+      spendState: 'within-limit',
+      authorityRoot: 'organization-authority-root-abc',
     });
     expect(assertPackActivitySourceSafe(record)).toBe(true);
     expect(JSON.stringify(record)).not.toContain('protected source body');
@@ -133,6 +162,7 @@ describe('pack-activity-model', () => {
     const detail = buildPackActivityDetailProjection(result.records[0]);
     expect(detail.states.settlement).toBe('quote_ready');
     expect(detail.accounting?.statementRoot).toBe('btd-btc-accounting-root-abc');
+    expect(detail.governance?.authorityRoot).toBe('organization-authority-root-abc');
     expect(detail.proofRoots.length).toBeGreaterThan(0);
     expect(assertPackActivitySourceSafe(detail)).toBe(true);
   });

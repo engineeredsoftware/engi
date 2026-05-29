@@ -350,6 +350,18 @@ protected source, raw source text, unpaid AssetPack source, prompts, provider
 payloads, wallet private material, private settlement payloads, and
 value-bearing mainnet operation.
 
+V44 Gate 7 adds `V44OrganizationPolicyWalletAuthority`,
+`.bitcode/v44-organization-policy-wallet-authority.json`,
+`generate:v44-organization-policy-wallet-authority`,
+`check:v44-organization-policy-wallet-authority`, and `check:v44-gate7`. It
+binds BTD Reading and deposit authority actions to source-safe organization
+budget approval, source criticality approval, spend and deposit limits, wallet
+authority, `/read` authority readback, `/deposit` authority readback, `/packs`
+governance readback, and tests that continue withholding protected source, raw
+source text, unpaid AssetPack source, prompts, provider payloads, credentials,
+wallet private material, private settlement payloads, and value-bearing
+mainnet operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

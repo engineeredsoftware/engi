@@ -398,6 +398,27 @@ export default function DepositPageClient() {
       depositorWalletId: preferredSignerAddress
         ? "connected-depositor-wallet"
         : null,
+      walletAuthorityPresent: hasVerifiedWalletConnection,
+      actorId: user?.id || null,
+      organizationId:
+        repositoryContext?.selectedRepository?.owner?.username ||
+        repositoryContext?.selectedRepository?.fullName?.split("/")[0] ||
+        null,
+      teamId: repositoryContext?.selectedRepository?.fullName
+        ? `repository:${repositoryContext.selectedRepository.fullName}`
+        : null,
+      memberId: user?.id || preferredSignerAddress || null,
+      organizationRole:
+        hasValidGitHubConnection && hasVerifiedWalletConnection
+          ? "admin"
+          : "member",
+      organizationPermissionGrants: [
+        "deposit:synthesize_options",
+        ...(hasVerifiedWalletConnection
+          ? ["deposit:approve_option", "deposit:submit"]
+          : []),
+      ],
+      sourceCriticalityApproved: true,
       reviewerId: user?.id || preferredSignerAddress || null,
       hasRepositorySource: Boolean(repositoryContext?.selectedRepository),
       optionsRequested,
@@ -409,6 +430,8 @@ export default function DepositPageClient() {
       depositorInstructions,
       hasDepositoryReadback,
       hasSubmittedDeposit,
+      hasValidGitHubConnection,
+      hasVerifiedWalletConnection,
       liveRuns.length,
       optionsRequested,
       optionReviewDecisionRecords.length,
@@ -472,6 +495,32 @@ export default function DepositPageClient() {
         depositRouteSession.earningSupplyIntelligence.aggregate
           .totalExpectedCompensationSats,
       ),
+    },
+  ];
+
+  const authorityRows = [
+    {
+      label: "Authority",
+      value: depositRouteSession.organizationPolicyWalletAuthority.aggregate.state,
+    },
+    {
+      label: "Wallet",
+      value: depositRouteSession.organizationPolicyWalletAuthority.walletAuthority.state,
+    },
+    {
+      label: "Deposit policy",
+      value: depositRouteSession.organizationPolicyWalletAuthority.depositApproval.state,
+    },
+    {
+      label: "Required denials",
+      value: String(
+        depositRouteSession.organizationPolicyWalletAuthority.aggregate
+          .requiredDeniedActionCount,
+      ),
+    },
+    {
+      label: "Authority root",
+      value: depositRouteSession.organizationPolicyWalletAuthority.roots.authorityRoot,
     },
   ];
 
@@ -1152,6 +1201,51 @@ export default function DepositPageClient() {
                   )}
                 </dl>
               </details>
+            </section>
+
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                    Governance
+                  </p>
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Organization authority
+                  </h2>
+                </div>
+                <ShieldCheck
+                  className="h-5 w-5 text-emerald-200"
+                  aria-hidden="true"
+                />
+              </div>
+              <dl className="mt-4 grid gap-2">
+                {authorityRows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="border border-white/8 bg-black/20 px-3 py-2"
+                  >
+                    <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-200">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {depositRouteSession.organizationPolicyWalletAuthority.aggregate
+                .blockers.length ? (
+                <div className="mt-3">
+                  <ProductRouteDisclosure
+                    title="Authority blockers"
+                    tone="emerald"
+                  >
+                    {depositRouteSession.organizationPolicyWalletAuthority.aggregate.blockers.join(
+                      "; ",
+                    )}
+                  </ProductRouteDisclosure>
+                </div>
+              ) : null}
             </section>
 
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
