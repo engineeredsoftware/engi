@@ -27,6 +27,17 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Keeps AssetPack preview source-safe until paid read rights unlock delivery',
     ],
   }),
+  deposit: buildExplainer({
+    kicker: 'Bitcode Deposit',
+    title: 'Deposit',
+    summary: 'Connect repository source, synthesize source-safe AssetPack options, review measurements, and submit supply.',
+    detail:
+      'Use this route for the enterprise depositing path. It proposes multiple AssetPack options from connected source, depositor instruction, Depository demand, and Reading demand without serializing protected source.',
+    points: [
+      'Synthesize reviewable AssetPack options before admission',
+      'Keeps criticality, ROI, compensation policy, and admission boundaries explicit',
+    ],
+  }),
   transactions: buildExplainer({
     kicker: 'Live Terminal',
     title: 'Terminal',

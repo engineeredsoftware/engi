@@ -72,6 +72,7 @@ export const BITCODE_PUBLIC_COPY = {
     userCta: 'Open Auxillaries',
     links: {
       network: 'Packs',
+      deposit: 'Deposit',
       read: 'Read',
       transactions: 'Terminal',
       docs: 'Docs',
@@ -81,6 +82,7 @@ export const BITCODE_PUBLIC_COPY = {
   publicNav: {
     links: [
       { href: '/packs', label: 'Packs' },
+      { href: '/deposit', label: 'Deposit' },
       { href: '/read', label: 'Read' },
       { href: '/terminal', label: 'Terminal' },
       { href: '/docs', label: 'Docs' },

@@ -44,6 +44,15 @@ The `/packs` master table must support search over measurements, synthesized tit
 
 The deposit-side pipeline should help an enterprise decide what IP to sell. It should compare connected source, Depository supply, and Reading demand. It should propose multiple deposit AssetPack options, reject or warn on critical IP, estimate positive ROI where possible, expose BTD potential as an estimate only, and preserve final BTD mint/right law for paid Need-Fit settlement.
 
+Gate 5 implements the source-safe route and option-synthesis foundation only:
+`/deposit`, `DepositRouteSession`, and `DepositAssetPackOptionSynthesis`.
+Criticality, demand/ROI policy, compensation policy, admission, and indexing are
+deliberately carried as deferred boundaries for Gates 6 and 7. Product route
+state may show option measurements, source path roots, demand signal roots,
+review posture, and proof roots; it may not serialize raw source, unpaid
+AssetPack source, prompts, provider responses, credentials, or wallet private
+material.
+
 ## V43 copy boundary
 
 Outside public docs, avoid self-referential copy such as text explaining that a component is powerful or that Bitcode is doing a thing. Use clear route names, labels, status rows, measurement summaries, empty states, and expandable proof metadata. Public docs may explain the protocol; product UI should operate it.

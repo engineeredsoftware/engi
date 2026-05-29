@@ -218,6 +218,16 @@ unpaid AssetPack source, raw prompts, interpolated prompts, raw provider
 responses, wallet private material, or private settlement payloads before paid
 read rights are proven.
 
+V43 Gate 5 adds `V43DepositRouteOptions`,
+`.bitcode/v43-deposit-route-options.json`,
+`generate:v43-deposit-route-options`,
+`check:v43-deposit-route-options`, and `check:v43-gate5`. It implements
+`DepositRouteSession`, `/deposit`, source-safe connected-source AssetPack option
+synthesis, option measurements, demand signal roots, retained deposit composer
+reuse, navigation/footer route ownership, and focused UAPI/package/protocol
+tests. `/deposit` does not decide source criticality, ROI, compensation policy,
+admission, or indexing; those stay deferred to V43 Gates 6 and 7.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

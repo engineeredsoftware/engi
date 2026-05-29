@@ -437,6 +437,7 @@ export * from './asset-pack-settlement-rights-delivery';
 export * from './reading-operational-telemetry-repair-readback';
 export * from './reading-interface-product-parity';
 export * from './reading-local-staging-rehearsal';
+export * from './deposit-asset-pack-options';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';

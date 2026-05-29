@@ -12,6 +12,7 @@
     "./reading-operational-telemetry-repair-readback": "./src/reading-operational-telemetry-repair-readback.ts",
     "./reading-interface-product-parity": "./src/reading-interface-product-parity.ts",
     "./reading-local-staging-rehearsal": "./src/reading-local-staging-rehearsal.ts",
+    "./deposit-asset-pack-options": "./src/deposit-asset-pack-options.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
     "./read-fits-finding-runtime": "./src/read-fits-finding-runtime.ts",

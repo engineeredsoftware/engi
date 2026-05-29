@@ -1,0 +1,369 @@
+{
+  "artifactId": "v43-deposit-route-options",
+  "schemaId": "bitcode.v43.depositRouteOptions.v1",
+  "version": "V43",
+  "currentTarget": "V42",
+  "sourceSafetyVerdict": "source-safe-deposit-route-option-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v43-deposit-route-options:1526fdf3f411384b07dd5db3",
+  "passed": true,
+  "stepIds": [
+    "connect-source",
+    "synthesize-options",
+    "review-options",
+    "submit-deposit",
+    "read-depository-state"
+  ],
+  "objectIds": [
+    "DepositRouteSession",
+    "DepositOptionSynthesisRequest",
+    "DepositAssetPackOptionSynthesis",
+    "DepositAssetPackOption",
+    "source-safe measurements",
+    "depositor review boundary",
+    "future admission boundary"
+  ],
+  "pipelineIds": [
+    "DepositAssetPackOptionSynthesis"
+  ],
+  "sourceSafeFieldIds": [
+    "repositoryFullName",
+    "sourceBranch",
+    "sourceCommit",
+    "sourcePathRoots",
+    "depositorInstructionRoot",
+    "demandSignalRoots",
+    "optionMeasurements",
+    "optionRoots",
+    "reviewBoundary",
+    "policyBoundary"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "unpaid_assetpack_source",
+    "wallet_private_material"
+  ],
+  "contractRows": [
+    {
+      "rowId": "deposit-route-session",
+      "owner": "uapi/app/deposit/deposit-route-model.ts",
+      "contract": "DepositRouteSession owns the /deposit route state, five depositing steps, source-safe option synthesis, review boundary, and future Gate 6/7 policy/admission deferrals.",
+      "requiredFields": [
+        "schema",
+        "route",
+        "steps",
+        "pipelineOwnership",
+        "synthesis",
+        "disclosure",
+        "proofRoot"
+      ],
+      "rowRoot": "v43-deposit-route-option-contract:0f94e40e9a7847e940e26539",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "deposit-option-synthesis-model",
+      "owner": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "contract": "DepositAssetPackOptionSynthesis proposes multiple source-safe AssetPack options from connected source, depositor instruction, Depository demand, Reading demand, and existing supply signals.",
+      "requiredFields": [
+        "DepositOptionSynthesisRequest",
+        "DepositAssetPackOption",
+        "buildDepositAssetPackOptionSynthesis"
+      ],
+      "rowRoot": "v43-deposit-route-option-contract:92311461f3946431eadd706c",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "deposit-route-client",
+      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "contract": "/deposit reuses repository context, supply selection, and the existing deposit composer while rendering source-safe AssetPack option cards.",
+      "requiredFields": [
+        "TerminalRepositoryContextPanel",
+        "TerminalSupplySelectionPanel",
+        "TerminalDepositComposer"
+      ],
+      "rowRoot": "v43-deposit-route-option-contract:df890d7d4b064ad4453dc809",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "deposit-navigation",
+      "owner": "uapi/components/base/bitcode/layout/nav.tsx",
+      "contract": "Public navigation, footer, and public shell recognize /deposit as the default depositing path while /terminal remains available for cockpit detail.",
+      "requiredFields": [
+        "/deposit",
+        "Deposit",
+        "BITCODE_PUBLIC_EXPLAINERS.deposit"
+      ],
+      "rowRoot": "v43-deposit-route-option-contract:d84865ec4235c5bff6f6a6e4",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:75f3f6d81f999da998f40cb6",
+    "spec": "BITCODE_SPEC_V43.md:33b2ffd69e638cda5924ff84",
+    "delta": "BITCODE_SPEC_V43_DELTA.md:eda402621bd2f265573cfae3",
+    "notes": "BITCODE_SPEC_V43_NOTES.md:276187a00ac011add5b867ab",
+    "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:3b29425561456f9bc81745a5",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:58c7f7db3966ba19c82db7e5",
+    "readme": "README.md:e090d2bf24246cb842600900",
+    "protocolReadme": "packages/protocol/README.md:cee8de9b189f70c155029df7",
+    "packageJson": "package.json:bb1ffd9a93103ef8519c1920",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:2fd6aec9c8291402cdfca043",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:b0479c7d71076f41e34011e7",
+    "terminalRoutes": "uapi/app/terminal/terminal-routes.ts:80f478da2673f1a64ada9bfb",
+    "routeModel": "uapi/app/deposit/deposit-route-model.ts:f8a9c553c9ef418538981f76",
+    "page": "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
+    "client": "uapi/app/deposit/DepositPageClient.tsx:aacb1c4ba2bc494f62e5eee8",
+    "optionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
+    "optionModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
+    "packageIndex": "packages/pipelines/asset-pack/src/index.ts:056519274720276b37d3432d",
+    "packageManifest": "packages/pipelines/asset-pack/package.json:ae609a986babb6d97ddce16f",
+    "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:3a45184ba8d2a4e71858c597",
+    "publicExplainers": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts:282d915eac3c9f22ba8c07f1",
+    "workspaceSurface": "uapi/components/base/bitcode/layout/workspace-surface.ts:12418d5db9c3ddad6d10c841",
+    "nav": "uapi/components/base/bitcode/layout/nav.tsx:d7d1a8104e780bb7c25f1880",
+    "footer": "uapi/components/base/bitcode/layout/footer.tsx:44749b98e5f63e7ac8f9f574",
+    "routeModelTest": "uapi/tests/depositRouteModel.test.ts:c4b37d9400817a86af56306a",
+    "pageTest": "uapi/tests/depositPageClient.test.tsx:f2931dcddd80be378ce40aaf",
+    "protocolIndex": "packages/protocol/src/index.js:d6fea9aa2abae4a717a3373a",
+    "protocolTypes": "packages/protocol/src/index.d.ts:32caa412e41598f3c0c9bad8",
+    "protocolTest": "packages/protocol/test/v43-deposit-route-options.test.js:6576a3d4947b9bc23f7a786d",
+    "generator": "scripts/generate-v43-deposit-route-options.mjs:2d92d5e9c25e2e66712953f9",
+    "checker": "scripts/check-v43-gate5-deposit-route-options.mjs:10c6ad1594ea8bd06f97d7d5"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-remains-v42",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate5",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "spec-names-deposit-option-objects",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate5",
+      "sourcePath": "BITCODE_SPEC_V43_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate5",
+      "sourcePath": "BITCODE_SPEC_V43_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate5",
+      "sourcePath": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate5",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate5",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate5",
+      "sourcePath": "packages/protocol/README.md",
+      "passed": true
+    },
+    {
+      "id": "terminal-routes-define-deposit",
+      "sourcePath": "uapi/app/terminal/terminal-routes.ts",
+      "passed": true
+    },
+    {
+      "id": "route-model-defines-deposit-session",
+      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "route-model-defines-pipeline-ownership",
+      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "route-model-forbids-source-leakage",
+      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "passed": true
+    },
+    {
+      "id": "deposit-page-canonical-route",
+      "sourcePath": "uapi/app/deposit/page.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-five-step-route",
+      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-renders-options",
+      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-client-reuses-terminal-primitives",
+      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "option-model-defines-request",
+      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "passed": true
+    },
+    {
+      "id": "option-model-builds-multiple-options",
+      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "passed": true
+    },
+    {
+      "id": "option-model-defers-gate6-policy",
+      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "passed": true
+    },
+    {
+      "id": "option-model-forbids-source-leakage",
+      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-package-exports-model",
+      "sourcePath": "packages/pipelines/asset-pack/src/index.ts",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-manifest-exports-model",
+      "sourcePath": "packages/pipelines/asset-pack/package.json",
+      "passed": true
+    },
+    {
+      "id": "public-copy-links-deposit",
+      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts",
+      "passed": true
+    },
+    {
+      "id": "public-explainers-define-deposit",
+      "sourcePath": "uapi/components/base/bitcode/layout/bitcode-public-explainers.ts",
+      "passed": true
+    },
+    {
+      "id": "public-shell-recognizes-deposit",
+      "sourcePath": "uapi/components/base/bitcode/layout/workspace-surface.ts",
+      "passed": true
+    },
+    {
+      "id": "nav-links-to-deposit",
+      "sourcePath": "uapi/components/base/bitcode/layout/nav.tsx",
+      "passed": true
+    },
+    {
+      "id": "footer-links-to-deposit",
+      "sourcePath": "uapi/components/base/bitcode/layout/footer.tsx",
+      "passed": true
+    },
+    {
+      "id": "uapi-route-model-test-covers-deposit",
+      "sourcePath": "uapi/tests/depositRouteModel.test.ts",
+      "passed": true
+    },
+    {
+      "id": "uapi-page-test-covers-deposit",
+      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "asset-pack-test-covers-option-synthesis",
+      "sourcePath": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-covers-artifact",
+      "sourcePath": "packages/protocol/test/v43-deposit-route-options.test.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-package-exports-gate5",
+      "sourcePath": "packages/protocol/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-types-export-gate5",
+      "sourcePath": "packages/protocol/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate5",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate5",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate5",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v43-deposit-route-options.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v43-gate5-deposit-route-options.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "depositRouteImplemented": true,
+    "fiveStepDepositingUxImplemented": true,
+    "optionSynthesisImplemented": true,
+    "multipleOptionsSynthesized": true,
+    "connectedSourceUsed": true,
+    "depositoryDemandSignalsUsed": true,
+    "readingDemandSignalsUsed": true,
+    "existingDepositorySignalsUsed": true,
+    "terminalDepositComposerReused": true,
+    "sourceCriticalityDemandRoiPolicyDeferredToGate6": true,
+    "admissionAndIndexingDeferredToGate7": true,
+    "reviewRequiredBeforeDepositAdmission": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "sourceSnippetVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "credentialsSerialized": false,
+    "walletPrivateMaterialVisible": false,
+    "requiredPredicateCount": 39,
+    "passedPredicateCount": 39,
+    "failedPredicateIds": []
+  }
+}

@@ -81,6 +81,18 @@ preview remains metadata-only before settlement, and delivery remains locked
 until paid read rights are proven. The retained Terminal workbench stays
 debug-compatible and continues to provide execution stream readback.
 
+## Gate 5 delta closure
+
+Gate 5 adds `V43DepositRouteOptions`, the generated
+`.bitcode/v43-deposit-route-options.json` artifact, package exports, protocol
+tests, workflow checks, `DepositRouteSession`, `/deposit`, and focused route
+and asset-pack package tests. `/deposit` is now the default Depositing path:
+connect source, synthesize source-safe AssetPack options, review measurements,
+submit supply through the retained deposit composer, and reread Depository
+state. Source criticality, demand/ROI, compensation policy, deposit admission,
+and indexing remain explicit Gate 6/Gate 7 boundaries. The route and artifact
+remain source-safe metadata only.
+
 ## Commit-Body Direction
 
 V43 gate commits should state the route/product surface changed, the protocol objects preserved, the proof/test commands run, and the source-safety boundaries maintained. Gate PR titles must begin with `V43 Gate N:`.

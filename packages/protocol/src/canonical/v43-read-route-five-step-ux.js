@@ -162,7 +162,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-records-gate4', SOURCE_ROOTS.delta, sources.delta.includes('Gate 4') && sources.delta.includes('v43-read-route-five-step-ux')),
     predicateResult('notes-records-gate4', SOURCE_ROOTS.notes, sources.notes.includes('Gate 4') && sources.notes.includes('/read')),
     predicateResult('parity-records-gate4', SOURCE_ROOTS.parity, sources.parity.includes('Gate 4') && sources.parity.includes('ReadRouteSession')),
-    predicateResult('roadmap-records-gate4', SOURCE_ROOTS.roadmap, sources.roadmap.includes('Current working gate: V43 Gate 4')),
+    predicateResult('roadmap-records-gate4', SOURCE_ROOTS.roadmap, sources.roadmap.includes('V43 Gate 4 closure anchor')),
     predicateResult('readme-records-gate4', SOURCE_ROOTS.readme, sources.readme.includes('V43 Gate 4')),
     predicateResult('protocol-readme-records-gate4', SOURCE_ROOTS.protocolReadme, sources.protocolReadme.includes('V43 Gate 4')),
     predicateResult('route-model-defines-read-route-session', SOURCE_ROOTS.routeModel, sources.routeModel.includes("schema: 'bitcode.read.route-session'") && sources.routeModel.includes('assertReadRouteSessionSourceSafe')),
