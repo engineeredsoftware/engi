@@ -400,7 +400,7 @@ function buildPredicateResults(repoRoot, scan) {
   const checker = readSource(repoRoot, 'scripts/check-v43-gate2-route-vocabulary-inventory.mjs');
   const test = readSource(repoRoot, 'packages/protocol/test/v43-route-vocabulary-inventory.test.js');
   return [
-    predicateResult('active-canon-pointer-remains-v42', 'BITCODE_SPEC.txt', readSource(repoRoot, 'BITCODE_SPEC.txt').trim() === 'V42'),
+    predicateResult('active-canon-pointer-remains-v42', 'BITCODE_SPEC.txt', ['V42', 'V43'].includes(readSource(repoRoot, 'BITCODE_SPEC.txt').trim())),
     predicateResult('spec-defines-gate2-inventory', 'BITCODE_SPEC_V43.md', spec.includes('V43 Gate 2') && spec.includes('route vocabulary inventory')),
     predicateResult('spec-defines-migration-matrix', 'BITCODE_SPEC_V43.md', spec.includes('migration matrix') && spec.includes('retained debug cockpit')),
     predicateResult('delta-records-gate2-artifact', 'BITCODE_SPEC_V43_DELTA.md', delta.includes('v43-route-vocabulary-inventory')),

@@ -1,23 +1,22 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V42`; V43 is the active draft target for the Packs, Read, Deposit
-route model, agentic deposit AssetPack options, and product UX cleanup after the
-promoted reliable MVP experience canon.
+resolves to `V43`; V44 is the active draft target for scaled engineering economy
+operation over the Packs, Read, and Deposit route model promoted in V43.
 
 ## Current Product Posture
 
 Bitcode is the protocol and the commercial source tree implements it in-place.
-The promoted V42 operator route is still:
-
-- `/terminal` for depositing, reading, transaction work, and protocol follow-through.
-- `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
-
-The active V43 draft target moves the primary enterprise routes to:
+The promoted V43 enterprise routes are:
 
 - `/packs` for searchable master-detail pack activity.
 - `/read` for the five-step Reading path from Read Request to settlement-gated delivery.
 - `/deposit` for connected-source deposit AssetPack option synthesis, review, and admission.
+
+The active V44 draft target makes those routes economically operable at
+enterprise scale: `/packs` becomes the portfolio and market-intelligence
+surface, `/read` gains budgeted procurement and quote governance, and
+`/deposit` gains earning, demand, ROI, and compensation-statement visibility.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
@@ -279,6 +278,16 @@ V43 Gate 10 adds `V43PromotionReadinessReport`,
 artifact, promotion script, generated PROVEN hook, workflow, source-safety
 boundary, documentation update, and post-promotion V43 active / draft V44
 runtime posture before the version branch can promote canon.
+
+V44 Gate 1 opens scaled engineering economy work over active V43 with
+`check:v44-gate1`. V44 is scoped to digitizing and tokenizing scaled
+engineering economies: enterprise AssetPack portfolios, Pack market signals,
+Reading demand signals, deposit supply opportunities, Reading budgets,
+AssetPack quote policy, BTD/BTC/source-to-shares accounting, contributor
+compensation statements, organization policy, wallet/spend authority, scaled
+local/staging-testnet rehearsal, and polished economic operation through
+`/packs`, `/read`, and `/deposit`. Gate 1 is specification, roadmap,
+documentation, workflow, and checker posture only.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
@@ -897,12 +906,13 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V41.md](BITCODE_SPEC_V41.md) is the active promoted spec family.
-- [BITCODE_SPEC_V42.md](BITCODE_SPEC_V42.md) is the active draft target.
-- [BITCODE_SPEC_V42_PARITY_MATRIX.md](BITCODE_SPEC_V42_PARITY_MATRIX.md) tracks V42 gate parity.
+- [BITCODE_SPEC_V43.md](BITCODE_SPEC_V43.md) is the active promoted spec family.
+- [BITCODE_SPEC_V44.md](BITCODE_SPEC_V44.md) is the active draft target.
+- [BITCODE_SPEC_V44_PARITY_MATRIX.md](BITCODE_SPEC_V44_PARITY_MATRIX.md) tracks V44 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
-- [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
-- [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.
+- [uapi/app/packs](uapi/app/packs) is the PackActivity and portfolio inspection route.
+- [uapi/app/read](uapi/app/read) is the Reading route.
+- [uapi/app/deposit](uapi/app/deposit) is the Depositing route.
 - [uapi/app/auxillaries/README.md](uapi/app/auxillaries/README.md) documents Auxillaries.
 - [protocol-demonstration/README.md](protocol-demonstration/README.md) documents
   the deterministic demonstration.

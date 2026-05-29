@@ -295,7 +295,15 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v43-delta-expanded', SOURCE_ROOTS.delta, includesText(sources.delta, 'Gate 9') && includesText(sources.delta, 'cross-route rehearsal')),
     predicateResult('v43-notes-expanded', SOURCE_ROOTS.notes, sources.notes.includes('Gate 9') && sources.notes.includes('telemetry/database/ledger/storage')),
     predicateResult('v43-parity-implemented', SOURCE_ROOTS.parity, sources.parity.includes('Cross-route rehearsal') && sources.parity.includes('implemented')),
-    predicateResult('roadmap-advanced-to-gate9', SOURCE_ROOTS.roadmap, (sources.roadmap.includes('Current working gate: V43 Gate 9') || sources.roadmap.includes('Current working gate: V43 Gate 10')) && sources.roadmap.includes('V43 Gate 9 closure anchor')),
+    predicateResult(
+      'roadmap-advanced-to-gate9',
+      SOURCE_ROOTS.roadmap,
+      (
+        sources.roadmap.includes('Current working gate: V43 Gate 9') ||
+        sources.roadmap.includes('Current working gate: V43 Gate 10') ||
+        sources.roadmap.includes('V43 Gate 10 closure anchor')
+      ) && sources.roadmap.includes('V43 Gate 9 closure anchor'),
+    ),
     predicateResult('readmes-document-gate9', SOURCE_ROOTS.readme, sources.readme.includes('V43 Gate 9') && sources.protocolReadme.includes('V43CrossRouteRehearsalTelemetryRepair')),
   ];
 }

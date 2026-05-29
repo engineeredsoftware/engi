@@ -363,6 +363,7 @@ jobs:
             node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
             if [ -f BITCODE_SPEC_V44.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
+              node scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs --skip-branch-check
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -519,7 +520,10 @@ jobs:
                 node scripts/check-bitcode-spec-family.mjs --version V43 --mode draft --current-target V42
               fi
               ;;
+            spec:\ V44*|spec:\ v44*)
+              node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39/V40/V41/V42/V43 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39/V40/V41/V42/V43/V44 spec change."
               ;;
           esac
