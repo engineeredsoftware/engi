@@ -394,6 +394,7 @@ export default function Nav() {
     <ul className="flex w-full flex-wrap items-center gap-2 phone:gap-3 tablet:ml-8 tablet:w-auto tablet:flex-1 tablet:flex-nowrap tablet:justify-center tablet:gap-4 laptop:ml-12 laptop:gap-6">
       {BITCODE_PUBLIC_COPY.publicNav.links.map(({ href, label }, index) => {
         const isPacksRoute = href === '/packs';
+        const isDepositRoute = href === '/deposit';
         const isReadRoute = href === '/read';
         const isDisabledRoute =
           (isPacksRoute && disableExchangeLink) ||
@@ -447,6 +448,12 @@ export default function Nav() {
               {isPacksRoute ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.network}
+                  side="bottom"
+                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
+                />
+              ) : isDepositRoute ? (
+                <BitcodeInlineExplainer
+                  explainer={BITCODE_PUBLIC_EXPLAINERS.deposit}
                   side="bottom"
                   triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                 />

@@ -466,6 +466,9 @@ jobs:
               if [ -f scripts/check-v43-gate4-read-route-five-step-ux.mjs ]; then
                 node scripts/check-v43-gate4-read-route-five-step-ux.mjs --skip-branch-check --skip-uapi-tests
               fi
+              if [ -f scripts/check-v43-gate5-deposit-route-options.mjs ]; then
+                node scripts/check-v43-gate5-deposit-route-options.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -507,6 +510,9 @@ jobs:
             fi
             if [ -f scripts/check-v43-gate4-read-route-five-step-ux.mjs ]; then
               node scripts/check-v43-gate4-read-route-five-step-ux.mjs --skip-branch-check --skip-uapi-tests
+            fi
+            if [ -f scripts/check-v43-gate5-deposit-route-options.mjs ]; then
+              node scripts/check-v43-gate5-deposit-route-options.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
             fi
             pnpm --filter @bitcode/protocol test
             pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit

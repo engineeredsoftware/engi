@@ -169,6 +169,18 @@ settlement, and no repository delivery before paid read rights are proven.
 
 Gate 5 must move the Depositing default experience into `/deposit` and introduce the deposit AssetPack option synthesis pipeline. The pipeline must use connected source, depositor instructions, Depository state, and Reading demand to propose multiple source-safe AssetPack options for review.
 
+Gate 5 closes with `DepositRouteSession`, `/deposit`, `DepositAssetPackOption`,
+`DepositOptionSynthesisRequest`, `DepositAssetPackOptionSynthesis`, and
+`V43DepositRouteOptions`. `/deposit` owns the route query state, five visible
+Depositing stages, connected repository/source selection, depositor instruction
+capture, source-safe option cards, option measurement roots, demand signal
+roots, and reuse of the existing deposit composer. Gate 5 does not decide source
+criticality, positive ROI, compensation policy, deposit admission, or Depository
+indexing. Those boundaries are explicitly carried as deferred policy/admission
+state for Gates 6 and 7. No protected source, raw source text, unpaid AssetPack
+source, prompts, provider responses, credentials, or wallet private material may
+be serialized into route state or generated proof artifacts.
+
 ## V43 Gate 6 Source Criticality, Demand, ROI, And Compensation Policy
 
 Gate 6 must formalize how Bitcode estimates sub-critical source posture, likely demand, positive ROI, BTD potential, compensation route, and admission blockers. The system must help depositors sell non-critical positive-ROI IP while refusing or warning on critical IP and negative expected value.
@@ -193,11 +205,11 @@ Gate 10 must bind every V43 artifact, workflow, generated proof, docs update, ro
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: DepositAssetPackOption, DepositOptionSynthesisRequest, Depository record, source admission proof, compensation preview, `.bitcode/v43-deposit-options.json`.
-- Current algorithms and derivation rules: connected-source scan, depositor instruction parsing, source criticality evaluation, demand signal matching, option grouping, measurement projection, and admission proof.
-- Current invariants and fail-closed conditions: invalid deposit, missing authority, critical-source warning, negative ROI blocker, source projection mismatch, and protected-source leak.
-- Current proof obligations: source-safe option synthesis, review decision provenance, Depository admission, compensation preview, and activity synchronization.
-- Current source-bearing implementation basis: deposit route, pipeline packages, Depository indexing, storage adapters, telemetry writers, and route tests.
+- Current canonical objects and emitted artifacts: DepositRouteSession, DepositAssetPackOption, DepositOptionSynthesisRequest, DepositAssetPackOptionSynthesis, Depository record, source admission proof, compensation preview, `.bitcode/v43-deposit-route-options.json`.
+- Current algorithms and derivation rules: connected-source selection, depositor instruction rooting, source path rooting, Depository demand signal roots, Reading demand signal roots, existing supply signal roots, option grouping, measurement projection, and source-safe review posture.
+- Current invariants and fail-closed conditions: invalid repository binding, missing source hints, policy deferred to Gate 6, admission/indexing deferred to Gate 7, and protected-source leak.
+- Current proof obligations: source-safe option synthesis, option review boundary, future admission boundary, compensation preview deferral, and activity synchronization.
+- Current source-bearing implementation basis: `/deposit` route, `DepositRouteSession`, asset-pack pipeline package option synthesis, existing deposit composer, source-safe route tests, and generated protocol artifact.
 - Current validating commands and parity basis: `pnpm run check:v43-gate5`, package tests, API tests, and generated artifacts.
 - Current accepted boundaries: options are not BTD mints and do not expose source to readers before settlement.
 

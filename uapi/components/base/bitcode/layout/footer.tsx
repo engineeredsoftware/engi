@@ -24,6 +24,7 @@ import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 const TERMINAL_URL = '/terminal';
 const PACKS_URL = '/packs';
+const DEPOSIT_URL = '/deposit';
 const READ_URL = '/read';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
@@ -148,6 +149,36 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
             <path d="M6.5 12h11" />
             <path d="M12 6.5c2.8 2.4 2.8 8.6 0 11" />
             <path d="M12 6.5c-2.8 2.4-2.8 8.6 0 11" />
+          </svg>
+        </span>
+      ),
+    },
+    {
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.deposit,
+      label: BITCODE_PUBLIC_COPY.footer.links.deposit,
+      meta: 'Depositing flow',
+      href: DEPOSIT_URL,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.deposit,
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(16,185,129,0.66)) drop-shadow(0 0 15px rgba(16,185,129,0.33))',
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[15px] w-[15px] text-emerald-300"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M4 7.5 12 3l8 4.5-8 4.5L4 7.5Z" />
+            <path d="M4 12.5 12 17l8-4.5" />
+            <path d="M4 17.5 12 22l8-4.5" />
           </svg>
         </span>
       ),

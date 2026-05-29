@@ -107,6 +107,18 @@ accepted-Need-gated Finding Fits, source-safe AssetPack preview, BTC
 settlement/delivery posture, retained execution stream readback, route
 navigation, and no-source leak tests.
 
+V43 Gate 5 adds `V43DepositRouteOptions` through
+`packages/protocol/src/canonical/v43-deposit-route-options.js`,
+`packages/protocol/test/v43-deposit-route-options.test.js`,
+`.bitcode/v43-deposit-route-options.json`,
+`generate:v43-deposit-route-options`,
+`check:v43-deposit-route-options`, and `check:v43-gate5`. It binds
+`DepositRouteSession`, `/deposit`, five-step Depositing UX,
+`DepositAssetPackOptionSynthesis`, multiple source-safe AssetPack options,
+demand signal roots, option measurement roots, retained deposit composer reuse,
+route navigation, and no-source leak tests while leaving Gate 6 policy and Gate
+7 admission/indexing deferred.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.
