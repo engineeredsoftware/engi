@@ -183,6 +183,18 @@ That later UX cleanup should remove self-referential product copy outside
 public docs and make Depositing, Reading, and Pack activity understandable
 through route structure, concise labels, progressive disclosure, and rich
 themed reusable components.
+V43 Gate 2 adds `V43RouteVocabularyInventory`,
+`.bitcode/v43-route-vocabulary-inventory.json`,
+`generate:v43-route-vocabulary-inventory`,
+`check:v43-route-vocabulary-inventory`, and `check:v43-gate2`. It inventories
+`/exchange`, Exchange, `/terminal`, Terminal, `/packs`, `/read`, `/deposit`,
+Reading, Depositing, PackActivity, DepositAssetPackOption, and
+self-referential copy references as source-safe file/token counts. It also
+records the migration matrix for `/packs`, `/read`, `/deposit`, retained debug
+cockpit boundaries, redirect compatibility, and later copy cleanup without
+renaming routes in Gate 2 or serializing source snippets, protected source, raw
+prompts, provider responses, unpaid AssetPack source, credentials, or wallet
+and settlement private material.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

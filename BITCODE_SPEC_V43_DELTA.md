@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
 - Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
-- Source parity state: Gate 1 opens V43 specification and validation posture; implementation parity is gate-scoped
+- Source parity state: Gate 1 opens V43 specification and validation posture; Gate 2 adds source-safe route vocabulary inventory and migration-matrix proof
 
 ## Why V43 exists
 
@@ -23,6 +23,7 @@ V42 proved the reliable MVP path, but the product route vocabulary is still tran
 5. Deposit options must expose source-safe measurements, sub-criticality, demand, likely ROI, BTD potential, compensation posture, and admission blockers before approval.
 6. `/read` remains the five-step Reading path: request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview, settle/buy/deliver.
 7. Product UX outside public documentation must be self-explanatory through structure, labels, progressive detail, rich components, and visual quality, not self-referential copy.
+8. Gate 2 records the route vocabulary inventory in `.bitcode/v43-route-vocabulary-inventory.json` as source-safe file/token counts and a migration matrix only; the actual route rename and split remain owned by later gates.
 
 ## Explicitly deferred
 
@@ -42,6 +43,18 @@ V42 proved the reliable MVP path, but the product route vocabulary is still tran
 8. Run UX/UI excellence pass and remove self-referential product copy.
 9. Rehearse cross-route local/staging-testnet path.
 10. Close promotion readiness.
+
+## Gate 2 delta closure
+
+Gate 2 adds `V43RouteVocabularyInventory`, the generated
+`.bitcode/v43-route-vocabulary-inventory.json` artifact, package exports,
+protocol tests, workflow checks, and `check:v43-gate2`. The artifact inventories
+`/exchange`, Exchange, `/terminal`, Terminal, `/packs`, `/read`, `/deposit`,
+Reading, Depositing, PackActivity, DepositAssetPackOption, and self-referential
+copy references with source-safe file/token counts. It also formalizes migration
+rows for `/packs`, `/read`, `/deposit`, retained debug cockpit boundaries,
+redirect compatibility, and product-copy cleanup without serializing source
+snippets or source-bearing payloads.
 
 ## Commit-Body Direction
 
