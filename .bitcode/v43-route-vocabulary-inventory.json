@@ -5,7 +5,7 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-route-vocabulary-inventory-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-route-vocabulary-inventory:ef6e8d271d6bef4a216b6469",
+  "artifactRoot": "v43-route-vocabulary-inventory:d4d430ceb13707ec969061b3",
   "passed": true,
   "tokenIds": [
     "route:/exchange",
@@ -7072,6 +7072,25 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "packages/protocol/src/canonical/v43-packs-activity-master-detail.js",
+      "pathRoot": "v43-route-vocabulary-file:92efd11de04f491032db608e",
+      "categories": [
+        "package",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/exchange": 2,
+        "route:/packs": 15,
+        "symbol:Packs": 3,
+        "symbol:PackActivity": 2,
+        "word:exchange": 4
+      },
+      "totalMatches": 26,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "packages/protocol/src/canonical/v43-route-vocabulary-inventory.js",
       "pathRoot": "v43-route-vocabulary-file:157fd43a1b0d92c5e4c6d901",
       "categories": [
@@ -9782,6 +9801,25 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "scripts/check-v43-gate3-packs-activity-master-detail.mjs",
+      "pathRoot": "v43-route-vocabulary-file:419a85d3baeb962776c7fd74",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/exchange": 1,
+        "route:/packs": 3,
+        "symbol:Exchange": 1,
+        "symbol:Packs": 2,
+        "symbol:PackActivity": 1,
+        "word:exchange": 1
+      },
+      "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "scripts/code-review/README.md",
       "pathRoot": "v43-route-vocabulary-file:fef2886ffeed000a3327379c",
       "categories": [
@@ -11344,6 +11382,39 @@
       "tokenCounts": {
         "route:/terminal": 1,
         "word:terminal": 1
+      },
+      "totalMatches": 2,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "uapi/app/packs/PacksPageClient.tsx",
+      "pathRoot": "v43-route-vocabulary-file:fb5cb2d34c0b644456d0f9ee",
+      "categories": [
+        "component",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 1,
+        "symbol:Packs": 1,
+        "symbol:Reading": 1
+      },
+      "totalMatches": 3,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "uapi/app/packs/page.tsx",
+      "pathRoot": "v43-route-vocabulary-file:640704e340fc2092705c5b9b",
+      "categories": [
+        "component",
+        "route"
+      ],
+      "tokenCounts": {
+        "route:/packs": 1,
+        "symbol:Packs": 1
       },
       "totalMatches": 2,
       "sourceSafeMetadataOnly": true,
@@ -14123,6 +14194,38 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "uapi/tests/packActivityModel.test.ts",
+      "pathRoot": "v43-route-vocabulary-file:500a56f182923cdbae356edb",
+      "categories": [
+        "telemetry",
+        "test"
+      ],
+      "tokenCounts": {
+        "symbol:PackActivity": 1
+      },
+      "totalMatches": 1,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "uapi/tests/packsPageClient.test.tsx",
+      "pathRoot": "v43-route-vocabulary-file:b94555d7fedae1f7b7efc193",
+      "categories": [
+        "component",
+        "telemetry",
+        "test"
+      ],
+      "tokenCounts": {
+        "route:/packs": 4,
+        "symbol:Packs": 1
+      },
+      "totalMatches": 5,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "uapi/tests/pipelineExecutionLogHeader.test.tsx",
       "pathRoot": "v43-route-vocabulary-file:3ed6012c0c5224091ce533b6",
       "categories": [
@@ -15151,34 +15254,34 @@
     }
   ],
   "coverage": {
-    "sourceFileCount": 891,
+    "sourceFileCount": 897,
     "tokenTotals": {
-      "route:/exchange": 148,
+      "route:/exchange": 151,
       "route:/terminal": 1435,
-      "route:/packs": 123,
+      "route:/packs": 147,
       "route:/read": 242,
       "route:/deposit": 84,
-      "symbol:Exchange": 1967,
+      "symbol:Exchange": 1968,
       "symbol:Terminal": 3092,
-      "symbol:Packs": 40,
-      "symbol:Reading": 1287,
+      "symbol:Packs": 48,
+      "symbol:Reading": 1288,
       "symbol:Depositing": 234,
-      "symbol:PackActivity": 24,
+      "symbol:PackActivity": 28,
       "symbol:DepositAssetPackOption": 12,
-      "word:exchange": 1714,
+      "word:exchange": 1719,
       "word:terminal": 3655,
       "word:self-referential": 30
     },
     "categoryTotals": {
-      "route": 11,
-      "component": 141,
-      "test": 213,
+      "route": 12,
+      "component": 144,
+      "test": 215,
       "doc": 169,
       "api": 43,
-      "telemetry": 643,
+      "telemetry": 647,
       "workflow": 12,
-      "script": 116,
-      "package": 308,
+      "script": 117,
+      "package": 309,
       "spec": 76
     },
     "routeVocabularyInventoryComplete": true,

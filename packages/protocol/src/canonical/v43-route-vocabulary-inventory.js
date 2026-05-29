@@ -168,7 +168,7 @@ function isExcludedRelativePath(relativePath) {
 
 function listGitTrackedTextFiles(repoRoot) {
   try {
-    return execFileSync('git', ['ls-files'], { cwd: repoRoot, encoding: 'utf8' })
+    return execFileSync('git', ['-c', `safe.directory=${repoRoot}`, 'ls-files'], { cwd: repoRoot, encoding: 'utf8' })
       .split('\n')
       .filter(Boolean)
       .filter((relativePath) => !isExcludedRelativePath(relativePath))
