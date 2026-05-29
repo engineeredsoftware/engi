@@ -5,7 +5,7 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-route-vocabulary-inventory-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-route-vocabulary-inventory:d4d430ceb13707ec969061b3",
+  "artifactRoot": "v43-route-vocabulary-inventory:f0087be9e1d1057116bc0eaf",
   "passed": true,
   "tokenIds": [
     "route:/exchange",
@@ -8426,19 +8426,20 @@
     },
     {
       "path": "protocol-demonstration/test/v28-mvp-qa.test.js",
-      "pathRoot": "v43-route-vocabulary-file:b502b6d453fe34094af7e3ce",
+      "pathRoot": "v43-route-vocabulary-file:8a60f1f24664681a72f618c0",
       "categories": [
         "telemetry",
         "test"
       ],
       "tokenCounts": {
-        "route:/exchange": 2,
+        "route:/exchange": 1,
         "route:/terminal": 2,
+        "route:/packs": 1,
         "symbol:Exchange": 2,
-        "word:exchange": 4,
+        "word:exchange": 3,
         "word:terminal": 3
       },
-      "totalMatches": 13,
+      "totalMatches": 12,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -15256,9 +15257,9 @@
   "coverage": {
     "sourceFileCount": 897,
     "tokenTotals": {
-      "route:/exchange": 151,
+      "route:/exchange": 150,
       "route:/terminal": 1435,
-      "route:/packs": 147,
+      "route:/packs": 148,
       "route:/read": 242,
       "route:/deposit": 84,
       "symbol:Exchange": 1968,
@@ -15268,7 +15269,7 @@
       "symbol:Depositing": 234,
       "symbol:PackActivity": 28,
       "symbol:DepositAssetPackOption": 12,
-      "word:exchange": 1719,
+      "word:exchange": 1718,
       "word:terminal": 3655,
       "word:self-referential": 30
     },
