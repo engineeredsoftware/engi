@@ -63,6 +63,7 @@ Current exported commercial helpers include:
 - `V42AiReadingDemonstration` helpers for V42 source-safe AI-reading demonstration proof: public-data-only baseline, reviewed local Need, local Finding Fits, source-safe AssetPack preview, AssetPack-enhanced AI answer, deterministic benchmark uplift, self-contained demonstration boundary, and workflow wiring;
 - `V42LocalStagingMvpRehearsal` helpers for V42 source-safe local/staging-testnet full MVP rehearsal proof across Depositing, Reading, Finding Fits, preview/quote, settlement, BTD rights transfer, repository delivery, AI-reading uplift, telemetry/database readback, operator receipts, and blocked value-bearing mainnet;
 - `V42PromotionReadinessReport` helpers for V42 source-safe promotion readiness across all V42 reliable MVP artifacts, generated proof support, workflow posture, promotion dry-run support, value-bearing mainnet blocking, and `V42` active, `V43` draft runtime preparation;
+- `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/terminal` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -71,6 +72,17 @@ draft posture. It specifies `/exchange` to `/packs`, `/terminal` separation
 into `/read` and `/deposit`, agentic deposit AssetPack option synthesis,
 searchable pack activity master-detail, source-safe option review, and product
 UX cleanup through `check:v43-gate1`.
+
+V43 Gate 2 adds `V43RouteVocabularyInventory` through
+`packages/protocol/src/canonical/v43-route-vocabulary-inventory.js`,
+`packages/protocol/test/v43-route-vocabulary-inventory.test.js`,
+`.bitcode/v43-route-vocabulary-inventory.json`,
+`generate:v43-route-vocabulary-inventory`,
+`check:v43-route-vocabulary-inventory`, and `check:v43-gate2`.
+The artifact is source-safe metadata only: it records file paths, token counts,
+category counts, migration rows, and proof roots, but never source snippets,
+protected source, raw prompts, provider responses, unpaid AssetPack source,
+credentials, wallet private material, or private settlement payloads.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

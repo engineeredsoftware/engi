@@ -47,3 +47,16 @@ The deposit-side pipeline should help an enterprise decide what IP to sell. It s
 ## V43 copy boundary
 
 Outside public docs, avoid self-referential copy such as text explaining that a component is powerful or that Bitcode is doing a thing. Use clear route names, labels, status rows, measurement summaries, empty states, and expandable proof metadata. Public docs may explain the protocol; product UI should operate it.
+
+## Gate 2 route vocabulary inventory note
+
+Gate 2 closes by proving the current vocabulary surface before renaming it. The
+source-safe `.bitcode/v43-route-vocabulary-inventory.json` artifact records
+file/token counts for `/exchange`, Exchange, `/terminal`, Terminal, `/packs`,
+`/read`, `/deposit`, Reading, Depositing, PackActivity,
+DepositAssetPackOption, and self-referential copy references. Its migration
+matrix prepares `/packs`, `/read`, `/deposit`, retained debug cockpit,
+redirect compatibility, and later copy-removal work. The artifact is metadata
+only; it intentionally excludes source snippets, raw prompts, provider
+responses, protected source, unpaid AssetPack source, credentials, and wallet
+or settlement private material.

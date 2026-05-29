@@ -107,6 +107,33 @@ Gate 1 opens the V43 specification family, branch posture, workflow posture, che
 
 Gate 2 must inventory every `/exchange`, Exchange, `/terminal`, Terminal, Reading, Depositing, and pack-activity route/component/test/doc/API/telemetry reference. It must produce a migration matrix for Packs, Read, Deposit, retained debug cockpit surfaces, redirects, compatibility boundaries, and removal of self-referential product copy.
 
+Gate 2 closes with the package-backed route vocabulary inventory
+`V43RouteVocabularyInventory` and deterministic generated artifact
+`.bitcode/v43-route-vocabulary-inventory.json`. The artifact records only
+source-safe file/token counts, token totals, category totals, migration rows,
+and proof roots. It does not serialize source snippets, raw prompts, protected
+source, unpaid AssetPack source, provider responses, wallet private material,
+private settlement payloads, credentials, or secrets.
+
+The migration matrix is binding for later gates:
+
+- `/exchange`, Exchange, and exchange activity names migrate to `/packs`,
+  Packs, and PackActivity under Gate 3, with redirect compatibility until old
+  links are retired.
+- `/terminal` Reading state migrates to `/read` under Gate 4, preserving the
+  five-step Reading path and all Need review, Finding Fits, settlement, BTD
+  rights, delivery, and telemetry boundaries.
+- `/terminal` Depositing state migrates to `/deposit` under Gate 5, where
+  deposit AssetPack options remain unminted, source-safe proposals until
+  depositor approval and Depository admission.
+- Any retained debug cockpit is internal/operator-only and cannot be the
+  default product path or a parallel authority route.
+- Redirect compatibility preserves transaction ids, reading stages, deposit
+  anchors, and proof roots without changing protocol authority.
+- Self-referential product copy outside public docs must be removed during the
+  Gate 8 UX pass and replaced by route structure, labels, status, and
+  progressive proof detail.
+
 ## V43 Gate 3 Packs Activity Master-Detail Data Model
 
 Gate 3 must implement PackActivity data contracts, route APIs, table search, column sort, filtering, detail projection, source-safe metadata expansion, proof-root display, settlement/compensation/delivery/repair state readback, and no-source leak tests.
