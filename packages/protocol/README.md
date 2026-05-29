@@ -143,6 +143,18 @@ continuity, execution-stream telemetry, and `/packs` `depository-assetpack`
 synchronization while keeping BTD mint, rights transfer, settlement broadcast,
 and unpaid AssetPack source disclosure outside deposit-side admission.
 
+V43 Gate 8 adds `V43RouteUxProductExcellence` through
+`packages/protocol/src/canonical/v43-route-ux-product-excellence.js`,
+`packages/protocol/test/v43-route-ux-product-excellence.test.js`,
+`.bitcode/v43-route-ux-product-excellence.json`,
+`generate:v43-route-ux-product-excellence`,
+`check:v43-route-ux-product-excellence`, and `check:v43-gate8`. It binds the
+shared product route shell, Reading/Depositing step grid, loading/empty/error
+state panels, progressive disclosure, concise route copy, focused route tests,
+and workflow wiring for `/packs`, `/read`, and `/deposit` without exposing
+protected source, unpaid AssetPack source, prompts, provider responses, wallet
+private material, or private settlement payloads.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

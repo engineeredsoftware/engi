@@ -250,6 +250,16 @@ preview continuity, execution-stream telemetry, and `/packs`
 options. It still does not mint BTD, transfer rights, or reveal unpaid
 AssetPack source.
 
+V43 Gate 8 adds `ProductRouteShell`, `ProductRouteStepGrid`,
+`ProductRouteStatePanel`, `ProductRouteDisclosure`,
+`.bitcode/v43-route-ux-product-excellence.json`,
+`generate:v43-route-ux-product-excellence`,
+`check:v43-route-ux-product-excellence`, and `check:v43-gate8`. It refines
+`/packs`, `/read`, and `/deposit` into a shared themed route frame with concise
+copy, source-safe route metrics, keyboard current-step semantics, loading/
+empty/error states, and progressive disclosure boundaries while keeping every
+Reading, Depositing, settlement, and source-safety invariant intact.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

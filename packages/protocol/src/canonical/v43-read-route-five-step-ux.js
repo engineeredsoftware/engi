@@ -169,7 +169,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('route-model-defines-pipeline-ownership', SOURCE_ROOTS.routeModel, sources.routeModel.includes('ReadNeedComprehensionSynthesis') && sources.routeModel.includes('ReadFitsFindingSynthesis')),
     predicateResult('route-model-forbids-source-leakage', SOURCE_ROOTS.routeModel, sources.routeModel.includes('protectedSourceVisible: false') && sources.routeModel.includes('unpaidAssetPackSourceVisible: false')),
     predicateResult('read-page-canonical-route', SOURCE_ROOTS.page, sources.page.includes("canonical: '/read'") && sources.page.includes('ReadPageClient')),
-    predicateResult('read-client-renders-five-step-route', SOURCE_ROOTS.client, sources.client.includes('data-testid={`read-route-step-${step.id}`}') && sources.client.includes('Reading steps')),
+    predicateResult(
+      'read-client-renders-five-step-route',
+      SOURCE_ROOTS.client,
+      (sources.client.includes('data-testid={`read-route-step-${step.id}`}') ||
+        (sources.client.includes('ProductRouteStepGrid') && sources.client.includes('testIdPrefix="read-route-step"'))) &&
+        sources.client.includes('Reading steps'),
+    ),
     predicateResult('read-client-reuses-live-workbench', SOURCE_ROOTS.client, sources.client.includes('TerminalDepositReadWorkbench') && sources.client.includes('showDemonstrationWorkbench={false}')),
     predicateResult('read-client-renders-source-safe-session', SOURCE_ROOTS.client, sources.client.includes('Source-safe read state') && sources.client.includes('Disclosure boundary')),
     predicateResult('read-client-records-activity', SOURCE_ROOTS.client, sources.client.includes('/api/executions/history') && sources.client.includes('buildTerminalExecutionHistoryRequest')),

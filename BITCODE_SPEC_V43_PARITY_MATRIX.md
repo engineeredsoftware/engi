@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
 - Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and future V43 gate artifacts
-- Source parity state: V43 Gate 1 parity is documentation/workflow posture; V43 Gate 2 parity is source-safe inventory and migration planning; V43 Gate 3 parity is PackActivity source-safe master-detail implementation; V43 Gate 4 parity is `/read`; V43 Gate 5 parity is `/deposit` and source-safe DepositAssetPackOption synthesis; V43 Gate 6 parity is source-safe deposit policy and compensation scoring; V43 Gate 7 parity is source-safe deposit option review, admission, indexing, storage projection, telemetry, and `/packs` synchronization
+- Source parity state: V43 Gate 1 parity is documentation/workflow posture; V43 Gate 2 parity is source-safe inventory and migration planning; V43 Gate 3 parity is PackActivity source-safe master-detail implementation; V43 Gate 4 parity is `/read`; V43 Gate 5 parity is `/deposit` and source-safe DepositAssetPackOption synthesis; V43 Gate 6 parity is source-safe deposit policy and compensation scoring; V43 Gate 7 parity is source-safe deposit option review, admission, indexing, storage projection, telemetry, and `/packs` synchronization; V43 Gate 8 parity is shared product route UX, concise copy, progressive disclosure, and loading/empty/error route states
 
 ## Purpose
 
@@ -29,7 +29,7 @@ Audit V43 against `BITCODE_SPEC_V43.md`, V42 active canon, route source, package
 | Deposit route | `DepositRouteSession`, `/deposit`, source-safe connected-source option synthesis, source-safe option cards, route tests, package tests, generated proof, and retained deposit composer reuse | `packages/protocol/src/canonical/v43-deposit-route-options.js`, `.bitcode/v43-deposit-route-options.json`, `uapi/app/deposit`, `packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts` | implemented |
 | Criticality/ROI policy | Source criticality, demand, ROI, BTD potential, and BTC source-to-shares compensation posture | `packages/protocol/src/canonical/v43-deposit-policy-compensation.js`, `.bitcode/v43-deposit-policy-compensation.json`, `packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts`, `/deposit` policy readback | implemented |
 | Deposit option admission | Approved, policy-eligible deposit options enter source-safe Depository projections and `/packs` activity while rejected, resynthesis, pending, and policy-blocked options stay out | `packages/protocol/src/canonical/v43-deposit-option-admission.js`, `.bitcode/v43-deposit-option-admission.json`, `packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts`, `/deposit` admission readback, `/packs` activity model | implemented |
-| UX excellence | Self-explanatory, polished, progressive-detail UI without self-referential product copy | future Gate 8 artifact | draft-required |
+| UX/UI product excellence | Self-explanatory, polished, progressive-detail UI without self-referential product copy | `packages/protocol/src/canonical/v43-route-ux-product-excellence.js`, `.bitcode/v43-route-ux-product-excellence.json`, `uapi/components/base/bitcode/routes/product-route-shell.tsx`, `/packs`, `/read`, `/deposit` route clients | implemented |
 | Rehearsal | Local/staging-testnet cross-route path verifies deposit, read, packs, settlement, compensation, delivery | future Gate 9 artifact | draft-required |
 | Promotion readiness | V43 generated proof and active V43 / draft V44 posture ready | future Gate 10 artifact | draft-required |
 
@@ -47,7 +47,8 @@ Audit V43 against `BITCODE_SPEC_V43.md`, V42 active canon, route source, package
 | Gate 5 Deposit route proof | `V43DepositRouteOptions` exports, generated artifact, source-safe route model/UI tests, asset-pack option synthesis tests, workflow checks, and `check:v43-gate5` exist | implemented |
 | Gate 6 Deposit policy proof | `DepositAssetPackOptionPolicyReport`, generated artifact, source-safe route model/UI tests, asset-pack policy tests, workflow checks, and `check:v43-gate6` exist | implemented |
 | Gate 7 Deposit option admission proof | `DepositAssetPackOptionAdmissionReport`, generated artifact, source-safe route model/UI tests, asset-pack admission tests, PackActivity sync tests, workflow checks, and `check:v43-gate7` exist | implemented |
-| Implementation | Route and pipeline source changes are not part of Gates 1 or 2; Gate 3 implements only `/packs` and PackActivity; Gate 4 implements `/read`; Gate 5 implements `/deposit` option synthesis; Gate 6 implements policy scoring; Gate 7 implements depositor decisions, admission receipts, index/storage projections, telemetry, and `/packs` synchronization | accepted boundary |
+| Gate 8 route UX proof | `ProductRouteShell`, `ProductRouteStepGrid`, `ProductRouteStatePanel`, `ProductRouteDisclosure`, generated artifact, source-safe route shell tests, workflow checks, and `check:v43-gate8` exist | implemented |
+| Implementation | Route and pipeline source changes are not part of Gates 1 or 2; Gate 3 implements only `/packs` and PackActivity; Gate 4 implements `/read`; Gate 5 implements `/deposit` option synthesis; Gate 6 implements policy scoring; Gate 7 implements depositor decisions, admission receipts, index/storage projections, telemetry, and `/packs` synchronization; Gate 8 implements shared route UX only | accepted boundary |
 
 ## V43 accepted boundaries
 
@@ -63,6 +64,10 @@ index, store, or synchronize deposit AssetPacks into `/packs`; those remain Gate
 policy-eligible options, project source-safe index/storage metadata, and
 synchronize admitted options into `/packs`; it must not mint BTD, transfer
 rights, broadcast settlement, or disclose unpaid AssetPack source.
+Gate 8 may refine route layout, concise copy, shared components, accessible
+step controls, progressive detail, and loading/empty/error states, but it must
+not move state-machine authority, change settlement law, or disclose protected
+source.
 
 ## V43 completion condition
 

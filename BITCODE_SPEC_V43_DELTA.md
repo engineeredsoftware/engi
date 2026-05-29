@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
 - Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
-- Source parity state: Gate 1 opens V43 specification and validation posture; Gate 2 adds source-safe route vocabulary inventory and migration-matrix proof
+- Source parity state: Gate 1 opens V43 specification and validation posture; Gate 2 adds source-safe route vocabulary inventory and migration-matrix proof; Gates 3 through 8 now close Packs, Read, Deposit, deposit policy/admission, and shared route UX proof
 
 ## Why V43 exists
 
@@ -122,6 +122,19 @@ raw-source pointer roots, BTC source-to-shares compensation preview continuity,
 and execution-stream telemetry. Gate 7 still does not mint BTD, transfer rights,
 or disclose unpaid AssetPack source; those boundaries stay with future
 Need-Fit settlement.
+
+## Gate 8 delta closure
+
+Gate 8 adds `ProductRouteShell`, `ProductRouteStepGrid`,
+`ProductRouteStatePanel`, `ProductRouteDisclosure`, the generated
+`.bitcode/v43-route-ux-product-excellence.json` artifact, package exports,
+protocol tests, workflow checks, route shell assertions, and focused
+`/packs`/`/read`/`/deposit` tests. The route clients now share a themed product
+frame, source-safe metrics, concise route summaries, keyboard-accessible step
+buttons, compact loading/empty/error states, and expandable disclosure
+boundaries. In-app route copy is reduced to workflow/status vocabulary; deeper
+protocol explanation stays in docs and generated proofs. Gate 8 keeps every
+existing V43 state machine and source-safety boundary intact.
 
 ## Commit-Body Direction
 
