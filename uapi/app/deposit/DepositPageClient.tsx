@@ -16,6 +16,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "@/components/base/bitcode/auth/AuthProvider";
 import {
   ProductRouteDisclosure,
+  ProductRouteEnterpriseSummary,
+  ProductRouteKeyboardHint,
+  ProductRouteProofDetail,
   ProductRouteShell,
   ProductRouteStatePanel,
   ProductRouteStepGrid,
@@ -744,6 +747,42 @@ export default function DepositPageClient() {
           }
         />
 
+        <ProductRouteEnterpriseSummary
+          testId="deposit-enterprise-economic-summary"
+          tone="emerald"
+          title="Depositing economy overview"
+          metrics={[
+            {
+              label: "Options",
+              value: String(depositRouteSession.synthesis.optionCount),
+              state: "source-safe",
+              description: "Reviewable AssetPack supply options.",
+            },
+            {
+              label: "Positive ROI",
+              value: String(depositRouteSession.policy.reviewablePositiveRoiCount),
+              state: "estimate",
+              description: "Options whose expected settlement exceeds cost.",
+            },
+            {
+              label: "Admitted",
+              value: String(depositRouteSession.admission.admittedCount),
+              state: "Depository",
+              description: "Approved options ready for source-safe indexing.",
+            },
+            {
+              label: "Authority",
+              value:
+                depositRouteSession.organizationPolicyWalletAuthority.aggregate
+                  .state,
+              state:
+                depositRouteSession.organizationPolicyWalletAuthority
+                  .walletAuthority.state,
+              description: "Deposit policy, wallet, and critical-source checks.",
+            },
+          ]}
+        />
+
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]">
           <div className="grid min-w-0 gap-5">
             <div className="grid gap-5 xl:grid-cols-2">
@@ -1103,6 +1142,26 @@ export default function DepositPageClient() {
           </div>
 
           <aside className="grid h-fit gap-5" aria-label="Deposit route state">
+            <ProductRouteKeyboardHint
+              testId="deposit-keyboard-navigation"
+              tone="emerald"
+              shortcuts={[
+                {
+                  keys: "Tab",
+                  label:
+                    "Move through deposit stages, option actions, and source controls.",
+                },
+                {
+                  keys: "Enter",
+                  label: "Activate focused stage, option review, or route action.",
+                },
+                {
+                  keys: "Space",
+                  label: "Open or close source-safe proof detail.",
+                },
+              ]}
+            />
+
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -1289,6 +1348,50 @@ export default function DepositPageClient() {
                   provider responses, settlement private payloads, wallet
                   private material.
                 </ProductRouteDisclosure>
+              </div>
+              <div className="mt-3">
+                <ProductRouteProofDetail
+                  testId="deposit-expandable-proof-detail"
+                  title="Deposit proof detail"
+                  tone="emerald"
+                  roots={[
+                    {
+                      id: "route-session-root",
+                      label: "Route session root",
+                      root: depositRouteSession.proofRoot,
+                    },
+                    {
+                      id: "synthesis-root",
+                      label: "Synthesis root",
+                      root: depositRouteSession.synthesis.roots.synthesisRoot,
+                    },
+                    {
+                      id: "policy-root",
+                      label: "Policy root",
+                      root: depositRouteSession.policy.roots.policyReportRoot,
+                    },
+                    {
+                      id: "admission-root",
+                      label: "Admission root",
+                      root:
+                        depositRouteSession.admission.roots.admissionReportRoot,
+                    },
+                    {
+                      id: "earning-root",
+                      label: "Earning intelligence root",
+                      root:
+                        depositRouteSession.earningSupplyIntelligence.roots
+                          .intelligenceRoot,
+                    },
+                    {
+                      id: "authority-root",
+                      label: "Authority root",
+                      root:
+                        depositRouteSession.organizationPolicyWalletAuthority
+                          .roots.authorityRoot,
+                    },
+                  ]}
+                />
               </div>
             </section>
 

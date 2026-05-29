@@ -362,6 +362,21 @@ source text, unpaid AssetPack source, prompts, provider payloads, credentials,
 wallet private material, private settlement payloads, and value-bearing
 mainnet operation.
 
+V44 Gate 8 adds `V44EnterpriseProductUx`,
+`.bitcode/v44-enterprise-product-ux.json`,
+`generate:v44-enterprise-product-ux`,
+`check:v44-enterprise-product-ux`, and `check:v44-gate8`. It makes the scaled
+engineering economy operable through shared `ProductRouteEnterpriseSummary`,
+`ProductRouteKeyboardHint`, and `ProductRouteProofDetail` primitives;
+source-safe enterprise economy summaries on `/packs`, `/read`, and `/deposit`;
+keyboard navigation hints; a sticky dense Pack activity table; expandable
+proof detail roots for portfolio, Reading procurement, deposit synthesis,
+earnings, and organization authority; focused route tests; protocol tests; and
+workflow wiring while continuing to withhold protected source, raw source text,
+unpaid AssetPack source, prompts, provider payloads, credentials, wallet
+private material, private settlement payloads, and value-bearing mainnet
+operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

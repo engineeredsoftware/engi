@@ -15,6 +15,9 @@ import {
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import {
+  ProductRouteEnterpriseSummary,
+  ProductRouteKeyboardHint,
+  ProductRouteProofDetail,
   ProductRouteShell,
   ProductRouteStatePanel,
 } from "@/components/base/bitcode/routes/product-route-shell";
@@ -246,6 +249,38 @@ export default function PacksPageClient() {
         },
       ]}
     >
+      <ProductRouteEnterpriseSummary
+        testId="packs-enterprise-economic-summary"
+        tone="emerald"
+        title="Enterprise economy overview"
+        metrics={[
+          {
+            label: "Portfolio rows",
+            value: formatCount(summary?.total || records.length),
+            state: "activity",
+            description: "Searchable source-safe PackActivity rows.",
+          },
+          {
+            label: "Market signals",
+            value: formatCount(marketIntelligence?.signals.length || 0),
+            state: "demand/supply",
+            description: "Reading demand, supply, settlement, and repair signals.",
+          },
+          {
+            label: "Settlement ready",
+            value: formatCount(summary?.settlementReady || 0),
+            state: "quote/finality",
+            description: "Rows with settlement posture ready for inspection.",
+          },
+          {
+            label: "Compensation ready",
+            value: formatCount(summary?.compensationReady || 0),
+            state: "source-to-shares",
+            description: "Rows with contributor/depositor allocation readback.",
+          },
+        ]}
+      />
+
       <section className="grid gap-4 xl:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <div className="border border-white/10 bg-white/[0.035] p-4">
           <div className="flex items-center gap-2 text-[0.68rem] uppercase tracking-[0.2em] text-emerald-200/80">
@@ -372,6 +407,17 @@ export default function PacksPageClient() {
 
       <section className="grid gap-5 xl:grid-cols-[minmax(0,1.5fr)_minmax(420px,0.9fr)]">
         <div className="min-w-0 border border-white/10 bg-white/[0.035]">
+          <div className="border-b border-white/10 px-4 py-3">
+            <ProductRouteKeyboardHint
+              testId="packs-keyboard-navigation"
+              tone="emerald"
+              shortcuts={[
+                { keys: "Tab", label: "Move through filters, rows, and detail controls." },
+                { keys: "Enter", label: "Select focused position, signal, filter, or activity row." },
+                { keys: "Space", label: "Open or close expandable proof detail." },
+              ]}
+            />
+          </div>
           <div className="grid gap-3 border-b border-white/10 p-4 laptop:grid-cols-[minmax(220px,1fr)_170px_150px_150px_auto]">
             <label className="relative min-w-0">
               <span className="sr-only">Search pack activity</span>
@@ -462,8 +508,12 @@ export default function PacksPageClient() {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="min-w-full border-separate border-spacing-0 text-left">
-              <thead className="text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
+            <table
+              data-testid="packs-enterprise-activity-grid"
+              aria-label="Pack activity economic operation table"
+              className="min-w-full border-separate border-spacing-0 text-left"
+            >
+              <thead className="sticky top-0 z-10 bg-[#050915] text-[0.66rem] uppercase tracking-[0.18em] text-neutral-500">
                 <tr>
                   <th className="border-b border-white/10 px-4 py-3 font-medium">
                     Pack
@@ -794,27 +844,29 @@ export default function PacksPageClient() {
               )}
 
               <DetailSection title="Proof roots">
-                <div className="grid gap-2">
-                  {detail.proofRoots.length ? (
-                    detail.proofRoots.map((proofRoot) => (
-                      <div
-                        key={`${proofRoot.id}:${proofRoot.root}`}
-                        className="border border-white/10 bg-black/18 px-3 py-2"
-                      >
-                        <p className="text-xs uppercase tracking-[0.16em] text-neutral-500">
-                          {proofRoot.label}
-                        </p>
-                        <p className="mt-1 break-all font-mono text-xs text-emerald-100">
-                          {proofRoot.root}
-                        </p>
-                      </div>
-                    ))
-                  ) : (
-                    <p className="text-sm text-neutral-500">
-                      No proof roots recorded.
-                    </p>
-                  )}
-                </div>
+                <ProductRouteProofDetail
+                  testId="packs-expandable-proof-detail"
+                  title="Expandable proof detail"
+                  tone="emerald"
+                  defaultOpen
+                  roots={[
+                    ...detail.proofRoots.map((proofRoot) => ({
+                      id: proofRoot.id,
+                      label: proofRoot.label,
+                      root: proofRoot.root,
+                    })),
+                    {
+                      id: "accounting-root",
+                      label: "Accounting root",
+                      root: detail.accounting?.statementRoot,
+                    },
+                    {
+                      id: "authority-root",
+                      label: "Authority root",
+                      root: detail.governance?.authorityRoot,
+                    },
+                  ]}
+                />
               </DetailSection>
             </div>
           ) : (
