@@ -119,6 +119,18 @@ demand signal roots, option measurement roots, retained deposit composer reuse,
 route navigation, and no-source leak tests while leaving Gate 6 policy and Gate
 7 admission/indexing deferred.
 
+V43 Gate 6 adds `DepositAssetPackOptionPolicyReport` through
+`packages/protocol/src/canonical/v43-deposit-policy-compensation.js`,
+`packages/protocol/test/v43-deposit-policy-compensation.test.js`,
+`.bitcode/v43-deposit-policy-compensation.json`,
+`generate:v43-deposit-policy-compensation`,
+`check:v43-deposit-policy-compensation`, and `check:v43-gate6`. It binds
+source criticality, likely demand, deterministic ROI, estimate-only BTD
+potential, critical-source pre-admission blocking, and BTC source-to-shares
+compensation route preview while keeping Gate 7 responsible for depositor
+approval, admission, indexing, storage projection, telemetry, and `/packs`
+activity synchronization.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

@@ -15,6 +15,15 @@ describe('deposit-route-model', () => {
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       depositorInstructions: 'Create bounded source-safe AssetPack options for review.',
       sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
+      sourceCriticalitySignals: [
+        {
+          id: 'sub-critical-route-test',
+          label: 'Route test source is sub-critical.',
+          severity: 'sub-critical',
+          weight: 0.75,
+        },
+      ],
+      depositorWalletId: 'wallet-depositor-1',
       optionsRequested: true,
     });
 
@@ -31,13 +40,18 @@ describe('deposit-route-model', () => {
     expect(session.activeStepId).toBe('review-options');
     expect(session.pipelineOwnership).toMatchObject({
       depositOptionPipeline: 'DepositAssetPackOptionSynthesis',
+      depositOptionPolicy: 'DepositAssetPackOptionPolicy',
       reviewRequiredBeforeDepositAdmission: true,
+      sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
       sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
       admissionAndIndexingDeferredToGate7: true,
       retainedTerminalDebugCompatible: true,
     });
     expect(session.synthesis.schema).toBe('bitcode.deposit.asset-pack-option-synthesis');
     expect(session.synthesis.optionCount).toBe(3);
+    expect(session.policy.schema).toBe('bitcode.deposit.asset-pack-option-policy-report');
+    expect(session.policy.reviewablePositiveRoiCount).toBeGreaterThan(0);
+    expect(session.policy.aggregatePolicy.compensationPolicy).toBe('future-reader-btc-source-to-shares-route-preview');
     expect(session.synthesis.options[0].reviewBoundary.state).toBe('reviewable-source-safe-option');
     expect(session.disclosure).toMatchObject({
       sourceSafetyClass: 'source_safe_deposit_option_route_metadata',
@@ -63,6 +77,7 @@ describe('deposit-route-model', () => {
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
       sourcePathHints: ['packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts'],
+      sourceCriticalitySignals: [{ id: 'warning', severity: 'warning', weight: 0.5 }],
       optionsRequested: true,
       hasReviewedOption: false,
     });
@@ -74,6 +89,24 @@ describe('deposit-route-model', () => {
     expect(session.steps.find((step) => step.id === 'read-depository-state')?.blockers).toContain(
       'submitted deposit required',
     );
+    expect(assertDepositRouteSessionSourceSafe(session).admitted).toBe(true);
+  });
+
+  it('keeps critical or negative-value policy blocked before Gate 7 admission', () => {
+    const session = buildDepositRouteSession({
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      sourceBranch: 'main',
+      sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
+      sourcePathHints: ['packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts'],
+      sourceCriticalitySignals: [{ id: 'critical', severity: 'critical', weight: 1 }],
+      developmentCostSats: 9000,
+      expectedSettlementSats: 1000,
+      optionsRequested: true,
+    });
+
+    expect(session.policy.blockedCount).toBe(3);
+    expect(session.policy.evaluations.every((evaluation) => evaluation.policyDecision === 'blocked-before-admission')).toBe(true);
+    expect(session.pipelineOwnership.admissionAndIndexingDeferredToGate7).toBe(true);
     expect(assertDepositRouteSessionSourceSafe(session).admitted).toBe(true);
   });
 

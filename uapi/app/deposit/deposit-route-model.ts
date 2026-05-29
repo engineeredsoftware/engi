@@ -4,6 +4,12 @@ import {
   type DepositAssetPackOptionSynthesis,
   type DepositOptionSynthesisRequest,
 } from '@bitcode/pipeline-asset-pack/deposit-asset-pack-options';
+import {
+  assertDepositAssetPackOptionPolicyReportSourceSafe,
+  buildDepositAssetPackOptionPolicyReport,
+  type DepositAssetPackOptionPolicyReport,
+  type DepositOptionCriticalitySignal,
+} from '@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy';
 
 export type DepositRouteStepId =
   | 'connect-source'
@@ -17,6 +23,10 @@ export type DepositRouteStepState = 'complete' | 'current' | 'blocked' | 'ready'
 export interface DepositRouteSessionInput extends DepositOptionSynthesisRequest {
   depositStage?: DepositRouteStepId | null;
   transactionId?: string | null;
+  sourceCriticalitySignals?: DepositOptionCriticalitySignal[] | null;
+  developmentCostSats?: number | null;
+  expectedSettlementSats?: number | null;
+  depositorWalletId?: string | null;
   hasRepositorySource?: boolean;
   optionsRequested?: boolean;
   hasReviewedOption?: boolean;
@@ -47,12 +57,15 @@ export interface DepositRouteSession {
   };
   pipelineOwnership: {
     depositOptionPipeline: 'DepositAssetPackOptionSynthesis';
+    depositOptionPolicy: 'DepositAssetPackOptionPolicy';
     reviewRequiredBeforeDepositAdmission: true;
+    sourceCriticalityDemandRoiPolicyOwnedByGate6: true;
     sourceCriticalityDemandRoiPolicyDeferredToGate6: true;
     admissionAndIndexingDeferredToGate7: true;
     retainedTerminalDebugCompatible: true;
   };
   synthesis: DepositAssetPackOptionSynthesis;
+  policy: DepositAssetPackOptionPolicyReport;
   disclosure: {
     sourceSafetyClass: 'source_safe_deposit_option_route_metadata';
     lowDetailDefault: true;
@@ -175,6 +188,14 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     existingDepositorySignals: input.existingDepositorySignals,
     createdAt: input.createdAt,
   });
+  const policy = buildDepositAssetPackOptionPolicyReport({
+    synthesis,
+    sourceCriticalitySignals: input.sourceCriticalitySignals,
+    developmentCostSats: input.developmentCostSats,
+    expectedSettlementSats: input.expectedSettlementSats,
+    depositorWalletId: input.depositorWalletId,
+    createdAt: input.createdAt,
+  });
   const steps = DEPOSIT_ROUTE_STEPS.map((step) => ({
     ...step,
     state: stepState(input, step.id, activeStepId),
@@ -187,6 +208,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     sourceBranch,
     sourceCommit,
     synthesisRoot: synthesis.roots.synthesisRoot,
+    policyReportRoot: policy.roots.policyReportRoot,
     steps: steps.map((step) => ({ id: step.id, state: step.state, blockers: step.blockers })),
   });
 
@@ -205,12 +227,15 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     },
     pipelineOwnership: {
       depositOptionPipeline: 'DepositAssetPackOptionSynthesis',
+      depositOptionPolicy: 'DepositAssetPackOptionPolicy',
       reviewRequiredBeforeDepositAdmission: true,
+      sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
       sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
       admissionAndIndexingDeferredToGate7: true,
       retainedTerminalDebugCompatible: true,
     },
     synthesis,
+    policy,
     disclosure: {
       sourceSafetyClass: 'source_safe_deposit_option_route_metadata',
       lowDetailDefault: true,
@@ -229,13 +254,17 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
 
 export function assertDepositRouteSessionSourceSafe(session: DepositRouteSession) {
   const synthesisSafety = assertDepositAssetPackOptionSynthesisSourceSafe(session.synthesis);
+  const policySafety = assertDepositAssetPackOptionPolicyReportSourceSafe(session.policy);
   const sourceSafe =
     synthesisSafety.admitted &&
+    policySafety.admitted &&
     session.schema === 'bitcode.deposit.route-session' &&
     session.route === '/deposit' &&
     session.stageCount === 5 &&
     session.pipelineOwnership.depositOptionPipeline === 'DepositAssetPackOptionSynthesis' &&
+    session.pipelineOwnership.depositOptionPolicy === 'DepositAssetPackOptionPolicy' &&
     session.pipelineOwnership.reviewRequiredBeforeDepositAdmission === true &&
+    session.pipelineOwnership.sourceCriticalityDemandRoiPolicyOwnedByGate6 === true &&
     session.pipelineOwnership.sourceCriticalityDemandRoiPolicyDeferredToGate6 === true &&
     session.pipelineOwnership.admissionAndIndexingDeferredToGate7 === true &&
     session.disclosure.sourceSafetyClass === 'source_safe_deposit_option_route_metadata' &&

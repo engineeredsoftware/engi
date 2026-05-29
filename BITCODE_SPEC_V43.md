@@ -183,7 +183,19 @@ be serialized into route state or generated proof artifacts.
 
 ## V43 Gate 6 Source Criticality, Demand, ROI, And Compensation Policy
 
-Gate 6 must formalize how Bitcode estimates sub-critical source posture, likely demand, positive ROI, BTD potential, compensation route, and admission blockers. The system must help depositors sell non-critical positive-ROI IP while refusing or warning on critical IP and negative expected value.
+Gate 6 formalizes how Bitcode estimates sub-critical source posture, likely demand, positive ROI, BTD potential, compensation route, and admission blockers. The system helps depositors sell non-critical positive-ROI IP while refusing or warning on critical IP and negative expected value.
+
+Gate 6 closes with `DepositAssetPackOptionPolicy`,
+`DepositAssetPackOptionPolicyReport`, and the generated
+`.bitcode/v43-deposit-policy-compensation.json` proof. The policy consumes the
+source-safe `DepositAssetPackOptionSynthesis` output plus source-safe
+criticality signals, estimated development cost, expected future settlement,
+and depositor wallet posture. It emits per-option policy evaluations for source
+criticality, demand, ROI, BTD potential, and BTC source-to-shares compensation
+route. BTD potential remains estimate-only: no BTD mint, paid rights transfer,
+or source-bearing disclosure occurs until a future accepted Need-Fit settlement.
+Deposit option approval, Depository admission, indexing, storage projection,
+and `/packs` synchronization remain Gate 7 responsibilities.
 
 ## V43 Gate 7 Deposit Option Review, Approval, And Admission
 
@@ -205,12 +217,12 @@ Gate 10 must bind every V43 artifact, workflow, generated proof, docs update, ro
 
 ### Depositing and asset supply
 
-- Current canonical objects and emitted artifacts: DepositRouteSession, DepositAssetPackOption, DepositOptionSynthesisRequest, DepositAssetPackOptionSynthesis, Depository record, source admission proof, compensation preview, `.bitcode/v43-deposit-route-options.json`.
-- Current algorithms and derivation rules: connected-source selection, depositor instruction rooting, source path rooting, Depository demand signal roots, Reading demand signal roots, existing supply signal roots, option grouping, measurement projection, and source-safe review posture.
-- Current invariants and fail-closed conditions: invalid repository binding, missing source hints, policy deferred to Gate 6, admission/indexing deferred to Gate 7, and protected-source leak.
-- Current proof obligations: source-safe option synthesis, option review boundary, future admission boundary, compensation preview deferral, and activity synchronization.
-- Current source-bearing implementation basis: `/deposit` route, `DepositRouteSession`, asset-pack pipeline package option synthesis, existing deposit composer, source-safe route tests, and generated protocol artifact.
-- Current validating commands and parity basis: `pnpm run check:v43-gate5`, package tests, API tests, and generated artifacts.
+- Current canonical objects and emitted artifacts: DepositRouteSession, DepositAssetPackOption, DepositOptionSynthesisRequest, DepositAssetPackOptionSynthesis, DepositAssetPackOptionPolicy, DepositAssetPackOptionPolicyReport, Depository record, source admission proof, compensation preview, `.bitcode/v43-deposit-route-options.json`, and `.bitcode/v43-deposit-policy-compensation.json`.
+- Current algorithms and derivation rules: connected-source selection, depositor instruction rooting, source path rooting, Depository demand signal roots, Reading demand signal roots, existing supply signal roots, option grouping, measurement projection, source-safe review posture, source criticality scoring, weighted demand scoring, deterministic gross-minus-cost ROI scoring, estimate-only BTD potential, and future-reader BTC source-to-shares compensation route preview.
+- Current invariants and fail-closed conditions: invalid repository binding, missing source hints, critical-source block, negative expected value warning/block, missing wallet compensation repair posture, admission/indexing deferred to Gate 7, and protected-source leak.
+- Current proof obligations: source-safe option synthesis, option policy report, option review boundary, future admission boundary, compensation route preview, BTD mint boundary, and activity synchronization.
+- Current source-bearing implementation basis: `/deposit` route, `DepositRouteSession`, asset-pack pipeline package option synthesis, asset-pack package policy report, existing deposit composer, source-safe route tests, package tests, and generated protocol artifacts.
+- Current validating commands and parity basis: `pnpm run check:v43-gate5`, `pnpm run check:v43-gate6`, package tests, API tests, and generated artifacts.
 - Current accepted boundaries: options are not BTD mints and do not expose source to readers before settlement.
 
 ### Reading and prompt/inference ownership
