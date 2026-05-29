@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft parity opened for scaled engineering economy and tokenized AssetPack network work
+- V44 state: draft parity includes Gate 2 economic domain model work
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: V44 parity begins as planning metadata; later gates must close generated `.bitcode/v44-*` artifacts
-- Source parity state: Gate 1 requires spec/docs/workflow/checker parity only
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`
+- Source parity state: Gate 2 requires package/docs/workflow/checker/test parity for the economic receipt taxonomy
 - Scope: parity for V44 enterprise economic operation over promoted V43 product routes
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -28,8 +28,8 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 
 | Area | Required V44 result | Current judgment |
 | --- | --- | --- |
-| Gate 1 roadmap | V43 active / V44 draft posture, spec family, docs, workflow, package script, checker | drafted |
-| Economic domain model | Portfolio positions, market signals, quote states, settlement states, statements, repair cases | drafted |
+| Gate 1 roadmap | V43 active / V44 draft posture, spec family, docs, workflow, package script, checker | implemented |
+| Economic domain model | Portfolio positions, market signals, quote states, settlement states, statements, repair cases | implemented |
 | Packs portfolio | `/packs` portfolio search, market intelligence, saved filters, economic facets | drafted |
 | Reading procurement | Budget, quote policy, approval thresholds, purchase governance | drafted |
 | Depositor earnings | ROI, demand, compensation opportunity, supply recommendations | drafted |
@@ -43,8 +43,8 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 
 | Area | Required V44 result | Current judgment |
 | --- | --- | --- |
-| Source safety | No protected source, unpaid source, raw prompts, provider payloads, credentials, wallet secrets | drafted |
-| Economic labels | Estimate, quote, observed payment, settlement, allocation, delivery, repair are distinct | drafted |
+| Source safety | No protected source, unpaid source, raw prompts, provider payloads, credentials, wallet secrets | implemented |
+| Economic labels | Estimate, quote, observed payment, settlement, allocation, delivery, repair are distinct | implemented |
 | Ledger reconciliation | Portfolio statements reconcile to receipts before finality | drafted |
 | Route authority | `/packs`, `/read`, `/deposit` do not bypass protocol law | drafted |
 | Tests and proofs | Each gate has generated artifacts, package tests, route tests, and workflow checks | drafted |

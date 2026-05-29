@@ -184,6 +184,23 @@ compensation statements, governance decisions, and repair cases. It must label
 estimate, quote, observed payment, final settlement, contributor allocation,
 delivery, and repair states distinctly.
 
+Gate 2 closes through `V44EconomicDomainModel` in
+`packages/protocol/src/canonical/v44-economic-domain-model.js`, deterministic
+`.bitcode/v44-economic-domain-model.json`, `generate:v44-economic-domain-model`,
+`check:v44-economic-domain-model`, and `check:v44-gate2`. The artifact names
+EnterprisePackPortfolio, PackPortfolioPosition, PackMarketSignal,
+ReadDemandSignal, UnfitNeedSignal, DepositSupplyOpportunity,
+ReadingBudgetPolicy, AssetPackQuotePolicy, ProcurementApprovalReceipt,
+DepositorEarningStatement, ContributorCompensationStatement,
+PackEconomicStatement, OrganizationPackPolicy, PackGovernanceDecision,
+ScaledNetworkRehearsalReceipt, and PortfolioRepairCase as source-safe economic
+objects. The receipt taxonomy names portfolio-position, market-signal,
+quote-state, settlement-state, compensation-statement, governance-decision,
+repair-case, budget-policy, supply-opportunity, and network-rehearsal. It does
+not expose protected source, unpaid AssetPack source, raw prompts, provider
+payloads, credentials, wallet private material, private settlement payloads, or
+value-bearing mainnet operation.
+
 ## V44 Gate 3 Packs Portfolio Search And Market Intelligence
 
 Gate 3 must evolve `/packs` from activity master-detail into portfolio and
@@ -561,7 +578,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-spec-family-report.json` | aggregate proof verdict | draft-required |
 | `.bitcode/v44-canonical-input-report.json` | generated artifact inventories | draft-required |
 | `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
-| `.bitcode/v44-economic-domain-model.json` | economic domain model | planned |
+| `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | planned |
 | `.bitcode/v44-reading-budget-quote-policy.json` | Reading budget and quote policy | planned |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | planned |
@@ -629,7 +646,10 @@ explicit later launch authority, or economic receipts cannot reconcile.
 
 ## V44 validation canon
 
-Gate 1 validates with `pnpm run check:v44-gate1`,
+Gate 1 validates with `pnpm run check:v44-gate1`. Gate 2 validates with
+`pnpm run generate:v44-economic-domain-model`,
+`pnpm run check:v44-economic-domain-model`, and `pnpm run check:v44-gate2`.
+Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
 and `git diff --check`.
@@ -700,7 +720,7 @@ Inherited.
 | `.bitcode/v44-spec-family-report.json` | aggregate proof verdict | draft-required |
 | `.bitcode/v44-canonical-input-report.json` | exact generated-artifact inventory | draft-required |
 | `.bitcode/v44-canon-posture-drift-report.json` | active/draft posture | draft-required |
-| `.bitcode/v44-economic-domain-model.json` | economic domain model | planned |
+| `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | portfolio and market intelligence | planned |
 | `.bitcode/v44-reading-budget-quote-policy.json` | budget and quote policy | planned |
 | `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | planned |
@@ -715,6 +735,7 @@ Inherited.
 `.bitcode/v44-spec-family-report.json`,
 `.bitcode/v44-canonical-input-report.json`, and
 `.bitcode/v44-canon-posture-drift-report.json` are the opening artifacts.
+Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`.
 
 ### Shared generated-artifact fields
 

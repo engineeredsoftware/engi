@@ -186,6 +186,16 @@ compensation statements, organization policy, wallet authority, scaled
 local/staging-testnet rehearsal, and `/packs`, `/read`, `/deposit` economic
 operation. Gate 1 is specification/documentation/workflow posture only.
 
+V44 Gate 2 adds `V44EconomicDomainModel` through
+`packages/protocol/src/canonical/v44-economic-domain-model.js`,
+`packages/protocol/test/v44-economic-domain-model.test.js`,
+`.bitcode/v44-economic-domain-model.json`,
+`generate:v44-economic-domain-model`, `check:v44-economic-domain-model`, and
+`check:v44-gate2`. It binds source-safe economic object contracts, receipt
+taxonomy ids, value labels, forbidden payload ids, package exports, workflow
+checks, and generated artifact freshness for later `/packs`, `/read`, and
+`/deposit` economic operation.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

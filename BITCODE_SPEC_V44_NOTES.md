@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft notes opened for scaled engineering economy work over promoted V43
+- V44 state: draft notes include Gate 2 economic domain model work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: V44 notes bind planning language only until later generated `.bitcode/v44-*` artifacts exist
-- Source parity state: notes align roadmap, docs, and workflow posture for active V43 / draft V44
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`
+- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, and receipt taxonomy for active V43 / draft V44
 - Scope: V44 notes for digitizing and tokenizing scaled engineering economies through enterprise AssetPack portfolio, market intelligence, BTD/BTC accounting, governance, and compensation operation
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -82,3 +82,15 @@ wallet private material, or private settlement payloads.
 Gate 1 is intentionally a posture gate. It opens the V44 family and validates
 that the repo now understands V43 active / V44 draft. It must not implement
 later economic products under a loose roadmap commit.
+
+## Gate 2 note
+
+Gate 2 names the economic objects before later gates render or execute them.
+The package-backed receipt taxonomy distinguishes portfolio-position,
+market-signal, quote-state, settlement-state, compensation-statement,
+governance-decision, repair-case, budget-policy, supply-opportunity, and
+network-rehearsal receipts. Its value labels remain estimate, quote, observed
+payment, final settlement, contributor allocation, delivery, and repair state.
+This is intentionally source-safe: it carries identifiers, roots, states, and
+contracts, not protected source, unpaid AssetPack source, raw prompts, provider
+payloads, credentials, wallet private material, or private settlement payloads.
