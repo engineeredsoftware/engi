@@ -64,6 +64,7 @@ Current exported commercial helpers include:
 - `V42LocalStagingMvpRehearsal` helpers for V42 source-safe local/staging-testnet full MVP rehearsal proof across Depositing, Reading, Finding Fits, preview/quote, settlement, BTD rights transfer, repository delivery, AI-reading uplift, telemetry/database readback, operator receipts, and blocked value-bearing mainnet;
 - `V42PromotionReadinessReport` helpers for V42 source-safe promotion readiness across all V42 reliable MVP artifacts, generated proof support, workflow posture, promotion dry-run support, value-bearing mainnet blocking, and `V42` active, `V43` draft runtime preparation;
 - `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/terminal` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
+- `V43PacksActivityMasterDetail` helpers for V43 source-safe PackActivity contracts, `/api/packs/activity`, `/packs` master-detail search/filter/sort/detail projection, proof roots, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirection;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -83,6 +84,17 @@ The artifact is source-safe metadata only: it records file paths, token counts,
 category counts, migration rows, and proof roots, but never source snippets,
 protected source, raw prompts, provider responses, unpaid AssetPack source,
 credentials, wallet private material, or private settlement payloads.
+
+V43 Gate 3 adds `V43PacksActivityMasterDetail` through
+`packages/protocol/src/canonical/v43-packs-activity-master-detail.js`,
+`packages/protocol/test/v43-packs-activity-master-detail.test.js`,
+`.bitcode/v43-packs-activity-master-detail.json`,
+`generate:v43-packs-activity-master-detail`,
+`check:v43-packs-activity-master-detail`, and `check:v43-gate3`. It binds
+`PackActivityRecord`, `PacksActivityDetail`, `/api/packs/activity`, `/packs`,
+`/exchange` compatibility redirection, search, filtering, sorting, proof-root
+display, settlement/compensation/delivery/repair state readback, source-safe
+metadata expansion, and no-source leak tests.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

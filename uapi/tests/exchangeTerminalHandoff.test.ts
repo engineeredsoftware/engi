@@ -1,4 +1,4 @@
-import { buildExchangeHref, buildTerminalHref } from '@/app/terminal/terminal-routes';
+import { buildPacksHref, buildTerminalHref } from '@/app/terminal/terminal-routes';
 import {
   writeTerminalTransactionDetailSection,
   writeTerminalTransactionId,
@@ -26,8 +26,8 @@ const selectedRun: WorkspaceRun = {
   closureFocus: 'rights and settlement review',
 };
 
-describe('Exchange and Terminal transaction handoff', () => {
-  it('builds Exchange links that preserve transaction, detail, filters, and unknown context', () => {
+describe('Packs and Terminal transaction handoff', () => {
+  it('builds Packs links that preserve transaction, detail, filters, and unknown context', () => {
     const baseParams = new URLSearchParams(
       'transactionId=old-run&transactionDetail=history&provider=github&repo=engineeredsoftware%2FENGI&transactionSearch=AssetPack&transactionOwnership=network',
     );
@@ -36,21 +36,21 @@ describe('Exchange and Terminal transaction handoff', () => {
       'journal',
     );
 
-    const exchangeHref = buildExchangeHref(nextParams);
+    const packsHref = buildPacksHref(nextParams);
     const terminalHref = buildTerminalHref(nextParams);
 
-    expect(exchangeHref).toContain('/exchange?');
-    expect(exchangeHref).toContain('transactionId=tx-exchange-handoff');
-    expect(exchangeHref).toContain('transactionDetail=journal');
-    expect(exchangeHref).toContain('provider=github');
-    expect(exchangeHref).toContain('repo=engineeredsoftware%2FENGI');
-    expect(exchangeHref).toContain('transactionSearch=AssetPack');
-    expect(exchangeHref).toContain('transactionOwnership=network');
+    expect(packsHref).toContain('/packs?');
+    expect(packsHref).toContain('transactionId=tx-exchange-handoff');
+    expect(packsHref).toContain('transactionDetail=journal');
+    expect(packsHref).toContain('provider=github');
+    expect(packsHref).toContain('repo=engineeredsoftware%2FENGI');
+    expect(packsHref).toContain('transactionSearch=AssetPack');
+    expect(packsHref).toContain('transactionOwnership=network');
     expect(terminalHref).toContain('/terminal?');
     expect(terminalHref).toContain('transactionId=tx-exchange-handoff');
   });
 
-  it('adds a source-safe Exchange handoff to the transaction read model', () => {
+  it('adds a source-safe Packs handoff to the transaction read model', () => {
     const model = buildTerminalTransactionReadModel({
       selectedRun,
       detail: null,
@@ -62,7 +62,7 @@ describe('Exchange and Terminal transaction handoff', () => {
     });
 
     expect(model.route.href).toContain('/terminal?');
-    expect(model.route.exchangeHref).toContain('/exchange?');
+    expect(model.route.exchangeHref).toContain('/packs?');
     expect(model.route.exchangeHref).toContain('transactionId=tx-exchange-handoff');
     expect(model.route.exchangeHref).toContain('transactionDetail=proofs');
     expect(model.route.exchangeHref).toContain('provider=github');

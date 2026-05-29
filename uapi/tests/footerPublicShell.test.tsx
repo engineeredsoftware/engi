@@ -51,9 +51,9 @@ describe('Footer public shell', () => {
   it('renders third-gate public labels and opens orbitals access for guests', () => {
     render(<Footer />);
 
-    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute(
       'href',
-      '/exchange',
+      '/packs',
     );
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute(
       'href',
@@ -67,10 +67,10 @@ describe('Footer public shell', () => {
       'href',
       'https://github.com/engineeredsoftware/bitcode',
     );
-    expect(screen.getByRole('button', { name: 'Explain Exchange' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Explain Packs' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
-    expect(screen.getByText('Public exchange')).toBeInTheDocument();
+    expect(screen.getByText('Pack activity')).toBeInTheDocument();
     expect(screen.getAllByText('Terminal').length).toBeGreaterThan(0);
     expect(screen.getByText('Docs hub')).toBeInTheDocument();
     expect(screen.getByText('Deposit')).toBeInTheDocument();

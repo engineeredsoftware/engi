@@ -101,7 +101,7 @@ describe('Nav Terminal product chrome', () => {
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
-    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
+    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     fireEvent.mouseEnter(accessButton);
@@ -143,7 +143,7 @@ describe('Nav Terminal product chrome', () => {
 
     render(<Nav />);
 
-    expect(screen.getByRole('link', { name: 'Exchange' })).toHaveAttribute('href', '/exchange');
+    expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
     expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();

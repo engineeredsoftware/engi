@@ -22,8 +22,8 @@ const mockReviewModeSource = readFileSync(
   new URL('../../uapi/lib/mock-review-mode.ts', import.meta.url),
   'utf8',
 );
-const exchangePageClientSource = readFileSync(
-  new URL('../../uapi/app/exchange/ExchangePageClient.tsx', import.meta.url),
+const packsPageClientSource = readFileSync(
+  new URL('../../uapi/app/packs/PacksPageClient.tsx', import.meta.url),
   'utf8',
 );
 const terminalTransactionDetailSurfaceSource = readFileSync(
@@ -79,7 +79,7 @@ test('V28 BTD tracker opens wallet-owned BTD auxillary posture', () => {
 
 test('V28 generic Exchange intent entry does not auto-focus the first activity route', () => {
   assert.doesNotMatch(
-    exchangePageClientSource,
+    packsPageClientSource,
     /replaceExchangeSearchParams\(writeTerminalTransactionId\(routeSearchParams, runs\[0\]\.id\)\)/u,
   );
   assert.match(shippablesCardsPanelSource, /autoScrollOnAnimation = true/u);

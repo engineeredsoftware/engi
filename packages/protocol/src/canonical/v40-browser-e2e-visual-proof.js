@@ -240,12 +240,17 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     routeStates: ['/exchange', '/exchange?assetPack=asset-pack-run-branch-remediation&intent=buy-existing-btd'],
     sourceRoots: [
       'uapi/app/bitcode-browser-proof.ts',
-      'uapi/app/exchange/ExchangePageClient.tsx',
+      'uapi/app/packs/PacksPageClient.tsx',
+      'uapi/app/packs/page.tsx',
+      'uapi/app/api/packs/activity/route.ts',
+      'uapi/app/exchange/page.tsx',
       'uapi/app/terminal/terminal-routes.ts',
     ],
     testPaths: [
       'uapi/tests/e2e/bitcode-browser-proof.spec.ts',
       'uapi/tests/e2e/commercial-mvp.btd-exchange.spec.ts',
+      'uapi/tests/packsPageClient.test.tsx',
+      'uapi/tests/packActivityModel.test.ts',
       'uapi/tests/exchangeTerminalHandoff.test.ts',
     ],
     commandIds: [
@@ -254,15 +259,15 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
-      'ExchangePageClient',
-      'Read market activity',
-      'buildExchangeHref',
+      'PacksPageClient',
+      'Search pack activity',
+      'buildPacksHref',
     ],
     requiredTestMarkers: [
-      'Exchange rights review',
-      'signed-in BTD widget',
-      'Exchange filters',
-      'source-safe preview',
+      'renders searchable Packs activity',
+      'Proof roots',
+      'source-safe detail readback',
+      'builds Packs links',
     ],
     expectedCounts: {
       routeStateCount: 2,

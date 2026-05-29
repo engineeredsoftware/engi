@@ -24,6 +24,7 @@ V42 proved the reliable MVP path, but the product route vocabulary is still tran
 6. `/read` remains the five-step Reading path: request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview, settle/buy/deliver.
 7. Product UX outside public documentation must be self-explanatory through structure, labels, progressive detail, rich components, and visual quality, not self-referential copy.
 8. Gate 2 records the route vocabulary inventory in `.bitcode/v43-route-vocabulary-inventory.json` as source-safe file/token counts and a migration matrix only; the actual route rename and split remain owned by later gates.
+9. Gate 3 implements the first route migration slice: `/packs` becomes the pack-activity master-detail surface, `/api/packs/activity` projects source-safe PackActivity records, and `/exchange` redirects to `/packs`.
 
 ## Explicitly deferred
 
@@ -55,6 +56,18 @@ copy references with source-safe file/token counts. It also formalizes migration
 rows for `/packs`, `/read`, `/deposit`, retained debug cockpit boundaries,
 redirect compatibility, and product-copy cleanup without serializing source
 snippets or source-bearing payloads.
+
+## Gate 3 delta closure
+
+Gate 3 adds `V43PacksActivityMasterDetail`, the generated
+`.bitcode/v43-packs-activity-master-detail.json` artifact, package exports,
+protocol tests, workflow checks, the `PackActivityRecord` source-safe model,
+`/api/packs/activity`, the `/packs` route, compatibility redirect from
+`/exchange`, and no-source leak tests. The route supports search, filtering,
+column sorting, detail projection, proof roots, settlement/compensation/
+delivery/repair readback, and explicit source-safety flags without serializing
+protected source, unpaid AssetPack source, raw prompts, provider responses,
+credentials, wallet private material, or private settlement payloads.
 
 ## Commit-Body Direction
 

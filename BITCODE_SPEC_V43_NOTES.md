@@ -60,3 +60,20 @@ redirect compatibility, and later copy-removal work. The artifact is metadata
 only; it intentionally excludes source snippets, raw prompts, provider
 responses, protected source, unpaid AssetPack source, credentials, and wallet
 or settlement private material.
+
+## Gate 3 packs activity master-detail note
+
+Gate 3 closes the first product-route implementation slice. `/packs` now owns
+the pack activity master-detail surface and `/api/packs/activity` exposes a
+source-safe PackActivity projection over current activity. `/exchange` is
+retained only as a compatibility redirect into `/packs`.
+
+The route defaults to low-friction search and table scanning: search,
+activity-type filtering, state filtering, sort-key selection, ascending/
+descending sort, and selected detail readback. The detail projection surfaces
+overview, measurements, value signals, proof roots, settlement state,
+compensation state, delivery state, repair state, and redacted metadata. It is
+explicitly source-safe: no protected source, unpaid AssetPack source, source
+snippets, raw prompts, interpolated prompts, raw provider responses,
+credentials, wallet private material, or private settlement payloads may cross
+this boundary.

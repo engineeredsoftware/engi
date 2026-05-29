@@ -195,6 +195,17 @@ cockpit boundaries, redirect compatibility, and later copy cleanup without
 renaming routes in Gate 2 or serializing source snippets, protected source, raw
 prompts, provider responses, unpaid AssetPack source, credentials, or wallet
 and settlement private material.
+V43 Gate 3 adds `V43PacksActivityMasterDetail`,
+`.bitcode/v43-packs-activity-master-detail.json`,
+`generate:v43-packs-activity-master-detail`,
+`check:v43-packs-activity-master-detail`, and `check:v43-gate3`. It implements
+`PackActivityRecord`, `/api/packs/activity`, `/packs`, `/exchange` to `/packs`
+compatibility redirection, search, type/state filtering, column sorting,
+detail projection, proof-root display, settlement/compensation/delivery/repair
+state readback, and no-source leak tests. The Packs projection remains
+source-safe metadata only and does not serialize protected source, unpaid
+AssetPack source, raw prompts, provider responses, credentials, wallet private
+material, or private settlement payloads.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

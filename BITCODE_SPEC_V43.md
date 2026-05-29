@@ -138,6 +138,20 @@ The migration matrix is binding for later gates:
 
 Gate 3 must implement PackActivity data contracts, route APIs, table search, column sort, filtering, detail projection, source-safe metadata expansion, proof-root display, settlement/compensation/delivery/repair state readback, and no-source leak tests.
 
+Gate 3 closes with the package-backed `V43PacksActivityMasterDetail`
+artifact and deterministic generated proof
+`.bitcode/v43-packs-activity-master-detail.json`. The implementation adds the
+`PackActivityRecord` and `PacksActivityDetail` data contracts,
+`/api/packs/activity`, the `/packs` master-detail route, and `/exchange` to
+`/packs` compatibility redirection. Pack activity search covers synthesized
+titles, descriptions, measurements, values, activity type, transaction type,
+settlement state, compensation state, delivery state, repair state, proof
+roots, repository, and timestamp. Detail projections show proof roots and
+state readback while marking protected source, unpaid AssetPack source, raw
+prompts, interpolated prompts, raw provider responses, source snippets,
+credentials, wallet private material, and private settlement payloads
+withheld.
+
 ## V43 Gate 4 Read Route Extraction And Five-Step UX
 
 Gate 4 must move the Reading default experience into `/read`: request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview, and settle/buy/deliver. It must preserve V42 telemetry, execution log streaming, proof expansion, retry/restart, and failure repair.
