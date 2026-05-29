@@ -177,6 +177,15 @@ route artifacts, workflows, generated PROVEN support, promotion scripts,
 source-safety checks, documentation evidence, and the `V43` active, `V44` draft
 posture needed before canonical promotion.
 
+V44 Gate 1 opens scaled engineering economy work over the promoted `V43`
+active, `V44` draft posture. It wires `check:v44-gate1` and the V44
+specification family for enterprise AssetPack portfolios, Pack market signals,
+Reading demand signals, deposit supply opportunities, Reading budget policy,
+AssetPack quote policy, BTD/BTC/source-to-shares accounting, contributor
+compensation statements, organization policy, wallet authority, scaled
+local/staging-testnet rehearsal, and `/packs`, `/read`, `/deposit` economic
+operation. Gate 1 is specification/documentation/workflow posture only.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.
