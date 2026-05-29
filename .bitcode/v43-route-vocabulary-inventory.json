@@ -5,7 +5,7 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-route-vocabulary-inventory-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-route-vocabulary-inventory:258621a7597f9ac26c7bff1c",
+  "artifactRoot": "v43-route-vocabulary-inventory:796ab10542610196758f5080",
   "passed": true,
   "tokenIds": [
     "route:/exchange",
@@ -7175,6 +7175,24 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "packages/protocol/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js",
+      "pathRoot": "v43-route-vocabulary-file:4efbb1863e37137927cbbcf0",
+      "categories": [
+        "package",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 11,
+        "route:/read": 8,
+        "route:/deposit": 7,
+        "symbol:PackActivity": 2
+      },
+      "totalMatches": 28,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "packages/protocol/src/canonical/v43-deposit-option-admission.js",
       "pathRoot": "v43-route-vocabulary-file:17feaaf05a6ad871b15a66f1",
       "categories": [
@@ -10125,6 +10143,23 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs",
+      "pathRoot": "v43-route-vocabulary-file:f1f86658165e1e26bc098b5c",
+      "categories": [
+        "script",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 3,
+        "route:/deposit": 3
+      },
+      "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "scripts/code-review/README.md",
       "pathRoot": "v43-route-vocabulary-file:fef2886ffeed000a3327379c",
       "categories": [
@@ -10611,6 +10646,23 @@
         "symbol:Reading": 1
       },
       "totalMatches": 1,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/rehearse-v43-cross-route-product-flow.mjs",
+      "pathRoot": "v43-route-vocabulary-file:68edbff3c2693954b7b9daa7",
+      "categories": [
+        "script",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 3,
+        "route:/deposit": 3
+      },
+      "totalMatches": 9,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -15737,19 +15789,19 @@
     }
   ],
   "coverage": {
-    "sourceFileCount": 925,
+    "sourceFileCount": 928,
     "tokenTotals": {
       "route:/exchange": 147,
       "route:/terminal": 1475,
-      "route:/packs": 202,
-      "route:/read": 313,
-      "route:/deposit": 185,
+      "route:/packs": 219,
+      "route:/read": 327,
+      "route:/deposit": 198,
       "symbol:Exchange": 1964,
       "symbol:Terminal": 3091,
       "symbol:Packs": 53,
       "symbol:Reading": 1343,
       "symbol:Depositing": 249,
-      "symbol:PackActivity": 30,
+      "symbol:PackActivity": 32,
       "symbol:DepositAssetPackOption": 33,
       "word:exchange": 1708,
       "word:terminal": 3735,
@@ -15761,10 +15813,10 @@
       "test": 224,
       "doc": 169,
       "api": 43,
-      "telemetry": 664,
+      "telemetry": 667,
       "workflow": 12,
-      "script": 122,
-      "package": 322,
+      "script": 124,
+      "package": 323,
       "spec": 76
     },
     "routeVocabularyInventoryComplete": true,
