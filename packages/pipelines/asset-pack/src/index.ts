@@ -442,6 +442,8 @@ export * from './reading-local-staging-rehearsal';
 export * from './deposit-asset-pack-options';
 export * from './deposit-asset-pack-option-policy';
 export * from './deposit-asset-pack-option-admission';
+export * from './depositor-earning-supply-intelligence';
+export * from './btd-btc-compensation-statements';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';
 export * from './read-need-review-resynthesis';

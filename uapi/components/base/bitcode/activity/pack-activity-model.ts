@@ -57,6 +57,20 @@ export interface PackActivitySourceSafety {
   sourceSnippetVisible: false;
 }
 
+export interface PackActivityAccountingReadback {
+  state: string | null;
+  btdRangeState: string | null;
+  btcSettlementState: string | null;
+  compensationState: string | null;
+  reconciliationState: string | null;
+  treasuryRouteState: string | null;
+  contributorCount: number;
+  depositorCount: number;
+  finalSettlementSats: number;
+  allocatedContributorSats: number;
+  statementRoot: string | null;
+}
+
 export interface PackActivityRecord {
   id: string;
   type: PackActivityType;
@@ -74,6 +88,7 @@ export interface PackActivityRecord {
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
+  accounting: PackActivityAccountingReadback | null;
   sourceSafety: PackActivitySourceSafety;
   metadata: Record<string, unknown>;
 }
@@ -114,6 +129,7 @@ export interface PackActivityDetailProjection {
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
+  accounting: PackActivityAccountingReadback | null;
   states: {
     settlement: string | null;
     compensation: string | null;
@@ -294,6 +310,29 @@ function findFirstNumber(source: unknown, keys: string[], depth = 0): number | n
   return null;
 }
 
+function findFirstRecord(
+  source: unknown,
+  predicate: (record: Record<string, unknown>) => boolean,
+  depth = 0,
+): Record<string, unknown> | null {
+  if (depth > 7 || source === null || source === undefined) return null;
+  if (Array.isArray(source)) {
+    for (const item of source) {
+      const found = findFirstRecord(item, predicate, depth + 1);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  const record = asRecord(source);
+  if (Object.keys(record).length > 0 && predicate(record)) return record;
+  for (const value of Object.values(record)) {
+    const found = findFirstRecord(value, predicate, depth + 1);
+    if (found) return found;
+  }
+  return null;
+}
+
 function normalizeLabel(value: string) {
   return value
     .replace(/([a-z])([A-Z])/gu, '$1 $2')
@@ -440,6 +479,47 @@ function buildValues(record: BitcodeActivityRecord): PackActivityValue[] {
   return values;
 }
 
+function buildAccountingReadback(record: BitcodeActivityRecord): PackActivityAccountingReadback | null {
+  const payload = asRecord(record.payload);
+  const statements = findFirstRecord(
+    payload,
+    (candidate) =>
+      candidate.schema === 'bitcode.asset-pack.btd-btc-compensation-statements' ||
+      candidate.statements === 'BtdBtcCompensationStatements',
+  );
+  const aggregate = asRecord(statements?.aggregate);
+  const btdRange = asRecord(statements?.btdRange);
+  const btcSettlement = asRecord(statements?.btcSettlement);
+  const reconciliation = asRecord(statements?.reconciliation);
+  const firstTreasuryRoute = findFirstRecord(
+    statements?.treasuryRoutes,
+    (candidate) => candidate.schema === 'bitcode.asset-pack.treasury-route-statement',
+  );
+  const roots = asRecord(statements?.roots);
+  const hasAccounting =
+    Boolean(statements) ||
+    Boolean(readString(payload, 'accountingState', 'btdBtcAccountingState')) ||
+    Boolean(findFirstString(payload, ['accountingRoot', 'btdBtcAccountingRoot']));
+
+  if (!hasAccounting) return null;
+
+  return {
+    state: readString(statements, 'state') || readString(payload, 'accountingState', 'btdBtcAccountingState'),
+    btdRangeState: readString(btdRange, 'rangeState'),
+    btcSettlementState: readString(btcSettlement, 'state'),
+    compensationState: readString(payload, 'compensationState', 'compensation_state', 'sourceToSharesState'),
+    reconciliationState: readString(reconciliation, 'state') || readString(payload, 'reconciliationState'),
+    treasuryRouteState: readString(firstTreasuryRoute, 'routeState'),
+    contributorCount: findFirstNumber(aggregate, ['contributorCount']) || 0,
+    depositorCount: findFirstNumber(aggregate, ['depositorCount']) || 0,
+    finalSettlementSats: findFirstNumber(aggregate, ['finalSettlementSats']) || 0,
+    allocatedContributorSats: findFirstNumber(aggregate, ['allocatedContributorSats']) || 0,
+    statementRoot:
+      readString(roots, 'accountingRoot') ||
+      findFirstString(payload, ['accountingRoot', 'btdBtcAccountingRoot', 'packEconomicStatementRoot']),
+  };
+}
+
 function collectProofRoots(source: unknown, roots = new Map<string, PackActivityProofRoot>(), depth = 0) {
   if (depth > 7 || source === null || source === undefined) return roots;
 
@@ -515,6 +595,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     measurements: buildMeasurements(record),
     values: buildValues(record),
     proofRoots: [...collectProofRoots(record.payload).values()].slice(0, 24),
+    accounting: buildAccountingReadback(record),
     sourceSafety: SOURCE_SAFETY,
     metadata,
   };
@@ -569,6 +650,13 @@ function buildSearchText(record: PackActivityRecord) {
     ]),
     ...record.values.flatMap((value) => [value.id, value.label, String(value.amount), value.unit]),
     ...record.proofRoots.flatMap((proofRoot) => [proofRoot.id, proofRoot.label, proofRoot.root]),
+    record.accounting?.state,
+    record.accounting?.btdRangeState,
+    record.accounting?.btcSettlementState,
+    record.accounting?.compensationState,
+    record.accounting?.reconciliationState,
+    record.accounting?.treasuryRouteState,
+    record.accounting?.statementRoot,
   ]
     .filter(Boolean)
     .join(' ')
@@ -703,6 +791,7 @@ export function buildPackActivityDetailProjection(
     measurements: record.measurements,
     values: record.values,
     proofRoots: record.proofRoots,
+    accounting: record.accounting,
     states: {
       settlement: record.settlementState,
       compensation: record.compensationState,

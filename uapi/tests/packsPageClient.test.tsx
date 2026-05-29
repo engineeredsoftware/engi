@@ -54,6 +54,19 @@ describe("PacksPageClient", () => {
             values: [
               { id: "btc-fee", label: "Btc fee", amount: 3200, unit: "sats" },
             ],
+            accounting: {
+              state: "settlement-accounted",
+              btdRangeState: "transferred-to-reader",
+              btcSettlementState: "final-settlement-observed",
+              compensationState: "allocated",
+              reconciliationState: "aligned",
+              treasuryRouteState: "routed",
+              contributorCount: 2,
+              depositorCount: 2,
+              finalSettlementSats: 3200,
+              allocatedContributorSats: 3200,
+              statementRoot: "btd-btc-accounting-root-abc",
+            },
             proofRoots: [
               {
                 id: "settlement-root",
@@ -106,6 +119,19 @@ describe("PacksPageClient", () => {
           values: [
             { id: "btc-fee", label: "Btc fee", amount: 3200, unit: "sats" },
           ],
+          accounting: {
+            state: "settlement-accounted",
+            btdRangeState: "transferred-to-reader",
+            btcSettlementState: "final-settlement-observed",
+            compensationState: "allocated",
+            reconciliationState: "aligned",
+            treasuryRouteState: "routed",
+            contributorCount: 2,
+            depositorCount: 2,
+            finalSettlementSats: 3200,
+            allocatedContributorSats: 3200,
+            statementRoot: "btd-btc-accounting-root-abc",
+          },
           proofRoots: [
             {
               id: "settlement-root",
@@ -157,6 +183,8 @@ describe("PacksPageClient", () => {
       ).toBeGreaterThan(0),
     );
     expect(screen.getByText("Proof roots")).toBeInTheDocument();
+    expect(screen.getByText("Accounting")).toBeInTheDocument();
+    expect(screen.getByText("btd-btc-accounting-root-abc")).toBeInTheDocument();
     expect(screen.getByText("settlement-root-def")).toBeInTheDocument();
     expect(screen.getAllByText("quote_ready").length).toBeGreaterThan(0);
     expect(
