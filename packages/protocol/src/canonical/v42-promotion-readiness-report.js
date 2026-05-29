@@ -117,7 +117,10 @@ const REQUIRED_SOURCE_EVIDENCE = Object.freeze([
   ]),
   source('.github/workflows/v42-canon-promotion.yml', [
     "head.ref == 'version/v42'",
-    'npm run promote:canon -- --version V42',
+    'node scripts/prepare-bitcode-spec-family-promotion.mjs --version V42',
+    'node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V42 --next-draft V43',
+    'node scripts/generate-bitcode-proven.mjs --version V42',
+    'node scripts/check-bitcode-spec-family.mjs --version V42 --mode promoted --current-target V42',
     'BITCODE_SPEC_V42_PROVEN.md',
     'Promote V42 canon files',
   ]),

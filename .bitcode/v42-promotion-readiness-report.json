@@ -119,7 +119,7 @@
     {
       "relativePath": "scripts/check-v42-gate9-promotion-readiness.mjs",
       "present": true,
-      "digest": "sha256:b40eb3ce42c1a432c4875d0d949751f54d3df1cc1702770223bf43d971790599",
+      "digest": "sha256:7e4dfbd28742473fcc6dc84bb8c70f62be0eca1fea4461bf7064255ad56fb816",
       "requiredTokens": [
         {
           "token": "V42 Gate 9 promotion readiness",
@@ -226,14 +226,26 @@
     {
       "relativePath": ".github/workflows/v42-canon-promotion.yml",
       "present": true,
-      "digest": "sha256:e07c93e8c27c6c60d0d8557776bf2f7ffd95d3c6040733432371b02661d381b7",
+      "digest": "sha256:767f7e79af9adea8daae75f5f6ba0b0cbda29c25783e56c92052dd4d70c14926",
       "requiredTokens": [
         {
           "token": "head.ref == 'version/v42'",
           "present": true
         },
         {
-          "token": "npm run promote:canon -- --version V42",
+          "token": "node scripts/prepare-bitcode-spec-family-promotion.mjs --version V42",
+          "present": true
+        },
+        {
+          "token": "node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V42 --next-draft V43",
+          "present": true
+        },
+        {
+          "token": "node scripts/generate-bitcode-proven.mjs --version V42",
+          "present": true
+        },
+        {
+          "token": "node scripts/check-bitcode-spec-family.mjs --version V42 --mode promoted --current-target V42",
           "present": true
         },
         {

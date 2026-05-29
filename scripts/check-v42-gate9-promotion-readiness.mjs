@@ -299,7 +299,10 @@ function main() {
   assertCheck(
     failures,
     promotionWorkflow.includes("head.ref == 'version/v42'") &&
-      promotionWorkflow.includes('npm run promote:canon -- --version V42') &&
+      promotionWorkflow.includes('node scripts/prepare-bitcode-spec-family-promotion.mjs --version V42') &&
+      promotionWorkflow.includes('node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V42 --next-draft V43') &&
+      promotionWorkflow.includes('node scripts/generate-bitcode-proven.mjs --version V42') &&
+      promotionWorkflow.includes('node scripts/check-bitcode-spec-family.mjs --version V42 --mode promoted --current-target V42') &&
       promotionWorkflow.includes('check-v42-gate9-promotion-readiness.mjs --promotion-mode --skip-branch-check'),
     'V42 promotion workflow must validate Gate 9 and promote V42.',
   );
