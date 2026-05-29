@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V42`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
-- Source parity state: Gate 1 opens V43 specification and validation posture; Gate 2 adds source-safe route vocabulary inventory and migration-matrix proof; Gates 3 through 9 now close Packs, Read, Deposit, deposit policy/admission, shared route UX proof, and cross-route rehearsal proof
+- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, and V43 gate artifacts through `.bitcode/v43-promotion-readiness-report.json`
+- Source parity state: Gate 1 opens V43 specification and validation posture; Gate 2 adds source-safe route vocabulary inventory and migration-matrix proof; Gates 3 through 10 now close Packs, Read, Deposit, deposit policy/admission, shared route UX proof, cross-route rehearsal proof, and promotion readiness
 
 ## Why V43 exists
 
@@ -29,6 +29,10 @@ V42 proved the reliable MVP path, but the product route vocabulary is still tran
     `/read`, and `/packs` with source-safe rehearsal receipts, telemetry
     readback, ledger/database/storage synchronization checks, repair posture,
     and no value-bearing mainnet admission.
+11. Gate 10 binds V43 promotion readiness through
+    `.bitcode/v43-promotion-readiness-report.json`, `v43-canon-promotion.yml`,
+    V43 PROVEN generation support, promotion scripts support V43, and the
+    V43 active / draft V44 post-promotion posture.
 
 ## Explicitly deferred
 
@@ -156,6 +160,25 @@ metadata only and bind staging-testnet to Supabase project
 `tkpyosihuouusyaxtbau`; they never serialize secrets, protected source, raw
 prompts, provider responses, unpaid AssetPack source, wallet private material,
 private settlement payloads, or live rehearsal logs.
+
+## Gate 10: V43 Promotion Readiness
+
+Gate 10 adds `V43PromotionReadinessReport`, the generated
+`.bitcode/v43-promotion-readiness-report.json` artifact, package exports,
+protocol tests, `generate:v43-promotion-readiness`,
+`check:v43-promotion-readiness`, `check:v43-gate10`, V43 support in
+`promote-bitcode-canon.mjs`, V43 support in
+`prepare-bitcode-spec-family-promotion.mjs`, V43 support in generated PROVEN
+packages, V43 Gate 10 gate/canon workflow posture, and
+`.github/workflows/v43-canon-promotion.yml`.
+
+The closure acceptance is source-safe metadata only: every V43 gate artifact
+must be present, parseable, source-safe, deterministic under check mode, and
+bound to active V42 / draft V43 before promotion. The promotion workflow must
+produce V43 active / draft V44 posture, create `BITCODE_SPEC_V43_PROVEN.md`,
+and refuse promotion when any artifact, workflow, promotion script, generated
+proof output, documentation evidence, source-safety boundary, or value-bearing
+mainnet block is missing.
 
 ## Commit-Body Direction
 

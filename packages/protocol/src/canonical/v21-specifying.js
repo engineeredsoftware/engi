@@ -491,6 +491,19 @@ function buildV21LikeProfile(version) {
           '.bitcode/v42-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V43'
+        ? [
+          '.bitcode/v43-route-vocabulary-inventory.json',
+          '.bitcode/v43-packs-activity-master-detail.json',
+          '.bitcode/v43-read-route-five-step-ux.json',
+          '.bitcode/v43-deposit-route-options.json',
+          '.bitcode/v43-deposit-policy-compensation.json',
+          '.bitcode/v43-deposit-option-admission.json',
+          '.bitcode/v43-route-ux-product-excellence.json',
+          '.bitcode/v43-cross-route-rehearsal-telemetry-repair.json',
+          '.bitcode/v43-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',

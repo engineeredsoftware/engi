@@ -167,6 +167,16 @@ ledger/database/storage synchronization, repair posture, settlement delivery,
 and compensation readback while keeping receipts source-safe and value-bearing
 mainnet execution blocked.
 
+V43 Gate 10 adds `V43PromotionReadinessReport` through
+`packages/protocol/src/canonical/v43-promotion-readiness-report.js`,
+`packages/protocol/test/v43-promotion-readiness.test.js`,
+`.bitcode/v43-promotion-readiness-report.json`,
+`generate:v43-promotion-readiness`, `check:v43-promotion-readiness`,
+`check:v43-gate10`, and `v43-canon-promotion.yml`. It binds all V43 product
+route artifacts, workflows, generated PROVEN support, promotion scripts,
+source-safety checks, documentation evidence, and the `V43` active, `V44` draft
+posture needed before canonical promotion.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

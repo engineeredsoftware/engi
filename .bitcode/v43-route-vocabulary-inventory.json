@@ -5,7 +5,7 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-route-vocabulary-inventory-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-route-vocabulary-inventory:796ab10542610196758f5080",
+  "artifactRoot": "v43-route-vocabulary-inventory:dc2284aedb0486adb5dd171e",
   "passed": true,
   "tokenIds": [
     "route:/exchange",
@@ -2081,7 +2081,7 @@
     },
     {
       "path": "BITCODE_SPEC_V43.md",
-      "pathRoot": "v43-route-vocabulary-file:10e32295f5cee473fd948184",
+      "pathRoot": "v43-route-vocabulary-file:f9489450daa7a81f17a4c59d",
       "categories": [
         "doc",
         "spec",
@@ -2096,15 +2096,15 @@
         "symbol:Exchange": 4,
         "symbol:Terminal": 2,
         "symbol:Packs": 5,
-        "symbol:Reading": 20,
-        "symbol:Depositing": 7,
+        "symbol:Reading": 21,
+        "symbol:Depositing": 8,
         "symbol:PackActivity": 8,
         "symbol:DepositAssetPackOption": 4,
         "word:exchange": 6,
         "word:terminal": 5,
         "word:self-referential": 4
       },
-      "totalMatches": 135,
+      "totalMatches": 137,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -7260,6 +7260,21 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "packages/protocol/src/canonical/v43-promotion-readiness-report.js",
+      "pathRoot": "v43-route-vocabulary-file:105f32b8b771896cc3a1a140",
+      "categories": [
+        "package",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "symbol:Packs": 1
+      },
+      "totalMatches": 1,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "packages/protocol/src/canonical/v43-read-route-five-step-ux.js",
       "pathRoot": "v43-route-vocabulary-file:3ccff3998243a1b97320bb01",
       "categories": [
@@ -10595,28 +10610,32 @@
     },
     {
       "path": "scripts/prepare-bitcode-spec-family-promotion.mjs",
-      "pathRoot": "v43-route-vocabulary-file:670ed0d24221e4688c6eaa1a",
+      "pathRoot": "v43-route-vocabulary-file:c0b948392af39c517d7016ef",
       "categories": [
         "script",
         "telemetry"
       ],
       "tokenCounts": {
-        "route:/read": 2,
+        "route:/packs": 1,
+        "route:/read": 3,
+        "route:/deposit": 1,
         "symbol:Exchange": 12,
         "symbol:Terminal": 24,
-        "symbol:Reading": 36,
-        "symbol:Depositing": 3,
+        "symbol:Packs": 1,
+        "symbol:Reading": 37,
+        "symbol:Depositing": 4,
+        "symbol:PackActivity": 2,
         "word:exchange": 7,
         "word:terminal": 2
       },
-      "totalMatches": 86,
+      "totalMatches": 94,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "scripts/promote-bitcode-canon.mjs",
-      "pathRoot": "v43-route-vocabulary-file:a51180eb91907243f41d43c5",
+      "pathRoot": "v43-route-vocabulary-file:e969a2b88ac6b4ead37871ba",
       "categories": [
         "script",
         "telemetry"
@@ -10625,12 +10644,13 @@
         "route:/read": 1,
         "symbol:Exchange": 6,
         "symbol:Terminal": 8,
+        "symbol:Packs": 1,
         "symbol:Reading": 12,
         "symbol:Depositing": 1,
         "word:exchange": 9,
         "word:terminal": 13
       },
-      "totalMatches": 50,
+      "totalMatches": 51,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -15789,19 +15809,19 @@
     }
   ],
   "coverage": {
-    "sourceFileCount": 928,
+    "sourceFileCount": 929,
     "tokenTotals": {
       "route:/exchange": 147,
       "route:/terminal": 1475,
-      "route:/packs": 219,
-      "route:/read": 327,
-      "route:/deposit": 198,
+      "route:/packs": 220,
+      "route:/read": 328,
+      "route:/deposit": 199,
       "symbol:Exchange": 1964,
       "symbol:Terminal": 3091,
-      "symbol:Packs": 53,
-      "symbol:Reading": 1343,
-      "symbol:Depositing": 249,
-      "symbol:PackActivity": 32,
+      "symbol:Packs": 56,
+      "symbol:Reading": 1345,
+      "symbol:Depositing": 251,
+      "symbol:PackActivity": 34,
       "symbol:DepositAssetPackOption": 33,
       "word:exchange": 1708,
       "word:terminal": 3735,
@@ -15813,10 +15833,10 @@
       "test": 224,
       "doc": 169,
       "api": 43,
-      "telemetry": 667,
+      "telemetry": 668,
       "workflow": 12,
       "script": 124,
-      "package": 323,
+      "package": 324,
       "spec": 76
     },
     "routeVocabularyInventoryComplete": true,

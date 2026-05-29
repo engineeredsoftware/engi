@@ -272,6 +272,14 @@ database readback, ledger/database/storage synchronization, and repair posture.
 The staging lane is bound to Supabase project `tkpyosihuouusyaxtbau`; receipts
 and generated artifacts remain source-safe metadata only.
 
+V43 Gate 10 adds `V43PromotionReadinessReport`,
+`.bitcode/v43-promotion-readiness-report.json`,
+`generate:v43-promotion-readiness`, `check:v43-promotion-readiness`,
+`check:v43-gate10`, and `v43-canon-promotion.yml`. It binds every V43 gate
+artifact, promotion script, generated PROVEN hook, workflow, source-safety
+boundary, documentation update, and post-promotion V43 active / draft V44
+runtime posture before the version branch can promote canon.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

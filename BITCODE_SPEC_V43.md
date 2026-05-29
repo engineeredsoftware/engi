@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V42`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, V43 gate artifacts as they are introduced, V43 gate-quality workflow evidence, and later `BITCODE_SPEC_V43_PROVEN.md` at promotion
-- Source parity state: V43 currently opens route vocabulary, pack-activity, agentic deposit, Reading separation, UX, and proof posture; implementation parity is gate-scoped and not yet promoted
+- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, V43 gate artifacts through `.bitcode/v43-promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and later `BITCODE_SPEC_V43_PROVEN.md` at promotion
+- Source parity state: V43 Gates 1 through 10 now have generated proof-backed implementation parity for route vocabulary, pack activity, Reading, Depositing, policy/compensation, option admission, shared route UX, cross-route rehearsal, and promotion readiness
 - Notes companion: `BITCODE_SPEC_V43_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V43_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V43_PARITY_MATRIX.md`
@@ -252,6 +252,21 @@ source. Value-bearing mainnet remains blocked.
 ## V43 Gate 10 Promotion Readiness
 
 Gate 10 must bind every V43 artifact, workflow, generated proof, docs update, route migration, source-safety proof, test suite, and active V43 / draft V44 runtime posture before canonical promotion.
+
+Gate 10 closes with `V43PromotionReadinessReport`, the deterministic
+`.bitcode/v43-promotion-readiness-report.json` artifact, `check:v43-gate10`,
+`generate:v43-promotion-readiness`, `v43-canon-promotion.yml`, V43 promotion
+support in `promote-bitcode-canon.mjs`, V43 hand-authored spec-family promotion
+rewriting, V43 generated PROVEN support, and post-promotion workflow posture for
+V43 active / draft V44. The artifact covers every V43 gate artifact from route
+vocabulary through cross-route rehearsal, the promotion workflow, gate/canon
+quality workflows, package exports/tests, documentation evidence, and generated
+proof outputs. Promotion remains blocked if any required artifact is missing,
+unparseable, source-unsafe, stale, missing workflow coverage, missing promotion
+script coverage, or admits value-bearing mainnet before a later canon. Gate 10
+does not promote `BITCODE_SPEC.txt` itself; it makes the `version/v43` to `main`
+promotion pull request mechanically ready to produce `BITCODE_SPEC_V43_PROVEN.md`
+and advance runtime posture to V43 active / draft V44.
 
 ## V43 canonical subsystem surfaces
 
@@ -528,6 +543,13 @@ Gate 1 validates with `pnpm run check:v43-gate1`, `node scripts/check-bitcode-sp
 
 ## V43 promotion canon
 
+V43 promotion readiness canon is represented by
+`.bitcode/v43-promotion-readiness-report.json`. It binds Gate 1 through Gate 10
+artifact coverage, source-safety coverage, workflow coverage, promotion-script
+coverage, generated proof support, documentation evidence, and post-promotion
+runtime posture. Its accepted post-promotion posture is V43 active / draft V44,
+and its report is source-safe metadata only.
+
 V43 promotion must occur only after every gate is implemented, specified, tested, documented, source-safe, rehearsed, and green through maintained workflows. Promotion must create `BITCODE_SPEC_V43_PROVEN.md` and advance `BITCODE_SPEC.txt` to `V43`.
 
 ## V43 appendices and canonical supporting material
@@ -572,6 +594,16 @@ Inherited.
 | --- | --- | --- |
 | `.bitcode/v43-spec-family-report.json` | aggregate proof verdict | draft-required |
 | `.bitcode/v43-canonical-input-report.json` | generated artifact inventories | draft-required |
+| `.bitcode/v43-canon-posture-drift-report.json` | active/draft posture | draft-required |
+| `.bitcode/v43-route-vocabulary-inventory.json` | route vocabulary inventory | closed |
+| `.bitcode/v43-packs-activity-master-detail.json` | pack activity master-detail | closed |
+| `.bitcode/v43-read-route-five-step-ux.json` | Reading route UX | closed |
+| `.bitcode/v43-deposit-route-options.json` | deposit option synthesis route | closed |
+| `.bitcode/v43-deposit-policy-compensation.json` | deposit policy and compensation | closed |
+| `.bitcode/v43-deposit-option-admission.json` | deposit option admission | closed |
+| `.bitcode/v43-route-ux-product-excellence.json` | shared product route UX | closed |
+| `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json` | cross-route rehearsal and repair | closed |
+| `.bitcode/v43-promotion-readiness-report.json` | promotion readiness | closed |
 
 ### V43 specifying generated artifacts
 

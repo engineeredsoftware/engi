@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V42`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
-- Source parity state: notes define operating memory for V43 gates; Gates 2 through 9 now have generated proof-backed implementation parity
+- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, and V43 gate artifacts through `.bitcode/v43-promotion-readiness-report.json`
+- Source parity state: notes define operating memory for V43 gates; Gates 2 through 10 now have generated proof-backed implementation parity
 
 ## Notes companion rule
 
@@ -95,6 +95,22 @@ is source-safe metadata only: no protected source, unpaid AssetPack source,
 raw prompts, interpolated prompts, raw provider responses, wallet private
 material, private settlement payloads, or live rehearsal logs may enter the
 generated artifact or operator receipts.
+
+## Gate 10: V43 Promotion Readiness
+
+Gate 10 closes the V43 draft branch as promotion-ready without itself advancing
+`BITCODE_SPEC.txt`. `V43PromotionReadinessReport` binds every V43 artifact,
+workflow, documentation update, package export, package test, promotion script,
+generated PROVEN hook, and source-safety boundary needed for the eventual
+`version/v43` to `main` promotion pull request.
+
+The expected post-promotion runtime posture is active V43 / draft V44. The
+promotion workflow must generate `BITCODE_SPEC_V43_PROVEN.md`, prepare the
+runtime canon files, advance `BITCODE_SPEC.txt` to `V43`, and then verify the
+posture drift and canonical inputs. The readiness report remains source-safe
+metadata only; if a secret, protected source body, raw prompt/provider payload,
+unpaid AssetPack source, wallet private material, or value-bearing mainnet
+admission appears in the proof, promotion remains blocked.
 
 ## V43 copy boundary
 
