@@ -172,6 +172,7 @@ describe("ReadPageClient", () => {
       "step",
     );
     expect(screen.getByText("Source-safe read state")).toBeInTheDocument();
+    expect(screen.getByText("Organization authority")).toBeInTheDocument();
     expect(
       screen.getByText("ReadNeedComprehensionSynthesis"),
     ).toBeInTheDocument();

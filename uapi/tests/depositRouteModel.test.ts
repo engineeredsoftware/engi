@@ -50,9 +50,9 @@ describe('deposit-route-model', () => {
       depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport',
       depositorEarningSupplyIntelligence: 'DepositorEarningSupplyIntelligence',
       reviewRequiredBeforeDepositAdmission: true,
-      sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
-      sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
-      admissionAndIndexingOwnedByGate7: true,
+      sourceCriticalityDemandRoiPolicyPresent: true,
+      sourceCriticalityDemandRoiPolicySourceSafe: true,
+      admissionAndIndexingPolicyPresent: true,
       retainedTerminalDebugCompatible: true,
     });
     expect(session.synthesis.schema).toBe('bitcode.deposit.asset-pack-option-synthesis');
@@ -62,6 +62,8 @@ describe('deposit-route-model', () => {
     expect(session.policy.aggregatePolicy.compensationPolicy).toBe('future-reader-btc-source-to-shares-route-preview');
     expect(session.earningSupplyIntelligence.schema).toBe('bitcode.deposit.earning-supply-intelligence');
     expect(session.earningSupplyIntelligence.intelligence).toBe('DepositorEarningSupplyIntelligence');
+    expect(session.organizationPolicyWalletAuthority.schema).toBe('bitcode.organization.policy-wallet-authority');
+    expect(session.organizationPolicyWalletAuthority.route).toBe('/deposit');
     expect(session.earningSupplyIntelligence.aggregate.valueLabel).toBe('estimate');
     expect(session.earningSupplyIntelligence.earningStatements).toHaveLength(3);
     expect(session.earningSupplyIntelligence.supplyRecommendations).toHaveLength(3);
@@ -127,7 +129,8 @@ describe('deposit-route-model', () => {
       ),
     ).toBe(true);
     expect(session.policy.evaluations.every((evaluation) => evaluation.policyDecision === 'blocked-before-admission')).toBe(true);
-    expect(session.pipelineOwnership.admissionAndIndexingOwnedByGate7).toBe(true);
+    expect(session.pipelineOwnership.admissionAndIndexingPolicyPresent).toBe(true);
+    expect(session.organizationPolicyWalletAuthority.depositApproval.state).toBe('critical-source-blocked');
     expect(assertDepositRouteSessionSourceSafe(session).admitted).toBe(true);
   });
 
@@ -184,6 +187,14 @@ describe('deposit-route-model', () => {
       sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
       sourceCriticalitySignals: [{ id: 'sub-critical', severity: 'sub-critical', weight: 0.85 }],
       depositorWalletId: 'wallet-depositor-1',
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      organizationRole: 'admin',
+      organizationPermissionGrants: [
+        'deposit:synthesize_options',
+        'deposit:approve_option',
+        'deposit:submit',
+      ],
       optionsRequested: true,
       optionReviewDecisions: [
         {
@@ -200,6 +211,8 @@ describe('deposit-route-model', () => {
     expect(approved.admission.receipts[0].depositoryIndexProjection.state).toBe('indexed-for-finding-fits');
     expect(approved.admission.receipts[0].storageProjection.state).toBe('projected-to-object-storage');
     expect(approved.admission.receipts[0].packsActivitySync.state).toBe('synchronized-to-packs');
+    expect(approved.organizationPolicyWalletAuthority.depositApproval.state).toBe('sub-critical-approved');
+    expect(approved.organizationPolicyWalletAuthority.aggregate.state).toBe('allowed');
     expect(assertDepositRouteSessionSourceSafe(approved).admitted).toBe(true);
   });
 

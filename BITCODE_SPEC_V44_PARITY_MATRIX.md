@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft parity includes Gate 6 BTD/BTC compensation statement work
+- V44 state: draft parity includes Gate 7 organization policy wallet authority work
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`
-- Source parity state: Gate 6 requires package/route/UI/docs/workflow/checker/test parity for BTD/BTC compensation statements and Packs accounting readback
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`
+- Source parity state: Gate 7 requires package/route/UI/docs/workflow/checker/test parity for organization policy wallet authority and Packs governance readback
 - Scope: parity for V44 enterprise economic operation over promoted V43 product routes
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -34,7 +34,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Reading procurement | Budget, quote policy, approval thresholds, purchase governance through `.bitcode/v44-reading-budget-quote-policy.json` | implemented |
 | Depositor earnings | ROI, demand, compensation opportunity, supply recommendations through `.bitcode/v44-depositor-earnings-supply-opportunities.json` | implemented |
 | Accounting statements | BTD/BTC/source-to-shares statements and reconciliation through `.bitcode/v44-btd-btc-compensation-statements.json` | implemented |
-| Organization governance | Roles, budgets, wallet authority, source criticality, approvals | drafted |
+| Organization governance | Roles, budgets, wallet authority, source criticality, approvals through `.bitcode/v44-organization-policy-wallet-authority.json` | implemented |
 | Enterprise UX | Dense economic surfaces, proof expansion, responsive/accessibility proof | drafted |
 | Scaled rehearsal | Many-pack, many-org local/staging-testnet economic rehearsal | drafted |
 | Promotion readiness | Generated PROVEN, workflow, all V44 artifacts bound | drafted |

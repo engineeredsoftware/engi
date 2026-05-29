@@ -243,6 +243,17 @@ depositor earning summaries, treasury routes, ledger/database/object-storage
 reconciliation, repair statements, `/packs` accounting readback, package
 exports, workflow wiring, and source-safety tests.
 
+V44 Gate 7 adds `V44OrganizationPolicyWalletAuthority` through
+`packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js`,
+`packages/protocol/test/v44-organization-policy-wallet-authority.test.js`,
+`.bitcode/v44-organization-policy-wallet-authority.json`,
+`generate:v44-organization-policy-wallet-authority`,
+`check:v44-organization-policy-wallet-authority`, and `check:v44-gate7`. It
+binds BTD Reading and deposit authority actions to source-safe organization
+policy, budget approval, source criticality approval, spend/deposit limits,
+wallet authority, `/read` and `/deposit` authority readback, `/packs`
+governance readback, package exports, workflow wiring, and source-safety tests.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

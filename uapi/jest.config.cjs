@@ -56,6 +56,7 @@ module.exports = {
     '^@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy$': '<rootDir>/../packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
     '^@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission$': '<rootDir>/../packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',
     '^@bitcode/pipeline-asset-pack/depositor-earning-supply-intelligence$': '<rootDir>/../packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts',
+    '^@bitcode/pipeline-asset-pack/organization-policy-wallet-authority$': '<rootDir>/../packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts',
     '^@bitcode/pipeline-asset-pack/src/(.+)$': '<rootDir>/../packages/pipelines/asset-pack/src/$1',
     '^@bitcode/([^/]+)/src/(.+)$': '<rootDir>/../packages/$1/src/$2',
     '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',

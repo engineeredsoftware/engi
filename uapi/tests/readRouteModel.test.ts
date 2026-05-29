@@ -36,6 +36,8 @@ describe('read-route-model', () => {
     expect(session.pipelineOwnership.previewSourceSafeBeforeSettlement).toBe(true);
     expect(session.pipelineOwnership.deliveryRequiresPaidReadRights).toBe(true);
     expect(session.procurementGovernance.schema).toBe('bitcode.read.procurement-governance');
+    expect(session.organizationPolicyWalletAuthority.schema).toBe('bitcode.organization.policy-wallet-authority');
+    expect(session.organizationPolicyWalletAuthority.route).toBe('/read');
     expect(session.procurementGovernance.quotePolicy.pricingVersion).toBe('measurement-weight-volume');
     expect(session.procurementGovernance.quotePolicy.shareToFee.deterministic).toBe(true);
     expect(session.disclosure.protectedSourceVisible).toBe(false);
@@ -66,6 +68,11 @@ describe('read-route-model', () => {
       procurementApproved: true,
       buyerAuthorized: true,
       walletAuthorityPresent: true,
+      walletId: 'wallet-reader',
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      organizationRole: 'admin',
+      organizationPermissionGrants: ['reading:request', 'settlement:pay_btc_fee'],
     });
 
     expect(session.procurementGovernance.budgetPolicy.state).toBe('within-budget');
@@ -73,6 +80,10 @@ describe('read-route-model', () => {
     expect(session.procurementGovernance.quotePolicy.state).toBe('approved');
     expect(session.procurementGovernance.settlement.readiness).toBe('ready-for-testnet-settlement');
     expect(session.procurementGovernance.settlement.btcBtdSettlementReady).toBe(true);
+    expect(
+      session.organizationPolicyWalletAuthority.actionStatements.find((entry) => entry.action === 'pay_btc_fee')?.allowed,
+    ).toBe(true);
+    expect(session.organizationPolicyWalletAuthority.aggregate.state).toBe('allowed');
     expect(session.procurementGovernance.prePurchaseReview.protectedSourceVisible).toBe(false);
     expect(session.procurementGovernance.prePurchaseReview.unpaidAssetPackSourceVisible).toBe(false);
     expect(assertReadRouteSessionSourceSafe(session).admitted).toBe(true);

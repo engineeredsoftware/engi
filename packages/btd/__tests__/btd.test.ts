@@ -732,4 +732,64 @@ describe('organization interface authority', () => {
     );
     expect(authority.actionDecision?.decision).toBe('denied');
   });
+
+  it('authorizes deposit admission only with deposit role grant, wallet binding, confirmation, and policy root', () => {
+    const authority = buildBtdOrganizationPolicyAuthority({
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      teamId: 'team-core',
+      memberId: 'member-depositor',
+      organizationRole: 'admin',
+      organizationPermissionGrants: ['deposit:submit'],
+      interfaceSurface: 'terminal',
+      action: 'submit_deposit',
+      walletId: 'wallet-depositor',
+      confirmed: true,
+      policyId: 'deposit-policy-1',
+      policyHash: 'deposit-policy-hash-1',
+      accountAdmitted: true,
+      interfaceAdmitted: true,
+      at: '2026-05-29T00:00:00.000Z',
+    });
+
+    expect(authority).toMatchObject({
+      policyDecision: 'allowed',
+      depositAdmissionAction: true,
+      walletBindingState: 'bound',
+      sourceVisibility: 'source_safe_preview',
+      policy: {
+        action: 'submit_deposit',
+        interfaceSurface: 'terminal',
+      },
+    });
+    expect(authority.actionDecision?.decision).toBe('allowed');
+  });
+
+  it('fails deposit approval closed when wallet authority or explicit approval is missing', () => {
+    const authority = buildBtdOrganizationPolicyAuthority({
+      actorId: 'user-1',
+      organizationId: 'org-1',
+      organizationRole: 'admin',
+      organizationPermissionGrants: ['deposit:approve_option'],
+      interfaceSurface: 'terminal',
+      action: 'approve_deposit_option',
+      walletId: null,
+      confirmed: false,
+      policyId: 'deposit-policy-1',
+      policyHash: 'deposit-policy-hash-1',
+      accountAdmitted: true,
+      interfaceAdmitted: true,
+      at: '2026-05-29T00:00:00.000Z',
+    });
+
+    expect(authority).toMatchObject({
+      policyDecision: 'denied',
+      depositAdmissionAction: true,
+      walletBindingState: 'missing',
+      sourceVisibility: 'source_safe_preview',
+    });
+    expect(authority.denialReasons).toEqual(
+      expect.arrayContaining(['wallet_binding_missing', 'explicit_confirmation_required']),
+    );
+  });
 });

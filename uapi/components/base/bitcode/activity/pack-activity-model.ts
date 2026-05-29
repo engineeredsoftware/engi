@@ -71,6 +71,17 @@ export interface PackActivityAccountingReadback {
   statementRoot: string | null;
 }
 
+export interface PackActivityGovernanceReadback {
+  state: string | null;
+  route: string | null;
+  walletState: string | null;
+  spendState: string | null;
+  depositState: string | null;
+  requiredDeniedActionCount: number;
+  blockerCount: number;
+  authorityRoot: string | null;
+}
+
 export interface PackActivityRecord {
   id: string;
   type: PackActivityType;
@@ -89,6 +100,7 @@ export interface PackActivityRecord {
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
   accounting: PackActivityAccountingReadback | null;
+  governance: PackActivityGovernanceReadback | null;
   sourceSafety: PackActivitySourceSafety;
   metadata: Record<string, unknown>;
 }
@@ -130,6 +142,7 @@ export interface PackActivityDetailProjection {
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
   accounting: PackActivityAccountingReadback | null;
+  governance: PackActivityGovernanceReadback | null;
   states: {
     settlement: string | null;
     compensation: string | null;
@@ -520,6 +533,40 @@ function buildAccountingReadback(record: BitcodeActivityRecord): PackActivityAcc
   };
 }
 
+function buildGovernanceReadback(record: BitcodeActivityRecord): PackActivityGovernanceReadback | null {
+  const payload = asRecord(record.payload);
+  const statement = findFirstRecord(
+    payload,
+    (candidate) =>
+      candidate.schema === 'bitcode.organization.policy-wallet-authority' ||
+      candidate.statement === 'OrganizationPolicyWalletAuthority',
+  );
+  const aggregate = asRecord(statement?.aggregate);
+  const walletAuthority = asRecord(statement?.walletAuthority);
+  const budgetApproval = asRecord(statement?.budgetApproval);
+  const depositApproval = asRecord(statement?.depositApproval);
+  const roots = asRecord(statement?.roots);
+  const hasGovernance =
+    Boolean(statement) ||
+    Boolean(readString(payload, 'organizationAuthorityState', 'governanceState')) ||
+    Boolean(findFirstString(payload, ['organizationAuthorityRoot', 'governanceAuthorityRoot']));
+
+  if (!hasGovernance) return null;
+
+  return {
+    state: readString(aggregate, 'state') || readString(payload, 'organizationAuthorityState', 'governanceState'),
+    route: readString(statement, 'route') || readString(payload, 'governanceRoute'),
+    walletState: readString(walletAuthority, 'state') || readString(payload, 'walletAuthorityState'),
+    spendState: readString(budgetApproval, 'state') || readString(payload, 'spendAuthorityState'),
+    depositState: readString(depositApproval, 'state') || readString(payload, 'depositAuthorityState'),
+    requiredDeniedActionCount: findFirstNumber(aggregate, ['requiredDeniedActionCount']) || 0,
+    blockerCount: findFirstNumber(aggregate, ['blockerCount']) || 0,
+    authorityRoot:
+      readString(roots, 'authorityRoot') ||
+      findFirstString(payload, ['organizationAuthorityRoot', 'governanceAuthorityRoot']),
+  };
+}
+
 function collectProofRoots(source: unknown, roots = new Map<string, PackActivityProofRoot>(), depth = 0) {
   if (depth > 7 || source === null || source === undefined) return roots;
 
@@ -596,6 +643,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     values: buildValues(record),
     proofRoots: [...collectProofRoots(record.payload).values()].slice(0, 24),
     accounting: buildAccountingReadback(record),
+    governance: buildGovernanceReadback(record),
     sourceSafety: SOURCE_SAFETY,
     metadata,
   };
@@ -657,6 +705,12 @@ function buildSearchText(record: PackActivityRecord) {
     record.accounting?.reconciliationState,
     record.accounting?.treasuryRouteState,
     record.accounting?.statementRoot,
+    record.governance?.state,
+    record.governance?.route,
+    record.governance?.walletState,
+    record.governance?.spendState,
+    record.governance?.depositState,
+    record.governance?.authorityRoot,
   ]
     .filter(Boolean)
     .join(' ')
@@ -792,6 +846,7 @@ export function buildPackActivityDetailProjection(
     values: record.values,
     proofRoots: record.proofRoots,
     accounting: record.accounting,
+    governance: record.governance,
     states: {
       settlement: record.settlementState,
       compensation: record.compensationState,
