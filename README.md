@@ -289,6 +289,18 @@ local/staging-testnet rehearsal, and polished economic operation through
 `/packs`, `/read`, and `/deposit`. Gate 1 is specification, roadmap,
 documentation, workflow, and checker posture only.
 
+V44 Gate 2 adds `V44EconomicDomainModel`,
+`.bitcode/v44-economic-domain-model.json`,
+`generate:v44-economic-domain-model`, `check:v44-economic-domain-model`, and
+`check:v44-gate2`. It defines source-safe contracts for portfolio positions,
+market signals, quote states, settlement states, compensation statements,
+governance decisions, and repair cases while keeping economic values labeled
+as estimate, quote, observed payment, final settlement, contributor
+allocation, delivery, or repair state. Gate 2 does not expose protected source,
+unpaid AssetPack source, raw prompts, provider payloads, credentials, wallet
+private material, private settlement payloads, or value-bearing mainnet
+operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

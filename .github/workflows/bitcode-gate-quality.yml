@@ -493,6 +493,9 @@ jobs:
             if [ -f BITCODE_SPEC_V44.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
               node scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v44-gate2-economic-domain-model.mjs ]; then
+                node scripts/check-v44-gate2-economic-domain-model.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -527,6 +530,9 @@ jobs:
             fi
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs ]; then
               node scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs --skip-branch-check
+            fi
+            if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate2-economic-domain-model.mjs ]; then
+              node scripts/check-v44-gate2-economic-domain-model.mjs --skip-branch-check --skip-package-tests
             fi
             if [ "$POINTER" != "V43" ]; then
               if [ -f scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs ]; then
