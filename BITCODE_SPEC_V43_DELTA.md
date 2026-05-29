@@ -1,0 +1,48 @@
+# Bitcode Spec V43 Delta
+
+## Status
+
+- Version: `V43`
+- V43 state: draft opened over promoted V42 for product-route cleanup and agentic deposit AssetPack option synthesis
+- Current canonical/latest target: `V42`
+- Prior canonical anchor: `BITCODE_SPEC_V42.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
+- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
+- Source parity state: Gate 1 opens V43 specification and validation posture; implementation parity is gate-scoped
+
+## Why V43 exists
+
+V42 proved the reliable MVP path, but the product route vocabulary is still transitional. V43 exists to make the commercial website experience match Bitcode's actual protocol objects: AssetPacks in and AssetPacks out, Reading through a clear `/read` path, Depositing through a clear `/deposit` path, and all activity through a searchable `/packs` surface.
+
+## Accepted V43 decisions
+
+1. `/exchange` becomes `/packs` across route names, component prefixes, tests, docs, telemetry labels, and operator vocabulary.
+2. `/terminal` splits into `/read` and `/deposit` as the default product paths; retained cockpit/debug surfaces must not be the main experience.
+3. `/packs` becomes the master-detail table for all pack activity, with search, filtering, sorting, and source-safe detail expansion.
+4. `/deposit` gains agentic deposit AssetPack option synthesis from connected source, depositor instructions, Depository state, and Reading demand.
+5. Deposit options must expose source-safe measurements, sub-criticality, demand, likely ROI, BTD potential, compensation posture, and admission blockers before approval.
+6. `/read` remains the five-step Reading path: request read, review synthesized Need, request Finding Fits, review source-safe AssetPack preview, settle/buy/deliver.
+7. Product UX outside public documentation must be self-explanatory through structure, labels, progressive detail, rich components, and visual quality, not self-referential copy.
+
+## Explicitly deferred
+
+- Value-bearing mainnet admission remains gated by a later canon.
+- Advanced conversational overlays are not the default V43 route experience unless a gate explicitly scopes them.
+- BTD supply law, BTC settlement conservation, source-to-shares accounting, and unpaid source disclosure boundaries remain inherited from V42/V27.
+
+## Pre-Implementation Sequence
+
+1. Open V43 spec family, roadmap, checker, package script, and workflow posture.
+2. Inventory current Exchange/Terminal naming and define route migration.
+3. Implement `/packs` data contracts and searchable master-detail.
+4. Extract `/read` from Terminal into the default Reading path.
+5. Implement `/deposit` and agentic deposit AssetPack option synthesis.
+6. Add criticality, demand, ROI, BTD potential, and compensation policy.
+7. Close deposit option review/admission and pack activity synchronization.
+8. Run UX/UI excellence pass and remove self-referential product copy.
+9. Rehearse cross-route local/staging-testnet path.
+10. Close promotion readiness.
+
+## Commit-Body Direction
+
+V43 gate commits should state the route/product surface changed, the protocol objects preserved, the proof/test commands run, and the source-safety boundaries maintained. Gate PR titles must begin with `V43 Gate N:`.

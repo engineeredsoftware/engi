@@ -329,6 +329,7 @@
     "generate:v42-promotion-readiness": "node scripts/generate-v42-promotion-readiness-report.mjs",
     "check:v42-promotion-readiness": "node scripts/generate-v42-promotion-readiness-report.mjs --check",
     "check:v42-gate9": "node scripts/check-v42-gate9-promotion-readiness.mjs",
+    "check:v43-gate1": "node scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",
