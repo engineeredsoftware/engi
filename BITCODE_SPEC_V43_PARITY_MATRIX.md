@@ -25,7 +25,7 @@ Audit V43 against `BITCODE_SPEC_V43.md`, V42 active canon, route source, package
 | Gate 1 roadmap | Active V42 / draft V43 posture, route vocabulary, gate plan, docs, checker, workflows | `BITCODE_SPEC_V43.md`, `scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs` | drafted |
 | Route vocabulary | `/exchange` to `/packs` and `/terminal` to `/read`/`/deposit` are inventoried with route vocabulary inventory, migration matrix, retained debug cockpit boundary, redirect compatibility, self-referential copy audit, and source-safe file/token counts | `packages/protocol/src/canonical/v43-route-vocabulary-inventory.js`, `.bitcode/v43-route-vocabulary-inventory.json`, `scripts/check-v43-gate2-route-vocabulary-inventory.mjs` | implemented |
 | Packs master-detail | Searchable, sortable, filterable pack activity table, source-safe detail route, proof-root display, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirect | `packages/protocol/src/canonical/v43-packs-activity-master-detail.js`, `.bitcode/v43-packs-activity-master-detail.json`, `uapi/app/packs`, `uapi/app/api/packs/activity/route.ts`, `uapi/components/base/bitcode/activity/pack-activity-model.ts` | implemented |
-| Read route | Five-step Reading UX owns Read Request through settlement/delivery | future Gate 4 artifact | draft-required |
+| Read route | `ReadRouteSession` and five-step Reading UX own Read Request, synthesized Need review, accepted-Need-gated Finding Fits, source-safe AssetPack preview, BTC settlement, and delivery posture | `packages/protocol/src/canonical/v43-read-route-five-step-ux.js`, `.bitcode/v43-read-route-five-step-ux.json`, `uapi/app/read`, `uapi/app/read/read-route-model.ts` | implemented |
 | Deposit route | Connected-source deposit AssetPack option synthesis and review | future Gate 5 artifact | draft-required |
 | Criticality/ROI policy | Source criticality, demand, ROI, BTD potential, and compensation posture | future Gate 6 artifact | draft-required |
 | Admission sync | Approved deposit options enter Depository and `/packs` activity | future Gate 7 artifact | draft-required |
@@ -43,7 +43,8 @@ Audit V43 against `BITCODE_SPEC_V43.md`, V42 active canon, route source, package
 | Documentation | README and roadmap name V43 route/product scope | drafted |
 | Gate 2 package proof | `V43RouteVocabularyInventory` exports, generated artifact, package test, workflow checks, and `check:v43-gate2` exist | implemented |
 | Gate 3 PackActivity proof | `V43PacksActivityMasterDetail` exports, generated artifact, source-safe model/API/UI tests, workflow checks, and `check:v43-gate3` exist | implemented |
-| Implementation | Route and pipeline source changes are not part of Gates 1 or 2; Gate 3 implements only `/packs` and PackActivity, not `/read` or `/deposit` extraction | accepted boundary |
+| Gate 4 Read route proof | `V43ReadRouteFiveStepUx` exports, generated artifact, source-safe route model/UI tests, workflow checks, and `check:v43-gate4` exist | implemented |
+| Implementation | Route and pipeline source changes are not part of Gates 1 or 2; Gate 3 implements only `/packs` and PackActivity; Gate 4 implements `/read` extraction, not `/deposit` extraction | accepted boundary |
 
 ## V43 accepted boundaries
 

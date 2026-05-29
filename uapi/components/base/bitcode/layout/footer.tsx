@@ -24,6 +24,7 @@ import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 const TERMINAL_URL = '/terminal';
 const PACKS_URL = '/packs';
+const READ_URL = '/read';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';
@@ -147,6 +148,37 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
             <path d="M6.5 12h11" />
             <path d="M12 6.5c2.8 2.4 2.8 8.6 0 11" />
             <path d="M12 6.5c-2.8 2.4-2.8 8.6 0 11" />
+          </svg>
+        </span>
+      ),
+    },
+    {
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.read,
+      label: BITCODE_PUBLIC_COPY.footer.links.read,
+      meta: 'Reading flow',
+      href: READ_URL,
+      explainer: BITCODE_PUBLIC_EXPLAINERS.read,
+      icon: (
+        <span
+          className="inline-flex items-center justify-center"
+          style={{
+            filter: 'drop-shadow(0 0 6px rgba(56,189,248,0.66)) drop-shadow(0 0 15px rgba(56,189,248,0.33))',
+          }}
+        >
+          <svg
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+            className="h-[15px] w-[15px] text-sky-300"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M5 6.5h9" />
+            <path d="M5 11.5h14" />
+            <path d="M5 16.5h8" />
+            <path d="m16 15 2 2 3-4" />
           </svg>
         </span>
       ),

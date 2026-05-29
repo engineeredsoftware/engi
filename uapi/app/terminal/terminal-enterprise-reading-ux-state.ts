@@ -139,7 +139,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
     label: '1. Request Read',
     lowDetailGuidance: 'Frame repository, branch, commit, and the reader request.',
     expandableDetail:
-      'Terminal captures source anchors, enterprise intent, constraints, disclosure posture, target artifact kinds, and the measured Read posture that can be reviewed before Need synthesis.',
+      'Reading captures source anchors, enterprise intent, constraints, disclosure posture, target artifact kinds, and the measured Read posture that can be reviewed before Need synthesis.',
     primaryAction: 'Record read posture',
     sourceSafeVisibleFields: ['read_request_summary', 'proof_roots'],
     forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,
@@ -161,7 +161,7 @@ export const TERMINAL_ENTERPRISE_READING_STEPS: TerminalEnterpriseReadingStepDef
     label: '3. Request Finding Fits',
     lowDetailGuidance: 'Run Finding Fits only from an accepted Need.',
     expandableDetail:
-      'Terminal hands the accepted Need, deposit/source anchors, proof roots, measurement roots, and source-safe search posture to ReadFitsFindingSynthesis without exposing protected deposit source.',
+      'Reading hands the accepted Need, deposit/source anchors, proof roots, measurement roots, and source-safe search posture to ReadFitsFindingSynthesis without exposing protected deposit source.',
     primaryAction: 'Request Finding Fits',
     sourceSafeVisibleFields: ['read_need_measurements', 'depository_candidate_counts', 'proof_roots'],
     forbiddenFields: TERMINAL_ENTERPRISE_READING_FORBIDDEN_FIELDS,

@@ -69,6 +69,18 @@ delivery/repair readback, and explicit source-safety flags without serializing
 protected source, unpaid AssetPack source, raw prompts, provider responses,
 credentials, wallet private material, or private settlement payloads.
 
+## Gate 4 delta closure
+
+Gate 4 adds `V43ReadRouteFiveStepUx`, the generated
+`.bitcode/v43-read-route-five-step-ux.json` artifact, package exports,
+protocol tests, workflow checks, `ReadRouteSession`, `/read`, and focused route
+tests. `/read` is now the default Reading path: request Read, review
+synthesized Need, request Finding Fits, review source-safe AssetPack preview,
+and settle/buy/deliver. Finding Fits remains blocked until a Need is accepted,
+preview remains metadata-only before settlement, and delivery remains locked
+until paid read rights are proven. The retained Terminal workbench stays
+debug-compatible and continues to provide execution stream readback.
+
 ## Commit-Body Direction
 
 V43 gate commits should state the route/product surface changed, the protocol objects preserved, the proof/test commands run, and the source-safety boundaries maintained. Gate PR titles must begin with `V43 Gate N:`.

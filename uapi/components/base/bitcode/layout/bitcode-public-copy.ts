@@ -10,8 +10,8 @@ export const BITCODE_PUBLIC_COPY = {
     'MOCKED TERMINAL',
   ],
   primaryCta: {
-    href: '/terminal',
-    label: 'Open Terminal',
+    href: '/read',
+    label: 'Request Read',
   },
   secondaryCta: {
     href: '/docs',
@@ -72,6 +72,7 @@ export const BITCODE_PUBLIC_COPY = {
     userCta: 'Open Auxillaries',
     links: {
       network: 'Packs',
+      read: 'Read',
       transactions: 'Terminal',
       docs: 'Docs',
       github: 'Bitcode on GitHub',
@@ -80,6 +81,7 @@ export const BITCODE_PUBLIC_COPY = {
   publicNav: {
     links: [
       { href: '/packs', label: 'Packs' },
+      { href: '/read', label: 'Read' },
       { href: '/terminal', label: 'Terminal' },
       { href: '/docs', label: 'Docs' },
     ],

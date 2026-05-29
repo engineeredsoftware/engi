@@ -77,3 +77,19 @@ explicitly source-safe: no protected source, unpaid AssetPack source, source
 snippets, raw prompts, interpolated prompts, raw provider responses,
 credentials, wallet private material, or private settlement payloads may cross
 this boundary.
+
+## Gate 4 read route extraction note
+
+Gate 4 makes `/read` the direct product path for enterprise Reading. The route
+owns `ReadRouteSession` and the five-stage user flow: request Read, review the
+synthesized Need, request Finding Fits, review the source-safe AssetPack
+preview, and settle for delivery. It reuses the current live Reading workbench
+and rich execution stream so runtime behavior stays connected to V42 pipeline
+reality while the route vocabulary becomes clearer.
+
+The source-safety law is unchanged: `/read` may show request summaries, Need
+measurements, fit ids, proof roots, quality posture, BTC fee quotes,
+settlement state, and delivery posture before settlement. It must not show
+protected source, unpaid AssetPack source, raw prompts, interpolated prompts,
+raw provider responses, wallet private material, private settlement payloads,
+or ledger write authority before paid read rights are proven.

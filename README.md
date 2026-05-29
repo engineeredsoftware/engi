@@ -206,6 +206,17 @@ state readback, and no-source leak tests. The Packs projection remains
 source-safe metadata only and does not serialize protected source, unpaid
 AssetPack source, raw prompts, provider responses, credentials, wallet private
 material, or private settlement payloads.
+V43 Gate 4 adds `V43ReadRouteFiveStepUx`,
+`.bitcode/v43-read-route-five-step-ux.json`,
+`generate:v43-read-route-five-step-ux`,
+`check:v43-read-route-five-step-ux`, and `check:v43-gate4`. It implements
+`ReadRouteSession`, `/read`, source-safe route state, the five-step Reading UX,
+Need review, accepted-Need-gated Finding Fits, source-safe AssetPack preview,
+BTC settlement/delivery posture, retained execution stream readback, nav/footer
+route ownership, and focused tests. `/read` does not expose protected source,
+unpaid AssetPack source, raw prompts, interpolated prompts, raw provider
+responses, wallet private material, or private settlement payloads before paid
+read rights are proven.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

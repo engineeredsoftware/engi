@@ -196,7 +196,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-records-gate3', SOURCE_ROOTS.delta, sources.delta.includes('Gate 3') && sources.delta.includes('v43-packs-activity-master-detail')),
     predicateResult('notes-records-gate3', SOURCE_ROOTS.notes, sources.notes.includes('Gate 3') && sources.notes.includes('/api/packs/activity')),
     predicateResult('parity-records-gate3', SOURCE_ROOTS.parity, sources.parity.includes('v43-packs-activity-master-detail')),
-    predicateResult('roadmap-records-gate3', SOURCE_ROOTS.roadmap, sources.roadmap.includes('Current working gate: V43 Gate 3')),
+    predicateResult('roadmap-records-gate3', SOURCE_ROOTS.roadmap, sources.roadmap.includes('V43 Gate 3 closure anchor')),
     predicateResult('readme-records-gate3', SOURCE_ROOTS.readme, sources.readme.includes('V43 Gate 3')),
     predicateResult('protocol-readme-records-gate3', SOURCE_ROOTS.protocolReadme, sources.protocolReadme.includes('V43 Gate 3')),
     predicateResult('model-defines-packactivity-record', SOURCE_ROOTS.model, sources.model.includes('export interface PackActivityRecord')),
