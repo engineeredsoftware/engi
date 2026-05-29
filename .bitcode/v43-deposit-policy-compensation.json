@@ -5,8 +5,8 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-deposit-policy-compensation-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-deposit-policy-compensation:7a1bb94b7a3e8c9e02a8062a",
-  "passed": false,
+  "artifactRoot": "v43-deposit-policy-compensation:56fa7738a2f6ae24e1e416aa",
+  "passed": true,
   "objectIds": [
     "DepositAssetPackOptionPolicy",
     "DepositAssetPackOptionPolicyReport",
@@ -210,7 +210,7 @@
     {
       "id": "deposit-client-renders-policy",
       "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
-      "passed": false
+      "passed": true
     },
     {
       "id": "asset-pack-package-exports-policy",
@@ -301,9 +301,7 @@
     "walletPrivateMaterialVisible": false,
     "settlementPrivatePayloadVisible": false,
     "requiredPredicateCount": 30,
-    "passedPredicateCount": 29,
-    "failedPredicateIds": [
-      "deposit-client-renders-policy"
-    ]
+    "passedPredicateCount": 30,
+    "failedPredicateIds": []
   }
 }

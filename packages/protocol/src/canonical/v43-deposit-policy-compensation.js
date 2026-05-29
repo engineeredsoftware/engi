@@ -92,6 +92,15 @@ function predicateResult(id, sourcePath, passed) {
   return { id, sourcePath, passed: Boolean(passed) };
 }
 
+function includesWithWhitespace(source, phrase) {
+  const pattern = phrase
+    .trim()
+    .split(/\s+/u)
+    .map((part) => part.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'))
+    .join('\\s+');
+  return new RegExp(pattern, 'u').test(source);
+}
+
 export const V43_DEPOSIT_POLICY_COMPENSATION_CONTRACT_ROWS = Object.freeze([
   {
     rowId: 'criticality-policy',
@@ -145,7 +154,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('policy-model-defers-gate7-admission', SOURCE_ROOTS.policyModel, sources.policyModel.includes('future-gate7-deposit-option-review') && sources.policyModel.includes('admissionAndIndexingOwnedBy')),
     predicateResult('policy-model-forbids-source-leakage', SOURCE_ROOTS.policyModel, sources.policyModel.includes('rawSourceTextVisible: false') && sources.policyModel.includes('settlementPrivatePayloadVisible: false') && sources.policyModel.includes('walletPrivateMaterialVisible: false')),
     predicateResult('route-model-owns-policy', SOURCE_ROOTS.routeModel, sources.routeModel.includes('DepositAssetPackOptionPolicyReport') && sources.routeModel.includes('sourceCriticalityDemandRoiPolicyOwnedByGate6')),
-    predicateResult('deposit-client-renders-policy', SOURCE_ROOTS.client, sources.client.includes('DepositAssetPackOptionPolicy') && sources.client.includes('BTC source-to-shares preview')),
+    predicateResult('deposit-client-renders-policy', SOURCE_ROOTS.client, sources.client.includes('DepositAssetPackOptionPolicy') && includesWithWhitespace(sources.client, 'BTC source-to-shares preview')),
     predicateResult('asset-pack-package-exports-policy', SOURCE_ROOTS.packageIndex, sources.packageIndex.includes("export * from './deposit-asset-pack-option-policy'")),
     predicateResult('asset-pack-manifest-exports-policy', SOURCE_ROOTS.packageManifest, sources.packageManifest.includes('"./deposit-asset-pack-option-policy"')),
     predicateResult('policy-test-covers-report', SOURCE_ROOTS.policyModelTest, sources.policyModelTest.includes('buildDepositAssetPackOptionPolicyReport') && sources.policyModelTest.includes('blocked-before-admission')),
