@@ -4,6 +4,7 @@ import { GET as getActivity } from '@/app/api/activity/route';
 import {
   assertPackActivitySourceSafe,
   buildPackActivityDetailProjection,
+  buildPackPortfolioMarketIntelligence,
   normalizePackActivityRecord,
   queryPackActivityRecords,
   summarizePackActivityRecords,
@@ -103,12 +104,14 @@ export async function GET(request: Request) {
     : records[0] || null;
   const detail = selected ? buildPackActivityDetailProjection(selected) : null;
   const safeRecords = records.filter(assertPackActivitySourceSafe);
+  const marketIntelligence = buildPackPortfolioMarketIntelligence(safeRecords);
 
   return NextResponse.json({
     ok: true,
     records: safeRecords,
     detail: detail && assertPackActivitySourceSafe(detail) ? detail : null,
     summary: summarizePackActivityRecords(safeRecords),
+    marketIntelligence,
     query: query.query,
     sourceSafety: {
       sourceSafeMetadataOnly: true,

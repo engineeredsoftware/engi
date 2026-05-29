@@ -196,6 +196,17 @@ taxonomy ids, value labels, forbidden payload ids, package exports, workflow
 checks, and generated artifact freshness for later `/packs`, `/read`, and
 `/deposit` economic operation.
 
+V44 Gate 3 adds `V44PacksPortfolioMarketIntelligence` through
+`packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js`,
+`packages/protocol/test/v44-packs-portfolio-market-intelligence.test.js`,
+`.bitcode/v44-packs-portfolio-market-intelligence.json`,
+`generate:v44-packs-portfolio-market-intelligence`,
+`check:v44-packs-portfolio-market-intelligence`, and `check:v44-gate3`. It
+binds `/api/packs/activity` and `/packs` to source-safe portfolio positions,
+saved filters, organization views, demand/supply/unfit-Need market signals,
+settlement and compensation facets, proof-root drilldown, and no-source-leak
+tests.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

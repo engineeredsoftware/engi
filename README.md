@@ -301,6 +301,15 @@ unpaid AssetPack source, raw prompts, provider payloads, credentials, wallet
 private material, private settlement payloads, or value-bearing mainnet
 operation.
 
+V44 Gate 3 adds `V44PacksPortfolioMarketIntelligence`,
+`.bitcode/v44-packs-portfolio-market-intelligence.json`,
+`generate:v44-packs-portfolio-market-intelligence`,
+`check:v44-packs-portfolio-market-intelligence`, and `check:v44-gate3`.
+It evolves `/packs` from PackActivity master-detail into source-safe portfolio
+and market intelligence with saved filters, organization views, demand/supply
+signals, unfit Need signals, settlement and compensation facets, proof-root
+drilldown, API/UI projection tests, and no-source-leak checks.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

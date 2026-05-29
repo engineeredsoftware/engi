@@ -1,6 +1,7 @@
 import {
   assertPackActivitySourceSafe,
   buildPackActivityDetailProjection,
+  buildPackPortfolioMarketIntelligence,
   normalizePackActivityRecord,
   queryPackActivityRecords,
 } from '@/components/base/bitcode/activity/pack-activity-model';
@@ -126,5 +127,60 @@ describe('pack-activity-model', () => {
     expect(assertPackActivitySourceSafe(record)).toBe(true);
     expect(JSON.stringify(record)).not.toContain('protected source body');
     expect(JSON.stringify(record)).not.toContain('raw provider response');
+  });
+
+  it('builds source-safe portfolio positions, saved filters, market signals, and facets', () => {
+    const records = [
+      normalizePackActivityRecord(baseRecord),
+      normalizePackActivityRecord({
+        ...baseRecord,
+        id: 'pack-activity-supply',
+        title: 'Deposit option admitted',
+        summary: 'Supply opportunity admitted to the Depository.',
+        state: 'completed',
+        payload: {
+          type: 'pipeline:deposit-option-admission',
+          assetPackTitle: 'Auth rollback proof pack',
+          repositoryFullName: 'engineeredsoftware/ENGI',
+          admittedCount: 1,
+          compensationState: 'allocation_ready',
+          settlementState: 'quote_ready',
+          deliveryState: 'locked_until_settlement',
+          sourceToSharesRoot: 'source-to-shares-root',
+          protectedSource: 'protected source body',
+        },
+      }),
+      normalizePackActivityRecord({
+        ...baseRecord,
+        id: 'pack-activity-unfit',
+        title: 'No worthy fit found',
+        summary: 'Unfit Need signal preserved for future supply opportunity.',
+        state: 'completed',
+        payload: {
+          type: 'pipeline:read-fits',
+          assetPackTitle: 'Latency repair opportunity',
+          repositoryFullName: 'engineeredsoftware/ENGI',
+          fitResult: 'no_worthy_fit',
+          repairState: 'open_reconciliation',
+          unfitNeedRoot: 'unfit-need-root',
+          rawPrompt: 'raw prompt text',
+        },
+      }),
+    ];
+
+    const market = buildPackPortfolioMarketIntelligence(records);
+
+    expect(market.positions.length).toBeGreaterThanOrEqual(2);
+    expect(market.positions[0].sourceSafety.sourceSafeMetadataOnly).toBe(true);
+    expect(market.savedFilters.map((filter) => filter.id)).toEqual(
+      expect.arrayContaining(['market-demand', 'market-supply', 'economic-settlement']),
+    );
+    expect(market.signals.map((signal) => signal.kind)).toEqual(
+      expect.arrayContaining(['demand', 'supply', 'unfit-need', 'settlement', 'compensation']),
+    );
+    expect(market.facets.settlement.quote_ready).toBeGreaterThanOrEqual(1);
+    expect(market.facets.compensation.allocation_ready).toBe(1);
+    expect(JSON.stringify(market)).not.toContain('protected source body');
+    expect(JSON.stringify(market)).not.toContain('raw prompt text');
   });
 });
