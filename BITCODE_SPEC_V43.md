@@ -3,17 +3,18 @@
 ## Status
 
 - Version: `V43`
-- V43 state: draft opened over promoted V42; V43 is the active product-route and agentic-deposit draft target
-- Current canonical/latest target: `V42`
+- V43 state: canonical promotion complete; V43 is the active product-route and agentic-depositing canon and the V43 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V43`
+- Canonical proof-source commit: `3c7a9f998656635cc28c8b4584ae964ac04154fa`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, V43 gate artifacts through `.bitcode/v43-promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and later `BITCODE_SPEC_V43_PROVEN.md` at promotion
-- Source parity state: V43 Gates 1 through 10 now have generated proof-backed implementation parity for route vocabulary, pack activity, Reading, Depositing, policy/compensation, option admission, shared route UX, cross-route rehearsal, and promotion readiness
+- Generated structured artifact inventory: active canonical `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, `.bitcode/v43-route-vocabulary-inventory.json`, `.bitcode/v43-packs-activity-master-detail.json`, `.bitcode/v43-read-route-five-step-ux.json`, `.bitcode/v43-deposit-route-options.json`, `.bitcode/v43-deposit-policy-compensation.json`, `.bitcode/v43-deposit-option-admission.json`, `.bitcode/v43-route-ux-product-excellence.json`, `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`, `.bitcode/v43-promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
+- Source parity state: V43 source-side route vocabulary, Packs master-detail, Read five-step UX, deposit option synthesis, deposit policy/compensation, deposit option admission, route UX, cross-route rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V43 file family
 - Notes companion: `BITCODE_SPEC_V43_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V43_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V43_PARITY_MATRIX.md`
-- Scope: V43 draft specification for `/packs`, `/read`, `/deposit`, agentic deposit AssetPack option synthesis, pack activity master-detail, and self-explanatory enterprise UX after V42 reliable MVP experience
-- Last fully realized canonical target preserved in source: `V42`
+- Scope: V43 canonical system specification for product routes and agentic depositing across `/packs`, `/read`, `/deposit`, PackActivity search/detail, Read five-step UX, deposit AssetPack option synthesis, deposit policy/compensation, option admission, route UX product excellence, cross-route rehearsal, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V43`
 
 ## Version executive summary
 

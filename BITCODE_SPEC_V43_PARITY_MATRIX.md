@@ -3,12 +3,15 @@
 ## Status
 
 - Version: `V43`
-- V43 state: draft parity matrix opened over active V42
-- Current canonical/latest target: `V42`
+- V43 state: canonical promotion complete; V43 parity truth, generated product-route artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V43`
+- Canonical proof-source commit: `3c7a9f998656635cc28c8b4584ae964ac04154fa`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, and V43 gate artifacts through `.bitcode/v43-promotion-readiness-report.json`
-- Source parity state: V43 Gate 1 parity is documentation/workflow posture; V43 Gate 2 parity is source-safe inventory and migration planning; V43 Gate 3 parity is PackActivity source-safe master-detail implementation; V43 Gate 4 parity is `/read`; V43 Gate 5 parity is `/deposit` and source-safe DepositAssetPackOption synthesis; V43 Gate 6 parity is source-safe deposit policy and compensation scoring; V43 Gate 7 parity is source-safe deposit option review, admission, indexing, storage projection, telemetry, and `/packs` synchronization; V43 Gate 8 parity is shared product route UX, concise copy, progressive disclosure, and loading/empty/error route states; V43 Gate 9 parity is cross-route rehearsal, telemetry/database readback, ledger/database/storage synchronization, and repair posture; V43 Gate 10 parity is promotion readiness and active V43 / draft V44 posture
+- Generated structured artifact inventory: active canonical `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, `.bitcode/v43-canon-posture-drift-report.json`, `.bitcode/v43-route-vocabulary-inventory.json`, `.bitcode/v43-packs-activity-master-detail.json`, `.bitcode/v43-read-route-five-step-ux.json`, `.bitcode/v43-deposit-route-options.json`, `.bitcode/v43-deposit-policy-compensation.json`, `.bitcode/v43-deposit-option-admission.json`, `.bitcode/v43-route-ux-product-excellence.json`, `.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`, `.bitcode/v43-promotion-readiness-report.json`, V43 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V43_PROVEN.md` as the generated proof appendix for V43 promotion
+- Source parity state: V43 source-side route vocabulary, Packs master-detail, Read five-step UX, deposit option synthesis, deposit policy/compensation, deposit option admission, route UX, cross-route rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V43 file family
+- Scope: V43 canonical parity ledger for product routes and agentic depositing over promoted V42 reliable MVP canon
+- Last fully realized canonical target preserved in source: `V43`
 
 ## Purpose
 

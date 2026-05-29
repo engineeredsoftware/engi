@@ -1,9 +1,10 @@
 {
+  "reportId": "v43-promotion-readiness-report",
   "artifactId": "v43-promotion-readiness-report",
   "schemaId": "bitcode.v43.promotionReadinessReport.v1",
   "version": "V43",
   "currentTarget": "V42",
-  "generatedAt": "2026-05-29T00:00:00.000Z",
+  "generatedAt": "2026-05-29T15:19:41-03:00",
   "sourceSafetyVerdict": "source-safe-v43-product-routes-agentic-depositing-promotion-metadata",
   "prePromotionPosture": "V42 active / V43 draft",
   "postPromotionPosture": "V43 active / V44 draft",
@@ -381,7 +382,7 @@
     {
       "relativePath": "BITCODE_SPEC_V43.md",
       "present": true,
-      "digest": "sha256:276f928dbae1236a7bc367d36048f4d503a6845866cc63a648601988aba3684f",
+      "digest": "sha256:28f17417fec136cec3a0864592132492676cd2321eb9a21fddf3f6cdce40c29f",
       "requiredTokens": [
         {
           "token": "V43 promotion readiness canon",
@@ -400,7 +401,7 @@
     {
       "relativePath": "BITCODE_SPEC_V43_DELTA.md",
       "present": true,
-      "digest": "sha256:2903a709b782ea69cecb3bb0537fa3752e825c7dd548265e5c454f02b5b776c4",
+      "digest": "sha256:360fe5346443a0bf0d44f8c706a3d1f191a48e856152fa54e24c72536433f93b",
       "requiredTokens": [
         {
           "token": "Gate 10: V43 Promotion Readiness",
@@ -419,7 +420,7 @@
     {
       "relativePath": "BITCODE_SPEC_V43_NOTES.md",
       "present": true,
-      "digest": "sha256:16afebc86b2bb502f0b919c40bbe1aae1b4022cd50fbdb4420eda35d4da00514",
+      "digest": "sha256:8c4b6932fea7cdfe81a8406cab89c5a41849266cf60f7f16939597589f6c3521",
       "requiredTokens": [
         {
           "token": "Gate 10: V43 Promotion Readiness",
@@ -438,7 +439,7 @@
     {
       "relativePath": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:a5a5bf2fdee2d02f6221d00f6d5b7faa7127aa19a271e8501908ac64228cbdff",
+      "digest": "sha256:450948415f13c6732f50eb6edae32a16ffefba1f754e9844fc89311f7dfb5b03",
       "requiredTokens": [
         {
           "token": "## Gate 10 Promotion readiness parity",
@@ -487,7 +488,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:85b0c2ee2ac15860466612c730bf58b17de16399bdb7ec3b3ab3a0fe77fde190",
+      "digest": "sha256:0ffe9fdce07c6ccf3e73f47a6da7c5a6e7f2299c4e1a200f79c2f3e009142136",
       "requiredTokens": [
         {
           "token": "V43 Gate 10",
@@ -549,5 +550,9 @@
   "artifactRoot": "v43-product-route-promotion-readiness-report:3bef1fbfb307d4663b1c6c6f",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v43-gate10"
+  "validationCommand": "pnpm run check:v43-gate10",
+  "proofSourceCommit": "3c7a9f998656635cc28c8b4584ae964ac04154fa",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }
