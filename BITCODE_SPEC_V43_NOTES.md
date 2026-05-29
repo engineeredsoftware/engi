@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V42`
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and future V43 gate artifacts
-- Source parity state: notes define operating memory for V43 gates; Gates 2 through 8 now have generated proof-backed implementation parity
+- Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
+- Source parity state: notes define operating memory for V43 gates; Gates 2 through 9 now have generated proof-backed implementation parity
 
 ## Notes companion rule
 
@@ -81,6 +81,20 @@ keeps proof/source-safety detail expandable. Product route copy should stay
 concise: route labels, status summaries, metrics, and visible/withheld
 boundaries. Longer explanation belongs in public documentation and generated
 proofs, not the core product flow.
+
+Gate 9 closes the first cross-route rehearsal layer. `V43CrossRouteRehearsalTelemetryRepair`
+binds local and staging-testnet operator receipts across `/deposit`, `/read`,
+and `/packs`: deposit option synthesis/admission, Reading Need review, Finding
+Fits request, source-safe preview, BTC/BTD settlement, repository delivery,
+contributor compensation readback, pack activity inspection, and repair
+posture. The staging-testnet lane is explicitly bound to Supabase project
+`tkpyosihuouusyaxtbau` and requires real-inference, pipeline database
+streaming, Vercel Sandbox harness, and Supabase credential families without
+serializing credential values. Gate 9 telemetry/database/ledger/storage proof
+is source-safe metadata only: no protected source, unpaid AssetPack source,
+raw prompts, interpolated prompts, raw provider responses, wallet private
+material, private settlement payloads, or live rehearsal logs may enter the
+generated artifact or operator receipts.
 
 ## V43 copy boundary
 

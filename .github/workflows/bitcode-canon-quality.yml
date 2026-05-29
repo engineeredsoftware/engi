@@ -349,6 +349,9 @@ jobs:
               if [ -f scripts/check-v43-gate8-route-ux-product-excellence.mjs ]; then
                 node scripts/check-v43-gate8-route-ux-product-excellence.mjs --skip-branch-check --skip-uapi-tests
               fi
+              if [ -f scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs ]; then
+                node scripts/check-v43-gate9-cross-route-rehearsal-telemetry-repair.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

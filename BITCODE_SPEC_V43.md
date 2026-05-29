@@ -235,6 +235,20 @@ settlement-gated source boundary.
 
 Gate 9 must rehearse the full path across `/deposit`, `/read`, and `/packs`: synthesize deposit options, admit a deposit AssetPack, request Reading, find fits, preview, settle, deliver, compensate, and inspect activity. It must cover local/staging-testnet lanes, telemetry, database/ledger/storage synchronization, and repair states.
 
+Gate 9 closes with `V43CrossRouteRehearsalTelemetryRepair`, the dry-run
+operator receipt script `rehearse:v43-cross-route`, and generated
+`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`. The artifact binds
+local and staging-testnet lanes, `/deposit`, `/read`, and `/packs`, and the
+cross-route stages: deposit option synthesis, deposit option review/admission,
+Read request, Need review, Finding Fits request, source-safe AssetPack preview,
+BTC settlement/right transfer, repository pull-request delivery, and PackActivity
+repair inspection. Gate 9 also proves rich execution telemetry readback,
+staging-testnet database stream posture, ledger/database/object-storage
+reconciliation, source-to-shares compensation readback, and fail-closed repair
+states without serializing secrets, protected source, prompt payloads, provider
+responses, wallet private material, live rehearsal logs, or unpaid AssetPack
+source. Value-bearing mainnet remains blocked.
+
 ## V43 Gate 10 Promotion Readiness
 
 Gate 10 must bind every V43 artifact, workflow, generated proof, docs update, route migration, source-safety proof, test suite, and active V43 / draft V44 runtime posture before canonical promotion.

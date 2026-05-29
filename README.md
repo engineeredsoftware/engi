@@ -260,6 +260,18 @@ copy, source-safe route metrics, keyboard current-step semantics, loading/
 empty/error states, and progressive disclosure boundaries while keeping every
 Reading, Depositing, settlement, and source-safety invariant intact.
 
+V43 Gate 9 adds `V43CrossRouteRehearsalTelemetryRepair`,
+`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`,
+`scripts/rehearse-v43-cross-route-product-flow.mjs`,
+`generate:v43-cross-route-rehearsal`, and `check:v43-gate9`. It binds the
+local and staging-testnet product route rehearsal across `/deposit`, `/read`,
+and `/packs`: deposit option synthesis/admission, Reading Need review, Finding
+Fits, source-safe AssetPack preview, BTC/BTD settlement, repository delivery,
+source-to-shares compensation readback, pack activity inspection, telemetry
+database readback, ledger/database/storage synchronization, and repair posture.
+The staging lane is bound to Supabase project `tkpyosihuouusyaxtbau`; receipts
+and generated artifacts remain source-safe metadata only.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

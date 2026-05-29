@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
 - Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and V43 gate artifacts as introduced
-- Source parity state: Gate 1 opens V43 specification and validation posture; Gate 2 adds source-safe route vocabulary inventory and migration-matrix proof; Gates 3 through 8 now close Packs, Read, Deposit, deposit policy/admission, and shared route UX proof
+- Source parity state: Gate 1 opens V43 specification and validation posture; Gate 2 adds source-safe route vocabulary inventory and migration-matrix proof; Gates 3 through 9 now close Packs, Read, Deposit, deposit policy/admission, shared route UX proof, and cross-route rehearsal proof
 
 ## Why V43 exists
 
@@ -25,6 +25,10 @@ V42 proved the reliable MVP path, but the product route vocabulary is still tran
 7. Product UX outside public documentation must be self-explanatory through structure, labels, progressive detail, rich components, and visual quality, not self-referential copy.
 8. Gate 2 records the route vocabulary inventory in `.bitcode/v43-route-vocabulary-inventory.json` as source-safe file/token counts and a migration matrix only; the actual route rename and split remain owned by later gates.
 9. Gate 3 implements the first route migration slice: `/packs` becomes the pack-activity master-detail surface, `/api/packs/activity` projects source-safe PackActivity records, and `/exchange` redirects to `/packs`.
+10. Gate 9 binds the local and staging-testnet route path across `/deposit`,
+    `/read`, and `/packs` with source-safe rehearsal receipts, telemetry
+    readback, ledger/database/storage synchronization checks, repair posture,
+    and no value-bearing mainnet admission.
 
 ## Explicitly deferred
 
@@ -135,6 +139,23 @@ buttons, compact loading/empty/error states, and expandable disclosure
 boundaries. In-app route copy is reduced to workflow/status vocabulary; deeper
 protocol explanation stays in docs and generated proofs. Gate 8 keeps every
 existing V43 state machine and source-safety boundary intact.
+
+## Gate 9 delta closure
+
+Gate 9 adds `V43CrossRouteRehearsalTelemetryRepair`, the generated
+`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json` artifact, package
+exports, protocol tests, workflow checks,
+`scripts/rehearse-v43-cross-route-product-flow.mjs`, and `check:v43-gate9`.
+The cross-route rehearsal covers local and staging-testnet lanes for
+`/deposit`, `/read`, and `/packs`: synthesize deposit options, approve an
+eligible option, request Reading, review a synthesized Need, request Finding
+Fits, preview source-safe AssetPack measurements, settle BTC/BTD rights,
+deliver a repository pull request, compensate contributing deposited sources,
+and inspect pack activity/repair readback. Operator receipts are source-safe
+metadata only and bind staging-testnet to Supabase project
+`tkpyosihuouusyaxtbau`; they never serialize secrets, protected source, raw
+prompts, provider responses, unpaid AssetPack source, wallet private material,
+private settlement payloads, or live rehearsal logs.
 
 ## Commit-Body Direction
 
