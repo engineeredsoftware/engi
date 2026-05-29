@@ -23,14 +23,14 @@ import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disab
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
 const TERMINAL_URL = '/terminal';
-const EXCHANGE_URL = '/exchange';
+const PACKS_URL = '/packs';
 const DEFAULT_OPERATOR_GUIDE_URL =
   process.env.NEXT_PUBLIC_BITCODE_OPERATOR_GUIDE_URL?.trim() || '/docs';
 const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/blob/main/BITCODE_SPEC.txt';
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
 const DISABLED_FEATURE_TOOLTIPS = {
-  exchange:
-    'Disabled for launch mode. When enabled, Exchange opens the public Source Shares activity and market-reading surface.',
+  packs:
+    'Disabled for launch mode. When enabled, Packs opens the public Source Shares activity and pack-reading surface.',
   terminal:
     'Disabled for launch mode. When enabled, Terminal opens the full deposit-to-settle ledger, proofs, and history workspace.',
   auxillaries:
@@ -121,10 +121,10 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
     : BITCODE_PUBLIC_COPY.footer.guestCta;
   const footerLinks = useMemo(() => [
     {
-      ariaLabel: 'Exchange',
+      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.network,
       label: BITCODE_PUBLIC_COPY.footer.links.network,
-      meta: 'Public exchange',
-      href: EXCHANGE_URL,
+      meta: 'Pack activity',
+      href: PACKS_URL,
       explainer: BITCODE_PUBLIC_EXPLAINERS.network,
       icon: (
         <span
@@ -237,7 +237,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
   ], []);
   const isExternalHref = (href: string) => href.startsWith('http');
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
-  const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
+  const disablePacksLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
   const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
 
   return (
@@ -374,7 +374,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
               <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-[repeat(4,minmax(0,1fr))]">
                 {footerLinks.map((social) => {
                   const isDisabledRoute =
-                    (social.href === EXCHANGE_URL && disableExchangeLink) ||
+                    (social.href === PACKS_URL && disablePacksLink) ||
                     (social.href === TERMINAL_URL && disableTerminalLink);
                   const explainerButton = social.explainer ? (
                     <BitcodeInlineExplainer
@@ -405,8 +405,8 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                     <span key={social.ariaLabel} className="block w-full">
                       <DisabledTooltipWrapper
                         tooltip={
-                          social.href === EXCHANGE_URL
-                            ? DISABLED_FEATURE_TOOLTIPS.exchange
+                          social.href === PACKS_URL
+                            ? DISABLED_FEATURE_TOOLTIPS.packs
                             : DISABLED_FEATURE_TOOLTIPS.terminal
                         }
                         className="w-full"
