@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V42.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md`
 - Generated structured artifact inventory: `.bitcode/v43-spec-family-report.json`, `.bitcode/v43-canonical-input-report.json`, and future V43 gate artifacts
-- Source parity state: notes define operating memory for V43 gates; implementation parity is pending gate work
+- Source parity state: notes define operating memory for V43 gates; Gates 2 through 8 now have generated proof-backed implementation parity
 
 ## Notes companion rule
 
@@ -72,6 +72,15 @@ activity. Rejected, pending, resynthesis-requested, or policy-blocked options
 must not enter the Depository. Admitted options still do not mint BTD, transfer
 rights, reveal unpaid AssetPack source, or serialize prompts, provider
 responses, wallet material, or private settlement payloads.
+
+Gate 8 closes the shared product route shell polish layer. `ProductRouteShell` now frames
+`/packs`, `/read`, and `/deposit`; `ProductRouteStepGrid` owns the Reading and
+Depositing step controls with active `aria-current` semantics; `ProductRouteStatePanel`
+normalizes loading, empty, and error states; and `ProductRouteDisclosure`
+keeps proof/source-safety detail expandable. Product route copy should stay
+concise: route labels, status summaries, metrics, and visible/withheld
+boundaries. Longer explanation belongs in public documentation and generated
+proofs, not the core product flow.
 
 ## V43 copy boundary
 

@@ -1,0 +1,318 @@
+{
+  "artifactId": "v43-route-ux-product-excellence",
+  "schemaId": "bitcode.v43.routeUxProductExcellence.v1",
+  "version": "V43",
+  "currentTarget": "V42",
+  "sourceSafetyVerdict": "source-safe-product-route-ux-metadata",
+  "generatedAt": "deterministic",
+  "artifactRoot": "v43-route-ux-product-excellence:ebb5a3e35fa1b4b3b7c0b6b6",
+  "passed": true,
+  "objectIds": [
+    "ProductRouteShell",
+    "ProductRouteStepGrid",
+    "ProductRouteStatePanel",
+    "ProductRouteDisclosure",
+    "/packs product route",
+    "/read product route",
+    "/deposit product route"
+  ],
+  "fieldIds": [
+    "routeLabel",
+    "routeTitle",
+    "routeSummary",
+    "metric",
+    "step",
+    "statePanel",
+    "progressiveDisclosure",
+    "sourceSafeBoundary"
+  ],
+  "forbiddenPayloadIds": [
+    "protected_source_payload",
+    "raw_source_text",
+    "unpaid_assetpack_source",
+    "raw_protected_prompt",
+    "interpolated_prompt",
+    "raw_provider_response",
+    "wallet_private_material",
+    "settlement_private_payload"
+  ],
+  "contractRows": [
+    {
+      "rowId": "shared-product-route-shell",
+      "owner": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "contract": "Packs, Reading, and Depositing render through a shared themed product shell with route label, title, concise summary, and source-safe route metrics.",
+      "requiredFields": [
+        "ProductRouteShell",
+        "route-shell-packs",
+        "route-shell-read",
+        "route-shell-deposit"
+      ],
+      "rowRoot": "v43-route-ux-contract:952044a7fa7cefa2bd20ec0e",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "keyboard-five-step-navigation",
+      "owner": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "contract": "Reading and Depositing use a shared button-based step grid with visible active state, aria-current step semantics, and stable data attributes for route state tests.",
+      "requiredFields": [
+        "ProductRouteStepGrid",
+        "aria-current",
+        "data-reading-step-state",
+        "data-deposit-step-state"
+      ],
+      "rowRoot": "v43-route-ux-contract:ccb4ddbe71913d5359dd86e7",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "state-panels-empty-error-loading",
+      "owner": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "contract": "Packs, Reading, and Depositing share compact loading, empty, and error state panels without leaking source-bearing payloads.",
+      "requiredFields": [
+        "ProductRouteStatePanel",
+        "loading",
+        "empty",
+        "error"
+      ],
+      "rowRoot": "v43-route-ux-contract:3583e5c5a45c2edb116d7035",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "progressive-source-safe-detail",
+      "owner": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "contract": "Read and Deposit route proof detail remains expandable by default, with visible metadata and withheld protected-source boundaries stated as route state.",
+      "requiredFields": [
+        "ProductRouteDisclosure",
+        "Disclosure boundary",
+        "Withheld"
+      ],
+      "rowRoot": "v43-route-ux-contract:8feb4861984ad0ded6b4641a",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    },
+    {
+      "rowId": "product-copy-reduced",
+      "owner": "BITCODE_SPEC_V43.md",
+      "contract": "In-app product copy is concise route/status vocabulary rather than self-referential instructions, while deeper protocol explanation stays in public documentation and proof artifacts.",
+      "requiredFields": [
+        "self-referential product copy",
+        "route structure",
+        "progressive proof detail"
+      ],
+      "rowRoot": "v43-route-ux-contract:928c56bbf864b4790c8f107b",
+      "sourceSafeMetadataOnly": true,
+      "protectedSourceVisible": false,
+      "unpaidAssetPackSourceVisible": false
+    }
+  ],
+  "sourceRoots": {
+    "activePointer": "BITCODE_SPEC.txt:75f3f6d81f999da998f40cb6",
+    "spec": "BITCODE_SPEC_V43.md:279f284912ed058bbc8ef430",
+    "delta": "BITCODE_SPEC_V43_DELTA.md:e236e6fc7e4afc685d86fd09",
+    "notes": "BITCODE_SPEC_V43_NOTES.md:67426dc28a11c11e057fac66",
+    "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:b40d7cde0c978e29c2881707",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:5caa3c41627fdacae5fcb4f9",
+    "readme": "README.md:ee3b21e97e291519280e685e",
+    "protocolReadme": "packages/protocol/README.md:ffcf019b6434251a61e54d13",
+    "packageJson": "package.json:12ffbd25e34c85aa70fc21bf",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:024a1e47cfe1854c52e4da80",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:b6dcf389972fed22e5176e76",
+    "productRouteShell": "uapi/components/base/bitcode/routes/product-route-shell.tsx:1db5b3d0e67eb84327568b90",
+    "packsClient": "uapi/app/packs/PacksPageClient.tsx:9a225a3462967b4b8c2adc00",
+    "readClient": "uapi/app/read/ReadPageClient.tsx:8e75873706918b22d7ddf8ed",
+    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:ee78319e6a48ccf12e2eb925",
+    "packsTest": "uapi/tests/packsPageClient.test.tsx:3d190debc869e3d2ec7c0b45",
+    "readTest": "uapi/tests/readPageClient.test.tsx:39abee8e499c491b5a33cbf1",
+    "depositTest": "uapi/tests/depositPageClient.test.tsx:b1acbca83d8f3244147217dc",
+    "protocolIndex": "packages/protocol/src/index.js:4f9fea5557edf88d1e1ae521",
+    "protocolTypes": "packages/protocol/src/index.d.ts:6a766f2d554a2558bf6ddbd3",
+    "protocolTest": "packages/protocol/test/v43-route-ux-product-excellence.test.js:90da888669ac62dabb2fab0d",
+    "generator": "scripts/generate-v43-route-ux-product-excellence.mjs:cfa27fac384b22a62c12aa54",
+    "checker": "scripts/check-v43-gate8-route-ux-product-excellence.mjs:0216d34433f7bd393cf8a99b"
+  },
+  "predicateResults": [
+    {
+      "id": "active-canon-pointer-remains-v42",
+      "sourcePath": "BITCODE_SPEC.txt",
+      "passed": true
+    },
+    {
+      "id": "spec-defines-gate8",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "spec-records-shared-route-shell",
+      "sourcePath": "BITCODE_SPEC_V43.md",
+      "passed": true
+    },
+    {
+      "id": "delta-records-gate8",
+      "sourcePath": "BITCODE_SPEC_V43_DELTA.md",
+      "passed": true
+    },
+    {
+      "id": "notes-records-gate8",
+      "sourcePath": "BITCODE_SPEC_V43_NOTES.md",
+      "passed": true
+    },
+    {
+      "id": "parity-records-gate8",
+      "sourcePath": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
+      "passed": true
+    },
+    {
+      "id": "roadmap-records-gate8",
+      "sourcePath": "SPECIFICATIONS_ROADMAP.md",
+      "passed": true
+    },
+    {
+      "id": "readme-records-gate8",
+      "sourcePath": "README.md",
+      "passed": true
+    },
+    {
+      "id": "protocol-readme-records-gate8",
+      "sourcePath": "packages/protocol/README.md",
+      "passed": true
+    },
+    {
+      "id": "shared-shell-implements-route-shell",
+      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "passed": true
+    },
+    {
+      "id": "shared-shell-implements-step-grid",
+      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "passed": true
+    },
+    {
+      "id": "shared-shell-implements-state-panel",
+      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "passed": true
+    },
+    {
+      "id": "shared-shell-implements-disclosure",
+      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "passed": true
+    },
+    {
+      "id": "packs-route-uses-shell",
+      "sourcePath": "uapi/app/packs/PacksPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "read-route-uses-shell-step-grid",
+      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-uses-shell-step-grid",
+      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "read-route-uses-progressive-disclosure",
+      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-route-uses-progressive-disclosure",
+      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "passed": true
+    },
+    {
+      "id": "product-copy-removes-long-instructions",
+      "sourcePath": "uapi/components/base/bitcode/routes/product-route-shell.tsx",
+      "passed": true
+    },
+    {
+      "id": "read-test-covers-shell-and-active-step",
+      "sourcePath": "uapi/tests/readPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "deposit-test-covers-shell-and-active-step",
+      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "packs-test-covers-shell",
+      "sourcePath": "uapi/tests/packsPageClient.test.tsx",
+      "passed": true
+    },
+    {
+      "id": "protocol-test-covers-artifact",
+      "sourcePath": "packages/protocol/test/v43-route-ux-product-excellence.test.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-package-exports-gate8",
+      "sourcePath": "packages/protocol/src/index.js",
+      "passed": true
+    },
+    {
+      "id": "protocol-types-export-gate8",
+      "sourcePath": "packages/protocol/src/index.d.ts",
+      "passed": true
+    },
+    {
+      "id": "package-json-exposes-gate8",
+      "sourcePath": "package.json",
+      "passed": true
+    },
+    {
+      "id": "gate-workflow-runs-gate8",
+      "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "canon-workflow-runs-gate8",
+      "sourcePath": ".github/workflows/bitcode-canon-quality.yml",
+      "passed": true
+    },
+    {
+      "id": "generator-exists",
+      "sourcePath": "scripts/generate-v43-route-ux-product-excellence.mjs",
+      "passed": true
+    },
+    {
+      "id": "checker-exists",
+      "sourcePath": "scripts/check-v43-gate8-route-ux-product-excellence.mjs",
+      "passed": true
+    }
+  ],
+  "coverage": {
+    "sharedRouteShellImplemented": true,
+    "sharedStepGridImplemented": true,
+    "keyboardCurrentStepImplemented": true,
+    "routeMetricsImplemented": true,
+    "productRouteStatePanelsImplemented": true,
+    "loadingEmptyErrorStatesImplemented": true,
+    "progressiveDisclosureImplemented": true,
+    "packsRouteUsesSharedShell": true,
+    "readRouteUsesSharedShell": true,
+    "depositRouteUsesSharedShell": true,
+    "selfReferentialProductCopyReduced": true,
+    "executionStreamReadbackRetained": true,
+    "responsiveGridPostureImplemented": true,
+    "sourceSafeMetadataOnly": true,
+    "protectedSourceVisible": false,
+    "rawSourceTextVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "rawPromptVisible": false,
+    "interpolatedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "walletPrivateMaterialVisible": false,
+    "settlementPrivatePayloadVisible": false,
+    "requiredPredicateCount": 30,
+    "passedPredicateCount": 30,
+    "failedPredicateIds": []
+  }
+}

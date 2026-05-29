@@ -162,7 +162,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('route-model-defines-pipeline-ownership', SOURCE_ROOTS.routeModel, sources.routeModel.includes('DepositAssetPackOptionSynthesis') && sources.routeModel.includes('sourceCriticalityDemandRoiPolicyDeferredToGate6')),
     predicateResult('route-model-forbids-source-leakage', SOURCE_ROOTS.routeModel, sources.routeModel.includes('protectedSourceVisible: false') && sources.routeModel.includes('rawSourceTextVisible: false') && sources.routeModel.includes('unpaidAssetPackSourceVisible: false')),
     predicateResult('deposit-page-canonical-route', SOURCE_ROOTS.page, sources.page.includes("canonical: '/deposit'") && sources.page.includes('DepositPageClient')),
-    predicateResult('deposit-client-renders-five-step-route', SOURCE_ROOTS.client, sources.client.includes('data-testid={`deposit-route-step-${step.id}`}') && sources.client.includes('Deposit steps')),
+    predicateResult(
+      'deposit-client-renders-five-step-route',
+      SOURCE_ROOTS.client,
+      (sources.client.includes('data-testid={`deposit-route-step-${step.id}`}') ||
+        (sources.client.includes('ProductRouteStepGrid') && sources.client.includes('testIdPrefix="deposit-route-step"'))) &&
+        sources.client.includes('Deposit steps'),
+    ),
     predicateResult('deposit-client-renders-options', SOURCE_ROOTS.client, sources.client.includes('DepositAssetPackOptionSynthesis') && sources.client.includes('Source-safe AssetPack proposals')),
     predicateResult('deposit-client-reuses-terminal-primitives', SOURCE_ROOTS.client, sources.client.includes('TerminalRepositoryContextPanel') && sources.client.includes('TerminalSupplySelectionPanel') && sources.client.includes('TerminalDepositComposer')),
     predicateResult('option-model-defines-request', SOURCE_ROOTS.optionModel, sources.optionModel.includes('DepositOptionSynthesisRequest') && sources.optionModel.includes('depositoryDemandSignals') && sources.optionModel.includes('readingDemandSignals')),

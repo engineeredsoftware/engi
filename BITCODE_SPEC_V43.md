@@ -220,6 +220,17 @@ settlement.
 
 Gate 8 must improve route layout, visual hierarchy, copy, progressive disclosure, execution stream usage, empty/error/loading states, keyboard/responsive behavior, and reusable themed components across `/packs`, `/read`, and `/deposit`. It must remove in-app self-referential explanatory copy outside public docs.
 
+Gate 8 closes with `ProductRouteShell`, `ProductRouteStepGrid`,
+`ProductRouteStatePanel`, `ProductRouteDisclosure`, and the generated
+`.bitcode/v43-route-ux-product-excellence.json` proof. `/packs`, `/read`, and
+`/deposit` must share a consistent themed route frame, concise route summaries,
+source-safe metrics, keyboard-accessible step buttons, loading/empty/error
+states, and expandable proof/source-safety detail. Product copy must be route
+and status vocabulary, not explanations of the interface itself. Gate 8 must
+not change route state-machine authority, disclose protected source, disclose
+unpaid AssetPack source, serialize prompts/provider responses, or weaken the
+settlement-gated source boundary.
+
 ## V43 Gate 9 Cross-Route Rehearsal, Telemetry, And Repair
 
 Gate 9 must rehearse the full path across `/deposit`, `/read`, and `/packs`: synthesize deposit options, admit a deposit AssetPack, request Reading, find fits, preview, settle, deliver, compensate, and inspect activity. It must cover local/staging-testnet lanes, telemetry, database/ledger/storage synchronization, and repair states.

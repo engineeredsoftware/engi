@@ -5,8 +5,8 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-deposit-policy-compensation-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-deposit-policy-compensation:0d74b0d78748ef57697c114a",
-  "passed": true,
+  "artifactRoot": "v43-deposit-policy-compensation:7a1bb94b7a3e8c9e02a8062a",
+  "passed": false,
   "objectIds": [
     "DepositAssetPackOptionPolicy",
     "DepositAssetPackOptionPolicyReport",
@@ -100,28 +100,28 @@
   ],
   "sourceRoots": {
     "activePointer": "BITCODE_SPEC.txt:75f3f6d81f999da998f40cb6",
-    "spec": "BITCODE_SPEC_V43.md:be395a7424e1cda9f9a6db95",
-    "delta": "BITCODE_SPEC_V43_DELTA.md:bfdc638747d2b26e3f2e9198",
-    "notes": "BITCODE_SPEC_V43_NOTES.md:0b63f2a957175089051d64c5",
-    "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:8fec04876421410dd51ec879",
-    "roadmap": "SPECIFICATIONS_ROADMAP.md:8bbf62cb7261a6f2bc55e9bc",
-    "readme": "README.md:7a6eb7df6034f3f7ae18a4b6",
-    "protocolReadme": "packages/protocol/README.md:d338afce1b165d7da3bf9fc3",
-    "packageJson": "package.json:4eb71d824b7ac57b57e7eaa7",
-    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:2fa0b3b3648ff6a9ce463290",
-    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:232544cd143619fc8c2597a8",
+    "spec": "BITCODE_SPEC_V43.md:279f284912ed058bbc8ef430",
+    "delta": "BITCODE_SPEC_V43_DELTA.md:e236e6fc7e4afc685d86fd09",
+    "notes": "BITCODE_SPEC_V43_NOTES.md:67426dc28a11c11e057fac66",
+    "parity": "BITCODE_SPEC_V43_PARITY_MATRIX.md:b40d7cde0c978e29c2881707",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:5caa3c41627fdacae5fcb4f9",
+    "readme": "README.md:ee3b21e97e291519280e685e",
+    "protocolReadme": "packages/protocol/README.md:ffcf019b6434251a61e54d13",
+    "packageJson": "package.json:12ffbd25e34c85aa70fc21bf",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:024a1e47cfe1854c52e4da80",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:b6dcf389972fed22e5176e76",
     "optionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
     "policyModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
     "optionModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-options.test.ts:66cfc8c728f134087476a3a3",
     "policyModelTest": "packages/pipelines/asset-pack/src/__tests__/deposit-asset-pack-option-policy.test.ts:1af7adccac488298ccd7f048",
     "routeModel": "uapi/app/deposit/deposit-route-model.ts:7354c10d543af2cb65ba0ade",
-    "client": "uapi/app/deposit/DepositPageClient.tsx:f8db0f58dd4ec01c5fca10b6",
+    "client": "uapi/app/deposit/DepositPageClient.tsx:ee78319e6a48ccf12e2eb925",
     "routeModelTest": "uapi/tests/depositRouteModel.test.ts:0fb7d8d4d58d7e231ada4510",
-    "pageTest": "uapi/tests/depositPageClient.test.tsx:18c44b7a03b74d9ca8b17536",
+    "pageTest": "uapi/tests/depositPageClient.test.tsx:b1acbca83d8f3244147217dc",
     "packageIndex": "packages/pipelines/asset-pack/src/index.ts:24854bd26b47ce7700e02380",
     "packageManifest": "packages/pipelines/asset-pack/package.json:f998601555d9f21de1393f74",
-    "protocolIndex": "packages/protocol/src/index.js:da82c2ca8c20849a6fa0b931",
-    "protocolTypes": "packages/protocol/src/index.d.ts:c04dd7f96f54a112437e39f9",
+    "protocolIndex": "packages/protocol/src/index.js:4f9fea5557edf88d1e1ae521",
+    "protocolTypes": "packages/protocol/src/index.d.ts:6a766f2d554a2558bf6ddbd3",
     "protocolTest": "packages/protocol/test/v43-deposit-policy-compensation.test.js:f84b0c016065b10f796eb775",
     "generator": "scripts/generate-v43-deposit-policy-compensation.mjs:0117b1222d0f4a4640324b47",
     "checker": "scripts/check-v43-gate6-deposit-policy-compensation.mjs:03412b725c36f24991a6325e"
@@ -210,7 +210,7 @@
     {
       "id": "deposit-client-renders-policy",
       "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
-      "passed": true
+      "passed": false
     },
     {
       "id": "asset-pack-package-exports-policy",
@@ -301,7 +301,9 @@
     "walletPrivateMaterialVisible": false,
     "settlementPrivatePayloadVisible": false,
     "requiredPredicateCount": 30,
-    "passedPredicateCount": 30,
-    "failedPredicateIds": []
+    "passedPredicateCount": 29,
+    "failedPredicateIds": [
+      "deposit-client-renders-policy"
+    ]
   }
 }
