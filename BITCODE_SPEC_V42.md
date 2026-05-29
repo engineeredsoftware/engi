@@ -3,18 +3,19 @@
 ## Status
 
 - Version: `V42`
-- V42 state: draft opened; V42 is the reliable MVP experience draft over the promoted V41 prompt-program excellence canon
-- Current canonical/latest target: `V41`
+- V42 state: canonical promotion complete; V42 is the active reliable MVP experience canon and the V42 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V42`
+- Canonical proof-source commit: `5c9c0270b9d864fe13b7e0a429700e1c9a7689d9`
 - Prior canonical anchor: `BITCODE_SPEC_V41.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V41_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, and later V42 gate artifacts for depositing shortest path, Reading shortest path, AI-reading demonstration proof, settlement and delivery rehearsal, and promotion readiness
-- Source parity state: V42 Gate 1 opens specification, roadmap, documentation, and workflow parity over active V41; source behavior changes remain gated behind later V42 acceptance criteria
+- Generated structured artifact inventory: active canonical `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, `.bitcode/v42-depositing-shortest-path.json`, `.bitcode/v42-reading-shortest-path-state-machine.json`, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `.bitcode/v42-readfitsfinding-preview-quote.json`, `.bitcode/v42-settlement-rights-delivery.json`, `.bitcode/v42-ai-reading-demonstration.json`, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `.bitcode/v42-promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
+- Source parity state: V42 source-side Depositing shortest path, Reading shortest path state machine, ReadNeed review/resynthesis closure, ReadFitsFinding preview and quote closure, settlement rights delivery, AI-reading demonstration, local/staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V42 file family
 - Notes companion: `BITCODE_SPEC_V42_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V42_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V42_PARITY_MATRIX.md`
 - Generated proof appendix: `BITCODE_SPEC_V42_PROVEN.md` only after V42 promotion
-- Scope: V42 draft system specification for reliable MVP product experience: shortest-path Depositing, shortest-path Reading, source-safe AssetPack preview, BTD/BTC settlement, post-settlement repository delivery, depositor compensation visibility, and an AI-reading dominant demonstration
-- Last fully realized canonical target preserved in source: `V41`
+- Scope: V42 canonical system specification for reliable MVP experience across shortest-path Depositing, shortest-path Reading, reviewed Need synthesis, Finding Fits preview and quote, settlement-gated rights delivery, depositor compensation visibility, AI-reading demonstration, local/staging-testnet rehearsal, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V42`
 
 ## Version executive summary
 

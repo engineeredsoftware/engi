@@ -1,12 +1,12 @@
-# Bitcode Protocol Demonstration - V41 canonical deterministic local prototype
+# Bitcode Protocol Demonstration - V42 canonical deterministic local prototype
 
 This package is the deterministic demonstration of Bitcode. Within this package
 the correct name is demonstration.
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V41`; V42 is the next draft target after this promotion. This demo is governed by the active V41 canonical
-spec and `BITCODE_SPEC_V41_PROVEN.md` as the current generated appendix.
-`BITCODE_SPEC.txt -> V41`.
+resolves to `V41`; V42 is the next draft target after this promotion. This demo is governed by the active V42 canonical
+spec and `BITCODE_SPEC_V42_PROVEN.md` as the current generated appendix.
+`BITCODE_SPEC.txt -> V42`.
 V35 telemetry/documentation work may compare against demonstration facts, but the
 demonstration remains self-contained and does not import commercial runtime
 telemetry, documentation, dashboard, runbook, or public docs code.

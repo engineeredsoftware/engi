@@ -3,13 +3,15 @@
 ## Status
 
 - Version: `V42`
-- V42 state: draft opened; parity tracks reliable MVP experience gaps and closure gates over active V41
-- Current canonical/latest target: `V41`
+- V42 state: canonical promotion complete; V42 parity truth, generated reliable MVP artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V42`
+- Canonical proof-source commit: `5c9c0270b9d864fe13b7e0a429700e1c9a7689d9`
 - Prior canonical anchor: `BITCODE_SPEC_V41.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V41_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, and later V42 gate artifacts
-- Source parity state: Gate 1 parity is documentation/checker/workflow posture; product behavior rows remain draft-required until their gates close
-- Scope: V42 parity ledger for reliable MVP product experience
+- Generated structured artifact inventory: active canonical `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, `.bitcode/v42-depositing-shortest-path.json`, `.bitcode/v42-reading-shortest-path-state-machine.json`, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `.bitcode/v42-readfitsfinding-preview-quote.json`, `.bitcode/v42-settlement-rights-delivery.json`, `.bitcode/v42-ai-reading-demonstration.json`, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `.bitcode/v42-promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
+- Source parity state: V42 source-side Depositing shortest path, Reading shortest path state machine, ReadNeed review/resynthesis closure, ReadFitsFinding preview and quote closure, settlement rights delivery, AI-reading demonstration, local/staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V42 file family
+- Scope: V42 canonical parity ledger for reliable MVP experience over promoted V41 prompt-program excellence canon
+- Last fully realized canonical target preserved in source: `V42`
 
 ## Purpose
 
@@ -29,10 +31,10 @@ This matrix records the reliable MVP product surfaces that must become promotion
 
 | Area | Required V42 result | Source evidence | Judgment |
 | --- | --- | --- | --- |
-| Draft family | V42 SPEC, DELTA, NOTES, and PARITY files exist over active V41 | `BITCODE_SPEC_V42.md` family | drafted |
-| Roadmap truth | Roadmap states V41 active and V42 draft reliable MVP experience | `SPECIFICATIONS_ROADMAP.md` | drafted |
-| Gate workflow | Gate quality knows active V41 / draft V42 posture and V42 Gate 1 | `.github/workflows/bitcode-gate-quality.yml` | drafted |
-| Canon workflow | Canon quality knows active V41 / draft V42 posture and V42 Gate 1 | `.github/workflows/bitcode-canon-quality.yml` | drafted |
+| Draft family | V42 SPEC, DELTA, NOTES, and PARITY files exist over active V41 | `BITCODE_SPEC_V42.md` family | closed |
+| Roadmap truth | Roadmap states V41 active and V42 draft reliable MVP experience | `SPECIFICATIONS_ROADMAP.md` | closed |
+| Gate workflow | Gate quality knows active V41 / draft V42 posture and V42 Gate 1 | `.github/workflows/bitcode-gate-quality.yml` | closed |
+| Canon workflow | Canon quality knows active V41 / draft V42 posture and V42 Gate 1 | `.github/workflows/bitcode-canon-quality.yml` | closed |
 | Depositing shortest path | Source material can be admitted with Depository proof and compensation visibility | `.bitcode/v42-depositing-shortest-path.json`, `DepositorySupplyCompensationPreview`, `/api/deposits`, Terminal deposit readback | implemented |
 | Reading state machine | Five-step Reading UX is route-owned, persistent, and source-safe | `.bitcode/v42-reading-shortest-path-state-machine.json`, `TerminalEnterpriseReadingRouteState`, `readingStage`, route/retry/failure tests | implemented |
 | ReadNeed product closure | Need synthesis, review, feedback, resynthesis, accepted-Need admission, rejected Need blockers, source-safe telemetry, and Terminal runtime readback are product-ready | `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `ReadNeedReviewResynthesisRuntime`, `/api/read-review`, Terminal Need runtime readback | implemented |
@@ -46,7 +48,7 @@ This matrix records the reliable MVP product surfaces that must become promotion
 
 | Area | Closure requirement | Judgment |
 | --- | --- | --- |
-| Gate 1 | Open V42 family, roadmap, docs, workflow posture, package script, and checker | drafted |
+| Gate 1 | Open V42 family, roadmap, docs, workflow posture, package script, and checker | closed |
 | Gate 2 | Depositing shortest path and compensation visibility artifact | implemented |
 | Gate 3 | Reading shortest path state machine artifact | implemented |
 | Gate 4 | ReadNeed review and resynthesis product closure artifact | implemented |

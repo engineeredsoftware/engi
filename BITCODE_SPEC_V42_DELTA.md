@@ -3,13 +3,14 @@
 ## Status
 
 - Version: `V42`
-- V42 state: draft opened; this delta records the planned V41-to-V42 reliable MVP experience work
-- Current canonical/latest target: `V41`
+- V42 state: canonical promotion complete; this delta records the promoted V41-to-V42 reliable MVP experience closure set
+- Current canonical/latest target: `V42`
+- Canonical proof-source commit: `5c9c0270b9d864fe13b7e0a429700e1c9a7689d9`
 - Prior canonical anchor: `BITCODE_SPEC_V41.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V41_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, and later V42 gate artifacts for Depositing, Reading, Finding Fits, settlement/delivery, AI-reading demonstration, local/staging rehearsal, and promotion readiness
-- Source parity state: V42 source parity is opened by Gate 1 and remains incomplete until later gates implement the product paths
-- Scope: V42 draft delta for reliable MVP product experience over promoted V41 prompt-program excellence canon
+- Generated structured artifact inventory: active canonical `.bitcode/v42-spec-family-report.json`, `.bitcode/v42-canonical-input-report.json`, `.bitcode/v42-canon-posture-drift-report.json`, `.bitcode/v42-depositing-shortest-path.json`, `.bitcode/v42-reading-shortest-path-state-machine.json`, `.bitcode/v42-readneed-review-resynthesis-product-closure.json`, `.bitcode/v42-readfitsfinding-preview-quote.json`, `.bitcode/v42-settlement-rights-delivery.json`, `.bitcode/v42-ai-reading-demonstration.json`, `.bitcode/v42-local-staging-mvp-rehearsal.json`, `.bitcode/v42-promotion-readiness-report.json`, V42 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V42_PROVEN.md` as the generated proof appendix for V42 promotion
+- Source parity state: V42 source-side Depositing shortest path, Reading shortest path state machine, ReadNeed review/resynthesis closure, ReadFitsFinding preview and quote closure, settlement rights delivery, AI-reading demonstration, local/staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V42 file family
+- Scope: V42 canonical delta for reliable MVP experience over promoted V41 prompt-program excellence canon
 
 ## Why V42 exists
 
