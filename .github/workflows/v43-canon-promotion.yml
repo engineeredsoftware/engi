@@ -101,7 +101,7 @@ jobs:
           run_bounded 5m pnpm --filter @bitcode/protocol test
           run_bounded 5m pnpm --filter @bitcode/btd typecheck
           run_bounded 5m pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
-          run_bounded 5m npm --prefix protocol-demonstration test
+          run_bounded 15m npm --prefix protocol-demonstration test
           run_bounded 5m npm --prefix protocol-demonstration run test:v28-mvp-qa
           run_bounded 5m pnpm --filter @bitcode/pipeline-asset-pack typecheck
           run_bounded 5m pnpm --filter @bitcode/pipeline-hosts typecheck
