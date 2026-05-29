@@ -55,6 +55,7 @@ module.exports = {
     '^@bitcode/pipeline-asset-pack/deposit-asset-pack-options$': '<rootDir>/../packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts',
     '^@bitcode/pipeline-asset-pack/deposit-asset-pack-option-policy$': '<rootDir>/../packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts',
     '^@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission$': '<rootDir>/../packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts',
+    '^@bitcode/pipeline-asset-pack/depositor-earning-supply-intelligence$': '<rootDir>/../packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts',
     '^@bitcode/pipeline-asset-pack/src/(.+)$': '<rootDir>/../packages/pipelines/asset-pack/src/$1',
     '^@bitcode/([^/]+)/src/(.+)$': '<rootDir>/../packages/$1/src/$2',
     '^@bitcode/supabase/ssr/server$': '<rootDir>/tests/mocks/supabaseServerClient.ts',
@@ -64,7 +65,7 @@ module.exports = {
     '^@bitcode/pipeline-asset-pack$': '<rootDir>/../packages/pipelines/asset-pack/src/index.ts',
     '^@bitcode/engine/pipeline$': '<rootDir>/../packages/pipelines/asset-pack/src/run.ts',
     '^@bitcode/engine/(.*)$': '<rootDir>/../packages/pipelines-generics/src/pipeline/$1',
-    // Fallback – treat other @bitcode/<pkg> references as pointing into packages/<pkg>/src
+    // Fallback - treat other @bitcode/<pkg> references as pointing into packages/<pkg>/src
     '^@bitcode/([^/]+)$': '<rootDir>/../packages/$1/src/index.ts',
     '^@bitcode/([^/]+)/(.+)$': '<rootDir>/../packages/$1/src/$2',
 

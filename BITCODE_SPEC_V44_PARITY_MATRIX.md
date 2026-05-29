@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft parity includes Gate 4 Reading budget quote policy work
+- V44 state: draft parity includes Gate 5 Depositor earnings supply opportunity work
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`
-- Source parity state: Gate 3 requires package/API/UI/docs/workflow/checker/test parity for Packs portfolio market intelligence
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`
+- Source parity state: Gate 5 requires package/route/UI/docs/workflow/checker/test parity for Depositor earning supply opportunity intelligence
 - Scope: parity for V44 enterprise economic operation over promoted V43 product routes
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -32,7 +32,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Economic domain model | Portfolio positions, market signals, quote states, settlement states, statements, repair cases | implemented |
 | Packs portfolio | `/packs` portfolio search, market intelligence, saved filters, economic facets | implemented |
 | Reading procurement | Budget, quote policy, approval thresholds, purchase governance through `.bitcode/v44-reading-budget-quote-policy.json` | implemented |
-| Depositor earnings | ROI, demand, compensation opportunity, supply recommendations | drafted |
+| Depositor earnings | ROI, demand, compensation opportunity, supply recommendations through `.bitcode/v44-depositor-earnings-supply-opportunities.json` | implemented |
 | Accounting statements | BTD/BTC/source-to-shares statements and reconciliation | drafted |
 | Organization governance | Roles, budgets, wallet authority, source criticality, approvals | drafted |
 | Enterprise UX | Dense economic surfaces, proof expansion, responsive/accessibility proof | drafted |

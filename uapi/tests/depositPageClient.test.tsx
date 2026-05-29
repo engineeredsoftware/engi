@@ -193,6 +193,14 @@ describe("DepositPageClient", () => {
       screen.getAllByText("DepositAssetPackOptionAdmissionReport").length,
     ).toBeGreaterThan(0);
     expect(
+      screen.getAllByText("DepositorEarningSupplyIntelligence").length,
+    ).toBeGreaterThan(0);
+    expect(screen.getByText("Supply opportunity")).toBeInTheDocument();
+    expect(screen.getAllByText(/Earning estimate/u).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(/Unfit Need opportunities/u),
+    ).toBeInTheDocument();
+    expect(
       screen.getAllByText(/BTC source-to-shares preview/u).length,
     ).toBeGreaterThan(0);
     expect(

@@ -9,6 +9,7 @@ import {
   RefreshCw,
   ShieldCheck,
   Sparkles,
+  TrendingUp,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 
@@ -60,6 +61,8 @@ import type {
 const DEPOSIT_OPTION_PIPELINE_ID = "DepositAssetPackOptionSynthesis";
 const DEPOSIT_OPTION_POLICY_ID = "DepositAssetPackOptionPolicy";
 const DEPOSIT_OPTION_ADMISSION_ID = "DepositAssetPackOptionAdmissionReport";
+const DEPOSITOR_EARNING_SUPPLY_INTELLIGENCE_ID =
+  "DepositorEarningSupplyIntelligence";
 
 function shortIdentifier(value: string | null | undefined) {
   if (!value) return "pending";
@@ -76,6 +79,11 @@ function formatDate(value: string | null | undefined) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function formatSats(value: number | null | undefined) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "pending";
+  return `${value.toLocaleString()} sats`;
 }
 
 function readStringField(source: unknown, ...keys: string[]) {
@@ -367,6 +375,20 @@ export default function DepositPageClient() {
           weight: 0.58,
         },
       ],
+      unfitNeedOpportunitySignals: [
+        {
+          id: "unfit-need-route-proof-supply",
+          label:
+            "Unfit Reads need more source-safe route proof and delivery supply.",
+          weight: 0.82,
+        },
+        {
+          id: "unfit-need-depository-search-supply",
+          label:
+            "Finding Fits benefits from more indexed Depository implementation patterns.",
+          weight: 0.74,
+        },
+      ],
       sourceCriticalitySignals,
       developmentCostSats: Math.max(1600, 1200 + sourcePathHints.length * 240),
       expectedSettlementSats: Math.max(
@@ -431,6 +453,7 @@ export default function DepositPageClient() {
     { label: "Pipeline", value: DEPOSIT_OPTION_PIPELINE_ID },
     { label: "Policy", value: DEPOSIT_OPTION_POLICY_ID },
     { label: "Admission", value: DEPOSIT_OPTION_ADMISSION_ID },
+    { label: "Earnings", value: DEPOSITOR_EARNING_SUPPLY_INTELLIGENCE_ID },
     {
       label: "Option roots",
       value: String(depositRouteSession.synthesis.roots.optionRoots.length),
@@ -442,6 +465,13 @@ export default function DepositPageClient() {
     {
       label: "Admitted options",
       value: String(depositRouteSession.admission.admittedCount),
+    },
+    {
+      label: "Expected compensation",
+      value: formatSats(
+        depositRouteSession.earningSupplyIntelligence.aggregate
+          .totalExpectedCompensationSats,
+      ),
     },
   ];
 
@@ -642,6 +672,13 @@ export default function DepositPageClient() {
             value: depositRouteSession.synthesis.optionCount,
           },
           { label: "Boundary", value: "source-safe" },
+          {
+            label: "Earning estimate",
+            value: formatSats(
+              depositRouteSession.earningSupplyIntelligence.aggregate
+                .totalExpectedCompensationSats,
+            ),
+          },
         ]}
       >
         <ProductRouteStepGrid
@@ -766,6 +803,15 @@ export default function DepositPageClient() {
                     depositRouteSession.admission.receipts.find(
                       (receipt) => receipt.optionId === option.optionId,
                     );
+                  const earningStatement =
+                    depositRouteSession.earningSupplyIntelligence.earningStatements.find(
+                      (statement) => statement.optionId === option.optionId,
+                    );
+                  const supplyRecommendation =
+                    depositRouteSession.earningSupplyIntelligence.supplyRecommendations.find(
+                      (recommendation) =>
+                        recommendation.optionId === option.optionId,
+                    );
                   return (
                     <article
                       key={option.optionId}
@@ -853,6 +899,34 @@ export default function DepositPageClient() {
                                 <dd className="mt-1 text-sm text-neutral-200">
                                   {admissionReceipt.admission.state} /{" "}
                                   {admissionReceipt.packsActivitySync.state}
+                                </dd>
+                              </div>
+                            ) : null}
+                            {earningStatement ? (
+                              <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                                  Earning estimate
+                                </dt>
+                                <dd className="mt-1 text-sm text-neutral-200">
+                                  {
+                                    earningStatement
+                                      .expectedCompensationRangeSats.low
+                                  }
+                                  -{
+                                    earningStatement
+                                      .expectedCompensationRangeSats.high
+                                  }{" "}
+                                  sats / {earningStatement.state}
+                                </dd>
+                              </div>
+                            ) : null}
+                            {supplyRecommendation ? (
+                              <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                                <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                                  Recommendation
+                                </dt>
+                                <dd className="mt-1 text-sm text-neutral-200">
+                                  {supplyRecommendation.action}
                                 </dd>
                               </div>
                             ) : null}
@@ -980,6 +1054,106 @@ export default function DepositPageClient() {
           </div>
 
           <aside className="grid h-fit gap-5" aria-label="Deposit route state">
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                    Earnings
+                  </p>
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Supply opportunity
+                  </h2>
+                </div>
+                <TrendingUp
+                  className="h-5 w-5 text-emerald-200"
+                  aria-hidden="true"
+                />
+              </div>
+              <dl className="mt-4 grid gap-2">
+                <div className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-2">
+                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                    Likely demand
+                  </dt>
+                  <dd className="mt-1 text-sm text-emerald-100">
+                    {depositRouteSession.earningSupplyIntelligence.likelyDemand.state} /{" "}
+                    {Math.round(
+                      depositRouteSession.earningSupplyIntelligence.likelyDemand
+                        .averageConfidence * 100,
+                    )}
+                    %
+                  </dd>
+                </div>
+                <div className="border border-white/8 bg-black/20 px-3 py-2">
+                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                    Unfit Need opportunities
+                  </dt>
+                  <dd className="mt-1 text-sm text-neutral-200">
+                    {
+                      depositRouteSession.earningSupplyIntelligence
+                        .unfitNeedOpportunities.opportunityCount
+                    }{" "}
+                    /{" "}
+                    {
+                      depositRouteSession.earningSupplyIntelligence
+                        .unfitNeedOpportunities.state
+                    }
+                  </dd>
+                </div>
+                <div className="border border-white/8 bg-black/20 px-3 py-2">
+                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                    Expected compensation
+                  </dt>
+                  <dd className="mt-1 text-sm text-neutral-200">
+                    {formatSats(
+                      depositRouteSession.earningSupplyIntelligence.aggregate
+                        .expectedCompensationRangeSats.low,
+                    )}{" "}
+                    -{" "}
+                    {formatSats(
+                      depositRouteSession.earningSupplyIntelligence.aggregate
+                        .expectedCompensationRangeSats.high,
+                    )}
+                  </dd>
+                </div>
+                <div className="border border-white/8 bg-black/20 px-3 py-2">
+                  <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                    Supply recommendations
+                  </dt>
+                  <dd className="mt-1 text-sm text-neutral-200">
+                    {
+                      depositRouteSession.earningSupplyIntelligence.aggregate
+                        .sourceSafeSupplyRecommendationCount
+                    }{" "}
+                    approve-ready /{" "}
+                    {
+                      depositRouteSession.earningSupplyIntelligence.aggregate
+                        .repairRequiredCount
+                    }{" "}
+                    repair
+                  </dd>
+                </div>
+              </dl>
+              <details className="mt-3 border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-3">
+                <summary className="cursor-pointer text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100/85">
+                  Opportunity roots
+                </summary>
+                <dl className="mt-2 grid gap-2">
+                  {depositRouteSession.earningSupplyIntelligence.unfitNeedOpportunities.opportunities.map(
+                    (opportunity) => (
+                      <div key={opportunity.id}>
+                        <dt className="text-[0.56rem] uppercase tracking-[0.12em] text-neutral-500">
+                          {opportunity.label}
+                        </dt>
+                        <dd className="break-all font-mono text-[0.66rem] text-neutral-300">
+                          {opportunity.opportunityRoot}
+                        </dd>
+                      </div>
+                    ),
+                  )}
+                </dl>
+              </details>
+            </section>
+
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div>

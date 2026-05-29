@@ -16,6 +16,12 @@ import {
   type DepositAssetPackOptionAdmissionReport,
   type DepositOptionReviewDecision,
 } from '@bitcode/pipeline-asset-pack/deposit-asset-pack-option-admission';
+import {
+  assertDepositorEarningSupplyIntelligenceSourceSafe,
+  buildDepositorEarningSupplyIntelligence,
+  type DepositorEarningSupplyIntelligence,
+} from '@bitcode/pipeline-asset-pack/depositor-earning-supply-intelligence';
+import type { DepositOptionDemandSignal } from '@bitcode/pipeline-asset-pack/deposit-asset-pack-options';
 
 export type DepositRouteStepId =
   | 'connect-source'
@@ -30,6 +36,7 @@ export interface DepositRouteSessionInput extends DepositOptionSynthesisRequest 
   depositStage?: DepositRouteStepId | null;
   transactionId?: string | null;
   sourceCriticalitySignals?: DepositOptionCriticalitySignal[] | null;
+  unfitNeedOpportunitySignals?: DepositOptionDemandSignal[] | null;
   developmentCostSats?: number | null;
   expectedSettlementSats?: number | null;
   depositorWalletId?: string | null;
@@ -67,6 +74,7 @@ export interface DepositRouteSession {
     depositOptionPipeline: 'DepositAssetPackOptionSynthesis';
     depositOptionPolicy: 'DepositAssetPackOptionPolicy';
     depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport';
+    depositorEarningSupplyIntelligence: 'DepositorEarningSupplyIntelligence';
     reviewRequiredBeforeDepositAdmission: true;
     sourceCriticalityDemandRoiPolicyOwnedByGate6: true;
     sourceCriticalityDemandRoiPolicyDeferredToGate6: true;
@@ -76,6 +84,7 @@ export interface DepositRouteSession {
   synthesis: DepositAssetPackOptionSynthesis;
   policy: DepositAssetPackOptionPolicyReport;
   admission: DepositAssetPackOptionAdmissionReport;
+  earningSupplyIntelligence: DepositorEarningSupplyIntelligence;
   disclosure: {
     sourceSafetyClass: 'source_safe_deposit_option_route_metadata';
     lowDetailDefault: true;
@@ -232,6 +241,11 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     telemetryRunId: normalizedText(input.transactionId),
     createdAt: input.createdAt,
   });
+  const earningSupplyIntelligence = buildDepositorEarningSupplyIntelligence({
+    policyReport: policy,
+    unfitNeedOpportunitySignals: input.unfitNeedOpportunitySignals,
+    createdAt: input.createdAt,
+  });
   const activeStepId = resolveActiveStep(input, admission.admittedCount);
   const steps = DEPOSIT_ROUTE_STEPS.map((step) => ({
     ...step,
@@ -247,6 +261,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     synthesisRoot: synthesis.roots.synthesisRoot,
     policyReportRoot: policy.roots.policyReportRoot,
     admissionReportRoot: admission.roots.admissionReportRoot,
+    earningSupplyIntelligenceRoot: earningSupplyIntelligence.roots.intelligenceRoot,
     steps: steps.map((step) => ({ id: step.id, state: step.state, blockers: step.blockers })),
   });
 
@@ -267,6 +282,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
       depositOptionPipeline: 'DepositAssetPackOptionSynthesis',
       depositOptionPolicy: 'DepositAssetPackOptionPolicy',
       depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport',
+      depositorEarningSupplyIntelligence: 'DepositorEarningSupplyIntelligence',
       reviewRequiredBeforeDepositAdmission: true,
       sourceCriticalityDemandRoiPolicyOwnedByGate6: true,
       sourceCriticalityDemandRoiPolicyDeferredToGate6: true,
@@ -276,6 +292,7 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
     synthesis,
     policy,
     admission,
+    earningSupplyIntelligence,
     disclosure: {
       sourceSafetyClass: 'source_safe_deposit_option_route_metadata',
       lowDetailDefault: true,
@@ -296,17 +313,27 @@ export function assertDepositRouteSessionSourceSafe(session: DepositRouteSession
   const synthesisSafety = assertDepositAssetPackOptionSynthesisSourceSafe(session.synthesis);
   const policySafety = assertDepositAssetPackOptionPolicyReportSourceSafe(session.policy);
   const admissionSafety = assertDepositAssetPackOptionAdmissionReportSourceSafe(session.admission);
+  const earningSupplySafety = assertDepositorEarningSupplyIntelligenceSourceSafe(session.earningSupplyIntelligence);
   const sourceSafe =
     synthesisSafety.admitted &&
     policySafety.admitted &&
     admissionSafety.admitted &&
+    earningSupplySafety.admitted &&
     session.schema === 'bitcode.deposit.route-session' &&
     session.route === '/deposit' &&
     session.stageCount === 5 &&
     session.pipelineOwnership.depositOptionPipeline === 'DepositAssetPackOptionSynthesis' &&
     session.pipelineOwnership.depositOptionPolicy === 'DepositAssetPackOptionPolicy' &&
     session.pipelineOwnership.depositOptionAdmission === 'DepositAssetPackOptionAdmissionReport' &&
+    session.pipelineOwnership.depositorEarningSupplyIntelligence === 'DepositorEarningSupplyIntelligence' &&
     session.pipelineOwnership.reviewRequiredBeforeDepositAdmission === true &&
+    session.earningSupplyIntelligence.schema === 'bitcode.deposit.earning-supply-intelligence' &&
+    session.earningSupplyIntelligence.disclosure.sourceSafeMetadataOnly === true &&
+    session.earningSupplyIntelligence.disclosure.protectedSourceVisible === false &&
+    session.earningSupplyIntelligence.disclosure.rawSourceTextVisible === false &&
+    session.earningSupplyIntelligence.disclosure.unpaidAssetPackSourceVisible === false &&
+    session.earningSupplyIntelligence.disclosure.walletPrivateMaterialVisible === false &&
+    session.earningSupplyIntelligence.disclosure.settlementPrivatePayloadVisible === false &&
     session.pipelineOwnership.sourceCriticalityDemandRoiPolicyOwnedByGate6 === true &&
     session.pipelineOwnership.sourceCriticalityDemandRoiPolicyDeferredToGate6 === true &&
     session.pipelineOwnership.admissionAndIndexingOwnedByGate7 === true &&

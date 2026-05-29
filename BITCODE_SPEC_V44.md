@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 4 Reading budget quote policy work over promoted V43 product routes
+- V44 state: draft Gate 5 Depositor earnings supply opportunity work over promoted V43 product routes
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, and Gate 4 Reading budget quote policy reports; all remain source-safe metadata only
-- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 4 binds `/read` budget and quote policy without changing settlement law
+- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, and Gate 5 Depositor earnings supply opportunity reports; all remain source-safe metadata only
+- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 5 binds `/deposit` earning, demand, ROI, criticality, compensation range, and source-safe supply recommendation readback without minting BTD or admitting value-bearing mainnet
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -245,6 +245,20 @@ value-bearing mainnet admission.
 Gate 5 must bind deposit-side economic clarity: likely demand, unfit Need
 opportunities, ROI posture, source criticality, expected compensation ranges,
 earning statements, and source-safe Depository supply recommendations.
+
+Gate 5 closes through `V44DepositorEarningsSupplyOpportunities` in
+`packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js`,
+deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`,
+`generate:v44-depositor-earnings-supply-opportunities`,
+`check:v44-depositor-earnings-supply-opportunities`, and `check:v44-gate5`.
+The `/deposit` route session now projects `DepositorEarningSupplyIntelligence`
+with source-safe likely demand, unfit Need opportunity signals, ROI posture,
+source criticality posture, estimate-only BTC compensation ranges,
+source-to-shares proof boundaries, earning statements, and supply
+recommendations. `/deposit` renders those earning, opportunity, compensation,
+and recommendation fields without exposing protected source, raw source text,
+unpaid AssetPack source, prompts, provider responses, wallet private material,
+private settlement payloads, or value-bearing mainnet admission.
 
 ## V44 Gate 6 BTD/BTC Accounting And Contributor Compensation Statements
 
@@ -607,7 +621,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | Packs portfolio and market intelligence | implemented-source-safe |
 | `.bitcode/v44-reading-budget-quote-policy.json` | Reading budget and quote policy | implemented-source-safe |
-| `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | planned |
+| `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earnings and supply opportunities | implemented-source-safe |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | planned |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | planned |
 | `.bitcode/v44-enterprise-economic-ux.json` | enterprise economic UX | planned |
@@ -682,6 +696,10 @@ Gate 3 validates with
 Gate 4 validates with `pnpm run generate:v44-reading-budget-quote-policy`,
 `pnpm run check:v44-reading-budget-quote-policy`, and
 `pnpm run check:v44-gate4`.
+Gate 5 validates with
+`pnpm run generate:v44-depositor-earnings-supply-opportunities`,
+`pnpm run check:v44-depositor-earnings-supply-opportunities`, and
+`pnpm run check:v44-gate5`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
@@ -756,7 +774,7 @@ Inherited.
 | `.bitcode/v44-economic-domain-model.json` | economic domain model | implemented-source-safe |
 | `.bitcode/v44-packs-portfolio-market-intelligence.json` | portfolio and market intelligence | implemented-source-safe |
 | `.bitcode/v44-reading-budget-quote-policy.json` | budget and quote policy | implemented-source-safe |
-| `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | planned |
+| `.bitcode/v44-depositor-earnings-supply-opportunities.json` | depositor earning opportunity | implemented-source-safe |
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | planned |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | planned |
 | `.bitcode/v44-enterprise-economic-ux.json` | enterprise economic UX | planned |
