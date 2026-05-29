@@ -155,6 +155,18 @@ and workflow wiring for `/packs`, `/read`, and `/deposit` without exposing
 protected source, unpaid AssetPack source, prompts, provider responses, wallet
 private material, or private settlement payloads.
 
+V43 Gate 9 adds `V43CrossRouteRehearsalTelemetryRepair` through
+`packages/protocol/src/canonical/v43-cross-route-rehearsal-telemetry-repair.js`,
+`packages/protocol/test/v43-cross-route-rehearsal-telemetry-repair.test.js`,
+`.bitcode/v43-cross-route-rehearsal-telemetry-repair.json`,
+`scripts/rehearse-v43-cross-route-product-flow.mjs`,
+`generate:v43-cross-route-rehearsal`, `check:v43-cross-route-rehearsal`, and
+`check:v43-gate9`. It binds local/staging-testnet rehearsal rows for
+`/deposit`, `/read`, `/packs`, telemetry/database readback,
+ledger/database/storage synchronization, repair posture, settlement delivery,
+and compensation readback while keeping receipts source-safe and value-bearing
+mainnet execution blocked.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.
