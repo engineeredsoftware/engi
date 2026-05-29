@@ -330,7 +330,10 @@ function buildPredicateResults(repoRoot) {
       SOURCE_ROOTS.roadmap,
       sources.roadmap.includes('V42 Gate 8 closure anchor') &&
         (sources.roadmap.includes('Current working gate: V42 Gate 8') ||
-          sources.roadmap.includes('Current working gate: V42 Gate 9')),
+          sources.roadmap.includes('Current working gate: V42 Gate 9') ||
+          sources.roadmap.includes('Latest closed version: V42 Reliable MVP Experience') ||
+          sources.roadmap.includes('Recent V42 canonical promotion anchor') ||
+          sources.roadmap.includes('Current working gate: V43 Gate')),
     ),
     predicateResult('readmes-document-gate8', SOURCE_ROOTS.rootReadme, sources.rootReadme.includes('V42 Gate 8') && sources.protocolReadme.includes('V42LocalStagingMvpRehearsal') && sources.assetPackReadme.includes('ReadingLocalStagingRehearsal') && sources.terminalReadme.includes('local/staging')),
   ];

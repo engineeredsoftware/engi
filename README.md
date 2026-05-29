@@ -1,16 +1,23 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V41`; V42 is the active draft target for reliable MVP product
-experience after the promoted Prompt and PromptPart excellence canon.
+resolves to `V42`; V43 is the active draft target for the Packs, Read, Deposit
+route model, agentic deposit AssetPack options, and product UX cleanup after the
+promoted reliable MVP experience canon.
 
 ## Current Product Posture
 
 Bitcode is the protocol and the commercial source tree implements it in-place.
-The primary operator routes are:
+The promoted V42 operator route is still:
 
 - `/terminal` for depositing, reading, transaction work, and protocol follow-through.
 - `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
+
+The active V43 draft target moves the primary enterprise routes to:
+
+- `/packs` for searchable master-detail pack activity.
+- `/read` for the five-step Reading path from Read Request to settlement-gated delivery.
+- `/deposit` for connected-source deposit AssetPack option synthesis, review, and admission.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
@@ -155,13 +162,14 @@ V42 Gate 9 adds promotion readiness with `buildV42PromotionReadinessReport`,
 The report binds every V42 product artifact, workflow posture, promotion
 script, generated proof path, source-safety result, value-bearing mainnet
 block, and post-promotion V42 active / draft V43 runtime preparation.
-V43+ is roadmapped as the later agentic depositing evolution: repository
+V43 Gate 1 opens the Packs, Read, Deposit roadmap over active V42 with
+`check:v43-gate1`. V43 owns the agentic depositing evolution: repository
 agents synthesize deposit AssetPack options from connected enterprise code,
 Depository state, and Reading demand; enterprises approve or reject
 sub-critical positive-ROI options; `/terminal` separates into `/read` and
 `/deposit`; and `/exchange` is renamed to `/packs` across routes, component
-prefixes, tests, docs, and product naming.
-That future route model treats AssetPacks as the product object in and out:
+prefixes, tests, docs, telemetry labels, and product naming.
+The V43 route model treats AssetPacks as the product object in and out:
 `/deposit` proposes deposit AssetPack options from source and Bitcode demand,
 `/read` buys synthesized Need-Fit AssetPacks, and `/packs` becomes the
 searchable master-detail activity surface for pack measurements, values,

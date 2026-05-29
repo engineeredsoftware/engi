@@ -66,6 +66,12 @@ Current exported commercial helpers include:
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
+V43 Gate 1 opens the Packs, Read, Deposit draft over `V42` active, `V43`
+draft posture. It specifies `/exchange` to `/packs`, `/terminal` separation
+into `/read` and `/deposit`, agentic deposit AssetPack option synthesis,
+searchable pack activity master-detail, source-safe option review, and product
+UX cleanup through `check:v43-gate1`.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

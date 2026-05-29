@@ -220,7 +220,11 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'roadmap-records-gate2-closure',
       SOURCE_ROOTS.roadmap,
-      roadmap.includes('Current working gate: V42 Gate') && roadmap.includes('V42 Gate 2 closure anchor'),
+      roadmap.includes('V42 Gate 2 closure anchor') &&
+        (roadmap.includes('Current working gate: V42 Gate') ||
+          roadmap.includes('Latest closed version: V42 Reliable MVP Experience') ||
+          roadmap.includes('Recent V42 canonical promotion anchor') ||
+          roadmap.includes('Current working gate: V43 Gate')),
     ),
   ];
 }

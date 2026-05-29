@@ -482,7 +482,8 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'roadmap-preserves-v41-prompt-programs',
       'SPECIFICATIONS_ROADMAP.md',
-      roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` | active canon | Prompt and PromptPart excellence') &&
+      roadmap.includes('| V41 | `BITCODE_SPEC_V41.md` |') &&
+        roadmap.includes('Prompt and PromptPart excellence') &&
         roadmap.includes('prompts as programs'),
     ),
     ...rowPredicates,
