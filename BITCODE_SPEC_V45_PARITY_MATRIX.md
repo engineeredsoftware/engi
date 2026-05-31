@@ -119,6 +119,15 @@ Acceptance:
 - Route/API pack activity projection can display state without protected source.
 - `check:v45-gate12` passes locally and in gate-quality CI.
 
+Gate 12 implementation readback:
+
+- Commodity state vocabulary and source-safe projector: `packages/pipelines/asset-pack/src/asset-pack-commodity-state.ts`.
+- Commodity state coverage: `packages/pipelines/asset-pack/src/__tests__/asset-pack-commodity-state.test.ts`.
+- `/packs` activity display binding: `uapi/components/base/bitcode/activity/pack-activity-model.ts`.
+- `/packs` activity regression coverage: `uapi/tests/packActivityModel.test.ts`.
+- Package and interface resolution: `packages/pipelines/asset-pack/package.json`, `packages/pipelines/asset-pack/src/index.ts`, and `uapi/jest.config.cjs`.
+- Closure checker: `check:v45-gate12`.
+
 ### Gate 13: BTD Scalar Volume And Deterministic Quote Conservation
 
 Gate class: `implementation`.

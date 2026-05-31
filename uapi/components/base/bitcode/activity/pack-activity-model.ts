@@ -2,6 +2,13 @@ import type {
   BitcodeActivityRecord,
   BitcodeActivityScope,
 } from '@/components/base/bitcode/activity/bitcode-activity-model';
+import {
+  assertAssetPackCommodityStateProjection,
+  buildAssetPackCommodityStateProjection,
+  projectAssetPackCommodityStateForPayload,
+  toSourceSafeAssetPackCommodityStateDisplay,
+  type AssetPackCommodityStateDisplay,
+} from '@bitcode/pipeline-asset-pack/asset-pack-commodity-state';
 
 export type PackActivityType =
   | 'deposit-option'
@@ -99,6 +106,7 @@ export interface PackActivityRecord {
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
+  commodityState: AssetPackCommodityStateDisplay;
   accounting: PackActivityAccountingReadback | null;
   governance: PackActivityGovernanceReadback | null;
   sourceSafety: PackActivitySourceSafety;
@@ -141,6 +149,7 @@ export interface PackActivityDetailProjection {
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
+  commodityState: AssetPackCommodityStateDisplay;
   accounting: PackActivityAccountingReadback | null;
   governance: PackActivityGovernanceReadback | null;
   states: {
@@ -617,13 +626,35 @@ function readState(record: BitcodeActivityRecord, keys: string[]) {
   return findFirstString(record.payload, keys);
 }
 
+function buildCommodityStateDisplay(payload: unknown): AssetPackCommodityStateDisplay {
+  const projection = projectAssetPackCommodityStateForPayload(payload);
+  try {
+    return toSourceSafeAssetPackCommodityStateDisplay(assertAssetPackCommodityStateProjection(projection));
+  } catch (error) {
+    const repairProjection = buildAssetPackCommodityStateProjection({ payload, repairRequired: true });
+    const repairDisplay = toSourceSafeAssetPackCommodityStateDisplay(repairProjection);
+    const reason = error instanceof Error ? error.message : String(error);
+    return {
+      ...repairDisplay,
+      blockers: [...new Set([...projection.blockers, ...repairDisplay.blockers, reason])],
+    };
+  }
+}
+
 export function normalizePackActivityRecord(record: BitcodeActivityRecord): PackActivityRecord {
   const type = inferPackActivityType(record);
   const metadata = redactMetadata(record.payload) as Record<string, unknown>;
-  const settlementState = readState(record, ['settlementState', 'settlement_state', 'finalityState']);
-  const compensationState = readState(record, ['compensationState', 'compensation_state', 'sourceToSharesState']);
-  const deliveryState = readState(record, ['deliveryState', 'delivery_state', 'pullRequestState']);
-  const repairState = readState(record, ['repairState', 'repair_state', 'reconciliationState']);
+  const commodityState = buildCommodityStateDisplay(record.payload);
+  const settlementState = readState(record, ['settlementState', 'settlement_state', 'finalityState']) || commodityState.btcState;
+  const compensationState =
+    readState(record, ['compensationState', 'compensation_state', 'sourceToSharesState']) ||
+    (commodityState.assetPackState === 'compensated-and-reconciled' ? commodityState.assetPackState : null);
+  const deliveryState =
+    readState(record, ['deliveryState', 'delivery_state', 'pullRequestState']) ||
+    (commodityState.assetPackState === 'source-unlocked-delivery' ? commodityState.assetPackState : null);
+  const repairState =
+    readState(record, ['repairState', 'repair_state', 'reconciliationState']) ||
+    (commodityState.repairRequired ? 'repair-required' : null);
 
   return {
     id: record.id,
@@ -632,7 +663,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     title: record.title || normalizeLabel(type),
     description: record.summary || 'Pack activity',
     timestamp: record.timestamp,
-    state: record.state,
+    state: record.state || commodityState.assetPackState,
     repository: inferRepository(record),
     assetPackTitle: inferAssetPackTitle(record),
     settlementState,
@@ -642,6 +673,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     measurements: buildMeasurements(record),
     values: buildValues(record),
     proofRoots: [...collectProofRoots(record.payload).values()].slice(0, 24),
+    commodityState,
     accounting: buildAccountingReadback(record),
     governance: buildGovernanceReadback(record),
     sourceSafety: SOURCE_SAFETY,
@@ -689,6 +721,10 @@ function buildSearchText(record: PackActivityRecord) {
     record.compensationState,
     record.deliveryState,
     record.repairState,
+    record.commodityState.assetPackState,
+    record.commodityState.btdState,
+    record.commodityState.btcState,
+    record.commodityState.disclosureBoundary,
     ...record.measurements.flatMap((measurement) => [
       measurement.id,
       measurement.label,
@@ -845,6 +881,7 @@ export function buildPackActivityDetailProjection(
     measurements: record.measurements,
     values: record.values,
     proofRoots: record.proofRoots,
+    commodityState: record.commodityState,
     accounting: record.accounting,
     governance: record.governance,
     states: {

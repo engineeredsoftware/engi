@@ -84,6 +84,7 @@ describe('pack-activity-model', () => {
         },
       },
       assetPackMeasurementRoot: 'measurement-root-abc',
+      quoteRoot: 'quote-root-abc',
       settlementReceiptRoot: 'settlement-root-def',
       protectedSource: 'protected source body',
       rawPrompt: 'raw prompt text',
@@ -105,6 +106,13 @@ describe('pack-activity-model', () => {
       settlementState: 'quote_ready',
       compensationState: 'source_to_shares_preview_ready',
       deliveryState: 'locked_until_settlement',
+    });
+    expect(record.commodityState).toMatchObject({
+      assetPackState: 'need-fit-assetpack-quoted',
+      btdState: 'btd-quote-bound',
+      btcState: 'btc-quote-issued',
+      disclosureBoundary: 'after-quote',
+      repairRequired: false,
     });
     expect(record.measurements.some((measurement) => measurement.id === 'measured-btd')).toBe(true);
     expect(record.values.some((value) => value.id === 'btc-fee')).toBe(true);
@@ -161,6 +169,8 @@ describe('pack-activity-model', () => {
 
     const detail = buildPackActivityDetailProjection(result.records[0]);
     expect(detail.states.settlement).toBe('quote_ready');
+    expect(detail.commodityState.assetPackState).toBe('need-fit-assetpack-quoted');
+    expect(detail.commodityState.sourceSafety.protectedSourceVisible).toBe(false);
     expect(detail.accounting?.statementRoot).toBe('btd-btc-accounting-root-abc');
     expect(detail.governance?.authorityRoot).toBe('organization-authority-root-abc');
     expect(detail.proofRoots.length).toBeGreaterThan(0);
@@ -196,6 +206,36 @@ describe('pack-activity-model', () => {
     expect(assertPackActivitySourceSafe(record)).toBe(true);
     expect(JSON.stringify(record)).not.toContain('protected source body');
     expect(JSON.stringify(record)).not.toContain('raw provider response');
+  });
+
+  it('fails malformed Pack commodity state closed into source-safe repair activity', () => {
+    const record = normalizePackActivityRecord({
+      ...baseRecord,
+      id: 'pack-activity-unsafe-collapse',
+      payload: {
+        type: 'pipeline:read-fits',
+        assetPackTitle: 'Unsafe source unlock observation',
+        sourceAvailable: true,
+        protectedSource: 'protected source body',
+      },
+    });
+
+    expect(record.commodityState).toMatchObject({
+      assetPackState: 'repair-required',
+      btdState: 'btd-repair-required',
+      btcState: 'btc-settlement-repair-required',
+      disclosureBoundary: 'after-repository-delivery',
+      repairRequired: true,
+    });
+    expect(record.repairState).toBe('repair-required');
+    expect(record.commodityState.blockers).toEqual(
+      expect.arrayContaining([
+        'source_unlock_without_btd_rights_transfer',
+        'rights_or_delivery_without_btc_finality',
+      ]),
+    );
+    expect(assertPackActivitySourceSafe(record)).toBe(true);
+    expect(JSON.stringify(record)).not.toContain('protected source body');
   });
 
   it('builds source-safe portfolio positions, saved filters, market signals, and facets', () => {

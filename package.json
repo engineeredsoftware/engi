@@ -397,6 +397,7 @@
     "check:v45-gate9": "node scripts/check-v45-gate9-gate-taxonomy-formal-spec-readiness.mjs",
     "check:v45-gate10": "node scripts/check-v45-gate10-formal-spec-consolidation.mjs",
     "check:v45-gate11": "node scripts/check-v45-gate11-implementation-parity-audit.mjs",
+    "check:v45-gate12": "node scripts/check-v45-gate12-state-vocabulary-commodity-model.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",
