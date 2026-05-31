@@ -117,10 +117,16 @@ function main() {
     'Implementation follows accepted parity gaps',
     'Promotion alone may advance `BITCODE_SPEC.txt`',
     'implementation parity is not yet audited',
-    'This parity matrix is the formal shell for the next V45 gate',
   ]) {
     assertCheck(failures, combined.includes(phrase), `V45 formal family must include phrase: ${phrase}`);
   }
+
+  assertCheck(
+    failures,
+    combined.includes('This parity matrix is the formal shell for the next V45 gate')
+      || combined.includes('V45 Gate 11 source-grounded implementation parity audit'),
+    'V45 formal family must include either the Gate 10 parity shell or the Gate 11 audited parity matrix phrase.',
+  );
 
   assertCheck(
     failures,
