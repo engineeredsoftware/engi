@@ -618,6 +618,68 @@ than authority, Bitcoin finality as payment truth, storage and repository roots
 as delivery truth, database projections as reconciled read models, and
 fail-closed repair for every evidence mismatch.
 
+## V45 protocol-development atom 8: gate taxonomy and formal spec readiness
+
+Audit classification: the opening V45 questions have now been reduced into
+accepted notes-level protocol atoms for Bitcode identity, AssetPack lifecycle,
+BTD scalar-volume, BTC settlement, notes-to-spec sequencing, interface
+authority, disclosure boundaries, proof readback, and operational authority.
+The remaining opening question is process taxonomy: which gates are allowed to
+change notes, formal specification, parity matrices, proofs, interfaces,
+implementations, rehearsals, and promotion state.
+
+Protocol-development law:
+
+V45 gates must be classified before the formal specification consolidation
+begins. A gate's class defines what it may change, what it must not claim, and
+which proof obligations close it. No gate may claim a stronger class than its
+accepted artifacts prove. Notes-level atom gates are discussion-to-law
+preparation; formal specification gates are draft canon authoring; parity gates
+are implementation audit; proof-only gates harden validation; interface-only
+gates adjust protocol windows; implementation gates close audited parity gaps;
+rehearsal gates prove whole-system behavior; promotion gates alone may advance
+`BITCODE_SPEC.txt`.
+
+The canonical V45 gate taxonomy is:
+
+| Gate class | Allowed output | Required closure evidence | Forbidden shortcut |
+| --- | --- | --- | --- |
+| `notes-specification-atom` | one small accepted note atom in `BITCODE_SPEC_V45_NOTES.md` plus its checker | local atom check, prior atom checks, draft-canon posture check, clean diff, PR into `version/v45` | changing source behavior, claiming implementation parity, or updating `BITCODE_SPEC.txt` |
+| `formal-specification-consolidation` | V45 specification family documents updated from all accepted notes atoms | spec-family validation, terminology reconciliation, prior notes checks, generated proof posture when applicable | auditing implementation from loose notes or leaving accepted atoms outside the formal spec |
+| `specification-parity-matrix` | matrix mapping formal V45 law to code, tests, proofs, workflows, docs, generated artifacts, and interfaces | cited formal V45 specification sections, source-grounded audit, categorized gaps, closure groups | using PR discussion, memory, or notes as primary implementation authority |
+| `proof-only` | validators, generated proofs, workflow checks, replay checks, or CI hardening | deterministic command output, CI greenability, no product-state mutation unless specified | silently changing protocol behavior under validation work |
+| `interface-only` | source-safe UX/UI, route, API/MCP, ChatGPT App, Bitcode Chat, docs, or landing-page presentation changes | entitlement/disclosure trace to formal spec, accessible UI proof when relevant, read-model tests | making interface copy or telemetry authoritative over protocol readback |
+| `implementation` | commercial source code, schemas, APIs, pipelines, storage, ledger, settlement, delivery, or package behavior closing accepted parity gaps | focused tests, integration proof where relevant, source-safety checks, parity row closure | implementing behavior not traced to formal spec and parity matrix |
+| `rehearsal` | end-to-end proof run, browser/API/database/ledger/storage replay, staged or local system validation | replayable receipts, logs, screenshots when relevant, ledger/database/storage reconciliation | counting a mocked unit test as whole-system commercial proof |
+| `promotion` | formal version promotion PR into `main` and promotion workflow result | complete gate ledger, green promotion workflow, generated proof update, standalone `BITCODE_SPEC.txt` pointer update after validations | promoting while accepted gates, parity gaps, proofs, or required checks remain open |
+
+Readiness law:
+
+- The notes-specification atom set for the V45 opening is complete enough to
+  begin formal specification consolidation after this atom is accepted.
+- Formal consolidation must preserve the accepted semantics of all notes atoms:
+  AssetPack as commodity, Need-relative BTD scalar-volume, BTC settlement
+  finality, source-safe disclosure boundaries, proof-backed readback, and
+  fail-closed repair.
+- Formal consolidation may reorganize, rename headings, or split sections for
+  clarity, but it must not weaken or omit accepted atom law without an explicit
+  new notes-specification atom.
+- After consolidation, the parity matrix gate must treat the formal V45
+  specification family as the only implementation-audit authority.
+- Proof-only and interface-only gates may occur after the parity matrix when
+  their changes close matrix rows; they are not loopholes for speculative
+  product behavior.
+- Promotion remains prohibited until formal specification, parity, grouped
+  implementation, proof, interface, rehearsal, and promotion-readiness gates
+  are accepted according to this taxonomy.
+
+Acceptance for this atom: later V45 process work may split gate classes or add
+stricter closure evidence, but it must preserve class-scoped authority,
+formal-specification consolidation as the next movement after accepted notes,
+parity auditing from the formal V45 specification, implementation only from
+accepted parity gaps, and `BITCODE_SPEC.txt` promotion only through the
+promotion gate.
+
 ## Non-goals during V45 opening
 
 - Do not implement V45 gate behavior before the V45 intent discussion is
