@@ -548,6 +548,76 @@ entitlement, explicit non-final language for preview/quote/payment
 observation, authoritative readback for final settlement and rights transfer,
 and repository delivery visibility only for the entitled Reader boundary.
 
+## V45 protocol atom 7: proof readback and operational authority
+
+Audit classification: V44 establishes generated specification proof,
+ledgerized journaling, telemetry, database/storage synchronization, workflow
+checks, and source-safe repair posture. The remaining gap is evidence
+authority: which operational artifacts can advance protocol state, which are
+only observability, and what happens when proof, ledger, database, storage,
+telemetry, provider, or delivery evidence disagrees.
+
+Protocol-law statement:
+
+Bitcode state advances only by proof-backed readback. No UI row, conversation
+message, streamed telemetry item, route response, external provider event, or
+workflow log can alone advance AssetPack lifecycle, BTD rights, BTC settlement,
+source unlock, delivery, or contributor compensation. The advancing artifact
+must be paired with the required proof root and read back from the appropriate
+ledger, database, storage, wallet, provider, or repository boundary.
+
+Canonical evidence authority is:
+
+| Evidence class | Protocol authority | Limit |
+| --- | --- | --- |
+| canonical specification and generated proof appendix | defines protocol law, required proof families, and promotion-grade validation posture | not a live transaction, wallet, source, or delivery receipt |
+| execution/workflow receipt | proves a pipeline, PTRR agent, tool, route, workflow, or validation step ran with typed inputs/outputs and status | not economic finality and not source entitlement unless joined to settlement and rights readback |
+| ledger journal | records protocol-economic state transitions, BTD/BTC journals, repair states, and auditable event ordering | cannot override Bitcoin finality, protected storage, or repository delivery evidence |
+| database projection | serves queryable application state, interface read models, and reconciliation indexes | cannot be treated as final when it diverges from ledger, storage, wallet, or delivery roots |
+| object storage and protected-source roots | prove content custody, source-safe preview objects, source-bearing withheld pack objects, and delivery payload roots | cannot disclose source without entitlement, rights transfer, and delivery authority |
+| telemetry stream | makes running phases, agents, tools, prompts, outputs, timings, and errors observable | observability only; telemetry is not settlement, rights transfer, or source unlock |
+| wallet/provider receipt | supplies quote, PSBT, broadcast, observation, txid, block/finality, or network evidence | provider observation is not final settlement until reconciled with quote, wallet authority, and finality policy |
+| repository delivery receipt | proves pull request, branch, commit, patch, or delivery artifact reached the entitled repository boundary | not public source permission and not contributor compensation by itself |
+
+Canonical readback requirements are:
+
+| State advancement | Required readback before advancement |
+| --- | --- |
+| Depository admission | depositor approval root, source-safety proof, policy eligibility, protected-source storage root, Depository index root, ledger/database projection |
+| reviewed Need acceptance | Read Request root, Need synthesis receipt, user review/approval root, database read model, telemetry summary root |
+| Finding Fits selection | search receipt, candidate provenance roots, measurement/ranking roots, source-safe Fit set root, depository readback |
+| Need-Fit AssetPack synthesis | selected Fit set root, synthesis execution receipt, source-bearing withheld storage root, source-safe preview root, measurement/BTD posture root |
+| BTC quote issuance | reviewed Need root, selected Fit set root, Need-Fit AssetPack root, BTD volume/range roots, deterministic quote root, wallet/network policy root |
+| BTC payment observation | accepted quote root, wallet authority root, provider observation, txid/network/amount readback, mismatch classification if any |
+| BTC settlement finalization | payment observation, configured finality receipt, quote/payment conservation, ledger/database/storage agreement, repair-free settlement receipt |
+| BTD rights transfer | finalized settlement root, BTD range/rights receipt, entitled Reader boundary, ledger/database readback |
+| source unlock and repository delivery | rights transfer root, protected-source object readback, delivery payload root, repository PR/commit receipt, entitled repository boundary |
+| contributor compensation | finalized settlement root, source-to-shares allocation root, contributor roots, compensation statement, ledger/database reconciliation |
+
+Operational repair law:
+
+- If any required readback is missing, stale, contradictory, or outside the
+  allowed actor/network/source boundary, the state must remain in or return to
+  a source-safe repair state.
+- Repair state may expose failure class, blocker, retry command, proof root
+  identifiers, and operator-safe telemetry, but not unpaid source, secrets,
+  wallet private material, raw provider payloads, raw prompts, or raw model
+  responses.
+- Computation hosts, sandbox executions, workflow runners, browser proofs, and
+  API routes may produce receipts, but they do not own protocol truth. They
+  must write/read through the canonical proof, ledger, database, storage,
+  wallet, and repository boundaries.
+- If evidence classes conflict, Bitcode must prefer the stricter
+  source-safety and economic-finality posture until reconciliation proves the
+  correct state.
+
+Acceptance for this atom: later V45 formal specification and implementation
+work may split the readback tables, but it must preserve proof-backed readback
+as the only state advancement mechanism, telemetry as observability rather
+than authority, Bitcoin finality as payment truth, storage and repository roots
+as delivery truth, database projections as reconciled read models, and
+fail-closed repair for every evidence mismatch.
+
 ## Non-goals during V45 opening
 
 - Do not implement V45 gate behavior before the V45 intent discussion is
