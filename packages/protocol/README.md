@@ -280,6 +280,19 @@ repair cases, and 54 PackActivity rows; staging-testnet project
 freshness; and source-safety tests for scaled many-pack economic operation
 without secret serialization or value-bearing mainnet admission.
 
+V44 Gate 10 adds `V44PromotionReadinessReport` through
+`packages/protocol/src/canonical/v44-promotion-readiness-report.js`,
+`packages/protocol/test/v44-promotion-readiness.test.js`,
+`.bitcode/v44-promotion-readiness-report.json`,
+`generate:v44-promotion-readiness`, `check:v44-promotion-readiness`,
+`check:v44-gate10`, and `v44-canon-promotion.yml`. It binds all V44 gate
+artifacts, source-safe promotion metadata, generated PROVEN support, promotion
+script support, workflow posture, package exports, and the promoted
+`V44` active, `V45` draft posture without serializing secrets, protected source,
+unpaid AssetPack source, raw prompts, provider payloads, wallet private
+material, private settlement payloads, live logs, or value-bearing mainnet
+admission.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

@@ -786,6 +786,15 @@ export const V44_SCALED_NETWORK_REHEARSAL_MINIMUM_COUNTS: Readonly<Record<string
 export const V44_SCALED_NETWORK_REHEARSAL_FORBIDDEN_PAYLOAD_IDS: readonly string[];
 export const V44_SCALED_NETWORK_REHEARSAL_ROWS: readonly Record<string, unknown>[];
 export function buildV44ScaledNetworkRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V44_PROMOTION_READINESS_REPORT_ARTIFACT_PATH: string;
+export const V44_PROMOTION_READINESS_REPORT_CURRENT_TARGET: string;
+export const V44_PROMOTION_READINESS_REPORT_SCHEMA_ID: string;
+export const V44_PROMOTION_READINESS_REPORT_VERSION: string;
+export const V44_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: string;
+export const V44_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
+export const V44_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
+export function buildV44PromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function listMissingV44PromotionReadinessSources(repoRoot?: string): string[];
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

@@ -392,6 +392,17 @@ source, prompts, provider payloads, credentials, wallet private material,
 private settlement payloads, live rehearsal logs, and value-bearing mainnet
 operation.
 
+V44 Gate 10 adds `V44PromotionReadinessReport`,
+`.bitcode/v44-promotion-readiness-report.json`,
+`generate:v44-promotion-readiness`, `check:v44-promotion-readiness`,
+`check:v44-gate10`, and `v44-canon-promotion.yml`. It binds all V44 scaled
+engineering economy artifacts, source-safe promotion metadata, generated
+`BITCODE_SPEC_V44_PROVEN.md` support, gate/canon workflow posture, promotion
+scripts, protocol tests, and the promoted `V44` active, `V45` draft runtime
+posture while continuing to withhold protected source, unpaid AssetPack source,
+raw prompts, provider payloads, credentials, wallet private material, private
+settlement payloads, live rehearsal logs, and value-bearing mainnet operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement
