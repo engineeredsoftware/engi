@@ -265,6 +265,76 @@ separation, source visibility boundaries, Need-relative BTD calculation
 condition, one-to-many Finding Fits input set, BTC settlement-before-source law,
 and repair-required fail-closed posture.
 
+## V45 protocol atom 3: BTD scalar-volume state machine
+
+Audit classification: V44 names BTD range, rights transfer, BTC settlement,
+and source-to-shares accounting, and the BTD package already owns semantic
+volume measurement, measureminting, range allocation, mint receipts, read
+receipts, rights transfer receipts, and contributor allocation. V45 must make
+the protocol meaning explicit: BTD is first the weighted scalar
+knowledge-volume of a Need-Fit AssetPack, and only its settled form carries
+rights, source unlock, ownership boundaries, and contributor allocation
+context.
+
+Protocol-law statement:
+
+BTD is the non-fungible, proof-addressed scalar unit of technical knowledge
+volume for a Need-Fit AssetPack. Deposit-time measurement may estimate BTD
+potential, but final BTD size is only computed after a reviewed Need, selected
+Fit set, synthesized Need-Fit AssetPack, deterministic measurement weights,
+dedupe proofs, and source-safe proof roots exist. BTC remains the payment
+asset. BTD is not money, not a spendable balance, not raw source, not a
+fungible exchange token, and not final merely because a deposit was admitted.
+
+The canonical BTD state machine is:
+
+| State | Meaning | Required inputs | Output posture |
+| --- | --- | --- | --- |
+| `btd-not-applicable` | Raw source, a Read Request, or an unreviewed pipeline output is not BTD. | none | no BTD claim |
+| `btd-potential-measured` | Deposit or market intelligence has source-safe measurements that may estimate future utility. | deposit option root, source-safety root, measurement roots | potential/range language only; no final BTD size |
+| `need-fit-measurements-admitted` | A reviewed Need, selected Fit set, and synthesized Need-Fit AssetPack admit measurement rows. | accepted Need root, selected Fit root, synthesis root, dedupe roots | admissible measurement vector |
+| `measurement-weight-policy-locked` | Deterministic measurement weights are bound before scalar volume calculation. | weight policy id/hash, measurement taxonomy root, versioned formula root | no post hoc reweighting |
+| `weighted-scalar-volume-computed` | Each admissible measurement contributes `normalizedMeasurementVolume * measurementWeight`, summed with fixed-point arithmetic into BTD scalar knowledge-volume. | admitted measurement vector, weight policy root, dedupe roots, proof roots | Need-relative normalized BTD volume |
+| `btd-quantized` | The normalized scalar volume is quantized into protocol BTD cell count or zero-cell tail posture. | normalized BTD volume, quantization root, fixed supply parameters | quoteable BTD token count or zero-cell receipt |
+| `measuremint-applied` | The measureminting curve applies cumulative admitted measurement against fixed supply. | prior measuremint state, normalized BTD volume, settlement journal root, access policy hash | measuremint receipt and next measuremint state |
+| `btd-range-assigned` | A non-overlapping AssetPack BTD range is assigned when positive cells are minted. | measuremint receipt, supply state, range allocation inputs | source-safe mint receipt; no Reader rights yet |
+| `btd-quote-bound` | The BTD volume/range and access policy are bound to a BTC quote for the Reader. | BTD receipt roots, quote root, budget approval root when required | source-safe quote; no payment finality |
+| `btd-rights-pending` | BTC payment may be prepared, signed, broadcast, or observed, but finality and rights transfer are incomplete. | payment observation root, quote root, ledger journal root | source remains locked |
+| `btd-rights-transferred` | Confirmed BTC settlement authorizes BTD rights transfer to the Reader boundary. | confirmed BTC finality root, rights transfer receipt, ledger projection root | rights-bearing BTD and source unlock authority |
+| `btd-source-to-shares-allocated` | Contributor compensation is allocated from the paid Need-Fit settlement. | source-to-shares proof, BTD range slices, BTC payment observation, contributor roots | allocation and compensation readback |
+| `btd-repair-required` | Measurement, weight, mint, range, quote, payment, rights, allocation, or reconciliation proof is missing or stale. | repair blocker root | fail-closed repair only |
+
+Measurement law:
+
+- Every final BTD measurement row must be Need-relative, accepted, deduped,
+  proof-rooted, and tied to the selected Fit set that contributed to the
+  synthesized Need-Fit AssetPack.
+- Measurement weights are deterministic protocol policy, not UI preference,
+  operator discretion, model confidence alone, or depositor-provided pricing.
+- Scalar volume calculation uses fixed-point or integer arithmetic. Floating
+  rounding, hidden post-processing, or undocumented prompt-derived weights are
+  not protocol-valid.
+- Deposit-time measurements may inform depositor review, Depository search,
+  market intelligence, and BTD potential, but they cannot mint, transfer,
+  quote final BTD, unlock source, or allocate contributor shares without a
+  reviewed Need and selected Fit set.
+- Positive BTD cells must conserve fixed supply and occupy a contiguous,
+  non-overlapping AssetPack range. Zero-cell tail receipts remain valid
+  measuremint evidence but cannot be represented as positive rights-bearing
+  BTD cells.
+- Rights-bearing BTD exists only after BTC settlement finality and BTD rights
+  transfer. Before that, BTD volume/range is preview or quote state only.
+- Source-to-shares uses the settled Need-Fit AssetPack, selected Fit deposits,
+  BTD range slices, and BTC payment observation to allocate contributor
+  compensation; it must not be confused with scalar-volume calculation.
+
+Acceptance for this atom: later V45 specification may refine measurement
+taxonomy and formula constants, but it must preserve BTD as Need-relative
+weighted scalar knowledge-volume, deposit-time BTD potential as non-final,
+deterministic fixed-point measurement weighting, measuremint/range conservation,
+zero-cell tail posture, BTC-before-rights law, and source-to-shares as
+post-settlement contributor allocation rather than BTD size.
+
 ## Non-goals during V45 opening
 
 - Do not implement V45 gate behavior before the V45 intent discussion is
