@@ -5,7 +5,7 @@
   "currentTarget": "V43",
   "sourceSafetyVerdict": "source-safe-economic-domain-model-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v44-economic-domain-model:a8b333f5729c3a2b0cfeab75",
+  "artifactRoot": "v44-economic-domain-model:a664b6afdd9ebb65eae6f55f",
   "passed": true,
   "economicObjectIds": [
     "EnterprisePackPortfolio",
@@ -758,27 +758,27 @@
     }
   ],
   "sourceRoots": {
-    "activePointer": "BITCODE_SPEC.txt:4ea77b214c66f69c697bff3d",
-    "spec": "BITCODE_SPEC_V44.md:91385322115cf9d915c3634c",
-    "delta": "BITCODE_SPEC_V44_DELTA.md:59b21d4250d53b50aece7183",
-    "notes": "BITCODE_SPEC_V44_NOTES.md:b2d9a2a59e3ffdade67547c9",
-    "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:4ac393fc8a1cb1959eadac5c",
+    "activePointer": "BITCODE_SPEC.txt:c986a5cd7104e321d4218fd5",
+    "spec": "BITCODE_SPEC_V44.md:02e482b8d45b070d4e37d79b",
+    "delta": "BITCODE_SPEC_V44_DELTA.md:91b54b2cbd8972d988982a1c",
+    "notes": "BITCODE_SPEC_V44_NOTES.md:67b447545e1d09119d71c002",
+    "parity": "BITCODE_SPEC_V44_PARITY_MATRIX.md:69249981126a45936151a6e7",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:0651a1ea31db9a4af225b762",
     "readme": "README.md:ef6c7b33c7a6a3535012932a",
-    "protocolReadme": "packages/protocol/README.md:fd232f7266632704b2c20ce7",
+    "protocolReadme": "packages/protocol/README.md:aae160562370392979c25d42",
     "packageJson": "package.json:75e2eab494df4827d441b9c8",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:a6b07a149236a411facd8f36",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:6f265809cffee88a188b61c8",
     "packageIndex": "packages/protocol/src/index.js:798966be5ed4885a90d6f413",
     "packageTypes": "packages/protocol/src/index.d.ts:530ef72edae6788a72dff6de",
-    "packageSource": "packages/protocol/src/canonical/v44-economic-domain-model.js:21b8f5c80ad8322dff2909ed",
+    "packageSource": "packages/protocol/src/canonical/v44-economic-domain-model.js:9b22edfd91b3179d68f9c66e",
     "packageTest": "packages/protocol/test/v44-economic-domain-model.test.js:b89f71aa0cf578dabbec3cd9",
     "generator": "scripts/generate-v44-economic-domain-model.mjs:3390fbc087e919bedb14550c",
     "checker": "scripts/check-v44-gate2-economic-domain-model.mjs:01a1d9b3df0f75545ddb7e12"
   },
   "predicateResults": [
     {
-      "id": "active-canon-pointer-remains-v43",
+      "id": "active-canon-pointer-supports-v44-draft-or-promoted",
       "sourcePath": "BITCODE_SPEC.txt",
       "passed": true
     },

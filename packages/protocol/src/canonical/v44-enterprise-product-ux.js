@@ -180,9 +180,9 @@ function buildPredicateResults(repoRoot) {
 
   return [
     predicateResult(
-      'active-canon-pointer-remains-v43',
+      'active-canon-pointer-supports-v44-draft-or-promoted',
       SOURCE_ROOTS.activePointer,
-      sources.activePointer.trim() === 'V43',
+      ['V43', 'V44'].includes(sources.activePointer.trim()),
     ),
     predicateResult(
       'spec-defines-gate8',
