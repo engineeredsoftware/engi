@@ -6,14 +6,43 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V44`
 - Active canonical anchor: `BITCODE_SPEC_V44.md`
 - Active generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- V45 state: notes-only draft opening
-- Scope: discussion-prep notes for the next Bitcode canon candidate after V44 scaled engineering economy promotion
+- Current canonical/latest target: `V44`
+- Prior canonical anchor: `BITCODE_SPEC_V44.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
+- Generated structured artifact inventory: V45 draft specification consolidation introduces `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, V45 notes atom checkers, and the pending V45 formal proof appendix contract; V44 generated artifacts remain active canon until V45 promotion
+- Source parity state: V45 notes atoms are accepted into formal draft specification preparation; implementation parity is not yet audited and V44 implementation remains active canon
+- V45 state: accepted notes companion for formal V45 draft specification; V44 remains active canon until V45 promotion
+- Scope: accepted notes atom provenance for the next Bitcode canon candidate after V44 scaled engineering economy promotion
 
-## Notes-only draft rule
+## Notes companion rule
 
-These notes are not first-gate implementation authority. They keep the V45 draft
-target visible to strict spec-quality validation while V44 remains the active
-canon and while V45 intent is discussed before any gate work begins.
+These notes record the accepted V45 opening atoms. After formal specification
+consolidation, `BITCODE_SPEC_V45.md` and its companion family become the V45
+draft specification authority while V44 remains active canon through
+`BITCODE_SPEC.txt`.
+
+## Concise current-system reading
+
+V45 formalizes Bitcode as the world's knowledge commoditization system:
+AssetPacks enter and leave the Depository, BTD measures Need-relative scalar
+knowledge-volume and settled rights, BTC is payment truth, interfaces remain
+source-safe windows, and proof-backed readback advances protocol state.
+
+## Simplified-spec reading rule
+
+When V45 work becomes broad, reduce it to the formal law:
+
+1. AssetPack is the traded commodity, never raw source.
+2. BTD is weighted scalar knowledge-volume whose settled form carries rights.
+3. BTC settlement finality precedes BTD rights transfer and source unlock.
+4. Interfaces may guide and inspect, but proof readback advances state.
+5. Implementation begins only after formal specification and parity audit.
+
+## Notes provenance rule
+
+These notes are not implementation authority. They preserve the accepted
+notes-level atoms that were consolidated into the formal V45 draft
+specification family while V44 remains the active canon.
 
 ## Deferred from V44
 
