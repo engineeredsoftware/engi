@@ -1,9 +1,10 @@
 {
+  "reportId": "v44-promotion-readiness-report",
   "artifactId": "v44-promotion-readiness-report",
   "schemaId": "bitcode.v44.promotionReadinessReport.v1",
   "version": "V44",
   "currentTarget": "V43",
-  "generatedAt": "2026-05-29T00:00:00.000Z",
+  "generatedAt": "2026-05-31T09:21:28-03:00",
   "sourceSafetyVerdict": "source-safe-v44-scaled-engineering-economy-promotion-metadata",
   "prePromotionPosture": "V43 active / V44 draft",
   "postPromotionPosture": "V44 active / V45 draft",
@@ -381,7 +382,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44.md",
       "present": true,
-      "digest": "sha256:91385322115cf9d915c3634c104d907ab7e5f2ac400959c1a68160c480f7947a",
+      "digest": "sha256:02e482b8d45b070d4e37d79bf1698467cc331be4d6b94b8157fa233267baed3b",
       "requiredTokens": [
         {
           "token": "V44 promotion readiness canon",
@@ -400,7 +401,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44_DELTA.md",
       "present": true,
-      "digest": "sha256:59b21d4250d53b50aece7183fd05a4ab10d5817edba19d6a73cfb5c6805e6918",
+      "digest": "sha256:91b54b2cbd8972d988982a1c6cb5d432f6710b51358692bc7f0074556278d2d2",
       "requiredTokens": [
         {
           "token": "Gate 10: V44 Promotion Readiness",
@@ -419,7 +420,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44_NOTES.md",
       "present": true,
-      "digest": "sha256:b2d9a2a59e3ffdade67547c98b218631fe5516402cf504cdc5970983028dd775",
+      "digest": "sha256:67b447545e1d09119d71c002b8881f8df6d82db1977f38692396518c897cd9b8",
       "requiredTokens": [
         {
           "token": "Gate 10: V44 Promotion Readiness",
@@ -438,7 +439,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:4ac393fc8a1cb1959eadac5cf9fcbbb88d78e62129d371ba8ff81cdb60a65653",
+      "digest": "sha256:69249981126a45936151a6e7bfb0bfdb9ca90f99e545d4fce1dd651997ff64c6",
       "requiredTokens": [
         {
           "token": "## Gate 10 Promotion readiness parity",
@@ -487,7 +488,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:fd232f7266632704b2c20ce731938dfc5db95f175f2a81d1f1ce175f7f7c0556",
+      "digest": "sha256:aae160562370392979c25d42298ba991f8122719b768d5509eb56f10110acbb7",
       "requiredTokens": [
         {
           "token": "V44 Gate 10",
@@ -549,5 +550,9 @@
   "artifactRoot": "v44-scaled-engineering-economy-promotion-readiness-report:8db11db03bcc2287dd57c9f9",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v44-gate10"
+  "validationCommand": "pnpm run check:v44-gate10",
+  "proofSourceCommit": "2b08d07590269150d7a8ad658fe97dd99c05616d",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }

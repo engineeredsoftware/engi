@@ -3,14 +3,15 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft parity includes Gate 10 promotion readiness work
-- Current canonical/latest target: `V43`
+- V44 state: canonical promotion complete; V44 parity truth, generated scaled engineering economy artifacts, gate closure, and promotion automation are aligned
+- Current canonical/latest target: `V44`
+- Canonical proof-source commit: `2b08d07590269150d7a8ad658fe97dd99c05616d`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`; Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`; Gate 9 adds deterministic `.bitcode/v44-scaled-network-rehearsal.json`
-- Source parity state: Gate 10 requires package/docs/workflow/checker/test/promotion parity across all V44 scaled engineering economy artifacts and promotion readiness
-- Scope: parity for V44 enterprise economic operation over promoted V43 product routes
-- Last fully realized canonical target preserved in source: `V43`
+- Generated structured artifact inventory: active canonical `.bitcode/v44-spec-family-report.json`, `.bitcode/v44-canonical-input-report.json`, `.bitcode/v44-canon-posture-drift-report.json`, `.bitcode/v44-economic-domain-model.json`, `.bitcode/v44-packs-portfolio-market-intelligence.json`, `.bitcode/v44-reading-budget-quote-policy.json`, `.bitcode/v44-depositor-earnings-supply-opportunities.json`, `.bitcode/v44-btd-btc-compensation-statements.json`, `.bitcode/v44-organization-policy-wallet-authority.json`, `.bitcode/v44-enterprise-product-ux.json`, `.bitcode/v44-scaled-network-rehearsal.json`, `.bitcode/v44-promotion-readiness-report.json`, V44 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V44_PROVEN.md` as the generated proof appendix for V44 promotion
+- Source parity state: V44 source-side economic domain, Packs portfolio market intelligence, Reading budget/quote policy, depositor earnings opportunity, BTD/BTC compensation statements, organization policy and wallet authority, enterprise UX, scaled rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V44 file family
+- Scope: V44 canonical parity ledger for scaled engineering economy over promoted V43 product-route canon
+- Last fully realized canonical target preserved in source: `V44`
 
 ## Purpose
 
