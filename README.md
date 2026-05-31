@@ -377,6 +377,21 @@ unpaid AssetPack source, prompts, provider payloads, credentials, wallet
 private material, private settlement payloads, and value-bearing mainnet
 operation.
 
+V44 Gate 9 adds `V44ScaledNetworkRehearsal`,
+`.bitcode/v44-scaled-network-rehearsal.json`,
+`generate:v44-scaled-network-rehearsal`,
+`check:v44-scaled-network-rehearsal`, `rehearse:v44-scaled-network`, and
+`check:v44-gate9`. It binds source-safe local and staging-testnet rehearsal
+receipts for `/deposit`, `/read`, and `/packs`; 24 deposits, 18 Reads, 72 Fit
+candidates, 18 quotes, 12 BTC settlement observations, 36 contributors, 8
+repair cases, and 54 PackActivity rows; the staging-testnet Supabase project
+`tkpyosihuouusyaxtbau`; database stream readback; ledger/database/storage
+reconciliation; repair readback; protocol tests; and workflow wiring while
+continuing to withhold protected source, raw source text, unpaid AssetPack
+source, prompts, provider payloads, credentials, wallet private material,
+private settlement payloads, live rehearsal logs, and value-bearing mainnet
+operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

@@ -266,6 +266,20 @@ readback, route tests, package exports, workflow wiring, generated artifact
 freshness, and source-safety tests for the enterprise economic operation
 surface.
 
+V44 Gate 9 adds `V44ScaledNetworkRehearsal` through
+`packages/protocol/src/canonical/v44-scaled-network-rehearsal.js`,
+`packages/protocol/test/v44-scaled-network-rehearsal.test.js`,
+`.bitcode/v44-scaled-network-rehearsal.json`,
+`generate:v44-scaled-network-rehearsal`,
+`check:v44-scaled-network-rehearsal`, `rehearse:v44-scaled-network`, and
+`check:v44-gate9`. It binds source-safe local and staging-testnet rehearsal
+receipts for `/deposit`, `/read`, and `/packs`; 24 deposits, 18 Reads, 72 Fit
+candidates, 18 quotes, 12 BTC settlement observations, 36 contributors, 8
+repair cases, and 54 PackActivity rows; staging-testnet project
+`tkpyosihuouusyaxtbau`; package exports; workflow wiring; generated artifact
+freshness; and source-safety tests for scaled many-pack economic operation
+without secret serialization or value-bearing mainnet admission.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.
