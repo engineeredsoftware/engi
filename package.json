@@ -387,6 +387,7 @@
     "generate:v44-promotion-readiness": "node scripts/generate-v44-promotion-readiness-report.mjs",
     "check:v44-promotion-readiness": "node scripts/generate-v44-promotion-readiness-report.mjs --check",
     "check:v44-gate10": "node scripts/check-v44-gate10-promotion-readiness.mjs",
+    "check:v45-gate2": "node scripts/check-v45-gate2-knowledge-commoditization-law.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",
