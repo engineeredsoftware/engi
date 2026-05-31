@@ -445,6 +445,7 @@ export * from './deposit-asset-pack-option-admission';
 export * from './depositor-earning-supply-intelligence';
 export * from './btd-btc-compensation-statements';
 export * from './asset-pack-commodity-state';
+export * from './btd-scalar-volume-quote';
 export * from './organization-policy-wallet-authority';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';

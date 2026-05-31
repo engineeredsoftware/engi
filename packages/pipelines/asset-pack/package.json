@@ -18,6 +18,7 @@
     "./depositor-earning-supply-intelligence": "./src/depositor-earning-supply-intelligence.ts",
     "./btd-btc-compensation-statements": "./src/btd-btc-compensation-statements.ts",
     "./asset-pack-commodity-state": "./src/asset-pack-commodity-state.ts",
+    "./btd-scalar-volume-quote": "./src/btd-scalar-volume-quote.ts",
     "./organization-policy-wallet-authority": "./src/organization-policy-wallet-authority.ts",
     "./read-need": "./src/read-need.ts",
     "./read-need-review-resynthesis": "./src/read-need-review-resynthesis.ts",
