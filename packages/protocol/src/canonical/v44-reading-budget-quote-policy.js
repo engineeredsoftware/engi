@@ -159,7 +159,11 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v43', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V43'),
+    predicateResult(
+      'active-canon-pointer-supports-v44-draft-or-promoted',
+      SOURCE_ROOTS.activePointer,
+      ['V43', 'V44'].includes(sources.activePointer.trim()),
+    ),
     predicateResult('spec-defines-gate4', SOURCE_ROOTS.spec, sources.spec.includes('V44 Gate 4 Reading Budget, Quote Policy, And Procurement Governance')),
     predicateResult('spec-names-gate4-artifact', SOURCE_ROOTS.spec, sources.spec.includes('v44-reading-budget-quote-policy')),
     predicateResult('delta-records-gate4', SOURCE_ROOTS.delta, sources.delta.includes('Gate 4') && sources.delta.includes('v44-reading-budget-quote-policy')),

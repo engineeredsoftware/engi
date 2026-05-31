@@ -283,7 +283,11 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v43', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V43'),
+    predicateResult(
+      'active-canon-pointer-supports-v44-draft-or-promoted',
+      SOURCE_ROOTS.activePointer,
+      ['V43', 'V44'].includes(sources.activePointer.trim()),
+    ),
     predicateResult('gate2-artifact-passed', SOURCE_ROOTS.gate2Artifact, artifactPassed(repoRoot, SOURCE_ROOTS.gate2Artifact, 'v44-economic-domain-model')),
     predicateResult('gate3-artifact-passed', SOURCE_ROOTS.gate3Artifact, artifactPassed(repoRoot, SOURCE_ROOTS.gate3Artifact, 'v44-packs-portfolio-market-intelligence')),
     predicateResult('gate4-artifact-passed', SOURCE_ROOTS.gate4Artifact, artifactPassed(repoRoot, SOURCE_ROOTS.gate4Artifact, 'v44-reading-budget-quote-policy')),

@@ -589,7 +589,7 @@ jobs:
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate10-promotion-readiness.mjs ]; then
               node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
             fi
-            if [ "$POINTER" != "V43" ]; then
+            if [ "$POINTER" = "V42" ]; then
               if [ -f scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs ]; then
                 node scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs --skip-branch-check
               fi

@@ -136,7 +136,11 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v43', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V43'),
+    predicateResult(
+      'active-canon-pointer-supports-v44-draft-or-promoted',
+      SOURCE_ROOTS.activePointer,
+      ['V43', 'V44'].includes(sources.activePointer.trim()),
+    ),
     predicateResult('spec-defines-gate3', SOURCE_ROOTS.spec, sources.spec.includes('V44 Gate 3 Packs Portfolio Search And Market Intelligence')),
     predicateResult('spec-names-gate3-artifact', SOURCE_ROOTS.spec, sources.spec.includes('v44-packs-portfolio-market-intelligence')),
     predicateResult('delta-records-gate3', SOURCE_ROOTS.delta, sources.delta.includes('Gate 3') && sources.delta.includes('v44-packs-portfolio-market-intelligence')),

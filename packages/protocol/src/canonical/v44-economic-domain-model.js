@@ -338,7 +338,11 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v43', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V43'),
+    predicateResult(
+      'active-canon-pointer-supports-v44-draft-or-promoted',
+      SOURCE_ROOTS.activePointer,
+      ['V43', 'V44'].includes(sources.activePointer.trim()),
+    ),
     predicateResult('spec-defines-gate2', SOURCE_ROOTS.spec, sources.spec.includes('V44 Gate 2 Economic Domain Model And Receipt Taxonomy')),
     predicateResult('spec-names-domain-artifact', SOURCE_ROOTS.spec, sources.spec.includes('v44-economic-domain-model')),
     predicateResult('spec-names-economic-objects', SOURCE_ROOTS.spec, V44_ECONOMIC_OBJECT_IDS.every((objectId) => sources.spec.includes(objectId))),

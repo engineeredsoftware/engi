@@ -192,7 +192,11 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v43', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V43'),
+    predicateResult(
+      'active-canon-pointer-supports-v44-draft-or-promoted',
+      SOURCE_ROOTS.activePointer,
+      ['V43', 'V44'].includes(sources.activePointer.trim()),
+    ),
     predicateResult('spec-defines-gate6', SOURCE_ROOTS.spec, sources.spec.includes('V44 Gate 6 BTD/BTC Accounting And Contributor Compensation Statements')),
     predicateResult('spec-names-gate6-artifact', SOURCE_ROOTS.spec, sources.spec.includes('v44-btd-btc-compensation-statements')),
     predicateResult('delta-records-gate6', SOURCE_ROOTS.delta, sources.delta.includes('Gate 6') && sources.delta.includes('v44-btd-btc-compensation-statements')),
