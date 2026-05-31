@@ -480,6 +480,74 @@ consolidation before implementation parity auditing, parity auditing before
 grouped implementation closure, and V44 as the active canon pointer until V45
 promotion.
 
+## V45 protocol atom 6: interface authority and disclosure boundaries
+
+Audit classification: V44 names `/packs`, `/read`, `/deposit`, API/MCP,
+ChatGPT App, Bitcode Chat, public docs, and landing pages as interface
+surfaces, and it strongly protects source-safe disclosure before settlement.
+The remaining protocol gap is exact interface authority: which statements each
+surface may make, which actions each surface may initiate, and what may be
+shown before settlement, after preview, after quote, after payment observation,
+after finality, after BTD rights transfer, and after repository delivery.
+
+Protocol-law statement:
+
+All Bitcode interfaces are protocol windows into the same AssetPack, BTD, BTC,
+proof, ledger, database, storage, and delivery state. No interface is an
+independent source of protocol law. A user-visible statement is valid only when
+it is source-safe for that party, names the current protocol state, and can be
+traced to the required proof root, ledger/database readback, storage root,
+workflow receipt, or generated canonical specification.
+
+Canonical interface authority is:
+
+| Surface | Authority | Forbidden claim or action |
+| --- | --- | --- |
+| `/deposit` | Depositor supply formation: connect source, synthesize deposit AssetPack options, review source-owner measurements, approve or reject Depository admission, and view source-safe earning potential. | claiming final BTD size, reader ownership, final BTC proceeds, or public source visibility before a paid Need-Fit settlement exists |
+| `/read` | Reader demand procurement: request a Read, review or resynthesize the Need, request Finding Fits, review source-safe Need-Fit preview, accept quote, pay, and receive entitled repository delivery. | exposing unpaid AssetPack source, treating observed payment as final, bypassing organization/wallet authority, or delivering before BTD rights transfer |
+| `/packs` | Searchable master-detail projection of network activity, AssetPack states, quotes, repairs, proof roots, delivery receipts, and compensation statements. | becoming the source of truth without ledger/database/storage readback or showing private source to non-entitled parties |
+| API/MCP | Machine interface for the same workflows, read models, proofs, and repair commands exposed under explicit policy and capability boundaries. | returning more data than the corresponding human interface is entitled to see or mutating state without the same proof obligations |
+| ChatGPT App | Conversational interface for guided Bitcode actions, summaries, confirmations, and state inspection. | presenting conversational text as final settlement, rights transfer, source unlock, or canonical law without authoritative readback |
+| Bitcode Chat | Product conversation overlay for assistance, explanations, workflow navigation, telemetry summarization, and operator-facing repair guidance. | leaking raw prompts, raw provider responses, protected source, wallet private material, or unpaid source-bearing pack content |
+| Public docs and landing pages | Explanatory surface for protocol claims, public product positioning, and non-transactional education. | representing live transaction state, buyer entitlement, seller proceeds, or private network facts without a linked authoritative surface |
+
+Canonical disclosure boundary is:
+
+| Boundary | User-visible statements allowed | User-visible statements forbidden |
+| --- | --- | --- |
+| `before-settlement` | source-safe state labels, public protocol explanation, party-owned source to that party, deposit measurements, Need text, candidate counts, proof roots, estimates, and repair blockers | unpaid AssetPack source, raw protected source, secrets, raw prompts, raw provider responses, final rights, final BTD ownership, or final BTC settlement |
+| `after-preview` | source-safe Need-Fit measurements, selected Fit set identities when source-safe, rankings, quality/confidence, BTD range or potential, preview proof roots, and why the preview may be worth buying | source-bearing implementation contents, private candidate source, contributor secrets, or assertions that the Reader already owns the AssetPack |
+| `after-quote` | deterministic BTC quote, quote expiry, wallet/network, BTD volume/range posture, authorization requirements, quote root, and explicit non-final status | payment-final, rights-transferred, source-unlocked, delivered, or contributor-compensated statements |
+| `after-payment-observation` | observed txid, network, amount, payer/payee, quote match or mismatch, mempool/provider evidence, and pending finality/repair posture | treating observation as confirmed finality, unlocking source, transferring BTD rights, or routing contributor compensation |
+| `after-finality` | confirmation/finality receipt, finalized payment evidence, settlement readback progress, and remaining rights-transfer or repair requirements | exposing source before settlement readback and BTD rights transfer or claiming delivery before repository delivery receipt |
+| `after-btd-rights-transfer` | entitled Reader boundary, source unlock authorization, rights receipt, BTD range ownership, and delivery preparation state | making the source public, granting non-payer access, or claiming contributor compensation before source-to-shares allocation |
+| `after-repository-delivery` | delivery PR/commit receipt, entitled repository visibility, delivered AssetPack root, reconciliation state, and source-safe contributor compensation statements | exposing source outside the entitled repository or masking unsettled repair, compensation, or ledger/database mismatch states |
+
+Interface disclosure law:
+
+- Every interface must fail closed to the narrowest source-safe state when proof
+  roots, ledger/database readback, storage roots, wallet authority, or delivery
+  receipts are missing.
+- Human and machine interfaces must use the same entitlement boundary. API/MCP,
+  ChatGPT App, and Bitcode Chat may not reveal data that `/read`, `/deposit`,
+  or `/packs` would withhold from the same actor in the same state.
+- Public docs and landing pages may explain the protocol and commercial
+  experience, but they are not transaction state, settlement evidence, source
+  entitlement, or compensation evidence.
+- Conversational interfaces may guide and summarize, but all final claims about
+  quote, payment, BTD rights, source unlock, delivery, and compensation must be
+  backed by authoritative state readback.
+- Interface copy may be concise and elegant, but it must never collapse preview,
+  quote, observed payment, finality, rights transfer, delivery, and
+  compensation into a single "done" state.
+
+Acceptance for this atom: later V45 formal specification and implementation
+work may refine wording and UI shapes, but it must preserve one protocol law
+across all surfaces, source-safe user-visible statements before paid
+entitlement, explicit non-final language for preview/quote/payment
+observation, authoritative readback for final settlement and rights transfer,
+and repository delivery visibility only for the entitled Reader boundary.
+
 ## Non-goals during V45 opening
 
 - Do not implement V45 gate behavior before the V45 intent discussion is
