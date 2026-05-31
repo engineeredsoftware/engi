@@ -4,10 +4,13 @@ import Link from "next/link";
 import React from "react";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  BadgeDollarSign,
+  Clock3,
   GitBranch,
   GitCommitHorizontal,
   RefreshCw,
   ShieldCheck,
+  Wallet,
   Workflow,
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -17,6 +20,9 @@ import type { PipelineExecution } from "@/types/api";
 
 import {
   ProductRouteDisclosure,
+  ProductRouteEnterpriseSummary,
+  ProductRouteKeyboardHint,
+  ProductRouteProofDetail,
   ProductRouteShell,
   ProductRouteStatePanel,
   ProductRouteStepGrid,
@@ -63,6 +69,11 @@ function formatDate(value: string | null | undefined) {
     hour: "2-digit",
     minute: "2-digit",
   });
+}
+
+function formatSats(value: number | null | undefined) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return "pending";
+  return `${new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(value)} sats`;
 }
 
 export default function ReadPageClient() {
@@ -273,6 +284,22 @@ export default function ReadPageClient() {
         hasDeliveryReadback: Boolean(
           selectedRun?.closureFocus?.toLowerCase().includes("delivery"),
         ),
+        measuredBtd: selectedRun?.measuredBtd ?? null,
+        quoteSats:
+          typeof selectedRun?.btcFeeUsdEquivalent === "number"
+            ? Math.max(1, Math.round(selectedRun.btcFeeUsdEquivalent * 10_000))
+            : null,
+        settlementQuoteId: selectedRun?.id ? `quote:${selectedRun.id}` : null,
+        procurementApproved: Boolean(
+          selectedRun?.closureFocus?.toLowerCase().includes("settlement") ||
+            selectedRun?.closureFocus?.toLowerCase().includes("delivery"),
+        ),
+        buyerAuthorized: true,
+        walletAuthorityPresent: Boolean(
+          selectedRun?.closureFocus?.toLowerCase().includes("wallet") ||
+            selectedRun?.closureFocus?.toLowerCase().includes("settlement") ||
+            selectedRun?.closureFocus?.toLowerCase().includes("delivery"),
+        ),
       }),
     [
       admittedReadActivityId,
@@ -375,6 +402,62 @@ export default function ReadPageClient() {
     },
   ];
 
+  const procurementRows = [
+    {
+      label: "Budget",
+      value: formatSats(
+        readRouteSession.procurementGovernance.budgetPolicy.budgetEnvelopeSats,
+      ),
+    },
+    {
+      label: "Quote",
+      value: formatSats(
+        readRouteSession.procurementGovernance.quotePolicy.shareToFee.grossSats,
+      ),
+    },
+    {
+      label: "Approval",
+      value: readRouteSession.procurementGovernance.budgetPolicy.approvalRequired
+        ? readRouteSession.procurementGovernance.approval.procurementApproved
+          ? "approved"
+          : "required"
+        : "not required",
+    },
+    {
+      label: "Settlement",
+      value: readRouteSession.procurementGovernance.settlement.readiness.replace(
+        /-/g,
+        " ",
+      ),
+    },
+  ];
+
+  const authorityRows = [
+    {
+      label: "Authority",
+      value: readRouteSession.organizationPolicyWalletAuthority.aggregate.state,
+    },
+    {
+      label: "Wallet",
+      value: readRouteSession.organizationPolicyWalletAuthority.walletAuthority.state,
+    },
+    {
+      label: "Spend",
+      value: readRouteSession.organizationPolicyWalletAuthority.budgetApproval.state,
+    },
+    {
+      label: "Required denials",
+      value: String(
+        readRouteSession.organizationPolicyWalletAuthority.aggregate
+          .requiredDeniedActionCount,
+      ),
+    },
+    {
+      label: "Authority root",
+      value: readRouteSession.organizationPolicyWalletAuthority.roots.authorityRoot,
+    },
+  ];
+
   return (
     <TerminalShellBridgeProvider>
       <ProductRouteShell
@@ -394,6 +477,12 @@ export default function ReadPageClient() {
             value: isLoadingRuns ? "reading" : String(liveRuns.length),
           },
           { label: "Boundary", value: "source-safe" },
+          {
+            label: "Quote",
+            value: formatSats(
+              readRouteSession.procurementGovernance.budgetPolicy.quoteSats,
+            ),
+          },
         ]}
       >
         <ProductRouteStepGrid
@@ -408,6 +497,50 @@ export default function ReadPageClient() {
               writeReadRouteStage(readCurrentSearchParams(), stepId),
             )
           }
+        />
+
+        <ProductRouteEnterpriseSummary
+          testId="read-enterprise-economic-summary"
+          tone="sky"
+          title="Reading economy overview"
+          metrics={[
+            {
+              label: "Need review",
+              value: readRouteSession.readObjects.acceptedNeedPresent
+                ? "accepted"
+                : "pending",
+              state: "pre-fit",
+              description: "Finding Fits remains blocked until the Need is accepted.",
+            },
+            {
+              label: "Quote",
+              value: formatSats(
+                readRouteSession.procurementGovernance.quotePolicy.shareToFee
+                  .grossSats,
+              ),
+              state: readRouteSession.procurementGovernance.quotePolicy.state,
+              description: "Measurement-weight-volume fee calculation.",
+            },
+            {
+              label: "Settlement",
+              value: readRouteSession.procurementGovernance.settlement.readiness.replace(
+                /-/g,
+                " ",
+              ),
+              state: "BTC/BTD",
+              description: "Source remains withheld until rights are paid.",
+            },
+            {
+              label: "Authority",
+              value:
+                readRouteSession.organizationPolicyWalletAuthority.aggregate
+                  .state,
+              state:
+                readRouteSession.organizationPolicyWalletAuthority
+                  .walletAuthority.state,
+              description: "Organization spend and wallet policy readback.",
+            },
+          ]}
         />
 
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.4fr)_minmax(360px,0.6fr)]">
@@ -435,6 +568,16 @@ export default function ReadPageClient() {
           </div>
 
           <aside className="grid h-fit gap-5" aria-label="Reading route state">
+            <ProductRouteKeyboardHint
+              testId="read-keyboard-navigation"
+              tone="sky"
+              shortcuts={[
+                { keys: "Tab", label: "Move through the five Reading steps and source controls." },
+                { keys: "Enter", label: "Activate the focused step, refresh, or route action." },
+                { keys: "Space", label: "Open or close source-safe proof detail." },
+              ]}
+            />
+
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
               <div className="flex items-start justify-between gap-3">
                 <div>
@@ -472,6 +615,156 @@ export default function ReadPageClient() {
                   rights: source-bearing AssetPack contents.
                 </ProductRouteDisclosure>
               </div>
+              <div className="mt-3">
+                <ProductRouteProofDetail
+                  testId="read-expandable-proof-detail"
+                  title="Reading proof detail"
+                  tone="sky"
+                  roots={[
+                    {
+                      id: "route-session-root",
+                      label: "Route session root",
+                      root: readRouteSession.proofRoot,
+                    },
+                    {
+                      id: "budget-policy-root",
+                      label: "Budget policy root",
+                      root: readRouteSession.procurementGovernance.budgetPolicy
+                        .policyRoot,
+                    },
+                    {
+                      id: "quote-root",
+                      label: "Quote root",
+                      root: readRouteSession.procurementGovernance.quotePolicy
+                        .quoteRoot,
+                    },
+                    {
+                      id: "settlement-readiness-root",
+                      label: "Settlement readiness root",
+                      root: readRouteSession.procurementGovernance.settlement
+                        .readinessRoot,
+                    },
+                    {
+                      id: "authority-root",
+                      label: "Authority root",
+                      root: readRouteSession.organizationPolicyWalletAuthority
+                        .roots.authorityRoot,
+                    },
+                  ]}
+                />
+              </div>
+            </section>
+
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+                    Governance
+                  </p>
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Organization authority
+                  </h2>
+                </div>
+                <ShieldCheck
+                  className="h-5 w-5 text-sky-200"
+                  aria-hidden="true"
+                />
+              </div>
+              <dl className="mt-4 grid gap-2">
+                {authorityRows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="border border-white/8 bg-black/20 px-3 py-2"
+                  >
+                    <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-200">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              {readRouteSession.organizationPolicyWalletAuthority.aggregate
+                .blockers.length ? (
+                <div className="mt-3">
+                  <ProductRouteDisclosure
+                    title="Authority blockers"
+                    tone="sky"
+                  >
+                    {readRouteSession.organizationPolicyWalletAuthority.aggregate.blockers.join(
+                      "; ",
+                    )}
+                  </ProductRouteDisclosure>
+                </div>
+              ) : null}
+            </section>
+
+            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-sky-200/80">
+                    Procurement
+                  </p>
+                  <h2 className="mt-2 text-lg font-semibold text-white">
+                    Budget and quote
+                  </h2>
+                </div>
+                <BadgeDollarSign
+                  className="h-5 w-5 text-emerald-200"
+                  aria-hidden="true"
+                />
+              </div>
+              <dl className="mt-4 grid gap-2">
+                {procurementRows.map((row) => (
+                  <div
+                    key={row.label}
+                    className="border border-white/8 bg-black/20 px-3 py-2"
+                  >
+                    <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                      {row.label}
+                    </dt>
+                    <dd className="mt-1 break-words font-mono text-[0.68rem] text-neutral-200">
+                      {row.value}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+              <div className="mt-4 grid gap-2 text-xs text-neutral-400">
+                <div className="flex items-center gap-2">
+                  <Clock3 className="h-3.5 w-3.5 text-sky-200" aria-hidden="true" />
+                  <span>
+                    {readRouteSession.procurementGovernance.quotePolicy.state.replace(
+                      /-/g,
+                      " ",
+                    )}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Wallet
+                    className="h-3.5 w-3.5 text-sky-200"
+                    aria-hidden="true"
+                  />
+                  <span>
+                    {readRouteSession.procurementGovernance.approval.walletAuthorityPresent
+                      ? "wallet authority present"
+                      : "wallet authority pending"}
+                  </span>
+                </div>
+              </div>
+              {readRouteSession.procurementGovernance.settlement.blockers
+                .length ? (
+                <div className="mt-3">
+                  <ProductRouteDisclosure
+                    title="Procurement blockers"
+                    tone="sky"
+                  >
+                    {readRouteSession.procurementGovernance.settlement.blockers.join(
+                      "; ",
+                    )}
+                  </ProductRouteDisclosure>
+                </div>
+              ) : null}
             </section>
 
             <section className="border border-white/10 bg-white/[0.035] px-4 py-4">

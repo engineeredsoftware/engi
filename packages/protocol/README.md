@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V43` active, `V44` draft after V43 promotion);
+- active/draft canon posture (`V44` active, `V45` draft after V44 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -176,6 +176,122 @@ V43 Gate 10 adds `V43PromotionReadinessReport` through
 route artifacts, workflows, generated PROVEN support, promotion scripts,
 source-safety checks, documentation evidence, and the `V43` active, `V44` draft
 posture needed before canonical promotion.
+
+V44 Gate 1 opens scaled engineering economy work over the promoted `V43`
+active, `V44` draft posture. It wires `check:v44-gate1` and the V44
+specification family for enterprise AssetPack portfolios, Pack market signals,
+Reading demand signals, deposit supply opportunities, Reading budget policy,
+AssetPack quote policy, BTD/BTC/source-to-shares accounting, contributor
+compensation statements, organization policy, wallet authority, scaled
+local/staging-testnet rehearsal, and `/packs`, `/read`, `/deposit` economic
+operation. Gate 1 is specification/documentation/workflow posture only.
+
+V44 Gate 2 adds `V44EconomicDomainModel` through
+`packages/protocol/src/canonical/v44-economic-domain-model.js`,
+`packages/protocol/test/v44-economic-domain-model.test.js`,
+`.bitcode/v44-economic-domain-model.json`,
+`generate:v44-economic-domain-model`, `check:v44-economic-domain-model`, and
+`check:v44-gate2`. It binds source-safe economic object contracts, receipt
+taxonomy ids, value labels, forbidden payload ids, package exports, workflow
+checks, and generated artifact freshness for later `/packs`, `/read`, and
+`/deposit` economic operation.
+
+V44 Gate 3 adds `V44PacksPortfolioMarketIntelligence` through
+`packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js`,
+`packages/protocol/test/v44-packs-portfolio-market-intelligence.test.js`,
+`.bitcode/v44-packs-portfolio-market-intelligence.json`,
+`generate:v44-packs-portfolio-market-intelligence`,
+`check:v44-packs-portfolio-market-intelligence`, and `check:v44-gate3`. It
+binds `/api/packs/activity` and `/packs` to source-safe portfolio positions,
+saved filters, organization views, demand/supply/unfit-Need market signals,
+settlement and compensation facets, proof-root drilldown, and no-source-leak
+tests.
+
+V44 Gate 4 adds `V44ReadingBudgetQuotePolicy` through
+`packages/protocol/src/canonical/v44-reading-budget-quote-policy.js`,
+`packages/protocol/test/v44-reading-budget-quote-policy.test.js`,
+`.bitcode/v44-reading-budget-quote-policy.json`,
+`generate:v44-reading-budget-quote-policy`,
+`check:v44-reading-budget-quote-policy`, and `check:v44-gate4`. It binds
+`/read` to source-safe Reading procurement governance: budget envelopes,
+approval thresholds, quote expiry, deterministic measurement-weight-volume
+share-to-fee policy, buyer authorization, wallet authority, BTC/BTD
+settlement readiness blockers, pre-purchase review boundaries, route UI
+readback, BTD fee/source-to-shares prerequisites, and source-safety tests.
+
+V44 Gate 5 adds `V44DepositorEarningsSupplyOpportunities` through
+`packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js`,
+`packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js`,
+`.bitcode/v44-depositor-earnings-supply-opportunities.json`,
+`generate:v44-depositor-earnings-supply-opportunities`,
+`check:v44-depositor-earnings-supply-opportunities`, and `check:v44-gate5`.
+It binds `/deposit` to source-safe Depositor earning supply intelligence:
+likely demand, unfit Need opportunities, source criticality, ROI posture,
+estimate-only BTC compensation ranges, source-to-shares proof boundaries,
+earning statements, supply recommendations, route UI readback, and
+source-safety tests.
+
+V44 Gate 6 adds `V44BtdBtcCompensationStatements` through
+`packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js`,
+`packages/protocol/test/v44-btd-btc-compensation-statements.test.js`,
+`.bitcode/v44-btd-btc-compensation-statements.json`,
+`generate:v44-btd-btc-compensation-statements`,
+`check:v44-btd-btc-compensation-statements`, and `check:v44-gate6`. It binds
+settlement rights delivery boundaries to source-safe BTD range accounting, BTC
+settlement observations, source-to-shares contributor compensation statements,
+depositor earning summaries, treasury routes, ledger/database/object-storage
+reconciliation, repair statements, `/packs` accounting readback, package
+exports, workflow wiring, and source-safety tests.
+
+V44 Gate 7 adds `V44OrganizationPolicyWalletAuthority` through
+`packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js`,
+`packages/protocol/test/v44-organization-policy-wallet-authority.test.js`,
+`.bitcode/v44-organization-policy-wallet-authority.json`,
+`generate:v44-organization-policy-wallet-authority`,
+`check:v44-organization-policy-wallet-authority`, and `check:v44-gate7`. It
+binds BTD Reading and deposit authority actions to source-safe organization
+policy, budget approval, source criticality approval, spend/deposit limits,
+wallet authority, `/read` and `/deposit` authority readback, `/packs`
+governance readback, package exports, workflow wiring, and source-safety tests.
+
+V44 Gate 8 adds `V44EnterpriseProductUx` through
+`packages/protocol/src/canonical/v44-enterprise-product-ux.js`,
+`packages/protocol/test/v44-enterprise-product-ux.test.js`,
+`.bitcode/v44-enterprise-product-ux.json`,
+`generate:v44-enterprise-product-ux`,
+`check:v44-enterprise-product-ux`, and `check:v44-gate8`. It binds shared
+enterprise UX primitives, `/packs` dense economic operation, `/read`
+procurement proof readback, `/deposit` synthesis/earnings/authority proof
+readback, route tests, package exports, workflow wiring, generated artifact
+freshness, and source-safety tests for the enterprise economic operation
+surface.
+
+V44 Gate 9 adds `V44ScaledNetworkRehearsal` through
+`packages/protocol/src/canonical/v44-scaled-network-rehearsal.js`,
+`packages/protocol/test/v44-scaled-network-rehearsal.test.js`,
+`.bitcode/v44-scaled-network-rehearsal.json`,
+`generate:v44-scaled-network-rehearsal`,
+`check:v44-scaled-network-rehearsal`, `rehearse:v44-scaled-network`, and
+`check:v44-gate9`. It binds source-safe local and staging-testnet rehearsal
+receipts for `/deposit`, `/read`, and `/packs`; 24 deposits, 18 Reads, 72 Fit
+candidates, 18 quotes, 12 BTC settlement observations, 36 contributors, 8
+repair cases, and 54 PackActivity rows; staging-testnet project
+`tkpyosihuouusyaxtbau`; package exports; workflow wiring; generated artifact
+freshness; and source-safety tests for scaled many-pack economic operation
+without secret serialization or value-bearing mainnet admission.
+
+V44 Gate 10 adds `V44PromotionReadinessReport` through
+`packages/protocol/src/canonical/v44-promotion-readiness-report.js`,
+`packages/protocol/test/v44-promotion-readiness.test.js`,
+`.bitcode/v44-promotion-readiness-report.json`,
+`generate:v44-promotion-readiness`, `check:v44-promotion-readiness`,
+`check:v44-gate10`, and `v44-canon-promotion.yml`. It binds all V44 gate
+artifacts, source-safe promotion metadata, generated PROVEN support, promotion
+script support, workflow posture, package exports, and the promoted
+`V44` active, `V45` draft posture without serializing secrets, protected source,
+unpaid AssetPack source, raw prompts, provider payloads, wallet private
+material, private settlement payloads, live logs, or value-bearing mainnet
+admission.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

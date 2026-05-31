@@ -1,6 +1,7 @@
 import {
   assertPackActivitySourceSafe,
   buildPackActivityDetailProjection,
+  buildPackPortfolioMarketIntelligence,
   normalizePackActivityRecord,
   queryPackActivityRecords,
 } from '@/components/base/bitcode/activity/pack-activity-model';
@@ -31,6 +32,57 @@ describe('pack-activity-model', () => {
       compensationState: 'source_to_shares_preview_ready',
       deliveryState: 'locked_until_settlement',
       repairState: 'not_required',
+      btdBtcCompensationStatements: {
+        schema: 'bitcode.asset-pack.btd-btc-compensation-statements',
+        statements: 'BtdBtcCompensationStatements',
+        state: 'settlement-accounted',
+        btdRange: {
+          rangeState: 'transferred-to-reader',
+        },
+        btcSettlement: {
+          state: 'final-settlement-observed',
+        },
+        treasuryRoutes: [
+          {
+            schema: 'bitcode.asset-pack.treasury-route-statement',
+            routeState: 'routed',
+          },
+        ],
+        reconciliation: {
+          state: 'aligned',
+        },
+        aggregate: {
+          contributorCount: 2,
+          depositorCount: 2,
+          finalSettlementSats: 3200,
+          allocatedContributorSats: 3200,
+        },
+        roots: {
+          accountingRoot: 'btd-btc-accounting-root-abc',
+        },
+      },
+      organizationPolicyWalletAuthority: {
+        schema: 'bitcode.organization.policy-wallet-authority',
+        statement: 'OrganizationPolicyWalletAuthority',
+        route: '/read',
+        walletAuthority: {
+          state: 'verified',
+        },
+        budgetApproval: {
+          state: 'within-limit',
+        },
+        depositApproval: {
+          state: 'not-applicable',
+        },
+        aggregate: {
+          state: 'allowed',
+          requiredDeniedActionCount: 0,
+          blockerCount: 0,
+        },
+        roots: {
+          authorityRoot: 'organization-authority-root-abc',
+        },
+      },
       assetPackMeasurementRoot: 'measurement-root-abc',
       settlementReceiptRoot: 'settlement-root-def',
       protectedSource: 'protected source body',
@@ -57,6 +109,22 @@ describe('pack-activity-model', () => {
     expect(record.measurements.some((measurement) => measurement.id === 'measured-btd')).toBe(true);
     expect(record.values.some((value) => value.id === 'btc-fee')).toBe(true);
     expect(record.proofRoots.map((proofRoot) => proofRoot.root)).toContain('settlement-root-def');
+    expect(record.accounting).toMatchObject({
+      state: 'settlement-accounted',
+      btdRangeState: 'transferred-to-reader',
+      btcSettlementState: 'final-settlement-observed',
+      treasuryRouteState: 'routed',
+      contributorCount: 2,
+      allocatedContributorSats: 3200,
+      statementRoot: 'btd-btc-accounting-root-abc',
+    });
+    expect(record.governance).toMatchObject({
+      state: 'allowed',
+      route: '/read',
+      walletState: 'verified',
+      spendState: 'within-limit',
+      authorityRoot: 'organization-authority-root-abc',
+    });
     expect(assertPackActivitySourceSafe(record)).toBe(true);
     expect(JSON.stringify(record)).not.toContain('protected source body');
     expect(JSON.stringify(record)).not.toContain('raw prompt text');
@@ -93,6 +161,8 @@ describe('pack-activity-model', () => {
 
     const detail = buildPackActivityDetailProjection(result.records[0]);
     expect(detail.states.settlement).toBe('quote_ready');
+    expect(detail.accounting?.statementRoot).toBe('btd-btc-accounting-root-abc');
+    expect(detail.governance?.authorityRoot).toBe('organization-authority-root-abc');
     expect(detail.proofRoots.length).toBeGreaterThan(0);
     expect(assertPackActivitySourceSafe(detail)).toBe(true);
   });
@@ -126,5 +196,60 @@ describe('pack-activity-model', () => {
     expect(assertPackActivitySourceSafe(record)).toBe(true);
     expect(JSON.stringify(record)).not.toContain('protected source body');
     expect(JSON.stringify(record)).not.toContain('raw provider response');
+  });
+
+  it('builds source-safe portfolio positions, saved filters, market signals, and facets', () => {
+    const records = [
+      normalizePackActivityRecord(baseRecord),
+      normalizePackActivityRecord({
+        ...baseRecord,
+        id: 'pack-activity-supply',
+        title: 'Deposit option admitted',
+        summary: 'Supply opportunity admitted to the Depository.',
+        state: 'completed',
+        payload: {
+          type: 'pipeline:deposit-option-admission',
+          assetPackTitle: 'Auth rollback proof pack',
+          repositoryFullName: 'engineeredsoftware/ENGI',
+          admittedCount: 1,
+          compensationState: 'allocation_ready',
+          settlementState: 'quote_ready',
+          deliveryState: 'locked_until_settlement',
+          sourceToSharesRoot: 'source-to-shares-root',
+          protectedSource: 'protected source body',
+        },
+      }),
+      normalizePackActivityRecord({
+        ...baseRecord,
+        id: 'pack-activity-unfit',
+        title: 'No worthy fit found',
+        summary: 'Unfit Need signal preserved for future supply opportunity.',
+        state: 'completed',
+        payload: {
+          type: 'pipeline:read-fits',
+          assetPackTitle: 'Latency repair opportunity',
+          repositoryFullName: 'engineeredsoftware/ENGI',
+          fitResult: 'no_worthy_fit',
+          repairState: 'open_reconciliation',
+          unfitNeedRoot: 'unfit-need-root',
+          rawPrompt: 'raw prompt text',
+        },
+      }),
+    ];
+
+    const market = buildPackPortfolioMarketIntelligence(records);
+
+    expect(market.positions.length).toBeGreaterThanOrEqual(2);
+    expect(market.positions[0].sourceSafety.sourceSafeMetadataOnly).toBe(true);
+    expect(market.savedFilters.map((filter) => filter.id)).toEqual(
+      expect.arrayContaining(['market-demand', 'market-supply', 'economic-settlement']),
+    );
+    expect(market.signals.map((signal) => signal.kind)).toEqual(
+      expect.arrayContaining(['demand', 'supply', 'unfit-need', 'settlement', 'compensation']),
+    );
+    expect(market.facets.settlement.quote_ready).toBeGreaterThanOrEqual(1);
+    expect(market.facets.compensation.allocation_ready).toBe(1);
+    expect(JSON.stringify(market)).not.toContain('protected source body');
+    expect(JSON.stringify(market)).not.toContain('raw prompt text');
   });
 });

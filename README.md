@@ -1,23 +1,25 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V42`; V43 is the active draft target for the Packs, Read, Deposit
-route model, agentic deposit AssetPack options, and product UX cleanup after the
-promoted reliable MVP experience canon.
+resolves to `V43`; V44 is the active draft target for scaled engineering economy
+operation over the Packs, Read, and Deposit route model promoted in V43.
 
 ## Current Product Posture
 
 Bitcode is the protocol and the commercial source tree implements it in-place.
-The promoted V42 operator route is still:
-
-- `/terminal` for depositing, reading, transaction work, and protocol follow-through.
-- `/auxillaries` for Wallet, Externals, Profile, and Interfaces support surfaces.
-
-The active V43 draft target moves the primary enterprise routes to:
+The promoted V43 enterprise routes are:
 
 - `/packs` for searchable master-detail pack activity.
 - `/read` for the five-step Reading path from Read Request to settlement-gated delivery.
 - `/deposit` for connected-source deposit AssetPack option synthesis, review, and admission.
+
+The active V44 draft target makes those routes economically operable at
+enterprise scale: `/packs` becomes the portfolio and market-intelligence
+surface, `/read` gains budgeted procurement and quote governance, and
+`/deposit` gains earning, demand, ROI, compensation-range, and source-safe
+supply opportunity visibility. Gate 6 adds `/packs` accounting readback for
+source-safe BTD/BTC/source-to-shares compensation statements over paid
+settlement receipts.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
@@ -279,6 +281,127 @@ V43 Gate 10 adds `V43PromotionReadinessReport`,
 artifact, promotion script, generated PROVEN hook, workflow, source-safety
 boundary, documentation update, and post-promotion V43 active / draft V44
 runtime posture before the version branch can promote canon.
+
+V44 Gate 1 opens scaled engineering economy work over active V43 with
+`check:v44-gate1`. V44 is scoped to digitizing and tokenizing scaled
+engineering economies: enterprise AssetPack portfolios, Pack market signals,
+Reading demand signals, deposit supply opportunities, Reading budgets,
+AssetPack quote policy, BTD/BTC/source-to-shares accounting, contributor
+compensation statements, organization policy, wallet/spend authority, scaled
+local/staging-testnet rehearsal, and polished economic operation through
+`/packs`, `/read`, and `/deposit`. Gate 1 is specification, roadmap,
+documentation, workflow, and checker posture only.
+
+V44 Gate 2 adds `V44EconomicDomainModel`,
+`.bitcode/v44-economic-domain-model.json`,
+`generate:v44-economic-domain-model`, `check:v44-economic-domain-model`, and
+`check:v44-gate2`. It defines source-safe contracts for portfolio positions,
+market signals, quote states, settlement states, compensation statements,
+governance decisions, and repair cases while keeping economic values labeled
+as estimate, quote, observed payment, final settlement, contributor
+allocation, delivery, or repair state. Gate 2 does not expose protected source,
+unpaid AssetPack source, raw prompts, provider payloads, credentials, wallet
+private material, private settlement payloads, or value-bearing mainnet
+operation.
+
+V44 Gate 3 adds `V44PacksPortfolioMarketIntelligence`,
+`.bitcode/v44-packs-portfolio-market-intelligence.json`,
+`generate:v44-packs-portfolio-market-intelligence`,
+`check:v44-packs-portfolio-market-intelligence`, and `check:v44-gate3`.
+It evolves `/packs` from PackActivity master-detail into source-safe portfolio
+and market intelligence with saved filters, organization views, demand/supply
+signals, unfit Need signals, settlement and compensation facets, proof-root
+drilldown, API/UI projection tests, and no-source-leak checks.
+
+V44 Gate 4 adds `V44ReadingBudgetQuotePolicy`,
+`.bitcode/v44-reading-budget-quote-policy.json`,
+`generate:v44-reading-budget-quote-policy`,
+`check:v44-reading-budget-quote-policy`, and `check:v44-gate4`. It binds
+`/read` to source-safe `ReadProcurementGovernance`: budget envelopes, approval
+thresholds, quote expiry, deterministic measurement-weight-volume
+share-to-fee policy, buyer authorization, wallet authority, BTC/BTD
+settlement readiness blockers, pre-purchase review boundaries, route UI
+readback, and tests that continue withholding protected source, unpaid
+AssetPack source, raw prompts, provider payloads, wallet private material,
+private settlement payloads, and value-bearing mainnet operation.
+
+V44 Gate 5 adds `V44DepositorEarningsSupplyOpportunities`,
+`.bitcode/v44-depositor-earnings-supply-opportunities.json`,
+`generate:v44-depositor-earnings-supply-opportunities`,
+`check:v44-depositor-earnings-supply-opportunities`, and `check:v44-gate5`.
+It binds `/deposit` to source-safe `DepositorEarningSupplyIntelligence`:
+likely demand, unfit Need opportunities, source criticality, ROI posture,
+estimate-only BTC compensation ranges, source-to-shares proof boundaries,
+earning statements, supply recommendations, route UI readback, and tests that
+continue withholding protected source, raw source text, unpaid AssetPack
+source, prompts, provider payloads, wallet private material, private
+settlement payloads, and value-bearing mainnet operation.
+
+V44 Gate 6 adds `V44BtdBtcCompensationStatements`,
+`.bitcode/v44-btd-btc-compensation-statements.json`,
+`generate:v44-btd-btc-compensation-statements`,
+`check:v44-btd-btc-compensation-statements`, and `check:v44-gate6`. It binds
+settlement rights delivery boundaries to source-safe
+`BtdBtcCompensationStatements`: BTD range state, BTC settlement observations,
+source-to-shares contributor allocations, depositor earning summaries,
+treasury routes, ledger/database/object-storage reconciliation, repair
+statements, `/packs` accounting readback, and tests that continue withholding
+protected source, raw source text, unpaid AssetPack source, prompts, provider
+payloads, wallet private material, private settlement payloads, and
+value-bearing mainnet operation.
+
+V44 Gate 7 adds `V44OrganizationPolicyWalletAuthority`,
+`.bitcode/v44-organization-policy-wallet-authority.json`,
+`generate:v44-organization-policy-wallet-authority`,
+`check:v44-organization-policy-wallet-authority`, and `check:v44-gate7`. It
+binds BTD Reading and deposit authority actions to source-safe organization
+budget approval, source criticality approval, spend and deposit limits, wallet
+authority, `/read` authority readback, `/deposit` authority readback, `/packs`
+governance readback, and tests that continue withholding protected source, raw
+source text, unpaid AssetPack source, prompts, provider payloads, credentials,
+wallet private material, private settlement payloads, and value-bearing
+mainnet operation.
+
+V44 Gate 8 adds `V44EnterpriseProductUx`,
+`.bitcode/v44-enterprise-product-ux.json`,
+`generate:v44-enterprise-product-ux`,
+`check:v44-enterprise-product-ux`, and `check:v44-gate8`. It makes the scaled
+engineering economy operable through shared `ProductRouteEnterpriseSummary`,
+`ProductRouteKeyboardHint`, and `ProductRouteProofDetail` primitives;
+source-safe enterprise economy summaries on `/packs`, `/read`, and `/deposit`;
+keyboard navigation hints; a sticky dense Pack activity table; expandable
+proof detail roots for portfolio, Reading procurement, deposit synthesis,
+earnings, and organization authority; focused route tests; protocol tests; and
+workflow wiring while continuing to withhold protected source, raw source text,
+unpaid AssetPack source, prompts, provider payloads, credentials, wallet
+private material, private settlement payloads, and value-bearing mainnet
+operation.
+
+V44 Gate 9 adds `V44ScaledNetworkRehearsal`,
+`.bitcode/v44-scaled-network-rehearsal.json`,
+`generate:v44-scaled-network-rehearsal`,
+`check:v44-scaled-network-rehearsal`, `rehearse:v44-scaled-network`, and
+`check:v44-gate9`. It binds source-safe local and staging-testnet rehearsal
+receipts for `/deposit`, `/read`, and `/packs`; 24 deposits, 18 Reads, 72 Fit
+candidates, 18 quotes, 12 BTC settlement observations, 36 contributors, 8
+repair cases, and 54 PackActivity rows; the staging-testnet Supabase project
+`tkpyosihuouusyaxtbau`; database stream readback; ledger/database/storage
+reconciliation; repair readback; protocol tests; and workflow wiring while
+continuing to withhold protected source, raw source text, unpaid AssetPack
+source, prompts, provider payloads, credentials, wallet private material,
+private settlement payloads, live rehearsal logs, and value-bearing mainnet
+operation.
+
+V44 Gate 10 adds `V44PromotionReadinessReport`,
+`.bitcode/v44-promotion-readiness-report.json`,
+`generate:v44-promotion-readiness`, `check:v44-promotion-readiness`,
+`check:v44-gate10`, and `v44-canon-promotion.yml`. It binds all V44 scaled
+engineering economy artifacts, source-safe promotion metadata, generated
+`BITCODE_SPEC_V44_PROVEN.md` support, gate/canon workflow posture, promotion
+scripts, protocol tests, and the promoted `V44` active, `V45` draft runtime
+posture while continuing to withhold protected source, unpaid AssetPack source,
+raw prompts, provider payloads, credentials, wallet private material, private
+settlement payloads, live rehearsal logs, and value-bearing mainnet operation.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
@@ -897,12 +1020,13 @@ or promotion validation.
 ## Key Surfaces
 
 - [BITCODE_SPEC.txt](BITCODE_SPEC.txt) is the canonical version pointer.
-- [BITCODE_SPEC_V41.md](BITCODE_SPEC_V41.md) is the active promoted spec family.
-- [BITCODE_SPEC_V42.md](BITCODE_SPEC_V42.md) is the active draft target.
-- [BITCODE_SPEC_V42_PARITY_MATRIX.md](BITCODE_SPEC_V42_PARITY_MATRIX.md) tracks V42 gate parity.
+- [BITCODE_SPEC_V43.md](BITCODE_SPEC_V43.md) is the active promoted spec family.
+- [BITCODE_SPEC_V44.md](BITCODE_SPEC_V44.md) is the active draft target.
+- [BITCODE_SPEC_V44_PARITY_MATRIX.md](BITCODE_SPEC_V44_PARITY_MATRIX.md) tracks V44 gate parity.
 - [uapi/README.md](uapi/README.md) documents the commercial website/API surface.
-- [uapi/app/terminal/README.md](uapi/app/terminal/README.md) documents Terminal.
-- [uapi/app/exchange/README.md](uapi/app/exchange/README.md) documents Exchange.
+- [uapi/app/packs](uapi/app/packs) is the PackActivity and portfolio inspection route.
+- [uapi/app/read](uapi/app/read) is the Reading route.
+- [uapi/app/deposit](uapi/app/deposit) is the Depositing route.
 - [uapi/app/auxillaries/README.md](uapi/app/auxillaries/README.md) documents Auxillaries.
 - [protocol-demonstration/README.md](protocol-demonstration/README.md) documents
   the deterministic demonstration.

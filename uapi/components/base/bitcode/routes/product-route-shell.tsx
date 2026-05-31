@@ -2,7 +2,13 @@
 
 import React from "react";
 import type { LucideIcon } from "lucide-react";
-import { AlertCircle, CircleDashed, ShieldCheck } from "lucide-react";
+import {
+  AlertCircle,
+  CircleDashed,
+  Command,
+  KeyRound,
+  ShieldCheck,
+} from "lucide-react";
 
 type ProductRouteTone = "emerald" | "sky" | "violet";
 
@@ -254,5 +260,184 @@ export function ProductRouteDisclosure({
       </summary>
       <div className="mt-2 text-xs leading-5 text-neutral-300">{children}</div>
     </details>
+  );
+}
+
+export type ProductRouteEnterpriseMetric = {
+  label: string;
+  value: React.ReactNode;
+  description?: React.ReactNode;
+  state?: string;
+};
+
+type ProductRouteEnterpriseSummaryProps = {
+  title: string;
+  eyebrow?: string;
+  tone: ProductRouteTone;
+  metrics: ProductRouteEnterpriseMetric[];
+  testId?: string;
+};
+
+export function ProductRouteEnterpriseSummary({
+  title,
+  eyebrow = "Enterprise operation",
+  tone,
+  metrics,
+  testId,
+}: ProductRouteEnterpriseSummaryProps) {
+  const toneClasses = TONE_CLASSES[tone];
+
+  return (
+    <section
+      data-testid={testId}
+      data-enterprise-ux="economic-summary"
+      className={`border ${toneClasses.headerBorder} bg-white/[0.035] px-4 py-4`}
+      aria-label={title}
+    >
+      <div className="flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className={`text-[0.64rem] uppercase tracking-[0.22em] ${toneClasses.eyebrow}`}>
+            {eyebrow}
+          </p>
+          <h2 className="mt-1 text-lg font-semibold tracking-tight text-white">
+            {title}
+          </h2>
+        </div>
+      </div>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        {metrics.map((metric) => (
+          <div
+            key={metric.label}
+            className="min-h-[6.5rem] border border-white/10 bg-black/20 px-3 py-3"
+          >
+            <dt className="text-[0.58rem] uppercase tracking-[0.16em] text-neutral-500">
+              {metric.label}
+            </dt>
+            <dd className="mt-2 break-words text-sm font-semibold text-neutral-100">
+              {metric.value}
+            </dd>
+            {metric.state ? (
+              <p className="mt-2 text-[0.6rem] uppercase tracking-[0.14em] text-neutral-500">
+                {metric.state}
+              </p>
+            ) : null}
+            {metric.description ? (
+              <p className="mt-2 text-xs leading-5 text-neutral-400">
+                {metric.description}
+              </p>
+            ) : null}
+          </div>
+        ))}
+      </dl>
+    </section>
+  );
+}
+
+export type ProductRouteKeyboardShortcut = {
+  keys: string;
+  label: string;
+};
+
+type ProductRouteKeyboardHintProps = {
+  shortcuts: ProductRouteKeyboardShortcut[];
+  tone: ProductRouteTone;
+  testId?: string;
+};
+
+export function ProductRouteKeyboardHint({
+  shortcuts,
+  tone,
+  testId,
+}: ProductRouteKeyboardHintProps) {
+  const toneClasses = TONE_CLASSES[tone];
+
+  return (
+    <aside
+      data-testid={testId}
+      data-enterprise-ux="keyboard-navigation"
+      className={`border px-3 py-3 ${toneClasses.panelAccent}`}
+      aria-label="Keyboard navigation"
+    >
+      <div className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.16em]">
+        <KeyboardIcon />
+        Keyboard
+      </div>
+      <ul className="mt-2 grid gap-2 text-xs leading-5 text-neutral-300">
+        {shortcuts.map((shortcut) => (
+          <li
+            key={`${shortcut.keys}:${shortcut.label}`}
+            className="flex flex-wrap items-center gap-x-2 gap-y-1"
+          >
+            <kbd className="border border-white/10 bg-black/30 px-1.5 py-0.5 font-mono text-[0.65rem] text-neutral-100">
+              {shortcut.keys}
+            </kbd>
+            <span>{shortcut.label}</span>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
+}
+
+function KeyboardIcon() {
+  return (
+    <span className="relative inline-flex h-4 w-4 items-center justify-center">
+      <KeyRound className="absolute h-4 w-4 opacity-80" aria-hidden="true" />
+      <Command className="h-2.5 w-2.5 opacity-70" aria-hidden="true" />
+    </span>
+  );
+}
+
+export type ProductRouteProofRoot = {
+  id: string;
+  label: string;
+  root: string | null | undefined;
+};
+
+type ProductRouteProofDetailProps = {
+  title: string;
+  tone: ProductRouteTone;
+  roots: ProductRouteProofRoot[];
+  emptyMessage?: string;
+  defaultOpen?: boolean;
+  testId?: string;
+};
+
+export function ProductRouteProofDetail({
+  title,
+  tone,
+  roots,
+  emptyMessage = "No source-safe proof roots recorded.",
+  defaultOpen = false,
+  testId,
+}: ProductRouteProofDetailProps) {
+  const visibleRoots = roots.filter((root) => Boolean(root.root));
+
+  return (
+    <ProductRouteDisclosure title={title} tone={tone} defaultOpen={defaultOpen}>
+      <div
+        data-testid={testId}
+        data-enterprise-ux="expandable-proof-detail"
+        className="grid gap-2"
+      >
+        {visibleRoots.length ? (
+          visibleRoots.map((proofRoot) => (
+            <div
+              key={`${proofRoot.id}:${proofRoot.root}`}
+              className="border border-white/10 bg-black/20 px-3 py-2"
+            >
+              <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+                {proofRoot.label}
+              </p>
+              <p className="mt-1 break-all font-mono text-xs text-neutral-100">
+                {proofRoot.root}
+              </p>
+            </div>
+          ))
+        ) : (
+          <p className="text-xs text-neutral-400">{emptyMessage}</p>
+        )}
+      </div>
+    </ProductRouteDisclosure>
   );
 }

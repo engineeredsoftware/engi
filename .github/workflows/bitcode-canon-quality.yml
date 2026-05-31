@@ -363,7 +363,40 @@ jobs:
             node scripts/check-v43-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
             if [ -f BITCODE_SPEC_V44.md ]; then
               node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
+              node scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs --skip-branch-check
+              if [ -f scripts/check-v44-gate2-economic-domain-model.mjs ]; then
+                node scripts/check-v44-gate2-economic-domain-model.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate3-packs-portfolio-market-intelligence.mjs ]; then
+                node scripts/check-v44-gate3-packs-portfolio-market-intelligence.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate4-reading-budget-quote-policy.mjs ]; then
+                node scripts/check-v44-gate4-reading-budget-quote-policy.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs ]; then
+                node scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate6-btd-btc-compensation-statements.mjs ]; then
+                node scripts/check-v44-gate6-btd-btc-compensation-statements.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate7-organization-policy-wallet-authority.mjs ]; then
+                node scripts/check-v44-gate7-organization-policy-wallet-authority.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate8-enterprise-product-ux.mjs ]; then
+                node scripts/check-v44-gate8-enterprise-product-ux.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate9-scaled-network-rehearsal.mjs ]; then
+                node scripts/check-v44-gate9-scaled-network-rehearsal.mjs --skip-branch-check --skip-uapi-tests --skip-package-tests
+              fi
+              if [ -f scripts/check-v44-gate10-promotion-readiness.mjs ]; then
+                node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+              fi
             fi
+          elif [ "$POINTER" = "V44" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V44 --mode promoted --current-target V44
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V44
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V44 --draft-target V45
+            node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -519,7 +552,10 @@ jobs:
                 node scripts/check-bitcode-spec-family.mjs --version V43 --mode draft --current-target V42
               fi
               ;;
+            spec:\ V44*|spec:\ v44*)
+              node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39/V40/V41/V42/V43 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39/V40/V41/V42/V43/V44 spec change."
               ;;
           esac

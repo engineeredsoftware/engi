@@ -5,7 +5,7 @@
   "currentTarget": "V42",
   "sourceSafetyVerdict": "source-safe-route-vocabulary-inventory-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v43-route-vocabulary-inventory:dc2284aedb0486adb5dd171e",
+  "artifactRoot": "v43-route-vocabulary-inventory:eda2e8fe9e0e62640b2645cb",
   "passed": true,
   "tokenIds": [
     "route:/exchange",
@@ -286,7 +286,7 @@
   ],
   "predicateResults": [
     {
-      "id": "active-canon-pointer-remains-v42",
+      "id": "active-canon-pointer-supports-v43-route-migration-posture",
       "sourcePath": "BITCODE_SPEC.txt",
       "passed": true
     },
@@ -2081,7 +2081,7 @@
     },
     {
       "path": "BITCODE_SPEC_V43.md",
-      "pathRoot": "v43-route-vocabulary-file:f9489450daa7a81f17a4c59d",
+      "pathRoot": "v43-route-vocabulary-file:f63190456bd3772e786fc888",
       "categories": [
         "doc",
         "spec",
@@ -2095,10 +2095,10 @@
         "route:/deposit": 17,
         "symbol:Exchange": 4,
         "symbol:Terminal": 2,
-        "symbol:Packs": 5,
-        "symbol:Reading": 21,
-        "symbol:Depositing": 8,
-        "symbol:PackActivity": 8,
+        "symbol:Packs": 6,
+        "symbol:Reading": 20,
+        "symbol:Depositing": 7,
+        "symbol:PackActivity": 9,
         "symbol:DepositAssetPackOption": 4,
         "word:exchange": 6,
         "word:terminal": 5,
@@ -2141,7 +2141,7 @@
     },
     {
       "path": "BITCODE_SPEC_V43_NOTES.md",
-      "pathRoot": "v43-route-vocabulary-file:4e0daddae0cfaea87a010383",
+      "pathRoot": "v43-route-vocabulary-file:eb90d5c39a0d26ba8ae3c168",
       "categories": [
         "doc",
         "spec",
@@ -2155,23 +2155,23 @@
         "route:/deposit": 6,
         "symbol:Exchange": 1,
         "symbol:Terminal": 1,
-        "symbol:Packs": 1,
-        "symbol:Reading": 7,
-        "symbol:Depositing": 3,
-        "symbol:PackActivity": 2,
+        "symbol:Packs": 2,
+        "symbol:Reading": 8,
+        "symbol:Depositing": 4,
+        "symbol:PackActivity": 3,
         "symbol:DepositAssetPackOption": 1,
         "word:exchange": 2,
         "word:terminal": 1,
         "word:self-referential": 2
       },
-      "totalMatches": 48,
+      "totalMatches": 52,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "BITCODE_SPEC_V43_PARITY_MATRIX.md",
-      "pathRoot": "v43-route-vocabulary-file:36b3bb78ffad68c27098132f",
+      "pathRoot": "v43-route-vocabulary-file:b6125476356dc94690c89e8e",
       "categories": [
         "doc",
         "spec",
@@ -2180,18 +2180,106 @@
       "tokenCounts": {
         "route:/exchange": 3,
         "route:/terminal": 1,
-        "route:/packs": 13,
-        "route:/read": 8,
-        "route:/deposit": 11,
-        "symbol:Packs": 1,
+        "route:/packs": 12,
+        "route:/read": 7,
+        "route:/deposit": 10,
+        "symbol:Packs": 2,
         "symbol:Reading": 2,
-        "symbol:PackActivity": 5,
-        "symbol:DepositAssetPackOption": 1,
+        "symbol:PackActivity": 4,
         "word:exchange": 3,
         "word:terminal": 1,
         "word:self-referential": 2
       },
-      "totalMatches": 51,
+      "totalMatches": 47,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "BITCODE_SPEC_V44.md",
+      "pathRoot": "v43-route-vocabulary-file:4c6a2e168d369206ee76613f",
+      "categories": [
+        "doc",
+        "spec",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 15,
+        "route:/read": 12,
+        "route:/deposit": 12,
+        "symbol:Exchange": 2,
+        "symbol:Packs": 3,
+        "symbol:Reading": 17,
+        "symbol:Depositing": 4,
+        "symbol:PackActivity": 7,
+        "symbol:DepositAssetPackOption": 2
+      },
+      "totalMatches": 74,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "BITCODE_SPEC_V44_DELTA.md",
+      "pathRoot": "v43-route-vocabulary-file:1bba96f2e50b9a3a68c2d1c5",
+      "categories": [
+        "doc",
+        "spec",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 7,
+        "route:/read": 5,
+        "route:/deposit": 5,
+        "symbol:Packs": 3,
+        "symbol:Reading": 5,
+        "symbol:Depositing": 2,
+        "symbol:PackActivity": 3
+      },
+      "totalMatches": 30,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "BITCODE_SPEC_V44_NOTES.md",
+      "pathRoot": "v43-route-vocabulary-file:91accc64d094e2d517c2940e",
+      "categories": [
+        "doc",
+        "spec",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 7,
+        "route:/read": 5,
+        "route:/deposit": 5,
+        "symbol:Packs": 3,
+        "symbol:Reading": 5,
+        "symbol:Depositing": 1,
+        "symbol:PackActivity": 2
+      },
+      "totalMatches": 28,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "BITCODE_SPEC_V44_PARITY_MATRIX.md",
+      "pathRoot": "v43-route-vocabulary-file:66e1dbda37353ae4577dbd2b",
+      "categories": [
+        "doc",
+        "spec"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 2,
+        "route:/deposit": 2,
+        "symbol:Packs": 2,
+        "symbol:Reading": 3,
+        "symbol:PackActivity": 1,
+        "word:exchange": 1
+      },
+      "totalMatches": 14,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -2316,36 +2404,36 @@
     },
     {
       "path": "README.md",
-      "pathRoot": "v43-route-vocabulary-file:f016567028f5d6070662695b",
+      "pathRoot": "v43-route-vocabulary-file:cbfbe01895b907f53dc30d95",
       "categories": [
         "doc",
         "telemetry"
       ],
       "tokenCounts": {
-        "route:/exchange": 5,
-        "route:/terminal": 5,
-        "route:/packs": 13,
-        "route:/read": 10,
-        "route:/deposit": 9,
-        "symbol:Exchange": 16,
-        "symbol:Terminal": 31,
+        "route:/exchange": 3,
+        "route:/terminal": 2,
+        "route:/packs": 23,
+        "route:/read": 18,
+        "route:/deposit": 17,
+        "symbol:Exchange": 15,
+        "symbol:Terminal": 30,
         "symbol:Packs": 3,
-        "symbol:Reading": 32,
-        "symbol:Depositing": 6,
-        "symbol:PackActivity": 1,
+        "symbol:Reading": 37,
+        "symbol:Depositing": 7,
+        "symbol:PackActivity": 4,
         "symbol:DepositAssetPackOption": 1,
-        "word:exchange": 17,
-        "word:terminal": 7,
+        "word:exchange": 15,
+        "word:terminal": 4,
         "word:self-referential": 2
       },
-      "totalMatches": 158,
+      "totalMatches": 181,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "SPECIFICATIONS_ROADMAP.md",
-      "pathRoot": "v43-route-vocabulary-file:ce539868a759bd90522b0def",
+      "pathRoot": "v43-route-vocabulary-file:a03e16efb160528a5f7055b1",
       "categories": [
         "doc",
         "spec",
@@ -2354,20 +2442,21 @@
       "tokenCounts": {
         "route:/exchange": 4,
         "route:/terminal": 3,
-        "route:/packs": 12,
-        "route:/read": 12,
-        "route:/deposit": 10,
+        "route:/packs": 19,
+        "route:/read": 17,
+        "route:/deposit": 17,
         "symbol:Exchange": 25,
         "symbol:Terminal": 42,
-        "symbol:Reading": 59,
-        "symbol:Depositing": 11,
-        "symbol:PackActivity": 1,
+        "symbol:Packs": 1,
+        "symbol:Reading": 68,
+        "symbol:Depositing": 12,
+        "symbol:PackActivity": 3,
         "symbol:DepositAssetPackOption": 1,
         "word:exchange": 20,
         "word:terminal": 6,
         "word:self-referential": 3
       },
-      "totalMatches": 209,
+      "totalMatches": 241,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -3089,7 +3178,7 @@
     },
     {
       "path": "packages/btd/__tests__/btd.test.ts",
-      "pathRoot": "v43-route-vocabulary-file:9f7b25b03352fd5f731b94d6",
+      "pathRoot": "v43-route-vocabulary-file:55ca89d08673a78dc6ad6a86",
       "categories": [
         "package",
         "telemetry",
@@ -3097,9 +3186,9 @@
       ],
       "tokenCounts": {
         "route:/terminal": 1,
-        "word:terminal": 5
+        "word:terminal": 8
       },
-      "totalMatches": 6,
+      "totalMatches": 9,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -4850,6 +4939,22 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "packages/pipelines/asset-pack/src/__tests__/depositor-earning-supply-intelligence.test.ts",
+      "pathRoot": "v43-route-vocabulary-file:2aa03d1fad0f82d4d7a6be30",
+      "categories": [
+        "package",
+        "test"
+      ],
+      "tokenCounts": {
+        "route:/deposit": 2,
+        "symbol:Reading": 1
+      },
+      "totalMatches": 3,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "packages/pipelines/asset-pack/src/__tests__/depository-search.test.ts",
       "pathRoot": "v43-route-vocabulary-file:6b61825a505385f68c841c3a",
       "categories": [
@@ -4881,6 +4986,23 @@
         "word:terminal": 9
       },
       "totalMatches": 14,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/pipelines/asset-pack/src/__tests__/organization-policy-wallet-authority.test.ts",
+      "pathRoot": "v43-route-vocabulary-file:7f5709ff8ad9be9031363dda",
+      "categories": [
+        "package",
+        "test"
+      ],
+      "tokenCounts": {
+        "route:/read": 3,
+        "route:/deposit": 2,
+        "symbol:Reading": 2
+      },
+      "totalMatches": 7,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -5241,6 +5363,20 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts",
+      "pathRoot": "v43-route-vocabulary-file:6eaf571927a484e88c9e91c1",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/deposit": 3
+      },
+      "totalMatches": 3,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "packages/pipelines/asset-pack/src/index.ts",
       "pathRoot": "v43-route-vocabulary-file:6d4401bdde8d14a689e26e57",
       "categories": [
@@ -5251,6 +5387,23 @@
         "symbol:Exchange": 1
       },
       "totalMatches": 1,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts",
+      "pathRoot": "v43-route-vocabulary-file:1cfe68ab62cb80f0102dae34",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 4,
+        "route:/deposit": 4,
+        "word:terminal": 1
+      },
+      "totalMatches": 12,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -5956,7 +6109,7 @@
     },
     {
       "path": "packages/protocol/README.md",
-      "pathRoot": "v43-route-vocabulary-file:713df219ad5a8084a950c07c",
+      "pathRoot": "v43-route-vocabulary-file:76d332061e46d4a1dc52cc23",
       "categories": [
         "doc",
         "package",
@@ -5965,20 +6118,20 @@
       "tokenCounts": {
         "route:/exchange": 4,
         "route:/terminal": 2,
-        "route:/packs": 10,
-        "route:/read": 7,
-        "route:/deposit": 5,
+        "route:/packs": 18,
+        "route:/read": 13,
+        "route:/deposit": 12,
         "symbol:Exchange": 17,
         "symbol:Terminal": 29,
         "symbol:Packs": 1,
-        "symbol:Reading": 35,
+        "symbol:Reading": 39,
         "symbol:Depositing": 7,
-        "symbol:PackActivity": 1,
+        "symbol:PackActivity": 2,
         "word:exchange": 16,
         "word:terminal": 6,
         "word:self-referential": 1
       },
-      "totalMatches": 141,
+      "totalMatches": 167,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -7344,6 +7497,154 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "packages/protocol/src/canonical/v44-btd-btc-compensation-statements.js",
+      "pathRoot": "v43-route-vocabulary-file:e12380cb0de7c754885c6961",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/packs": 2
+      },
+      "totalMatches": 2,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-depositor-earnings-supply-opportunities.js",
+      "pathRoot": "v43-route-vocabulary-file:20da92c9c742618de6616a54",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/deposit": 3,
+        "symbol:Reading": 1,
+        "symbol:Depositing": 1
+      },
+      "totalMatches": 5,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-economic-domain-model.js",
+      "pathRoot": "v43-route-vocabulary-file:ba547b84fe7852904b8bdce8",
+      "categories": [
+        "package",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 13,
+        "route:/read": 8,
+        "route:/deposit": 8,
+        "symbol:Reading": 1
+      },
+      "totalMatches": 30,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-enterprise-product-ux.js",
+      "pathRoot": "v43-route-vocabulary-file:3c65e977fd672b8d98ef006d",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 3,
+        "route:/deposit": 3,
+        "symbol:Reading": 2,
+        "symbol:Depositing": 2
+      },
+      "totalMatches": 13,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-organization-policy-wallet-authority.js",
+      "pathRoot": "v43-route-vocabulary-file:4706c43dddd83947a713595f",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 6,
+        "route:/deposit": 5,
+        "symbol:Reading": 2
+      },
+      "totalMatches": 16,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-packs-portfolio-market-intelligence.js",
+      "pathRoot": "v43-route-vocabulary-file:da7243c2ae8335d4b51d8429",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/packs": 4,
+        "symbol:Packs": 1,
+        "symbol:PackActivity": 1
+      },
+      "totalMatches": 6,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-promotion-readiness-report.js",
+      "pathRoot": "v43-route-vocabulary-file:ff1755443cc16cdf931c229a",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "symbol:Packs": 1,
+        "symbol:Reading": 1
+      },
+      "totalMatches": 2,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-reading-budget-quote-policy.js",
+      "pathRoot": "v43-route-vocabulary-file:9bea51492d12e9be118e967f",
+      "categories": [
+        "package"
+      ],
+      "tokenCounts": {
+        "route:/read": 3,
+        "symbol:Reading": 6
+      },
+      "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/src/canonical/v44-scaled-network-rehearsal.js",
+      "pathRoot": "v43-route-vocabulary-file:46b53820e589b868fe702f82",
+      "categories": [
+        "package",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 12,
+        "route:/read": 9,
+        "route:/deposit": 7,
+        "symbol:Reading": 2,
+        "symbol:Depositing": 1
+      },
+      "totalMatches": 31,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "packages/protocol/src/demo-shell-state.js",
       "pathRoot": "v43-route-vocabulary-file:f10959e91d241ff9c35f957b",
       "categories": [
@@ -7855,6 +8156,67 @@
         "word:terminal": 1
       },
       "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/test/v44-depositor-earnings-supply-opportunities.test.js",
+      "pathRoot": "v43-route-vocabulary-file:a5f03ea7e88800d6763bfd1f",
+      "categories": [
+        "package",
+        "test"
+      ],
+      "tokenCounts": {
+        "route:/deposit": 1
+      },
+      "totalMatches": 1,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/test/v44-organization-policy-wallet-authority.test.js",
+      "pathRoot": "v43-route-vocabulary-file:a2ab13c1e320a6ecd8ab2f56",
+      "categories": [
+        "package",
+        "test"
+      ],
+      "tokenCounts": {
+        "symbol:Packs": 1
+      },
+      "totalMatches": 1,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/test/v44-packs-portfolio-market-intelligence.test.js",
+      "pathRoot": "v43-route-vocabulary-file:a62d7b604ed35f2968a662c0",
+      "categories": [
+        "package",
+        "test"
+      ],
+      "tokenCounts": {
+        "symbol:Packs": 2
+      },
+      "totalMatches": 2,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "packages/protocol/test/v44-reading-budget-quote-policy.test.js",
+      "pathRoot": "v43-route-vocabulary-file:1da5f84375d371ce42e513a3",
+      "categories": [
+        "package",
+        "test"
+      ],
+      "tokenCounts": {
+        "route:/read": 1,
+        "symbol:Reading": 2
+      },
+      "totalMatches": 3,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -10175,6 +10537,134 @@
       "sourceSnippetSerialized": false
     },
     {
+      "path": "scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs",
+      "pathRoot": "v43-route-vocabulary-file:f91418af468258ba0b80dce7",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/packs": 1,
+        "route:/read": 1,
+        "route:/deposit": 1,
+        "symbol:Packs": 1,
+        "symbol:Reading": 1
+      },
+      "totalMatches": 5,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/check-v44-gate3-packs-portfolio-market-intelligence.mjs",
+      "pathRoot": "v43-route-vocabulary-file:8b00df2261e5b68fff312713",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "symbol:Packs": 2
+      },
+      "totalMatches": 5,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/check-v44-gate4-reading-budget-quote-policy.mjs",
+      "pathRoot": "v43-route-vocabulary-file:5510173bdbde1dd4dc6cef9b",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/read": 3,
+        "symbol:Reading": 6
+      },
+      "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/check-v44-gate5-depositor-earnings-supply-opportunities.mjs",
+      "pathRoot": "v43-route-vocabulary-file:0a50eaf22b2f37e24746b4da",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/deposit": 3
+      },
+      "totalMatches": 3,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/check-v44-gate6-btd-btc-compensation-statements.mjs",
+      "pathRoot": "v43-route-vocabulary-file:2e4b0cff7ce8a08f93c4f09d",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/packs": 2,
+        "symbol:Packs": 2
+      },
+      "totalMatches": 4,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/check-v44-gate7-organization-policy-wallet-authority.mjs",
+      "pathRoot": "v43-route-vocabulary-file:bcdb8453fdc8da226599402f",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 4,
+        "route:/deposit": 4,
+        "symbol:Packs": 1
+      },
+      "totalMatches": 12,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/check-v44-gate8-enterprise-product-ux.mjs",
+      "pathRoot": "v43-route-vocabulary-file:1e4b656936f2c737a8245c41",
+      "categories": [
+        "script"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 3,
+        "route:/deposit": 3
+      },
+      "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/check-v44-gate9-scaled-network-rehearsal.mjs",
+      "pathRoot": "v43-route-vocabulary-file:c0cf239938528e9dcbbe796c",
+      "categories": [
+        "script",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 2,
+        "route:/read": 3,
+        "route:/deposit": 3,
+        "symbol:PackActivity": 1
+      },
+      "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
       "path": "scripts/code-review/README.md",
       "pathRoot": "v43-route-vocabulary-file:fef2886ffeed000a3327379c",
       "categories": [
@@ -10610,7 +11100,7 @@
     },
     {
       "path": "scripts/prepare-bitcode-spec-family-promotion.mjs",
-      "pathRoot": "v43-route-vocabulary-file:c0b948392af39c517d7016ef",
+      "pathRoot": "v43-route-vocabulary-file:1ae0b813341eafa53df8d977",
       "categories": [
         "script",
         "telemetry"
@@ -10621,21 +11111,21 @@
         "route:/deposit": 1,
         "symbol:Exchange": 12,
         "symbol:Terminal": 24,
-        "symbol:Packs": 1,
-        "symbol:Reading": 37,
+        "symbol:Packs": 3,
+        "symbol:Reading": 40,
         "symbol:Depositing": 4,
         "symbol:PackActivity": 2,
         "word:exchange": 7,
         "word:terminal": 2
       },
-      "totalMatches": 94,
+      "totalMatches": 99,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "scripts/promote-bitcode-canon.mjs",
-      "pathRoot": "v43-route-vocabulary-file:e969a2b88ac6b4ead37871ba",
+      "pathRoot": "v43-route-vocabulary-file:04547a375e253dfe017b1514",
       "categories": [
         "script",
         "telemetry"
@@ -10644,13 +11134,13 @@
         "route:/read": 1,
         "symbol:Exchange": 6,
         "symbol:Terminal": 8,
-        "symbol:Packs": 1,
-        "symbol:Reading": 12,
+        "symbol:Packs": 2,
+        "symbol:Reading": 13,
         "symbol:Depositing": 1,
         "word:exchange": 9,
         "word:terminal": 13
       },
-      "totalMatches": 51,
+      "totalMatches": 53,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -10673,6 +11163,23 @@
     {
       "path": "scripts/rehearse-v43-cross-route-product-flow.mjs",
       "pathRoot": "v43-route-vocabulary-file:68edbff3c2693954b7b9daa7",
+      "categories": [
+        "script",
+        "telemetry"
+      ],
+      "tokenCounts": {
+        "route:/packs": 3,
+        "route:/read": 3,
+        "route:/deposit": 3
+      },
+      "totalMatches": 9,
+      "sourceSafeMetadataOnly": true,
+      "rawSourceTextSerialized": false,
+      "sourceSnippetSerialized": false
+    },
+    {
+      "path": "scripts/rehearse-v44-scaled-network-flow.mjs",
+      "pathRoot": "v43-route-vocabulary-file:660e0acd30964cace555f0f7",
       "categories": [
         "script",
         "telemetry"
@@ -11532,7 +12039,7 @@
     },
     {
       "path": "uapi/app/deposit/DepositPageClient.tsx",
-      "pathRoot": "v43-route-vocabulary-file:ed94c3944988d6918c0e7480",
+      "pathRoot": "v43-route-vocabulary-file:f2420b10b04cc418d9da712f",
       "categories": [
         "component",
         "telemetry"
@@ -11541,24 +12048,24 @@
         "route:/terminal": 12,
         "route:/packs": 1,
         "symbol:Reading": 2,
-        "symbol:Depositing": 1,
+        "symbol:Depositing": 2,
         "word:terminal": 23
       },
-      "totalMatches": 39,
+      "totalMatches": 40,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "uapi/app/deposit/deposit-route-model.ts",
-      "pathRoot": "v43-route-vocabulary-file:d2f45e9ac13289222bb7dd8d",
+      "pathRoot": "v43-route-vocabulary-file:9f874e16b85a2cad2cc004fb",
       "categories": [
         "telemetry"
       ],
       "tokenCounts": {
-        "route:/deposit": 3
+        "route:/deposit": 6
       },
-      "totalMatches": 3,
+      "totalMatches": 6,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -11816,16 +12323,18 @@
     },
     {
       "path": "uapi/app/packs/PacksPageClient.tsx",
-      "pathRoot": "v43-route-vocabulary-file:302a64482199b93281b6bc2d",
+      "pathRoot": "v43-route-vocabulary-file:e2a6d13fb8ac8c619972b4e3",
       "categories": [
         "component",
         "telemetry"
       ],
       "tokenCounts": {
         "route:/packs": 1,
-        "symbol:Packs": 1
+        "symbol:Packs": 1,
+        "symbol:Reading": 3,
+        "symbol:PackActivity": 1
       },
-      "totalMatches": 2,
+      "totalMatches": 6,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -11864,7 +12373,7 @@
     },
     {
       "path": "uapi/app/read/ReadPageClient.tsx",
-      "pathRoot": "v43-route-vocabulary-file:1f818574d002de39986ecf9d",
+      "pathRoot": "v43-route-vocabulary-file:88ac7ae502da78f716984a0b",
       "categories": [
         "component",
         "telemetry"
@@ -11873,10 +12382,10 @@
         "route:/terminal": 11,
         "route:/packs": 1,
         "route:/read": 1,
-        "symbol:Reading": 11,
+        "symbol:Reading": 14,
         "word:terminal": 24
       },
-      "totalMatches": 48,
+      "totalMatches": 51,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -11899,14 +12408,15 @@
     },
     {
       "path": "uapi/app/read/read-route-model.ts",
-      "pathRoot": "v43-route-vocabulary-file:7ed5cb28ad6ce5145fde430c",
+      "pathRoot": "v43-route-vocabulary-file:4c0c9efefe33fa407d10c8da",
       "categories": [],
       "tokenCounts": {
         "route:/terminal": 1,
-        "route:/read": 3,
+        "route:/read": 6,
+        "symbol:Reading": 1,
         "word:terminal": 2
       },
-      "totalMatches": 6,
+      "totalMatches": 10,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -14250,14 +14760,14 @@
     },
     {
       "path": "uapi/tests/depositRouteModel.test.ts",
-      "pathRoot": "v43-route-vocabulary-file:ac3d550f04ed47a3919ade98",
+      "pathRoot": "v43-route-vocabulary-file:d5e8711c81fe2b866dd4f7b6",
       "categories": [
         "test"
       ],
       "tokenCounts": {
-        "route:/deposit": 5
+        "route:/deposit": 7
       },
-      "totalMatches": 5,
+      "totalMatches": 7,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -14718,22 +15228,23 @@
     },
     {
       "path": "uapi/tests/packActivityModel.test.ts",
-      "pathRoot": "v43-route-vocabulary-file:500a56f182923cdbae356edb",
+      "pathRoot": "v43-route-vocabulary-file:1e4da9d875f8377591c3c697",
       "categories": [
         "telemetry",
         "test"
       ],
       "tokenCounts": {
+        "route:/read": 2,
         "symbol:PackActivity": 1
       },
-      "totalMatches": 1,
+      "totalMatches": 3,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
     },
     {
       "path": "uapi/tests/packsPageClient.test.tsx",
-      "pathRoot": "v43-route-vocabulary-file:b94555d7fedae1f7b7efc193",
+      "pathRoot": "v43-route-vocabulary-file:cd7645d5121cc34c5ad0024d",
       "categories": [
         "component",
         "telemetry",
@@ -14741,9 +15252,10 @@
       ],
       "tokenCounts": {
         "route:/packs": 4,
+        "route:/read": 2,
         "symbol:Packs": 1
       },
-      "totalMatches": 5,
+      "totalMatches": 7,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -14821,14 +15333,15 @@
     },
     {
       "path": "uapi/tests/readRouteModel.test.ts",
-      "pathRoot": "v43-route-vocabulary-file:fb15e6d162f430fc0e8c9868",
+      "pathRoot": "v43-route-vocabulary-file:0930bf2820f8098d6e7c18e9",
       "categories": [
         "test"
       ],
       "tokenCounts": {
-        "route:/read": 2
+        "route:/read": 3,
+        "symbol:Reading": 1
       },
-      "totalMatches": 2,
+      "totalMatches": 4,
       "sourceSafeMetadataOnly": true,
       "rawSourceTextSerialized": false,
       "sourceSnippetSerialized": false
@@ -15809,35 +16322,35 @@
     }
   ],
   "coverage": {
-    "sourceFileCount": 929,
+    "sourceFileCount": 959,
     "tokenTotals": {
-      "route:/exchange": 147,
-      "route:/terminal": 1475,
-      "route:/packs": 220,
-      "route:/read": 328,
-      "route:/deposit": 199,
-      "symbol:Exchange": 1964,
-      "symbol:Terminal": 3091,
-      "symbol:Packs": 56,
-      "symbol:Reading": 1345,
-      "symbol:Depositing": 251,
-      "symbol:PackActivity": 34,
-      "symbol:DepositAssetPackOption": 33,
-      "word:exchange": 1708,
-      "word:terminal": 3735,
+      "route:/exchange": 145,
+      "route:/terminal": 1472,
+      "route:/packs": 333,
+      "route:/read": 432,
+      "route:/deposit": 304,
+      "symbol:Exchange": 1965,
+      "symbol:Terminal": 3090,
+      "symbol:Packs": 85,
+      "symbol:Reading": 1432,
+      "symbol:Depositing": 265,
+      "symbol:PackActivity": 57,
+      "symbol:DepositAssetPackOption": 34,
+      "word:exchange": 1707,
+      "word:terminal": 3736,
       "word:self-referential": 32
     },
     "categoryTotals": {
       "route": 14,
       "component": 150,
-      "test": 224,
-      "doc": 169,
+      "test": 230,
+      "doc": 173,
       "api": 43,
-      "telemetry": 668,
+      "telemetry": 675,
       "workflow": 12,
-      "script": 124,
-      "package": 324,
-      "spec": 76
+      "script": 133,
+      "package": 341,
+      "spec": 80
     },
     "routeVocabularyInventoryComplete": true,
     "migrationMatrixComplete": true,

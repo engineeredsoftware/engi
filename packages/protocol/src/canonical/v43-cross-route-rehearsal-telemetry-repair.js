@@ -275,7 +275,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('gate7-artifact-passed', SOURCE_ROOTS.gate7Artifact, artifactPassed(repoRoot, SOURCE_ROOTS.gate7Artifact, 'v43-deposit-option-admission')),
     predicateResult('gate8-artifact-passed', SOURCE_ROOTS.gate8Artifact, artifactPassed(repoRoot, SOURCE_ROOTS.gate8Artifact, 'v43-route-ux-product-excellence')),
     predicateResult('deposit-route-covers-admission', SOURCE_ROOTS.depositClient, sources.depositClient.includes('pipeline:deposit-option-admission') && sources.depositClient.includes('DepositAssetPackOptionAdmissionReport')),
-    predicateResult('deposit-model-covers-repair-boundaries', SOURCE_ROOTS.depositModel, sources.depositModel.includes('sourceCriticalityDemandRoiPolicyOwnedByGate6') && sources.depositModel.includes('admissionAndIndexingOwnedByGate7')),
+    predicateResult('deposit-model-covers-repair-boundaries', SOURCE_ROOTS.depositModel, sources.depositModel.includes('sourceCriticalityDemandRoiPolicyPresent') && sources.depositModel.includes('sourceCriticalityDemandRoiPolicySourceSafe') && sources.depositModel.includes('admissionAndIndexingPolicyPresent')),
     predicateResult('read-route-covers-two-pipeline-path', SOURCE_ROOTS.readModel, sources.readModel.includes('ReadNeedComprehensionSynthesis') && sources.readModel.includes('ReadFitsFindingSynthesis') && sources.readModel.includes('deliveryRequiresPaidReadRights')),
     predicateResult('read-client-covers-preview-settlement-delivery', SOURCE_ROOTS.readClient, sources.readClient.includes('Finding Fits') && sources.readClient.includes('Withheld until paid') && sources.readClient.includes('settlement readback')),
     predicateResult('packs-route-covers-activity-repair', SOURCE_ROOTS.packsClient, sources.packsClient.includes('PackActivity') && sources.packsClient.includes('repairState') && sources.packsClient.includes('compensationState')),
@@ -295,7 +295,15 @@ function buildPredicateResults(repoRoot) {
     predicateResult('v43-delta-expanded', SOURCE_ROOTS.delta, includesText(sources.delta, 'Gate 9') && includesText(sources.delta, 'cross-route rehearsal')),
     predicateResult('v43-notes-expanded', SOURCE_ROOTS.notes, sources.notes.includes('Gate 9') && sources.notes.includes('telemetry/database/ledger/storage')),
     predicateResult('v43-parity-implemented', SOURCE_ROOTS.parity, sources.parity.includes('Cross-route rehearsal') && sources.parity.includes('implemented')),
-    predicateResult('roadmap-advanced-to-gate9', SOURCE_ROOTS.roadmap, (sources.roadmap.includes('Current working gate: V43 Gate 9') || sources.roadmap.includes('Current working gate: V43 Gate 10')) && sources.roadmap.includes('V43 Gate 9 closure anchor')),
+    predicateResult(
+      'roadmap-advanced-to-gate9',
+      SOURCE_ROOTS.roadmap,
+      (
+        sources.roadmap.includes('Current working gate: V43 Gate 9') ||
+        sources.roadmap.includes('Current working gate: V43 Gate 10') ||
+        sources.roadmap.includes('V43 Gate 10 closure anchor')
+      ) && sources.roadmap.includes('V43 Gate 9 closure anchor'),
+    ),
     predicateResult('readmes-document-gate9', SOURCE_ROOTS.readme, sources.readme.includes('V43 Gate 9') && sources.protocolReadme.includes('V43CrossRouteRehearsalTelemetryRepair')),
   ];
 }

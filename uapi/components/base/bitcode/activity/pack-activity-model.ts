@@ -57,6 +57,31 @@ export interface PackActivitySourceSafety {
   sourceSnippetVisible: false;
 }
 
+export interface PackActivityAccountingReadback {
+  state: string | null;
+  btdRangeState: string | null;
+  btcSettlementState: string | null;
+  compensationState: string | null;
+  reconciliationState: string | null;
+  treasuryRouteState: string | null;
+  contributorCount: number;
+  depositorCount: number;
+  finalSettlementSats: number;
+  allocatedContributorSats: number;
+  statementRoot: string | null;
+}
+
+export interface PackActivityGovernanceReadback {
+  state: string | null;
+  route: string | null;
+  walletState: string | null;
+  spendState: string | null;
+  depositState: string | null;
+  requiredDeniedActionCount: number;
+  blockerCount: number;
+  authorityRoot: string | null;
+}
+
 export interface PackActivityRecord {
   id: string;
   type: PackActivityType;
@@ -74,6 +99,8 @@ export interface PackActivityRecord {
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
+  accounting: PackActivityAccountingReadback | null;
+  governance: PackActivityGovernanceReadback | null;
   sourceSafety: PackActivitySourceSafety;
   metadata: Record<string, unknown>;
 }
@@ -114,6 +141,8 @@ export interface PackActivityDetailProjection {
   measurements: PackActivityMeasurement[];
   values: PackActivityValue[];
   proofRoots: PackActivityProofRoot[];
+  accounting: PackActivityAccountingReadback | null;
+  governance: PackActivityGovernanceReadback | null;
   states: {
     settlement: string | null;
     compensation: string | null;
@@ -137,6 +166,72 @@ export interface PackActivitySummary {
   compensationReady: number;
   deliveryReady: number;
   repairOpen: number;
+}
+
+export type PackMarketSignalKind =
+  | 'demand'
+  | 'supply'
+  | 'unfit-need'
+  | 'settlement'
+  | 'compensation'
+  | 'delivery'
+  | 'repair';
+
+export interface PackSavedFilterPreset {
+  id: string;
+  label: string;
+  description: string;
+  query: Record<string, string>;
+  signalKind: PackMarketSignalKind | 'portfolio';
+}
+
+export interface PackPortfolioPositionProjection {
+  id: string;
+  organizationView: string;
+  repository: string;
+  assetPackTitle: string;
+  state: string;
+  activityCount: number;
+  lastActivityAt: string | null;
+  valueTotalSats: number;
+  btdEstimate: number;
+  proofRootCount: number;
+  demandSignalCount: number;
+  supplySignalCount: number;
+  unfitNeedSignalCount: number;
+  settlementState: string | null;
+  compensationState: string | null;
+  deliveryState: string | null;
+  repairState: string | null;
+  sourceSafety: PackActivitySourceSafety;
+}
+
+export interface PackMarketSignalProjection {
+  id: string;
+  kind: PackMarketSignalKind;
+  label: string;
+  description: string;
+  strength: number;
+  state: string;
+  repository: string | null;
+  relatedRecordIds: string[];
+  proofRoots: PackActivityProofRoot[];
+  sourceSafety: PackActivitySourceSafety;
+}
+
+export interface PackPortfolioFacetSummary {
+  settlement: Record<string, number>;
+  compensation: Record<string, number>;
+  delivery: Record<string, number>;
+  repair: Record<string, number>;
+}
+
+export interface PackPortfolioMarketIntelligence {
+  positions: PackPortfolioPositionProjection[];
+  signals: PackMarketSignalProjection[];
+  savedFilters: PackSavedFilterPreset[];
+  facets: PackPortfolioFacetSummary;
+  sourceSafety: PackActivitySourceSafety;
 }
 
 const SOURCE_SAFETY: PackActivitySourceSafety = {
@@ -224,6 +319,29 @@ function findFirstNumber(source: unknown, keys: string[], depth = 0): number | n
   for (const value of Object.values(record)) {
     const found = findFirstNumber(value, keys, depth + 1);
     if (found !== null) return found;
+  }
+  return null;
+}
+
+function findFirstRecord(
+  source: unknown,
+  predicate: (record: Record<string, unknown>) => boolean,
+  depth = 0,
+): Record<string, unknown> | null {
+  if (depth > 7 || source === null || source === undefined) return null;
+  if (Array.isArray(source)) {
+    for (const item of source) {
+      const found = findFirstRecord(item, predicate, depth + 1);
+      if (found) return found;
+    }
+    return null;
+  }
+
+  const record = asRecord(source);
+  if (Object.keys(record).length > 0 && predicate(record)) return record;
+  for (const value of Object.values(record)) {
+    const found = findFirstRecord(value, predicate, depth + 1);
+    if (found) return found;
   }
   return null;
 }
@@ -374,6 +492,81 @@ function buildValues(record: BitcodeActivityRecord): PackActivityValue[] {
   return values;
 }
 
+function buildAccountingReadback(record: BitcodeActivityRecord): PackActivityAccountingReadback | null {
+  const payload = asRecord(record.payload);
+  const statements = findFirstRecord(
+    payload,
+    (candidate) =>
+      candidate.schema === 'bitcode.asset-pack.btd-btc-compensation-statements' ||
+      candidate.statements === 'BtdBtcCompensationStatements',
+  );
+  const aggregate = asRecord(statements?.aggregate);
+  const btdRange = asRecord(statements?.btdRange);
+  const btcSettlement = asRecord(statements?.btcSettlement);
+  const reconciliation = asRecord(statements?.reconciliation);
+  const firstTreasuryRoute = findFirstRecord(
+    statements?.treasuryRoutes,
+    (candidate) => candidate.schema === 'bitcode.asset-pack.treasury-route-statement',
+  );
+  const roots = asRecord(statements?.roots);
+  const hasAccounting =
+    Boolean(statements) ||
+    Boolean(readString(payload, 'accountingState', 'btdBtcAccountingState')) ||
+    Boolean(findFirstString(payload, ['accountingRoot', 'btdBtcAccountingRoot']));
+
+  if (!hasAccounting) return null;
+
+  return {
+    state: readString(statements, 'state') || readString(payload, 'accountingState', 'btdBtcAccountingState'),
+    btdRangeState: readString(btdRange, 'rangeState'),
+    btcSettlementState: readString(btcSettlement, 'state'),
+    compensationState: readString(payload, 'compensationState', 'compensation_state', 'sourceToSharesState'),
+    reconciliationState: readString(reconciliation, 'state') || readString(payload, 'reconciliationState'),
+    treasuryRouteState: readString(firstTreasuryRoute, 'routeState'),
+    contributorCount: findFirstNumber(aggregate, ['contributorCount']) || 0,
+    depositorCount: findFirstNumber(aggregate, ['depositorCount']) || 0,
+    finalSettlementSats: findFirstNumber(aggregate, ['finalSettlementSats']) || 0,
+    allocatedContributorSats: findFirstNumber(aggregate, ['allocatedContributorSats']) || 0,
+    statementRoot:
+      readString(roots, 'accountingRoot') ||
+      findFirstString(payload, ['accountingRoot', 'btdBtcAccountingRoot', 'packEconomicStatementRoot']),
+  };
+}
+
+function buildGovernanceReadback(record: BitcodeActivityRecord): PackActivityGovernanceReadback | null {
+  const payload = asRecord(record.payload);
+  const statement = findFirstRecord(
+    payload,
+    (candidate) =>
+      candidate.schema === 'bitcode.organization.policy-wallet-authority' ||
+      candidate.statement === 'OrganizationPolicyWalletAuthority',
+  );
+  const aggregate = asRecord(statement?.aggregate);
+  const walletAuthority = asRecord(statement?.walletAuthority);
+  const budgetApproval = asRecord(statement?.budgetApproval);
+  const depositApproval = asRecord(statement?.depositApproval);
+  const roots = asRecord(statement?.roots);
+  const hasGovernance =
+    Boolean(statement) ||
+    Boolean(readString(payload, 'organizationAuthorityState', 'governanceState')) ||
+    Boolean(findFirstString(payload, ['organizationAuthorityRoot', 'governanceAuthorityRoot']));
+
+  if (!hasGovernance) return null;
+
+  return {
+    state: readString(aggregate, 'state') || readString(payload, 'organizationAuthorityState', 'governanceState'),
+    route: readString(statement, 'route') || readString(payload, 'governanceRoute'),
+    walletState: readString(walletAuthority, 'state') || readString(payload, 'walletAuthorityState'),
+    spendState: readString(budgetApproval, 'state') || readString(payload, 'spendAuthorityState'),
+    depositState: readString(depositApproval, 'state') || readString(payload, 'depositAuthorityState'),
+    requiredDeniedActionCount: findFirstNumber(aggregate, ['requiredDeniedActionCount']) || 0,
+    blockerCount: findFirstNumber(aggregate, ['blockerCount']) || 0,
+    authorityRoot:
+      readString(roots, 'authorityRoot') ||
+      findFirstString(payload, ['organizationAuthorityRoot', 'governanceAuthorityRoot']),
+  };
+}
+
 function collectProofRoots(source: unknown, roots = new Map<string, PackActivityProofRoot>(), depth = 0) {
   if (depth > 7 || source === null || source === undefined) return roots;
 
@@ -449,6 +642,8 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     measurements: buildMeasurements(record),
     values: buildValues(record),
     proofRoots: [...collectProofRoots(record.payload).values()].slice(0, 24),
+    accounting: buildAccountingReadback(record),
+    governance: buildGovernanceReadback(record),
     sourceSafety: SOURCE_SAFETY,
     metadata,
   };
@@ -503,10 +698,69 @@ function buildSearchText(record: PackActivityRecord) {
     ]),
     ...record.values.flatMap((value) => [value.id, value.label, String(value.amount), value.unit]),
     ...record.proofRoots.flatMap((proofRoot) => [proofRoot.id, proofRoot.label, proofRoot.root]),
+    record.accounting?.state,
+    record.accounting?.btdRangeState,
+    record.accounting?.btcSettlementState,
+    record.accounting?.compensationState,
+    record.accounting?.reconciliationState,
+    record.accounting?.treasuryRouteState,
+    record.accounting?.statementRoot,
+    record.governance?.state,
+    record.governance?.route,
+    record.governance?.walletState,
+    record.governance?.spendState,
+    record.governance?.depositState,
+    record.governance?.authorityRoot,
   ]
     .filter(Boolean)
     .join(' ')
     .toLowerCase();
+}
+
+function firstValueTotalSats(record: PackActivityRecord) {
+  return record.values.reduce((total, value) => {
+    if (value.unit !== 'sats') return total;
+    const amount = Number(value.amount);
+    return Number.isFinite(amount) ? total + amount : total;
+  }, 0);
+}
+
+function firstBtdEstimate(record: PackActivityRecord) {
+  const measurement = record.measurements.find((entry) => entry.unit === 'BTD');
+  const value = Number(measurement?.value ?? 0);
+  return Number.isFinite(value) ? value : 0;
+}
+
+function isOpenRepairState(value: string | null) {
+  return Boolean(value && !/(not_required|closed|complete|completed|none)/iu.test(value));
+}
+
+function inferSignalKinds(record: PackActivityRecord): PackMarketSignalKind[] {
+  const text = buildSearchText(record);
+  const kinds = new Set<PackMarketSignalKind>();
+  if (record.type === 'read-need-fit-preview' || includesAny(text, ['read demand', 'need demand', 'finding fits'])) {
+    kinds.add('demand');
+  }
+  if (
+    record.type === 'deposit-option' ||
+    record.type === 'depository-assetpack' ||
+    includesAny(text, ['supply opportunity', 'deposit supply', 'depository supply'])
+  ) {
+    kinds.add('supply');
+  }
+  if (includesAny(text, ['unfit', 'no worthy fit', 'no_worthy_fit', 'no fit', 'blocked readiness'])) {
+    kinds.add('unfit-need');
+  }
+  if (record.type === 'settlement' || record.settlementState) kinds.add('settlement');
+  if (record.type === 'compensation' || record.compensationState) kinds.add('compensation');
+  if (record.type === 'delivery' || record.deliveryState) kinds.add('delivery');
+  if (record.type === 'repair' || isOpenRepairState(record.repairState)) kinds.add('repair');
+  return [...kinds];
+}
+
+function incrementFacet(target: Record<string, number>, value: string | null) {
+  const key = value || 'not-recorded';
+  target[key] = (target[key] || 0) + 1;
 }
 
 export function filterPackActivityRecords(
@@ -591,6 +845,8 @@ export function buildPackActivityDetailProjection(
     measurements: record.measurements,
     values: record.values,
     proofRoots: record.proofRoots,
+    accounting: record.accounting,
+    governance: record.governance,
     states: {
       settlement: record.settlementState,
       compensation: record.compensationState,
@@ -629,6 +885,125 @@ export function summarizePackActivityRecords(records: PackActivityRecord[]): Pac
     compensationReady: records.filter((record) => /ready|allocated|paid/i.test(record.compensationState || '')).length,
     deliveryReady: records.filter((record) => /ready|delivered|pull/i.test(record.deliveryState || '')).length,
     repairOpen: records.filter((record) => /open|repair|reconcile|failed/i.test(record.repairState || '')).length,
+  };
+}
+
+export function buildPackPortfolioMarketIntelligence(
+  records: PackActivityRecord[],
+): PackPortfolioMarketIntelligence {
+  const positionsByKey = new Map<string, PackPortfolioPositionProjection>();
+  const signals: PackMarketSignalProjection[] = [];
+  const facets: PackPortfolioFacetSummary = {
+    settlement: {},
+    compensation: {},
+    delivery: {},
+    repair: {},
+  };
+
+  for (const record of records.filter(assertPackActivitySourceSafe)) {
+    incrementFacet(facets.settlement, record.settlementState);
+    incrementFacet(facets.compensation, record.compensationState);
+    incrementFacet(facets.delivery, record.deliveryState);
+    incrementFacet(facets.repair, record.repairState);
+
+    const positionKey = [
+      record.repository || 'network',
+      record.assetPackTitle || record.title,
+    ].join(':');
+    const current = positionsByKey.get(positionKey);
+    const signalKinds = inferSignalKinds(record);
+    const lastActivityAt =
+      !current?.lastActivityAt || compareText(record.timestamp, current.lastActivityAt) > 0
+        ? record.timestamp
+        : current.lastActivityAt;
+
+    positionsByKey.set(positionKey, {
+      id: `pack-position:${positionKey.toLowerCase().replace(/[^a-z0-9]+/giu, '-')}`,
+      organizationView: record.scope === 'personal' ? 'personal' : 'network',
+      repository: record.repository || 'network',
+      assetPackTitle: record.assetPackTitle || record.title,
+      state: record.state || current?.state || 'observed',
+      activityCount: (current?.activityCount || 0) + 1,
+      lastActivityAt,
+      valueTotalSats: (current?.valueTotalSats || 0) + firstValueTotalSats(record),
+      btdEstimate: (current?.btdEstimate || 0) + firstBtdEstimate(record),
+      proofRootCount: (current?.proofRootCount || 0) + record.proofRoots.length,
+      demandSignalCount:
+        (current?.demandSignalCount || 0) + (signalKinds.includes('demand') ? 1 : 0),
+      supplySignalCount:
+        (current?.supplySignalCount || 0) + (signalKinds.includes('supply') ? 1 : 0),
+      unfitNeedSignalCount:
+        (current?.unfitNeedSignalCount || 0) + (signalKinds.includes('unfit-need') ? 1 : 0),
+      settlementState: record.settlementState || current?.settlementState || null,
+      compensationState: record.compensationState || current?.compensationState || null,
+      deliveryState: record.deliveryState || current?.deliveryState || null,
+      repairState: record.repairState || current?.repairState || null,
+      sourceSafety: SOURCE_SAFETY,
+    });
+
+    for (const kind of signalKinds) {
+      signals.push({
+        id: `pack-signal:${kind}:${record.id}`,
+        kind,
+        label: normalizeLabel(kind),
+        description: record.description,
+        strength: Math.min(
+          100,
+          20 + record.proofRoots.length * 8 + record.measurements.length * 6 + record.values.length * 6,
+        ),
+        state: record.state || record.settlementState || record.compensationState || record.repairState || 'observed',
+        repository: record.repository,
+        relatedRecordIds: [record.id],
+        proofRoots: record.proofRoots.slice(0, 4),
+        sourceSafety: SOURCE_SAFETY,
+      });
+    }
+  }
+
+  return {
+    positions: [...positionsByKey.values()]
+      .sort((left, right) => compareText(right.lastActivityAt, left.lastActivityAt))
+      .slice(0, 24),
+    signals: signals.sort((left, right) => right.strength - left.strength).slice(0, 32),
+    savedFilters: [
+      {
+        id: 'portfolio-open-repair',
+        label: 'Repair cases',
+        description: 'Open reconciliation and repair states across portfolio positions.',
+        query: { type: 'repair', repairState: 'open_reconciliation' },
+        signalKind: 'repair',
+      },
+      {
+        id: 'market-demand',
+        label: 'Demand signals',
+        description: 'Read Need and Finding Fits activity that indicates buyer demand.',
+        query: { type: 'read-need-fit-preview' },
+        signalKind: 'demand',
+      },
+      {
+        id: 'market-supply',
+        label: 'Supply signals',
+        description: 'Deposit options and admitted Depository AssetPacks.',
+        query: { type: 'depository-assetpack' },
+        signalKind: 'supply',
+      },
+      {
+        id: 'economic-settlement',
+        label: 'Settlement facets',
+        description: 'Quote, payment, finality, and settlement-state readback.',
+        query: { sort: 'settlementState' },
+        signalKind: 'settlement',
+      },
+      {
+        id: 'economic-compensation',
+        label: 'Compensation facets',
+        description: 'Source-to-shares and contributor compensation readback.',
+        query: { sort: 'compensationState' },
+        signalKind: 'compensation',
+      },
+    ],
+    facets,
+    sourceSafety: SOURCE_SAFETY,
   };
 }
 

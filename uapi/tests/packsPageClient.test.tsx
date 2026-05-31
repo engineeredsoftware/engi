@@ -54,6 +54,29 @@ describe("PacksPageClient", () => {
             values: [
               { id: "btc-fee", label: "Btc fee", amount: 3200, unit: "sats" },
             ],
+            accounting: {
+              state: "settlement-accounted",
+              btdRangeState: "transferred-to-reader",
+              btcSettlementState: "final-settlement-observed",
+              compensationState: "allocated",
+              reconciliationState: "aligned",
+              treasuryRouteState: "routed",
+              contributorCount: 2,
+              depositorCount: 2,
+              finalSettlementSats: 3200,
+              allocatedContributorSats: 3200,
+              statementRoot: "btd-btc-accounting-root-abc",
+            },
+            governance: {
+              state: "allowed",
+              route: "/read",
+              walletState: "verified",
+              spendState: "within-limit",
+              depositState: "not-applicable",
+              requiredDeniedActionCount: 0,
+              blockerCount: 0,
+              authorityRoot: "organization-authority-root-abc",
+            },
             proofRoots: [
               {
                 id: "settlement-root",
@@ -106,6 +129,29 @@ describe("PacksPageClient", () => {
           values: [
             { id: "btc-fee", label: "Btc fee", amount: 3200, unit: "sats" },
           ],
+          accounting: {
+            state: "settlement-accounted",
+            btdRangeState: "transferred-to-reader",
+            btcSettlementState: "final-settlement-observed",
+            compensationState: "allocated",
+            reconciliationState: "aligned",
+            treasuryRouteState: "routed",
+            contributorCount: 2,
+            depositorCount: 2,
+            finalSettlementSats: 3200,
+            allocatedContributorSats: 3200,
+            statementRoot: "btd-btc-accounting-root-abc",
+          },
+          governance: {
+            state: "allowed",
+            route: "/read",
+            walletState: "verified",
+            spendState: "within-limit",
+            depositState: "not-applicable",
+            requiredDeniedActionCount: 0,
+            blockerCount: 0,
+            authorityRoot: "organization-authority-root-abc",
+          },
           proofRoots: [
             {
               id: "settlement-root",
@@ -157,6 +203,28 @@ describe("PacksPageClient", () => {
       ).toBeGreaterThan(0),
     );
     expect(screen.getByText("Proof roots")).toBeInTheDocument();
+    expect(screen.getByText("Accounting")).toBeInTheDocument();
+    expect(screen.getByText("Governance")).toBeInTheDocument();
+    expect(
+      screen.getByTestId("packs-enterprise-economic-summary"),
+    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
+    expect(screen.getByTestId("packs-keyboard-navigation")).toHaveAttribute(
+      "data-enterprise-ux",
+      "keyboard-navigation",
+    );
+    expect(
+      screen.getByTestId("packs-enterprise-activity-grid"),
+    ).toHaveAccessibleName("Pack activity economic operation table");
+    expect(screen.getByTestId("packs-expandable-proof-detail")).toHaveAttribute(
+      "data-enterprise-ux",
+      "expandable-proof-detail",
+    );
+    expect(
+      screen.getAllByText("btd-btc-accounting-root-abc").length,
+    ).toBeGreaterThan(1);
+    expect(
+      screen.getAllByText("organization-authority-root-abc").length,
+    ).toBeGreaterThan(1);
     expect(screen.getByText("settlement-root-def")).toBeInTheDocument();
     expect(screen.getAllByText("quote_ready").length).toBeGreaterThan(0);
     expect(

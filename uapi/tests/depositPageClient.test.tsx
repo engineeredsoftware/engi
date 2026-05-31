@@ -183,6 +183,7 @@ describe("DepositPageClient", () => {
       screen.getByTestId("deposit-route-step-review-options"),
     ).toHaveAttribute("aria-current", "step");
     expect(screen.getByText("Source-safe deposit state")).toBeInTheDocument();
+    expect(screen.getByText("Organization authority")).toBeInTheDocument();
     expect(
       screen.getAllByText("DepositAssetPackOptionSynthesis").length,
     ).toBeGreaterThan(0);
@@ -192,6 +193,25 @@ describe("DepositPageClient", () => {
     expect(
       screen.getAllByText("DepositAssetPackOptionAdmissionReport").length,
     ).toBeGreaterThan(0);
+    expect(
+      screen.getAllByText("DepositorEarningSupplyIntelligence").length,
+    ).toBeGreaterThan(0);
+    expect(
+      screen.getByTestId("deposit-enterprise-economic-summary"),
+    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
+    expect(screen.getByTestId("deposit-keyboard-navigation")).toHaveAttribute(
+      "data-enterprise-ux",
+      "keyboard-navigation",
+    );
+    expect(screen.getByTestId("deposit-expandable-proof-detail")).toHaveAttribute(
+      "data-enterprise-ux",
+      "expandable-proof-detail",
+    );
+    expect(screen.getByText("Supply opportunity")).toBeInTheDocument();
+    expect(screen.getAllByText(/Earning estimate/u).length).toBeGreaterThan(0);
+    expect(
+      screen.getByText(/Unfit Need opportunities/u),
+    ).toBeInTheDocument();
     expect(
       screen.getAllByText(/BTC source-to-shares preview/u).length,
     ).toBeGreaterThan(0);

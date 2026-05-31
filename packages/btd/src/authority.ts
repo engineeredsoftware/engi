@@ -23,6 +23,9 @@ export type BtdOrganizationPermissionAction =
   | 'pay_btc_fee'
   | 'unlock_asset_pack_source'
   | 'deliver_asset_pack'
+  | 'synthesize_deposit_options'
+  | 'approve_deposit_option'
+  | 'submit_deposit'
   | 'repair_projection'
   | 'administer_organization';
 
@@ -207,6 +210,7 @@ export interface BtdOrganizationPolicyAuthority {
   actionDecision: BtdOrganizationInterfaceAuthorityDecision | null;
   protectedSourceAction: boolean;
   settlementAdjacentAction: boolean;
+  depositAdmissionAction: boolean;
   policyDecision: BtdOrganizationPolicyDecisionKind;
   denialReason: BtdOrganizationPolicyDenialReason | null;
   denialReasons: BtdOrganizationPolicyDenialReason[];
@@ -307,6 +311,36 @@ const ACTION_REQUIREMENTS: Record<
     requiresRepairApproval: false,
     sourceVisibilityWhenAllowed: 'protected_source_allowed',
   },
+  synthesize_deposit_options: {
+    minimumRole: 'member',
+    permissionGrants: ['deposit:synthesize_options'],
+    requiresWalletBinding: false,
+    requiresRegistryReadAccess: false,
+    requiresSettledPayment: false,
+    requiresExplicitConfirmation: false,
+    requiresRepairApproval: false,
+    sourceVisibilityWhenAllowed: 'source_safe_preview',
+  },
+  approve_deposit_option: {
+    minimumRole: 'admin',
+    permissionGrants: ['deposit:approve_option'],
+    requiresWalletBinding: true,
+    requiresRegistryReadAccess: false,
+    requiresSettledPayment: false,
+    requiresExplicitConfirmation: true,
+    requiresRepairApproval: false,
+    sourceVisibilityWhenAllowed: 'source_safe_preview',
+  },
+  submit_deposit: {
+    minimumRole: 'admin',
+    permissionGrants: ['deposit:submit'],
+    requiresWalletBinding: true,
+    requiresRegistryReadAccess: false,
+    requiresSettledPayment: false,
+    requiresExplicitConfirmation: true,
+    requiresRepairApproval: false,
+    sourceVisibilityWhenAllowed: 'source_safe_preview',
+  },
   repair_projection: {
     minimumRole: 'admin',
     permissionGrants: ['settlement:repair_projection'],
@@ -342,6 +376,9 @@ const SURFACE_ACTIONS: Record<
     'pay_btc_fee',
     'unlock_asset_pack_source',
     'deliver_asset_pack',
+    'synthesize_deposit_options',
+    'approve_deposit_option',
+    'submit_deposit',
     'repair_projection',
     'administer_organization',
   ],
@@ -354,6 +391,9 @@ const SURFACE_ACTIONS: Record<
     'pay_btc_fee',
     'unlock_asset_pack_source',
     'deliver_asset_pack',
+    'synthesize_deposit_options',
+    'approve_deposit_option',
+    'submit_deposit',
     'repair_projection',
     'administer_organization',
   ],
@@ -366,6 +406,9 @@ const SURFACE_ACTIONS: Record<
     'pay_btc_fee',
     'unlock_asset_pack_source',
     'deliver_asset_pack',
+    'synthesize_deposit_options',
+    'approve_deposit_option',
+    'submit_deposit',
     'repair_projection',
   ],
   chatgpt_app: [
@@ -590,6 +633,10 @@ export function buildBtdOrganizationPolicyAuthority(
     action === 'unlock_asset_pack_source' ||
     action === 'deliver_asset_pack' ||
     action === 'repair_projection';
+  const depositAdmissionAction =
+    action === 'synthesize_deposit_options' ||
+    action === 'approve_deposit_option' ||
+    action === 'submit_deposit';
   const accountAdmitted = input.accountAdmitted === true;
   const interfaceAdmitted = input.interfaceAdmitted === true;
   const multiSigPosture = buildMultiSigPosture(input.multiSig);
@@ -619,7 +666,7 @@ export function buildBtdOrganizationPolicyAuthority(
   if (!organizationRole) denialReasons.push('role_missing');
   if (!explicitGrantSet.length) denialReasons.push('explicit_permission_grant_required');
   if (requirements.requiresWalletBinding && !walletId) denialReasons.push('wallet_binding_missing');
-  if ((protectedSourceAction || settlementAdjacentAction) && !policyHash && !policyId) {
+  if ((protectedSourceAction || settlementAdjacentAction || depositAdmissionAction) && !policyHash && !policyId) {
     denialReasons.push('policy_missing');
   }
   if (!interfaceAdmitted) denialReasons.push('interface_not_admitted');
@@ -666,6 +713,7 @@ export function buildBtdOrganizationPolicyAuthority(
     actionDecision,
     protectedSourceAction,
     settlementAdjacentAction,
+    depositAdmissionAction,
     policyDecision,
     denialReason: uniqueDenialReasons[0] ?? null,
     denialReasons: uniqueDenialReasons,
