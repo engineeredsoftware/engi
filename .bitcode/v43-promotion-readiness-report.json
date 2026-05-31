@@ -4,7 +4,7 @@
   "schemaId": "bitcode.v43.promotionReadinessReport.v1",
   "version": "V43",
   "currentTarget": "V42",
-  "generatedAt": "2026-05-29T15:19:41-03:00",
+  "generatedAt": "2026-05-31T08:38:40-03:00",
   "sourceSafetyVerdict": "source-safe-v43-product-routes-agentic-depositing-promotion-metadata",
   "prePromotionPosture": "V42 active / V43 draft",
   "postPromotionPosture": "V43 active / V44 draft",
@@ -174,7 +174,7 @@
     {
       "relativePath": "scripts/promote-bitcode-canon.mjs",
       "present": true,
-      "digest": "sha256:c249f126efde9b8d3ab5633f49be0f189dc6ad76a235035504bbead1282d2f16",
+      "digest": "sha256:5c7dad86223accfd42a6ac205d471cea228570c070121633925f51a1246452c8",
       "requiredTokens": [
         {
           "token": "if (version === 'V43')",
@@ -197,7 +197,7 @@
     {
       "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
       "present": true,
-      "digest": "sha256:1568e8251d60b4e7bf408d02afb1fb6b257eef3288465c5e6c474c41dffb59c5",
+      "digest": "sha256:566040782c417639c6d7ac8e073fcf6de56a48b4680f28542f9e1a684a47a259",
       "requiredTokens": [
         {
           "token": "if (version === 'V43')",
@@ -274,7 +274,7 @@
     {
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "present": true,
-      "digest": "sha256:a13e5ee752c88a9da7afa4a69ae7cfe2ec466016d3bbfb22fd913892381b0db6",
+      "digest": "sha256:a6b07a149236a411facd8f36898d7c01848562f4b7f5af420435d31279e96d96",
       "requiredTokens": [
         {
           "token": "check-v43-gate10-promotion-readiness.mjs",
@@ -293,7 +293,7 @@
     {
       "relativePath": ".github/workflows/bitcode-canon-quality.yml",
       "present": true,
-      "digest": "sha256:88bbe4ac9d23a6107216d9cc6347c3fc744a9a11f8f32667bd856ab3fa3c7054",
+      "digest": "sha256:6f265809cffee88a188b61c8ff7571fc9460f6874fe24e9d85798ccb05306ece",
       "requiredTokens": [
         {
           "token": "check-v43-gate10-promotion-readiness.mjs",
@@ -312,7 +312,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/proven-generator.js",
       "present": true,
-      "digest": "sha256:3140ef2da603927ea9879ff7d7414597b16bfff1bf5b0a238e3d2ff1b44a9585",
+      "digest": "sha256:696c9cf25133c4c7dbe088cbd1e654b9bcf99a909f8ef645970e39315a636a10",
       "requiredTokens": [
         {
           "token": "buildV43ProvenPackage",
@@ -350,7 +350,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:6c4c47b12cd095ab89f2578aa896d8932fc7451e23904d580c9f695240a103a0",
+      "digest": "sha256:a88afc3c8814ffeec07dfebb024448439452b9d7950af3a1f8708c3024905c62",
       "requiredTokens": [
         {
           "token": ".bitcode/v43-promotion-readiness-report.json",
@@ -361,7 +361,7 @@
     {
       "relativePath": "package.json",
       "present": true,
-      "digest": "sha256:a02cfbf6b200910870068e4c4c61ff0cd2be63909174243a5b66a2d4ff22013b",
+      "digest": "sha256:75e2eab494df4827d441b9c8e7ef1294e268ec59d8d018545f489153d4635d77",
       "requiredTokens": [
         {
           "token": "generate:v43-promotion-readiness",
@@ -458,7 +458,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:33994a7cf33bb6e3138b932ac582c4de6e2ec8dda24bdf4a7aa6b130bbfda2e4",
+      "digest": "sha256:0651a1ea31db9a4af225b76298ec15d965f0ec6c2b60f8bd2b64760cae7847ac",
       "requiredTokens": [
         {
           "token": "V43 Gate 10 closure anchor",
@@ -473,7 +473,7 @@
     {
       "relativePath": "README.md",
       "present": true,
-      "digest": "sha256:e492ee74bfb581f11a6871481ed0067ecec0b9d29b47f53aa77b53ee96b44fa9",
+      "digest": "sha256:ef6c7b33c7a6a3535012932a7d7544ee774b8d4a907fcfca5ffc22d6b10056c9",
       "requiredTokens": [
         {
           "token": "check:v43-gate10",
@@ -488,7 +488,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:0ffe9fdce07c6ccf3e73f47a6da7c5a6e7f2299c4e1a200f79c2f3e009142136",
+      "digest": "sha256:fd232f7266632704b2c20ce731938dfc5db95f175f2a81d1f1ce175f7f7c0556",
       "requiredTokens": [
         {
           "token": "V43 Gate 10",
@@ -551,7 +551,7 @@
   "passed": true,
   "failures": [],
   "validationCommand": "pnpm run check:v43-gate10",
-  "proofSourceCommit": "3c7a9f998656635cc28c8b4584ae964ac04154fa",
+  "proofSourceCommit": "b29e088ba95c33a62247ff4e80b3ca09ff7a6b1c",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "clean",
   "sourceSafe": true
