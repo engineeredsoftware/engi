@@ -1256,6 +1256,49 @@ function recordFailure(failures, condition, message) {
 }
 
 /**
+ * @param {string[]} failures
+ * @param {string} section
+ * @param {string} version
+ */
+function validatePromotedSourceOfTruthHierarchy(failures, section, version) {
+  if (versionNumber(version) < 44) return;
+
+  recordFailure(
+    failures,
+    section.length > 0,
+    `spec promoted-mode validation requires a ${version} source-of-truth hierarchy section.`
+  );
+
+  recordFailure(
+    failures,
+    section.includes('BITCODE_SPEC.txt') && section.includes(`points to \`${version}\``),
+    `spec promoted source-of-truth hierarchy must state BITCODE_SPEC.txt points to ${version}.`
+  );
+
+  recordFailure(
+    failures,
+    /\bactive\b[\s\S]{0,80}\bcanon\b/i.test(section),
+    `spec promoted source-of-truth hierarchy must state ${version} is active canon.`
+  );
+
+  const staleDraftPosturePattern = new RegExp(
+    [
+      `BITCODE_SPEC\\.txt[\\s\\S]{0,160}points to[\\s\\S]{0,80}\\bV\\d+\\b[\\s\\S]{0,120}while[\\s\\S]{0,80}${version}[\\s\\S]{0,80}draft`,
+      `${version}[\\s\\S]{0,80}(?:is|remains)[\\s\\S]{0,80}draft`,
+      `${version}[\\s\\S]{0,160}draft target only`,
+      `define[\\s\\S]{0,80}the draft target only[\\s\\S]{0,80}${version}`
+    ].join('|'),
+    'i'
+  );
+
+  recordFailure(
+    failures,
+    !staleDraftPosturePattern.test(section),
+    `spec promoted source-of-truth hierarchy still contains stale draft posture for ${version}.`
+  );
+}
+
+/**
  * @param {{
  *   repoRoot?: string,
  *   version?: string,
@@ -1367,6 +1410,14 @@ export function buildV21SpecFamilyReport({
   }
 
   const specContent = contents['spec'] || '';
+  if (mode === 'promoted') {
+    validatePromotedSourceOfTruthHierarchy(
+      failures,
+      extractSection(specContent, 'source-of-truth hierarchy'),
+      version
+    );
+  }
+
   for (const phrase of profile.requiredSpecSections) {
     recordFailure(failures, hasSection(specContent, phrase), `spec is missing required section containing "${phrase}".`);
   }

@@ -36,6 +36,9 @@ settlements, contributors, compensation statements, and repair states.
 - Bind Gate 2 economic contracts in package code before route/API/UI surfaces
   consume portfolio, quote, settlement, compensation, governance, or repair
   objects.
+- Treat promoted source-of-truth hierarchy prose as protocol law: stale
+  active/draft wording after promotion is a canon-posture defect and must fail
+  promoted spec-family validation.
 
 ## V44 gate plan
 
