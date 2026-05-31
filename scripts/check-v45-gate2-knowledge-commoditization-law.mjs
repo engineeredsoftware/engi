@@ -92,7 +92,7 @@ function main() {
     'Specification atom gates',
     'Each small protocol specification atom is its own gate and pull request',
     'Specification parity matrix gate',
-    'comparing every accepted specification update against implementation, tests, proofs, generated artifacts, workflows, documentation, and interface surfaces',
+    'builds the V45 parity matrix across source code, tests, proofs, generated artifacts, workflows, documentation, and interface surfaces',
     'Grouped implementation gates',
     'Only after the parity matrix is accepted do implementation gates begin',
     'do not start implementation work, broad parity claims, or promotion planning while the specification atoms remain unsettled',
