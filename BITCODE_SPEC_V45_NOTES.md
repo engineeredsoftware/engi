@@ -114,23 +114,29 @@ production-grade:
 
 ## V45 gate sequencing rule
 
-V45 proceeds in three ordered movements:
+V45 proceeds in four ordered movements:
 
 1. Specification atom gates. Each small protocol specification atom is its own
    gate and pull request. Each atom must be correct alone before the next atom
    begins, and every atom must be reconciled into the gestalt of Bitcode as the
    knowledge commoditization system.
-2. Specification parity matrix gate. After the specification atoms are accepted,
-   one gate builds the V45 parity matrix comparing every accepted specification
-   update against implementation, tests, proofs, generated artifacts,
-   workflows, documentation, and interface surfaces.
-3. Grouped implementation gates. Only after the parity matrix is accepted do
+2. Formal specification consolidation gate. After the notes-level
+   specification atoms are accepted, one gate updates the V45 specification
+   family from those accepted atoms before implementation auditing begins.
+3. Specification parity matrix gate. After the V45 specification family is
+   updated, one gate audits implementation against the formalized
+   specification and builds the V45 parity matrix across source code, tests,
+   proofs, generated artifacts, workflows, documentation, and interface
+   surfaces.
+4. Grouped implementation gates. Only after the parity matrix is accepted do
    implementation gates begin, grouped by coherent protocol/product work rather
    than by isolated prose atoms.
 
 This ordering is itself V45 protocol-development law: do not start
 implementation work, broad parity claims, or promotion planning while the
-specification atoms remain unsettled.
+specification atoms remain unsettled, while accepted notes have not yet been
+consolidated into the V45 specification family, or while implementation parity
+has not yet been audited from that formal specification.
 
 ## V45 protocol atom 1: knowledge commoditization system
 
@@ -418,6 +424,61 @@ source-safe deterministic procurement offer, observed payment as non-final,
 confirmed finality as prerequisite to BTD rights transfer, source unlock only
 after settlement readback, refund/escalation as fail-closed repair, and
 contributor compensation as post-finality source-to-shares allocation.
+
+## V45 protocol-development atom 5: notes-to-spec consolidation before parity
+
+Audit classification: V45 is intentionally opening through small notes-level
+specification atoms because the protocol law must be correct atom by atom
+before it is expanded into a full canonical candidate. The missing process
+precision was the boundary between notes and implementation parity: accepted
+notes are not enough to audit implementations. V45 must first consolidate the
+accepted notes into the formal V45 specification family, then audit source
+against that formal specification.
+
+Protocol-development law:
+
+After the notes-level specification atoms are accepted, V45 must run a formal
+specification consolidation gate before any implementation parity matrix gate.
+That consolidation gate updates the V45 specification family from the accepted
+notes, reconciles terminology across the full document set, preserves the V44
+active canon pointer until promotion, and validates that the V45 formal
+specification is internally coherent before implementation auditing begins.
+The implementation parity matrix must audit against the formal V45
+specification family, not against loose notes, branch discussion, PR bodies,
+or operator memory.
+
+The required sequence is:
+
+| Movement | Output | Forbidden shortcut |
+| --- | --- | --- |
+| `notes-specification-atoms` | Accepted notes-level protocol atoms, each merged through its gate branch | combining unresolved atoms into a broad parity or implementation claim |
+| `formal-specification-consolidation` | Updated V45 specification family with accepted atoms reconciled into protocol law | auditing implementation directly from notes or PR discussion |
+| `implementation-parity-audit` | V45 parity matrix comparing formal specification to code, tests, proofs, workflows, docs, generated artifacts, and interfaces | claiming parity before the formal specification exists |
+| `grouped-implementation-closure` | Grouped implementation gates derived from the accepted parity matrix | implementing speculative behavior before the parity matrix is accepted |
+
+Consolidation law:
+
+- The formal specification consolidation gate must update the V45 spec-family
+  documents before any implementation audit begins.
+- The consolidation gate must preserve `BITCODE_SPEC.txt -> V44` while V45 is
+  still a draft target; promotion remains a later gate.
+- The consolidation gate must reconcile accepted notes into one coherent V45
+  protocol law, including AssetPack lifecycle, BTD scalar-volume, BTC
+  settlement, source safety, interface authority, proof roots, and operational
+  boundaries.
+- The parity matrix gate must cite the formal V45 specification family as its
+  source of truth. It may cite notes only as historical provenance for why the
+  formal specification changed.
+- Implementation gates must be grouped from parity gaps found against the
+  formal specification, not from isolated notes, UI desire, or ad hoc code
+  inspection.
+
+Acceptance for this atom: later V45 sequencing may add more notes atoms or
+split formal specification documents further, but it must preserve
+notes-specification atoms before formal spec consolidation, formal spec
+consolidation before implementation parity auditing, parity auditing before
+grouped implementation closure, and V44 as the active canon pointer until V45
+promotion.
 
 ## Non-goals during V45 opening
 
