@@ -335,6 +335,90 @@ deterministic fixed-point measurement weighting, measuremint/range conservation,
 zero-cell tail posture, BTC-before-rights law, and source-to-shares as
 post-settlement contributor allocation rather than BTD size.
 
+## V45 protocol atom 4: BTC settlement state machine
+
+Audit classification: V44 correctly names estimates, quotes, observed payment,
+final settlement, contributor allocation, delivery, and repair as distinct
+economic labels. The implementation already separates BTC fee quotes, PSBT
+handoff, broadcast observation, finality receipts, settlement unlock,
+source-to-shares, and compensation statements. V45 must make BTC settlement
+law explicit so that a quote, a broadcast transaction, an observed payment,
+confirmed finality, BTD rights transfer, source delivery, refund/escalation,
+and contributor compensation cannot be collapsed by an interface, pipeline,
+or operator.
+
+Protocol-law statement:
+
+BTC is Bitcode settlement money and payment truth. A BTC quote is a
+source-safe procurement offer bound to a reviewed Need, selected Fit set,
+synthesized Need-Fit AssetPack, BTD scalar-volume/range, deterministic
+share-to-fee policy, wallet authority, network, expiry, and proof roots. A BTC
+payment is not final merely because a transaction is prepared, signed,
+broadcast, visible in mempool, or observed by a provider. Source unlock,
+rights-bearing BTD transfer, delivery, and contributor compensation require
+confirmed BTC finality, quote/payment conservation, ledger/database/storage
+readback, and repair-free settlement receipts.
+
+The canonical BTC settlement state machine is:
+
+| State | Meaning | Required inputs | Output posture |
+| --- | --- | --- | --- |
+| `btc-not-quoteable` | No reviewed Need-Fit quote can exist yet. | reviewed Need missing, selected Fit set missing, BTD quote posture missing, wallet authority missing, or policy blocker | no BTC quote claim |
+| `btc-quote-issued` | Deterministic sats quote is created for the Reader. | quote root, BTD scalar-volume/range roots, deterministic share-to-fee policy root, network, expiry, budget policy | source-safe offer only; no payment |
+| `btc-quote-accepted` | Reader and organization authority accept the quote before expiry. | accepted quote root, buyer authorization root, wallet authority root, budget approval root when required | PSBT preparation admitted |
+| `btc-quote-inactive` | Quote is expired, superseded, failed, revoked, or mismatched. | inactive quote root and reason | payment against this quote cannot unlock rights |
+| `btc-wallet-ready` | Reader wallet can sign without server custody. | wallet signer session, network match, PSBT signing capability, no-server-custody proof | PSBT handoff may proceed |
+| `btc-psbt-prepared` | Settlement transaction is prepared but unsigned. | accepted quote, wallet-ready proof, terminal journal root, PSBT root | no payment observation |
+| `btc-psbt-signed` | Reader has signed the transaction. | prepared PSBT root, wallet authorization proof, signed PSBT root | broadcast admitted; no finality |
+| `btc-broadcast-submitted` | Signed transaction has been submitted to the Bitcoin network. | signed transaction root, txid, network root, provider observation root | observed payment pending finality |
+| `btc-payment-observed` | Debit, credit, txid, amount, payer, payee, and network are observed. | payment observation root, expected sats, observed debit sats, observed credit sats, txid | source remains locked; finality pending |
+| `btc-payment-mismatch-repair-required` | Observed payment does not conserve the accepted quote or violates wallet/network policy. | mismatch proof root, repair blocker root | repair, replacement, refund, or escalation only |
+| `btc-finality-confirmed` | Bitcoin finality satisfies the configured confirmation/finality policy. | finality receipt, confirmations, txid, block/reorg readback, quote/payment conservation root | settlement can authorize BTD rights transfer |
+| `btc-replaced-reorged-or-failed` | Transaction was replaced, reorged out, failed, or became non-final. | replacement, reorg, or failure root | source remains locked; repair or refund/escalation required |
+| `btc-settlement-finalized` | Quote, payment, finality, ledger, database, object storage, and source-safe readback agree. | finality root, ledger/database/storage reconciliation root, terminal journal root, settlement unlock root | BTD rights transfer and delivery unlock may proceed |
+| `btc-contributor-compensation-routable` | Final settlement is available to source-to-shares allocation and contributor statements. | finalized settlement root, BTD range slices, source-to-shares proof, contributor roots | compensation statements and treasury routes may be issued |
+| `btc-refund-or-escalation-required` | A payment or quote cannot be accepted as final settlement, and value movement or operator review is required. | refund/escalation case root, payment evidence, policy reason | no rights, no source unlock, no contributor compensation |
+| `btc-settlement-repair-required` | Any quote, wallet, PSBT, broadcast, observation, finality, readback, unlock, or compensation proof is missing or stale. | repair blocker root | fail-closed repair only |
+
+Settlement law:
+
+- A quote is not an estimate. It must be denominated in BTC sats, bind the
+  BTD scalar-volume/range and deterministic share-to-fee policy, name its
+  network and expiry, and carry a source-safe quote root.
+- A quote must be accepted before PSBT preparation. Expired, superseded,
+  failed, revoked, wrong-network, wrong-wallet, or mismatched quotes cannot
+  unlock rights even if a payment is later observed.
+- Bitcode must never take server custody of wallet private material. The
+  Reader signs through a wallet session that proves network, capability,
+  authorization, and no-server-custody posture.
+- Prepared, signed, broadcast, and observed states are not final settlement.
+  They cannot transfer BTD rights, unlock source, deliver a pull request, or
+  allocate contributor compensation.
+- Payment observation must conserve the accepted quote: expected sats,
+  observed debit sats, observed credit sats, payer, payee, network, txid, and
+  quote root must reconcile. Drift enters repair, refund, or escalation.
+- BTC finality requires the configured confirmation/finality policy and must
+  fail closed on replacement, reorg, failure, stale provider readback, or
+  missing ledger/database/object-storage reconciliation.
+- Refund or escalation is a repair path, not a successful purchase path. It
+  does not transfer BTD rights, disclose source, satisfy contributor
+  compensation, or convert an inactive quote into final settlement.
+- Contributor compensation is routable only after final settlement and must be
+  derived from source-to-shares, BTD range slices, contributor roots, and the
+  settled BTC payment. Estimated depositor earning ranges remain non-final.
+- Product surfaces may show quote, observed payment, finality, repair,
+  refund/escalation, and compensation states, but they must not expose private
+  settlement payloads, wallet private material, unpaid AssetPack source, raw
+  protected source, raw prompts, or raw provider responses.
+
+Acceptance for this atom: later V45 specification may refine confirmation
+thresholds, wallet-provider adapters, refund mechanisms, and compensation
+route mechanics, but it must preserve BTC as settlement money, quote as
+source-safe deterministic procurement offer, observed payment as non-final,
+confirmed finality as prerequisite to BTD rights transfer, source unlock only
+after settlement readback, refund/escalation as fail-closed repair, and
+contributor compensation as post-finality source-to-shares allocation.
+
 ## Non-goals during V45 opening
 
 - Do not implement V45 gate behavior before the V45 intent discussion is
