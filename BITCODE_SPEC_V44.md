@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 9 scaled local/staging network rehearsal over promoted V43 product routes
+- V44 state: draft Gate 10 promotion readiness over promoted V43 product routes
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, Gate 5 Depositor earnings supply opportunity, Gate 6 BTD/BTC compensation statement, Gate 7 organization policy wallet authority, Gate 8 enterprise product UX, and Gate 9 scaled network rehearsal reports; all remain source-safe metadata only
-- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 9 binds source-safe local/staging-testnet rehearsal for many deposits, Reads, Fits, quotes, BTC observations, contributors, repair cases, PackActivity rows, ledger/database/storage synchronization, stream readback, and value-bearing mainnet blocking without exposing unpaid source, wallet private material, raw inference payloads, or secrets
+- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, Gate 5 Depositor earnings supply opportunity, Gate 6 BTD/BTC compensation statement, Gate 7 organization policy wallet authority, Gate 8 enterprise product UX, Gate 9 scaled network rehearsal, and Gate 10 promotion readiness reports; all remain source-safe metadata only
+- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 10 binds all V44 source-safe artifacts, generated PROVEN support, promotion scripts, gate/canon workflows, runtime active V44 / draft V45 posture, and value-bearing mainnet blocking without exposing unpaid source, wallet private material, raw inference payloads, or secrets
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -357,9 +357,20 @@ value-bearing mainnet movement.
 
 ## V44 Gate 10 Promotion Readiness
 
+V44 promotion readiness canon is source-safe promotion metadata over the
+complete scaled engineering economy closure set.
+
 Gate 10 must bind every V44 artifact, source-safety proof, workflow, generated
 PROVEN hook, docs update, local/staging rehearsal, and active V44 / draft V45
-runtime posture before V44 can be promoted into `main`.
+runtime posture before V44 can be promoted into `main`. The post-promotion
+posture is also recorded as V44 active / draft V45 for generated proof checks.
+
+Gate 10 adds package-backed `V44PromotionReadinessReport`, deterministic
+`.bitcode/v44-promotion-readiness-report.json`,
+`generate:v44-promotion-readiness`, `check:v44-promotion-readiness`,
+`check:v44-gate10`, `v44-canon-promotion.yml`, V44 support in
+`promote-bitcode-canon.mjs`, spec-family/runtime promotion support, and
+`generateCanonicalProvenMarkdown({ version: 'V44' })` support.
 
 ## V44 canonical subsystem surfaces
 
@@ -696,7 +707,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
 | `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
 | `.bitcode/v44-scaled-network-rehearsal.json` | scaled network rehearsal | implemented-source-safe |
-| `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | planned |
+| `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | implemented-source-safe |
 
 ### V44 generated artifact contract catalog
 
@@ -864,7 +875,7 @@ Inherited.
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
 | `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
 | `.bitcode/v44-scaled-network-rehearsal.json` | scaled rehearsal | implemented-source-safe |
-| `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | planned |
+| `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | implemented-source-safe |
 
 ### V44 specifying generated artifacts
 

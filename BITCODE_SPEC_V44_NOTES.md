@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft notes include Gate 9 scaled network rehearsal work over promoted V43
+- V44 state: draft notes include Gate 10 promotion readiness work over promoted V43
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`; Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`; Gate 9 adds deterministic `.bitcode/v44-scaled-network-rehearsal.json`
-- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, accounting/governance readback and enterprise proof expansion, `/read` budget quote policy, organization authority and proof detail, `/deposit` earning supply opportunity, deposit authority and proof detail, and scaled local/staging-testnet rehearsal proof for active V43 / draft V44
+- Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`; Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`; Gate 9 adds deterministic `.bitcode/v44-scaled-network-rehearsal.json`; Gate 10 adds deterministic `.bitcode/v44-promotion-readiness-report.json`
+- Source parity state: notes align roadmap, docs, workflow posture, package source, generated artifact, receipt taxonomy, `/packs` portfolio market intelligence, accounting/governance readback and enterprise proof expansion, `/read` budget quote policy, organization authority and proof detail, `/deposit` earning supply opportunity, deposit authority and proof detail, scaled local/staging-testnet rehearsal proof, and promotion readiness for active V44 / draft V45
 - Scope: V44 notes for digitizing and tokenizing scaled engineering economies through enterprise AssetPack portfolio, market intelligence, BTD/BTC accounting, governance, and compensation operation
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -166,6 +166,18 @@ readiness, and source-safety verdicts. It cannot expose secrets, protected
 source, unpaid AssetPack source, prompt payloads, provider payloads, wallet
 private material, private settlement payloads, live rehearsal logs, or
 value-bearing mainnet authority.
+
+## Gate 10: V44 Promotion Readiness
+
+Gate 10 makes V44 promotion explicit and source-safe. The promotion readiness
+report proves every V44 package artifact, generated `.bitcode` artifact,
+workflow, script, PROVEN generator hook, test, and document clause is present
+before `version/v44` can request canonical promotion into `main`. After
+promotion, the expected runtime posture is active V44 / draft V45. The report
+is metadata only and cannot expose credentials, protected source, unpaid
+AssetPack source, prompt payloads, provider payloads, wallet private material,
+private settlement payloads, live rehearsal logs, or value-bearing mainnet
+authority.
 
 ## Gate 3 note
 

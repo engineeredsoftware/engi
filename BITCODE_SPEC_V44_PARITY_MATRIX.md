@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft parity includes Gate 9 scaled local/staging network rehearsal work
+- V44 state: draft parity includes Gate 10 promotion readiness work
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
 - Generated structured artifact inventory: Gate 2 adds deterministic `.bitcode/v44-economic-domain-model.json`; Gate 3 adds deterministic `.bitcode/v44-packs-portfolio-market-intelligence.json`; Gate 4 adds deterministic `.bitcode/v44-reading-budget-quote-policy.json`; Gate 5 adds deterministic `.bitcode/v44-depositor-earnings-supply-opportunities.json`; Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`; Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`; Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`; Gate 9 adds deterministic `.bitcode/v44-scaled-network-rehearsal.json`
-- Source parity state: Gate 9 requires package/docs/workflow/checker/test/operator parity for scaled local and staging-testnet network rehearsal across `/packs`, `/read`, and `/deposit`
+- Source parity state: Gate 10 requires package/docs/workflow/checker/test/promotion parity across all V44 scaled engineering economy artifacts and promotion readiness
 - Scope: parity for V44 enterprise economic operation over promoted V43 product routes
 - Last fully realized canonical target preserved in source: `V43`
 
@@ -37,7 +37,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Organization governance | Roles, budgets, wallet authority, source criticality, approvals through `.bitcode/v44-organization-policy-wallet-authority.json` | implemented |
 | Enterprise UX | Dense economic surfaces, proof expansion, responsive/accessibility proof through `.bitcode/v44-enterprise-product-ux.json` | implemented |
 | Scaled rehearsal | Many-pack, many-org local/staging-testnet economic rehearsal through `.bitcode/v44-scaled-network-rehearsal.json` | implemented |
-| Promotion readiness | Generated PROVEN, workflow, all V44 artifacts bound | drafted |
+| Promotion readiness | Generated PROVEN, workflow, all V44 artifacts bound | closed |
 
 ## V44 implementation checklist
 
@@ -59,3 +59,9 @@ V41 prompt-program discipline.
 
 V44 is complete when every matrix row is closed, source-safe, generated,
 tested, rehearsed, documented, and promotion-ready.
+
+## Gate 10 Promotion readiness parity
+
+| Artifact | Source evidence | Current judgment |
+| --- | --- | --- |
+| `.bitcode/v44-promotion-readiness-report.json` | `V44PromotionReadinessReport`, `generate:v44-promotion-readiness`, `check:v44-promotion-readiness`, `check:v44-gate10`, V44 PROVEN support, `v44-canon-promotion.yml`, gate/canon workflow posture, and V44 promotion scripts | closed |

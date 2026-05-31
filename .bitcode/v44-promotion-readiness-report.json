@@ -1,0 +1,553 @@
+{
+  "artifactId": "v44-promotion-readiness-report",
+  "schemaId": "bitcode.v44.promotionReadinessReport.v1",
+  "version": "V44",
+  "currentTarget": "V43",
+  "generatedAt": "2026-05-29T00:00:00.000Z",
+  "sourceSafetyVerdict": "source-safe-v44-scaled-engineering-economy-promotion-metadata",
+  "prePromotionPosture": "V43 active / V44 draft",
+  "postPromotionPosture": "V44 active / V45 draft",
+  "branchProtection": {
+    "directMainPushAdmitted": false,
+    "promotionPrRequired": true,
+    "versionBranch": "version/v44",
+    "versionPromotionPullRequestTitlePrefix": "V44 Canonical Promotion"
+  },
+  "generatedArtifactPolicy": {
+    "provenAppendixPath": "BITCODE_SPEC_V44_PROVEN.md",
+    "provenAppendixRequiredBeforePromotion": false,
+    "generatedArtifactPrefix": ".bitcode/v44-",
+    "promotionOverwritesPreviewArtifacts": true,
+    "secretValuesSerialized": false,
+    "protectedSourceSerialized": false,
+    "rawProtectedPromptSerialized": false,
+    "rawProviderResponseSerialized": false,
+    "unpaidAssetPackSourceSerialized": false
+  },
+  "validationCommands": [
+    "pnpm run check:v44-gate1",
+    "pnpm run check:v44-gate2",
+    "pnpm run check:v44-gate3",
+    "pnpm run check:v44-gate4",
+    "pnpm run check:v44-gate5",
+    "pnpm run check:v44-gate6",
+    "pnpm run check:v44-gate7",
+    "pnpm run check:v44-gate8",
+    "pnpm run check:v44-gate9",
+    "pnpm run check:v44-gate10",
+    "node scripts/promote-bitcode-canon.mjs --version V44 --commit HEAD --dry-run"
+  ],
+  "gateArtifactEvidence": [
+    {
+      "relativePath": ".bitcode/v44-economic-domain-model.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:122779f6b22822a1f328f98afae216030ec12becc8ffcfe8c12479b8cc3794fe",
+      "byteLength": 25898,
+      "sourceSafe": true,
+      "artifactId": "v44-economic-domain-model",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-economic-domain-model-metadata"
+    },
+    {
+      "relativePath": ".bitcode/v44-packs-portfolio-market-intelligence.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:6e0e28770aa5ec69d62757027c0a2594836ace62d41edfd6343a3a30c37c1c0e",
+      "byteLength": 10279,
+      "sourceSafe": true,
+      "artifactId": "v44-packs-portfolio-market-intelligence",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-packs-portfolio-market-intelligence-metadata"
+    },
+    {
+      "relativePath": ".bitcode/v44-reading-budget-quote-policy.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:5a2c0b570e7c1bc15e3a632298d8739be62a2f474e61aa789ce7d9d6fa6038c4",
+      "byteLength": 11919,
+      "sourceSafe": true,
+      "artifactId": "v44-reading-budget-quote-policy",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-reading-budget-quote-policy-metadata"
+    },
+    {
+      "relativePath": ".bitcode/v44-depositor-earnings-supply-opportunities.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:46b4dcbdcb807add9defb1fe49f5341987d27f4903f23a2c8fbc42ca48ddd246",
+      "byteLength": 14090,
+      "sourceSafe": true,
+      "artifactId": "v44-depositor-earnings-supply-opportunities",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-depositor-earnings-supply-opportunity-metadata"
+    },
+    {
+      "relativePath": ".bitcode/v44-btd-btc-compensation-statements.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:040646f765c86c1defb4a77c6eaeb107c784e47f00c53dfa3720d89e93362acb",
+      "byteLength": 15816,
+      "sourceSafe": true,
+      "artifactId": "v44-btd-btc-compensation-statements",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-btd-btc-compensation-statement-metadata"
+    },
+    {
+      "relativePath": ".bitcode/v44-organization-policy-wallet-authority.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:72728f795edef641d7846dbeda5bb061775229395439197c23d493331def3670",
+      "byteLength": 16107,
+      "sourceSafe": true,
+      "artifactId": "v44-organization-policy-wallet-authority",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-organization-policy-wallet-authority-metadata"
+    },
+    {
+      "relativePath": ".bitcode/v44-enterprise-product-ux.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:e9536dcda734cfe04de549254fdf2a6bf816d1eb82e632b3f75e616b5f47cc5b",
+      "byteLength": 11619,
+      "sourceSafe": true,
+      "artifactId": "v44-enterprise-product-ux",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-enterprise-product-ux-metadata"
+    },
+    {
+      "relativePath": ".bitcode/v44-scaled-network-rehearsal.json",
+      "present": true,
+      "parseable": true,
+      "digest": "sha256:215e17e6e9b530614727032ae554728492cf77d3de9b4df792e46a1a59a85a8d",
+      "byteLength": 32870,
+      "sourceSafe": true,
+      "artifactId": "v44-scaled-network-rehearsal",
+      "version": "V44",
+      "sourceSafetyVerdict": "source-safe-scaled-network-rehearsal-metadata"
+    }
+  ],
+  "sourceEvidence": [
+    {
+      "relativePath": "scripts/check-v44-gate10-promotion-readiness.mjs",
+      "present": true,
+      "digest": "sha256:1c7fe0110244c47e172c7e27f1d17c6280726c8b76efc1ca8c2ad6f2489b0d5c",
+      "requiredTokens": [
+        {
+          "token": "V44 Gate 10 promotion readiness",
+          "present": true
+        },
+        {
+          "token": "--promotion-mode",
+          "present": true
+        },
+        {
+          "token": "promotedPointer",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/generate-v44-promotion-readiness-report.mjs",
+      "present": true,
+      "digest": "sha256:e1fb96c41f9ca8b44a1c5c4853f2e7b3d1be18a16b4aad3ed303e8d52873c692",
+      "requiredTokens": [
+        {
+          "token": "buildV44PromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "source-safe-v44-scaled-engineering-economy-promotion-metadata",
+          "present": true
+        },
+        {
+          "token": "v44-promotion-readiness-report",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/promote-bitcode-canon.mjs",
+      "present": true,
+      "digest": "sha256:5c7dad86223accfd42a6ac205d471cea228570c070121633925f51a1246452c8",
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V44')",
+          "present": true
+        },
+        {
+          "token": "const v44Gate10Command",
+          "present": true
+        },
+        {
+          "token": "buildDerivedV44CommitMessageBody",
+          "present": true
+        },
+        {
+          "token": "scripts/check-v44-gate10-promotion-readiness.mjs",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
+      "present": true,
+      "digest": "sha256:566040782c417639c6d7ac8e073fcf6de56a48b4680f28542f9e1a684a47a259",
+      "requiredTokens": [
+        {
+          "token": "if (version === 'V44')",
+          "present": true
+        },
+        {
+          "token": "V44 canonical system specification for scaled engineering economy",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V44_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "scripts/prepare-bitcode-runtime-canon-promotion.mjs",
+      "present": true,
+      "digest": "sha256:77b598b0257d7dc2aef367531126f0d8ef1238d1264a78c1e876c624909b4511",
+      "requiredTokens": [
+        {
+          "token": "--next-draft",
+          "present": true
+        },
+        {
+          "token": "rewritePackageReadme",
+          "present": true
+        },
+        {
+          "token": "rewriteRuntimeDataState",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/v44-canon-promotion.yml",
+      "present": true,
+      "digest": "sha256:2a98713d88df2e24f11c8c2b5cd53cc04ac5ea77c8d4be4e90f521e06d29e99c",
+      "requiredTokens": [
+        {
+          "token": "head.ref == 'version/v44'",
+          "present": true
+        },
+        {
+          "token": "node scripts/prepare-bitcode-spec-family-promotion.mjs --version V44",
+          "present": true
+        },
+        {
+          "token": "node scripts/prepare-bitcode-runtime-canon-promotion.mjs --version V44 --next-draft V45",
+          "present": true
+        },
+        {
+          "token": "node scripts/generate-bitcode-proven.mjs --version V44",
+          "present": true
+        },
+        {
+          "token": "node scripts/check-bitcode-spec-family.mjs --version V44 --mode promoted --current-target V44",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V44_PROVEN.md",
+          "present": true
+        },
+        {
+          "token": "Promote V44 canon files",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-gate-quality.yml",
+      "present": true,
+      "digest": "sha256:a6b07a149236a411facd8f36898d7c01848562f4b7f5af420435d31279e96d96",
+      "requiredTokens": [
+        {
+          "token": "check-v44-gate10-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "token": "elif [ \"$POINTER\" = \"V44\" ]",
+          "present": true
+        },
+        {
+          "token": "--active-canon V44 --draft-target V45",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": ".github/workflows/bitcode-canon-quality.yml",
+      "present": true,
+      "digest": "sha256:6f265809cffee88a188b61c8ff7571fc9460f6874fe24e9d85798ccb05306ece",
+      "requiredTokens": [
+        {
+          "token": "check-v44-gate10-promotion-readiness.mjs",
+          "present": true
+        },
+        {
+          "token": "elif [ \"$POINTER\" = \"V44\" ]",
+          "present": true
+        },
+        {
+          "token": "--active-canon V44 --draft-target V45",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/protocol/src/canonical/proven-generator.js",
+      "present": true,
+      "digest": "sha256:696c9cf25133c4c7dbe088cbd1e654b9bcf99a909f8ef645970e39315a636a10",
+      "requiredTokens": [
+        {
+          "token": "buildV44ProvenPackage",
+          "present": true
+        },
+        {
+          "token": "buildV44PromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/protocol/test/v44-promotion-readiness.test.js",
+      "present": true,
+      "digest": "sha256:471164727143a4f24a72881960bb6c204f2de7ebb039a25f2b916d0f4b6c61e1",
+      "requiredTokens": [
+        {
+          "token": "builds source-safe V44 PromotionReadinessReport",
+          "present": true
+        },
+        {
+          "token": "v44-promotion-readiness-report",
+          "present": true
+        },
+        {
+          "token": "V44 Promotion Readiness",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
+      "present": true,
+      "digest": "sha256:4c85d0891c11ffa2dada6539e6f83b3e2cad53328380d0a45613dd267000dc2d",
+      "requiredTokens": [
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "package.json",
+      "present": true,
+      "digest": "sha256:75e2eab494df4827d441b9c8e7ef1294e268ec59d8d018545f489153d4635d77",
+      "requiredTokens": [
+        {
+          "token": "generate:v44-promotion-readiness",
+          "present": true
+        },
+        {
+          "token": "check:v44-promotion-readiness",
+          "present": true
+        },
+        {
+          "token": "check:v44-gate10",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "documentationEvidence": [
+    {
+      "relativePath": "BITCODE_SPEC_V44.md",
+      "present": true,
+      "digest": "sha256:91385322115cf9d915c3634c104d907ab7e5f2ac400959c1a68160c480f7947a",
+      "requiredTokens": [
+        {
+          "token": "V44 promotion readiness canon",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "V44 active / draft V45",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V44_DELTA.md",
+      "present": true,
+      "digest": "sha256:59b21d4250d53b50aece7183fd05a4ab10d5817edba19d6a73cfb5c6805e6918",
+      "requiredTokens": [
+        {
+          "token": "Gate 10: V44 Promotion Readiness",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "promotion scripts support V44",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V44_NOTES.md",
+      "present": true,
+      "digest": "sha256:b2d9a2a59e3ffdade67547c98b218631fe5516402cf504cdc5970983028dd775",
+      "requiredTokens": [
+        {
+          "token": "Gate 10: V44 Promotion Readiness",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "active V44 / draft V45",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "BITCODE_SPEC_V44_PARITY_MATRIX.md",
+      "present": true,
+      "digest": "sha256:4ac393fc8a1cb1959eadac5cf9fcbbb88d78e62129d371ba8ff81cdb60a65653",
+      "requiredTokens": [
+        {
+          "token": "## Gate 10 Promotion readiness parity",
+          "present": true
+        },
+        {
+          "token": ".bitcode/v44-promotion-readiness-report.json",
+          "present": true
+        },
+        {
+          "token": "closed",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "SPECIFICATIONS_ROADMAP.md",
+      "present": true,
+      "digest": "sha256:0651a1ea31db9a4af225b76298ec15d965f0ec6c2b60f8bd2b64760cae7847ac",
+      "requiredTokens": [
+        {
+          "token": "V44 Gate 10 closure anchor",
+          "present": true
+        },
+        {
+          "token": "BITCODE_SPEC_V44_PROVEN.md",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "README.md",
+      "present": true,
+      "digest": "sha256:ef6c7b33c7a6a3535012932a7d7544ee774b8d4a907fcfca5ffc22d6b10056c9",
+      "requiredTokens": [
+        {
+          "token": "check:v44-gate10",
+          "present": true
+        },
+        {
+          "token": "v44-canon-promotion.yml",
+          "present": true
+        }
+      ]
+    },
+    {
+      "relativePath": "packages/protocol/README.md",
+      "present": true,
+      "digest": "sha256:fd232f7266632704b2c20ce731938dfc5db95f175f2a81d1f1ce175f7f7c0556",
+      "requiredTokens": [
+        {
+          "token": "V44 Gate 10",
+          "present": true
+        },
+        {
+          "token": "V44` active, `V45` draft",
+          "present": true
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "requiredGateArtifactPaths": [
+      ".bitcode/v44-economic-domain-model.json",
+      ".bitcode/v44-packs-portfolio-market-intelligence.json",
+      ".bitcode/v44-reading-budget-quote-policy.json",
+      ".bitcode/v44-depositor-earnings-supply-opportunities.json",
+      ".bitcode/v44-btd-btc-compensation-statements.json",
+      ".bitcode/v44-organization-policy-wallet-authority.json",
+      ".bitcode/v44-enterprise-product-ux.json",
+      ".bitcode/v44-scaled-network-rehearsal.json"
+    ],
+    "generatedProofOutputs": [
+      "BITCODE_SPEC_V44_PROVEN.md",
+      ".bitcode/v44-spec-family-report.json",
+      ".bitcode/v44-canonical-input-report.json",
+      ".bitcode/v44-canon-posture-drift-report.json",
+      ".bitcode/v44-promotion-readiness-report.json"
+    ],
+    "gateArtifactCount": 8,
+    "missingGateArtifacts": [],
+    "unparseableGateArtifacts": [],
+    "sourceUnsafeGateArtifacts": [],
+    "sourceEvidenceComplete": true,
+    "documentationEvidenceComplete": true,
+    "allGateArtifactsCovered": true,
+    "allGateArtifactsParseable": true,
+    "allGateArtifactsSourceSafe": true,
+    "generatedProofOutputsCovered": true,
+    "promotionWorkflowCovered": true,
+    "gateQualityWorkflowCovered": true,
+    "canonQualityWorkflowCovered": true,
+    "promotionScriptCovered": true,
+    "specFamilyPromotionScriptCovered": true,
+    "runtimePromotionScriptCovered": true,
+    "provenGeneratorCovered": true,
+    "prePromotionPosture": "V43 active / V44 draft",
+    "postPromotionPosture": "V44 active / V45 draft",
+    "valueBearingMainnetAdmission": false,
+    "credentialsSerialized": false,
+    "protectedSourceVisible": false,
+    "rawProtectedPromptVisible": false,
+    "rawProviderResponseVisible": false,
+    "unpaidAssetPackSourceVisible": false,
+    "walletPrivateMaterialVisible": false
+  },
+  "failClosedResult": "promotion remains blocked when any V44 economic domain model, Packs portfolio market intelligence, Reading budget quote policy, depositor earnings opportunity proof, BTD/BTC compensation statement, organization policy and wallet authority, enterprise product UX proof, scaled network rehearsal, workflow, promotion script, generated proof support, source-safety check, or value-bearing mainnet block is missing",
+  "artifactRoot": "v44-scaled-engineering-economy-promotion-readiness-report:8db11db03bcc2287dd57c9f9",
+  "passed": true,
+  "failures": [],
+  "validationCommand": "pnpm run check:v44-gate10"
+}
