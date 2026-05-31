@@ -200,6 +200,71 @@ Need-relative, source-safety before settlement, repository delivery after rights
 proof, and proof/ledger/journal observability as Bitcode's market-infrastructure
 rails.
 
+## V45 protocol atom 2: AssetPack lifecycle state machine
+
+Audit classification: V43/V44 correctly establish AssetPacks in and
+AssetPacks out, but the canon still spreads lifecycle law across `/deposit`,
+`/read`, `/packs`, BTD accounting, preview, settlement, and delivery sections.
+V45 consolidates the lifecycle into one source-safe state machine before it
+specifies BTD calculation and BTC settlement state in later atoms.
+
+Protocol-law statement:
+
+Every AssetPack-like object must occupy exactly one lifecycle state at every
+protocol boundary, and every transition must state whether the object is source
+safe only, source-bearing but withheld, quoteable, settled, deliverable,
+compensable, or in repair. No interface, API, pipeline, proof artifact, or
+operator tool may collapse lifecycle states to make a deposit option look like
+settled BTD, a preview look like source disclosure, a quote look like payment
+finality, or an admitted Depository AssetPack look like a delivered Need-Fit
+AssetPack.
+
+The canonical AssetPack lifecycle states are:
+
+| State | Owner boundary | Source visibility | BTD posture | Required proof |
+| --- | --- | --- | --- | --- |
+| `deposit-option-synthesized` | Depositor-connected source and deposit pipeline | Source-safe measurements and metadata only; protected source remains outside visible Bitcode surfaces | Deposit-time BTD-relevant measurements may show potential, coverage, likely utility, criticality, and search posture; no final BTD size | option synthesis root, source-safety root, measurement root |
+| `deposit-option-reviewed` | Depositor review | Same source-safe view; depositor may approve, reject, or request resynthesis | Still no final BTD size and no minted BTD | review decision root and policy root |
+| `depository-assetpack-admitted` | Depository supply | Searchable source-safe metadata, measurements, embeddings, and external protected-source pointer roots only | Admitted supply may carry BTD potential, not final BTD, because no reviewed Need has selected it yet | admission receipt, Depository index root, storage projection root |
+| `fit-candidates-recalled` | Reading Finding Fits search | Candidate identity, ranking, measurements, and provenance are source-safe to the Reader; candidate source remains withheld | Candidate BTD contribution is only provisional until selected against the reviewed Need | query root, search-channel roots, ranking root |
+| `fit-set-selected` | Reading Finding Fits selection | Selected Fit set provenance is source-safe; protected source remains withheld from the Reader | Need-relative contribution can be measured for quote preparation, but rights-bearing BTD is not minted or transferred | selected-fit root, threshold root, verification root |
+| `need-fit-assetpack-synthesized` | AssetPack synthesis pipeline | Source-bearing pack material may exist internally, but Reader-visible output is only a source-safe preview | Need-relative BTD scalar volume may be computed for quote; it is not settled BTD | synthesis root, withheld-source bundle root, preview boundary root |
+| `need-fit-assetpack-quoted` | Reading procurement and quote authority | Source-safe measurements, metadata, quality posture, BTD volume/range, BTC quote, expiration, and proof roots only | Quoteable BTD volume exists because a reviewed Need and selected Fit set exist; rights are still unpaid and untransferred | quote root, budget approval root when required, expiry root |
+| `settlement-observed` | BTC observation and ledger/database journal | Still source-safe to the Reader until settlement finality and BTD transfer are proven | BTC payment is observed but not final; BTD rights are not yet authoritative | BTC observation root, journal root, reconciliation root |
+| `btd-settled-rights-transferred` | BTD and settlement authority | Source unlock is authorized for the paying Reader and still withheld from other parties | Rights-bearing BTD is minted/mined/assigned for the Need-Fit AssetPack according to the later BTD state machine | final settlement root, BTD rights receipt, source-to-shares root |
+| `source-unlocked-delivery` | Repository delivery authority | Full source-bearing AssetPack delivery is visible only to the entitled Reader boundary, such as the target repository pull request | BTD rights authorize delivery and future ownership/read/use boundaries | source unlock root, repository delivery receipt, pull request root |
+| `compensated-and-reconciled` | Contributor compensation and Packs accounting | `/packs` shows source-safe settlement, delivery, and compensation readback; protected source remains boundary-scoped | Source-to-shares allocation and BTC compensation statements reconcile to settlement truth | compensation statement root, ledger/database/storage reconciliation root |
+| `repair-required` | Operator repair | Only source-safe failure class, blocker, repair command, and proof roots are visible | No state may advance until the failed transition is repaired and replayed | repair case root, replay root, operator action root |
+
+Transition law:
+
+- A deposit option may transition to `depository-assetpack-admitted` only after
+  depositor approval, policy eligibility, source-safety verification, and
+  storage/index projection.
+- A Depository AssetPack may transition into Reading only through Finding Fits;
+  the search may recall many candidates above threshold, and the selected Fit
+  set may contain one or many admitted Depository AssetPacks.
+- The Need-Fit AssetPack is synthesized from the reviewed Need plus the selected
+  Fit set. It is a new Need-relative AssetPack state, not a disclosure of the
+  underlying admitted Depository AssetPacks.
+- The Reader may review the Need-Fit preview and quote, but may not see source
+  before BTC settlement finality and BTD rights transfer.
+- BTD final scalar knowledge-volume is Need-relative. It may be calculated for
+  quote only after the reviewed Need, selected Fit set, and synthesized
+  Need-Fit AssetPack exist; it becomes rights-bearing only after settlement.
+- BTC payment observation, BTC finality, BTD rights transfer, source unlock,
+  repository delivery, source-to-shares compensation, and reconciliation are
+  distinct states and must not be represented as synonyms.
+- Any missing proof root, stale storage projection, failed source-safety check,
+  failed payment finality, failed rights transfer, failed delivery, or failed
+  compensation reconciliation moves the object to `repair-required`.
+
+Acceptance for this atom: later V45 specification may refine field names and
+proof root schemas, but it must preserve this lifecycle ordering, exact state
+separation, source visibility boundaries, Need-relative BTD calculation
+condition, one-to-many Finding Fits input set, BTC settlement-before-source law,
+and repair-required fail-closed posture.
+
 ## Non-goals during V45 opening
 
 - Do not implement V45 gate behavior before the V45 intent discussion is
