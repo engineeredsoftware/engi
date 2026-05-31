@@ -349,7 +349,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:4c85d0891c11ffa2dada6539e6f83b3e2cad53328380d0a45613dd267000dc2d",
+      "digest": "sha256:a88afc3c8814ffeec07dfebb024448439452b9d7950af3a1f8708c3024905c62",
       "requiredTokens": [
         {
           "token": ".bitcode/v44-promotion-readiness-report.json",
