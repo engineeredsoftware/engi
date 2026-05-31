@@ -390,6 +390,7 @@
     "check:v45-gate2": "node scripts/check-v45-gate2-knowledge-commoditization-law.mjs",
     "check:v45-gate3": "node scripts/check-v45-gate3-assetpack-lifecycle-state-machine.mjs",
     "check:v45-gate4": "node scripts/check-v45-gate4-btd-scalar-volume-state-machine.mjs",
+    "check:v45-gate5": "node scripts/check-v45-gate5-btc-settlement-state-machine.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",
