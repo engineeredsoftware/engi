@@ -144,6 +144,13 @@ Acceptance:
 - Source-to-shares conservation remains exact for one and many selected Fits.
 - `check:v45-gate13` passes locally and in gate-quality CI.
 
+Gate 13 implementation readback:
+
+- Deterministic BTD scalar-volume and quote conservation bridge: `packages/pipelines/asset-pack/src/btd-scalar-volume-quote.ts`.
+- Final-BTD blocker coverage and one/many Fit source-to-shares conservation coverage: `packages/pipelines/asset-pack/src/__tests__/btd-scalar-volume-quote.test.ts`.
+- Package export binding: `packages/pipelines/asset-pack/package.json` and `packages/pipelines/asset-pack/src/index.ts`.
+- Closure checker: `check:v45-gate13`.
+
 ### Gate 14: BTC Settlement Rights Delivery And Compensation Readback
 
 Gate class: `implementation`.
