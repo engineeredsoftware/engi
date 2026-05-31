@@ -1,8 +1,8 @@
 {
   "reportId": "v44-spec-family-report",
   "version": "V44",
-  "proofSourceCommit": "2b08d07590269150d7a8ad658fe97dd99c05616d",
-  "generatedAt": "2026-05-31T09:21:28-03:00",
+  "proofSourceCommit": "bb1bfd14b21fa67a5e5690fe1eeb3acf095f6da3",
+  "generatedAt": "2026-05-31T09:53:42-03:00",
   "generatorId": "bitcode.proven-generator.v1",
   "worktreeState": "clean",
   "checkedVersion": "V44",
