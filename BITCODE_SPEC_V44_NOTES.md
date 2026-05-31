@@ -78,6 +78,15 @@ must remain metadata and proof roots. They must not serialize protected source,
 unpaid AssetPack source, raw prompts, raw provider responses, credentials,
 wallet private material, or private settlement payloads.
 
+## Promotion addendum note
+
+V44 promotion includes a post-promotion addendum repairing stale
+source-of-truth hierarchy prose. `BITCODE_SPEC.txt` now points to `V44`; V44 is
+the active canon; V45 notes are discussion-prep material only. Promoted
+spec-family validation must fail closed when promoted source-of-truth hierarchy
+prose still says an older version is active, the promoted version is draft, or
+the promoted spec family is draft-only branch material.
+
 ## Gate 1 note
 
 Gate 1 is intentionally a posture gate. It opens the V44 family and validates

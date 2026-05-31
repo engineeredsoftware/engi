@@ -39,6 +39,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Enterprise UX | Dense economic surfaces, proof expansion, responsive/accessibility proof through `.bitcode/v44-enterprise-product-ux.json` | implemented |
 | Scaled rehearsal | Many-pack, many-org local/staging-testnet economic rehearsal through `.bitcode/v44-scaled-network-rehearsal.json` | implemented |
 | Promotion readiness | Generated PROVEN, workflow, all V44 artifacts bound | closed |
+| Promotion addendum | Promoted source-of-truth hierarchy repaired and enforced against stale V43-active / V44-draft prose | closed |
 
 ## V44 implementation checklist
 
@@ -49,6 +50,7 @@ artifacts, workflow checks, and local/staging rehearsal receipts.
 | Ledger reconciliation | Portfolio statements reconcile to receipts before finality | implemented |
 | Route authority | `/packs`, `/read`, `/deposit` do not bypass protocol law | implemented prerequisite |
 | Tests and proofs | Each gate has generated artifacts, package tests, route tests, and workflow checks | implemented prerequisite |
+| Canon posture prose | Promoted source-of-truth hierarchy fails closed when it contains stale draft/active wording | implemented |
 
 ## Accepted boundaries
 

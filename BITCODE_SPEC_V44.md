@@ -53,14 +53,29 @@ operating many technical knowledge trades.
 
 ## V44 source-of-truth hierarchy
 
-`BITCODE_SPEC.txt` points to `V43` while V44 is draft.
-`BITCODE_SPEC_V43.md` and `BITCODE_SPEC_V43_PROVEN.md` are active canon.
-`BITCODE_SPEC_V44.md`, `BITCODE_SPEC_V44_DELTA.md`,
-`BITCODE_SPEC_V44_NOTES.md`, and `BITCODE_SPEC_V44_PARITY_MATRIX.md` define
-the draft target only on `version/v44` and `v44/gate-*` branches.
+`BITCODE_SPEC.txt` points to `V44`; V44 is the active promoted Bitcode canon.
+`BITCODE_SPEC_V44.md` and `BITCODE_SPEC_V44_PROVEN.md` are active canon.
+`BITCODE_SPEC_V44_DELTA.md`, `BITCODE_SPEC_V44_NOTES.md`, and
+`BITCODE_SPEC_V44_PARITY_MATRIX.md` are promoted V44 companion canon. V43 is
+the prior canonical anchor only. `BITCODE_SPEC_V45_NOTES.md` is discussion-prep
+draft material only until a V45 version branch and first gate explicitly open.
 Implementation remains unversioned in source paths; package, route, component,
 test, prompt, script, and telemetry names move in place as the single current
 Bitcode system.
+
+## V44 promotion addendum: canonical posture repair
+
+V44 promotion discovered and repaired a source-of-truth prose contradiction:
+the promoted V44 status and `BITCODE_SPEC.txt` pointer correctly named V44 as
+active canon, while the source-of-truth hierarchy still contained pre-promotion
+V43-active / V44-draft language. That was a protocol-law contradiction in the
+canon-posture layer, even though it did not change BTC settlement, BTD rights,
+source withholding, source-to-shares, or repository delivery law.
+
+The repaired enforcement rule is: promoted spec-family validation fails when a
+promoted source-of-truth hierarchy says the active pointer targets an older
+version, says the promoted version remains a draft, or classifies the promoted
+spec family as draft-only branch material. Canon posture is protocol law.
 
 ## V44 full-system, re-implementation, and audit rule
 
@@ -797,13 +812,12 @@ Gate 9 validates with `pnpm run generate:v44-scaled-network-rehearsal`,
 `pnpm run rehearse:v44-scaled-network -- --lane local --json`,
 `pnpm run rehearse:v44-scaled-network -- --lane staging-testnet --json`, and
 `pnpm run check:v44-gate9`.
-Shared draft posture validates with
-`node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
-`node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
-and `git diff --check`.
-
-Later gates must bind promotion readiness, PROVEN generation, and active V44 /
-draft V45 posture after scaled local/staging rehearsal proof is closed.
+Promoted V44 posture validates with
+`node scripts/check-bitcode-spec-family.mjs --version V44 --mode promoted --current-target V44`,
+`node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V44 --draft-target V45`,
+and `git diff --check`. Historical V43-active / V44-draft checks are retained
+only as pre-promotion evidence in gate artifacts and prior branch history; they
+are not active V44 canon after promotion.
 
 ## V44 promotion canon
 
