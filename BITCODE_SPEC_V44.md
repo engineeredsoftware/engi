@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V44`
-- V44 state: draft Gate 8 enterprise product UX work over promoted V43 product routes
+- V44 state: draft Gate 9 scaled local/staging network rehearsal over promoted V43 product routes
 - Current canonical/latest target: `V43`
 - Prior canonical anchor: `BITCODE_SPEC_V43.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V43_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, Gate 5 Depositor earnings supply opportunity, Gate 6 BTD/BTC compensation statement, Gate 7 organization policy wallet authority, and Gate 8 enterprise product UX reports; all remain source-safe metadata only
-- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 8 binds source-safe enterprise economic summaries, keyboard navigation, dense Packs activity table operation, and expandable proof detail across `/packs`, `/read`, and `/deposit` without exposing unpaid source, wallet private material, raw inference payloads, or admitting value-bearing mainnet
+- Generated structured artifact inventory: draft `.bitcode/v44-*` artifacts now include Gate 2 economic domain, Gate 3 Packs portfolio market intelligence, Gate 4 Reading budget quote policy, Gate 5 Depositor earnings supply opportunity, Gate 6 BTD/BTC compensation statement, Gate 7 organization policy wallet authority, Gate 8 enterprise product UX, and Gate 9 scaled network rehearsal reports; all remain source-safe metadata only
+- Source parity state: V44 begins from promoted `/packs`, `/read`, `/deposit`, agentic Depositing, five-step Reading, BTD/BTC settlement, and PackActivity canon; Gate 9 binds source-safe local/staging-testnet rehearsal for many deposits, Reads, Fits, quotes, BTC observations, contributors, repair cases, PackActivity rows, ledger/database/storage synchronization, stream readback, and value-bearing mainnet blocking without exposing unpaid source, wallet private material, raw inference payloads, or secrets
 - Notes companion: `BITCODE_SPEC_V44_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V44_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V44_PARITY_MATRIX.md`
@@ -332,6 +332,28 @@ private settlement payloads, or value-bearing mainnet admission.
 Gate 9 must rehearse many deposits, many Reads, many Fits, many quotes, many
 settlements, many contributors, and repair states on local/staging-testnet
 lanes without value-bearing mainnet admission or secret serialization.
+
+Gate 9 closes through `V44ScaledNetworkRehearsal` in
+`packages/protocol/src/canonical/v44-scaled-network-rehearsal.js`,
+deterministic `.bitcode/v44-scaled-network-rehearsal.json`,
+`generate:v44-scaled-network-rehearsal`,
+`check:v44-scaled-network-rehearsal`, `rehearse:v44-scaled-network`, and
+`check:v44-gate9`. The operator receipt covers both `local` and
+`staging-testnet` lanes; `/deposit`, `/read`, and `/packs`; and the exact
+minimum scale of 24 deposits, 18 Reads, 72 Fit candidates, 18 quotes, 12 BTC
+settlement observations, 36 contributors, 8 repair cases, and 54 PackActivity
+rows. The staging-testnet lane is pinned to Supabase project
+`tkpyosihuouusyaxtbau` and Data API host
+`https://tkpyosihuouusyaxtbau.supabase.co/rest/v1/`. Dry-run operator receipts
+prove environment-family readiness without serializing credential values; live
+execution remains explicitly opt-in and delegates to the Vercel Sandbox
+AssetPack harness. Gate 9 also binds database stream readback,
+ledger/database/object-storage reconciliation, settlement finality readback,
+source-to-shares compensation readback, repository delivery readback, and
+repair readback while continuing to block protected source, raw source text,
+unpaid AssetPack source, raw prompts, raw provider responses, credentials,
+wallet private material, private settlement payloads, live rehearsal logs, and
+value-bearing mainnet movement.
 
 ## V44 Gate 10 Promotion Readiness
 
@@ -673,7 +695,7 @@ quality, accessibility, visual inspectability, and generated quality evidence.
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC compensation statements | implemented-source-safe |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
 | `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
-| `.bitcode/v44-scaled-network-rehearsal.json` | scaled network rehearsal | planned |
+| `.bitcode/v44-scaled-network-rehearsal.json` | scaled network rehearsal | implemented-source-safe |
 | `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | planned |
 
 ### V44 generated artifact contract catalog
@@ -758,13 +780,18 @@ Gate 7 validates with
 `pnpm run check:v44-gate7`.
 Gate 8 validates with `pnpm run generate:v44-enterprise-product-ux`,
 `pnpm run check:v44-enterprise-product-ux`, and `pnpm run check:v44-gate8`.
+Gate 9 validates with `pnpm run generate:v44-scaled-network-rehearsal`,
+`pnpm run check:v44-scaled-network-rehearsal`,
+`pnpm run rehearse:v44-scaled-network -- --lane local --json`,
+`pnpm run rehearse:v44-scaled-network -- --lane staging-testnet --json`, and
+`pnpm run check:v44-gate9`.
 Shared draft posture validates with
 `node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43`,
 `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V43 --draft-target V44`,
 and `git diff --check`.
 
-Later gates must add package tests, route tests, generated artifact checks,
-source-safety checks, and local/staging rehearsal proof.
+Later gates must bind promotion readiness, PROVEN generation, and active V44 /
+draft V45 posture after scaled local/staging rehearsal proof is closed.
 
 ## V44 promotion canon
 
@@ -836,7 +863,7 @@ Inherited.
 | `.bitcode/v44-btd-btc-compensation-statements.json` | BTD/BTC/source-to-shares statement | implemented-source-safe |
 | `.bitcode/v44-organization-policy-wallet-authority.json` | organization policy and wallet authority | implemented-source-safe |
 | `.bitcode/v44-enterprise-product-ux.json` | enterprise product UX | implemented-source-safe |
-| `.bitcode/v44-scaled-network-rehearsal.json` | scaled rehearsal | planned |
+| `.bitcode/v44-scaled-network-rehearsal.json` | scaled rehearsal | implemented-source-safe |
 | `.bitcode/v44-promotion-readiness-report.json` | promotion readiness | planned |
 
 ### V44 specifying generated artifacts
@@ -853,6 +880,7 @@ Gate 5 adds deterministic
 Gate 6 adds deterministic `.bitcode/v44-btd-btc-compensation-statements.json`.
 Gate 7 adds deterministic `.bitcode/v44-organization-policy-wallet-authority.json`.
 Gate 8 adds deterministic `.bitcode/v44-enterprise-product-ux.json`.
+Gate 9 adds deterministic `.bitcode/v44-scaled-network-rehearsal.json`.
 
 ### Shared generated-artifact fields
 
@@ -885,9 +913,9 @@ ledger drift, or value-bearing mainnet admission.
 
 ### Appendix D. Validation and checking gate catalog
 
-Gate checks are `check:v44-gate1` through later V44 checks. Gate 1 is
-specification and workflow posture; later gates add generated reports and
-implementation tests.
+Gate checks are `check:v44-gate1` through `check:v44-gate9` plus later V44
+promotion checks. Gate 1 is specification and workflow posture; Gates 2 through
+9 add generated reports, implementation tests, and scaled rehearsal receipts.
 
 ### Appendix E. Current canonical source map
 
