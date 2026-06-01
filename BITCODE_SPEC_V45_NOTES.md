@@ -9,7 +9,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: V45 draft specification consolidation introduces `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, V45 notes atom checkers, and the draft V45 formal proof appendix; V44 generated artifacts remain active canon until V45 promotion
+- Generated structured artifact inventory: V45 draft specification consolidation introduces `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 notes atom checkers, `v45-canon-promotion.yml`, and the draft V45 formal proof appendix; V44 generated artifacts remain active canon until V45 promotion
 - Source parity state: V45 notes atoms are accepted into formal draft specification preparation; implementation parity is not yet audited and V44 implementation remains active canon
 - V45 state: accepted notes companion for formal V45 draft specification; V44 remains active canon until V45 promotion
 - Scope: accepted notes atom provenance for the next Bitcode canon candidate after V44 scaled engineering economy promotion
@@ -74,6 +74,15 @@ build/process validation.
   coherent windows into the same protocol.
 - Operational proof: preserve V44 workflow reliability while identifying the
   next proof, test, and replay obligations needed for the commercial system.
+
+## Gate 18: V45 Promotion Readiness
+
+Gate 18 records the promotion-readiness note for
+`.bitcode/v45-promotion-readiness-report.json`, V45 promotion workflow support,
+promotion dry-run support, generated proof support, and source-safety exclusions.
+Promotion may move the system from V44 active / V45 draft to active V45 / draft
+V46 only after workflow validation commits the standalone pointer update; the
+same posture is named active V45 / draft V46 in operator-facing readback.
 
 ## V45 opening discussion frame
 

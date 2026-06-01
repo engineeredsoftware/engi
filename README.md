@@ -418,6 +418,17 @@ unpaid AssetPack source, raw or interpolated prompts, provider payloads,
 credentials, wallet private material, private settlement payloads, live logs,
 and value-bearing mainnet admission.
 
+V45 Gate 18 adds `V45PromotionReadinessReport`,
+`.bitcode/v45-promotion-readiness-report.json`,
+`generate:v45-promotion-readiness`, `check:v45-promotion-readiness`,
+`check:v45-gate18`, and `v45-canon-promotion.yml`. It binds V45 proof-family
+artifacts, source-safe end-to-end rehearsal, draft `BITCODE_SPEC_V45_PROVEN.md`
+support, promotion scripts, gate/canon workflow posture, and the promoted
+`V45` active, `V46` draft runtime posture while continuing to block direct main
+promotion, protected source, unpaid AssetPack source, raw prompts, provider
+payloads, credentials, wallet private material, private settlement payloads,
+live logs, and value-bearing mainnet operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

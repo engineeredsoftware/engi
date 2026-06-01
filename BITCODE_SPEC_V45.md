@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, V45 notes atom checkers, V45 formal-spec consolidation checker, and draft `BITCODE_SPEC_V45_PROVEN.md`; V44 generated artifacts remain active canonical proof until V45 promotion
+- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 notes atom checkers, V45 formal-spec consolidation checker, `v45-canon-promotion.yml`, and draft `BITCODE_SPEC_V45_PROVEN.md`; V44 generated artifacts remain active canonical proof until V45 promotion
 - Source parity state: V45 protocol law is formally consolidated for later parity audit; implementation parity is not yet audited, grouped implementation gates are not yet authorized, and V44 source remains the active implementation canon
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V45_DELTA.md`
@@ -657,15 +657,17 @@ and quality summary.
 | `.bitcode/v45-disclosure-boundary-proof.json` | disclosure-boundary proof-family artifact | draft required |
 | `.bitcode/v45-proof-contract-proof.json` | proof-contract proof-family artifact | draft required |
 | `.bitcode/v45-source-safe-e2e-rehearsal.json` | source-safe end-to-end rehearsal artifact | draft required |
+| `.bitcode/v45-promotion-readiness-report.json` | promotion-readiness artifact | draft required |
 | `BITCODE_SPEC_V45_PROVEN.md` | generated proof appendix | draft required |
 
 ### V45 specifying generated artifacts
 
 V45 specifying generated artifacts must include `.bitcode/v45-spec-family-report.json`,
 `.bitcode/v45-canonical-input-report.json`, all nine V45 proof-family
-artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, and draft
+artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`,
+`.bitcode/v45-promotion-readiness-report.json`, and draft
 `BITCODE_SPEC_V45_PROVEN.md`; promotion readiness adds promotion-specific
-generated proof outputs only when its gate closes.
+generated proof outputs when its gate closes.
 
 ### Shared generated-artifact fields
 
@@ -714,6 +716,17 @@ explicitly deferred, source-safety is preserved, implementation and proof gates
 are green, rehearsal receipts are replayable, and the promotion workflow
 performs validation before committing the standalone `BITCODE_SPEC.txt` pointer
 change to `V45`.
+
+### V45 promotion readiness canon
+
+V45 promotion readiness is represented by
+`.bitcode/v45-promotion-readiness-report.json`, `check:v45-gate18`, and
+`v45-canon-promotion.yml`. The readiness proof binds all V45 proof-family
+artifacts, the source-safe end-to-end rehearsal artifact, draft
+`BITCODE_SPEC_V45_PROVEN.md`, promotion script support, gate/canon workflow
+posture, direct-main-push blocking, and source-safety exclusions. Promotion may
+convert V44 active / draft V45 posture into V45 active / draft V46 posture only
+after the workflow validates and commits the standalone pointer change.
 
 ## V45 appendices and canonical supporting material
 
@@ -786,8 +799,9 @@ about confidentiality, and fail closed when proof roots or readback evidence
 are missing. The draft generated artifacts are `.bitcode/v45-spec-family-report.json`,
 `.bitcode/v45-canonical-input-report.json`, all nine V45 proof-family
 artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, and
-`BITCODE_SPEC_V45_PROVEN.md`; promotion later renders promotion-readiness proof
-outputs.
+`.bitcode/v45-promotion-readiness-report.json`, and
+`BITCODE_SPEC_V45_PROVEN.md`; promotion later refreshes promotion-readiness
+proof outputs.
 
 ### Minimum generated appendix rendered contents
 
@@ -867,7 +881,8 @@ Source-bearing AssetPack artifacts include `.bitcode/asset-pack.lock.json`,
 `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`,
 `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`,
 `.bitcode/system-proof-bundle.json`,
-`.bitcode/v45-source-safe-e2e-rehearsal.json`, and
+`.bitcode/v45-source-safe-e2e-rehearsal.json`,
+`.bitcode/v45-promotion-readiness-report.json`, and
 `BITCODE_SPEC_V45_PROVEN.md`. V45 requires protected source custody,
 source-safe preview, entitlement-based unlock, and repository delivery receipt
 before Reader-visible source.

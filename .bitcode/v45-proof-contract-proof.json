@@ -247,8 +247,8 @@
     {
       "relativePath": "BITCODE_SPEC_V45.md",
       "present": true,
-      "digest": "sha256:846a670f78484d121355dd8aaf248de373ba8501148afb1d31534d9d5a1970ee",
-      "byteLength": 47025,
+      "digest": "sha256:a15581cd77c3425f73ed1026976f85909d121609f4869bc0075c2e1520d5888d",
+      "byteLength": 47940,
       "sourceSafeDigestOnly": true,
       "forbiddenMarkerDetected": false,
       "requiredTokens": [
@@ -273,8 +273,8 @@
     {
       "relativePath": "BITCODE_SPEC_V45_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:8071e93cb88592aec804c3ceece6673358edaba8e107044e629fb2c1ac72daff",
-      "byteLength": 27804,
+      "digest": "sha256:7a06feb42a1976657ec927143fe2ccca4e67163ad47c6ba8159e64af11fcbf5c",
+      "byteLength": 28763,
       "sourceSafeDigestOnly": true,
       "forbiddenMarkerDetected": false,
       "requiredTokens": [
@@ -295,8 +295,8 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:a7cbc84c0f4cdc088506ec3e909058a0719a564bd1d1c719c59241341d3bfddf",
-      "byteLength": 69922,
+      "digest": "sha256:40fea92626158829362b90b5e4ad99f2cb377b37359d22ea1ab6a0825e64e35b",
+      "byteLength": 69980,
       "sourceSafeDigestOnly": true,
       "forbiddenMarkerDetected": false,
       "requiredTokens": [
@@ -361,14 +361,14 @@
   ],
   "inputRoots": {
     "specRoot": "sha256:2e964cd47c97ea4ac5b893756ee3d3d0bdc6e78d8a4b91db256be91ef64df37f",
-    "sourceEvidenceRoot": "sha256:7a4ece3a17f9e3423272bd03f2664c1f8c8ae6b6ccbb73ad891020e07e34b693",
+    "sourceEvidenceRoot": "sha256:c67eb54e2ebde41f42385a3f61572e0e5a8974764c1e5ea31cd214e6686aa8fc",
     "witnessArtifactRoot": "sha256:74c40acc322c9e1db38ac71c8cb4d67097ccbbb777491fc922b515c11a2d0d9e"
   },
   "artifactRoots": {
     "proofFamilyInventoryRoot": "sha256:4c7ec957f9ac0e9b50227139a98b36d6ebaaaa5ef8c9f2d7d019b33d6f4e782b",
     "replayBindingRoot": "sha256:84787609b3fb5d9f7fd7c2c2d519206acca02ad8b35f0c9ae89ab3053c849d70"
   },
-  "artifactRoot": "v45-proof-contract-proof:e5e1d7873f1ad2cf08db88ba",
+  "artifactRoot": "v45-proof-contract-proof:6e296fc9dc826bd16b03cf72",
   "minimumArtifactReplayBindingSet": [
     "proof root",
     "ledger root",

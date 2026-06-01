@@ -48,6 +48,7 @@ import { buildV41PromotionReadinessReport as buildV41PromotionReadinessReportArt
 import { buildV42PromotionReadinessReport as buildV42PromotionReadinessReportArtifact } from './v42-promotion-readiness-report.js';
 import { buildV43PromotionReadinessReport as buildV43PromotionReadinessReportArtifact } from './v43-promotion-readiness-report.js';
 import { buildV44PromotionReadinessReport as buildV44PromotionReadinessReportArtifact } from './v44-promotion-readiness-report.js';
+import { buildV45PromotionReadinessReport as buildV45PromotionReadinessReportArtifact } from './v45-promotion-readiness-report.js';
 
 export const DEFAULT_PROVEN_BRANCH_MODES = ['patch', 'context'];
 export const DEFAULT_V23_PROVEN_PAYMENT_MODES = [...BITCOIN_PAYMENT_MODES];
@@ -72,6 +73,7 @@ const V41_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v41-promotion-readiness-
 const V42_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v42-promotion-readiness-report.json';
 const V43_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v43-promotion-readiness-report.json';
 const V44_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v44-promotion-readiness-report.json';
+const V45_PROMOTION_READINESS_ARTIFACT_PATH = '.bitcode/v45-promotion-readiness-report.json';
 
 /**
  * @param {string} version
@@ -6303,6 +6305,27 @@ export function renderCanonicalProvenMarkdown(data) {
     ));
     lines.push('');
   }
+  if (data.v45) {
+    const { v45 } = data;
+    lines.push('## V45 Promotion Readiness');
+    lines.push('');
+    lines.push(`- reportId: ${markdownCode(v45.promotionReadinessReport.reportId || v45.promotionReadinessReport.artifactId)}`);
+    lines.push(`- sourceSafe: ${markdownCode(String(v45.promotionReadinessReport.sourceSafe === true))}`);
+    lines.push(`- passed: ${markdownCode(String(v45.promotionReadinessReport.passed === true))}`);
+    lines.push(`- failureCount: ${markdownCode(String(v45.promotionReadinessReport.failures.length))}`);
+    lines.push(`- prePromotionPosture: ${markdownCode(v45.promotionReadinessReport.prePromotionPosture)}`);
+    lines.push(`- postPromotionPosture: ${markdownCode(v45.promotionReadinessReport.postPromotionPosture)}`);
+    lines.push('');
+    lines.push(renderMarkdownTable(
+      ['artifactPath', 'digest', 'byteLength'],
+      (v45.artifactSummaries || []).map((/** @type {any} */ artifact) => [
+        markdownCode(artifact.artifactPath),
+        markdownCode(artifact.digest),
+        artifact.byteLength
+      ])
+    ));
+    lines.push('');
+  }
   if (v20) {
     lines.push('## V20 Operator Quality Reports');
     lines.push('');
@@ -11163,6 +11186,137 @@ function buildV44ProvenPackage(baseData, {
 
 /**
  * @param {{
+ *   generatedAt: string,
+ *   baseData: ReturnType<typeof buildCanonicalProvenData>
+ * }} input
+ */
+function buildV45PromotionReadinessReport({ generatedAt, baseData }) {
+  const report = buildV45PromotionReadinessReportArtifact({
+    generatedAt,
+    repoRoot: REPO_ROOT
+  });
+  return {
+    reportId: report.artifactId,
+    ...report,
+    proofSourceCommit: baseData.canonicalCommit,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState,
+    sourceSafe: report.sourceSafetyVerdict === 'source-safe-v45-knowledge-commoditization-promotion-metadata'
+  };
+}
+
+/**
+ * @param {any} baseData
+ * @param {{
+ *   generatedAt: string,
+ *   inheritedV19: any,
+ *   inheritedV20: any
+ * }} input
+ */
+function buildV45ProvenPackage(baseData, {
+  generatedAt,
+  inheritedV19,
+  inheritedV20
+}) {
+  const draftPreview = ACTIVE_CANON_VERSION !== 'V45';
+  const specFamilyReport = buildV21SpecFamilyReport({
+    version: 'V45',
+    mode: draftPreview ? 'draft' : 'promoted',
+    ...(draftPreview ? { currentTarget: ACTIVE_CANON_VERSION } : { currentTarget: 'V45' })
+  });
+  const assumedArtifactPaths = [
+    'BITCODE_SPEC_V45_PROVEN.md',
+    '.bitcode/v45-spec-family-report.json',
+    '.bitcode/v45-canonical-input-report.json',
+    '.bitcode/v45-canon-posture-drift-report.json',
+    '.bitcode/v45-inference-synthesis-proof.json',
+    '.bitcode/v45-prompt-completeness-proof.json',
+    '.bitcode/v45-static-code-analysis-proof.json',
+    '.bitcode/v45-verification-decisions-proof.json',
+    '.bitcode/v45-selection-materialization-proof.json',
+    '.bitcode/v45-authorization-sensitive-flow-proof.json',
+    '.bitcode/v45-settlement-source-to-shares-proof.json',
+    '.bitcode/v45-disclosure-boundary-proof.json',
+    '.bitcode/v45-proof-contract-proof.json',
+    '.bitcode/v45-source-safe-e2e-rehearsal.json',
+    V45_PROMOTION_READINESS_ARTIFACT_PATH
+  ];
+  const canonicalInputReport = buildV21CanonicalInputReport({
+    currentTarget: 'V45',
+    reportVersion: 'V45',
+    ...(draftPreview
+      ? {
+          skipPointerCheck: true,
+          assumeExistingRelativePaths: assumedArtifactPaths
+        }
+      : { assumeExistingRelativePaths: assumedArtifactPaths })
+  });
+  const canonPostureDriftReport = buildCanonPostureDriftReport({
+    version: 'V45',
+    activeCanonVersion: draftPreview ? ACTIVE_CANON_VERSION : 'V45',
+    draftTargetVersion: draftPreview ? 'V45' : 'V46',
+    proofSourceCommit: baseData.canonicalCommit,
+    generatedAt,
+    generatorId: baseData.generatorId,
+    worktreeState: baseData.worktreeState
+  });
+  const promotionReadinessReport = buildV45PromotionReadinessReport({
+    generatedAt,
+    baseData
+  });
+  const artifacts = {
+    ...buildCanonPostureGeneratedArtifactContents({
+      version: 'V45',
+      proofSourceCommit: baseData.canonicalCommit,
+      generatedAt,
+      generatorId: baseData.generatorId,
+      worktreeState: baseData.worktreeState,
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport
+    }),
+    [V45_PROMOTION_READINESS_ARTIFACT_PATH]: `${JSON.stringify(promotionReadinessReport, null, 2)}\n`
+  };
+  const artifactSummaries = summarizeArtifactContents(artifacts);
+  const promotionReady = specFamilyReport.passed === true
+    && canonicalInputReport.passed === true
+    && canonPostureDriftReport.passed === true
+    && promotionReadinessReport.passed === true;
+  const data = {
+    ...baseData,
+    v19: inheritedV19,
+    v20: inheritedV20,
+    v45: {
+      specFamilyReport,
+      canonicalInputReport,
+      canonPostureDriftReport,
+      promotionReadinessReport,
+      artifactSummaries,
+      draftPreview,
+      promotionReady,
+      activeCanonicalTarget: ACTIVE_CANON_VERSION,
+      nextDraftTarget: 'V46'
+    },
+    aggregate: {
+      ...baseData.aggregate,
+      fullyProven: baseData.aggregate.fullyProven
+        && inheritedV19?.deterministicReplayReport?.passed === true
+        && inheritedV19?.volatilityInventory?.passed === true
+        && inheritedV19?.contractChangeLedger?.passed === true
+        && inheritedV20?.qualitySummary?.passed === true
+        && promotionReady
+        && specFamilyReport.mode === 'promoted'
+    }
+  };
+  return {
+    data,
+    markdown: renderCanonicalProvenMarkdown(data),
+    artifacts
+  };
+}
+
+/**
+ * @param {{
  *   version: string,
  *   canonicalCommit: string,
  *   canonicalCommitRecordedAt?: string | null,
@@ -12356,6 +12510,58 @@ export function generateCanonicalProvenMarkdown({
     });
     finishGenerateProfile();
     return v44Package;
+  }
+  if (version === 'V45') {
+    const inheritedV19BaseData = buildBaseCanonicalProvenData({
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV19Package = buildV19DeterministicProvenPackage(inheritedV19BaseData, {
+      version: 'V19',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      renderMarkdown: false,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20BaseData = buildBaseCanonicalProvenData({
+      version: 'V20',
+      canonicalCommit,
+      canonicalCommitRecordedAt,
+      generatedAt,
+      worktreeState,
+      generatorId,
+      branchModes,
+      buildInitialStateFn,
+      runMakeBitcodeBranchFn,
+      ...(scenarioIds ? { scenarioIds } : {})
+    });
+    const inheritedV20Package = buildV20ProvenPackage(inheritedV20BaseData, {
+      version: 'V20',
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      renderMarkdown: false
+    });
+    const v45Package = buildV45ProvenPackage(baseData, {
+      generatedAt,
+      inheritedV19: inheritedV19Package.data.v19,
+      inheritedV20: inheritedV20Package.data.v20
+    });
+    finishGenerateProfile();
+    return v45Package;
   }
   const v18Matrices = version === 'V18'
     ? buildV18Matrices(baseData, {
