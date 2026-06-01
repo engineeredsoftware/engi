@@ -1,9 +1,10 @@
 {
+  "reportId": "v45-promotion-readiness-report",
   "artifactId": "v45-promotion-readiness-report",
   "schemaId": "bitcode.v45.promotionReadinessReport.v1",
   "version": "V45",
   "currentTarget": "V44",
-  "generatedAt": "2026-05-31T00:00:00.000Z",
+  "generatedAt": "2026-06-01T00:24:49-03:00",
   "sourceSafetyVerdict": "source-safe-v45-knowledge-commoditization-promotion-metadata",
   "prePromotionPosture": "V44 active / V45 draft",
   "postPromotionPosture": "V45 active / V46 draft",
@@ -410,7 +411,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45.md",
       "present": true,
-      "digest": "sha256:a15581cd77c3425f73ed1026976f85909d121609f4869bc0075c2e1520d5888d",
+      "digest": "sha256:280c064caa74bf8cda9f20a8c7bb4189b9b614f4ef69c02a6d595b28733f4f58",
       "requiredTokens": [
         {
           "token": "V45 promotion readiness canon",
@@ -429,7 +430,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45_DELTA.md",
       "present": true,
-      "digest": "sha256:ce93b2b10b2f68d67c90a5f9dd4bb4698bb19478bc594f8e548f44f5dd5dfd30",
+      "digest": "sha256:92a125cd5335cbd241450c4969e0ae54285ea1f15745eeee9895dd8608630117",
       "requiredTokens": [
         {
           "token": "Gate 18: V45 Promotion Readiness",
@@ -448,7 +449,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45_NOTES.md",
       "present": true,
-      "digest": "sha256:c305b0428f34236fdb0bc8cd5fa20a17eec4f948b4659de9f5086b4022c10ab7",
+      "digest": "sha256:8e19e9e50111c4ed1c797934cc97abbfdb3fc0a314dc64996f55520f67cf3232",
       "requiredTokens": [
         {
           "token": "Gate 18: V45 Promotion Readiness",
@@ -467,7 +468,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:7a06feb42a1976657ec927143fe2ccca4e67163ad47c6ba8159e64af11fcbf5c",
+      "digest": "sha256:2a7d283e133b0124fd1053402d0fef831f0cddd4cbc4db0b2db85d67e8c63366",
       "requiredTokens": [
         {
           "token": "Gate 18 implementation readback",
@@ -516,7 +517,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:7c44af4ac2e0cc481543939c0770f21e3e083a85c2ace5e3d56cdf6c42b5da87",
+      "digest": "sha256:ae6773f09ef9c8530e23f6aeeeaea82f662344eafe15a29f2c33653c984b42d1",
       "requiredTokens": [
         {
           "token": "V45 Gate 18",
@@ -580,5 +581,9 @@
   "artifactRoot": "v45-knowledge-commoditization-promotion-readiness-report:0089a6ef44f3078816056784",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v45-gate18"
+  "validationCommand": "pnpm run check:v45-gate18",
+  "proofSourceCommit": "23294cc578dcb2148a6b602c3463b3ca01f1fef1",
+  "generatorId": "bitcode.proven-generator.v1",
+  "worktreeState": "clean",
+  "sourceSafe": true
 }

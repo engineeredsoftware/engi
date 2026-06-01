@@ -6,13 +6,15 @@
 - Canonical pointer: `BITCODE_SPEC.txt` -> `V44`
 - Active canonical anchor: `BITCODE_SPEC_V44.md`
 - Active generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Current canonical/latest target: `V44`
+- Current canonical/latest target: `V45`
+- Canonical proof-source commit: `23294cc578dcb2148a6b602c3463b3ca01f1fef1`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: V45 draft specification consolidation introduces `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 notes atom checkers, `v45-canon-promotion.yml`, and the draft V45 formal proof appendix; V44 generated artifacts remain active canon until V45 promotion
-- Source parity state: V45 notes atoms are accepted into formal draft specification preparation; implementation parity is not yet audited and V44 implementation remains active canon
-- V45 state: accepted notes companion for formal V45 draft specification; V44 remains active canon until V45 promotion
-- Scope: accepted notes atom provenance for the next Bitcode canon candidate after V44 scaled engineering economy promotion
+- Generated structured artifact inventory: active canonical `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, `.bitcode/v45-canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
+- Source parity state: V45 source-side AssetPack commodity lifecycle, BTD scalar-volume, BTC settlement, interface disclosure, proof readback, source-safe rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V45 file family
+- V45 state: canonical promotion complete; V45 notes record accepted AssetPack commodity, BTD scalar-volume, BTC settlement, interface authority, proof readback, rehearsal, and promotion-readiness evidence
+- Scope: V45 canonical notes for knowledge commoditization protocol precision over promoted V44 scaled engineering economy canon
+- Last fully realized canonical target preserved in source: `V45`
 
 ## Notes companion rule
 

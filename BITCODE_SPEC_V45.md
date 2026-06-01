@@ -3,17 +3,18 @@
 ## Status
 
 - Version: `V45`
-- V45 state: formal draft specification consolidated from accepted V45 notes atoms; V44 remains active canon until V45 promotion
-- Current canonical/latest target: `V44`
+- V45 state: canonical promotion complete; V45 is the active knowledge commoditization canon and the V45 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V45`
+- Canonical proof-source commit: `23294cc578dcb2148a6b602c3463b3ca01f1fef1`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 notes atom checkers, V45 formal-spec consolidation checker, `v45-canon-promotion.yml`, and draft `BITCODE_SPEC_V45_PROVEN.md`; V44 generated artifacts remain active canonical proof until V45 promotion
-- Source parity state: V45 protocol law is formally consolidated for later parity audit; implementation parity is not yet audited, grouped implementation gates are not yet authorized, and V44 source remains the active implementation canon
+- Generated structured artifact inventory: active canonical `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, `.bitcode/v45-canon-posture-drift-report.json`, all nine V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V45_PROVEN.md` as the generated proof appendix for V45 promotion
+- Source parity state: V45 source-side AssetPack commodity lifecycle, BTD scalar-volume, BTC settlement, interface disclosure, proof readback, source-safe rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V45 file family
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V45_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V45_PARITY_MATRIX.md`
-- Scope: V45 draft specification for Bitcode as the world's knowledge commoditization system, consolidating AssetPack lifecycle, BTD scalar-volume, BTC settlement, interface disclosure, proof readback, and gate taxonomy law
-- Last fully realized canonical target preserved in source: `V44`
+- Scope: V45 canonical system specification for knowledge commoditization across AssetPack commodity lifecycle, BTD scalar-volume and rights, BTC settlement, interface disclosure, proof readback, source-safe end-to-end rehearsal, and promotion readiness surfaces
+- Last fully realized canonical target preserved in source: `V45`
 
 ## Version executive summary
 
@@ -42,13 +43,12 @@ rights, and proof-backed readback is the only state advancement mechanism.
 
 ## V45 source-of-truth hierarchy
 
-`BITCODE_SPEC.txt` points to `V44`; V44 remains active promoted canon.
+`BITCODE_SPEC.txt` points to `V45`; V45 is the active promoted Bitcode canon.
 `BITCODE_SPEC_V45.md`, `BITCODE_SPEC_V45_DELTA.md`,
-`BITCODE_SPEC_V45_NOTES.md`, and `BITCODE_SPEC_V45_PARITY_MATRIX.md` are V45
-draft specification-family material. The V45 formal specification family is the
-only authority for the next implementation parity audit, but it is not active
-canon and cannot authorize source disclosure, settlement, rights transfer, or
-implementation behavior until V45 promotion.
+`BITCODE_SPEC_V45_NOTES.md`, and `BITCODE_SPEC_V45_PARITY_MATRIX.md` are the
+promoted V45 specification-family material. The V45 formal specification family
+is active canon and authorizes implementation behavior only through the
+source-safe, entitlement-bound, proof-backed boundaries it states.
 
 Implementation remains unversioned in source paths. Package, route, component,
 test, prompt, script, telemetry, schema, API, and workflow names move in place
