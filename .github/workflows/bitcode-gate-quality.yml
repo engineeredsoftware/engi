@@ -526,6 +526,12 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V44
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V44 --draft-target V45
             node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            if [ -f BITCODE_SPEC_V45.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V45 --mode draft --current-target V44
+              if [ -f scripts/check-v45-gate16-proof-families-generated-artifacts.mjs ]; then
+                node scripts/check-v45-gate16-proof-families-generated-artifacts.mjs --skip-branch-check --skip-package-tests # check:v45-gate16
+              fi
+            fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -588,6 +594,9 @@ jobs:
             fi
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate10-promotion-readiness.mjs ]; then
               node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+            fi
+            if [ "$POINTER" = "V44" ] && [ -f scripts/check-v45-gate16-proof-families-generated-artifacts.mjs ]; then
+              node scripts/check-v45-gate16-proof-families-generated-artifacts.mjs --skip-branch-check --skip-package-tests # check:v45-gate16
             fi
             if [ "$POINTER" = "V42" ]; then
               if [ -f scripts/check-v43-gate1-packs-read-deposit-roadmap.mjs ]; then

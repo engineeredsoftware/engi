@@ -517,6 +517,19 @@ function buildV21LikeProfile(version) {
           '.bitcode/v44-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V45'
+        ? [
+          '.bitcode/v45-inference-synthesis-proof.json',
+          '.bitcode/v45-prompt-completeness-proof.json',
+          '.bitcode/v45-static-code-analysis-proof.json',
+          '.bitcode/v45-verification-decisions-proof.json',
+          '.bitcode/v45-selection-materialization-proof.json',
+          '.bitcode/v45-authorization-sensitive-flow-proof.json',
+          '.bitcode/v45-settlement-source-to-shares-proof.json',
+          '.bitcode/v45-disclosure-boundary-proof.json',
+          '.bitcode/v45-proof-contract-proof.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1680,6 +1693,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V44') {
     artifacts.push(...buildV21LikeProfile('V44').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V45') {
+    artifacts.push(...buildV21LikeProfile('V45').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

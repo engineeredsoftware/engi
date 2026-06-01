@@ -1,0 +1,31 @@
+{
+  "reportId": "v45-canonical-input-report",
+  "version": "V45",
+  "proofSourceCommit": "draft-v45-gate16-proof-source-snapshot",
+  "generatedAt": "2026-05-31T00:00:00.000Z",
+  "generatorId": "generate-v45-proof-family-artifacts",
+  "worktreeState": "draft-gate16-source-safe",
+  "checkedTargetVersion": "V45",
+  "pointerVersion": "V44",
+  "passed": true,
+  "failureCount": 0,
+  "failures": [],
+  "specPath": "BITCODE_SPEC_V45.md",
+  "notesPath": "BITCODE_SPEC_V45_NOTES.md",
+  "provenPath": "BITCODE_SPEC_V45_PROVEN.md",
+  "parityPath": "BITCODE_SPEC_V45_PARITY_MATRIX.md",
+  "requiredGeneratedArtifactPaths": [
+    ".bitcode/v45-spec-family-report.json",
+    ".bitcode/v45-canonical-input-report.json",
+    ".bitcode/v45-inference-synthesis-proof.json",
+    ".bitcode/v45-prompt-completeness-proof.json",
+    ".bitcode/v45-static-code-analysis-proof.json",
+    ".bitcode/v45-verification-decisions-proof.json",
+    ".bitcode/v45-selection-materialization-proof.json",
+    ".bitcode/v45-authorization-sensitive-flow-proof.json",
+    ".bitcode/v45-settlement-source-to-shares-proof.json",
+    ".bitcode/v45-disclosure-boundary-proof.json",
+    ".bitcode/v45-proof-contract-proof.json"
+  ],
+  "requiredGeneratedArtifactCount": 11
+}
