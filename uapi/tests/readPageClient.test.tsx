@@ -172,6 +172,10 @@ describe("ReadPageClient", () => {
       "step",
     );
     expect(screen.getByText("Source-safe read state")).toBeInTheDocument();
+    expect(screen.getByText("Disclosure boundary")).toBeInTheDocument();
+    expect(
+      screen.getByText(/Withheld until paid rights: source-bearing AssetPack contents/u),
+    ).toBeInTheDocument();
     expect(screen.getByText("Organization authority")).toBeInTheDocument();
     expect(
       screen.getByText("ReadNeedComprehensionSynthesis"),

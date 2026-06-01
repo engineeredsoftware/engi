@@ -14,7 +14,7 @@ const mockUseAuth = jest.fn();
 const mockUseUserData = jest.fn();
 
 jest.mock('next/navigation', () => ({
-  usePathname: () => '/terminal',
+  usePathname: () => '/read',
   useRouter: () => ({ push: mockPush, replace: mockReplace }),
 }));
 
@@ -76,7 +76,7 @@ jest.mock('@/components/base/bitcode/nav/AuxillariesUseButton', () => ({
   AuxillariesUseButton: () => <div>Use button</div>,
 }));
 
-describe('Nav Terminal product chrome', () => {
+describe('Nav product chrome', () => {
   beforeEach(() => {
     mockPush.mockReset();
     mockReplace.mockReset();
@@ -95,14 +95,15 @@ describe('Nav Terminal product chrome', () => {
     });
   });
 
-  it('shows product-route links and guest access actions for unauthenticated Terminal routes', () => {
+  it('shows product-route links and guest access actions for unauthenticated product routes', () => {
     render(<Nav />);
 
     const accessButton = screen.getByRole('button', { name: 'Open Auxillaries' });
     const createButton = screen.getByRole('button', { name: 'Connect Wallet' });
 
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposit');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     fireEvent.mouseEnter(accessButton);
     fireEvent.click(accessButton);
@@ -144,7 +145,8 @@ describe('Nav Terminal product chrome', () => {
     render(<Nav />);
 
     expect(screen.getByRole('link', { name: 'Packs' })).toHaveAttribute('href', '/packs');
-    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute('href', '/terminal');
+    expect(screen.getByRole('link', { name: 'Deposit' })).toHaveAttribute('href', '/deposit');
+    expect(screen.getByRole('link', { name: 'Read' })).toHaveAttribute('href', '/read');
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute('href', '/docs');
     expect(screen.queryByRole('button', { name: 'Open Auxillaries' })).toBeNull();
     expect(screen.getByText('Notifications')).toBeInTheDocument();

@@ -11,6 +11,7 @@
     "./asset-pack-settlement-rights-delivery": "./src/asset-pack-settlement-rights-delivery.ts",
     "./reading-operational-telemetry-repair-readback": "./src/reading-operational-telemetry-repair-readback.ts",
     "./reading-interface-product-parity": "./src/reading-interface-product-parity.ts",
+    "./interface-disclosure-boundary": "./src/interface-disclosure-boundary.ts",
     "./reading-local-staging-rehearsal": "./src/reading-local-staging-rehearsal.ts",
     "./deposit-asset-pack-options": "./src/deposit-asset-pack-options.ts",
     "./deposit-asset-pack-option-policy": "./src/deposit-asset-pack-option-policy.ts",

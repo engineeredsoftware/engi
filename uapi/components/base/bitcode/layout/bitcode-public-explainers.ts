@@ -39,14 +39,14 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     ],
   }),
   transactions: buildExplainer({
-    kicker: 'Live Terminal',
-    title: 'Terminal',
-    summary: 'Open the full Terminal for proofs, history, and deposit-to-settle detail.',
+    kicker: 'Proof readback',
+    title: 'Activity readback',
+    summary: 'Open Packs for proofs, history, settlement, compensation, delivery, and repair detail.',
     detail:
-      'This is the main operator-grade surface. Use it when you want to prepare Deposit and Read work, then read recent Terminal activity results, proofs, and history.',
+      'Use this when you want to reread Bitcode activity with source-safe proof roots, BTD scalar volume and rights, BTC settlement posture, and delivery state.',
     points: [
       'Loads selected execution detail, proofs, history, and closure posture',
-      'Keeps mocked launch-mode state readable without requiring live external connectivity',
+      'Keeps source-bearing AssetPack contents withheld until finality, rights transfer, and repository delivery',
     ],
   }),
   docs: buildExplainer({
@@ -54,7 +54,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
     title: 'Docs',
     summary: 'Read the public Bitcode docs for stepwise explanations, inline widgets, route maps, and the recorded walkthrough.',
     detail:
-      'Use this when you want the system taught clearly before moving into the full Terminal route.',
+      'Use this when you want the system taught clearly before moving into Deposit, Read, and Packs.',
     points: [
       'Keeps walkthroughs and explainers under one documentation area',
       'Preserves pedagogical prose instead of flattening the system into a brochure',
@@ -68,7 +68,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'Use this when you want the auxillary access layer directly. Connect Wallet is for first-time wallet identity and onboarding; Open Auxillaries is for entering the contained shell.',
     points: [
       'Opens the contained auxillary shell',
-      'Keeps Auxillaries distinct from Packs, Terminal, and Docs',
+      'Keeps Auxillaries distinct from Packs, Deposit, Read, and Docs',
     ],
   }),
   protocolSpec: buildExplainer({

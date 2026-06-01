@@ -189,6 +189,16 @@ Acceptance:
 - Docs checks prove V45 terminology: AssetPack commodity, BTD scalar volume/rights, BTC settlement money, proof readback authority, `/deposit`, `/read`, `/packs`.
 - `check:v45-gate15` passes locally and in gate-quality CI.
 
+Gate 15 implementation readback:
+
+- Interface disclosure boundary matrix: `packages/pipelines/asset-pack/src/interface-disclosure-boundary.ts`.
+- Interface disclosure boundary tests: `packages/pipelines/asset-pack/src/__tests__/interface-disclosure-boundary.test.ts`.
+- Pipeline storage binding: `packages/pipelines/asset-pack/src/index.ts`.
+- Public route vocabulary and landing copy: `uapi/app/page.tsx`, `uapi/components/base/bitcode/layout/bitcode-public-copy.ts`, and `uapi/components/base/bitcode/layout/bitcode-public-explainers.ts`.
+- Public docs and compatibility docs: `uapi/app/docs/bitcode-docs-content.ts`, `uapi/app/(root)/components/PublicDocsPageContent.tsx`, and `uapi/app/exchange/README.md`.
+- Source-safe collapsed/expanded interface coverage: `uapi/tests/readPageClient.test.tsx`, `uapi/tests/depositPageClient.test.tsx`, `uapi/tests/packsPageClient.test.tsx`, `uapi/tests/publicDocsPageContent.test.tsx`, `uapi/tests/bitcodeDocsContent.test.tsx`, `uapi/tests/marketingLandingPage.test.tsx`, `uapi/tests/marketingOperatorGuideCard.test.tsx`, and `uapi/jest.config.cjs`.
+- Closure checker: `check:v45-gate15`.
+
 ### Gate 16: V45 Proof Families And Generated Artifacts
 
 Gate class: `proof-only`.
