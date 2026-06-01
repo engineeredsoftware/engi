@@ -1,10 +1,9 @@
 {
-  "reportId": "v45-promotion-readiness-report",
   "artifactId": "v45-promotion-readiness-report",
   "schemaId": "bitcode.v45.promotionReadinessReport.v1",
   "version": "V45",
   "currentTarget": "V44",
-  "generatedAt": "2026-06-01T00:24:49-03:00",
+  "generatedAt": "2026-05-31T00:00:00.000Z",
   "sourceSafetyVerdict": "source-safe-v45-knowledge-commoditization-promotion-metadata",
   "prePromotionPosture": "V44 active / V45 draft",
   "postPromotionPosture": "V45 active / V46 draft",
@@ -149,8 +148,8 @@
       "relativePath": ".bitcode/v45-source-safe-e2e-rehearsal.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:480d49a56e98d066f13b8011e7e56ddadade17da58b36434299da8c0807eee71",
-      "byteLength": 50963,
+      "digest": "sha256:8a1822c09036fc62970bf4e948b9e959e3ef548719d0394676e95bc8f24c5bb6",
+      "byteLength": 50958,
       "sourceSafe": true,
       "artifactId": "v45-source-safe-e2e-rehearsal",
       "version": "V45",
@@ -303,7 +302,7 @@
     {
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "present": true,
-      "digest": "sha256:b6cd8ff586db2a7da1659e126ccd81f6300d3813e06265ec24a9b4f47f4d98f3",
+      "digest": "sha256:3a247433690c88f138a55a2824b557b7a00fbd2e82da79df5cdf426d0968b366",
       "requiredTokens": [
         {
           "token": "check-v45-gate18-promotion-readiness.mjs",
@@ -322,7 +321,7 @@
     {
       "relativePath": ".github/workflows/bitcode-canon-quality.yml",
       "present": true,
-      "digest": "sha256:9172f9ebb908e9e8401fb36fffc22dcc6c0ea365927a9cf56151f6c02daf65c0",
+      "digest": "sha256:d9f90a948a3d275a7c02b0693fecc4f6ab7e464c64134093cfd178bb3a725c3c",
       "requiredTokens": [
         {
           "token": "check-v45-gate18-promotion-readiness.mjs",
@@ -379,7 +378,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:fe0067ebcf5151993122a48e11181c8e6ab46c8d4ff66495e836e7910bf97af8",
+      "digest": "sha256:0ef1d8025a3965c0083b9904907fcdef7e5aaed59c37a2898598bc3dda7097ea",
       "requiredTokens": [
         {
           "token": ".bitcode/v45-promotion-readiness-report.json",
@@ -390,7 +389,7 @@
     {
       "relativePath": "package.json",
       "present": true,
-      "digest": "sha256:e02bbaeb176d193fbf1776a00322dbfea10e431e2f6db9dc33080a321aec873e",
+      "digest": "sha256:d8ab37e08b2d784f87de7dbecd98c7acbb8fd52c34d353472cc20154c8eb9aa6",
       "requiredTokens": [
         {
           "token": "generate:v45-promotion-readiness",
@@ -411,7 +410,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45.md",
       "present": true,
-      "digest": "sha256:280c064caa74bf8cda9f20a8c7bb4189b9b614f4ef69c02a6d595b28733f4f58",
+      "digest": "sha256:303eba5e7ebde2132d729f1f1bad1f6289f4d41d835ab9f1bbdc602752514aff",
       "requiredTokens": [
         {
           "token": "V45 promotion readiness canon",
@@ -430,7 +429,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45_DELTA.md",
       "present": true,
-      "digest": "sha256:92a125cd5335cbd241450c4969e0ae54285ea1f15745eeee9895dd8608630117",
+      "digest": "sha256:c4e872c4e408ef7ecdfd660cb96e589ad6a2ad5b0a81bb8c294fdc686608f780",
       "requiredTokens": [
         {
           "token": "Gate 18: V45 Promotion Readiness",
@@ -449,7 +448,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45_NOTES.md",
       "present": true,
-      "digest": "sha256:8e19e9e50111c4ed1c797934cc97abbfdb3fc0a314dc64996f55520f67cf3232",
+      "digest": "sha256:5c2c09076ac31a818f20223e22273df9fbe96081768528883b6220036b43f8bb",
       "requiredTokens": [
         {
           "token": "Gate 18: V45 Promotion Readiness",
@@ -468,7 +467,7 @@
     {
       "relativePath": "BITCODE_SPEC_V45_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:2a7d283e133b0124fd1053402d0fef831f0cddd4cbc4db0b2db85d67e8c63366",
+      "digest": "sha256:b60dac6cce013c4573c134234b59b0b7bbaf765f9a2ba474b60a930ac012d0d0",
       "requiredTokens": [
         {
           "token": "Gate 18 implementation readback",
@@ -487,7 +486,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:63e84ade4e277d2688171e6d4b48e09dedcd655a90f2cf847480cd96775dae1f",
+      "digest": "sha256:41ae9160604d315d3973f92ab0d444a49a691ad2a86c75ee9fcef89fff2d58aa",
       "requiredTokens": [
         {
           "token": "V45 Gate 18 closure anchor",
@@ -581,9 +580,5 @@
   "artifactRoot": "v45-knowledge-commoditization-promotion-readiness-report:0089a6ef44f3078816056784",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v45-gate18",
-  "proofSourceCommit": "23294cc578dcb2148a6b602c3463b3ca01f1fef1",
-  "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
-  "sourceSafe": true
+  "validationCommand": "pnpm run check:v45-gate18"
 }

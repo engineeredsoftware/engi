@@ -208,6 +208,15 @@ function versionNumber(version) {
 
 /**
  * @param {string} version
+ * @returns {string}
+ */
+function previousVersion(version) {
+  const numeric = versionNumber(version);
+  return Number.isInteger(numeric) && numeric > 0 ? `V${numeric - 1}` : '';
+}
+
+/**
+ * @param {string} version
  * @returns {boolean}
  */
 function usesBitcodeSpecFamily(version) {
@@ -1361,6 +1370,43 @@ function validatePromotedSourceOfTruthHierarchy(failures, section, version) {
 }
 
 /**
+ * @param {string[]} failures
+ * @param {Record<string, string>} contents
+ * @param {string} version
+ */
+function validatePromotedSpecFamilyHasNoStaleDraftPosture(failures, contents, version) {
+  if (versionNumber(version) < 44) return;
+
+  const previous = previousVersion(version);
+  const forbiddenPhrases = [
+    `${version} does not replace ${previous}`,
+    `${previous} remains active canon`,
+    `${previous} active / ${version} draft`,
+    `${previous} active / draft ${version}`,
+    `BITCODE_SPEC.txt remains \`${previous}\``,
+    `Canonical pointer: \`BITCODE_SPEC.txt\` -> \`${previous}\``,
+    `Active canonical anchor: \`BITCODE_SPEC_${previous}.md\``,
+    `${version} draft work`,
+    `${version} formal draft`,
+    `${version} remains draft`,
+    `until ${version} promotion`,
+    `before ${version} can be promoted`,
+    `does not promote ${version}`,
+    `draft \`BITCODE_SPEC_${version}_PROVEN.md\``
+  ].filter(Boolean);
+
+  for (const [label, content] of Object.entries(contents)) {
+    for (const phrase of forbiddenPhrases) {
+      recordFailure(
+        failures,
+        !content.includes(phrase),
+        `${label} promoted spec-family content still contains stale draft posture phrase "${phrase}".`
+      );
+    }
+  }
+}
+
+/**
  * @param {{
  *   repoRoot?: string,
  *   version?: string,
@@ -1478,6 +1524,7 @@ export function buildV21SpecFamilyReport({
       extractSection(specContent, 'source-of-truth hierarchy'),
       version
     );
+    validatePromotedSpecFamilyHasNoStaleDraftPosture(failures, contents, version);
   }
 
   for (const phrase of profile.requiredSpecSections) {

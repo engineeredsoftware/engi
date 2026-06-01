@@ -21,7 +21,7 @@ test('V45 source-safe end-to-end rehearsal binds all lanes, stages, evidence, an
   assert.equal(artifact.artifactId, 'v45-source-safe-e2e-rehearsal');
   assert.equal(artifact.schemaId, V45_SOURCE_SAFE_E2E_REHEARSAL_SCHEMA_ID);
   assert.equal(artifact.version, 'V45');
-  assert.equal(artifact.currentTarget, 'V44');
+  assert.equal(artifact.currentTarget, 'V45');
   assert.equal(artifact.sourceSafetyVerdict, V45_SOURCE_SAFE_E2E_REHEARSAL_SOURCE_SAFETY_VERDICT);
   assert.equal(artifact.rehearsalStatus, 'completed_source_safe');
   assert.equal(artifact.passed, true);

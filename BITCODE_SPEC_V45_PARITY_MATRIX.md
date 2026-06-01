@@ -23,12 +23,16 @@ records accepted source code, tests, generated artifacts, workflows,
 documentation, and product-interface evidence for the V45 knowledge
 commoditization canon.
 
-Judgment vocabulary:
+Promoted judgment vocabulary:
 
-- `implemented prerequisite`: current source materially implements the V45 requirement, with only V45 proof/promotion hardening remaining.
-- `substantially advanced`: current source has real implementation coverage, but V45 requires consolidation, stricter state law, broader proof, interface, or rehearsal work.
-- `spec closed; source gap`: V45 requires a new or substantially rewritten proof, interface, documentation, or source surface before promotion.
+- `closed`: source, tests, generated artifacts, workflow, or documentation
+  evidence closed the V45 requirement for promotion.
+- `implemented prerequisite`: current source materially implemented a V45
+  prerequisite before V45-specific closure gates hardened it.
 - `deferred`: intentionally outside V45 promotion scope.
+
+Draft-only judgments such as source-gap and partial-coverage labels are
+forbidden in promoted V45 parity rows.
 
 ## Audit basis
 
@@ -57,7 +61,7 @@ and `.github/workflows/v44-canon-promotion.yml`.
 
 | Evidence area | Current source evidence | Audit reading |
 | --- | --- | --- |
-| Active canon posture | `BITCODE_SPEC.txt`, `BITCODE_SPEC_V44.md`, `BITCODE_SPEC_V44_PROVEN.md`, `scripts/check-bitcode-spec-family.mjs`, `scripts/check-bitcode-canon-posture-drift.mjs` | V44 remains active while V45 is draft; source may be audited but not promoted by notes or parity alone. |
+| Active canon posture | `BITCODE_SPEC.txt`, `BITCODE_SPEC_V45.md`, `BITCODE_SPEC_V45_PROVEN.md`, `scripts/check-bitcode-spec-family.mjs`, `scripts/check-bitcode-canon-posture-drift.mjs` | V45 is active canon and the promoted posture checks active V45 / draft V46 before subsequent version work opens. |
 | Reading pipeline contracts | `packages/pipelines/asset-pack/src/reading-pipeline-contract.ts`, `read-need.ts`, `read-need-review-resynthesis.ts`, `read-fits-finding-runtime.ts` | ReadNeedComprehensionSynthesis and ReadFitsFindingSynthesis are real package contracts with PTRR agent/step/thricified/failsafe telemetry shapes, source-safe Need review, accepted-Need admission, Finding Fits runtime, and replay receipts. |
 | Depository search | `packages/pipelines/asset-pack/src/depository-search.ts`, `embedding-config.ts`, `tools/AssetPackLexicalDepositorySearchTool.ts`, `tools/search.ts` | Finding Fits searches source-safe Depository assets over lexical, symbolic, path, metadata, measurement, embedding-vector, and provider-specific channels, but V45 still needs a proof-family artifact proving complete source-safe recall/ranking/readback. |
 | Deposit supply | `packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts`, `deposit-asset-pack-option-policy.ts`, `deposit-asset-pack-option-admission.ts`, `depository-supply-index.ts`, `depositor-earning-supply-intelligence.ts` | Deposit AssetPack options, policy, admission, Depository indexing, source-safe visibility, and earning intelligence exist; V45 requires lifecycle state consolidation and terminology refresh. |
@@ -257,7 +261,7 @@ Scope:
 
 - Add and validate the V45 promotion workflow.
 - Generate V45 promotion readiness proof.
-- Ensure all accepted parity rows are closed or explicitly deferred, generated proof is current, tests/checks are green, and V44 active / V45 draft posture becomes V45 active only by promotion workflow.
+- Ensure all accepted parity rows are closed or explicitly deferred, generated proof is current, tests/checks are green, and V45 active / draft V46 posture is prepared only by promotion workflow.
 
 Acceptance:
 
@@ -286,19 +290,17 @@ not traceable to `BITCODE_SPEC_V45.md` and this matrix.
 
 ## Accepted Boundaries
 
-Gate 11 accepts only the parity-audit boundary. It may identify implemented
-prerequisites, substantially advanced source areas, and spec-closed source gaps,
-but it does not close those implementation gaps. The accepted boundary for the
-next gates is: V44 remains active canon; V45 remains draft; source disclosure
-remains blocked before settlement; BTC mainnet value-bearing operation remains
-blocked; implementation work must proceed only through the grouped closure
-gates above; and every later state advancement must be proven by generated
-artifacts, ledger/database/storage/wallet/provider/repository readback, and
-source-safe interface receipts.
+Gate 11 accepted the parity-audit boundary and is closed. Later grouped gates
+closed the implementation, proof, interface, rehearsal, and promotion rows
+authorized by this matrix. V45 is active canon; source disclosure remains
+blocked before settlement; BTC mainnet value-bearing operation remains blocked;
+and every state advancement must be proven by generated artifacts,
+ledger/database/storage/wallet/provider/repository readback, and source-safe
+interface receipts.
 
 ## Completion Condition
 
-Gate 11 is complete when this matrix contains no `pending` judgments, every
-V45 formal law has a source-grounded finding, every source gap is assigned to a
-grouped closure gate, `check:v45-gate11` passes, and the gate branch is
-committed, pushed, and pull-requested into `version/v45`.
+Gate 11 is complete: this matrix contains no `pending` judgments, every V45
+formal law has a source-grounded finding, every grouped closure gate through
+Gate 18 is represented with readback, and V45 promotion completed with
+promoted generated proof.
