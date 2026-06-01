@@ -57,7 +57,7 @@ function shouldApplyCollapseAnimation(pathname: string | null): boolean {
 
 const DISABLED_FEATURE_TOOLTIPS = {
   exchange:
-    'Disabled for launch mode. When enabled, Packs opens the public Source Shares activity and pack-reading surface.',
+    'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
   terminal:
     'Disabled for launch mode. When enabled, Terminal opens the full deposit-to-settle ledger, proofs, and history workspace.',
   auxillaries:
@@ -247,7 +247,6 @@ export default function Nav() {
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
   const disableCreateAccount = Boolean(FEATURE_FLAGS.DISABLE_CREATE_ACCOUNT);
   const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
-  const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
   const containerEntranceClassName = showNavEntrance
     ? shouldAnimateNavEntrance
       ? 'nav-container-animated'
@@ -396,9 +395,7 @@ export default function Nav() {
         const isPacksRoute = href === '/packs';
         const isDepositRoute = href === '/deposit';
         const isReadRoute = href === '/read';
-        const isDisabledRoute =
-          (isPacksRoute && disableExchangeLink) ||
-          (href === '/terminal' && disableTerminalLink);
+        const isDisabledRoute = isPacksRoute && disableExchangeLink;
         const isActiveRoute =
           isPacksRoute
             ? pathname === '/packs' || pathname?.startsWith('/packs/') || pathname === '/exchange' || pathname?.startsWith('/exchange/')
@@ -415,7 +412,7 @@ export default function Nav() {
             <span className="inline-flex items-center gap-1.5">
               {isDisabledRoute ? (
                 <DisabledTooltipWrapper
-                  tooltip={isPacksRoute ? DISABLED_FEATURE_TOOLTIPS.exchange : DISABLED_FEATURE_TOOLTIPS.terminal}
+                  tooltip={DISABLED_FEATURE_TOOLTIPS.exchange}
                 >
                   <span
                     role="link"
@@ -460,12 +457,6 @@ export default function Nav() {
               ) : isReadRoute ? (
                 <BitcodeInlineExplainer
                   explainer={BITCODE_PUBLIC_EXPLAINERS.read}
-                  side="bottom"
-                  triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
-                />
-              ) : href === '/terminal' ? (
-                <BitcodeInlineExplainer
-                  explainer={BITCODE_PUBLIC_EXPLAINERS.transactions}
                   side="bottom"
                   triggerClassName="h-4.5 w-4.5 border-white/10 bg-white/[0.03] text-[0.58rem] text-neutral-300 hover:border-emerald-300/30 hover:bg-emerald-400/10 hover:text-emerald-100"
                 />
