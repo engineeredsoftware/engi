@@ -1271,6 +1271,56 @@ function recordFailure(failures, condition, message) {
 }
 
 /**
+ * @param {string} text
+ * @param {string[]} terms
+ * @param {number} maxSpan
+ * @returns {boolean}
+ */
+function includesOrderedTermsWithin(text, terms, maxSpan) {
+  const normalizedText = String(text).toLowerCase();
+  let firstIndex = -1;
+  let searchStart = 0;
+
+  for (const term of terms) {
+    const normalizedTerm = String(term).toLowerCase();
+    const termIndex = normalizedText.indexOf(normalizedTerm, searchStart);
+    if (termIndex < 0) return false;
+    if (firstIndex < 0) firstIndex = termIndex;
+    searchStart = termIndex + normalizedTerm.length;
+  }
+
+  return firstIndex >= 0 && searchStart - firstIndex <= maxSpan;
+}
+
+/**
+ * @param {string} section
+ * @param {string} version
+ * @returns {boolean}
+ */
+function containsStalePointerWhileVersionDraft(section, version) {
+  const text = String(section);
+  const normalizedText = text.toLowerCase();
+  const pointerIndex = normalizedText.indexOf('bitcode_spec.txt');
+  if (pointerIndex < 0) return false;
+
+  const pointsToIndex = normalizedText.indexOf('points to', pointerIndex);
+  if (pointsToIndex < 0) return false;
+
+  const pointedVersionMatch = /\bV\d+\b/iu.exec(text.slice(pointsToIndex));
+  if (!pointedVersionMatch) return false;
+
+  const pointedVersionIndex = pointsToIndex + pointedVersionMatch.index;
+  const whileIndex = normalizedText.indexOf('while', pointedVersionIndex + pointedVersionMatch[0].length);
+  if (whileIndex < 0) return false;
+
+  const versionIndex = normalizedText.indexOf(String(version).toLowerCase(), whileIndex);
+  if (versionIndex < 0) return false;
+
+  const draftIndex = normalizedText.indexOf('draft', versionIndex + String(version).length);
+  return draftIndex >= 0 && draftIndex - pointerIndex <= 500;
+}
+
+/**
  * @param {string[]} failures
  * @param {string} section
  * @param {string} version
@@ -1296,19 +1346,16 @@ function validatePromotedSourceOfTruthHierarchy(failures, section, version) {
     `spec promoted source-of-truth hierarchy must state ${version} is active canon.`
   );
 
-  const staleDraftPosturePattern = new RegExp(
-    [
-      `BITCODE_SPEC\\.txt[\\s\\S]{0,160}points to[\\s\\S]{0,80}\\bV\\d+\\b[\\s\\S]{0,120}while[\\s\\S]{0,80}${version}[\\s\\S]{0,80}draft`,
-      `${version}[\\s\\S]{0,80}(?:is|remains)[\\s\\S]{0,80}draft`,
-      `${version}[\\s\\S]{0,160}draft target only`,
-      `define[\\s\\S]{0,80}the draft target only[\\s\\S]{0,80}${version}`
-    ].join('|'),
-    'i'
-  );
+  const staleDraftPostureFound =
+    containsStalePointerWhileVersionDraft(section, version) ||
+    includesOrderedTermsWithin(section, [version, 'is', 'draft'], 180) ||
+    includesOrderedTermsWithin(section, [version, 'remains', 'draft'], 180) ||
+    includesOrderedTermsWithin(section, [version, 'draft target only'], 240) ||
+    includesOrderedTermsWithin(section, ['define', 'the draft target only', version], 240);
 
   recordFailure(
     failures,
-    !staleDraftPosturePattern.test(section),
+    !staleDraftPostureFound,
     `spec promoted source-of-truth hierarchy still contains stale draft posture for ${version}.`
   );
 }

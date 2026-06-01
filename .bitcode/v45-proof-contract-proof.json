@@ -295,8 +295,8 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:40fea92626158829362b90b5e4ad99f2cb377b37359d22ea1ab6a0825e64e35b",
-      "byteLength": 69980,
+      "digest": "sha256:fe0067ebcf5151993122a48e11181c8e6ab46c8d4ff66495e836e7910bf97af8",
+      "byteLength": 71680,
       "sourceSafeDigestOnly": true,
       "forbiddenMarkerDetected": false,
       "requiredTokens": [
@@ -361,14 +361,14 @@
   ],
   "inputRoots": {
     "specRoot": "sha256:2e964cd47c97ea4ac5b893756ee3d3d0bdc6e78d8a4b91db256be91ef64df37f",
-    "sourceEvidenceRoot": "sha256:c67eb54e2ebde41f42385a3f61572e0e5a8974764c1e5ea31cd214e6686aa8fc",
+    "sourceEvidenceRoot": "sha256:59b68e319e889a14a2fed88f3b924ffdc40bc2ccb5284f5993e1e8b45df159b8",
     "witnessArtifactRoot": "sha256:74c40acc322c9e1db38ac71c8cb4d67097ccbbb777491fc922b515c11a2d0d9e"
   },
   "artifactRoots": {
     "proofFamilyInventoryRoot": "sha256:4c7ec957f9ac0e9b50227139a98b36d6ebaaaa5ef8c9f2d7d019b33d6f4e782b",
     "replayBindingRoot": "sha256:84787609b3fb5d9f7fd7c2c2d519206acca02ad8b35f0c9ae89ab3053c849d70"
   },
-  "artifactRoot": "v45-proof-contract-proof:6e296fc9dc826bd16b03cf72",
+  "artifactRoot": "v45-proof-contract-proof:3a5dccbe34efe2d9ac375207",
   "minimumArtifactReplayBindingSet": [
     "proof root",
     "ledger root",

@@ -137,7 +137,7 @@
       "relativePath": ".bitcode/v45-proof-contract-proof.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:21cc7a373053ec13fc1fa36c1a6ebd996f55a3404b23f39f809e4ab87426466f",
+      "digest": "sha256:fa9e0800beee57ab5d38e362c21417d43fc4ac1b3f8a2c6744ef8b6e99d06dca",
       "byteLength": 14535,
       "sourceSafe": true,
       "artifactId": "v45-proof-contract-proof",
@@ -148,7 +148,7 @@
       "relativePath": ".bitcode/v45-source-safe-e2e-rehearsal.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:6ef4bbe1a81a99636a9345a0fe6d7b67ed4db2bb6026fd858ca87422dbe8678f",
+      "digest": "sha256:480d49a56e98d066f13b8011e7e56ddadade17da58b36434299da8c0807eee71",
       "byteLength": 50963,
       "sourceSafe": true,
       "artifactId": "v45-source-safe-e2e-rehearsal",
@@ -378,7 +378,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:40fea92626158829362b90b5e4ad99f2cb377b37359d22ea1ab6a0825e64e35b",
+      "digest": "sha256:fe0067ebcf5151993122a48e11181c8e6ab46c8d4ff66495e836e7910bf97af8",
       "requiredTokens": [
         {
           "token": ".bitcode/v45-promotion-readiness-report.json",

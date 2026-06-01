@@ -20,7 +20,7 @@
 
 - verdict: `pass`
 - proof-source commit: `draft-v45-gate16-proof-source-snapshot`
-- aggregate root: `v45-proof-family-artifacts:ec1574bd7a7183749ef7520e`
+- aggregate root: `v45-proof-family-artifacts:405f61f8ad26baf7da5180aa`
 - proof-family count: `9`
 
 ## Exact Proof-Family Inventory
@@ -35,7 +35,7 @@
 | Authorization-and-sensitive-flow | `.bitcode/v45-authorization-sensitive-flow-proof.json` | `v45-authorization-and-sensitive-flow-proof:f6aa8e80186ebae17dd07add` | pass |
 | Settlement-source-to-shares | `.bitcode/v45-settlement-source-to-shares-proof.json` | `v45-settlement-source-to-shares-proof:0b8635d549cc73bb4f0aaabb` | pass |
 | Disclosure-boundary | `.bitcode/v45-disclosure-boundary-proof.json` | `v45-disclosure-boundary-proof:7e226c02bcdff5ddbf0f035f` | pass |
-| Proof-contract | `.bitcode/v45-proof-contract-proof.json` | `v45-proof-contract-proof:6e296fc9dc826bd16b03cf72` | pass |
+| Proof-contract | `.bitcode/v45-proof-contract-proof.json` | `v45-proof-contract-proof:3a5dccbe34efe2d9ac375207` | pass |
 
 ## Per-Family Member Inventory
 

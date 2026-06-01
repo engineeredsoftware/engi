@@ -1036,7 +1036,7 @@
     "v45AuthorizationProof": ".bitcode/v45-authorization-sensitive-flow-proof.json:9ff1bf2c246d6aec14af6883",
     "v45SettlementProof": ".bitcode/v45-settlement-source-to-shares-proof.json:f2fb654a382419ecc581d07a",
     "v45DisclosureProof": ".bitcode/v45-disclosure-boundary-proof.json:32adf086241d8544b91c0c32",
-    "v45ProofContract": ".bitcode/v45-proof-contract-proof.json:21cc7a373053ec13fc1fa36c"
+    "v45ProofContract": ".bitcode/v45-proof-contract-proof.json:fa9e0800beee57ab5d38e362"
   },
   "predicateResults": [
     {
