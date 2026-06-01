@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V43`; V44 is the active draft target for scaled engineering economy
-operation over the Packs, Read, and Deposit route model promoted in V43.
+resolves to `V45`; V46 is the active draft target for commercial protocol
+comprehension over the knowledge-commoditization law promoted in V45.
 
 ## Current Product Posture
 
@@ -13,13 +13,22 @@ The promoted V43 enterprise routes are:
 - `/read` for the five-step Reading path from Read Request to settlement-gated delivery.
 - `/deposit` for connected-source deposit AssetPack option synthesis, review, and admission.
 
-The active V44 draft target makes those routes economically operable at
-enterprise scale: `/packs` becomes the portfolio and market-intelligence
-surface, `/read` gains budgeted procurement and quote governance, and
-`/deposit` gains earning, demand, ROI, compensation-range, and source-safe
-supply opportunity visibility. Gate 6 adds `/packs` accounting readback for
-source-safe BTD/BTC/source-to-shares compensation statements over paid
-settlement receipts.
+The active V46 draft target makes those routes easier to explain and audit:
+public docs, landing, and operator docs must teach AssetPack commodity flow,
+BTD scalar knowledge volume and rights, BTC settlement money, proof readback
+authority, and source-safe claim boundaries without turning public guidance into
+protocol law.
+
+V46 Gate 3 adds `V46PublicOperatorClaimBoundaries` through
+`packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js`,
+`.bitcode/v46-public-operator-claim-boundaries.json`,
+`generate:v46-public-operator-claim-boundaries`,
+`check:v46-public-operator-claim-boundaries`, and `check:v46-gate3`. It binds
+public docs, landing, and operator docs to source-safe claim categories,
+evidence authority, compatibility redirects, and forbidden overclaims while
+keeping protected source, unpaid AssetPack source, raw prompts, raw provider
+responses, credentials, wallet private material, and value-bearing mainnet
+operation out of generated metadata.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed

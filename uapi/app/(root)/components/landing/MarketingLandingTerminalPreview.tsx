@@ -67,7 +67,7 @@ export const MarketingLandingTerminalPreview = memo(function MarketingLandingTer
                     Compact depot view
                   </p>
                   <p className="mt-1 text-[11px] leading-5 text-emerald-100/62">
-                    The depot preview keeps Source Shares, measurement, and settlement legible before the full Terminal opens.
+                    The preview keeps AssetPacks, source-safe measurements, and settlement posture legible before the full product route opens.
                   </p>
                 </div>
                 <span className="inline-flex min-w-[92px] items-center justify-center rounded-full border border-emerald-300/12 bg-emerald-400/6 px-2.5 py-1 font-mono text-center text-[10px] uppercase tracking-[0.18em] text-emerald-50/72">

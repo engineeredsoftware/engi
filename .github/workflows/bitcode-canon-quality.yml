@@ -425,6 +425,9 @@ jobs:
               if [ -f scripts/check-v46-gate2-protocol-comprehension-object-model.mjs ]; then
                 node scripts/check-v46-gate2-protocol-comprehension-object-model.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v46-gate3-public-operator-claim-boundaries.mjs ]; then
+                node scripts/check-v46-gate3-public-operator-claim-boundaries.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

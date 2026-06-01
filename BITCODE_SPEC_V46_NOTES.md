@@ -93,6 +93,47 @@ no route behavior, API behavior, settlement behavior, delivery behavior,
 source disclosure, or value-bearing mainnet admission is authorized by this
 gate.
 
+## Gate 3: Public Docs, Landing, And Operator Claim Boundaries
+
+Gate 3 records the public/operator-facing comprehension atom. It creates a
+source-safe claim-boundary artifact for public docs, landing, README, and
+operator notes. It remains draft-target metadata over active V45: no route
+behavior, API behavior, settlement behavior, delivery behavior, source
+disclosure, or value-bearing mainnet admission is authorized by this gate.
+
+## V46 public/operator claim-boundary atom: public/operator claim boundaries
+
+Audit classification: Gate 2 defines the typed claim taxonomy, but public and
+operator surfaces still need an explicit source-safe readback boundary. Public
+docs and landing copy can help humans understand Bitcode; operator notes can
+help maintainers triage proof and repair posture. Neither surface can become
+protocol law, payment truth, finality truth, ledger truth, telemetry authority,
+or a source disclosure channel.
+
+Claim-boundary law:
+
+Public docs explain; proof readback decides. Public docs, landing copy,
+README surfaces, and operator notes may name AssetPack commodity flow, BTD
+scalar knowledge volume and rights, BTC settlement money, source-safe
+measurements, route links, state labels, proof roots, compatibility aliases,
+generated artifact paths, dashboard ids, runbook ids, and repair commands.
+They must not serialize protected source, unpaid AssetPack source, raw
+protected prompts, raw protected model/provider responses with source, secret
+values, provider tokens, wallet private material, private settlement payloads,
+or live value-bearing mainnet authority.
+
+Compatibility law:
+
+`/docs/protocol` is the current public protocol article. `protocol-v26` is only
+a compatibility alias and must redirect or resolve to the current article
+without creating a parallel current docs surface.
+
+Acceptance for this atom: `V46PublicOperatorClaimBoundaries` must bind public
+docs, landing, operator docs, README surfaces, required copy anchors, forbidden
+overclaim scans, source-safety exclusions, package exports, generated artifact
+freshness, workflow wiring, and focused protocol tests. The artifact path is
+`.bitcode/v46-public-operator-claim-boundaries.json`.
+
 ## V46 protocol atom 6: protocol comprehension object model and claim taxonomy
 
 Audit classification: V46 already names the major protocol objects in the

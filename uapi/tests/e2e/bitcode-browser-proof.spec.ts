@@ -90,9 +90,9 @@ test.describe('Bitcode browser proof across product surfaces', () => {
     await expect(page.getByRole('button', { name: /mock-run-branch-remediation/i })).toBeVisible();
     await expectNoHorizontalOverflow(page, 'Exchange rights review');
 
-    await openCommercialRoute(page, '/docs', /Learn Bitcode from Source Shares to proof/i);
-    await expect(page.getByText(/Terminal action manual/i)).toBeVisible();
-    await expect(page.getByRole('link', { name: /Terminal action manual/i })).toBeVisible();
+    await openCommercialRoute(page, '/docs', /Learn Bitcode from AssetPacks to proof/i);
+    await expect(page.getByText(/Action manual/i)).toBeVisible();
+    await expect(page.getByRole('link', { name: /Action manual/i })).toBeVisible();
     await expectNoHorizontalOverflow(page, 'source-safe public docs');
 
     await trap.assertClean();

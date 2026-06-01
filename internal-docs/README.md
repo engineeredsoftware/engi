@@ -1,6 +1,6 @@
 # Bitcode Internal Notes
 
-Status: non-canonical internal documentation. The active canonical system specification pointer is `BITCODE_SPEC.txt` -> `V34`; V35 is the active draft-target family for telemetry and documentation depth. These notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
+Status: non-canonical internal documentation. The active canonical system specification pointer is `BITCODE_SPEC.txt` -> `V45`. V46 is the active draft-target family for commercial protocol comprehension. These notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
 
 ## Rules
 
@@ -11,6 +11,8 @@ Status: non-canonical internal documentation. The active canonical system specif
 - Prefer Read, fit, AssetPack, shares, Finish, delivery mechanism, Terminal, Exchange, Protocol, proof, and settlement vocabulary.
 - Treat compatibility source names as implementation corridors, not product vocabulary.
 - Remove or reform non-Bitcode product vocabulary and removed operator-control language.
+- Operator notes may name proof roots, generated artifact paths, dashboard ids, runbook ids, state labels, and repair commands when those values are source-safe.
+- Operator notes must not record secret values, provider tokens, wallet private material, raw protected prompts, protected source payloads, raw protected model responses with source, or unpaid AssetPack source.
 
 ## Core Notes
 

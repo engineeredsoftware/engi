@@ -96,6 +96,29 @@ Accepted Gate 2 decisions:
 - Gate 2 is still specification/proof metadata work. It does not authorize
   route, API, settlement, delivery, or value-bearing mainnet behavior changes.
 
+## Gate 3: Public Docs, Landing, And Operator Claim Boundaries
+
+Gate 3 adds `V46PublicOperatorClaimBoundaries` as a source-safe generated
+artifact at `.bitcode/v46-public-operator-claim-boundaries.json`. It binds
+public docs, landing copy, README surfaces, and operator notes to Gate 2 claim
+authority so launch-facing statements are readable, source-safe, and
+non-overclaiming.
+
+Accepted Gate 3 decisions:
+
+- Public docs explain; proof readback decides.
+- Landing copy may teach AssetPacks, BTD scalar volume and rights, BTC
+  settlement, and product routes, but it cannot claim protocol-law authority.
+- Public docs may expose route links, state labels, source-safe measurements,
+  claim categories, proof roots, and compatibility redirects.
+- Operator notes may name proof roots and repair commands, but must not record
+  secret values, wallet private material, protected source, raw protected
+  prompts, provider responses with source, or unpaid AssetPack source.
+- The legacy `protocol-v26` docs route is only a compatibility alias to the
+  current `/docs/protocol` article.
+- Gate 3 does not authorize runtime, route-state, settlement, delivery, or
+  value-bearing mainnet behavior changes.
+
 ## Commit-Body Direction
 
 V46 commit bodies should name the gate class, protocol law or interface claim
