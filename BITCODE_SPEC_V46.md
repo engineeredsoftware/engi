@@ -160,6 +160,100 @@ V46 consolidates these canonical objects and states:
   `btc-settlement-finalized`, `btc-contributor-compensation-routable`,
   `btc-refund-or-escalation-required`, and `btc-settlement-repair-required`.
 
+## V46 commercial protocol comprehension object model
+
+V46 Gate 2 makes the commercial comprehension object model explicit so public,
+product, operator, API/MCP, ChatGPT App, Bitcode Chat, and investor-facing
+surfaces all explain the same protocol without claiming more than their
+evidence supports.
+
+The comprehension object model is source-safe metadata. It describes objects,
+claims, disclosure boundaries, evidence authority, and forbidden
+interpretations. It does not expose protected source, unpaid AssetPack source,
+raw prompts, raw provider responses, credentials, wallet private material,
+private settlement payloads, private Read context, or value-bearing mainnet
+admission.
+
+Canonical comprehension objects:
+
+| Object | Protocol reading | Claim boundary |
+| --- | --- | --- |
+| `AssetPack` | Packaged technical knowledge commodity; never raw source. | May be explained as deposit supply, previewed Need-Fit pack, or settled delivery only when its lifecycle state is named. |
+| `DepositAssetPackOption` | Proposed source-safe supply for depositor review. | May show BTD potential and policy posture, never final BTD, payment, or public source. |
+| `DepositoryAssetPack` | Approved searchable supply with protected-source roots. | May be recalled, ranked, and selected source-safely through Finding Fits. |
+| `ReadRequest` | Buyer demand input. | Does not itself create a reviewed Need, Fit, quote, BTD, or rights. |
+| `ReviewedNeed` | Accepted buyer objective that authorizes Finding Fits. | Enables Need-relative measurement but does not calculate final BTD by itself. |
+| `FindingFitsReceipt` | Search, ranking, threshold, provenance, and repair evidence. | May name many candidates and selected Fits without source disclosure. |
+| `SelectedFitSet` | One or many admitted Depository AssetPacks accepted for synthesis. | Required for Need-Fit synthesis and final BTD calculation. |
+| `NeedFitAssetPack` | New Need-relative AssetPack synthesized from reviewed Need and selected Fits. | Source-bearing internally but withheld until BTC finality and BTD rights transfer. |
+| `SourceSafePreview` | Measurements, quality, provenance, BTD posture, quote readiness, and proof roots. | Preview is not source disclosure. |
+| `BtdScalarVolumeReceipt` | Need-relative weighted scalar technical knowledge volume. | BTD is not money and not merely a read-right; settled BTD carries rights. |
+| `BtcQuote` | Deterministic sats offer bound to BTD volume, policy, network, expiry, and authority. | Quote is not payment. |
+| `BtcSettlementReceipt` | Quote/payment/finality/readback evidence. | Observed payment is not final settlement. |
+| `BtdRightsReceipt` | Settled rights, source unlock authority, ownership/read/use boundary. | Rights transfer follows BTC finality and reconciliation. |
+| `SourceUnlockDeliveryReceipt` | Entitled repository delivery evidence. | Full source crosses only to the entitled Reader boundary. |
+| `SourceToSharesAllocation` | Contributor allocation derived after final Need-Fit settlement. | Allocation is compensation routing, not BTD scalar-volume calculation. |
+| `ContributorCompensationStatement` | Post-finality BTC compensation readback. | Database projection must reconcile to ledger truth. |
+| `ProofRoot` | Evidence root for state advancement or explanation. | Proof can support state but cannot leak hidden payloads. |
+| `RepairCase` | Fail-closed blocker for missing or contradictory evidence. | Repair returns to the narrowest source-safe disclosure boundary. |
+| `InterfaceClaim` | Any public, product, API/MCP, ChatGPT App, Bitcode Chat, telemetry, or operator statement about protocol state. | Must name claim category, evidence authority, disclosure boundary, and forbidden interpretation. |
+
+Claim authority is evidence-specific. Canonical specification and generated
+proof define protocol law; ledger readback governs settlement truth; database
+projection is a synchronized projection; object storage roots prove custody and
+withheld bundles; wallet/provider receipts prove payment observations and
+wallet posture; repository delivery receipts prove entitled delivery;
+telemetry is observability only; interfaces guide and inspect; public education
+explains but does not create live transaction truth.
+
+## V46 claim taxonomy law
+
+Every V46 explanatory statement is an `InterfaceClaim` and must occupy one
+claim category:
+
+- `protocol-law`: formal AssetPack, BTD, BTC, source-safety, rights,
+  compensation, proof, and repair law from the specification family.
+- `product-guidance`: route or workflow guidance that helps users act but does
+  not advance protocol state.
+- `operator-evidence`: source-safe operational evidence, proof roots, runbook
+  posture, and repair information.
+- `investor-framing`: market or deck language; investor framing is not
+  protocol law unless reconciled into the formal specification family.
+- `telemetry-observability`: execution progress and debug signals; telemetry
+  is observability only and cannot advance state by itself.
+- `preview-claim`: source-safe pre-settlement measurement and quality
+  statement.
+- `quote-claim`: BTC quote, expiry, budget, policy, and wallet-readiness
+  statement.
+- `settlement-claim`: BTC preparation, signing, broadcast, observation,
+  mismatch, finality, reconciliation, refund, escalation, or repair statement.
+- `rights-claim`: BTD rights-pending or rights-transferred statement.
+- `delivery-claim`: source unlock and repository delivery statement.
+- `compensation-claim`: source-to-shares allocation or contributor
+  compensation statement.
+- `repair-claim`: fail-closed blocker, replay, operator action, or repair
+  closure statement.
+
+Forbidden claim collapses:
+
+- AssetPack is not raw source.
+- BTD is not only a read-right and is not money.
+- Deposit option is not final BTD.
+- Preview is not source disclosure.
+- Quote is not payment.
+- Payment observation is not finality.
+- Database projection is not ledger truth when stronger readback conflicts.
+- Telemetry and conversation do not advance state.
+- Investor copy is not protocol law.
+- Value-bearing mainnet remains blocked until a promoted canon admits it.
+- Bitcode never takes custody of wallet private material.
+
+For V46, investor framing is not protocol law; telemetry is observability only.
+
+The source-safe generated artifact for this Gate 2 atom is
+`.bitcode/v46-protocol-comprehension-object-model.json`; it is generated by
+`buildV46ProtocolComprehensionObjectModel` and checked by `check:v46-gate2`.
+
 ## V46 whole Bitcode operator chain
 
 The V46 operator chain is: connect source and organization policy, synthesize

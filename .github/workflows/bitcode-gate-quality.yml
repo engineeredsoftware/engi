@@ -551,6 +551,9 @@ jobs:
               if [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
                 node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs --skip-branch-check
               fi
+              if [ -f scripts/check-v46-gate2-protocol-comprehension-object-model.mjs ]; then
+                node scripts/check-v46-gate2-protocol-comprehension-object-model.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -591,6 +594,9 @@ jobs:
               fi
               if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
                 node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs --skip-branch-check
+              fi
+              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate2-protocol-comprehension-object-model.mjs ]; then
+                node scripts/check-v46-gate2-protocol-comprehension-object-model.mjs --skip-branch-check --skip-package-tests
               fi
             fi
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs ]; then

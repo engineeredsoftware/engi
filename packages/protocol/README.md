@@ -322,6 +322,22 @@ exports, and `V45` active, `V46` draft runtime preparation while preserving the
 same source, prompt, provider, credential, wallet-private, private-settlement,
 live-log, and value-bearing mainnet exclusions.
 
+V46 Gate 1 opens commercial protocol comprehension over active `V45` with the
+V46 draft spec family and `check:v46-gate1`. It keeps V46 as draft-target
+material while naming the public/operator/interface explanation scope.
+
+V46 Gate 2 adds `V46ProtocolComprehensionObjectModel` through
+`packages/protocol/src/canonical/v46-protocol-comprehension-object-model.js`,
+`packages/protocol/test/v46-protocol-comprehension-object-model.test.js`,
+`.bitcode/v46-protocol-comprehension-object-model.json`,
+`generate:v46-protocol-comprehension-object-model`,
+`check:v46-protocol-comprehension-object-model`, and `check:v46-gate2`. It
+binds the source-safe object model, claim categories, authority classes,
+disclosure boundaries, forbidden claim collapses, package exports, workflow
+checks, and generated artifact freshness for later public docs, route,
+API/MCP, ChatGPT App, Bitcode Chat, proof readback, and launch-facing claim
+work.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.
