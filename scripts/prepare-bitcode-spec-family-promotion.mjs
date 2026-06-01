@@ -146,6 +146,60 @@ function rewritePromotedParityJudgments(content, version) {
 }
 
 /**
+ * @param {string} content
+ * @param {string} version
+ */
+function rewriteV45PromotedSourceOfTruthHierarchy(content, version) {
+  if (version !== 'V45') return content;
+  return content.replace(
+    [
+      '`BITCODE_SPEC.txt` points to `V44`; V44 remains active promoted canon.',
+      '`BITCODE_SPEC_V45.md`, `BITCODE_SPEC_V45_DELTA.md`,',
+      '`BITCODE_SPEC_V45_NOTES.md`, and `BITCODE_SPEC_V45_PARITY_MATRIX.md` are V45',
+      'draft specification-family material. The V45 formal specification family is the',
+      'only authority for the next implementation parity audit, but it is not active',
+      'canon and cannot authorize source disclosure, settlement, rights transfer, or',
+      'implementation behavior until V45 promotion.'
+    ].join('\n'),
+    [
+      '`BITCODE_SPEC.txt` points to `V45`; V45 is the active promoted Bitcode canon.',
+      '`BITCODE_SPEC_V45.md`, `BITCODE_SPEC_V45_DELTA.md`,',
+      '`BITCODE_SPEC_V45_NOTES.md`, and `BITCODE_SPEC_V45_PARITY_MATRIX.md` are the',
+      'promoted V45 specification-family material. The V45 formal specification family',
+      'is active canon and authorizes implementation behavior only through the',
+      'source-safe, entitlement-bound, proof-backed boundaries it states.'
+    ].join('\n')
+  );
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ */
+function rewriteV45PromotedParityMatrix(content, version) {
+  if (version !== 'V45') return content;
+  return content
+    .replace(
+      'source-grounded implementation parity audit completed from the formal V45 draft specification; V44 remains active canon until V45 promotion',
+      'canonical promotion complete; V45 implementation parity is closed from the formal V45 specification and V45 is active canon'
+    )
+    .replace(
+      'V45 formal law is supported by substantial V39-V44 implementation surfaces, but no accepted row is fully closed for V45 promotion until grouped implementation, proof, interface, rehearsal, and promotion gates below close',
+      'V45 formal law is closed by accepted implementation, proof, interface, rehearsal, and promotion gates; generated proof and workflow receipts are aligned'
+    )
+    .replace(
+      'V45 parity audit and grouped closure-gate authorization',
+      'V45 canonical parity ledger for knowledge commoditization protocol precision'
+    )
+    .replace(
+      'This matrix is the V45 Gate 11 source-grounded implementation parity audit. It\nreplaces the Gate 10 shell with source-grounded findings across source code,\ntests, generated artifacts, workflows, documentation, and product interfaces.\nThe matrix does not promote V45 and does not itself implement runtime\nbehavior. It authorizes the grouped closure gates required before V45 can be\npromoted.',
+      'This matrix is the promoted V45 source-grounded implementation parity ledger. It\nrecords accepted source code, tests, generated artifacts, workflows,\ndocumentation, and product-interface evidence for the V45 knowledge\ncommoditization canon.'
+    )
+    .replaceAll('| substantially advanced |', '| closed |')
+    .replaceAll('| spec closed; source gap |', '| closed |');
+}
+
+/**
  * @param {string} version
  * @param {string} commit
  * @param {string} content
@@ -670,7 +724,10 @@ function rewritePromotionStatus(version, commit, content, kind) {
         'V45 source-side AssetPack commodity lifecycle, BTD scalar-volume, BTC settlement, interface disclosure, proof readback, source-safe rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V45 file family',
       'V45 state': stateByKind[kind]
     });
-    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+    const promotedSourceTruth = rewriteV45PromotedSourceOfTruthHierarchy(rewritten, version);
+    return kind === 'parity'
+      ? rewriteV45PromotedParityMatrix(rewritePromotedParityJudgments(promotedSourceTruth, version), version)
+      : promotedSourceTruth;
   }
 
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
