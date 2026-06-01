@@ -185,7 +185,7 @@
     },
     {
       "guideId": "protocol_usage",
-      "publicRoute": "/docs/protocol-v26",
+      "publicRoute": "/docs/protocol",
       "title": "Protocol usage guide",
       "audience": [
         "protocol_reviewers",
@@ -209,7 +209,7 @@
         "packages/protocol/src/canonical/v21-specifying.js"
       ],
       "docsSections": [
-        "protocol-v26",
+        "protocol",
         "proofs",
         "settlement-btd"
       ],
@@ -273,7 +273,7 @@
           "present": true
         }
       ],
-      "guideRoot": "public-docs-guide-row:5c4fedd9d938be94edf328b5"
+      "guideRoot": "public-docs-guide-row:3727d65d984dc16170993019"
     },
     {
       "guideId": "auxillaries_usage",
@@ -925,7 +925,7 @@
       ],
       "docsSections": [
         "proofs",
-        "protocol-v26"
+        "protocol"
       ],
       "proofSignals": [
         "witness artifact",
@@ -983,7 +983,7 @@
           "present": true
         }
       ],
-      "guideRoot": "public-docs-guide-row:b9282e3a3536175084ee6acc"
+      "guideRoot": "public-docs-guide-row:2478e2c9f6e7ab968976fa12"
     },
     {
       "guideId": "exchange_deferred_boundary",
@@ -1186,7 +1186,7 @@
     },
     {
       "guideId": "protocol_usage",
-      "publicRoute": "/docs/protocol-v26",
+      "publicRoute": "/docs/protocol",
       "routePresent": true,
       "allSourceRootsPresent": true,
       "sourceRoots": [
@@ -1433,5 +1433,5 @@
       ]
     }
   ],
-  "artifactRoot": "public-docs-usage-guides:d796083bee958b2958c76a5d"
+  "artifactRoot": "public-docs-usage-guides:082b5a06f4d926438e165af5"
 }

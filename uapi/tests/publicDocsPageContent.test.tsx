@@ -23,7 +23,10 @@ describe('PublicDocsPageContent', () => {
     expect(screen.getByText('Learn Bitcode from AssetPacks to proof.')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Start reading' })).toHaveAttribute('href', '/docs/what-is-bitcode');
     expect(screen.getByText('Read in this order if Bitcode is new.')).toBeInTheDocument();
-    expect(screen.getByText('Product docs map back to the canon.')).toBeInTheDocument();
+    expect(screen.getByText('Product docs map back to the active canon.')).toBeInTheDocument();
+    expect(screen.getByText('V45 / V46 claim boundary')).toBeInTheDocument();
+    expect(screen.getByText(/Protocol docs map back to active law/)).toBeInTheDocument();
+    expect(screen.getByText(/Public docs explain; proof readback decides/)).toBeInTheDocument();
     expect(screen.getByText('Interface API references')).toBeInTheDocument();
     expect(screen.getByText('Build against Bitcode without losing proof readback authority.')).toBeInTheDocument();
     expect(screen.getByText('00 / Start Here')).toBeInTheDocument();

@@ -65,6 +65,7 @@ Current exported commercial helpers include:
 - `V42PromotionReadinessReport` helpers for V42 source-safe promotion readiness across all V42 reliable MVP artifacts, generated proof support, workflow posture, promotion dry-run support, value-bearing mainnet blocking, and `V42` active, `V43` draft runtime preparation;
 - `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/terminal` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
 - `V43PacksActivityMasterDetail` helpers for V43 source-safe PackActivity contracts, `/api/packs/activity`, `/packs` master-detail search/filter/sort/detail projection, proof roots, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirection;
+- `V46PublicOperatorClaimBoundaries` helpers for V46 source-safe public/operator claim boundary metadata across public docs, landing, operator docs, README surfaces, workflow checks, and forbidden overclaim scans;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -337,6 +338,19 @@ disclosure boundaries, forbidden claim collapses, package exports, workflow
 checks, and generated artifact freshness for later public docs, route,
 API/MCP, ChatGPT App, Bitcode Chat, proof readback, and launch-facing claim
 work.
+
+V46 Gate 3 adds `V46PublicOperatorClaimBoundaries` through
+`packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js`,
+`packages/protocol/test/v46-public-operator-claim-boundaries.test.js`,
+`.bitcode/v46-public-operator-claim-boundaries.json`,
+`generate:v46-public-operator-claim-boundaries`,
+`check:v46-public-operator-claim-boundaries`, and `check:v46-gate3`.
+Package consumers can call `buildV46PublicOperatorClaimBoundaries` to produce
+source-safe public/operator claim boundary metadata for public docs, landing,
+operator docs, README surfaces, workflow wiring, required copy anchors, and
+forbidden overclaim scans without serializing protected source, unpaid
+AssetPack source, raw prompts, raw provider responses, credentials, wallet
+private material, or value-bearing mainnet authority.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

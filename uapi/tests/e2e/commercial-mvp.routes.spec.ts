@@ -40,7 +40,7 @@ const ROUTE_SMOKE_MATRIX = [
   },
   {
     path: '/docs',
-    expected: /Learn Bitcode from Source Shares to proof/i,
+    expected: /Learn Bitcode from AssetPacks to proof/i,
     name: 'docs home',
   },
   {
@@ -50,7 +50,7 @@ const ROUTE_SMOKE_MATRIX = [
   },
   {
     path: '/docs/source-shares',
-    expected: /Source Shares and the Bitcode Exchange/i,
+    expected: /AssetPacks, BTD, and the Bitcode activity ledger/i,
     name: 'source-shares docs',
   },
   {
@@ -79,8 +79,8 @@ const ROUTE_SMOKE_MATRIX = [
     name: 'configuration docs',
   },
   {
-    path: '/docs/protocol-v26',
-    expected: /Map the V26 Protocol canon/i,
+    path: '/docs/protocol',
+    expected: /Map the active Protocol canon/i,
     name: 'protocol canon docs',
   },
   {
@@ -142,7 +142,7 @@ test.describe('commercial MVP route surfaces', () => {
 
     await page.locator('a[href="/docs"]').first().click();
     await expect(page).toHaveURL(/\/docs$/);
-    await expectCommercialRouteReady(page, /Learn Bitcode from Source Shares to proof/i);
+    await expectCommercialRouteReady(page, /Learn Bitcode from AssetPacks to proof/i);
 
     await trap.assertClean();
   });

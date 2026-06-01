@@ -268,7 +268,7 @@ const exchangeSections = [
     summary:
       'A write is not trusted merely because a button returned success. The expected result is durable /packs reread with the right proof, readiness, and state posture.',
     detail:
-      'V26 treats persistence, schema, route-owned state, execution history, and final work summaries as part of the product truth rather than incidental backend storage.',
+      'The active Protocol treats persistence, schema, route-owned state, execution history, and final work summaries as part of the product truth rather than incidental backend storage.',
     reason:
       'AssetPacks require state that can be audited later by a different surface, not just local UI continuity.',
     steps: [
@@ -498,7 +498,7 @@ const conversationsSections = [
     summary:
       'The conversational workspace lets users draft Reads, attach source context, reference AssetPacks, choose destinations, and coordinate outputs while still writing back into source-safe route state.',
     detail:
-      'V26 treats conversations as a first-class interface because many high-quality technical Reads begin in natural language. The important boundary is that messages must normalize into proof readback evidence rather than remaining unstructured chat history.',
+      'The active Protocol treats conversations as a first-class interface because many high-quality technical Reads begin in natural language. The important boundary is that messages must normalize into proof readback evidence rather than remaining unstructured chat history.',
     reason:
       'This is how Bitcode can support ChatGPT-like workflows without losing protocol-grade auditability.',
     points: [
@@ -522,31 +522,31 @@ const conversationsSections = [
 
 const protocolSections = [
   {
-    id: 'v26-gates',
-    eyebrow: 'V26',
-    title: 'V26 is the productization canon for Bitcode',
+    id: 'active-canon',
+    eyebrow: 'Active canon',
+    title: 'V45 is active canon while V46 is draft target',
     summary:
-      'V26 turns the retained repository into a Bitcode-owned product system through eight gates: ownership migration, application hardening, public teaching, retained-system convergence, minimum-functional product closure, MVP, commercial testnet readiness, and whole-repository provation.',
+      'V45 is the active Protocol canon for Bitcode knowledge commoditization. V46 is the draft-target family for commercial protocol comprehension and claim boundaries.',
     detail:
-      'The docs do not replace the canon. They teach it in product order, using the same object flow: source supply, measured Read, fit, proof, settlement, reads, interfaces, and promotion evidence.',
+      'Public docs are not protocol law. They teach the active Protocol canon in product order, using the same object flow: source supply, measured Read, fit, proof, settlement, rights, interfaces, and promotion evidence.',
     reason:
-      'New users read a simpler path, while experienced readers read to know where the simplified story maps back to V26.',
+      'New users read a simpler path, while experienced readers read to know where the simplified story maps back to active law and V46 claim boundary work.',
     points: [
-      'Fifth gate is still open until minimum-functional product-route closure is proven.',
-      'Sixth through eighth gates remain later V26 work.',
-      'Public docs should not overclaim closure that the canon keeps open.',
+      'V45 is the current pointer truth until a promotion workflow advances BITCODE_SPEC.txt.',
+      'V46 claim boundary work may clarify public language but must not weaken V45 law.',
+      'Public docs should not overclaim state that proof readback keeps blocked or unproven.',
     ],
   },
   {
     id: 'domain-model',
     eyebrow: 'Domain model',
-    title: 'Every V26 subsystem must be learnable from source to proof',
+    title: 'Every Protocol subsystem must be learnable from source to proof',
     summary:
       'The protocol covers repo supply, depositing, Read measurement, prompt and inference ownership, fit, recall, verification, selection, AssetPacks, identity, disclosure, settlement, proof families, telemetry, persistence, live interfaces, validation, and generated artifacts.',
     detail:
       'Docs readers should be able to move from the high-level product story into any subsystem and understand what it owns, what can fail closed, and what evidence proves it.',
     reason:
-      'This is the path toward documenting the whole V26 spec without forcing every user to start in canonical prose.',
+      'This is the path toward documenting the whole active Protocol without forcing every user to start in canonical prose.',
   },
   {
     id: 'operator-chain',
@@ -567,7 +567,7 @@ const proofSections = [
     eyebrow: 'Proof families',
     title: 'Proof families are the replayable evidence contracts behind AssetPacks',
     summary:
-      'V26 carries proof-family canon for inference synthesis, prompt completeness, static code analysis, verification decisions, selection and materialization, authorization and sensitive flow, AssetPack settlement, disclosure boundary, and proof contract closure.',
+      'The active Protocol carries proof-family canon for inference synthesis, prompt completeness, static code analysis, verification decisions, selection and materialization, authorization and sensitive flow, AssetPack settlement, disclosure boundary, and proof contract closure.',
     detail:
       'Each family has members, theorem IDs, replay step IDs, witness artifact paths, artifact bindings, and fail-closed conditions. The product hides most of that detail until the user needs an exact read.',
     reason:
@@ -594,7 +594,7 @@ const proofSections = [
     eyebrow: 'Generated evidence',
     title: 'Generated appendices and proof artifacts are part of the system',
     summary:
-      'V26 generated evidence includes spec-family reports, canonical input reports, gate checkpoints, proof appendices, application composition proof, conversations continuity, persistence/schema totality, retained package admissibility, and later closure witnesses.',
+      'Generated evidence includes spec-family reports, canonical input reports, gate checkpoints, proof appendices, application composition proof, conversations continuity, persistence/schema totality, retained package admissibility, and later closure witnesses.',
     detail:
       'When evidence is stale, missing, or inconsistent, Bitcode must fail closed rather than letting product language outrun proof truth.',
     reason:
@@ -624,7 +624,7 @@ const settlementSections = [
     eyebrow: 'Payment modes',
     title: 'Base-layer, repeated-read, and sidechain modes are interface postures',
     summary:
-      'V26 records bitcoin mainchain execution, repeated-read payment execution, and sidechain execution as hardened interface responsibilities, not marketing labels.',
+      'The active Protocol records bitcoin mainchain execution, repeated-read payment execution, and sidechain execution as hardened interface responsibilities, not marketing labels.',
     detail:
       'In launch mode these may be mocked or boundary-only. The product must still teach what the modes mean, which receipts would prove them, and which blockers prevent live settlement.',
     reason:
@@ -654,7 +654,7 @@ const commercialInterfaceSections = [
     eyebrow: 'GitHub + webhooks',
     title: 'GitHub and webhooks are connected-interface delivery and ingress surfaces',
     summary:
-      'GitHub can bind repository supply and deliver the V26 Shippable as a pull request. Webhooks can schedule AssetPack automation and record ingress basis.',
+      'GitHub can bind repository supply and deliver the Protocol-backed Shippable as a pull request. Webhooks can schedule AssetPack automation and record ingress basis.',
     detail:
       'Neither GitHub nor webhooks own product canon. Their job is to feed or receive Bitcode-controlled state and leave evidence behind.',
     reason:
@@ -1860,23 +1860,23 @@ export const BITCODE_DOCS_PAGES = [
     sections: configurationSections,
   }),
   docsPage({
-    slug: 'protocol-v26',
+    slug: 'protocol',
     chapterId: 'protocol',
     eyebrow: 'Protocol',
-    title: 'Map the V26 Protocol canon',
+    title: 'Map the active Protocol canon',
     summary:
-      'A guided version of the V26 canon: gates, object flow, domain model, operator chain, source map, validation, and promotion posture.',
+      'A guided version of the active Protocol canon: AssetPack commodity flow, BTD scalar volume and rights, BTC settlement, claim authority, validation, and promotion posture.',
     detail:
-      'Use this page to connect product docs to the canonical specification without reading every formal section first.',
+      'Use this page to connect product docs to the canonical specification without reading every formal section first. V45 is active canon while V46 is draft target; Public docs are not protocol law.',
     learningOutcome:
-      'You can navigate from public docs into V26 canon and understand which areas remain open by design.',
+      'You can navigate from public docs into active Protocol canon and understand which areas remain open by design under the V46 claim boundary.',
     primaryCta: { href: '/docs/proofs', label: 'Read proof system' },
     sections: protocolSections,
     embeddedUi: [
       {
         id: 'canon-map',
         eyebrow: 'Protocol map',
-        title: 'V26 teaches product, proof, packages, and promotion together',
+        title: 'The active Protocol teaches product, proof, packages, and promotion together',
         summary:
           'The Protocol is not a whitepaper beside the app. It is the operating contract product routes and interfaces must satisfy.',
         explainer: BITCODE_PUBLIC_EXPLAINERS.protocolSpec,
@@ -2059,7 +2059,7 @@ export const BITCODE_DOCS_CHAPTERS = [
     number: '03',
     title: 'Protocol And Proof',
     summary: 'Canon, proof families, generated evidence, settlement, BTD, disclosure, and fail-closed rules.',
-    pages: docsPagesFor(['protocol-v26', 'proofs', 'settlement-btd']),
+    pages: docsPagesFor(['protocol', 'proofs', 'settlement-btd']),
   },
   {
     id: 'interfaces',

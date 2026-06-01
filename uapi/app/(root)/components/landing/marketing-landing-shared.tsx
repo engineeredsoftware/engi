@@ -41,8 +41,8 @@ export const productPillars = [
     Icon: ScaleIcon,
   },
   {
-    title: 'EARN $BTD',
-    description: 'Settlement and licensed consumption allocate $BTD across contributors and rights holders.',
+    title: 'BTC COMPENSATION',
+    description: 'BTC settlement and source-to-shares accounting compensate contributors after proof-backed finality.',
     Icon: CurrencyDollarIcon,
   },
 ] as const;
@@ -129,7 +129,7 @@ export const verificationRows = [
   },
   {
     label: 'Licensed reads',
-    detail: 'licensed readers hold AssetPack read-rights while metered usage records measured $BTD',
+    detail: 'licensed readers hold settled AssetPack rights while BTD records scalar knowledge volume',
     status: 'private*',
     Icon: LockClosedIcon,
   },
@@ -143,19 +143,19 @@ export const verificationRows = [
 
 export const compactPreviewCards = [
   {
-    title: 'Exchange',
+    title: 'Packs',
     body: 'Live deposit, read, and settlement posture',
     detail: 'Read the public market frame before you open a specific transaction.',
   },
   {
-    title: 'Terminal',
-    body: 'Proofs • history • conversations • closure',
-    detail: 'Move into the full Terminal route when you read exact deposit-to-settle detail.',
+    title: 'Deposit',
+    body: 'Supply options • measurements • admission',
+    detail: 'Prepare source-safe AssetPack supply before downstream settlement.',
   },
   {
-    title: 'Auxillaries',
-    body: 'Profile • connects • interfaces • $BTD',
-    detail: 'Open Auxillaries when you read identity, interface, or account posture.',
+    title: 'Read',
+    body: 'Need • Finding Fits • preview • quote',
+    detail: 'Request measured demand and inspect source-safe fit evidence.',
   },
 ] as const;
 
