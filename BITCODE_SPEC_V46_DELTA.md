@@ -70,6 +70,32 @@ V45, the roadmap names the V46 focus and tentative gates, the branch/check
 contract is present, CI knows how to validate active V45 plus draft V46, and no
 V46 file claims promoted authority.
 
+## Gate 2: Protocol Comprehension Object Model And Claim Taxonomy
+
+Gate 2 adds `V46ProtocolComprehensionObjectModel` as a source-safe generated
+artifact at `.bitcode/v46-protocol-comprehension-object-model.json`. It
+formalizes the object vocabulary and claim taxonomy that every public,
+product, operator, API/MCP, ChatGPT App, Bitcode Chat, telemetry, and
+investor-facing surface must use when explaining Bitcode.
+
+Accepted Gate 2 decisions:
+
+- AssetPack, BTD, BTC, Finding Fits, source-safe preview, quote, settlement,
+  rights transfer, delivery, compensation, proof, repair, and interface claims
+  are distinct comprehension objects.
+- Every explanation is an `InterfaceClaim` with a category, authority source,
+  disclosure boundary, required evidence class, and forbidden interpretation.
+- Claim categories are `protocol-law`, `product-guidance`,
+  `operator-evidence`, `investor-framing`, `telemetry-observability`,
+  `preview-claim`, `quote-claim`, `settlement-claim`, `rights-claim`,
+  `delivery-claim`, `compensation-claim`, and `repair-claim`.
+- Claim authority is evidence-specific: generated proof, ledger readback,
+  database projection, object storage root, wallet/provider receipt,
+  repository delivery receipt, telemetry, interface guidance, and public
+  education do not have interchangeable authority.
+- Gate 2 is still specification/proof metadata work. It does not authorize
+  route, API, settlement, delivery, or value-bearing mainnet behavior changes.
+
 ## Commit-Body Direction
 
 V46 commit bodies should name the gate class, protocol law or interface claim

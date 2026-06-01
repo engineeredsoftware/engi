@@ -429,6 +429,28 @@ promotion, protected source, unpaid AssetPack source, raw prompts, provider
 payloads, credentials, wallet private material, private settlement payloads,
 live logs, and value-bearing mainnet operation.
 
+V46 Gate 1 opens commercial protocol comprehension work over the promoted
+`V45` active, `V46` draft posture with the V46 specification family and
+`check:v46-gate1`. It keeps `BITCODE_SPEC.txt` pointed at `V45` while naming
+V46's launch-facing focus: public/operator explanation, `/packs`, `/read`,
+`/deposit`, API/MCP, ChatGPT App, Bitcode Chat, proof readback, and source-safe
+claim boundaries for Bitcode as the knowledge commoditization system.
+
+V46 Gate 2 adds `V46ProtocolComprehensionObjectModel`,
+`.bitcode/v46-protocol-comprehension-object-model.json`,
+`generate:v46-protocol-comprehension-object-model`,
+`check:v46-protocol-comprehension-object-model`, and `check:v46-gate2`.
+It binds source-safe object rows for AssetPack, deposit options, Depository
+AssetPacks, Read Requests, reviewed Needs, Finding Fits, selected Fit sets,
+Need-Fit AssetPacks, previews, BTD scalar volume, BTC quotes/settlement,
+rights, delivery, source-to-shares compensation, proof, repair, and
+`InterfaceClaim`; it also separates protocol law, product guidance, operator
+evidence, investor framing, telemetry, preview, quote, settlement, rights,
+delivery, compensation, and repair claims without exposing protected source,
+unpaid AssetPack source, prompts, provider payloads, credentials, wallet
+private material, private settlement payloads, or value-bearing mainnet
+authority.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

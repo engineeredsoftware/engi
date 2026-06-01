@@ -84,6 +84,79 @@ files, preserves `BITCODE_SPEC.txt -> V45`, names the draft focus, wires a
 Gate 1 checker, and prepares CI to validate active V45 plus draft V46. It does
 not authorize runtime behavior or generated V46 proof-family artifacts.
 
+## Gate 2: Protocol Comprehension Object Model And Claim Taxonomy
+
+Gate 2 records the first package-backed V46 comprehension atom. It creates a
+source-safe object model and claim taxonomy artifact for the commercial
+protocol explanation layer. It remains draft-target metadata over active V45:
+no route behavior, API behavior, settlement behavior, delivery behavior,
+source disclosure, or value-bearing mainnet admission is authorized by this
+gate.
+
+## V46 protocol atom 6: protocol comprehension object model and claim taxonomy
+
+Audit classification: V46 already names the major protocol objects in the
+specification, and V45 already proves the knowledge commoditization law. The
+remaining comprehension gap is that external and interface statements need a
+typed claim boundary: what object is being described, what authority backs the
+claim, which disclosure boundary applies, and which common overclaims are
+forbidden.
+
+Protocol-law statement:
+
+Every public, product, operator, API/MCP, ChatGPT App, Bitcode Chat,
+telemetry, investor, or documentation statement about Bitcode is an
+`InterfaceClaim`. Each `InterfaceClaim` must identify the object it describes,
+the claim category, the evidence authority, the disclosure boundary, required
+proof/readback roots, and forbidden interpretations. Claims may simplify
+language for their audience, but they may not collapse AssetPack, BTD, BTC,
+preview, quote, observed payment, finality, rights transfer, delivery,
+compensation, proof, or repair states.
+
+Claim taxonomy separates protocol law from product guidance, operator evidence, investor framing, telemetry, preview, quote, settlement, rights, delivery, compensation, and repair claims.
+
+The canonical claim categories are:
+
+- `protocol-law`
+- `product-guidance`
+- `operator-evidence`
+- `investor-framing`
+- `telemetry-observability`
+- `preview-claim`
+- `quote-claim`
+- `settlement-claim`
+- `rights-claim`
+- `delivery-claim`
+- `compensation-claim`
+- `repair-claim`
+
+The canonical authority classes are:
+
+- `canonical-specification`
+- `generated-proof`
+- `ledger-readback`
+- `database-projection`
+- `object-storage-root`
+- `wallet-provider-receipt`
+- `repository-delivery-receipt`
+- `telemetry-observability-only`
+- `interface-guidance-only`
+- `public-education-only`
+
+Forbidden claim collapses are now explicit: AssetPack is not raw source, BTD
+is not only a read-right and not money, deposit option is not final BTD,
+preview is not source disclosure, quote is not payment, observed payment is
+not finality, database projection is not ledger truth when stronger readback
+conflicts, telemetry and conversation do not advance state, investor copy is
+not protocol law, value-bearing mainnet remains blocked, and Bitcode never
+takes custody of wallet private material.
+
+Acceptance for this atom: later V46 documentation, route, API/MCP, ChatGPT
+App, Bitcode Chat, public docs, landing, proof, and rehearsal gates may adapt
+the wording by surface, but they must preserve this object model, claim
+taxonomy, evidence-specific authority, disclosure boundary labeling,
+forbidden-collapse list, and source-safe generated artifact posture.
+
 ## V46 opening discussion frame
 
 V46 opened from the premise that specification is the source of protocol truth.

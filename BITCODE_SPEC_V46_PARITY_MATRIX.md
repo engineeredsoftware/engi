@@ -60,7 +60,7 @@ source files and generated artifacts that implement or explain each row.
 | Area | Required V46 result | Current judgment | Source-grounded finding | Closure gate |
 | --- | --- | --- | --- | --- |
 | Commercial protocol comprehension | Explain Bitcode as knowledge commoditization without reducing BTD to a read-right or AssetPack to raw source | draft-required | V45 law is precise but launch-facing surfaces need a shared claim taxonomy and readback language. | Gate 2 |
-| Claim taxonomy | Separate protocol law, product guidance, operator evidence, investor framing, telemetry, preview, quote, settlement, rights, and delivery claims | draft-required | Gate 1 names the need; no taxonomy is source-audited yet. | Gate 2 |
+| Claim taxonomy | Separate protocol law, product guidance, operator evidence, investor framing, telemetry, preview, quote, settlement, rights, delivery, compensation, and repair claims | implemented prerequisite | Gate 2 owns package-backed `V46ProtocolComprehensionObjectModel`, deterministic `.bitcode/v46-protocol-comprehension-object-model.json`, object rows, claim rows, evidence-specific authority ids, disclosure boundary ids, forbidden claim collapse ids, source-safe generated artifact freshness, protocol tests, docs, and workflow wiring. | Gate 2 |
 | Public and operator docs | Public docs, landing copy, README/operator docs, and route help stay accurate, source-safe, and non-overclaiming | draft-required | Existing docs inherit V45 law but need V46 claim-boundary audit. | Gate 3 |
 | Product route comprehension | `/packs`, `/read`, and `/deposit` expose low-detail default UX with expandable proof and consistent commercial terms | implemented prerequisite | V43-V45 product routes exist; V46 must audit copy, state labels, and proof readback against commercial comprehension. | Gate 4 |
 | Machine and conversation interfaces | API/MCP, ChatGPT App, Bitcode Chat, and package consumers expose the same claim boundaries as website routes | draft-required | Prior interface parity exists, but V46 needs launch-facing readback contracts. | Gate 5 |
@@ -78,6 +78,7 @@ source files and generated artifacts that implement or explain each row.
 | Source safety | No V46 explanatory surface may expose protected source, unpaid AssetPack source, raw prompts, raw responses, credentials, or wallet-private material | accepted boundary | V45 source-safety law remains binding. | Gate 2+ |
 | Value-bearing mainnet | V46 launch comprehension work must not imply value-bearing mainnet authority | accepted boundary | V45 value-bearing mainnet block remains binding. | Gate 2+ |
 | Implementation scope | Runtime work begins only after formal specification and parity gates authorize it | accepted boundary | Gate 1 is roadmap/spec/checking only. | Gate 4+ |
+| Protocol comprehension object model | V46 explanation surfaces share object ids, claim categories, claim authority ids, disclosure boundaries, and forbidden interpretation ids | implemented prerequisite | `V46ProtocolComprehensionObjectModel` binds AssetPack, BTD, BTC, preview, quote, settlement, rights, delivery, compensation, proof, repair, and InterfaceClaim rows without source-bearing payloads. | Gate 2 |
 
 ## Grouped Closure Gates
 

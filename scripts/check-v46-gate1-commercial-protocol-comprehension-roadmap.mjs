@@ -149,7 +149,7 @@ function main() {
     ['notes', notes, 'Gate 1: V46 Commercial Protocol Comprehension Roadmap Opening'],
     ['parity', parity, 'V46 Gate 1 is complete when the V46 draft spec family'],
     ['roadmap', roadmap, 'Current draft target: `BITCODE_SPEC_V46.md`'],
-    ['roadmap', roadmap, 'Current working gate: V46 Gate 1 Commercial Protocol Comprehension Roadmap Opening.'],
+    ['roadmap', roadmap, 'V46 Gate 1 closure anchor'],
     ['roadmap', roadmap, '| V46 | `BITCODE_SPEC_V46.md` | active draft target |'],
     ['package.json', packageJson, '"check:v46-gate1"'],
     ['gate workflow', gateWorkflow, 'check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs'],
