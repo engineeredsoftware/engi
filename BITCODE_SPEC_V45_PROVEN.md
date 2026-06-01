@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v45-inference-synthesis-proof.json`, `.bitcode/v45-prompt-completeness-proof.json`, `.bitcode/v45-static-code-analysis-proof.json`, `.bitcode/v45-verification-decisions-proof.json`, `.bitcode/v45-selection-materialization-proof.json`, `.bitcode/v45-authorization-sensitive-flow-proof.json`, `.bitcode/v45-settlement-source-to-shares-proof.json`, `.bitcode/v45-disclosure-boundary-proof.json`, `.bitcode/v45-proof-contract-proof.json`, `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, `BITCODE_SPEC_V45_PROVEN.md`
+- Generated structured artifact inventory: `.bitcode/v45-inference-synthesis-proof.json`, `.bitcode/v45-prompt-completeness-proof.json`, `.bitcode/v45-static-code-analysis-proof.json`, `.bitcode/v45-verification-decisions-proof.json`, `.bitcode/v45-selection-materialization-proof.json`, `.bitcode/v45-authorization-sensitive-flow-proof.json`, `.bitcode/v45-settlement-source-to-shares-proof.json`, `.bitcode/v45-disclosure-boundary-proof.json`, `.bitcode/v45-proof-contract-proof.json`, `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, `BITCODE_SPEC_V45_PROVEN.md`, `.bitcode/v45-promotion-readiness-report.json`
 - Source parity state: proof-family generated artifacts are pass
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V45.md`
@@ -20,7 +20,7 @@
 
 - verdict: `pass`
 - proof-source commit: `draft-v45-gate16-proof-source-snapshot`
-- aggregate root: `v45-proof-family-artifacts:8f44a949e19ac95c80d70cdb`
+- aggregate root: `v45-proof-family-artifacts:ec1574bd7a7183749ef7520e`
 - proof-family count: `9`
 
 ## Exact Proof-Family Inventory
@@ -29,13 +29,13 @@
 | --- | --- | --- | --- |
 | Inference-synthesis | `.bitcode/v45-inference-synthesis-proof.json` | `v45-inference-synthesis-proof:fc0c2253f69f2774167ab87b` | pass |
 | Prompt-completeness | `.bitcode/v45-prompt-completeness-proof.json` | `v45-prompt-completeness-proof:ca14b2ad7bec005a1a513c31` | pass |
-| Static-code-analysis | `.bitcode/v45-static-code-analysis-proof.json` | `v45-static-code-analysis-proof:d58bba0f33b9c0933799bac9` | pass |
+| Static-code-analysis | `.bitcode/v45-static-code-analysis-proof.json` | `v45-static-code-analysis-proof:7b3c53264091f21e2e41721a` | pass |
 | Verification-decisions | `.bitcode/v45-verification-decisions-proof.json` | `v45-verification-decisions-proof:45ae9cfa4cac7fa66cefbc2d` | pass |
 | Selection-and-materialization | `.bitcode/v45-selection-materialization-proof.json` | `v45-selection-and-materialization-proof:43171398d216cb0cd108a415` | pass |
 | Authorization-and-sensitive-flow | `.bitcode/v45-authorization-sensitive-flow-proof.json` | `v45-authorization-and-sensitive-flow-proof:f6aa8e80186ebae17dd07add` | pass |
 | Settlement-source-to-shares | `.bitcode/v45-settlement-source-to-shares-proof.json` | `v45-settlement-source-to-shares-proof:0b8635d549cc73bb4f0aaabb` | pass |
 | Disclosure-boundary | `.bitcode/v45-disclosure-boundary-proof.json` | `v45-disclosure-boundary-proof:7e226c02bcdff5ddbf0f035f` | pass |
-| Proof-contract | `.bitcode/v45-proof-contract-proof.json` | `v45-proof-contract-proof:e5e1d7873f1ad2cf08db88ba` | pass |
+| Proof-contract | `.bitcode/v45-proof-contract-proof.json` | `v45-proof-contract-proof:6e296fc9dc826bd16b03cf72` | pass |
 
 ## Per-Family Member Inventory
 
@@ -273,6 +273,14 @@ Members: `generated spec proof`, `workflow receipts`, `ledger journals`, `databa
 - `.bitcode/v45-spec-family-report.json`
 - `.bitcode/v45-canonical-input-report.json`
 - `BITCODE_SPEC_V45_PROVEN.md`
+- `.bitcode/v45-promotion-readiness-report.json`
+
+## V45 Promotion Readiness
+
+- promotionReadinessArtifact: `.bitcode/v45-promotion-readiness-report.json`
+- promotionReadinessGate: `check:v45-gate18`
+- promotionWorkflow: `.github/workflows/v45-canon-promotion.yml`
+- pointerAdvanceRule: workflow validation must pass before `BITCODE_SPEC.txt` can become `V45`
 
 ## Scenario And Run Coverage Matrices
 

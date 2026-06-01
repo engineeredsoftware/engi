@@ -528,7 +528,8 @@ function buildV21LikeProfile(version) {
           '.bitcode/v45-settlement-source-to-shares-proof.json',
           '.bitcode/v45-disclosure-boundary-proof.json',
           '.bitcode/v45-proof-contract-proof.json',
-          '.bitcode/v45-source-safe-e2e-rehearsal.json'
+          '.bitcode/v45-source-safe-e2e-rehearsal.json',
+          '.bitcode/v45-promotion-readiness-report.json'
         ]
       : []),
       ...(version === 'V26'

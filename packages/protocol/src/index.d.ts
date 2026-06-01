@@ -824,6 +824,15 @@ export const V45_SOURCE_SAFE_E2E_REHEARSAL_FORBIDDEN_PAYLOAD_CLASSES: readonly s
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_ROWS: readonly Record<string, unknown>[];
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_SOURCE_ROOTS: Readonly<Record<string, string>>;
 export function buildV45SourceSafeEndToEndRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH: string;
+export const V45_PROMOTION_READINESS_REPORT_CURRENT_TARGET: string;
+export const V45_PROMOTION_READINESS_REPORT_SCHEMA_ID: string;
+export const V45_PROMOTION_READINESS_REPORT_VERSION: string;
+export const V45_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: string;
+export const V45_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
+export const V45_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
+export function buildV45PromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function listMissingV45PromotionReadinessSources(repoRoot?: string): string[];
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

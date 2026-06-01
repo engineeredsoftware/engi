@@ -37,6 +37,8 @@ export const V45_PROOF_FAMILY_GENERATED_OUTPUTS = Object.freeze([
   '.bitcode/v45-canonical-input-report.json',
   V45_PROOF_FAMILY_PROVEN_PATH,
 ]);
+const V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH =
+  '.bitcode/v45-promotion-readiness-report.json';
 
 export const V45_PROOF_FAMILY_IDS = Object.freeze([
   'inference-synthesis',
@@ -1199,6 +1201,10 @@ export function buildV45ProofFamilyArtifacts(input = {}) {
  * }} input
  */
 export function buildV45ProofFamilyProvenMarkdown(input) {
+  const renderedGeneratedOutputs = [
+    ...V45_PROOF_FAMILY_GENERATED_OUTPUTS,
+    V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+  ];
   const lines = [
     '# Bitcode Spec V45 Proven',
     '',
@@ -1209,7 +1215,7 @@ export function buildV45ProofFamilyProvenMarkdown(input) {
     '- Current canonical/latest target: `V44`',
     '- Prior canonical anchor: `BITCODE_SPEC_V44.md`',
     '- Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`',
-    `- Generated structured artifact inventory: ${V45_PROOF_FAMILY_GENERATED_OUTPUTS.map((item) => `\`${item}\``).join(', ')}`,
+    `- Generated structured artifact inventory: ${renderedGeneratedOutputs.map((item) => `\`${item}\``).join(', ')}`,
     `- Source parity state: proof-family generated artifacts are ${input.artifacts.aggregateProofVerdict}`,
     '- Notes companion: `BITCODE_SPEC_V45_NOTES.md`',
     '- Spec companion: `BITCODE_SPEC_V45.md`',
@@ -1273,7 +1279,14 @@ export function buildV45ProofFamilyProvenMarkdown(input) {
     ]),
     '## Generated Artifact Inventories',
     '',
-    ...V45_PROOF_FAMILY_GENERATED_OUTPUTS.map((artifactPath) => `- \`${artifactPath}\``),
+    ...renderedGeneratedOutputs.map((artifactPath) => `- \`${artifactPath}\``),
+    '',
+    '## V45 Promotion Readiness',
+    '',
+    `- promotionReadinessArtifact: \`${V45_PROMOTION_READINESS_REPORT_ARTIFACT_PATH}\``,
+    '- promotionReadinessGate: `check:v45-gate18`',
+    '- promotionWorkflow: `.github/workflows/v45-canon-promotion.yml`',
+    '- pointerAdvanceRule: workflow validation must pass before `BITCODE_SPEC.txt` can become `V45`',
     '',
     '## Scenario And Run Coverage Matrices',
     '',

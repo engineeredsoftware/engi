@@ -405,7 +405,15 @@ jobs:
               if [ -f scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs ]; then
                 node scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs --skip-branch-check --skip-package-tests --skip-operator-dry-run # check:v45-gate17
               fi
+              if [ -f scripts/check-v45-gate18-promotion-readiness.mjs ]; then
+                node scripts/check-v45-gate18-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests # check:v45-gate18
+              fi
             fi
+          elif [ "$POINTER" = "V45" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V45 --mode promoted --current-target V45
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V45
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V45 --draft-target V46
+            node scripts/check-v45-gate18-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -564,7 +572,15 @@ jobs:
             spec:\ V44*|spec:\ v44*)
               node scripts/check-bitcode-spec-family.mjs --version V44 --mode draft --current-target V43
               ;;
+            spec:\ V45*|spec:\ v45*)
+              POINTER="$(cat BITCODE_SPEC.txt)"
+              if [ "$POINTER" = "V45" ]; then
+                node scripts/check-bitcode-spec-family.mjs --version V45 --mode promoted --current-target V45
+              else
+                node scripts/check-bitcode-spec-family.mjs --version V45 --mode draft --current-target V44
+              fi
+              ;;
             *)
-              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39/V40/V41/V42/V43/V44 spec change."
+              echo "Skipping strict spec-title conformance; title is not a V29/V30/V31/V32/V33/V34/V35/V36/V37/V38/V39/V40/V41/V42/V43/V44/V45 spec change."
               ;;
           esac

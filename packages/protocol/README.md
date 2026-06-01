@@ -310,6 +310,18 @@ success, and all source-bearing, prompt-bearing, provider, credential, wallet,
 private settlement, live-log, and value-bearing mainnet payload classes remain
 withheld.
 
+V45 Gate 18 adds `V45PromotionReadinessReport` through
+`packages/protocol/src/canonical/v45-promotion-readiness-report.js`,
+`packages/protocol/test/v45-promotion-readiness.test.js`,
+`.bitcode/v45-promotion-readiness-report.json`,
+`generate:v45-promotion-readiness`, `check:v45-promotion-readiness`, and
+`check:v45-gate18`. It binds V45 proof-family artifacts, source-safe rehearsal,
+draft `BITCODE_SPEC_V45_PROVEN.md` generation support,
+`v45-canon-promotion.yml`, promotion dry-run support, workflow posture, package
+exports, and `V45` active, `V46` draft runtime preparation while preserving the
+same source, prompt, provider, credential, wallet-private, private-settlement,
+live-log, and value-bearing mainnet exclusions.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

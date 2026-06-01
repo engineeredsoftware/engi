@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, V45 notes atom checkers, V45 formal-spec consolidation checker, and draft `BITCODE_SPEC_V45_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, `.bitcode/v45-promotion-readiness-report.json`, V45 notes atom checkers, V45 formal-spec consolidation checker, `v45-canon-promotion.yml`, and draft `BITCODE_SPEC_V45_PROVEN.md`
 - Source parity state: V45 delta records formal protocol-law changes only; implementation parity is pending the next gate and V44 source remains active canon
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V45.md`
@@ -61,6 +61,18 @@ readback, and gate taxonomy.
 5. Harden proof-only and interface-only rows.
 6. Rehearse end-to-end source-safe commercial behavior.
 7. Close promotion readiness and promote V45 only through workflow validation.
+
+## Gate 18: V45 Promotion Readiness
+
+Gate 18 closes promotion readiness with
+`.bitcode/v45-promotion-readiness-report.json`,
+`generate:v45-promotion-readiness`, `check:v45-promotion-readiness`,
+`check:v45-gate18`, `v45-canon-promotion.yml`; promotion scripts support V45.
+It proves the V45 proof-family artifacts, source-safe rehearsal artifact,
+draft `BITCODE_SPEC_V45_PROVEN.md`, workflow posture, source-safety exclusions,
+direct-main-push block, and value-bearing mainnet block before allowing V45
+promotion. After promotion, the accepted runtime posture is active V45 / draft
+V46.
 
 ## Commit-Body Direction
 
