@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: V45 draft spec-family report, canonical-input report, proof-family artifacts, and `BITCODE_SPEC_V45_PROVEN.md` are generated source-safe proof material while V44 remains active canon
+- Generated structured artifact inventory: V45 draft spec-family report, canonical-input report, proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, and `BITCODE_SPEC_V45_PROVEN.md` are generated source-safe proof material while V44 remains active canon
 - Source parity state: V45 formal law is supported by substantial V39-V44 implementation surfaces, but no accepted row is fully closed for V45 promotion until grouped implementation, proof, interface, rehearsal, and promotion gates below close
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V45.md`
@@ -68,8 +68,8 @@ and `.github/workflows/v44-canon-promotion.yml`.
 | Interfaces | `packages/pipelines/asset-pack/src/reading-interface-product-parity.ts`, `packages/api/src`, `packages/executions-mcp/src`, `packages/chatgptapp/src`, `packages/conversations-generics/src`, `uapi/app/api/conversations/*` | Interface parity rows exist for terminal, conversation, public API, MCP API, ChatGPT App, and package consumers. V45 needs this mapped to `/deposit`, `/read`, `/packs`, public docs, and landing without stale parallel terminology. |
 | Harness and readback | `packages/pipeline-hosts/src/asset-pack-harness.ts`, `manifest.ts`, `vercel-sandbox-host.ts`, `packages/pipelines/asset-pack/src/reading-operational-telemetry-repair-readback.ts` | Sandbox harness, structured telemetry, evidence artifacts, settlement readback, and repair posture exist. V45 needs proof-backed state advancement enforced as a shared rule rather than mostly package/harness-local checks. |
 | Tests | `packages/pipelines/asset-pack/src/__tests__/*`, `packages/btd/__tests__/*`, `packages/api/src/routes/__tests__/btd-crypto.test.ts`, `uapi/__tests__/*`, `packages/pipeline-hosts/src/__tests__/*` | Strong V39-V44 test coverage exists for core reading, deposit, settlement, route, API, harness, and source-safety behavior. V45-specific tests and proof-family generators are not yet present. |
-| Generated artifacts | `.bitcode/v38-*`, `.bitcode/v39-*`, `.bitcode/v40-*`, `.bitcode/v41-*`, `.bitcode/v42-*`, `.bitcode/v43-*`, `.bitcode/v44-*`, `.bitcode/v45-*`, `BITCODE_SPEC_V45_PROVEN.md` | Historical proof artifacts are extensive. V45 now has draft spec-family, canonical-input, and proof-family generated artifacts; rehearsal and promotion-readiness artifacts remain open. |
-| Workflows | `.github/workflows/bitcode-gate-quality.yml`, `bitcode-canon-quality.yml`, `v44-canon-promotion.yml`, package `check:v45-gate2` through `check:v45-gate16` | Gate-quality and canon-quality workflows are maintained; V45 atom, formal-spec, implementation, interface, and proof-family checks exist. A V45 promotion workflow and V45 rehearsal/promotion checks are still required. |
+| Generated artifacts | `.bitcode/v38-*`, `.bitcode/v39-*`, `.bitcode/v40-*`, `.bitcode/v41-*`, `.bitcode/v42-*`, `.bitcode/v43-*`, `.bitcode/v44-*`, `.bitcode/v45-*`, `BITCODE_SPEC_V45_PROVEN.md` | Historical proof artifacts are extensive. V45 now has draft spec-family, canonical-input, proof-family, and source-safe end-to-end rehearsal generated artifacts; promotion-readiness artifacts remain open. |
+| Workflows | `.github/workflows/bitcode-gate-quality.yml`, `bitcode-canon-quality.yml`, `v44-canon-promotion.yml`, package `check:v45-gate2` through `check:v45-gate17` | Gate-quality and canon-quality workflows are maintained; V45 atom, formal-spec, implementation, interface, proof-family, and rehearsal checks exist. A V45 promotion workflow and V45 promotion checks are still required. |
 | Docs and public copy | `README.md`, `AGENTS.md`, `internal-docs/*`, `uapi/app/docs/*`, `uapi/app/page.tsx`, `uapi/app/exchange/README.md` | Contributor workflow is strong. Public/operator docs still contain substantial Exchange/Terminal framing and need `/packs`, `/read`, `/deposit`, AssetPack in/out, BTD scalar-volume, BTC settlement, and source-safe disclosure law refresh. |
 
 ## V45 Implementation Matrix
@@ -240,6 +240,15 @@ Acceptance:
 - Rehearsal produces source-safe artifacts, logs, telemetry summaries, ledger/database/storage readback roots, interface screenshots or browser receipts, and repair receipts.
 - A missing or contradictory evidence class returns repair state, not success.
 - `check:v45-gate17` passes locally and in gate-quality CI.
+
+Gate 17 implementation readback:
+
+- Source-safe rehearsal artifact builder: `packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js`.
+- Generator, checker, and operator rehearsal script: `scripts/generate-v45-source-safe-e2e-rehearsal.mjs`, `scripts/check-v45-gate17-source-safe-e2e-rehearsal.mjs`, and `scripts/rehearse-v45-source-safe-e2e.mjs`.
+- Generated output: `.bitcode/v45-source-safe-e2e-rehearsal.json`.
+- Source-safe rehearsal tests: `packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js`.
+- Gate-quality and canon-quality binding: `.github/workflows/bitcode-gate-quality.yml` and `.github/workflows/bitcode-canon-quality.yml`.
+- Closure checker: `check:v45-gate17`.
 
 ### Gate 18: V45 Promotion Readiness And Canonical Promotion
 

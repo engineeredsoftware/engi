@@ -9,7 +9,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: V45 draft specification consolidation introduces `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, V45 notes atom checkers, and the draft V45 formal proof appendix; V44 generated artifacts remain active canon until V45 promotion
+- Generated structured artifact inventory: V45 draft specification consolidation introduces `.bitcode/v45-spec-family-report.json`, `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, V45 notes atom checkers, and the draft V45 formal proof appendix; V44 generated artifacts remain active canon until V45 promotion
 - Source parity state: V45 notes atoms are accepted into formal draft specification preparation; implementation parity is not yet audited and V44 implementation remains active canon
 - V45 state: accepted notes companion for formal V45 draft specification; V44 remains active canon until V45 promotion
 - Scope: accepted notes atom provenance for the next Bitcode canon candidate after V44 scaled engineering economy promotion

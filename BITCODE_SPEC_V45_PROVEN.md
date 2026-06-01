@@ -20,7 +20,7 @@
 
 - verdict: `pass`
 - proof-source commit: `draft-v45-gate16-proof-source-snapshot`
-- aggregate root: `v45-proof-family-artifacts:158e37aa222b40f143c1de65`
+- aggregate root: `v45-proof-family-artifacts:8f44a949e19ac95c80d70cdb`
 - proof-family count: `9`
 
 ## Exact Proof-Family Inventory
@@ -29,13 +29,13 @@
 | --- | --- | --- | --- |
 | Inference-synthesis | `.bitcode/v45-inference-synthesis-proof.json` | `v45-inference-synthesis-proof:fc0c2253f69f2774167ab87b` | pass |
 | Prompt-completeness | `.bitcode/v45-prompt-completeness-proof.json` | `v45-prompt-completeness-proof:ca14b2ad7bec005a1a513c31` | pass |
-| Static-code-analysis | `.bitcode/v45-static-code-analysis-proof.json` | `v45-static-code-analysis-proof:44a6ab31382b12d2d861c49b` | pass |
+| Static-code-analysis | `.bitcode/v45-static-code-analysis-proof.json` | `v45-static-code-analysis-proof:d58bba0f33b9c0933799bac9` | pass |
 | Verification-decisions | `.bitcode/v45-verification-decisions-proof.json` | `v45-verification-decisions-proof:45ae9cfa4cac7fa66cefbc2d` | pass |
 | Selection-and-materialization | `.bitcode/v45-selection-materialization-proof.json` | `v45-selection-and-materialization-proof:43171398d216cb0cd108a415` | pass |
 | Authorization-and-sensitive-flow | `.bitcode/v45-authorization-sensitive-flow-proof.json` | `v45-authorization-and-sensitive-flow-proof:f6aa8e80186ebae17dd07add` | pass |
 | Settlement-source-to-shares | `.bitcode/v45-settlement-source-to-shares-proof.json` | `v45-settlement-source-to-shares-proof:0b8635d549cc73bb4f0aaabb` | pass |
 | Disclosure-boundary | `.bitcode/v45-disclosure-boundary-proof.json` | `v45-disclosure-boundary-proof:7e226c02bcdff5ddbf0f035f` | pass |
-| Proof-contract | `.bitcode/v45-proof-contract-proof.json` | `v45-proof-contract-proof:54025c797cb2cc72682c3756` | pass |
+| Proof-contract | `.bitcode/v45-proof-contract-proof.json` | `v45-proof-contract-proof:e5e1d7873f1ad2cf08db88ba` | pass |
 
 ## Per-Family Member Inventory
 

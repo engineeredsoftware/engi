@@ -2,11 +2,13 @@
 
 ## Status
 
-- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V43`
-- Current active canon: `BITCODE_SPEC_V43.md`
-- Current draft target: `BITCODE_SPEC_V44.md`.
-- Current working gate: V44 Gate 10 Promotion Readiness.
-- Next queued work after V44 Gate 10: V44 canonical promotion into `main`, then V45 roadmap opening from the promoted V44 scaled engineering economy canon.
+- Current active canonical pointer: `BITCODE_SPEC.txt` -> `V44`
+- Current active canon: `BITCODE_SPEC_V44.md`
+- Current draft target: `BITCODE_SPEC_V45.md`.
+- Current working gate: V45 Gate 17 Source-Safe End-To-End Rehearsal.
+- Next queued work after V45 Gate 17: V45 Gate 18 Promotion Readiness and canonical promotion into `main` once all V45 proof, rehearsal, workflow, and generated-artifact evidence is current.
+- Latest closed gate: V45 Gate 16 Proof Families And Generated Artifacts, which generated all nine V45 proof-family artifacts, draft spec-family and canonical-input reports, `BITCODE_SPEC_V45_PROVEN.md`, workflow binding, package exports, tests, and `check:v45-gate16`.
+- Current V45 Gate 17 closure target: package-backed `V45SourceSafeEndToEndRehearsal`, deterministic `.bitcode/v45-source-safe-e2e-rehearsal.json`, source-safe operator rehearsal receipts for local deterministic, staging-testnet credentialed, and value-bearing mainnet-blocked lanes, local/staging depositing, Reading, Finding Fits, preview, quote, settlement-readiness, proof readback, delivery posture, compensation posture, repair receipts, workflow wiring, and `check:v45-gate17`.
 - Latest closed version: V43 Route Product Cleanup, which promoted `/packs`, `/read`, and `/deposit`; PackActivity master-detail; five-step Reading route UX; deposit AssetPack option synthesis; deposit criticality/ROI/compensation policy; option admission; product route UX; cross-route rehearsal; and V43 promotion readiness.
 - Recent V43 canonical promotion anchor: V43 canonical promotion updated `BITCODE_SPEC.txt` to `V43`, generated `BITCODE_SPEC_V43_PROVEN.md`, preserved active V43 / draft V44 runtime posture, and closed route-product cleanup canon.
 - V44 Gate 1 opening anchor: scaled engineering economy opens over promoted V43 with V44 SPEC, DELTA, NOTES, and PARITY files, `check:v44-gate1`, active V43 / draft V44 posture, and a ten-gate plan for economic domain models, Packs portfolio intelligence, Reading budget/quote governance, Depositor earnings/ROI intelligence, BTD/BTC compensation statements, organization policy/wallet authority, enterprise economic UX, scaled local/staging rehearsal, and promotion readiness.

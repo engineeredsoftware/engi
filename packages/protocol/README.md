@@ -293,6 +293,23 @@ unpaid AssetPack source, raw prompts, provider payloads, wallet private
 material, private settlement payloads, live logs, or value-bearing mainnet
 admission.
 
+V45 Gate 17 adds `V45SourceSafeEndToEndRehearsal` through
+`packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js`,
+`packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js`,
+`.bitcode/v45-source-safe-e2e-rehearsal.json`,
+`generate:v45-source-safe-e2e-rehearsal`,
+`check:v45-source-safe-e2e-rehearsal`, `rehearse:v45-source-safe-e2e`, and
+`check:v45-gate17`. It binds source-safe local deterministic,
+staging-testnet credentialed, and value-bearing mainnet-blocked rehearsal
+lanes across deposit option synthesis, Depository admission, request Read,
+review synthesized Need, request Finding Fits, preview, quote readiness, BTC
+observation and rights delivery posture, source-to-shares compensation,
+ledger/database/storage readback, browser receipt posture, and repair-state
+behavior. Missing or contradictory evidence returns repair state rather than
+success, and all source-bearing, prompt-bearing, provider, credential, wallet,
+private settlement, live-log, and value-bearing mainnet payload classes remain
+withheld.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.
