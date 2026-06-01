@@ -412,6 +412,7 @@
     "check:v45-promotion-readiness": "node scripts/generate-v45-promotion-readiness-report.mjs --check",
     "check:v45-gate18": "node scripts/check-v45-gate18-promotion-readiness.mjs",
     "check:v45-gate19": "node scripts/check-v45-gate19-promotion-addendum.mjs",
+    "check:v46-gate1": "node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",
