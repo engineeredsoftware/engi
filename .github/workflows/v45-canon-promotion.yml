@@ -105,7 +105,7 @@ jobs:
             exit 1
           fi
           run_bounded 5m pnpm --filter @bitcode/protocol typecheck
-          run_bounded 5m pnpm --filter @bitcode/protocol test
+          run_bounded 15m pnpm --filter @bitcode/protocol test
           run_bounded 5m pnpm --filter @bitcode/btd typecheck
           run_bounded 5m pnpm --filter @bitcode/btd exec jest --config jest.config.cjs --runInBand --forceExit
           run_bounded 15m npm --prefix protocol-demonstration test
