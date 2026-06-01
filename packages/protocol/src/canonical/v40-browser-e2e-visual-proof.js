@@ -300,7 +300,7 @@ export const V40_BROWSER_E2E_VISUAL_ROWS = Object.freeze([
     ],
     requiredSourceMarkers: [
       'BITCODE_BROWSER_PROOF_CONTRACT',
-      'Learn Bitcode from Source Shares to proof',
+      'Learn Bitcode from AssetPacks to proof',
       'docsPage',
       'Terminal action manual',
     ],
