@@ -180,6 +180,19 @@ describe('AssetPack settlement rights delivery boundary', () => {
       finalityReceipt: {
         finalityState: 'confirmed',
       },
+      btcSettlementReadback: {
+        quoteAcceptanceState: 'accepted',
+        walletReadinessState: 'wallet_ready_non_custodial',
+        psbtPreparationState: 'psbt_prepared_source_safe',
+        psbtSignatureState: 'psbt_signed_by_reader_wallet',
+        settlementFinalizationState: 'settlement_finalized',
+        rightsTransferState: 'rights_transferred',
+        deliveryState: 'source_unlocked_delivery',
+        compensationRoutingState: 'compensation_routable',
+        sourceUnlockAdmissible: true,
+        serverCustody: false,
+        walletPrivateMaterialVisible: false,
+      },
       deliveryUnlock: {
         state: 'source_bearing_pull_request_ready',
         sourceBearingDeliveryVisibleToReader: true,
@@ -204,6 +217,7 @@ describe('AssetPack settlement rights delivery boundary', () => {
     expect(boundary.storageProjection.map((record) => record.recordKind)).toEqual(
       expect.arrayContaining([
         'btc_payment_observation',
+        'btc_settlement_readback',
         'settlement_finality',
         'source_to_shares_compensation',
         'btd_read_receipt',
@@ -240,23 +254,81 @@ describe('AssetPack settlement rights delivery boundary', () => {
     expect(boundary.replayReceipt.verified.paymentMatchesQuote).toBe(false);
   });
 
-  it('fails closed until BTC finality is confirmed', () => {
+  it.each(['prepared', 'signed', 'broadcast', 'observed'] as const)(
+    'fails closed for %s BTC state before finality',
+    (finalityState) => {
+      const boundary = buildAssetPackSettlementRightsDeliveryBoundary({
+        previewBoundary: previewBoundary(),
+        finality: {
+          finalityState,
+          confirmations: 0,
+          blockHeight: null,
+        },
+        createdAt: '2026-05-22T00:00:00.000Z',
+      });
+
+      expect(boundary.state).toBe('blocked_until_payment_finality');
+      expect(boundary.rightsTransferReceipt).toBeNull();
+      expect(boundary.btdReadReceipt).toBeNull();
+      expect(boundary.deliveryUnlock.sourceBearingDeliveryVisibleToReader).toBe(false);
+      expect(boundary.btcSettlementReadback).toMatchObject({
+        finalityState,
+        settlementFinalizationState: 'not_finalized',
+        rightsTransferState: 'rights_withheld',
+        deliveryState: 'delivery_withheld',
+        sourceUnlockAdmissible: false,
+        rightsTransferAdmissible: false,
+      });
+      expect(boundary.repairPosture.nextActions).toEqual(
+        expect.arrayContaining(['observe_btc_payment', 'wait_for_btc_finality']),
+      );
+    },
+  );
+
+  it('fails closed when payment references a stale accepted BTC quote', () => {
+    const preview = previewBoundary();
     const boundary = buildAssetPackSettlementRightsDeliveryBoundary({
-      previewBoundary: previewBoundary(),
-      finality: {
-        finalityState: 'broadcast',
-        confirmations: 0,
-        blockHeight: null,
+      previewBoundary: preview,
+      paymentObservation: {
+        expectedSats: preview.quoteReceipt.sats - 10,
+        observedDebitSats: preview.quoteReceipt.sats - 10,
+        observedCreditSats: preview.quoteReceipt.sats - 10,
       },
       createdAt: '2026-05-22T00:00:00.000Z',
     });
 
-    expect(boundary.state).toBe('blocked_until_payment_finality');
+    expect(boundary.state).toBe('blocked_until_compensation_conservation');
     expect(boundary.rightsTransferReceipt).toBeNull();
     expect(boundary.deliveryUnlock.sourceBearingDeliveryVisibleToReader).toBe(false);
+    expect(boundary.btcSettlementReadback.quoteAcceptanceState).toBe('stale_quote_repair_required');
+    expect(boundary.btcSettlementReadback.blockerCodes).toContain('stale_btc_quote_or_payment_mismatch');
+    expect(boundary.repairPosture.blockers).toContain('stale_btc_quote_or_payment_mismatch');
     expect(boundary.repairPosture.nextActions).toEqual(
-      expect.arrayContaining(['observe_btc_payment', 'wait_for_btc_finality']),
+      expect.arrayContaining(['refresh_stale_btc_quote', 'observe_btc_payment']),
     );
+  });
+
+  it('fails closed when contributor compensation conservation fails after debit observation', () => {
+    const preview = previewBoundary();
+    const boundary = buildAssetPackSettlementRightsDeliveryBoundary({
+      previewBoundary: preview,
+      paymentObservation: {
+        observedDebitSats: preview.quoteReceipt.sats,
+        observedCreditSats: preview.quoteReceipt.sats - 1,
+      },
+      createdAt: '2026-05-22T00:00:00.000Z',
+    });
+
+    expect(boundary.state).toBe('blocked_until_compensation_conservation');
+    expect(boundary.sourceToSharesProof).toMatchObject({
+      settlementConservation: {
+        state: 'underpayment',
+        settlementAdmissible: false,
+      },
+    });
+    expect(boundary.rightsTransferReceipt).toBeNull();
+    expect(boundary.btcSettlementReadback.compensationRoutingState).toBe('compensation_withheld');
+    expect(boundary.repairPosture.blockers).toContain('source_to_shares_conservation_failed');
   });
 
   it('withholds delivery when ledger, database, or object storage projections drift', () => {
@@ -272,6 +344,28 @@ describe('AssetPack settlement rights delivery boundary', () => {
     expect(boundary.reconciliationReport.repairs.length).toBeGreaterThan(0);
     expect(boundary.deliveryUnlock.state).toBe('withheld');
     expect(boundary.repairPosture.nextActions).toContain('repair_ledger_database_storage_projection');
+  });
+
+  it('withholds source unlock and rights delivery when repository delivery is missing', () => {
+    const boundary = buildAssetPackSettlementRightsDeliveryBoundary({
+      previewBoundary: previewBoundary(),
+      pullRequestTarget: null,
+      createdAt: '2026-05-22T00:00:00.000Z',
+    });
+
+    expect(boundary.state).toBe('blocked_until_pull_request_delivery');
+    expect(boundary.rightsTransferReceipt?.kind).toBe('btd.rights_transfer_receipt');
+    expect(boundary.deliveryUnlock).toMatchObject({
+      state: 'withheld',
+      sourceBearingDeliveryVisibleToReader: false,
+      pullRequestTarget: null,
+      blockerCodes: expect.arrayContaining(['pull_request_target_missing']),
+    });
+    expect(boundary.btcSettlementReadback).toMatchObject({
+      deliveryState: 'delivery_withheld',
+      sourceUnlockAdmissible: false,
+    });
+    expect(boundary.repairPosture.blockers).toContain('pull_request_delivery_missing');
   });
 
   it('persists settlement and rights delivery records onto execution state', () => {
@@ -292,6 +386,10 @@ describe('AssetPack settlement rights delivery boundary', () => {
     });
     expect(execution.get('asset-pack/settlement', 'deliveryUnlock')).toMatchObject({
       state: 'source_bearing_pull_request_ready',
+    });
+    expect(execution.get('asset-pack/settlement', 'btcSettlementReadback')).toMatchObject({
+      schema: 'bitcode.asset-pack.btc-settlement-readback',
+      settlementFinalizationState: 'settlement_finalized',
     });
   });
 });
