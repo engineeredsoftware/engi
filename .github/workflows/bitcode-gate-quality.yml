@@ -543,8 +543,14 @@ jobs:
             node scripts/check-bitcode-canonical-inputs.mjs --current-target V45
             node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V45 --draft-target V46
             node scripts/check-v45-gate18-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-            if [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
+            if [ ! -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
               node scripts/check-v45-gate19-promotion-addendum.mjs --skip-branch-check --skip-package-tests
+            fi
+            if [ -f BITCODE_SPEC_V46.md ]; then
+              node scripts/check-bitcode-spec-family.mjs --version V46 --mode draft --current-target V45
+              if [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
+                node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs --skip-branch-check
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -580,8 +586,11 @@ jobs:
               node scripts/check-v44-gate10-promotion-readiness.mjs --promotion-mode --skip-branch-check
             else
               node scripts/check-v45-gate18-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
-              if [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
+              if [ ! -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v45-gate19-promotion-addendum.mjs ]; then
                 node scripts/check-v45-gate19-promotion-addendum.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs ]; then
+                node scripts/check-v46-gate1-commercial-protocol-comprehension-roadmap.mjs --skip-branch-check
               fi
             fi
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs ]; then

@@ -142,7 +142,7 @@ function main() {
     ['spec', spec, '`BITCODE_SPEC.txt` points to `V45`; V45 is the active promoted Bitcode canon.'],
     ['notes', notes, 'Canonical pointer: `BITCODE_SPEC.txt` -> `V45`'],
     ['roadmap', roadmap, 'Current active canonical pointer: `BITCODE_SPEC.txt` -> `V45`'],
-    ['roadmap', roadmap, 'Current draft target: V46 to be opened from active V45 canon.'],
+    ['roadmap', roadmap, 'Current draft target: `BITCODE_SPEC_V46.md`'],
     ['checker', checker, 'validatePromotedSpecFamilyHasNoStaleDraftPosture'],
     ['test', test, 'promoted spec-family validation rejects stale draft posture outside source-of-truth prose'],
     ['package.json', packageJson, '"check:v45-gate19"'],
