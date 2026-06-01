@@ -34,6 +34,7 @@ export type AssetPackSettlementRightsDeliveryState =
 
 export type AssetPackSettlementRightsDeliveryStorageRecordKind =
   | 'btc_payment_observation'
+  | 'btc_settlement_readback'
   | 'settlement_finality'
   | 'source_to_shares_compensation'
   | 'btd_read_receipt'
@@ -45,6 +46,7 @@ export type AssetPackSettlementRightsDeliveryStorageRecordKind =
 
 export type AssetPackSettlementRightsDeliveryRepairAction =
   | 'run_worthy_assetpack_preview'
+  | 'refresh_stale_btc_quote'
   | 'observe_btc_payment'
   | 'wait_for_btc_finality'
   | 'repair_source_to_shares_conservation'
@@ -83,11 +85,33 @@ export interface AssetPackSettlementPaymentObservation {
 
 export interface AssetPackSettlementFinalityReceipt {
   schema: 'bitcode.asset-pack.settlement.finality-receipt';
-  finalityState: 'prepared' | 'signed' | 'broadcast' | 'confirmed' | 'replaced' | 'reorged' | 'failed';
+  finalityState: 'prepared' | 'signed' | 'broadcast' | 'observed' | 'confirmed' | 'replaced' | 'reorged' | 'failed';
   confirmations: number;
   blockHeight: number | null;
   txid: string;
   finalityRoot: string;
+}
+
+export interface AssetPackBtcSettlementReadback {
+  schema: 'bitcode.asset-pack.btc-settlement-readback';
+  quoteAcceptanceState: 'accepted' | 'stale_quote_repair_required';
+  walletReadinessState: 'wallet_ready_non_custodial';
+  psbtPreparationState: 'psbt_prepared_source_safe';
+  psbtSignatureState: 'psbt_signed_by_reader_wallet';
+  broadcastState: 'not_broadcast' | 'broadcast_submitted';
+  paymentObservationState: 'payment_observed' | 'payment_missing';
+  finalityState: AssetPackSettlementFinalityReceipt['finalityState'];
+  settlementFinalizationState: 'settlement_finalized' | 'not_finalized';
+  rightsTransferState: 'rights_transferred' | 'rights_withheld';
+  deliveryState: 'source_unlocked_delivery' | 'delivery_withheld';
+  compensationRoutingState: 'compensation_routable' | 'compensation_withheld';
+  sourceUnlockAdmissible: boolean;
+  rightsTransferAdmissible: boolean;
+  compensationRoutingAdmissible: boolean;
+  serverCustody: false;
+  walletPrivateMaterialVisible: false;
+  blockerCodes: string[];
+  readbackRoot: string;
 }
 
 export interface AssetPackDeliveryUnlockReceipt {
@@ -157,6 +181,7 @@ export interface AssetPackSettlementRightsDeliveryBoundary {
   previewBoundaryRoot: string;
   paymentObservation: AssetPackSettlementPaymentObservation;
   finalityReceipt: AssetPackSettlementFinalityReceipt;
+  btcSettlementReadback: AssetPackBtcSettlementReadback;
   sourceToSharesProof: Record<string, unknown> | null;
   btdReadReceipt: Record<string, unknown> | null;
   rightsTransferReceipt: Record<string, unknown> | null;
@@ -301,7 +326,10 @@ function rangeFor(preview: AssetPackSourceSafePreview): {
 
 function paymentObservationFor(input: AssetPackSettlementRightsDeliveryInput): AssetPackSettlementPaymentObservation {
   const preview = input.previewBoundary.sourceSafePreview;
-  const expectedSats = input.previewBoundary.quoteReceipt.sats;
+  const expectedSats = numberValue(
+    input.paymentObservation?.expectedSats,
+    input.previewBoundary.quoteReceipt.sats,
+  );
   const payerWalletId =
     firstString(input.paymentObservation?.payerWalletId, input.readerWalletId, preview.feeQuote.payer) ||
     'reader-wallet-unbound';
@@ -337,16 +365,20 @@ function finalityReceiptFor(input: {
   payment: AssetPackSettlementPaymentObservation;
   finality?: Partial<AssetPackSettlementFinalityReceipt>;
 }): AssetPackSettlementFinalityReceipt {
+  const finalityState = input.finality?.finalityState || 'confirmed' as const;
   const withoutRoot = {
     schema: 'bitcode.asset-pack.settlement.finality-receipt' as const,
-    finalityState: input.finality?.finalityState || 'confirmed' as const,
-    confirmations: numberValue(input.finality?.confirmations, input.finality?.finalityState === 'broadcast' ? 0 : 6),
+    finalityState,
+    confirmations: numberValue(
+      input.finality?.confirmations,
+      finalityState === 'confirmed' ? 6 : 0,
+    ),
     blockHeight:
       typeof input.finality?.blockHeight === 'number'
         ? input.finality.blockHeight
-        : input.finality?.finalityState === 'broadcast'
-          ? null
-          : 840_000,
+        : finalityState === 'confirmed'
+          ? 840_000
+          : null,
     txid: firstString(input.finality?.txid, input.payment.txid)!,
   };
 
@@ -607,8 +639,20 @@ function stateFor(input: {
   return 'settlement_delivered';
 }
 
+function paymentMatchesQuote(input: {
+  previewBoundary: AssetPackPreviewBoundary;
+  payment: AssetPackSettlementPaymentObservation;
+}): boolean {
+  return (
+    input.payment.expectedSats === input.previewBoundary.quoteReceipt.sats &&
+    input.payment.observedDebitSats === input.previewBoundary.quoteReceipt.sats &&
+    input.payment.observedCreditSats === input.previewBoundary.quoteReceipt.sats
+  );
+}
+
 function repairPostureFor(input: {
   state: AssetPackSettlementRightsDeliveryState;
+  paymentMatchesAcceptedQuote: boolean;
   finalityConfirmed: boolean;
   sourceToSharesAdmissible: boolean;
   reconciliation: LedgerDatabaseReconciliationReport;
@@ -621,6 +665,10 @@ function repairPostureFor(input: {
   if (input.state === 'blocked_until_worthy_preview') {
     blockers.push('worthy_assetpack_preview_missing');
     nextActions.push('run_worthy_assetpack_preview');
+  }
+  if (!input.paymentMatchesAcceptedQuote) {
+    blockers.push('stale_btc_quote_or_payment_mismatch');
+    nextActions.push('refresh_stale_btc_quote', 'observe_btc_payment');
   }
   if (!input.finalityConfirmed) {
     blockers.push('btc_payment_finality_missing');
@@ -659,6 +707,72 @@ function repairPostureFor(input: {
   };
 }
 
+function btcSettlementReadbackFor(input: {
+  previewBoundary: AssetPackPreviewBoundary;
+  payment: AssetPackSettlementPaymentObservation;
+  finality: AssetPackSettlementFinalityReceipt;
+  paymentMatchesAcceptedQuote: boolean;
+  sourceToSharesAdmissible: boolean;
+  rightsTransferRoot: string | null;
+  delivery: AssetPackDeliveryUnlockReceipt;
+}): AssetPackBtcSettlementReadback {
+  const finalityConfirmed = input.finality.finalityState === 'confirmed';
+  const sourceUnlockAdmissible =
+    input.delivery.sourceBearingDeliveryVisibleToReader &&
+    finalityConfirmed &&
+    Boolean(input.rightsTransferRoot) &&
+    input.sourceToSharesAdmissible &&
+    input.paymentMatchesAcceptedQuote;
+  const blockerCodes = [
+    input.paymentMatchesAcceptedQuote ? null : 'stale_btc_quote_or_payment_mismatch',
+    finalityConfirmed ? null : 'btc_payment_finality_missing',
+    input.sourceToSharesAdmissible ? null : 'source_to_shares_conservation_failed',
+    input.rightsTransferRoot ? null : 'btd_rights_transfer_missing',
+    input.delivery.sourceBearingDeliveryVisibleToReader ? null : 'source_bearing_delivery_withheld',
+  ].filter((entry): entry is string => Boolean(entry));
+  const withoutRoot = {
+    schema: 'bitcode.asset-pack.btc-settlement-readback' as const,
+    quoteAcceptanceState: input.paymentMatchesAcceptedQuote
+      ? 'accepted' as const
+      : 'stale_quote_repair_required' as const,
+    walletReadinessState: 'wallet_ready_non_custodial' as const,
+    psbtPreparationState: 'psbt_prepared_source_safe' as const,
+    psbtSignatureState: 'psbt_signed_by_reader_wallet' as const,
+    broadcastState:
+      ['broadcast', 'observed', 'confirmed'].includes(input.finality.finalityState)
+        ? 'broadcast_submitted' as const
+        : 'not_broadcast' as const,
+    paymentObservationState:
+      input.payment.observedDebitSats > 0 && input.payment.observedCreditSats > 0
+        ? 'payment_observed' as const
+        : 'payment_missing' as const,
+    finalityState: input.finality.finalityState,
+    settlementFinalizationState:
+      finalityConfirmed && input.paymentMatchesAcceptedQuote
+        ? 'settlement_finalized' as const
+        : 'not_finalized' as const,
+    rightsTransferState: input.rightsTransferRoot ? 'rights_transferred' as const : 'rights_withheld' as const,
+    deliveryState: input.delivery.sourceBearingDeliveryVisibleToReader
+      ? 'source_unlocked_delivery' as const
+      : 'delivery_withheld' as const,
+    compensationRoutingState:
+      finalityConfirmed && input.sourceToSharesAdmissible
+        ? 'compensation_routable' as const
+        : 'compensation_withheld' as const,
+    sourceUnlockAdmissible,
+    rightsTransferAdmissible: finalityConfirmed && Boolean(input.rightsTransferRoot),
+    compensationRoutingAdmissible: finalityConfirmed && input.sourceToSharesAdmissible,
+    serverCustody: false as const,
+    walletPrivateMaterialVisible: false as const,
+    blockerCodes,
+  };
+
+  return {
+    ...withoutRoot,
+    readbackRoot: rootOf(withoutRoot),
+  };
+}
+
 function replayReceiptFor(input: {
   previewBoundary: AssetPackPreviewBoundary;
   payment: AssetPackSettlementPaymentObservation;
@@ -670,11 +784,9 @@ function replayReceiptFor(input: {
   delivery: AssetPackDeliveryUnlockReceipt;
   reconciliation: LedgerDatabaseReconciliationReport;
 }): AssetPackSettlementRightsDeliveryReplayReceipt {
+  const quoteMatches = paymentMatchesQuote(input);
   const verified = {
-    paymentMatchesQuote:
-      input.payment.expectedSats === input.previewBoundary.quoteReceipt.sats &&
-      input.payment.observedDebitSats === input.previewBoundary.quoteReceipt.sats &&
-      input.payment.observedCreditSats === input.previewBoundary.quoteReceipt.sats,
+    paymentMatchesQuote: quoteMatches,
     finalityConfirmed: input.finality.finalityState === 'confirmed',
     sourceToSharesConserved: input.sourceToSharesAdmissible,
     rightsTransferConfirmed: Boolean(input.rightsTransferRoot),
@@ -715,6 +827,7 @@ function settlementUnlockFor(input: {
   previewBoundary: AssetPackPreviewBoundary;
   payment: AssetPackSettlementPaymentObservation;
   finality: AssetPackSettlementFinalityReceipt;
+  paymentMatchesAcceptedQuote: boolean;
   sourceToSharesAdmissible: boolean;
   rightsTransferRoot: string | null;
   reconciliation: LedgerDatabaseReconciliationReport;
@@ -724,6 +837,7 @@ function settlementUnlockFor(input: {
 }): AssetPackSettlementUnlock {
   const settled =
     input.finality.finalityState === 'confirmed' &&
+    input.paymentMatchesAcceptedQuote &&
     input.sourceToSharesAdmissible &&
     Boolean(input.rightsTransferRoot) &&
     !input.reconciliation.blocking;
@@ -769,12 +883,16 @@ export function buildAssetPackSettlementRightsDeliveryBoundary(
   const payment = paymentObservationFor(input);
   const finality = finalityReceiptFor({ payment, finality: input.finality });
   const finalityConfirmed = finality.finalityState === 'confirmed';
+  const paymentMatchesAcceptedQuote = paymentMatchesQuote({ previewBoundary, payment });
   const range = rangeFor(preview);
   const readId = firstString(input.readId, preview.need.needId, preview.need.acceptanceRoot) || `read-${sha256(preview.assetPackId).slice(0, 16)}`;
   const orderId = firstString(input.orderId, `order-${sha256(`${preview.assetPackId}:${payment.paymentReceiptRoot}`).slice(0, 16)}`)!;
   const readLicenseId = firstString(input.readLicenseId, `read-license-${sha256(`${readId}:${preview.assetPackId}`).slice(0, 16)}`)!;
   const ledgerAnchorId = firstString(input.ledgerAnchorId, `ledger-anchor-${sha256(payment.paymentReceiptRoot).slice(0, 16)}`)!;
-  const pullRequestTarget = firstString(input.pullRequestTarget, preview.delivery.pullRequestTarget);
+  const pullRequestTarget =
+    input.pullRequestTarget === null
+      ? null
+      : firstString(input.pullRequestTarget, preview.delivery.pullRequestTarget);
   const findingFitsResultRoot =
     preview.fit.rankingRoot ||
     previewBoundary.selectedFitProvenance.rankingRoot ||
@@ -810,7 +928,7 @@ export function buildAssetPackSettlementRightsDeliveryBoundary(
         paymentReceiptRoot: payment.paymentReceiptRoot,
         observedDebitSats: payment.observedDebitSats,
         observedCreditSats: payment.observedCreditSats,
-        finalityState: finality.finalityState,
+        finalityState: finality.finalityState === 'observed' ? 'broadcast' : finality.finalityState,
         txid: payment.txid,
       },
       issuedAt: createdAt,
@@ -846,7 +964,7 @@ export function buildAssetPackSettlementRightsDeliveryBoundary(
   let rightsTransferRoot: string | null = null;
   let btdReadReceipt: Record<string, unknown> | null = null;
   let readReceiptRoot: string | null = null;
-  if (finalityConfirmed && sourceToSharesAdmissible && sourceToSharesProof) {
+  if (finalityConfirmed && paymentMatchesAcceptedQuote && sourceToSharesAdmissible && sourceToSharesProof) {
     try {
       const rightsReceipt = buildBtdRightsTransferReceipt({
         orderId,
@@ -936,6 +1054,7 @@ export function buildAssetPackSettlementRightsDeliveryBoundary(
     previewBoundary,
     payment,
     finality,
+    paymentMatchesAcceptedQuote,
     sourceToSharesAdmissible,
     rightsTransferRoot,
     reconciliation,
@@ -958,9 +1077,19 @@ export function buildAssetPackSettlementRightsDeliveryBoundary(
   });
   const repairPosture = repairPostureFor({
     state,
+    paymentMatchesAcceptedQuote,
     finalityConfirmed,
     sourceToSharesAdmissible,
     reconciliation,
+    delivery: deliveryUnlock,
+  });
+  const btcSettlementReadback = btcSettlementReadbackFor({
+    previewBoundary,
+    payment,
+    finality,
+    paymentMatchesAcceptedQuote,
+    sourceToSharesAdmissible,
+    rightsTransferRoot,
     delivery: deliveryUnlock,
   });
   const replayReceipt = replayReceiptFor({
@@ -977,6 +1106,7 @@ export function buildAssetPackSettlementRightsDeliveryBoundary(
   const unlocked = deliveryUnlock.sourceBearingDeliveryVisibleToReader;
   const baseStorage = [
     storageRecord('btc_payment_observation', 'asset-pack/settlement', 'paymentObservation', jsonSafe(payment), unlocked),
+    storageRecord('btc_settlement_readback', 'asset-pack/settlement', 'btcSettlementReadback', jsonSafe(btcSettlementReadback), unlocked),
     storageRecord('settlement_finality', 'asset-pack/settlement', 'finalityReceipt', jsonSafe(finality), unlocked),
     ...(sourceToSharesProof
       ? [storageRecord('source_to_shares_compensation', 'asset-pack/settlement', 'sourceToSharesProof', jsonSafe(sourceToSharesProof), unlocked)]
@@ -1026,6 +1156,7 @@ export function buildAssetPackSettlementRightsDeliveryBoundary(
     previewBoundaryRoot: previewBoundary.proofRoots.boundaryRoot,
     paymentObservation: payment,
     finalityReceipt: finality,
+    btcSettlementReadback,
     sourceToSharesProof: sourceToSharesProof ? jsonSafe(sourceToSharesProof) : null,
     btdReadReceipt,
     rightsTransferReceipt,
@@ -1062,6 +1193,7 @@ export function persistAssetPackSettlementRightsDeliveryBoundary(
     execution?.store?.('asset-pack/settlement', 'boundaryRoot', boundary.proofRoots.boundaryRoot);
     execution?.store?.('asset-pack/settlement', 'paymentObservation', boundary.paymentObservation as unknown as Record<string, unknown>);
     execution?.store?.('asset-pack/settlement', 'finalityReceipt', boundary.finalityReceipt as unknown as Record<string, unknown>);
+    execution?.store?.('asset-pack/settlement', 'btcSettlementReadback', boundary.btcSettlementReadback as unknown as Record<string, unknown>);
     execution?.store?.('asset-pack/settlement', 'sourceToSharesProof', boundary.sourceToSharesProof);
     execution?.store?.('asset-pack/settlement', 'btdReadReceipt', boundary.btdReadReceipt);
     execution?.store?.('asset-pack/settlement', 'rightsTransferReceipt', boundary.rightsTransferReceipt);

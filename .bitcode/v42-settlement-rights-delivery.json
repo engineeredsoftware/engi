@@ -551,6 +551,7 @@
     "sourceSafetyVerdict": "source-safe-v42-settlement-rights-delivery-metadata",
     "runtimeType": "AssetPackSettlementRightsDeliveryBoundary",
     "paymentType": "AssetPackSettlementPaymentObservation",
+    "btcSettlementReadbackType": "AssetPackBtcSettlementReadback",
     "finalityType": "AssetPackSettlementFinalityReceipt",
     "rightsTransferType": "BtdRightsTransferReceipt",
     "readReceiptType": "BtdReadReceipt",
@@ -583,5 +584,5 @@
     "failedPredicateIds": []
   },
   "passed": true,
-  "artifactRoot": "v42-settlement-rights-delivery:6866f71624c147178c383189"
+  "artifactRoot": "v42-settlement-rights-delivery:03357cba132e98e24c3c6b23"
 }

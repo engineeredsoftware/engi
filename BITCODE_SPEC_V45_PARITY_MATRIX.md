@@ -167,6 +167,12 @@ Acceptance:
 - Repair tests cover underpayment, stale quote, missing finality, projection drift, missing delivery, and compensation conservation failure.
 - `check:v45-gate14` passes locally and in gate-quality CI.
 
+Gate 14 implementation readback:
+
+- BTC settlement, rights, delivery, repair, and source-to-shares readback binding: `packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts`.
+- Settlement success, non-finality, stale quote, underpayment, compensation failure, projection drift, missing delivery, persistence, and source-safety coverage: `packages/pipelines/asset-pack/src/__tests__/asset-pack-settlement-rights-delivery.test.ts`.
+- Closure checker: `check:v45-gate14`.
+
 ### Gate 15: Interface Disclosure, Route Vocabulary, And Public Documentation
 
 Gate class: `interface-only`.
