@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V44` active, `V45` draft after V44 promotion);
+- active/draft canon posture (`V45` active, `V46` draft after V45 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -292,6 +292,35 @@ script support, workflow posture, package exports, and the promoted
 unpaid AssetPack source, raw prompts, provider payloads, wallet private
 material, private settlement payloads, live logs, or value-bearing mainnet
 admission.
+
+V45 Gate 17 adds `V45SourceSafeEndToEndRehearsal` through
+`packages/protocol/src/canonical/v45-source-safe-e2e-rehearsal.js`,
+`packages/protocol/test/v45-source-safe-e2e-rehearsal.test.js`,
+`.bitcode/v45-source-safe-e2e-rehearsal.json`,
+`generate:v45-source-safe-e2e-rehearsal`,
+`check:v45-source-safe-e2e-rehearsal`, `rehearse:v45-source-safe-e2e`, and
+`check:v45-gate17`. It binds source-safe local deterministic,
+staging-testnet credentialed, and value-bearing mainnet-blocked rehearsal
+lanes across deposit option synthesis, Depository admission, request Read,
+review synthesized Need, request Finding Fits, preview, quote readiness, BTC
+observation and rights delivery posture, source-to-shares compensation,
+ledger/database/storage readback, browser receipt posture, and repair-state
+behavior. Missing or contradictory evidence returns repair state rather than
+success, and all source-bearing, prompt-bearing, provider, credential, wallet,
+private settlement, live-log, and value-bearing mainnet payload classes remain
+withheld.
+
+V45 Gate 18 adds `V45PromotionReadinessReport` through
+`packages/protocol/src/canonical/v45-promotion-readiness-report.js`,
+`packages/protocol/test/v45-promotion-readiness.test.js`,
+`.bitcode/v45-promotion-readiness-report.json`,
+`generate:v45-promotion-readiness`, `check:v45-promotion-readiness`, and
+`check:v45-gate18`. It binds V45 proof-family artifacts, source-safe rehearsal,
+draft `BITCODE_SPEC_V45_PROVEN.md` generation support,
+`v45-canon-promotion.yml`, promotion dry-run support, workflow posture, package
+exports, and `V45` active, `V46` draft runtime preparation while preserving the
+same source, prompt, provider, credential, wallet-private, private-settlement,
+live-log, and value-bearing mainnet exclusions.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

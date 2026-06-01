@@ -42,7 +42,7 @@ export const V40_LEDGER_STORAGE_SYNC_EXPECTED_TOTALS = Object.freeze({
   rowCount: 10,
   synchronizationSurfaceCount: 6,
   failClosedStateCount: 4,
-  storageRecordKindCount: 9,
+  storageRecordKindCount: 10,
   requiredReadbackCount: 5,
   walletAuthorityBoundaryCount: 4,
   deliveryUnlockConditionCount: 5,
@@ -114,6 +114,19 @@ function sourceExists(repoRoot, sourcePath) {
 
 function predicateResult(id, sourcePath, passed) {
   return { id, sourcePath, passed: Boolean(passed) };
+}
+
+function settlementFinalityTestsCovered(boundaryTest) {
+  return (
+    boundaryTest.includes('fails closed until BTC finality is confirmed') ||
+    (
+      boundaryTest.includes('fails closed for %s BTC state before finality') &&
+      boundaryTest.includes("'prepared'") &&
+      boundaryTest.includes("'signed'") &&
+      boundaryTest.includes("'broadcast'") &&
+      boundaryTest.includes("'observed'")
+    )
+  ) && boundaryTest.includes('blocked_until_payment_finality');
 }
 
 function sourceContainsExactHttpsUrl(source, expectedUrl) {
@@ -343,7 +356,7 @@ function buildPredicateResults(repoRoot) {
       'settlement-fail-closed-tests-covered',
       SOURCE_ROOTS.settlementBoundaryTest,
       sources.settlementBoundaryTest.includes('fails closed when BTC payment is underpaid') &&
-        sources.settlementBoundaryTest.includes('fails closed until BTC finality is confirmed') &&
+        settlementFinalityTestsCovered(sources.settlementBoundaryTest) &&
         sources.settlementBoundaryTest.includes('withholds delivery when ledger, database, or object storage projections drift'),
     ),
     predicateResult(

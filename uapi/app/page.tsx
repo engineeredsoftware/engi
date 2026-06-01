@@ -8,7 +8,7 @@ import { buildAuxillariesRoutePath } from './auxillaries/components/auxillary-pa
 export const metadata: Metadata = {
   title: 'Bitcode',
   description:
-    'Bitcode public home for Source Shares, measured technical intelligence, Exchange, Terminal, and docs.',
+    'Bitcode public home for AssetPacks, BTD scalar volume and rights, BTC settlement, proof readback, /deposit, /read, /packs, and docs.',
   alternates: {
     canonical: '/',
   },

@@ -44,6 +44,10 @@ import {
   persistReadingInterfaceProductParity,
 } from './reading-interface-product-parity';
 import {
+  buildInterfaceDisclosureBoundary,
+  persistInterfaceDisclosureBoundary,
+} from './interface-disclosure-boundary';
+import {
   buildReadingLocalStagingRehearsal,
   persistReadingLocalStagingRehearsal,
 } from './reading-local-staging-rehearsal';
@@ -246,6 +250,11 @@ function factoryPreprocess(): Executor<any, any> {
       processedInput.readingInterfaceProductParity = interfaceParity;
       processedInput.readingInterfaceParityRows = interfaceParity.rows;
       processedInput.readingInterfaceNoBypassReadback = interfaceParity.noBypassReadback;
+      const interfaceDisclosureBoundary = buildInterfaceDisclosureBoundary();
+      persistInterfaceDisclosureBoundary(execution, interfaceDisclosureBoundary);
+      persistInterfaceDisclosureBoundary(execution.parent as any, interfaceDisclosureBoundary);
+      processedInput.interfaceDisclosureBoundary = interfaceDisclosureBoundary;
+      processedInput.interfaceDisclosureBoundaryRows = interfaceDisclosureBoundary.rows;
       const localStagingRehearsal = buildReadingLocalStagingRehearsal({
         runId: String(execution.id || processedInput?.transactionId || processedInput?.id || ''),
         readNeedRuntime:
@@ -438,12 +447,15 @@ export * from './asset-pack-preview-boundary';
 export * from './asset-pack-settlement-rights-delivery';
 export * from './reading-operational-telemetry-repair-readback';
 export * from './reading-interface-product-parity';
+export * from './interface-disclosure-boundary';
 export * from './reading-local-staging-rehearsal';
 export * from './deposit-asset-pack-options';
 export * from './deposit-asset-pack-option-policy';
 export * from './deposit-asset-pack-option-admission';
 export * from './depositor-earning-supply-intelligence';
 export * from './btd-btc-compensation-statements';
+export * from './asset-pack-commodity-state';
+export * from './btd-scalar-volume-quote';
 export * from './organization-policy-wallet-authority';
 export * from './embedding-config';
 export * from './asset-pack-disclosure';

@@ -517,6 +517,21 @@ function buildV21LikeProfile(version) {
           '.bitcode/v44-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V45'
+        ? [
+          '.bitcode/v45-inference-synthesis-proof.json',
+          '.bitcode/v45-prompt-completeness-proof.json',
+          '.bitcode/v45-static-code-analysis-proof.json',
+          '.bitcode/v45-verification-decisions-proof.json',
+          '.bitcode/v45-selection-materialization-proof.json',
+          '.bitcode/v45-authorization-sensitive-flow-proof.json',
+          '.bitcode/v45-settlement-source-to-shares-proof.json',
+          '.bitcode/v45-disclosure-boundary-proof.json',
+          '.bitcode/v45-proof-contract-proof.json',
+          '.bitcode/v45-source-safe-e2e-rehearsal.json',
+          '.bitcode/v45-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
@@ -1256,6 +1271,96 @@ function recordFailure(failures, condition, message) {
 }
 
 /**
+ * @param {string} text
+ * @param {string[]} terms
+ * @param {number} maxSpan
+ * @returns {boolean}
+ */
+function includesOrderedTermsWithin(text, terms, maxSpan) {
+  const normalizedText = String(text).toLowerCase();
+  let firstIndex = -1;
+  let searchStart = 0;
+
+  for (const term of terms) {
+    const normalizedTerm = String(term).toLowerCase();
+    const termIndex = normalizedText.indexOf(normalizedTerm, searchStart);
+    if (termIndex < 0) return false;
+    if (firstIndex < 0) firstIndex = termIndex;
+    searchStart = termIndex + normalizedTerm.length;
+  }
+
+  return firstIndex >= 0 && searchStart - firstIndex <= maxSpan;
+}
+
+/**
+ * @param {string} section
+ * @param {string} version
+ * @returns {boolean}
+ */
+function containsStalePointerWhileVersionDraft(section, version) {
+  const text = String(section);
+  const normalizedText = text.toLowerCase();
+  const pointerIndex = normalizedText.indexOf('bitcode_spec.txt');
+  if (pointerIndex < 0) return false;
+
+  const pointsToIndex = normalizedText.indexOf('points to', pointerIndex);
+  if (pointsToIndex < 0) return false;
+
+  const pointedVersionMatch = /\bV\d+\b/iu.exec(text.slice(pointsToIndex));
+  if (!pointedVersionMatch) return false;
+
+  const pointedVersionIndex = pointsToIndex + pointedVersionMatch.index;
+  const whileIndex = normalizedText.indexOf('while', pointedVersionIndex + pointedVersionMatch[0].length);
+  if (whileIndex < 0) return false;
+
+  const versionIndex = normalizedText.indexOf(String(version).toLowerCase(), whileIndex);
+  if (versionIndex < 0) return false;
+
+  const draftIndex = normalizedText.indexOf('draft', versionIndex + String(version).length);
+  return draftIndex >= 0 && draftIndex - pointerIndex <= 500;
+}
+
+/**
+ * @param {string[]} failures
+ * @param {string} section
+ * @param {string} version
+ */
+function validatePromotedSourceOfTruthHierarchy(failures, section, version) {
+  if (versionNumber(version) < 44) return;
+
+  recordFailure(
+    failures,
+    section.length > 0,
+    `spec promoted-mode validation requires a ${version} source-of-truth hierarchy section.`
+  );
+
+  recordFailure(
+    failures,
+    section.includes('BITCODE_SPEC.txt') && section.includes(`points to \`${version}\``),
+    `spec promoted source-of-truth hierarchy must state BITCODE_SPEC.txt points to ${version}.`
+  );
+
+  recordFailure(
+    failures,
+    /\bactive\b[\s\S]{0,80}\bcanon\b/i.test(section),
+    `spec promoted source-of-truth hierarchy must state ${version} is active canon.`
+  );
+
+  const staleDraftPostureFound =
+    containsStalePointerWhileVersionDraft(section, version) ||
+    includesOrderedTermsWithin(section, [version, 'is', 'draft'], 180) ||
+    includesOrderedTermsWithin(section, [version, 'remains', 'draft'], 180) ||
+    includesOrderedTermsWithin(section, [version, 'draft target only'], 240) ||
+    includesOrderedTermsWithin(section, ['define', 'the draft target only', version], 240);
+
+  recordFailure(
+    failures,
+    !staleDraftPostureFound,
+    `spec promoted source-of-truth hierarchy still contains stale draft posture for ${version}.`
+  );
+}
+
+/**
  * @param {{
  *   repoRoot?: string,
  *   version?: string,
@@ -1367,6 +1472,14 @@ export function buildV21SpecFamilyReport({
   }
 
   const specContent = contents['spec'] || '';
+  if (mode === 'promoted') {
+    validatePromotedSourceOfTruthHierarchy(
+      failures,
+      extractSection(specContent, 'source-of-truth hierarchy'),
+      version
+    );
+  }
+
   for (const phrase of profile.requiredSpecSections) {
     recordFailure(failures, hasSection(specContent, phrase), `spec is missing required section containing "${phrase}".`);
   }
@@ -1629,6 +1742,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   }
   if (currentTarget === 'V44') {
     artifacts.push(...buildV21LikeProfile('V44').requiredGeneratedArtifactPaths);
+  }
+  if (currentTarget === 'V45') {
+    artifacts.push(...buildV21LikeProfile('V45').requiredGeneratedArtifactPaths);
   }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }

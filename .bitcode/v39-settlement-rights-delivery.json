@@ -464,6 +464,7 @@
     "sourceSafetyVerdict": "source-safe-settlement-rights-delivery",
     "runtimeType": "AssetPackSettlementRightsDeliveryBoundary",
     "paymentType": "AssetPackSettlementPaymentObservation",
+    "btcSettlementReadbackType": "AssetPackBtcSettlementReadback",
     "finalityType": "AssetPackSettlementFinalityReceipt",
     "rightsTransferType": "BtdRightsTransferReceipt",
     "readReceiptType": "BtdReadReceipt",
@@ -473,6 +474,7 @@
     "replayType": "AssetPackSettlementRightsDeliveryReplayReceipt",
     "storageRecordKinds": [
       "btc_payment_observation",
+      "btc_settlement_readback",
       "settlement_finality",
       "source_to_shares_compensation",
       "btd_read_receipt",
@@ -506,5 +508,5 @@
     "failedPredicateIds": []
   },
   "passed": true,
-  "artifactRoot": "v39-settlement-rights-delivery:ef0207da866bfb8375772f46"
+  "artifactRoot": "v39-settlement-rights-delivery:ac368ea9dcc45bda1c5ef73d"
 }

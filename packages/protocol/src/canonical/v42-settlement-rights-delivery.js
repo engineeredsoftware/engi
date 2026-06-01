@@ -92,6 +92,19 @@ function predicateResult(id, sourcePath, passed) {
   return { id, sourcePath, passed: Boolean(passed) };
 }
 
+function settlementFinalityTestsCovered(boundaryTest) {
+  return (
+    boundaryTest.includes('fails closed until BTC finality is confirmed') ||
+    (
+      boundaryTest.includes('fails closed for %s BTC state before finality') &&
+      boundaryTest.includes("'prepared'") &&
+      boundaryTest.includes("'signed'") &&
+      boundaryTest.includes("'broadcast'") &&
+      boundaryTest.includes("'observed'")
+    )
+  ) && boundaryTest.includes('blocked_until_payment_finality');
+}
+
 function row(input) {
   return {
     ...input,
@@ -213,7 +226,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('boundary-source-safety', SOURCE_ROOTS.boundary, sources.boundary.includes('source_safe_settlement_rights_delivery_boundary') && sources.boundary.includes('walletPrivateMaterialVisible: false')),
     predicateResult('tests-cover-confirmed-delivery', SOURCE_ROOTS.boundaryTest, sources.boundaryTest.includes('unlocks BTD rights') && sources.boundaryTest.includes('settlement_delivered')),
     predicateResult('tests-cover-underpayment', SOURCE_ROOTS.boundaryTest, sources.boundaryTest.includes('fails closed when BTC payment is underpaid') && sources.boundaryTest.includes('blocked_until_compensation_conservation')),
-    predicateResult('tests-cover-finality', SOURCE_ROOTS.boundaryTest, sources.boundaryTest.includes('fails closed until BTC finality is confirmed') && sources.boundaryTest.includes('blocked_until_payment_finality')),
+    predicateResult('tests-cover-finality', SOURCE_ROOTS.boundaryTest, settlementFinalityTestsCovered(sources.boundaryTest)),
     predicateResult('tests-cover-reconciliation-drift', SOURCE_ROOTS.boundaryTest, sources.boundaryTest.includes('ledger, database, or object storage projections drift') && sources.boundaryTest.includes('blocked_until_projection_repair')),
     predicateResult('host-materializes-boundary', SOURCE_ROOTS.pipelineHostHarness, sources.pipelineHostHarness.includes('buildAssetPackSettlementRightsDeliveryBoundary') && sources.pipelineHostHarness.includes('assetPackSettlementRightsDeliveryBoundary')),
     predicateResult('host-test-covers-boundary', SOURCE_ROOTS.pipelineHostHarnessTest, sources.pipelineHostHarnessTest.includes('buildAssetPackSettlementRightsDeliveryBoundary') && sources.pipelineHostHarnessTest.includes('assetPackSettlementRightsDeliveryBoundary')),
@@ -241,6 +254,7 @@ function buildCoverage(rows, predicateResults) {
     sourceSafetyVerdict: V42_SETTLEMENT_RIGHTS_DELIVERY_SOURCE_SAFETY_VERDICT,
     runtimeType: 'AssetPackSettlementRightsDeliveryBoundary',
     paymentType: 'AssetPackSettlementPaymentObservation',
+    btcSettlementReadbackType: 'AssetPackBtcSettlementReadback',
     finalityType: 'AssetPackSettlementFinalityReceipt',
     rightsTransferType: 'BtdRightsTransferReceipt',
     readReceiptType: 'BtdReadReceipt',

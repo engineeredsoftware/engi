@@ -1,13 +1,13 @@
 export const BITCODE_PUBLIC_COPY = {
-  eyebrow: 'Source Shares for measured technical intelligence',
+  eyebrow: 'AssetPacks for measured technical intelligence',
   headline: 'Bitcode is auditable market infrastructure for technical knowledge.',
   description:
-    'Bitcode turns code, docs, diagrams, and technical context into Source Shares: tradable, measured intelligence. Contributors deposit source, demand measures value, and proof-backed settlement can allocate $BTD to the people and rights behind useful work.',
+    'Bitcode turns code, docs, diagrams, and technical context into source-safe AssetPack commodities. BTD records scalar knowledge volume and rights, BTC settles value transfer, and proof readback keeps deposit, Reading, delivery, and compensation auditable.',
   capabilityChips: [
-    'SOURCE SHARES',
-    'TERMINAL',
+    'ASSETPACKS',
+    'BTD VOLUME',
+    'BTC SETTLEMENT',
     'DOCS',
-    'MOCKED TERMINAL',
   ],
   primaryCta: {
     href: '/read',
@@ -22,33 +22,33 @@ export const BITCODE_PUBLIC_COPY = {
       {
         id: 'april-2026',
         tab: 'April',
-        title: '$BTD: Shares of Source Technical Knowledge',
+        title: '$BTD: Scalar Volume And Rights For Technical Knowledge',
         meta: 'April 2026 * Garrett Maring',
         body:
-          "April launched the Bitcode Protocol. It is available at our open-source repository which includes a commercially-ready whole-system specification (auditable, reproducible). The website now includes the first pieces of the $BTD Terminal along with documentation on the internals and interfaces of the ecosystem.",
-        highlights: ['$BTD', 'Bitcode Protocol', 'Terminal'],
+          "April launched the Bitcode Protocol. It is available at our open-source repository with auditable, reproducible specification. The website now centers Packs, Deposit, Read, and proof-backed docs for AssetPack commerce.",
+        highlights: ['$BTD', 'Bitcode Protocol', 'AssetPacks'],
       },
       {
         id: 'march-2026',
         tab: 'March',
-        title: "Bitcode's source-to-shares protocol, now",
+        title: "Bitcode's source-to-AssetPack protocol, now",
         meta: 'March 2026 * Garrett Maring',
         body:
-          "$BTD's purpose is to hoard valuable technical information and compensate contributors fairly. Provable knowledge measuring algorithms build the foundations for collection and issuance. Ideal long-term partnerships for asset management and infrastructure will be finalized to empower the secure and thriving future of $BTD.",
-        highlights: ['$BTD'],
+          "$BTD's purpose is to measure technical knowledge volume and rights while BTC settlement compensates contributors fairly. Provable knowledge measuring algorithms build the foundation for source-safe AssetPack deposit, Reading, settlement, and delivery.",
+        highlights: ['$BTD', 'BTC settlement'],
       },
     ],
   },
   terminalPreview: {
     pill: 'Packs',
-    kicker: 'Terminal preview',
+    kicker: 'Activity preview',
     rail: ['deposit', 'read', 'settle'],
   },
   operatorFrame: {
-    title: 'Bitcode Terminal',
-    subtitle: 'proofs, conversations, and auxillaries around one flow',
+    title: 'Bitcode Reading',
+    subtitle: 'deposit, read, proof, settlement, and delivery around one flow',
     badge: 'full detail',
-    modes: ['Proofs', 'Conversations', 'Auxillaries', 'Deposit + Read'],
+    modes: ['Packs', 'Deposit', 'Read', 'Proofs'],
   },
   giveContribution: {
     title: 'Pack supply',
@@ -74,7 +74,7 @@ export const BITCODE_PUBLIC_COPY = {
       network: 'Packs',
       deposit: 'Deposit',
       read: 'Read',
-      transactions: 'Terminal',
+      transactions: 'Packs',
       docs: 'Docs',
       github: 'Bitcode on GitHub',
     },
@@ -84,7 +84,6 @@ export const BITCODE_PUBLIC_COPY = {
       { href: '/packs', label: 'Packs' },
       { href: '/deposit', label: 'Deposit' },
       { href: '/read', label: 'Read' },
-      { href: '/terminal', label: 'Terminal' },
       { href: '/docs', label: 'Docs' },
     ],
     guestPrimaryCta: 'Open Auxillaries',
@@ -92,18 +91,18 @@ export const BITCODE_PUBLIC_COPY = {
   },
   guideRoute: {
     eyebrow: 'Bitcode docs',
-    heading: 'Learn Bitcode from Source Shares to proof.',
+    heading: 'Learn Bitcode from AssetPacks to proof.',
     body:
-      'Docs teaches the complete system in user order: Source Shares, Exchange, Terminal, proofs, settlement, Auxillaries, MCP/API, ChatGPT App, and connected interfaces.',
+      'Docs teaches the complete system in user order: AssetPacks, BTD scalar volume and rights, BTC settlement money, proof readback authority, /deposit, /read, /packs, MCP/API, ChatGPT App, Bitcode Chat, and connected interfaces.',
     checkingVideoTitle: 'Recorded walkthrough',
     checkingVideoBody:
       'Checking the recorded Bitcode walkthrough for inline playback inside the docs.',
     cardTitle: 'Recorded operator walkthrough',
     cardBody:
-      'Use the walkthrough when you want the Bitcode flow narrated before you move into the Bitcode Terminal.',
+      'Use the walkthrough when you want the Bitcode flow narrated before you move into Deposit, Read, and Packs.',
     missingVideoTitle: 'Walkthrough',
     missingVideoBody:
-      'The recorded walkthrough is being refreshed. Use the docs panels and the Bitcode Terminal while the next capture is published.',
-    missingVideoCta: 'Open Bitcode Terminal',
+      'The recorded walkthrough is being refreshed. Use the docs panels and the Packs activity route while the next capture is published.',
+    missingVideoCta: 'Open Packs',
   },
 } as const;

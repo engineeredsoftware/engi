@@ -11,7 +11,7 @@
     "rowCount": 10,
     "synchronizationSurfaceCount": 6,
     "failClosedStateCount": 4,
-    "storageRecordKindCount": 9,
+    "storageRecordKindCount": 10,
     "requiredReadbackCount": 5,
     "walletAuthorityBoundaryCount": 4,
     "deliveryUnlockConditionCount": 5
@@ -595,7 +595,7 @@
       "rowCount": 10,
       "synchronizationSurfaceCount": 6,
       "failClosedStateCount": 4,
-      "storageRecordKindCount": 9,
+      "storageRecordKindCount": 10,
       "requiredReadbackCount": 5,
       "walletAuthorityBoundaryCount": 4,
       "deliveryUnlockConditionCount": 5
@@ -619,8 +619,8 @@
   "proofRoots": {
     "rowSetRoot": "sha256:bb6d02003baa62525f760c53",
     "predicateRoot": "sha256:f4ca6728fac60849d7140424",
-    "coverageRoot": "sha256:3b6c32dec61478478438ef74",
-    "artifactRoot": "sha256:84e6aae8d9795dcb9dd757a1"
+    "coverageRoot": "sha256:a15ad35380e94dcf91814adc",
+    "artifactRoot": "sha256:a68d8a8ea5ff7c19827537d5"
   },
   "sourceSafety": {
     "sourceSafeMetadataOnly": true,
