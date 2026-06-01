@@ -403,6 +403,21 @@ posture while continuing to withhold protected source, unpaid AssetPack source,
 raw prompts, provider payloads, credentials, wallet private material, private
 settlement payloads, live rehearsal logs, and value-bearing mainnet operation.
 
+V45 Gate 17 adds the source-safe end-to-end rehearsal closure artifact:
+`V45SourceSafeEndToEndRehearsal`,
+`.bitcode/v45-source-safe-e2e-rehearsal.json`,
+`generate:v45-source-safe-e2e-rehearsal`,
+`check:v45-source-safe-e2e-rehearsal`, `rehearse:v45-source-safe-e2e`, and
+`check:v45-gate17`. It rehearses depositing, Reading, Finding Fits, source-safe
+preview, deterministic quote readiness, BTC observation posture, BTD
+rights-delivery posture, source-to-shares compensation posture,
+ledger/database/storage readback, browser receipt posture, and repair receipts
+across local deterministic, staging-testnet credentialed, and value-bearing
+mainnet-blocked lanes while withholding protected source, raw source text,
+unpaid AssetPack source, raw or interpolated prompts, provider payloads,
+credentials, wallet private material, private settlement payloads, live logs,
+and value-bearing mainnet admission.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

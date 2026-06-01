@@ -28,7 +28,7 @@
   "requiredAppendixSectionCount": 14,
   "requiredProofFamilyCount": 9,
   "requiredGeneratedArtifactCatalogSectionCount": 9,
-  "requiredGeneratedArtifactPathCount": 11,
+  "requiredGeneratedArtifactPathCount": 12,
   "requiredNotesSectionCount": 4,
   "requiredSubsystemCoverageCount": 18
 }

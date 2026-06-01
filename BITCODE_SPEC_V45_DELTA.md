@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, V45 notes atom checkers, V45 formal-spec consolidation checker, and draft `BITCODE_SPEC_V45_PROVEN.md`
+- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, V45 notes atom checkers, V45 formal-spec consolidation checker, and draft `BITCODE_SPEC_V45_PROVEN.md`
 - Source parity state: V45 delta records formal protocol-law changes only; implementation parity is pending the next gate and V44 source remains active canon
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V45.md`

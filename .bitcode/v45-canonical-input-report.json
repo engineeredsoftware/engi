@@ -25,7 +25,8 @@
     ".bitcode/v45-authorization-sensitive-flow-proof.json",
     ".bitcode/v45-settlement-source-to-shares-proof.json",
     ".bitcode/v45-disclosure-boundary-proof.json",
-    ".bitcode/v45-proof-contract-proof.json"
+    ".bitcode/v45-proof-contract-proof.json",
+    ".bitcode/v45-source-safe-e2e-rehearsal.json"
   ],
-  "requiredGeneratedArtifactCount": 11
+  "requiredGeneratedArtifactCount": 12
 }

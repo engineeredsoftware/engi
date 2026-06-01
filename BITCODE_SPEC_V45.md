@@ -7,7 +7,7 @@
 - Current canonical/latest target: `V44`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, V45 notes atom checkers, V45 formal-spec consolidation checker, and draft `BITCODE_SPEC_V45_PROVEN.md`; V44 generated artifacts remain active canonical proof until V45 promotion
+- Generated structured artifact inventory: draft `.bitcode/v45-spec-family-report.json`, draft `.bitcode/v45-canonical-input-report.json`, V45 proof-family artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, V45 notes atom checkers, V45 formal-spec consolidation checker, and draft `BITCODE_SPEC_V45_PROVEN.md`; V44 generated artifacts remain active canonical proof until V45 promotion
 - Source parity state: V45 protocol law is formally consolidated for later parity audit; implementation parity is not yet audited, grouped implementation gates are not yet authorized, and V44 source remains the active implementation canon
 - Notes companion: `BITCODE_SPEC_V45_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V45_DELTA.md`
@@ -625,9 +625,9 @@ human inspection remain aligned.
 
 ## V45 generated canon
 
-V45 draft generated canon starts with spec-family, canonical-input, and
-proof-family artifacts. Promotion-grade generated proof expands again after
-rehearsal and promotion-readiness gates close.
+V45 draft generated canon starts with spec-family, canonical-input,
+proof-family, and source-safe end-to-end rehearsal artifacts. Promotion-grade
+generated proof expands again after promotion-readiness gates close.
 
 ### Inherited V19 reproducible-canon artifacts
 
@@ -656,14 +656,16 @@ and quality summary.
 | `.bitcode/v45-settlement-source-to-shares-proof.json` | settlement and allocation proof-family artifact | draft required |
 | `.bitcode/v45-disclosure-boundary-proof.json` | disclosure-boundary proof-family artifact | draft required |
 | `.bitcode/v45-proof-contract-proof.json` | proof-contract proof-family artifact | draft required |
+| `.bitcode/v45-source-safe-e2e-rehearsal.json` | source-safe end-to-end rehearsal artifact | draft required |
 | `BITCODE_SPEC_V45_PROVEN.md` | generated proof appendix | draft required |
 
 ### V45 specifying generated artifacts
 
 V45 specifying generated artifacts must include `.bitcode/v45-spec-family-report.json`,
 `.bitcode/v45-canonical-input-report.json`, all nine V45 proof-family
-artifacts, and draft `BITCODE_SPEC_V45_PROVEN.md`; promotion readiness adds
-promotion-specific generated proof outputs only when its gate closes.
+artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, and draft
+`BITCODE_SPEC_V45_PROVEN.md`; promotion readiness adds promotion-specific
+generated proof outputs only when its gate closes.
 
 ### Shared generated-artifact fields
 
@@ -783,8 +785,9 @@ Generated artifacts must be deterministic, source-safe by default, explicit
 about confidentiality, and fail closed when proof roots or readback evidence
 are missing. The draft generated artifacts are `.bitcode/v45-spec-family-report.json`,
 `.bitcode/v45-canonical-input-report.json`, all nine V45 proof-family
-artifacts, and `BITCODE_SPEC_V45_PROVEN.md`; promotion later renders
-promotion-readiness proof outputs.
+artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`, and
+`BITCODE_SPEC_V45_PROVEN.md`; promotion later renders promotion-readiness proof
+outputs.
 
 ### Minimum generated appendix rendered contents
 
@@ -863,6 +866,8 @@ wallet custody drift, or delivery mismatch.
 Source-bearing AssetPack artifacts include `.bitcode/asset-pack.lock.json`,
 `.bitcode/selected-source-material.json`, `.bitcode/verification-report.json`,
 `.bitcode/source-to-shares.json`, `.bitcode/projection-policy.json`,
-`.bitcode/system-proof-bundle.json`, and `BITCODE_SPEC_V45_PROVEN.md`. V45
-requires protected source custody, source-safe preview, entitlement-based
-unlock, and repository delivery receipt before Reader-visible source.
+`.bitcode/system-proof-bundle.json`,
+`.bitcode/v45-source-safe-e2e-rehearsal.json`, and
+`BITCODE_SPEC_V45_PROVEN.md`. V45 requires protected source custody,
+source-safe preview, entitlement-based unlock, and repository delivery receipt
+before Reader-visible source.

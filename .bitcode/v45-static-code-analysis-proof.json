@@ -229,8 +229,8 @@
     {
       "relativePath": "package.json",
       "present": true,
-      "digest": "sha256:d4bb07775aee6f3da57f6c4a6df6f50b60dbbdfa581a9375695f5e3ae3ae5aaa",
-      "byteLength": 49460,
+      "digest": "sha256:bbe0a177cc18f80d7d7f534abdfdb45235b3e70e4a2fd9bf64c9c73404ae0167",
+      "byteLength": 49847,
       "sourceSafeDigestOnly": true,
       "forbiddenMarkerDetected": false,
       "requiredTokens": [
@@ -251,8 +251,8 @@
     {
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "present": true,
-      "digest": "sha256:8dfab19a948bf6c461b8ef8038c08dfb5f6a5327038f9d4fa1ca22e10da43232",
-      "byteLength": 63909,
+      "digest": "sha256:dfbf1ed071acf8a2fe3d0a13b675ea82f9a4b1ff16c56070b3692669c05c4367",
+      "byteLength": 64453,
       "sourceSafeDigestOnly": true,
       "forbiddenMarkerDetected": false,
       "requiredTokens": [
@@ -273,8 +273,8 @@
     {
       "relativePath": ".github/workflows/bitcode-canon-quality.yml",
       "present": true,
-      "digest": "sha256:35c74b5785d9ca921a7c68360288dfff6a2d21eb7bcb9db7141a1dba6d4ef376",
-      "byteLength": 36989,
+      "digest": "sha256:ac511505b6c67fd6dc576982baf78ea2892bc93a9c21ee5c5de4097c3e70b0d2",
+      "byteLength": 37251,
       "sourceSafeDigestOnly": true,
       "forbiddenMarkerDetected": false,
       "requiredTokens": [
@@ -317,14 +317,14 @@
   ],
   "inputRoots": {
     "specRoot": "sha256:459a22a0a611b889bbeaa114ec23c134d23026a3131b0fc397e3e7a6e1dc0c3f",
-    "sourceEvidenceRoot": "sha256:9f2781748314f87aae38f5ea4bc8752cde908aa6a87b6cd47b05b623cb312f1f",
+    "sourceEvidenceRoot": "sha256:3cdf7ce43829972e82ff6fb0e069eb2cd100feb65a1087568f21a4a20401ccb5",
     "witnessArtifactRoot": "sha256:3b69e486b0b4e84b467c5a6cc6d98f2551bf167ccb1895d4191bed5682a5e337"
   },
   "artifactRoots": {
     "proofFamilyInventoryRoot": "sha256:abd207ab28e5c1ff3ca592cc53773fcc900aa50b6b66accd8ef69f608253a8a3",
     "replayBindingRoot": "sha256:be2f119bb8ebd7aa4d6ccd74f78ee9e90b6d9c0928901d78226f6a2918504211"
   },
-  "artifactRoot": "v45-static-code-analysis-proof:44a6ab31382b12d2d861c49b",
+  "artifactRoot": "v45-static-code-analysis-proof:d58bba0f33b9c0933799bac9",
   "minimumArtifactReplayBindingSet": [
     "file path",
     "command",
