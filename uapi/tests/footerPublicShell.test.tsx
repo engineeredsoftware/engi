@@ -63,10 +63,6 @@ describe('Footer public shell', () => {
       'href',
       '/read',
     );
-    expect(screen.getByRole('link', { name: 'Terminal' })).toHaveAttribute(
-      'href',
-      '/terminal',
-    );
     expect(screen.getByRole('link', { name: 'Docs' })).toHaveAttribute(
       'href',
       '/docs',
@@ -78,12 +74,10 @@ describe('Footer public shell', () => {
     expect(screen.getByRole('button', { name: 'Explain Packs' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Deposit' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Read' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Explain Terminal' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Explain Docs' })).toBeInTheDocument();
     expect(screen.getByText('Pack activity')).toBeInTheDocument();
     expect(screen.getByText('Depositing flow')).toBeInTheDocument();
     expect(screen.getByText('Reading flow')).toBeInTheDocument();
-    expect(screen.getAllByText('Terminal').length).toBeGreaterThan(0);
     expect(screen.getByText('Docs hub')).toBeInTheDocument();
     expect(screen.getAllByText('Deposit').length).toBeGreaterThan(0);
     expect(screen.getAllByText('Read').length).toBeGreaterThan(0);

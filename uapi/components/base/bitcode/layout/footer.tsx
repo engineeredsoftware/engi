@@ -22,7 +22,6 @@ import { BITCODE_PUBLIC_EXPLAINERS } from '@/components/base/bitcode/layout/bitc
 import { DisabledTooltipWrapper } from '@/components/base/bitcode/overlays/disabled-tooltip-wrapper';
 import { BITCODE_GITHUB_APP_PUBLIC_URL } from '@/lib/github-app-url';
 
-const TERMINAL_URL = '/terminal';
 const PACKS_URL = '/packs';
 const DEPOSIT_URL = '/deposit';
 const READ_URL = '/read';
@@ -32,9 +31,7 @@ const CURRENT_PROTOCOL_SPEC_URL = 'https://github.com/engineeredsoftware/ENGI/bl
 const BITCODE_REPOSITORY_URL = 'https://github.com/engineeredsoftware/bitcode';
 const DISABLED_FEATURE_TOOLTIPS = {
   packs:
-    'Disabled for launch mode. When enabled, Packs opens the public Source Shares activity and pack-reading surface.',
-  terminal:
-    'Disabled for launch mode. When enabled, Terminal opens the full deposit-to-settle ledger, proofs, and history workspace.',
+    'Disabled for launch mode. When enabled, Packs opens the public activity and pack-reading surface.',
   auxillaries:
     'Disabled for launch mode. When enabled, Auxillaries opens profile, connects, interface defaults, and $BTD posture.',
 } as const;
@@ -215,37 +212,6 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
       ),
     },
     {
-      ariaLabel: BITCODE_PUBLIC_COPY.footer.links.transactions,
-      label: BITCODE_PUBLIC_COPY.footer.links.transactions,
-      meta: 'Terminal',
-      href: TERMINAL_URL,
-      explainer: BITCODE_PUBLIC_EXPLAINERS.transactions,
-      icon: (
-        <span
-          className="inline-flex items-center justify-center"
-          style={{
-            filter: 'drop-shadow(0 0 6px rgba(16,185,129,0.66)) drop-shadow(0 0 15px rgba(16,185,129,0.33))',
-          }}
-        >
-          <svg
-            viewBox="0 0 24 24"
-            aria-hidden="true"
-            className="h-[15px] w-[15px] text-emerald-300"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="3.5" y="4.5" width="17" height="15" rx="2.5" />
-            <path d="M8 9h8" />
-            <path d="M8 13h5" />
-            <circle cx="16.5" cy="13.5" r="1.5" fill="currentColor" stroke="none" />
-          </svg>
-        </span>
-      ),
-    },
-    {
       ariaLabel: 'Docs',
       label: BITCODE_PUBLIC_COPY.footer.links.docs,
       meta: 'Docs hub',
@@ -301,7 +267,6 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
   const isExternalHref = (href: string) => href.startsWith('http');
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
   const disablePacksLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
-  const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
 
   return (
     <>
@@ -436,9 +401,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
             <div className="flex w-full flex-col gap-4 tablet:gap-5">
               <div className="grid w-full grid-cols-1 gap-2 phone:grid-cols-2 laptop:grid-cols-[repeat(4,minmax(0,1fr))]">
                 {footerLinks.map((social) => {
-                  const isDisabledRoute =
-                    (social.href === PACKS_URL && disablePacksLink) ||
-                    (social.href === TERMINAL_URL && disableTerminalLink);
+                  const isDisabledRoute = social.href === PACKS_URL && disablePacksLink;
                   const explainerButton = social.explainer ? (
                     <BitcodeInlineExplainer
                       explainer={social.explainer}
@@ -467,11 +430,7 @@ export default function Footer({ showPrimaryContent = true, className = '' }: Fo
                   ) : isDisabledRoute ? (
                     <span key={social.ariaLabel} className="block w-full">
                       <DisabledTooltipWrapper
-                        tooltip={
-                          social.href === PACKS_URL
-                            ? DISABLED_FEATURE_TOOLTIPS.packs
-                            : DISABLED_FEATURE_TOOLTIPS.terminal
-                        }
+                        tooltip={DISABLED_FEATURE_TOOLTIPS.packs}
                         className="w-full"
                       >
                         <span
