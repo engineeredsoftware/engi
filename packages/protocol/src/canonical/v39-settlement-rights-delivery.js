@@ -83,6 +83,19 @@ function predicateResult(id, sourcePath, passed) {
   return { id, sourcePath, passed: Boolean(passed) };
 }
 
+function settlementFinalityTestsCovered(boundaryTest) {
+  return (
+    boundaryTest.includes('fails closed until BTC finality is confirmed') ||
+    (
+      boundaryTest.includes('fails closed for %s BTC state before finality') &&
+      boundaryTest.includes("'prepared'") &&
+      boundaryTest.includes("'signed'") &&
+      boundaryTest.includes("'broadcast'") &&
+      boundaryTest.includes("'observed'")
+    )
+  ) && boundaryTest.includes('blocked_until_payment_finality');
+}
+
 function row(input) {
   return {
     ...input,
@@ -214,7 +227,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult('postprocess-optionally-emits-settlement', SOURCE_ROOTS.postprocess, postprocess.includes('ensureAssetPackSettlementRightsDeliveryBoundary') && postprocess.includes('assetPackSettlementRightsDeliveryBoundary')),
     predicateResult('tests-cover-confirmed-delivery', SOURCE_ROOTS.boundaryTest, boundaryTest.includes('unlocks BTD rights') && boundaryTest.includes('settlement_delivered')),
     predicateResult('tests-cover-underpayment', SOURCE_ROOTS.boundaryTest, boundaryTest.includes('fails closed when BTC payment is underpaid') && boundaryTest.includes('blocked_until_compensation_conservation')),
-    predicateResult('tests-cover-finality', SOURCE_ROOTS.boundaryTest, boundaryTest.includes('fails closed until BTC finality is confirmed') && boundaryTest.includes('blocked_until_payment_finality')),
+    predicateResult('tests-cover-finality', SOURCE_ROOTS.boundaryTest, settlementFinalityTestsCovered(boundaryTest)),
     predicateResult('tests-cover-reconciliation-drift', SOURCE_ROOTS.boundaryTest, boundaryTest.includes('ledger, database, or object storage projections drift') && boundaryTest.includes('blocked_until_projection_repair')),
     predicateResult('spec-gate7-expanded', SOURCE_ROOTS.v39Spec, spec.includes('AssetPackSettlementRightsDeliveryBoundary') && spec.includes('v39-settlement-rights-delivery')),
     predicateResult('delta-gate7-expanded', SOURCE_ROOTS.v39Delta, delta.includes('Gate 7') && delta.includes('AssetPackSettlementRightsDeliveryBoundary')),
@@ -240,6 +253,7 @@ function buildCoverage(rows, predicateResults) {
     sourceSafetyVerdict: V39_SETTLEMENT_RIGHTS_DELIVERY_SOURCE_SAFETY_VERDICT,
     runtimeType: 'AssetPackSettlementRightsDeliveryBoundary',
     paymentType: 'AssetPackSettlementPaymentObservation',
+    btcSettlementReadbackType: 'AssetPackBtcSettlementReadback',
     finalityType: 'AssetPackSettlementFinalityReceipt',
     rightsTransferType: 'BtdRightsTransferReceipt',
     readReceiptType: 'BtdReadReceipt',
@@ -249,6 +263,7 @@ function buildCoverage(rows, predicateResults) {
     replayType: 'AssetPackSettlementRightsDeliveryReplayReceipt',
     storageRecordKinds: [
       'btc_payment_observation',
+      'btc_settlement_readback',
       'settlement_finality',
       'source_to_shares_compensation',
       'btd_read_receipt',
