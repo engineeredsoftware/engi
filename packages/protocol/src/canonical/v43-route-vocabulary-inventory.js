@@ -403,7 +403,7 @@ function buildPredicateResults(repoRoot, scan) {
     predicateResult(
       'active-canon-pointer-supports-v43-route-migration-posture',
       'BITCODE_SPEC.txt',
-      ['V42', 'V43', 'V44'].includes(readSource(repoRoot, 'BITCODE_SPEC.txt').trim()),
+      ['V42', 'V43', 'V44', 'V45'].includes(readSource(repoRoot, 'BITCODE_SPEC.txt').trim()),
     ),
     predicateResult('spec-defines-gate2-inventory', 'BITCODE_SPEC_V43.md', spec.includes('V43 Gate 2') && spec.includes('route vocabulary inventory')),
     predicateResult('spec-defines-migration-matrix', 'BITCODE_SPEC_V43.md', spec.includes('migration matrix') && spec.includes('retained debug cockpit')),

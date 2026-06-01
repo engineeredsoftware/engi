@@ -26,8 +26,10 @@ knowledge-volume and settled rights, BTC settlement finality, interface
 authority, proof readback, operational repair, and the gate taxonomy that
 controls the rest of the version.
 
-V45 does not replace V44 as active canon until promotion. It is the formal draft
-target used by the next parity matrix gate.
+V45 replaces V44 as active canon after promotion workflow validation. It is the
+current Bitcode source of truth for the AssetPack commodity lifecycle, BTD
+scalar-volume and rights, BTC settlement, interface disclosure, proof readback,
+source-safe rehearsal, workflow, and promotion-readiness surfaces named here.
 
 ## Canonical Bitcode executive summary
 
@@ -97,10 +99,11 @@ Goals:
 
 Non-goals:
 
-- V45 draft work does not expose unpaid source.
-- V45 draft work does not admit value-bearing mainnet operation.
-- V45 draft work does not implement source behavior before formal parity.
-- V45 draft work does not treat notes, PR bodies, telemetry, or conversations
+- V45 active canon does not expose unpaid source.
+- V45 active canon does not admit value-bearing mainnet operation.
+- V45 active canon does not authorize behavior outside accepted formal parity,
+  proof, rehearsal, and promotion evidence.
+- V45 active canon does not treat notes, PR bodies, telemetry, or conversations
   as implementation authority.
 
 Design principles: source-safe commodity formation, Need-relative measurement,
@@ -625,9 +628,10 @@ human inspection remain aligned.
 
 ## V45 generated canon
 
-V45 draft generated canon starts with spec-family, canonical-input,
-proof-family, and source-safe end-to-end rehearsal artifacts. Promotion-grade
-generated proof expands again after promotion-readiness gates close.
+V45 generated canon includes spec-family, canonical-input, proof-family,
+source-safe end-to-end rehearsal, and promotion-readiness artifacts. Promoted
+generated proof is bound through `BITCODE_SPEC_V45_PROVEN.md` and the
+promotion-source commit named in this file family.
 
 ### Inherited V19 reproducible-canon artifacts
 
@@ -645,29 +649,29 @@ and quality summary.
 
 | artifactPath | role | V45 posture |
 | --- | --- | --- |
-| `.bitcode/v45-spec-family-report.json` | draft spec-family validation report | draft required |
-| `.bitcode/v45-canonical-input-report.json` | draft canonical input report | draft required |
-| `.bitcode/v45-inference-synthesis-proof.json` | inference proof-family artifact | draft required |
-| `.bitcode/v45-prompt-completeness-proof.json` | prompt proof-family artifact | draft required |
-| `.bitcode/v45-static-code-analysis-proof.json` | static-code proof-family artifact | draft required |
-| `.bitcode/v45-verification-decisions-proof.json` | verification-decision proof-family artifact | draft required |
-| `.bitcode/v45-selection-materialization-proof.json` | selection and materialization proof-family artifact | draft required |
-| `.bitcode/v45-authorization-sensitive-flow-proof.json` | authorization and sensitive-flow proof-family artifact | draft required |
-| `.bitcode/v45-settlement-source-to-shares-proof.json` | settlement and allocation proof-family artifact | draft required |
-| `.bitcode/v45-disclosure-boundary-proof.json` | disclosure-boundary proof-family artifact | draft required |
-| `.bitcode/v45-proof-contract-proof.json` | proof-contract proof-family artifact | draft required |
-| `.bitcode/v45-source-safe-e2e-rehearsal.json` | source-safe end-to-end rehearsal artifact | draft required |
-| `.bitcode/v45-promotion-readiness-report.json` | promotion-readiness artifact | draft required |
-| `BITCODE_SPEC_V45_PROVEN.md` | generated proof appendix | draft required |
+| `.bitcode/v45-spec-family-report.json` | promoted spec-family validation report | active required |
+| `.bitcode/v45-canonical-input-report.json` | promoted canonical input report | active required |
+| `.bitcode/v45-inference-synthesis-proof.json` | inference proof-family artifact | active required |
+| `.bitcode/v45-prompt-completeness-proof.json` | prompt proof-family artifact | active required |
+| `.bitcode/v45-static-code-analysis-proof.json` | static-code proof-family artifact | active required |
+| `.bitcode/v45-verification-decisions-proof.json` | verification-decision proof-family artifact | active required |
+| `.bitcode/v45-selection-materialization-proof.json` | selection and materialization proof-family artifact | active required |
+| `.bitcode/v45-authorization-sensitive-flow-proof.json` | authorization and sensitive-flow proof-family artifact | active required |
+| `.bitcode/v45-settlement-source-to-shares-proof.json` | settlement and allocation proof-family artifact | active required |
+| `.bitcode/v45-disclosure-boundary-proof.json` | disclosure-boundary proof-family artifact | active required |
+| `.bitcode/v45-proof-contract-proof.json` | proof-contract proof-family artifact | active required |
+| `.bitcode/v45-source-safe-e2e-rehearsal.json` | source-safe end-to-end rehearsal artifact | active required |
+| `.bitcode/v45-promotion-readiness-report.json` | promotion-readiness artifact | active required |
+| `BITCODE_SPEC_V45_PROVEN.md` | generated proof appendix | active required |
 
 ### V45 specifying generated artifacts
 
 V45 specifying generated artifacts must include `.bitcode/v45-spec-family-report.json`,
 `.bitcode/v45-canonical-input-report.json`, all nine V45 proof-family
 artifacts, `.bitcode/v45-source-safe-e2e-rehearsal.json`,
-`.bitcode/v45-promotion-readiness-report.json`, and draft
-`BITCODE_SPEC_V45_PROVEN.md`; promotion readiness adds promotion-specific
-generated proof outputs when its gate closes.
+`.bitcode/v45-promotion-readiness-report.json`, and active
+`BITCODE_SPEC_V45_PROVEN.md`; promotion readiness binds the promoted proof
+outputs to the proof-source commit.
 
 ### Shared generated-artifact fields
 
@@ -703,36 +707,37 @@ missing generated artifacts or stale proof roots.
 
 ## V45 validation canon
 
-V45 validation proceeds in order: notes atom checks, formal specification
-consolidation check, V45 spec-family draft check, V44 promoted spec-family
-check, canon posture drift check for V44 active / V45 draft, V45 parity audit,
-grouped implementation tests, proof-only checks, interface proofs, rehearsal,
-promotion readiness, and promotion workflow.
+V45 validation proceeded in order: notes atom checks, formal specification
+consolidation check, V45 spec-family checks, prior promoted-canon checks,
+canon posture drift checks, V45 parity audit, grouped implementation tests,
+proof-only checks, interface proofs, rehearsal, promotion readiness, and the
+promotion workflow. The active promoted posture now checks V45 active / draft
+V46 before subsequent version work opens.
 
 ## V45 promotion canon
 
-V45 promotion is prohibited until every accepted parity row is closed or
-explicitly deferred, source-safety is preserved, implementation and proof gates
-are green, rehearsal receipts are replayable, and the promotion workflow
-performs validation before committing the standalone `BITCODE_SPEC.txt` pointer
-change to `V45`.
+V45 promotion required every accepted parity row to be closed or explicitly
+deferred, source-safety to be preserved, implementation and proof gates to be
+green, rehearsal receipts to be replayable, and the promotion workflow to
+validate before committing the standalone `BITCODE_SPEC.txt` pointer change to
+`V45`.
 
 ### V45 promotion readiness canon
 
 V45 promotion readiness is represented by
 `.bitcode/v45-promotion-readiness-report.json`, `check:v45-gate18`, and
 `v45-canon-promotion.yml`. The readiness proof binds all V45 proof-family
-artifacts, the source-safe end-to-end rehearsal artifact, draft
+artifacts, the source-safe end-to-end rehearsal artifact, active
 `BITCODE_SPEC_V45_PROVEN.md`, promotion script support, gate/canon workflow
-posture, direct-main-push blocking, and source-safety exclusions. Promotion may
-convert V44 active / draft V45 posture into V45 active / draft V46 posture only
-after the workflow validates and commits the standalone pointer change.
+posture, direct-main-push blocking, and source-safety exclusions. Promotion
+converted the prior canon posture into V45 active / draft V46 posture after the
+workflow validated and committed the standalone pointer change.
 
 ## V45 appendices and canonical supporting material
 
 V45 supporting material consists of `BITCODE_SPEC_V45.md`,
 `BITCODE_SPEC_V45_DELTA.md`, `BITCODE_SPEC_V45_NOTES.md`,
-`BITCODE_SPEC_V45_PARITY_MATRIX.md`, later `BITCODE_SPEC_V45_PROVEN.md`,
+`BITCODE_SPEC_V45_PARITY_MATRIX.md`, active `BITCODE_SPEC_V45_PROVEN.md`,
 `BITCODE_SPECIFYING.md`, `BITCODE_SPEC_TEMPLATEGUIDE.md`, V45 checkers, and
 future generated `.bitcode` reports.
 
@@ -740,8 +745,9 @@ future generated `.bitcode` reports.
 
 Accepted boundaries:
 
-- V44 remains active canon until promotion.
-- V45 formal spec is implementation-audit authority, not active runtime law.
+- V45 is active canon.
+- V45 formal spec is active runtime law only inside the source-safe,
+  entitlement-bound, proof-backed boundaries it states.
 - No protected source or wallet private material is exposed.
 - BTC finality precedes BTD rights, source unlock, delivery, and compensation.
 - Proof-backed readback advances state; telemetry observes state.
@@ -756,11 +762,11 @@ Reopen conditions:
 
 ## V45 completion condition
 
-V45 is complete when formal specification is consolidated, implementation
-parity is audited, grouped source gaps are closed, proof and interface gates are
-green, rehearsal proves source-safe end-to-end operation, generated proof is
-current, and promotion workflow advances `BITCODE_SPEC.txt` to `V45` only after
-validations pass.
+V45 is complete: formal specification is consolidated, implementation parity is
+audited, grouped source gaps are closed, proof and interface gates are green,
+rehearsal proves source-safe end-to-end operation, generated proof is current,
+and the promotion workflow advanced `BITCODE_SPEC.txt` to `V45` only after
+validations passed.
 
 ## Appendix A. Canonical type and surface catalog
 
@@ -819,16 +825,15 @@ artifact roots.
 
 ## Appendix D. Validation and checking gate catalog
 
-Validation commands begin with `check:v45-gate2` through `check:v45-gate10`,
-draft spec-family checks, promoted V44 spec-family checks, canon posture drift
-checks, and future parity, proof, implementation, rehearsal, and promotion
-commands.
+Validation commands include `check:v45-gate2` through `check:v45-gate18`,
+promoted V45 spec-family checks, active V45 / draft V46 canon posture drift
+checks, parity, proof, implementation, rehearsal, and promotion commands.
 
 ## Appendix E. Current canonical source map
 
-The current source map is V44 active canon plus V45 draft specification family.
-Implementation source remains unversioned and will be audited from
-`BITCODE_SPEC_V45.md` after formal consolidation.
+The current source map is V45 active canon with V46 draft target posture
+prepared. Implementation source remains unversioned and is audited from the
+promoted `BITCODE_SPEC_V45.md` family until V46 opens.
 
 ## Appendix F. Subsystem totality and derivability matrix
 

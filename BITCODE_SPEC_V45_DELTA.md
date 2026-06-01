@@ -14,7 +14,7 @@
 - Spec companion: `BITCODE_SPEC_V45.md`
 - Parity companion: `BITCODE_SPEC_V45_PARITY_MATRIX.md`
 - Scope: V45 canonical delta for knowledge commoditization protocol precision over promoted V44 scaled engineering economy canon
-- Last fully realized canonical target preserved in source: `V44`
+- Last fully realized canonical target preserved in source: `V45`
 
 ## Why V45 exists
 
@@ -44,24 +44,23 @@ readback, and gate taxonomy.
 
 ## Explicitly deferred
 
-- Implementation parity audit is deferred to the next V45 gate.
-- Grouped implementation changes are deferred until accepted parity gaps exist.
-- Proof-only, interface-only, rehearsal, and promotion gates are deferred until
-  their owning parity rows and readiness conditions are closed.
+- Implementation parity audit, grouped implementation changes, proof-only,
+  interface-only, rehearsal, and promotion gates are closed by the promoted V45
+  file family and generated artifacts.
 - Value-bearing mainnet operation remains deferred.
-- `BITCODE_SPEC.txt` remains `V44` until V45 promotion workflow validation.
+- `BITCODE_SPEC.txt` points to `V45` after promotion workflow validation.
 
-## Pre-Implementation Sequence
+## Accepted Pre-Implementation Sequence
 
-1. Accept notes-specification atoms for protocol identity, AssetPack lifecycle,
+1. Accepted notes-specification atoms for protocol identity, AssetPack lifecycle,
    BTD scalar-volume, BTC settlement, interface authority, proof readback, and
    gate taxonomy.
-2. Consolidate the formal V45 specification family.
-3. Audit implementation parity from `BITCODE_SPEC_V45.md`.
-4. Group implementation gates by parity gaps.
-5. Harden proof-only and interface-only rows.
-6. Rehearse end-to-end source-safe commercial behavior.
-7. Close promotion readiness and promote V45 only through workflow validation.
+2. Consolidated the formal V45 specification family.
+3. Audited implementation parity from `BITCODE_SPEC_V45.md`.
+4. Grouped implementation gates by parity gaps.
+5. Hardened proof-only and interface-only rows.
+6. Rehearsed end-to-end source-safe commercial behavior.
+7. Closed promotion readiness and promoted V45 only through workflow validation.
 
 ## Gate 18: V45 Promotion Readiness
 
@@ -70,7 +69,7 @@ Gate 18 closes promotion readiness with
 `generate:v45-promotion-readiness`, `check:v45-promotion-readiness`,
 `check:v45-gate18`, `v45-canon-promotion.yml`; promotion scripts support V45.
 It proves the V45 proof-family artifacts, source-safe rehearsal artifact,
-draft `BITCODE_SPEC_V45_PROVEN.md`, workflow posture, source-safety exclusions,
+active `BITCODE_SPEC_V45_PROVEN.md`, workflow posture, source-safety exclusions,
 direct-main-push block, and value-bearing mainnet block before allowing V45
 promotion. After promotion, the accepted runtime posture is active V45 / draft
 V46.

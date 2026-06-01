@@ -64,6 +64,7 @@ test('@bitcode/protocol commercial formalization exports package-native canon he
     V42: { activeCanon: 'V42', draftTarget: 'V43' },
     V43: { activeCanon: 'V43', draftTarget: 'V44' },
     V44: { activeCanon: 'V44', draftTarget: 'V45' },
+    V45: { activeCanon: 'V45', draftTarget: 'V46' },
   };
   const expectedPosture = expectedPostureByPointer[pointer];
 

@@ -163,7 +163,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'active-canon-pointer-supports-v44-draft-or-promoted',
       SOURCE_ROOTS.activePointer,
-      ['V43', 'V44'].includes(sources.activePointer.trim()),
+      ['V43', 'V44', 'V45'].includes(sources.activePointer.trim()),
     ),
     predicateResult('spec-defines-gate5', SOURCE_ROOTS.spec, sources.spec.includes('V44 Gate 5 Depositor Earnings, ROI, And Supply Opportunity Intelligence')),
     predicateResult('spec-names-gate5-artifact', SOURCE_ROOTS.spec, sources.spec.includes('v44-depositor-earnings-supply-opportunities')),

@@ -18,6 +18,16 @@ const V44_SPEC_FAMILY_FILES = [
   'BITCODE_SPEC_V44_PARITY_MATRIX.md',
 ];
 
+const V45_SPEC_FAMILY_FILES = [
+  'BITCODE_SPEC.txt',
+  'BITCODE_SPECIFYING.md',
+  'BITCODE_SPEC_TEMPLATEGUIDE.md',
+  'BITCODE_SPEC_V45.md',
+  'BITCODE_SPEC_V45_DELTA.md',
+  'BITCODE_SPEC_V45_NOTES.md',
+  'BITCODE_SPEC_V45_PARITY_MATRIX.md',
+];
+
 test('promoted spec-family validation rejects stale draft source-of-truth prose', async () => {
   const protocol = await import('../src/index.js');
   const tempDir = mkdtempSync(path.join(tmpdir(), 'bitcode-promoted-spec-posture-'));
@@ -57,6 +67,41 @@ test('promoted spec-family validation rejects stale draft source-of-truth prose'
     assert.ok(
       report.failures.some((failure) => failure.includes('promoted source-of-truth hierarchy')),
       `expected promoted source-of-truth failure, got: ${report.failures.join('; ')}`
+    );
+  } finally {
+    rmSync(tempDir, { recursive: true, force: true });
+  }
+});
+
+test('promoted spec-family validation rejects stale draft posture outside source-of-truth prose', async () => {
+  const protocol = await import('../src/index.js');
+  const tempDir = mkdtempSync(path.join(tmpdir(), 'bitcode-promoted-spec-posture-'));
+
+  try {
+    for (const relativePath of V45_SPEC_FAMILY_FILES) {
+      copyFileSync(path.join(repoRoot, relativePath), path.join(tempDir, relativePath));
+    }
+
+    writeFileSync(path.join(tempDir, 'BITCODE_SPEC.txt'), 'V45\n');
+
+    const notesPath = path.join(tempDir, 'BITCODE_SPEC_V45_NOTES.md');
+    const notes = readFileSync(notesPath, 'utf8');
+    writeFileSync(
+      notesPath,
+      `${notes}\n\nStale regression fixture: V45 draft work does not replace the active canon.\n`
+    );
+
+    const report = protocol.buildV21SpecFamilyReport({
+      repoRoot: tempDir,
+      version: 'V45',
+      mode: 'promoted',
+      currentTarget: 'V45',
+    });
+
+    assert.equal(report.passed, false);
+    assert.ok(
+      report.failures.some((failure) => failure.includes('stale draft posture phrase "V45 draft work"')),
+      `expected promoted stale draft posture failure, got: ${report.failures.join('; ')}`
     );
   } finally {
     rmSync(tempDir, { recursive: true, force: true });

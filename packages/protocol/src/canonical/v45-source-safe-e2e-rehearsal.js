@@ -14,7 +14,7 @@ export const V45_SOURCE_SAFE_E2E_REHEARSAL_ARTIFACT_PATH =
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_SCHEMA_ID =
   'bitcode.v45.sourceSafeEndToEndRehearsal.v1';
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_VERSION = 'V45';
-export const V45_SOURCE_SAFE_E2E_REHEARSAL_CURRENT_TARGET = 'V44';
+export const V45_SOURCE_SAFE_E2E_REHEARSAL_CURRENT_TARGET = 'V45';
 export const V45_SOURCE_SAFE_E2E_REHEARSAL_SOURCE_SAFETY_VERDICT =
   'source-safe-v45-end-to-end-rehearsal-metadata';
 
@@ -288,7 +288,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v44', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V44'),
+    predicateResult('active-canon-pointer-is-v45', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V45'),
     predicateResult('v45-spec-defines-proof-and-rehearsal-law', SOURCE_ROOTS.spec, sources.spec.includes('V45 proof-family canon') && sources.spec.includes('rehearsal')),
     predicateResult('v45-parity-defines-gate17', SOURCE_ROOTS.parity, sources.parity.includes('Gate 17: Source-Safe End-To-End Rehearsal') && sources.parity.includes('check:v45-gate17')),
     predicateResult('v45-notes-allow-rehearsal-gates', SOURCE_ROOTS.notes, sources.notes.includes('| `rehearsal` |') && sources.notes.includes('replayable receipts')),

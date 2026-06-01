@@ -3,9 +3,9 @@
 ## Status
 
 - Version: `V45`
-- Canonical pointer: `BITCODE_SPEC.txt` -> `V44`
-- Active canonical anchor: `BITCODE_SPEC_V44.md`
-- Active generated proof appendix: `BITCODE_SPEC_V44_PROVEN.md`
+- Canonical pointer: `BITCODE_SPEC.txt` -> `V45`
+- Active canonical anchor: `BITCODE_SPEC_V45.md`
+- Active generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
 - Current canonical/latest target: `V45`
 - Canonical proof-source commit: `23294cc578dcb2148a6b602c3463b3ca01f1fef1`
 - Prior canonical anchor: `BITCODE_SPEC_V44.md`
@@ -19,9 +19,8 @@
 ## Notes companion rule
 
 These notes record the accepted V45 opening atoms. After formal specification
-consolidation, `BITCODE_SPEC_V45.md` and its companion family become the V45
-draft specification authority while V44 remains active canon through
-`BITCODE_SPEC.txt`.
+consolidation and promotion, `BITCODE_SPEC_V45.md` and its companion family are
+active V45 canon through `BITCODE_SPEC.txt`.
 
 ## Concise current-system reading
 
@@ -42,9 +41,9 @@ When V45 work becomes broad, reduce it to the formal law:
 
 ## Notes provenance rule
 
-These notes are not implementation authority. They preserve the accepted
-notes-level atoms that were consolidated into the formal V45 draft
-specification family while V44 remains the active canon.
+These notes are not implementation authority above the promoted specification
+family. They preserve the accepted notes-level atoms that were consolidated
+into active V45 canon.
 
 ## Deferred from V44
 
@@ -54,8 +53,8 @@ AssetPacks, `/deposit` as supply and earning visibility, and organization
 policy over wallet authority, spend limits, source criticality, and approval
 thresholds.
 
-V45 should begin by discussing Bitcode as the world's knowledge
-commoditization system. The discussion should audit whether the canonical
+V45 began by discussing Bitcode as the world's knowledge commoditization
+system. The discussion audited whether the canonical
 protocol fully specifies the commercial experience of depositing and reading
 packs, BTC source-of-truth settlement, BTD measuring/mining/minting, rights
 transfer, proof/ledger observability, API/MCP access, GitHub delivery,
@@ -82,17 +81,17 @@ build/process validation.
 Gate 18 records the promotion-readiness note for
 `.bitcode/v45-promotion-readiness-report.json`, V45 promotion workflow support,
 promotion dry-run support, generated proof support, and source-safety exclusions.
-Promotion may move the system from V44 active / V45 draft to active V45 / draft
-V46 only after workflow validation commits the standalone pointer update; the
-same posture is named active V45 / draft V46 in operator-facing readback.
+Promotion moved the system to active V45 / draft V46 after workflow validation
+committed the standalone pointer update; the same posture is named active V45 /
+draft V46 in operator-facing readback.
 
 ## V45 opening discussion frame
 
-V45 opens from the premise that specification is the source of protocol truth.
-Before a V45 parity matrix or gate plan exists, the first work is a protocol
-audit over the promoted V44 canon. The audit should classify each framing as
-clearly specified, vaguely specified, incorrectly specified, missing, or already
-production-grade:
+V45 opened from the premise that specification is the source of protocol truth.
+Before the V45 parity matrix and gate plan existed, the first work was a
+protocol audit over the promoted V44 canon. The audit classified each framing
+as clearly specified, vaguely specified, incorrectly specified, missing, or
+already production-grade:
 
 - Bitcode as the world's knowledge commoditization system.
 - AssetPacks as the packaged knowledge commodity entering and leaving the
