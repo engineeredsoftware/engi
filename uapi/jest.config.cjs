@@ -127,6 +127,7 @@ module.exports = {
     '<rootDir>/tests/auxillariesWalletPane.test.tsx',
     '<rootDir>/tests/orbitalsInterfacesPane.test.tsx',
     '<rootDir>/tests/marketingLandingPage.test.tsx',
+    '<rootDir>/tests/marketingOperatorGuideCard.test.tsx',
     '<rootDir>/tests/publicDocsPageContent.test.tsx',
     '<rootDir>/tests/bitcodeDocsContent.test.tsx',
     '<rootDir>/tests/features.test.ts',

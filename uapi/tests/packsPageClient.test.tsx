@@ -215,6 +215,10 @@ describe("PacksPageClient", () => {
     expect(
       screen.getByTestId("packs-enterprise-activity-grid"),
     ).toHaveAccessibleName("Pack activity economic operation table");
+    expect(screen.getByText("Source-safe detail")).toBeInTheDocument();
+    expect(
+      screen.getAllByText("Source-safe AssetPack preview.").length,
+    ).toBeGreaterThan(0);
     expect(screen.getByTestId("packs-expandable-proof-detail")).toHaveAttribute(
       "data-enterprise-ux",
       "expandable-proof-detail",

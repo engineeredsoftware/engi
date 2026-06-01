@@ -1,6 +1,28 @@
 import { getBitcodeDocsPage } from '@/app/docs/bitcode-docs-content';
 
 describe('Bitcode docs content model', () => {
+  it('keeps public docs aligned to current AssetPack, BTD, BTC, and route vocabulary', () => {
+    const pages = [
+      getBitcodeDocsPage('what-is-bitcode'),
+      getBitcodeDocsPage('source-shares'),
+      getBitcodeDocsPage('exchange'),
+      getBitcodeDocsPage('settlement-btd'),
+      getBitcodeDocsPage('commercial-interfaces'),
+    ];
+    const serialized = JSON.stringify(pages);
+
+    expect(serialized).toContain('AssetPack');
+    expect(serialized).toContain('BTD scalar volume and rights');
+    expect(serialized).toContain('BTC settlement money');
+    expect(serialized).toContain('proof readback authority');
+    expect(serialized).toContain('/deposit');
+    expect(serialized).toContain('/read');
+    expect(serialized).toContain('/packs');
+    expect(serialized).toContain('/exchange is a compatibility redirect to /packs');
+    expect(serialized).not.toContain('Source Shares and the Bitcode Exchange');
+    expect(serialized).not.toContain('Exchange is the durable state');
+  });
+
   it('documents ChatGPT App tools as API-style usage features', () => {
     const page = getBitcodeDocsPage('chatgpt-app');
     const features = page?.apiReference?.flatMap((section) => section.features) ?? [];

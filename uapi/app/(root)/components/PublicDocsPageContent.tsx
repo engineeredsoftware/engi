@@ -20,17 +20,17 @@ type PublicDocsPageContentProps = {
 const firstReadingPath = [
   {
     label: 'Understand the object',
-    body: 'Start with Source Shares so Bitcode reads as measured technical intelligence, not a generic app.',
+    body: 'Start with AssetPacks so Bitcode reads as measured technical intelligence, not a generic app.',
     href: '/docs/what-is-bitcode',
   },
   {
     label: 'Learn the product surfaces',
-    body: 'Then separate Exchange state from Terminal operation before opening write controls.',
-    href: '/docs/exchange',
+    body: 'Then learn /deposit, /read, and /packs before opening value-bearing controls.',
+    href: '/docs/source-shares',
   },
   {
     label: 'Practice write/read discipline',
-    body: 'Use the action guide to learn what every Terminal write should make rereadable.',
+    body: 'Use the action guide to learn what every bounded write should make rereadable.',
     href: '/docs/terminal-actions',
   },
   {
@@ -43,8 +43,8 @@ const firstReadingPath = [
 const specCoverageCards = [
   {
     eyebrow: 'Protocol',
-    title: 'V26 source-to-shares canon',
-    body: 'Gates, domain model, operator chain, subsystem boundaries, validation, generated evidence, and promotion truth.',
+    title: 'V45 knowledge-commoditization law',
+    body: 'AssetPack lifecycle, BTD scalar volume and rights, BTC settlement, proof readback authority, interface disclosure, and promotion truth.',
     href: '/docs/protocol-v26',
   },
   {
@@ -55,24 +55,30 @@ const specCoverageCards = [
   },
   {
     eyebrow: 'Settlement',
-    title: '$BTD exact accounting',
-    body: 'Fit-quality receipts, journals, settlement participation, wallet readiness, payment modes, and source-to-shares allocation.',
+    title: 'BTD volume and BTC settlement',
+    body: 'Scalar-volume quotes, finality receipts, rights transfer, repository delivery, compensation, and proof-backed readback.',
     href: '/docs/settlement-btd',
   },
 ] as const;
 
 const quickRouteCards = [
   {
-    href: '/exchange',
-    eyebrow: 'Exchange',
-    title: 'Read the public market frame',
+    href: '/packs',
+    eyebrow: 'Packs',
+    title: 'Read the activity frame',
     summary: BITCODE_PUBLIC_EXPLAINERS.network.summary,
   },
   {
-    href: '/terminal',
-    eyebrow: 'Terminal',
-    title: 'Operate the ledger',
-    summary: BITCODE_PUBLIC_EXPLAINERS.transactions.summary,
+    href: '/read',
+    eyebrow: 'Read',
+    title: 'Request Reading',
+    summary: BITCODE_PUBLIC_EXPLAINERS.read.summary,
+  },
+  {
+    href: '/deposit',
+    eyebrow: 'Deposit',
+    title: 'Prepare supply',
+    summary: BITCODE_PUBLIC_EXPLAINERS.deposit.summary,
   },
   {
     href: 'https://github.com/engineeredsoftware/bitcode/blob/main/BITCODE_SPEC.txt',
@@ -88,7 +94,7 @@ const interfaceReferenceCards = [
     href: '/docs/mcp-api',
     eyebrow: 'MCP API',
     title: 'Public machine interface reference',
-    body: 'Active MCP tools are documented by feature, request shape, expected output, failure posture, and Terminal reread.',
+    body: 'Active MCP tools are documented by feature, request shape, expected output, failure posture, and proof readback.',
   },
   {
     href: '/docs/chatgpt-app',
@@ -113,18 +119,19 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               </span>
             </div>
             <h1 className="mt-5 max-w-[14ch] text-[2.5rem] font-semibold leading-[0.96] tracking-[-0.025em] text-white phone:text-[3.15rem] tablet:text-[4.15rem]">
-              Learn Bitcode from Source Shares to proof.
+              Learn Bitcode from AssetPacks to proof.
             </h1>
             <p className="mt-5 max-w-[58rem] text-[17px] leading-8 text-white/82">
-              Bitcode docs teach the complete path: what a Source Share is, how Exchange
-              state works, how Terminal writes and reads, why proofs and $BTD settlement
-              matter, and how connected commercial interfaces stay bound to the same system.
+              Bitcode docs teach the complete path: what an AssetPack commodity is,
+              how BTD measures scalar volume and rights, why BTC settlement money and
+              proof readback authority matter, and how /deposit, /read, /packs, MCP,
+              ChatGPT App, and Bitcode Chat stay source-safe.
             </p>
             <div className="mt-6 grid gap-3 tablet:grid-cols-3">
               <div className="rounded-[22px] border border-emerald-300/12 bg-emerald-400/[0.055] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-emerald-200/70">For new readers</p>
                 <p className="mt-2 text-sm leading-6 text-emerald-50/76">
-                  Start from the market object before touching Terminal controls.
+                  Start from the AssetPack before touching value-bearing controls.
                 </p>
               </div>
               <div className="rounded-[22px] border border-cyan-300/12 bg-cyan-400/[0.045] px-4 py-4">
@@ -136,7 +143,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               <div className="rounded-[22px] border border-amber-300/12 bg-amber-400/[0.045] px-4 py-4">
                 <p className="text-[10px] uppercase tracking-[0.2em] text-amber-200/70">For builders</p>
                 <p className="mt-2 text-sm leading-6 text-amber-50/76">
-                  Map MCP, ChatGPT App, GitHub, webhooks, compute, and storage into Exchange.
+                  Map MCP, ChatGPT App, Bitcode Chat, GitHub, webhooks, compute, and storage into proof readback.
                 </p>
               </div>
             </div>
@@ -151,7 +158,7 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
                 href="/docs/terminal-actions"
                 className="inline-flex rounded-full border border-white/12 bg-white/5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/78 transition hover:border-white/22 hover:bg-white/10"
               >
-                Terminal action manual
+                Action manual
               </Link>
             </div>
           </div>
@@ -241,8 +248,9 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               Product docs map back to the canon.
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/72">
-              The public docs teach the whole V26 system in user order: Protocol,
-              Exchange, Terminal, proofs, settlement, interfaces, and configuration.
+              The public docs teach the current product routes in user order:
+              AssetPack commodity, BTD scalar volume and rights, BTC settlement money,
+              proof readback authority, /deposit, /read, /packs, interfaces, and configuration.
             </p>
             <div className="mt-5 grid gap-3">
               {specCoverageCards.map((card) => (
@@ -266,12 +274,12 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
               Interface API references
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
-              Build against Bitcode without losing the Exchange contract.
+              Build against Bitcode without losing proof readback authority.
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/72">
               The interface docs now read like product-facing API docs: every feature says when
-              to call it, what inputs it accepts, what should return, and which Terminal or
-              Exchange read confirms the outcome.
+              to call it, what inputs it accepts, what should return, and which proof
+              readback confirms the outcome.
             </p>
           </div>
           <div className="mt-6 grid gap-3 tablet:grid-cols-2">
@@ -293,13 +301,13 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
           <div className="grid gap-6 laptop:grid-cols-[0.72fr_1.28fr]">
             <div>
               <p className="text-[10px] uppercase tracking-[0.24em] text-emerald-200/72">
-                Terminal action map
+                Action map
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
                 Every write has a read-back expectation.
               </h2>
               <p className="mt-3 text-sm leading-7 text-white/72">
-                The Terminal guide documents the write actions operators can take and the
+                The action guide documents the write actions operators can take and the
                 exact read surfaces that should confirm the result before they move into
                 proof, settlement, or history.
               </p>

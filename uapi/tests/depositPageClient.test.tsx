@@ -183,6 +183,10 @@ describe("DepositPageClient", () => {
       screen.getByTestId("deposit-route-step-review-options"),
     ).toHaveAttribute("aria-current", "step");
     expect(screen.getByText("Source-safe deposit state")).toBeInTheDocument();
+    expect(screen.getByText("Disclosure boundary")).toBeInTheDocument();
+    expect(
+      screen.getByText(/Withheld: raw source, unpaid AssetPack source, prompts/u),
+    ).toBeInTheDocument();
     expect(screen.getByText("Organization authority")).toBeInTheDocument();
     expect(
       screen.getAllByText("DepositAssetPackOptionSynthesis").length,
