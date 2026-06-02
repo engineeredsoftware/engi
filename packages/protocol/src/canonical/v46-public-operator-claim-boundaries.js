@@ -388,7 +388,7 @@ export const V46_PUBLIC_OPERATOR_SURFACE_ROWS = Object.freeze([
       'V46 public/operator claim boundary law',
       'Gate 3: Public Docs, Landing, And Operator Claim Boundaries',
       V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH,
-      'Current working gate: V46 Gate 3 Public Docs, Landing, And Operator Claim Boundaries.',
+      'V46 Gate 3 closure anchor',
     ],
     allowedDataClasses: ['claim-categories', 'claim-authority-ids', 'proof-root-ids', 'state-labels'],
     blockedDataClasses: [...V46_PROTOCOL_PRIVATE_PAYLOAD_IDS],
@@ -433,7 +433,7 @@ function buildSourcePredicates(repoRoot) {
     predicateResult(
       'roadmap-records-gate3',
       SOURCE_PATHS.roadmap,
-      sources.roadmap.includes('Current working gate: V46 Gate 3 Public Docs, Landing, And Operator Claim Boundaries.') &&
+      sources.roadmap.includes('Latest closed gate: V46 Gate 3 Public Docs, Landing, And Operator Claim Boundaries') &&
         sources.roadmap.includes('V46 Gate 3 closure anchor') &&
         sources.roadmap.includes(V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH),
     ),
