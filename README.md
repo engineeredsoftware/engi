@@ -50,6 +50,16 @@ source-safe `InterfaceClaim` contracts, proof-root projection, denied-state
 repair, no parallel state authority, and no-source/no-secret interface
 metadata.
 
+V46 Gate 6 adds `V46ProofReadbackOperatorExplanation` through
+`packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js`,
+`.bitcode/v46-proof-readback-operator-explanation.json`,
+`generate:v46-proof-readback-operator-explanation`,
+`check:v46-proof-readback-operator-explanation`, and `check:v46-gate6`. It
+binds canonical/generated proof, execution/workflow receipts, ledger journals,
+database projections, object-storage roots, telemetry streams,
+wallet/provider receipts, repository delivery receipts, and repair
+reconciliation receipts into a source-safe operator authority ladder.
+
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
 Prompt, map registry composition and interpolation contracts, benchmark Reading

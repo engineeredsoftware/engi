@@ -479,7 +479,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('delta-records-gate5', SOURCE_PATHS.delta, delta.includes('Gate 5: API/MCP, ChatGPT App, And Bitcode Chat Claim Contracts') && delta.includes(V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH)),
     predicateResult('notes-records-gate5', SOURCE_PATHS.notes, notes.includes('V46 interface claim contract atom') && notes.includes('InterfaceClaim contracts')),
     predicateResult('parity-records-gate5', SOURCE_PATHS.parity, parity.includes('V46InterfaceClaimContracts') && parity.includes(V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH)),
-    predicateResult('roadmap-advanced-to-gate5', SOURCE_PATHS.roadmap, roadmap.includes('Current working gate: V46 Gate 5 API/MCP, ChatGPT App, And Bitcode Chat Claim Contracts') && roadmap.includes('V46 Gate 4 closure anchor')),
+    predicateResult(
+      'roadmap-records-gate5-closure',
+      SOURCE_PATHS.roadmap,
+      roadmap.includes('V46 Gate 5 closure anchor') &&
+        roadmap.includes('V46InterfaceClaimContracts') &&
+        roadmap.includes(V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH),
+    ),
     predicateResult('readmes-document-gate5', SOURCE_PATHS.readme, readme.includes('V46 Gate 5') && protocolReadme.includes('V46InterfaceClaimContracts')),
     predicateResult('package-source-defines-surfaces', SOURCE_PATHS.packageSource, V46_INTERFACE_CLAIM_SURFACE_IDS.every((surfaceId) => packageSource.includes(`'${surfaceId}'`))),
     predicateResult('package-source-defines-capabilities', SOURCE_PATHS.packageSource, V46_INTERFACE_CLAIM_CAPABILITY_IDS.every((capabilityId) => packageSource.includes(`'${capabilityId}'`))),

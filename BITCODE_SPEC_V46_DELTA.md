@@ -175,6 +175,35 @@ Accepted Gate 5 decisions:
   authorize runtime behavior changes, source disclosure, settlement, delivery,
   or value-bearing mainnet behavior.
 
+## Gate 6: Proof Readback And Source-Safe Operator Explanation
+
+Gate 6 adds `V46ProofReadbackOperatorExplanation` as a source-safe generated
+artifact at `.bitcode/v46-proof-readback-operator-explanation.json`. It binds
+canonical/generated proof, execution/workflow receipts, ledger journals,
+database projections, object-storage roots, telemetry streams,
+wallet/provider receipts, repository delivery receipts, and
+repair/reconciliation receipts into one operator-readable evidence authority
+ladder.
+
+Accepted Gate 6 decisions:
+
+- Every evidence class answers the same operator questions: what evidence is
+  this, what can it authorize, what can it not authorize, what stronger
+  evidence must agree, and what repair happens on conflict.
+- Proof-backed readback remains the only state advancement mechanism.
+- Telemetry streams remain observability only.
+- Database projections remain queryable read models, not ledger truth.
+- Wallet/provider receipts prove non-custodial payment observation posture,
+  not final settlement.
+- Repository delivery receipts prove entitled source unlock only after
+  finality, BTD rights, source-to-shares compensation, storage, and
+  reconciliation agree.
+- Evidence conflict fails closed into source-safe repair rather than partial
+  success.
+- Gate 6 remains source-safe metadata and explanation work. It does not
+  authorize source disclosure, settlement, delivery, rights transfer, or
+  value-bearing mainnet behavior.
+
 ## Commit-Body Direction
 
 V46 commit bodies should name the gate class, protocol law or interface claim
