@@ -68,6 +68,7 @@ Current exported commercial helpers include:
 - `V46PublicOperatorClaimBoundaries` helpers for V46 source-safe public/operator claim boundary metadata across public docs, landing, operator docs, README surfaces, workflow checks, and forbidden overclaim scans;
 - `V46ProductRouteComprehensionReadback` helpers for V46 source-safe `/packs`, `/read`, and `/deposit` route comprehension metadata, low-detail defaults, expandable proof readback, route-owned state, and forbidden product-route overclaim scans;
 - `V46InterfaceClaimContracts` helpers for V46 source-safe API/MCP, ChatGPT App, Bitcode Chat, and package-consumer claim contracts, proof-root projection, denied-state repair, no parallel state authority, and forbidden interface overclaim scans;
+- `V46LocalInterfaceComprehensionRehearsal` helpers for V46 source-safe local docs, route, API/MCP, ChatGPT App, Bitcode Chat, proof telemetry, and repair readback rehearsal metadata over prior V46 claim and authority artifacts;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -389,6 +390,17 @@ journals, database projections, object-storage roots, telemetry streams,
 wallet/provider receipts, repository delivery receipts, and repair
 reconciliation receipts without creating parallel state authority or exposing
 private payloads.
+
+V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
+`packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
+`packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js`,
+`.bitcode/v46-local-interface-comprehension-rehearsal.json`,
+`generate:v46-local-interface-comprehension-rehearsal`,
+`check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.
+It rehearses local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
+ChatGPT App, Bitcode Chat, proof telemetry, and repair readback against Gate 2
+through Gate 6 generated artifacts while remaining local-only and
+source-safe.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

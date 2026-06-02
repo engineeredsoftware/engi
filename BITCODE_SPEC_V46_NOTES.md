@@ -210,6 +210,29 @@ repair states, source-safe disclosure exclusions, package exports, generated
 artifact freshness, workflow wiring, and focused protocol tests. The artifact
 path is `.bitcode/v46-proof-readback-operator-explanation.json`.
 
+## V46 local interface comprehension rehearsal atom: local surface readback rehearsal
+
+Audit classification: Gates 2 through 6 now define the claim taxonomy, public
+and product wording boundaries, machine/conversation contracts, and proof
+authority ladder. Gate 7 must rehearse those artifacts together against local
+source roots before promotion work can claim the interface explanation is
+coherent.
+
+Local rehearsal law:
+
+The local rehearsal reads source roots for public docs, landing, `/packs`,
+`/read`, `/deposit`, API/MCP, ChatGPT App, Bitcode Chat, proof telemetry, and
+repair readback. It checks that each surface maps back to Gate 2 claim ids,
+uses accepted evidence authority, keeps source-safe disclosure labels, and
+names repair expectations when proof roots or stronger evidence are missing.
+
+Acceptance for this atom: `V46LocalInterfaceComprehensionRehearsal` must bind
+all local surface ids, required local step ids, Gate 2 claim ids, claim
+categories, authority ids, source roots, prior V46 artifact pass states,
+source-safe disclosure exclusions, package exports, generated artifact
+freshness, workflow wiring, and focused protocol tests. The artifact path is
+`.bitcode/v46-local-interface-comprehension-rehearsal.json`.
+
 ## V46 product route comprehension atom: route readback for Packs, Reading, and Depositing
 
 Audit classification: V43 through V45 created the route-product skeleton and

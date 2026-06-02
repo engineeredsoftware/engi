@@ -457,10 +457,11 @@ function buildPredicateResults(repoRoot) {
         sources.parity.includes(V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH),
     ),
     predicateResult(
-      'roadmap-advanced-to-gate6',
+      'roadmap-records-gate6-closure',
       SOURCE_PATHS.roadmap,
-      sources.roadmap.includes('Current working gate: V46 Gate 6 Proof Readback And Source-Safe Operator Explanation') &&
-        sources.roadmap.includes('V46 Gate 5 closure anchor'),
+      sources.roadmap.includes('V46 Gate 6 closure anchor') &&
+        sources.roadmap.includes('V46ProofReadbackOperatorExplanation') &&
+        sources.roadmap.includes(V46_PROOF_READBACK_OPERATOR_EXPLANATION_ARTIFACT_PATH),
     ),
     predicateResult(
       'readmes-document-gate6',
