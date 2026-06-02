@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V31 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, and V45.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, and V46.'
     ].join('\n')
   );
 }
@@ -197,6 +197,101 @@ function rewriteV45PromotedParityMatrix(content, version) {
     )
     .replaceAll('| substantially advanced |', '| closed |')
     .replaceAll('| spec closed; source gap |', '| closed |');
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ */
+function rewriteV46PromotedSourceOfTruthHierarchy(content, version) {
+  if (version !== 'V46') return content;
+  return content.replace(
+    [
+      '`BITCODE_SPEC.txt` points to `V45`; V45 is the active promoted Bitcode canon.',
+      '`BITCODE_SPEC_V46.md`, `BITCODE_SPEC_V46_DELTA.md`,',
+      '`BITCODE_SPEC_V46_NOTES.md`, and `BITCODE_SPEC_V46_PARITY_MATRIX.md` are draft',
+      'target material only. They do not authorize implementation behavior until a',
+      'gate-specific V46 parity or implementation gate accepts the relevant scope.'
+    ].join('\n'),
+    [
+      '`BITCODE_SPEC.txt` points to `V46`; V46 is the active promoted Bitcode canon.',
+      '`BITCODE_SPEC_V46.md`, `BITCODE_SPEC_V46_DELTA.md`,',
+      '`BITCODE_SPEC_V46_NOTES.md`, and `BITCODE_SPEC_V46_PARITY_MATRIX.md` are the',
+      'promoted V46 specification-family material. The V46 formal specification family',
+      'is active canon and authorizes implementation behavior only through the',
+      'source-safe, proof-backed comprehension, interface, and operator-readback',
+      'boundaries it states.'
+    ].join('\n')
+  );
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ */
+function rewriteV46PromotedDraftPosture(content, version) {
+  if (version !== 'V46') return content;
+  return content
+    .replace(
+      'V46 does not replace V45 as active canon until promotion workflow validation.\nIt is the draft target for external protocol comprehension, public/operator\ndocs, route copy, interface contract readback, and launch-facing proof\nexplainability.',
+      'V46 replaces V45 as active canon after promotion workflow validation. It is\nthe promoted target for external protocol comprehension, public/operator docs,\nroute copy, interface contract readback, and launch-facing proof explainability.'
+    )
+    .replaceAll('V46 draft work', 'V46 promoted canon work')
+    .replaceAll('V46 formal draft', 'V46 formal canon')
+    .replaceAll('V46 remains draft', 'V46 is active canon')
+    .replaceAll('until V46 promotion', 'through V46 promotion')
+    .replaceAll('before V46 can be promoted', 'before V46 promotion closure')
+    .replaceAll('does not promote V46', 'records V46 promotion')
+    .replaceAll('draft `BITCODE_SPEC_V46_PROVEN.md`', 'promoted `BITCODE_SPEC_V46_PROVEN.md`')
+    .replaceAll('V45 remains active canon while V46 is drafted.', 'V46 is active canon after promotion workflow validation.')
+    .replaceAll(
+      'V46 does not replace V45 until a later promotion workflow validates and\n  advances `BITCODE_SPEC.txt`.',
+      'V46 replaces V45 after the maintained promotion workflow validates and\n  advances `BITCODE_SPEC.txt`.'
+    )
+    .replaceAll('V45 active / V46 draft', 'pre-promotion V45-to-V46 draft')
+    .replaceAll('V45 active / draft V46', 'pre-promotion draft V46')
+    .replaceAll('Canonical pointer: `BITCODE_SPEC.txt` -> `V45`', 'Canonical pointer: `BITCODE_SPEC.txt` -> `V46`')
+    .replaceAll('Active canonical anchor: `BITCODE_SPEC_V45.md`', 'Active canonical anchor: `BITCODE_SPEC_V46.md`')
+    .replaceAll('Active generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`', 'Active generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`')
+    .replaceAll(
+      'Until then, V45 remains the active\npointer truth through `BITCODE_SPEC.txt`.',
+      'V46 now holds the active pointer truth through `BITCODE_SPEC.txt`.'
+    )
+    .replaceAll(
+      'These notes are not implementation authority above the active V45\nspecification family. They preserve draft notes-level atoms that must later be\nconsolidated into formal V46 specification text before parity or\nimplementation gates rely on them.',
+      'These notes are implementation authority only through the promoted V46\nspecification family. They preserve accepted notes-level atoms that have been\nconsolidated into formal V46 specification text, parity evidence, proof\nreadback, and promotion receipts.'
+    )
+    .replaceAll('This matrix opens V46 parity work. It is intentionally draft-only: it records', 'This matrix records promoted V46 parity work. It records')
+    .replaceAll('current authority remains V45.', 'current authority is V46.')
+    .replaceAll('V45 is active canon; V46 is draft target only.', 'V46 is active canon; V45 is the prior promoted anchor.')
+    .replaceAll('`BITCODE_SPEC.txt` remains V45 during V46 promoted canon work', '`BITCODE_SPEC.txt` points to V46 after promotion')
+    .replaceAll('Gate 1 preserves active V45 / draft V46 posture.', 'Gate 1 preserved pre-promotion posture; promotion now records active V46 posture.')
+    .replaceAll('V45 is active canon while V46 is draft target.', 'V46 is active canon after promotion workflow validation.')
+    .replaceAll(
+      'validate active V45 plus draft V46, prepare V46 active / draft V47 posture',
+      'validated pre-promotion V46 draft posture, prepare V46 active / draft V47 posture'
+    )
+    .replaceAll(
+      'validate active V45 plus draft V46 and the gate branch is committed',
+      'validated pre-promotion V46 draft posture and the gate branch is committed'
+    );
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ */
+function rewriteV46PromotedParityMatrix(content, version) {
+  if (version !== 'V46') return content;
+  return content
+    .replace(
+      'V46 parity truth, generated comprehension artifacts, local interface rehearsal, gate closure, and promotion automation are aligned',
+      'V46 promoted parity truth, generated comprehension artifacts, local interface rehearsal, gate closure, and promotion automation are aligned'
+    )
+    .replaceAll('| draft-required |', '| closed |')
+    .replaceAll('| implemented prerequisite |', '| closed |')
+    .replaceAll('| accepted boundary |', '| closed |')
+    .replaceAll('| pending |', '| closed |');
 }
 
 /**
@@ -730,8 +825,43 @@ function rewritePromotionStatus(version, commit, content, kind) {
       : promotedSourceTruth;
   }
 
+  if (version === 'V46') {
+    const sharedInventory = 'active canonical `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion';
+    const scopeByKind = {
+      spec: 'V46 canonical system specification for protocol comprehension, source-safe public/operator explanation, interface claim contracts, proof readback, local interface rehearsal, and promotion readiness over promoted V45 knowledge commoditization canon',
+      delta: 'V46 canonical delta for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon',
+      notes: 'V46 canonical notes for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon',
+      parity: 'V46 canonical parity ledger for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V46 is the active protocol-comprehension canon and the V46 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V45-to-V46 protocol-comprehension closure set',
+      notes: 'canonical promotion complete; V46 notes record accepted protocol object-model, public/operator claim boundary, route readback, interface contract, proof explanation, local rehearsal, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V46 parity truth, generated comprehension artifacts, local interface rehearsal, gate closure, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V46`' }
+        : {}),
+      'Current canonical/latest target': '`V46`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V46 source-side protocol comprehension object model, public/operator claim boundaries, route readback, interface claim contracts, proof readback, local rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V46 file family',
+      'V46 state': stateByKind[kind]
+    });
+    const promotedPosture = rewriteV46PromotedDraftPosture(
+      rewriteV46PromotedSourceOfTruthHierarchy(rewritten, version),
+      version
+    );
+    return kind === 'parity'
+      ? rewriteV46PromotedParityMatrix(rewritePromotedParityJudgments(promotedPosture, version), version)
+      : promotedPosture;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, and V45. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, and V46. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

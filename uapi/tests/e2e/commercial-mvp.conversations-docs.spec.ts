@@ -33,7 +33,7 @@ test.describe('commercial MVP conversations and docs experiences', () => {
 
     const input = page.locator('textarea.rich-text-input').last();
     await expect(input).toBeVisible();
-    await input.fill('Summarize the selected Read and keep the result Exchange-readable.');
+    await input.fill('Summarize the selected Read and keep the result Packs-readable.');
     await input.press('Enter');
 
     await expect(page.getByText(/Summarize the selected Read/i).first()).toBeVisible();
@@ -52,17 +52,17 @@ test.describe('commercial MVP conversations and docs experiences', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/docs', /Learn Bitcode from Source Shares to proof/i);
+    await openCommercialRoute(page, '/docs', /Learn Bitcode from AssetPacks to proof/i);
 
-    await expect(page.getByText(/Start with Source Shares/i)).toBeVisible();
+    await expect(page.getByText(/Start with AssetPacks/i)).toBeVisible();
     await expect(
       page.getByText(
-        'Then separate Exchange state from Terminal operation before opening write controls.',
+        'Then learn /deposit, /read, and /packs before opening value-bearing controls.',
       ),
     ).toBeVisible();
-    await expect(page.getByText(/Terminal action manual/i)).toBeVisible();
+    await expect(page.getByText(/Action manual/i)).toBeVisible();
 
-    await page.getByRole('link', { name: /Terminal action manual/i }).click();
+    await page.getByRole('link', { name: /Action manual/i }).click();
     await expect(page).toHaveURL(/\/docs\/terminal-actions$/);
     await expectCommercialRouteReady(page, /Terminal actions: what writes and what should read back/i);
     await expect(page.getByText(/Every Terminal write should have an expected read result/i)).toBeVisible();
@@ -75,9 +75,9 @@ test.describe('commercial MVP conversations and docs experiences', () => {
   }, testInfo) => {
     const trap = installCommercialBrowserErrorTrap(page, testInfo);
 
-    await openCommercialRoute(page, '/docs/exchange', /Understand the Bitcode Exchange/i);
+    await openCommercialRoute(page, '/docs/exchange', /Understand \/exchange compatibility and \/packs/i);
 
-    await expect(page.getByText(/Exchange is the durable state/i)).toBeVisible();
+    await expect(page.getByText(/\/exchange redirects to \/packs/i)).toBeVisible();
     await page.getByRole('link', { name: /Open Terminal map/i }).click();
     await expect(page).toHaveURL(/\/docs\/terminal$/);
     await expectCommercialRouteReady(page, /Orient inside the Bitcode Terminal/i);

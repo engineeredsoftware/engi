@@ -1,10 +1,9 @@
 {
-  "reportId": "v43-promotion-readiness-report",
   "artifactId": "v43-promotion-readiness-report",
   "schemaId": "bitcode.v43.promotionReadinessReport.v1",
   "version": "V43",
   "currentTarget": "V42",
-  "generatedAt": "2026-05-31T08:38:40-03:00",
+  "generatedAt": "2026-05-29T00:00:00.000Z",
   "sourceSafetyVerdict": "source-safe-v43-product-routes-agentic-depositing-promotion-metadata",
   "prePromotionPosture": "V42 active / V43 draft",
   "postPromotionPosture": "V43 active / V44 draft",
@@ -43,8 +42,8 @@
       "relativePath": ".bitcode/v43-route-vocabulary-inventory.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:3a253ce1809e55ec1fea1802b188fb487ae8723089ebb60337adbbbc82f73d4c",
-      "byteLength": 454761,
+      "digest": "sha256:954e8628bc5483b6baed31b71659eaefeffe5b898ec755f3adab8f1a858894e7",
+      "byteLength": 484248,
       "sourceSafe": true,
       "artifactId": "v43-route-vocabulary-inventory",
       "version": "V43",
@@ -54,8 +53,8 @@
       "relativePath": ".bitcode/v43-packs-activity-master-detail.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:622db05cd196330c8bd468f1db55869fc2c0a4e8fda81160a866748f41ecbc45",
-      "byteLength": 11717,
+      "digest": "sha256:e1b7642eccf71402d2a0acb91024650eb1dd5442247cc33f86ea4c84da24ac00",
+      "byteLength": 11733,
       "sourceSafe": true,
       "artifactId": "v43-packs-activity-master-detail",
       "version": "V43",
@@ -65,8 +64,8 @@
       "relativePath": ".bitcode/v43-read-route-five-step-ux.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:9201b93d9a7660600414619333281b58d8f467bafbdd2865720e4d2c1af0ecc7",
-      "byteLength": 12152,
+      "digest": "sha256:e9d48ae4463713d927e2f68f17df8e29fb1c22aa320dc036fe68dfe73abf605a",
+      "byteLength": 12168,
       "sourceSafe": true,
       "artifactId": "v43-read-route-five-step-ux",
       "version": "V43",
@@ -76,8 +75,8 @@
       "relativePath": ".bitcode/v43-deposit-route-options.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:a56511336831517dcc4ad478d9392a1318ff6c53b87f11206ff379c718429b5a",
-      "byteLength": 13187,
+      "digest": "sha256:f538b8c51ad03eb5dc707d176e1bee8ccc0de8aea5aae4fd0667f0bd427a78ea",
+      "byteLength": 13203,
       "sourceSafe": true,
       "artifactId": "v43-deposit-route-options",
       "version": "V43",
@@ -87,8 +86,8 @@
       "relativePath": ".bitcode/v43-deposit-policy-compensation.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:4ae091eb995fedbcaab0d7e29eb588e1faa7372ff744059f6e989c476208455e",
-      "byteLength": 11319,
+      "digest": "sha256:6a3edb9567b570b5e0fd67e429f1d540efcef1d379d2c37ba2d75885e3d2337c",
+      "byteLength": 11335,
       "sourceSafe": true,
       "artifactId": "v43-deposit-policy-compensation",
       "version": "V43",
@@ -98,8 +97,8 @@
       "relativePath": ".bitcode/v43-deposit-option-admission.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:2352eb4a0515e5db7bf8869ff1fa3004875a022a4292b359265ae11eab9c2b85",
-      "byteLength": 13657,
+      "digest": "sha256:d93e37f84d9af625131e0ae46d1da5b62468ba995437db3c28de00a79454f095",
+      "byteLength": 13673,
       "sourceSafe": true,
       "artifactId": "v43-deposit-option-admission",
       "version": "V43",
@@ -109,8 +108,8 @@
       "relativePath": ".bitcode/v43-route-ux-product-excellence.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:0fc3c3981a72738a6eb662c8e515453e2fafbb46d3b8dc3600c9e11389bf38e4",
-      "byteLength": 11291,
+      "digest": "sha256:8353cd673e2f3b2c4ba495ad6820d22d9e7e77f40ba1951e0685b35a4a657d4b",
+      "byteLength": 11307,
       "sourceSafe": true,
       "artifactId": "v43-route-ux-product-excellence",
       "version": "V43",
@@ -174,7 +173,7 @@
     {
       "relativePath": "scripts/promote-bitcode-canon.mjs",
       "present": true,
-      "digest": "sha256:5c7dad86223accfd42a6ac205d471cea228570c070121633925f51a1246452c8",
+      "digest": "sha256:da02ac0ac8784b399f3004af768023f2a398dc00ea419ab48dd00880c52f62b3",
       "requiredTokens": [
         {
           "token": "if (version === 'V43')",
@@ -197,7 +196,7 @@
     {
       "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
       "present": true,
-      "digest": "sha256:566040782c417639c6d7ac8e073fcf6de56a48b4680f28542f9e1a684a47a259",
+      "digest": "sha256:73948c223c7a0d2587ee213145b35f5e9c605dfee8700044b360f3acbd3a46c8",
       "requiredTokens": [
         {
           "token": "if (version === 'V43')",
@@ -274,7 +273,7 @@
     {
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "present": true,
-      "digest": "sha256:a6b07a149236a411facd8f36898d7c01848562f4b7f5af420435d31279e96d96",
+      "digest": "sha256:e5de1dddfaeeb0ee525b0c0f9c04887334b5c180992ea9c82f9f73cb9d2a7c68",
       "requiredTokens": [
         {
           "token": "check-v43-gate10-promotion-readiness.mjs",
@@ -293,7 +292,7 @@
     {
       "relativePath": ".github/workflows/bitcode-canon-quality.yml",
       "present": true,
-      "digest": "sha256:6f265809cffee88a188b61c8ff7571fc9460f6874fe24e9d85798ccb05306ece",
+      "digest": "sha256:43cc4ded2bd9757dda9091dc7298cfbaa4171e16ed3aad5c79a9d0f780aa332d",
       "requiredTokens": [
         {
           "token": "check-v43-gate10-promotion-readiness.mjs",
@@ -312,7 +311,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/proven-generator.js",
       "present": true,
-      "digest": "sha256:696c9cf25133c4c7dbe088cbd1e654b9bcf99a909f8ef645970e39315a636a10",
+      "digest": "sha256:72fde86c1b4d36fb1df9f7cc33182a151bf6880dc559e07e035df027c2ca1fe4",
       "requiredTokens": [
         {
           "token": "buildV43ProvenPackage",
@@ -350,7 +349,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:a88afc3c8814ffeec07dfebb024448439452b9d7950af3a1f8708c3024905c62",
+      "digest": "sha256:bdfcd76464c115301b3a50c8df6d6f984861140a3ce5257447086f4aa8716885",
       "requiredTokens": [
         {
           "token": ".bitcode/v43-promotion-readiness-report.json",
@@ -361,7 +360,7 @@
     {
       "relativePath": "package.json",
       "present": true,
-      "digest": "sha256:75e2eab494df4827d441b9c8e7ef1294e268ec59d8d018545f489153d4635d77",
+      "digest": "sha256:b79014968c556bc1b43ab3412ff5f85ae11b40e875e3186cc7304593d93adc19",
       "requiredTokens": [
         {
           "token": "generate:v43-promotion-readiness",
@@ -458,7 +457,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:0651a1ea31db9a4af225b76298ec15d965f0ec6c2b60f8bd2b64760cae7847ac",
+      "digest": "sha256:64b11cb963635e16fd70bf4883ced25e0a70bd48ab428a0b35719aecf468d10f",
       "requiredTokens": [
         {
           "token": "V43 Gate 10 closure anchor",
@@ -473,7 +472,7 @@
     {
       "relativePath": "README.md",
       "present": true,
-      "digest": "sha256:ef6c7b33c7a6a3535012932a7d7544ee774b8d4a907fcfca5ffc22d6b10056c9",
+      "digest": "sha256:d28ec731634e03953d8adfe6cf6c07fe72db9b450d0aecce716fbc73cf6e4a5b",
       "requiredTokens": [
         {
           "token": "check:v43-gate10",
@@ -488,7 +487,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:fd232f7266632704b2c20ce731938dfc5db95f175f2a81d1f1ce175f7f7c0556",
+      "digest": "sha256:f5b175049f4f4e8df179e184f40bc906ecd68181e425d4429a4dbb4a42a50c1a",
       "requiredTokens": [
         {
           "token": "V43 Gate 10",
@@ -550,9 +549,5 @@
   "artifactRoot": "v43-product-route-promotion-readiness-report:3bef1fbfb307d4663b1c6c6f",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v43-gate10",
-  "proofSourceCommit": "b29e088ba95c33a62247ff4e80b3ca09ff7a6b1c",
-  "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
-  "sourceSafe": true
+  "validationCommand": "pnpm run check:v43-gate10"
 }

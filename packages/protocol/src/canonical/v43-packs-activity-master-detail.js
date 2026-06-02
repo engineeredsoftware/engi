@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -190,7 +192,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v42', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V42'),
+    predicateResult('active-canon-pointer-supports-v43-draft-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V42')),
     predicateResult('spec-defines-gate3', SOURCE_ROOTS.spec, sources.spec.includes('V43 Gate 3 Packs Activity Master-Detail Data Model')),
     predicateResult('spec-names-packactivity-contracts', SOURCE_ROOTS.spec, sources.spec.includes('PackActivity data contracts')),
     predicateResult('delta-records-gate3', SOURCE_ROOTS.delta, sources.delta.includes('Gate 3') && sources.delta.includes('v43-packs-activity-master-detail')),

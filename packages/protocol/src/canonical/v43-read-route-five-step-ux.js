@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -156,7 +158,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v42', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V42'),
+    predicateResult('active-canon-pointer-supports-v43-draft-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V42')),
     predicateResult('spec-defines-gate4', SOURCE_ROOTS.spec, sources.spec.includes('V43 Gate 4 Read Route Extraction And Five-Step UX')),
     predicateResult('spec-names-read-route-objects', SOURCE_ROOTS.spec, sources.spec.includes('ReadRouteSession') && sources.spec.includes('Finding Fits request')),
     predicateResult('delta-records-gate4', SOURCE_ROOTS.delta, sources.delta.includes('Gate 4') && sources.delta.includes('v43-read-route-five-step-ux')),

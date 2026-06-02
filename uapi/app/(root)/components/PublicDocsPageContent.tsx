@@ -35,8 +35,8 @@ const firstReadingPath = [
   },
   {
     label: 'Audit the system',
-    body: 'Finish with V26, proofs, settlement, and interface docs so the under-the-hood system is clear.',
-    href: '/docs/protocol-v26',
+    body: 'Finish with active Protocol canon, proofs, settlement, and interface docs so the under-the-hood system is clear.',
+    href: '/docs/protocol',
   },
 ] as const;
 
@@ -45,7 +45,7 @@ const specCoverageCards = [
     eyebrow: 'Protocol',
     title: 'V45 knowledge-commoditization law',
     body: 'AssetPack lifecycle, BTD scalar volume and rights, BTC settlement, proof readback authority, interface disclosure, and promotion truth.',
-    href: '/docs/protocol-v26',
+    href: '/docs/protocol',
   },
   {
     eyebrow: 'Proofs',
@@ -242,12 +242,13 @@ export default function PublicDocsPageContent({ sourcePlayable }: PublicDocsPage
 
           <div className="rounded-[34px] border border-white/10 bg-black/24 p-5 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
             <p className="text-[10px] uppercase tracking-[0.24em] text-cyan-200/72">
-              V26 coverage
+              V45 / V46 claim boundary
             </p>
             <h2 className="mt-3 text-3xl font-semibold tracking-tight text-white">
-              Product docs map back to the canon.
+              Product docs map back to the active canon.
             </h2>
             <p className="mt-3 text-sm leading-7 text-white/72">
+              Protocol docs map back to active law. Public docs explain; proof readback decides.
               The public docs teach the current product routes in user order:
               AssetPack commodity, BTD scalar volume and rights, BTC settlement money,
               proof readback authority, /deposit, /read, /packs, interfaces, and configuration.

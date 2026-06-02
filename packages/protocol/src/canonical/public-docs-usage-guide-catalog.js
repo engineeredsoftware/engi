@@ -91,7 +91,7 @@ const guideRows = Object.freeze([
   },
   {
     guideId: 'protocol_usage',
-    publicRoute: '/docs/protocol-v26',
+    publicRoute: '/docs/protocol',
     title: 'Protocol usage guide',
     audience: ['protocol_reviewers', 'contributors', 'enterprise_reviewers'],
     guideIntent: 'Connect public users to the active Protocol model without treating generated proof or source artifacts as public payloads.',
@@ -103,7 +103,7 @@ const guideRows = Object.freeze([
       'uapi/app/docs/bitcode-docs-content.ts',
     ],
     packageSurfaces: ['packages/protocol/src/index.js', 'packages/protocol/src/canonical/v21-specifying.js'],
-    docsSections: ['protocol-v26', 'proofs', 'settlement-btd'],
+    docsSections: ['protocol', 'proofs', 'settlement-btd'],
     proofSignals: ['active canon pointer', 'draft family status', 'generated artifact inventory'],
     disclosureNotes: [
       'Protocol docs may expose rule names, proof families, and source-safe generated artifact names.',
@@ -268,7 +268,7 @@ const guideRows = Object.freeze([
       'packages/protocol/README.md',
     ],
     packageSurfaces: ['packages/protocol/src', 'scripts/generate-bitcode-proven.mjs'],
-    docsSections: ['proofs', 'protocol-v26'],
+    docsSections: ['proofs', 'protocol'],
     proofSignals: ['witness artifact', 'replay command', 'redaction state'],
     disclosureNotes: [
       'Proof docs may expose proof roots, replay commands, generated artifact names, and fail-closed causes.',

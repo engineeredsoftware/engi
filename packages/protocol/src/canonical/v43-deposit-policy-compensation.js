@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -138,7 +140,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v42', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V42'),
+    predicateResult('active-canon-pointer-supports-v43-draft-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V42')),
     predicateResult('spec-defines-gate6', SOURCE_ROOTS.spec, sources.spec.includes('V43 Gate 6 Source Criticality, Demand, ROI, And Compensation Policy')),
     predicateResult('spec-names-policy-objects', SOURCE_ROOTS.spec, sources.spec.includes('DepositAssetPackOptionPolicy') && sources.spec.includes('BTD potential')),
     predicateResult('delta-records-gate6', SOURCE_ROOTS.delta, sources.delta.includes('Gate 6') && sources.delta.includes('v43-deposit-policy-compensation')),
@@ -153,7 +155,13 @@ function buildPredicateResults(repoRoot) {
     predicateResult('policy-model-defines-btd-compensation', SOURCE_ROOTS.policyModel, sources.policyModel.includes('not-minted-until-future-need-fit-settlement') && sources.policyModel.includes('source-to-shares-largest-remainder')),
     predicateResult('policy-model-defers-gate7-admission', SOURCE_ROOTS.policyModel, sources.policyModel.includes('future-gate7-deposit-option-review') && sources.policyModel.includes('admissionAndIndexingOwnedBy')),
     predicateResult('policy-model-forbids-source-leakage', SOURCE_ROOTS.policyModel, sources.policyModel.includes('rawSourceTextVisible: false') && sources.policyModel.includes('settlementPrivatePayloadVisible: false') && sources.policyModel.includes('walletPrivateMaterialVisible: false')),
-    predicateResult('route-model-owns-policy', SOURCE_ROOTS.routeModel, sources.routeModel.includes('DepositAssetPackOptionPolicyReport') && sources.routeModel.includes('sourceCriticalityDemandRoiPolicyOwnedByGate6')),
+    predicateResult(
+      'route-model-owns-policy',
+      SOURCE_ROOTS.routeModel,
+      sources.routeModel.includes('DepositAssetPackOptionPolicyReport') &&
+        sources.routeModel.includes('sourceCriticalityDemandRoiPolicyPresent: true') &&
+        sources.routeModel.includes('sourceCriticalityDemandRoiPolicySourceSafe: true'),
+    ),
     predicateResult('deposit-client-renders-policy', SOURCE_ROOTS.client, sources.client.includes('DepositAssetPackOptionPolicy') && includesWithWhitespace(sources.client, 'BTC source-to-shares preview')),
     predicateResult('asset-pack-package-exports-policy', SOURCE_ROOTS.packageIndex, sources.packageIndex.includes("export * from './deposit-asset-pack-option-policy'")),
     predicateResult('asset-pack-manifest-exports-policy', SOURCE_ROOTS.packageManifest, sources.packageManifest.includes('"./deposit-asset-pack-option-policy"')),

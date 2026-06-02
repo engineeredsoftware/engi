@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -132,7 +134,7 @@ function buildPredicateResults(repoRoot) {
   const productCopy = [sources.packsClient, sources.readClient, sources.depositClient].join('\n');
 
   return [
-    predicateResult('active-canon-pointer-remains-v42', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V42'),
+    predicateResult('active-canon-pointer-supports-v43-draft-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V42')),
     predicateResult('spec-defines-gate8', SOURCE_ROOTS.spec, sources.spec.includes('V43 Gate 8 UX/UI Product Excellence Pass')),
     predicateResult('spec-records-shared-route-shell', SOURCE_ROOTS.spec, sources.spec.includes('ProductRouteShell') && sources.spec.includes('ProductRouteStepGrid')),
     predicateResult('delta-records-gate8', SOURCE_ROOTS.delta, sources.delta.includes('Gate 8') && sources.delta.includes('v43-route-ux-product-excellence')),

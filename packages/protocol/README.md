@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V45` active, `V46` draft after V45 promotion);
+- active/draft canon posture (`V46` active, `V47` draft after V46 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;
@@ -65,6 +65,10 @@ Current exported commercial helpers include:
 - `V42PromotionReadinessReport` helpers for V42 source-safe promotion readiness across all V42 reliable MVP artifacts, generated proof support, workflow posture, promotion dry-run support, value-bearing mainnet blocking, and `V42` active, `V43` draft runtime preparation;
 - `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/terminal` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
 - `V43PacksActivityMasterDetail` helpers for V43 source-safe PackActivity contracts, `/api/packs/activity`, `/packs` master-detail search/filter/sort/detail projection, proof roots, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirection;
+- `V46PublicOperatorClaimBoundaries` helpers for V46 source-safe public/operator claim boundary metadata across public docs, landing, operator docs, README surfaces, workflow checks, and forbidden overclaim scans;
+- `V46ProductRouteComprehensionReadback` helpers for V46 source-safe `/packs`, `/read`, and `/deposit` route comprehension metadata, low-detail defaults, expandable proof readback, route-owned state, and forbidden product-route overclaim scans;
+- `V46InterfaceClaimContracts` helpers for V46 source-safe API/MCP, ChatGPT App, Bitcode Chat, and package-consumer claim contracts, proof-root projection, denied-state repair, no parallel state authority, and forbidden interface overclaim scans;
+- `V46LocalInterfaceComprehensionRehearsal` helpers for V46 source-safe local docs, route, API/MCP, ChatGPT App, Bitcode Chat, proof telemetry, and repair readback rehearsal metadata over prior V46 claim and authority artifacts;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -321,6 +325,95 @@ draft `BITCODE_SPEC_V45_PROVEN.md` generation support,
 exports, and `V45` active, `V46` draft runtime preparation while preserving the
 same source, prompt, provider, credential, wallet-private, private-settlement,
 live-log, and value-bearing mainnet exclusions.
+
+V46 Gate 1 opens commercial protocol comprehension over active `V45` with the
+V46 draft spec family and `check:v46-gate1`. It keeps V46 as draft-target
+material while naming the public/operator/interface explanation scope.
+
+V46 Gate 2 adds `V46ProtocolComprehensionObjectModel` through
+`packages/protocol/src/canonical/v46-protocol-comprehension-object-model.js`,
+`packages/protocol/test/v46-protocol-comprehension-object-model.test.js`,
+`.bitcode/v46-protocol-comprehension-object-model.json`,
+`generate:v46-protocol-comprehension-object-model`,
+`check:v46-protocol-comprehension-object-model`, and `check:v46-gate2`. It
+binds the source-safe object model, claim categories, authority classes,
+disclosure boundaries, forbidden claim collapses, package exports, workflow
+checks, and generated artifact freshness for later public docs, route,
+API/MCP, ChatGPT App, Bitcode Chat, proof readback, and launch-facing claim
+work.
+
+V46 Gate 3 adds `V46PublicOperatorClaimBoundaries` through
+`packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js`,
+`packages/protocol/test/v46-public-operator-claim-boundaries.test.js`,
+`.bitcode/v46-public-operator-claim-boundaries.json`,
+`generate:v46-public-operator-claim-boundaries`,
+`check:v46-public-operator-claim-boundaries`, and `check:v46-gate3`.
+Package consumers can call `buildV46PublicOperatorClaimBoundaries` to produce
+source-safe public/operator claim boundary metadata for public docs, landing,
+operator docs, README surfaces, workflow wiring, required copy anchors, and
+forbidden overclaim scans without serializing protected source, unpaid
+AssetPack source, raw prompts, raw provider responses, credentials, wallet
+private material, or value-bearing mainnet authority.
+
+V46 Gate 4 adds `V46ProductRouteComprehensionReadback` through
+`packages/protocol/src/canonical/v46-product-route-comprehension-readback.js`,
+`packages/protocol/test/v46-product-route-comprehension-readback.test.js`,
+`.bitcode/v46-product-route-comprehension-readback.json`,
+`generate:v46-product-route-comprehension-readback`,
+`check:v46-product-route-comprehension-readback`, and `check:v46-gate4`. It
+binds `/packs`, `/read`, and `/deposit` to source-safe low-detail defaults,
+route-owned state, expandable proof readback, Reading and Depositing five-step
+flows, Packs search/filter/sort, proof-root readback, settlement/delivery
+boundaries, contributor compensation readback, and no-source/no-secret product
+route scans.
+
+V46 Gate 5 adds `V46InterfaceClaimContracts` through
+`packages/protocol/src/canonical/v46-interface-claim-contracts.js`,
+`packages/protocol/test/v46-interface-claim-contracts.test.js`,
+`.bitcode/v46-interface-claim-contracts.json`,
+`generate:v46-interface-claim-contracts`,
+`check:v46-interface-claim-contracts`, and `check:v46-gate5`. It binds public
+API schema compatibility, MCP tool contracts, ChatGPT App action contracts,
+Bitcode Chat conversation/stream/handoff contracts, and package-consumer read
+contracts to source-safe `InterfaceClaim` rows, proof-root projection,
+denied-state repair, no parallel state authority, package exports, and
+no-source/no-secret interface scans.
+
+V46 Gate 6 adds `V46ProofReadbackOperatorExplanation` through
+`packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js`,
+`packages/protocol/test/v46-proof-readback-operator-explanation.test.js`,
+`.bitcode/v46-proof-readback-operator-explanation.json`,
+`generate:v46-proof-readback-operator-explanation`,
+`check:v46-proof-readback-operator-explanation`, and `check:v46-gate6`. It
+distinguishes canonical/generated proof, execution/workflow receipts, ledger
+journals, database projections, object-storage roots, telemetry streams,
+wallet/provider receipts, repository delivery receipts, and repair
+reconciliation receipts without creating parallel state authority or exposing
+private payloads.
+
+V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
+`packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
+`packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js`,
+`.bitcode/v46-local-interface-comprehension-rehearsal.json`,
+`generate:v46-local-interface-comprehension-rehearsal`,
+`check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.
+It rehearses local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
+ChatGPT App, Bitcode Chat, proof telemetry, and repair readback against Gate 2
+through Gate 6 generated artifacts while remaining local-only and
+source-safe.
+
+V46 Gate 8 adds `V46PromotionReadinessReport` through
+`packages/protocol/src/canonical/v46-promotion-readiness-report.js`,
+`packages/protocol/test/v46-promotion-readiness.test.js`,
+`.bitcode/v46-promotion-readiness-report.json`,
+`generate:v46-promotion-readiness`, `check:v46-promotion-readiness`, and
+`check:v46-gate8`. It binds the accepted V46 protocol comprehension artifacts,
+generated `BITCODE_SPEC_V46_PROVEN.md` support, `v46-canon-promotion.yml`,
+promotion dry-run support, workflow posture, package exports, and the promoted
+`V46` active, `V47` draft runtime preparation without serializing protected
+source, unpaid AssetPack source, raw prompts, provider payloads, credentials,
+wallet private material, private settlement payloads, live logs, or
+value-bearing mainnet authority.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

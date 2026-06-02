@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V43`; V44 is the active draft target for scaled engineering economy
-operation over the Packs, Read, and Deposit route model promoted in V43.
+resolves to `V46`; V47 is the active draft target after commercial protocol
+comprehension was promoted as canon in V46.
 
 ## Current Product Posture
 
@@ -13,13 +13,63 @@ The promoted V43 enterprise routes are:
 - `/read` for the five-step Reading path from Read Request to settlement-gated delivery.
 - `/deposit` for connected-source deposit AssetPack option synthesis, review, and admission.
 
-The active V44 draft target makes those routes economically operable at
-enterprise scale: `/packs` becomes the portfolio and market-intelligence
-surface, `/read` gains budgeted procurement and quote governance, and
-`/deposit` gains earning, demand, ROI, compensation-range, and source-safe
-supply opportunity visibility. Gate 6 adds `/packs` accounting readback for
-source-safe BTD/BTC/source-to-shares compensation statements over paid
-settlement receipts.
+The promoted V46 canon makes those routes easier to explain and audit:
+public docs, landing, and operator docs must teach AssetPack commodity flow,
+BTD scalar knowledge volume and rights, BTC settlement money, proof readback
+authority, and source-safe claim boundaries without turning public guidance into
+protocol law.
+
+V46 Gate 3 adds `V46PublicOperatorClaimBoundaries` through
+`packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js`,
+`.bitcode/v46-public-operator-claim-boundaries.json`,
+`generate:v46-public-operator-claim-boundaries`,
+`check:v46-public-operator-claim-boundaries`, and `check:v46-gate3`. It binds
+public docs, landing, and operator docs to source-safe claim categories,
+evidence authority, compatibility redirects, and forbidden overclaims while
+keeping protected source, unpaid AssetPack source, raw prompts, raw provider
+responses, credentials, wallet private material, and value-bearing mainnet
+operation out of generated metadata.
+
+V46 Gate 4 adds `V46ProductRouteComprehensionReadback` through
+`packages/protocol/src/canonical/v46-product-route-comprehension-readback.js`,
+`.bitcode/v46-product-route-comprehension-readback.json`,
+`generate:v46-product-route-comprehension-readback`,
+`check:v46-product-route-comprehension-readback`, and `check:v46-gate4`. It
+binds `/packs`, `/read`, and `/deposit` to low-detail route defaults,
+route-owned state, searchable PackActivity readback, Reading and Depositing
+five-step flows, expandable proof detail, settlement/delivery boundaries,
+compensation readback, and no-source/no-secret route metadata.
+
+V46 Gate 5 adds `V46InterfaceClaimContracts` through
+`packages/protocol/src/canonical/v46-interface-claim-contracts.js`,
+`.bitcode/v46-interface-claim-contracts.json`,
+`generate:v46-interface-claim-contracts`,
+`check:v46-interface-claim-contracts`, and `check:v46-gate5`. It binds public
+API, MCP API, ChatGPT App, Bitcode Chat, and package-consumer surfaces to
+source-safe `InterfaceClaim` contracts, proof-root projection, denied-state
+repair, no parallel state authority, and no-source/no-secret interface
+metadata.
+
+V46 Gate 6 adds `V46ProofReadbackOperatorExplanation` through
+`packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js`,
+`.bitcode/v46-proof-readback-operator-explanation.json`,
+`generate:v46-proof-readback-operator-explanation`,
+`check:v46-proof-readback-operator-explanation`, and `check:v46-gate6`. It
+binds canonical/generated proof, execution/workflow receipts, ledger journals,
+database projections, object-storage roots, telemetry streams,
+wallet/provider receipts, repository delivery receipts, and repair
+reconciliation receipts into a source-safe operator authority ladder.
+
+V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
+`packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
+`.bitcode/v46-local-interface-comprehension-rehearsal.json`,
+`generate:v46-local-interface-comprehension-rehearsal`,
+`check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.
+It rehearses local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
+ChatGPT App, Bitcode Chat, proof telemetry, and repair readback against the
+V46 claim and authority artifacts without exposing protected source, unpaid
+AssetPack source, prompts, provider responses, credentials, wallet private
+material, private settlement payloads, or value-bearing mainnet behavior.
 
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
@@ -428,6 +478,39 @@ support, promotion scripts, gate/canon workflow posture, and the promoted
 promotion, protected source, unpaid AssetPack source, raw prompts, provider
 payloads, credentials, wallet private material, private settlement payloads,
 live logs, and value-bearing mainnet operation.
+
+V46 Gate 1 opens commercial protocol comprehension work over the promoted
+`V45` active, `V46` draft posture with the V46 specification family and
+`check:v46-gate1`. It keeps `BITCODE_SPEC.txt` pointed at `V45` while naming
+V46's launch-facing focus: public/operator explanation, `/packs`, `/read`,
+`/deposit`, API/MCP, ChatGPT App, Bitcode Chat, proof readback, and source-safe
+claim boundaries for Bitcode as the knowledge commoditization system.
+
+V46 Gate 2 adds `V46ProtocolComprehensionObjectModel`,
+`.bitcode/v46-protocol-comprehension-object-model.json`,
+`generate:v46-protocol-comprehension-object-model`,
+`check:v46-protocol-comprehension-object-model`, and `check:v46-gate2`.
+It binds source-safe object rows for AssetPack, deposit options, Depository
+AssetPacks, Read Requests, reviewed Needs, Finding Fits, selected Fit sets,
+Need-Fit AssetPacks, previews, BTD scalar volume, BTC quotes/settlement,
+rights, delivery, source-to-shares compensation, proof, repair, and
+`InterfaceClaim`; it also separates protocol law, product guidance, operator
+evidence, investor framing, telemetry, preview, quote, settlement, rights,
+delivery, compensation, and repair claims without exposing protected source,
+unpaid AssetPack source, prompts, provider payloads, credentials, wallet
+private material, private settlement payloads, or value-bearing mainnet
+authority.
+
+V46 Gate 8 adds `V46PromotionReadinessReport`,
+`.bitcode/v46-promotion-readiness-report.json`,
+`generate:v46-promotion-readiness`, `check:v46-promotion-readiness`,
+`check:v46-gate8`, and `v46-canon-promotion.yml`. It binds the accepted V46
+protocol comprehension artifacts, generated `BITCODE_SPEC_V46_PROVEN.md`
+support, V46 promotion scripts, gate/canon workflow posture, package exports,
+focused tests, and the promoted `V46` active, `V47` draft runtime posture while
+continuing to withhold protected source, unpaid AssetPack source, raw prompts,
+provider payloads, credentials, wallet private material, private settlement
+payloads, live logs, and value-bearing mainnet operation.
 
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,

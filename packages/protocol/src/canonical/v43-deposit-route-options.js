@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -148,7 +150,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v42', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V42'),
+    predicateResult('active-canon-pointer-supports-v43-draft-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V42')),
     predicateResult('spec-defines-gate5', SOURCE_ROOTS.spec, sources.spec.includes('V43 Gate 5 Deposit Route And Agentic AssetPack Option Synthesis')),
     predicateResult('spec-names-deposit-option-objects', SOURCE_ROOTS.spec, sources.spec.includes('DepositAssetPackOption') && sources.spec.includes('DepositOptionSynthesisRequest')),
     predicateResult('delta-records-gate5', SOURCE_ROOTS.delta, sources.delta.includes('Gate 5') && sources.delta.includes('v43-deposit-route-options')),
@@ -159,7 +161,15 @@ function buildPredicateResults(repoRoot) {
     predicateResult('protocol-readme-records-gate5', SOURCE_ROOTS.protocolReadme, sources.protocolReadme.includes('V43 Gate 5')),
     predicateResult('terminal-routes-define-deposit', SOURCE_ROOTS.terminalRoutes, sources.terminalRoutes.includes("DEPOSIT_ROUTE = '/deposit'") && sources.terminalRoutes.includes('buildDepositHref')),
     predicateResult('route-model-defines-deposit-session', SOURCE_ROOTS.routeModel, sources.routeModel.includes("schema: 'bitcode.deposit.route-session'") && sources.routeModel.includes('assertDepositRouteSessionSourceSafe')),
-    predicateResult('route-model-defines-pipeline-ownership', SOURCE_ROOTS.routeModel, sources.routeModel.includes('DepositAssetPackOptionSynthesis') && sources.routeModel.includes('sourceCriticalityDemandRoiPolicyDeferredToGate6')),
+    predicateResult(
+      'route-model-defines-pipeline-ownership',
+      SOURCE_ROOTS.routeModel,
+      sources.routeModel.includes('DepositAssetPackOptionSynthesis') &&
+        sources.routeModel.includes("depositOptionPolicy: 'DepositAssetPackOptionPolicy'") &&
+        sources.routeModel.includes("depositOptionAdmission: 'DepositAssetPackOptionAdmissionReport'") &&
+        sources.routeModel.includes('sourceCriticalityDemandRoiPolicyPresent: true') &&
+        sources.routeModel.includes('admissionAndIndexingPolicyPresent: true'),
+    ),
     predicateResult('route-model-forbids-source-leakage', SOURCE_ROOTS.routeModel, sources.routeModel.includes('protectedSourceVisible: false') && sources.routeModel.includes('rawSourceTextVisible: false') && sources.routeModel.includes('unpaidAssetPackSourceVisible: false')),
     predicateResult('deposit-page-canonical-route', SOURCE_ROOTS.page, sources.page.includes("canonical: '/deposit'") && sources.page.includes('DepositPageClient')),
     predicateResult(

@@ -79,6 +79,7 @@ export const BITCODE_PUBLIC_EXPLAINERS = {
       'This is the reference document for how Bitcode works. It is meant for readers who want the precise model behind the protocol and commercial interfaces.',
     points: [
       'Covers system semantics and proof-bearing posture',
+      'Protocol law and proof readback decide state',
       'Useful for partners, researchers, and implementation review',
     ],
   }),

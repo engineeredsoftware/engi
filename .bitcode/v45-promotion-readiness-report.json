@@ -148,8 +148,8 @@
       "relativePath": ".bitcode/v45-source-safe-e2e-rehearsal.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:8a1822c09036fc62970bf4e948b9e959e3ef548719d0394676e95bc8f24c5bb6",
-      "byteLength": 50958,
+      "digest": "sha256:394a52575dd80089976889345014173dc337892b60841741e861c954d6f2ccd7",
+      "byteLength": 50973,
       "sourceSafe": true,
       "artifactId": "v45-source-safe-e2e-rehearsal",
       "version": "V45",
@@ -202,7 +202,7 @@
     {
       "relativePath": "scripts/promote-bitcode-canon.mjs",
       "present": true,
-      "digest": "sha256:63201f1238720f3cb5ab12af13af042d496e5a6f2b630ef91f2420a6de1d08dd",
+      "digest": "sha256:da02ac0ac8784b399f3004af768023f2a398dc00ea419ab48dd00880c52f62b3",
       "requiredTokens": [
         {
           "token": "if (version === 'V45')",
@@ -225,7 +225,7 @@
     {
       "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
       "present": true,
-      "digest": "sha256:723662a723f2e6da7c35512ca48f67e14fd19ecb157189616f67d5cc4ef241d6",
+      "digest": "sha256:73948c223c7a0d2587ee213145b35f5e9c605dfee8700044b360f3acbd3a46c8",
       "requiredTokens": [
         {
           "token": "if (version === 'V45')",
@@ -302,7 +302,7 @@
     {
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "present": true,
-      "digest": "sha256:3a247433690c88f138a55a2824b557b7a00fbd2e82da79df5cdf426d0968b366",
+      "digest": "sha256:e5de1dddfaeeb0ee525b0c0f9c04887334b5c180992ea9c82f9f73cb9d2a7c68",
       "requiredTokens": [
         {
           "token": "check-v45-gate18-promotion-readiness.mjs",
@@ -321,7 +321,7 @@
     {
       "relativePath": ".github/workflows/bitcode-canon-quality.yml",
       "present": true,
-      "digest": "sha256:d9f90a948a3d275a7c02b0693fecc4f6ab7e464c64134093cfd178bb3a725c3c",
+      "digest": "sha256:43cc4ded2bd9757dda9091dc7298cfbaa4171e16ed3aad5c79a9d0f780aa332d",
       "requiredTokens": [
         {
           "token": "check-v45-gate18-promotion-readiness.mjs",
@@ -340,7 +340,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/proven-generator.js",
       "present": true,
-      "digest": "sha256:e8d3f27ba3501273cd1f50a7b0ddc4f31590590161bdda0621dec0d4a84b687c",
+      "digest": "sha256:72fde86c1b4d36fb1df9f7cc33182a151bf6880dc559e07e035df027c2ca1fe4",
       "requiredTokens": [
         {
           "token": "buildV45ProvenPackage",
@@ -378,7 +378,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:0ef1d8025a3965c0083b9904907fcdef7e5aaed59c37a2898598bc3dda7097ea",
+      "digest": "sha256:bdfcd76464c115301b3a50c8df6d6f984861140a3ce5257447086f4aa8716885",
       "requiredTokens": [
         {
           "token": ".bitcode/v45-promotion-readiness-report.json",
@@ -389,7 +389,7 @@
     {
       "relativePath": "package.json",
       "present": true,
-      "digest": "sha256:d8ab37e08b2d784f87de7dbecd98c7acbb8fd52c34d353472cc20154c8eb9aa6",
+      "digest": "sha256:b79014968c556bc1b43ab3412ff5f85ae11b40e875e3186cc7304593d93adc19",
       "requiredTokens": [
         {
           "token": "generate:v45-promotion-readiness",
@@ -486,7 +486,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:41ae9160604d315d3973f92ab0d444a49a691ad2a86c75ee9fcef89fff2d58aa",
+      "digest": "sha256:64b11cb963635e16fd70bf4883ced25e0a70bd48ab428a0b35719aecf468d10f",
       "requiredTokens": [
         {
           "token": "V45 Gate 18 closure anchor",
@@ -501,7 +501,7 @@
     {
       "relativePath": "README.md",
       "present": true,
-      "digest": "sha256:1f8147b799cc880e570b0c66d1006e08b0768f8fb4d7f3996c110bc5d252852f",
+      "digest": "sha256:d28ec731634e03953d8adfe6cf6c07fe72db9b450d0aecce716fbc73cf6e4a5b",
       "requiredTokens": [
         {
           "token": "check:v45-gate18",
@@ -516,7 +516,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:ae6773f09ef9c8530e23f6aeeeaea82f662344eafe15a29f2c33653c984b42d1",
+      "digest": "sha256:f5b175049f4f4e8df179e184f40bc906ecd68181e425d4429a4dbb4a42a50c1a",
       "requiredTokens": [
         {
           "token": "V45 Gate 18",
