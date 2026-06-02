@@ -501,6 +501,17 @@ unpaid AssetPack source, prompts, provider payloads, credentials, wallet
 private material, private settlement payloads, or value-bearing mainnet
 authority.
 
+V46 Gate 8 adds `V46PromotionReadinessReport`,
+`.bitcode/v46-promotion-readiness-report.json`,
+`generate:v46-promotion-readiness`, `check:v46-promotion-readiness`,
+`check:v46-gate8`, and `v46-canon-promotion.yml`. It binds the accepted V46
+protocol comprehension artifacts, generated `BITCODE_SPEC_V46_PROVEN.md`
+support, V46 promotion scripts, gate/canon workflow posture, package exports,
+focused tests, and the promoted `V46` active, `V47` draft runtime posture while
+continuing to withhold protected source, unpaid AssetPack source, raw prompts,
+provider payloads, credentials, wallet private material, private settlement
+payloads, live logs, and value-bearing mainnet operation.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

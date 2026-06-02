@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V46`
-- V46 state: draft opening; V46 parity work is not yet audited and Gate 1 only establishes the draft roadmap and validation boundary
+- V46 state: Gate 8 promotion readiness; V46 parity work binds the closed protocol comprehension artifacts and promotion workflow boundary
 - Current canonical/latest target: `V45`
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v46-spec-family-report.json` and `.bitcode/v46-canonical-input-report.json`; later V46 gates must authorize proof-family, rehearsal, promotion-readiness, and generated proof appendix artifacts before they become required V46 evidence
-- Source parity state: V46 source parity has not been audited; Gate 1 opens the draft-target roadmap and validation boundary only
+- Generated structured artifact inventory: `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, six Gate 2 through Gate 7 protocol comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, and `BITCODE_SPEC_V46_PROVEN.md`
+- Source parity state: Gate 8 promotion readiness is audited against source, docs, workflows, promotion scripts, package exports, generated artifacts, and tests
 - Notes companion: `BITCODE_SPEC_V46_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V46.md`
 - Delta companion: `BITCODE_SPEC_V46_DELTA.md`
@@ -66,7 +66,7 @@ source files and generated artifacts that implement or explain each row.
 | Machine and conversation interfaces | API/MCP, ChatGPT App, Bitcode Chat, and package consumers expose the same claim boundaries as website routes | implemented prerequisite | Gate 5 owns package-backed `V46InterfaceClaimContracts`, deterministic `.bitcode/v46-interface-claim-contracts.json`, public API schema compatibility, MCP tool contracts, ChatGPT App action contracts, Bitcode Chat conversation/stream/handoff contracts, package-consumer read contracts, proof-root projection, denied-state repair, source-safe disclosure exclusions, focused tests, and workflow wiring. | Gate 5 |
 | Proof readback explanation | Users and operators can understand why proof, ledger, database, storage, wallet/provider, and repository receipts have different authority | implemented prerequisite | Gate 6 owns package-backed `V46ProofReadbackOperatorExplanation`, deterministic `.bitcode/v46-proof-readback-operator-explanation.json`, canonical/generated proof rows, execution/workflow receipt rows, ledger journal rows, database projection rows, object-storage root rows, telemetry stream rows, wallet/provider receipt rows, repository delivery receipt rows, repair/reconciliation rows, source-safe operator explanation, focused tests, and workflow wiring. | Gate 6 |
 | Local interface rehearsal | A source-safe local rehearsal verifies docs/routes/interfaces explain the protocol without exposing unpaid source | implemented prerequisite | Gate 7 owns package-backed `V46LocalInterfaceComprehensionRehearsal`, deterministic `.bitcode/v46-local-interface-comprehension-rehearsal.json`, local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP, ChatGPT App, Bitcode Chat, proof telemetry, repair readback rows, prior V46 artifact pass checks, source-safe disclosure exclusions, focused tests, package exports, and workflow wiring. | Gate 7 |
-| Promotion readiness | V46 can promote only after all accepted comprehension, parity, proof, interface, rehearsal, and source-safety gates close | accepted boundary | V45 remains active canon until a future promotion workflow advances the pointer. | Gate 8 |
+| Promotion readiness | V46 can promote only after all accepted comprehension, parity, proof, interface, rehearsal, and source-safety gates close | implemented prerequisite | Gate 8 owns `V46PromotionReadinessReport`, `.bitcode/v46-promotion-readiness-report.json`, `BITCODE_SPEC_V46_PROVEN.md`, V46 promotion script support, `v46-canon-promotion.yml`, shared gate/canon workflow posture, package exports, source-safe generated artifact freshness, focused tests, and V46 active / draft V47 runtime preparation. | Gate 8 |
 
 ## V46 Implementation Checklist
 
@@ -84,6 +84,7 @@ source files and generated artifacts that implement or explain each row.
 | Interface claim contracts artifact | API/MCP, ChatGPT App, Bitcode Chat, and package consumers expose source-safe contracts without parallel state authority | implemented prerequisite | `V46InterfaceClaimContracts` binds public API, MCP API, ChatGPT App, Bitcode Chat, and package-consumer rows to claim ids, category ids, authority ids, capability ids, source roots, proof-root projection, denied-state repair, no-source/no-secret checks, and `.bitcode/v46-interface-claim-contracts.json`. | Gate 5 |
 | Proof readback operator explanation artifact | Proof, ledger, database, storage, wallet/provider, repository, telemetry, execution, and repair evidence classes remain distinct and source-safe | implemented prerequisite | `V46ProofReadbackOperatorExplanation` binds all evidence class ids to Gate 2 authority ids, required operator questions, stronger evidence requirements, conflict behavior, fail-closed repair states, no-source/no-secret checks, and `.bitcode/v46-proof-readback-operator-explanation.json`. | Gate 6 |
 | Local interface comprehension rehearsal artifact | Local docs, product routes, machine interfaces, conversation surfaces, proof telemetry, and repair readback rehearse V46 comprehension without external state authority | implemented prerequisite | `V46LocalInterfaceComprehensionRehearsal` binds local surface ids to Gate 2 claim ids, claim categories, authority ids, source roots, copy anchors, prior V46 artifact pass checks, no-source/no-secret checks, and `.bitcode/v46-local-interface-comprehension-rehearsal.json`. | Gate 7 |
+| Gate 8 implementation readback | Promotion readiness has source-backed package, generated, workflow, documentation, and promotion-script evidence | closed | `V46PromotionReadinessReport` binds the six accepted V46 comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, `BITCODE_SPEC_V46_PROVEN.md`, `check:v46-gate8`, V46 promotion workflow support, V46 promotion dry-run support, and source-safe post-promotion `V46 active / draft V47` posture. | Gate 8 |
 
 ## Grouped Closure Gates
 
@@ -116,7 +117,16 @@ more maintainable closure order.
 
 ## Current completion condition
 
-V46 Gate 7 is complete when `V46LocalInterfaceComprehensionRehearsal`,
+V46 Gate 8 is complete when `V46PromotionReadinessReport`,
+`.bitcode/v46-promotion-readiness-report.json`, `BITCODE_SPEC_V46_PROVEN.md`,
+`v46-canon-promotion.yml`, V46 promotion scripts, gate/canon workflows,
+package exports, focused tests, source-safe generated artifact freshness,
+`check:v46-gate8`, and
+`node scripts/promote-bitcode-canon.mjs --version V46 --commit HEAD --dry-run`
+validate active V45 plus draft V46, prepare V46 active / draft V47 posture, and
+the gate branch is committed, pushed, and pull-requested into `version/v46`.
+
+Historical Gate 7 completion condition: V46 Gate 7 is complete when `V46LocalInterfaceComprehensionRehearsal`,
 `.bitcode/v46-local-interface-comprehension-rehearsal.json`, docs/landing,
 `/packs`, `/read`, `/deposit`, API/MCP, ChatGPT App, Bitcode Chat, proof
 telemetry, repair readback rows, prior V46 artifact pass checks, package

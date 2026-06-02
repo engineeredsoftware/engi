@@ -402,6 +402,19 @@ ChatGPT App, Bitcode Chat, proof telemetry, and repair readback against Gate 2
 through Gate 6 generated artifacts while remaining local-only and
 source-safe.
 
+V46 Gate 8 adds `V46PromotionReadinessReport` through
+`packages/protocol/src/canonical/v46-promotion-readiness-report.js`,
+`packages/protocol/test/v46-promotion-readiness.test.js`,
+`.bitcode/v46-promotion-readiness-report.json`,
+`generate:v46-promotion-readiness`, `check:v46-promotion-readiness`, and
+`check:v46-gate8`. It binds the accepted V46 protocol comprehension artifacts,
+generated `BITCODE_SPEC_V46_PROVEN.md` support, `v46-canon-promotion.yml`,
+promotion dry-run support, workflow posture, package exports, and the promoted
+`V46` active, `V47` draft runtime preparation without serializing protected
+source, unpaid AssetPack source, raw prompts, provider payloads, credentials,
+wallet private material, private settlement payloads, live logs, or
+value-bearing mainnet authority.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

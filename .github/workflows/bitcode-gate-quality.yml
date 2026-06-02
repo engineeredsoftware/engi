@@ -569,7 +569,15 @@ jobs:
               if [ -f scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs ]; then
                 node scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v46-gate8-promotion-readiness.mjs ]; then
+                node scripts/check-v46-gate8-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
+              fi
             fi
+          elif [ "$POINTER" = "V46" ]; then
+            node scripts/check-bitcode-spec-family.mjs --version V46 --mode promoted --current-target V46
+            node scripts/check-bitcode-canonical-inputs.mjs --current-target V46
+            node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V47
+            node scripts/check-v46-gate8-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
             exit 1
@@ -627,6 +635,9 @@ jobs:
               fi
               if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs ]; then
                 node scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate8-promotion-readiness.mjs ]; then
+                node scripts/check-v46-gate8-promotion-readiness.mjs --promotion-mode --skip-branch-check --skip-package-tests
               fi
             fi
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs ]; then

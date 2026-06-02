@@ -31,7 +31,7 @@ function printHelp() {
       'Usage: node scripts/prepare-bitcode-spec-family-promotion.mjs --version V31 --commit <sha> [--repo-root <path>]',
       '',
       'Rewrites the hand-authored spec family status truth for canonical promotion.',
-      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, and V45.'
+      'Currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, and V46.'
     ].join('\n')
   );
 }
@@ -730,8 +730,37 @@ function rewritePromotionStatus(version, commit, content, kind) {
       : promotedSourceTruth;
   }
 
+  if (version === 'V46') {
+    const sharedInventory = 'active canonical `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion';
+    const scopeByKind = {
+      spec: 'V46 canonical system specification for protocol comprehension, source-safe public/operator explanation, interface claim contracts, proof readback, local interface rehearsal, and promotion readiness over promoted V45 knowledge commoditization canon',
+      delta: 'V46 canonical delta for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon',
+      notes: 'V46 canonical notes for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon',
+      parity: 'V46 canonical parity ledger for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V46 is the active protocol-comprehension canon and the V46 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V45-to-V46 protocol-comprehension closure set',
+      notes: 'canonical promotion complete; V46 notes record accepted protocol object-model, public/operator claim boundary, route readback, interface contract, proof explanation, local rehearsal, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V46 parity truth, generated comprehension artifacts, local interface rehearsal, gate closure, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V46`' }
+        : {}),
+      'Current canonical/latest target': '`V46`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V46 source-side protocol comprehension object model, public/operator claim boundaries, route readback, interface claim contracts, proof readback, local rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V46 file family',
+      'V46 state': stateByKind[kind]
+    });
+    return kind === 'parity' ? rewritePromotedParityJudgments(rewritten, version) : rewritten;
+  }
+
   if (!['V21', 'V22', 'V23', 'V24', 'V25'].includes(version)) {
-    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, and V45. Received ${version}.`);
+    throw new Error(`Promotion hand-authored family rewriting is currently implemented for V21, V22, V23, V24, V25, V28, V29, V30, V31, V32, V33, V34, V35, V36, V37, V38, V39, V40, V41, V42, V43, V44, V45, and V46. Received ${version}.`);
   }
   const sharedInventory = version === 'V21'
     ? 'active canonical `.bitcode/v19-*` reproducible reports, `.bitcode/v20-*` operator-quality reports, `.bitcode/v21-spec-family-report.json`, and `.bitcode/v21-canonical-input-report.json`; `ENGI_SPEC_V21_PROVEN.md` is the active generated proof appendix for V21'

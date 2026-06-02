@@ -3,12 +3,12 @@
 ## Status
 
 - Version: `V46`
-- V46 state: draft opening; V46 is the active draft target over promoted V45 canon
+- V46 state: Gate 8 promotion readiness; V46 is the active draft target over promoted V45 canon
 - Current canonical/latest target: `V45`
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v46-spec-family-report.json` and `.bitcode/v46-canonical-input-report.json`; later V46 gates must authorize proof-family, rehearsal, promotion-readiness, and generated proof appendix artifacts before they become required V46 evidence
-- Source parity state: V46 source parity has not been audited; Gate 1 opens the draft-target roadmap and validation boundary only
+- Generated structured artifact inventory: `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, six Gate 2 through Gate 7 protocol comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, and `BITCODE_SPEC_V46_PROVEN.md`
+- Source parity state: Gate 8 binds promotion readiness over all accepted V46 protocol comprehension artifacts and prepares V46 active / draft V47 posture
 - Notes companion: `BITCODE_SPEC_V46_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V46.md`
 - Parity companion: `BITCODE_SPEC_V46_PARITY_MATRIX.md`
@@ -45,12 +45,13 @@ overstating live value-bearing posture.
 
 - V46 does not replace V45 until a later promotion workflow validates and
   advances `BITCODE_SPEC.txt`.
-- Gate 1 does not authorize runtime behavior, schema changes, route changes,
-  settlement behavior, proof-family artifacts, source-safe rehearsal artifacts,
-  or promotion-readiness artifacts.
+- Gate 8 does not authorize runtime behavior, schema changes, route changes,
+  settlement behavior, proof-family artifacts, separate source-safe
+  end-to-end rehearsal artifacts, value-bearing settlement, or source
+  disclosure.
 - Value-bearing mainnet operation remains deferred.
-- Generated V46 proof appendix material remains future work until a proof or
-  promotion gate makes it current.
+- Generated V46 proof appendix material is source-safe promotion evidence, not
+  live operation evidence.
 
 ## Accepted Pre-Implementation Sequence
 
@@ -229,6 +230,29 @@ Accepted Gate 7 decisions:
 - Gate 7 does not expose protected source, unpaid AssetPack source, prompts,
   provider responses, credentials, wallet private material, private settlement
   payloads, or private repository access.
+
+## Gate 8: V46 Promotion Readiness
+
+Gate 8 adds `V46PromotionReadinessReport` as a source-safe generated artifact
+at `.bitcode/v46-promotion-readiness-report.json`. It binds the six accepted
+V46 protocol comprehension artifacts, generated `BITCODE_SPEC_V46_PROVEN.md`
+support, `v46-canon-promotion.yml`, V46 gate/canon workflow posture, and
+promotion scripts support V46 before a version-promotion pull request can ask
+`main` to advance from V45 to V46.
+
+Accepted Gate 8 decisions:
+
+- Gate 8 covers V46 promotion readiness only; it does not add runtime route,
+  settlement, delivery, proof-family, value-bearing mainnet, or source
+  disclosure behavior.
+- The report must prove source-safe promotion metadata over Gate 2 through
+  Gate 7 artifacts and generated proof outputs.
+- The promotion workflow must validate V45 active / V46 draft before
+  promotion generation and V46 active / draft V47 after generation.
+- `BITCODE_SPEC_V46_PROVEN.md` is the generated proof appendix for V46
+  promotion readiness, not evidence of live payment or delivery.
+- `node scripts/promote-bitcode-canon.mjs --version V46 --commit HEAD --dry-run`
+  must be greenable before the gate can close.
 
 ## Commit-Body Direction
 

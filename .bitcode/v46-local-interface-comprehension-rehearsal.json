@@ -5,7 +5,7 @@
   "currentTarget": "V45",
   "sourceSafetyVerdict": "source-safe-local-interface-comprehension-rehearsal",
   "generatedAt": "deterministic",
-  "artifactRoot": "v46-local-interface-comprehension-rehearsal:a0412888725a2842ee1357af",
+  "artifactRoot": "v46-local-interface-comprehension-rehearsal:490343ca364de24538600bc6",
   "rehearsalStatus": "completed_source_safe_local",
   "passed": true,
   "surfaceIds": [
@@ -688,7 +688,7 @@
         "uapi/components/base/bitcode/execution/pipeline-execution-log.tsx:bb7e1773303e04b9027ae2c7",
         "packages/protocol/src/canonical/v39-operational-telemetry-repair-readback.js:1647b3a170af58333c1553a3",
         "uapi/app/bitcode-ledger-storage-sync.ts:0907056993c1ebae7e9b921d",
-        ".bitcode/v46-proof-readback-operator-explanation.json:7792db1741defb2d2a3b697a"
+        ".bitcode/v46-proof-readback-operator-explanation.json:c94ce674bb3472564c0f953c"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -699,31 +699,31 @@
       "artifactId": "v46-protocol-comprehension-object-model",
       "sourcePath": ".bitcode/v46-protocol-comprehension-object-model.json",
       "passed": true,
-      "sourceRoot": ".bitcode/v46-protocol-comprehension-object-model.json:0a6c4f6f197f4ade34902bb4"
+      "sourceRoot": ".bitcode/v46-protocol-comprehension-object-model.json:c98b7245189ffd042a48737e"
     },
     {
       "artifactId": "v46-public-operator-claim-boundaries",
       "sourcePath": ".bitcode/v46-public-operator-claim-boundaries.json",
       "passed": true,
-      "sourceRoot": ".bitcode/v46-public-operator-claim-boundaries.json:b5b401be52a23560170c3de6"
+      "sourceRoot": ".bitcode/v46-public-operator-claim-boundaries.json:dadc1f81a656efddc9dab40e"
     },
     {
       "artifactId": "v46-product-route-comprehension-readback",
       "sourcePath": ".bitcode/v46-product-route-comprehension-readback.json",
       "passed": true,
-      "sourceRoot": ".bitcode/v46-product-route-comprehension-readback.json:97548fb00fad41b77e0232b1"
+      "sourceRoot": ".bitcode/v46-product-route-comprehension-readback.json:d551ad187405f082859f21a3"
     },
     {
       "artifactId": "v46-interface-claim-contracts",
       "sourcePath": ".bitcode/v46-interface-claim-contracts.json",
       "passed": true,
-      "sourceRoot": ".bitcode/v46-interface-claim-contracts.json:53b19b6e563b7622f79355e3"
+      "sourceRoot": ".bitcode/v46-interface-claim-contracts.json:816c7239df0989ac38c98af5"
     },
     {
       "artifactId": "v46-proof-readback-operator-explanation",
       "sourcePath": ".bitcode/v46-proof-readback-operator-explanation.json",
       "passed": true,
-      "sourceRoot": ".bitcode/v46-proof-readback-operator-explanation.json:7792db1741defb2d2a3b697a"
+      "sourceRoot": ".bitcode/v46-proof-readback-operator-explanation.json:c94ce674bb3472564c0f953c"
     }
   ],
   "predicateResults": [
@@ -795,27 +795,27 @@
   ],
   "sourceRoots": {
     "activePointer": "BITCODE_SPEC.txt:674f33696f4048b636f67e13",
-    "spec": "BITCODE_SPEC_V46.md:b8ecb2f2cbe1f3d8cb9c71f5",
-    "delta": "BITCODE_SPEC_V46_DELTA.md:7920d7f42161931f93cba093",
-    "notes": "BITCODE_SPEC_V46_NOTES.md:189e67fc2acbf4811ebac052",
-    "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:b133273fc254880a52286b25",
-    "roadmap": "SPECIFICATIONS_ROADMAP.md:b2e9e71006d861deb008fc48",
-    "readme": "README.md:f6aaae9cb46c3c5ea9f88257",
-    "protocolReadme": "packages/protocol/README.md:cf41e9679273e5b70040dbb3",
-    "packageJson": "package.json:163b54e4f8fd7d1e74369695",
-    "packageIndex": "packages/protocol/src/index.js:982ea139bf7924bc9d8060f8",
-    "packageTypes": "packages/protocol/src/index.d.ts:69da86d924bf5e58a83a194c",
-    "packageSource": "packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js:c52b528dbbf885b76de6ceb7",
+    "spec": "BITCODE_SPEC_V46.md:6f837626fc89526e4aaaf192",
+    "delta": "BITCODE_SPEC_V46_DELTA.md:bd5016d5d74128fcf34e78f4",
+    "notes": "BITCODE_SPEC_V46_NOTES.md:458320e184655e6db64c77ab",
+    "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:fa5b05500caffc40b7a3c906",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
+    "readme": "README.md:592ca0062eb52a55357c8f34",
+    "protocolReadme": "packages/protocol/README.md:7a7dcc0ddbc3d737a26e395c",
+    "packageJson": "package.json:b79014968c556bc1b43ab341",
+    "packageIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
+    "packageTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
+    "packageSource": "packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js:fd0c11d64902bbf01d31f6bd",
     "packageTest": "packages/protocol/test/v46-local-interface-comprehension-rehearsal.test.js:5b6ad282088791ea76ec2bbf",
     "generator": "scripts/generate-v46-local-interface-comprehension-rehearsal.mjs:d6a9dadb6f8ee51de50a529f",
     "checker": "scripts/check-v46-gate7-local-interface-comprehension-rehearsal.mjs:beb49c72404e73e730640a72",
-    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:6cbd2dbd8db154eef0c2c060",
-    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:eceb3e65f32dcf806f3a4ea9",
-    "v46ProtocolArtifact": ".bitcode/v46-protocol-comprehension-object-model.json:0a6c4f6f197f4ade34902bb4",
-    "v46PublicArtifact": ".bitcode/v46-public-operator-claim-boundaries.json:b5b401be52a23560170c3de6",
-    "v46ProductArtifact": ".bitcode/v46-product-route-comprehension-readback.json:97548fb00fad41b77e0232b1",
-    "v46InterfaceArtifact": ".bitcode/v46-interface-claim-contracts.json:53b19b6e563b7622f79355e3",
-    "v46ProofArtifact": ".bitcode/v46-proof-readback-operator-explanation.json:7792db1741defb2d2a3b697a",
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e5de1dddfaeeb0ee525b0c0f",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:43cc4ded2bd9757dda9091dc",
+    "v46ProtocolArtifact": ".bitcode/v46-protocol-comprehension-object-model.json:c98b7245189ffd042a48737e",
+    "v46PublicArtifact": ".bitcode/v46-public-operator-claim-boundaries.json:dadc1f81a656efddc9dab40e",
+    "v46ProductArtifact": ".bitcode/v46-product-route-comprehension-readback.json:d551ad187405f082859f21a3",
+    "v46InterfaceArtifact": ".bitcode/v46-interface-claim-contracts.json:816c7239df0989ac38c98af5",
+    "v46ProofArtifact": ".bitcode/v46-proof-readback-operator-explanation.json:c94ce674bb3472564c0f953c",
     "landingPage": "uapi/app/page.tsx:b1b707e58f8917b8a97717b4",
     "docsPage": "uapi/app/docs/page.tsx:75e5011c78a308e60f95cbd5",
     "docsContent": "uapi/app/(root)/components/PublicDocsPageContent.tsx:6efbf77a6f292e9e0c25b70e",
