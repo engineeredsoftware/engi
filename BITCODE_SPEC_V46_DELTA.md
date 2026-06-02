@@ -3,16 +3,17 @@
 ## Status
 
 - Version: `V46`
-- V46 state: Gate 8 promotion readiness; V46 is the active draft target over promoted V45 canon
-- Current canonical/latest target: `V45`
+- V46 state: canonical promotion complete; this delta records the promoted V45-to-V46 protocol-comprehension closure set
+- Current canonical/latest target: `V46`
+- Canonical proof-source commit: `40a32e9d61a64130c958eda1498812e25a682653`
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, six Gate 2 through Gate 7 protocol comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, and `BITCODE_SPEC_V46_PROVEN.md`
-- Source parity state: Gate 8 binds promotion readiness over all accepted V46 protocol comprehension artifacts and prepares V46 active / draft V47 posture
+- Generated structured artifact inventory: active canonical `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion
+- Source parity state: V46 source-side protocol comprehension object model, public/operator claim boundaries, route readback, interface claim contracts, proof readback, local rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V46 file family
 - Notes companion: `BITCODE_SPEC_V46_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V46.md`
 - Parity companion: `BITCODE_SPEC_V46_PARITY_MATRIX.md`
-- Scope: V46 draft delta for commercial protocol comprehension, public/operator explanation, source-safe interface claims, and proof-readable launch posture over promoted V45 knowledge commoditization law
+- Scope: V46 canonical delta for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon
 - Last fully realized canonical target preserved in source: `V45`
 
 ## Why V46 exists
@@ -27,7 +28,7 @@ overstating live value-bearing posture.
 
 ## Accepted V46 decisions
 
-- V45 remains active canon while V46 is drafted.
+- V46 is active canon after promotion workflow validation.
 - V46 opens as a specification-first version; Gate 1 is roadmap/spec-family
   opening only.
 - V46 focuses on external protocol comprehension and launch-facing claim
@@ -43,7 +44,7 @@ overstating live value-bearing posture.
 
 ## Explicitly deferred
 
-- V46 does not replace V45 until a later promotion workflow validates and
+- V46 replaces V45 after the maintained promotion workflow validates and
   advances `BITCODE_SPEC.txt`.
 - Gate 8 does not authorize runtime behavior, schema changes, route changes,
   settlement behavior, proof-family artifacts, separate source-safe
@@ -247,7 +248,7 @@ Accepted Gate 8 decisions:
   disclosure behavior.
 - The report must prove source-safe promotion metadata over Gate 2 through
   Gate 7 artifacts and generated proof outputs.
-- The promotion workflow must validate V45 active / V46 draft before
+- The promotion workflow must validate pre-promotion V45-to-V46 draft before
   promotion generation and V46 active / draft V47 after generation.
 - `BITCODE_SPEC_V46_PROVEN.md` is the generated proof appendix for V46
   promotion readiness, not evidence of live payment or delivery.

@@ -15,7 +15,7 @@ inventories, but it is not a commercial runtime implementation dependency.
 
 Current exported commercial helpers include:
 
-- active/draft canon posture (`V45` active, `V46` draft after V45 promotion);
+- active/draft canon posture (`V46` active, `V47` draft after V46 promotion);
 - spec-family and canonical-input validation helpers;
 - canon-posture drift reporting;
 - `DocumentationSurfaceCatalog` helpers for V35 documentation surface proof;

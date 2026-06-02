@@ -1,21 +1,21 @@
 {
   "reportId": "v46-canon-posture-drift-report",
   "version": "V46",
-  "checkedActiveCanonVersion": "V45",
-  "checkedDraftTargetVersion": "V46",
-  "pointerVersion": "V45",
-  "proofSourceCommit": "HEAD",
-  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "checkedActiveCanonVersion": "V46",
+  "checkedDraftTargetVersion": "V47",
+  "pointerVersion": "V46",
+  "proofSourceCommit": "40a32e9d61a64130c958eda1498812e25a682653",
+  "generatedAt": "2026-06-02T14:25:14-03:00",
   "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "dirty-preview",
+  "worktreeState": "clean",
   "passed": true,
   "checkCount": 10,
   "blockingFailureCount": 0,
   "blockingFailures": [],
-  "runtimeSpecVersion": "Bitcode Spec V45 active canon / V46 system draft",
-  "publicSpecVersion": "Bitcode Spec V45 active canon / V46 system draft",
-  "activeProvenAppendixPath": "BITCODE_SPEC_V45_PROVEN.md",
-  "policyRef": "policy://bitcode/spec-v45-active-v46-system-draft/current",
+  "runtimeSpecVersion": "Bitcode Spec V46 active canon / V47 system draft",
+  "publicSpecVersion": "Bitcode Spec V46 active canon / V47 system draft",
+  "activeProvenAppendixPath": "BITCODE_SPEC_V46_PROVEN.md",
+  "policyRef": "policy://bitcode/spec-v46-active-v47-system-draft/current",
   "checkedFiles": [
     "protocol-demonstration/README.md",
     "protocol-demonstration/public/index.html",
@@ -26,32 +26,32 @@
     {
       "checkId": "pointer-active-canon-alignment",
       "passed": true,
-      "detail": "BITCODE_SPEC.txt points to V45 while runtime expects V45."
+      "detail": "BITCODE_SPEC.txt points to V46 while runtime expects V46."
     },
     {
       "checkId": "canon-posture-constant-alignment",
       "passed": true,
-      "detail": "canon-posture constants resolve V45/V46 with operator label V45 active canon / V46 system draft."
+      "detail": "canon-posture constants resolve V46/V47 with operator label V46 active canon / V47 system draft."
     },
     {
       "checkId": "proven-appendix-alignment",
       "passed": true,
-      "detail": "active generated appendix path is BITCODE_SPEC_V45_PROVEN.md."
+      "detail": "active generated appendix path is BITCODE_SPEC_V46_PROVEN.md."
     },
     {
       "checkId": "policy-ref-alignment",
       "passed": true,
-      "detail": "policy reference is policy://bitcode/spec-v45-active-v46-system-draft/current."
+      "detail": "policy reference is policy://bitcode/spec-v46-active-v47-system-draft/current."
     },
     {
       "checkId": "runtime-state-alignment",
       "passed": true,
-      "detail": "buildInitialState() reports Bitcode Spec V45 active canon / V46 system draft with canon posture V45/V46."
+      "detail": "buildInitialState() reports Bitcode Spec V46 active canon / V47 system draft with canon posture V46/V47."
     },
     {
       "checkId": "public-state-alignment",
       "passed": true,
-      "detail": "publicState() reports Bitcode Spec V45 active canon / V46 system draft with canon posture V45/V46."
+      "detail": "publicState() reports Bitcode Spec V46 active canon / V47 system draft with canon posture V46/V47."
     },
     {
       "checkId": "server-api-alignment",
@@ -71,7 +71,7 @@
     {
       "checkId": "readme-alignment",
       "passed": true,
-      "detail": "README states V45 active canon and BITCODE_SPEC_V45_PROVEN.md as the current generated appendix."
+      "detail": "README states V46 active canon and BITCODE_SPEC_V46_PROVEN.md as the current generated appendix."
     }
   ]
 }

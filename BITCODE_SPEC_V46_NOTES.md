@@ -3,24 +3,24 @@
 ## Status
 
 - Version: `V46`
-- Canonical pointer: `BITCODE_SPEC.txt` -> `V45`
-- Active canonical anchor: `BITCODE_SPEC_V45.md`
-- Active generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Current canonical/latest target: `V45`
+- Canonical pointer: `BITCODE_SPEC.txt` -> `V46`
+- Active canonical anchor: `BITCODE_SPEC_V46.md`
+- Active generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
+- Current canonical/latest target: `V46`
+- Canonical proof-source commit: `40a32e9d61a64130c958eda1498812e25a682653`
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, six Gate 2 through Gate 7 protocol comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, and `BITCODE_SPEC_V46_PROVEN.md`
-- Source parity state: Gate 8 binds promotion readiness over accepted V46 protocol comprehension artifacts
-- V46 state: Gate 8 promotion readiness; V46 notes record the current protocol comprehension plan over active V45 canon
-- Scope: V46 draft notes for commercial protocol comprehension, public/operator explanation, source-safe interface claims, and proof-readable launch posture over promoted V45 knowledge commoditization law
-- Last fully realized canonical target preserved in source: `V45`
+- Generated structured artifact inventory: active canonical `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-canon-posture-drift-report.json`, V46 protocol-comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, V46 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V46_PROVEN.md` as the generated proof appendix for V46 promotion
+- Source parity state: V46 source-side protocol comprehension object model, public/operator claim boundaries, route readback, interface claim contracts, proof readback, local rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V46 file family
+- V46 state: canonical promotion complete; V46 notes record accepted protocol object-model, public/operator claim boundary, route readback, interface contract, proof explanation, local rehearsal, and promotion-readiness evidence
+- Scope: V46 canonical notes for protocol comprehension and public/operator explanation over promoted V45 knowledge commoditization canon
+- Last fully realized canonical target preserved in source: `V46`
 
 ## Notes companion rule
 
 These notes record the accepted V46 opening atoms. After formal specification
 consolidation and promotion, a later workflow may make `BITCODE_SPEC_V46.md`
-and its companion family active canon. Until then, V45 remains the active
-pointer truth through `BITCODE_SPEC.txt`.
+and its companion family active canon. V46 now holds the active pointer truth through `BITCODE_SPEC.txt`.
 
 ## Concise current-system reading
 
@@ -41,10 +41,10 @@ When V46 work becomes broad, reduce it to the formal law:
 
 ## Notes provenance rule
 
-These notes are not implementation authority above the active V45
-specification family. They preserve draft notes-level atoms that must later be
-consolidated into formal V46 specification text before parity or
-implementation gates rely on them.
+These notes are implementation authority only through the promoted V46
+specification family. They preserve accepted notes-level atoms that have been
+consolidated into formal V46 specification text, parity evidence, proof
+readback, and promotion receipts.
 
 ## Deferred from V45
 
@@ -247,7 +247,7 @@ Promotion readiness law:
 
 Gate 8 proves that the V46 specification family, generated artifacts, package
 exports, promotion scripts, shared workflows, and promotion workflow agree on
-the same state transition: V45 active / V46 draft before promotion, then active
+the same state transition: pre-promotion V45-to-V46 draft before promotion, then active
 V46 / draft V47 after promotion. It must not treat proof-family catalog rows,
 source-bearing delivery, BTC finality, rights transfer, or value-bearing
 mainnet behavior as completed by documentation alone.

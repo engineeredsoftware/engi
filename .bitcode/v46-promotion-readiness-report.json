@@ -3,7 +3,7 @@
   "schemaId": "bitcode.v46.promotionReadinessReport.v1",
   "version": "V46",
   "currentTarget": "V45",
-  "generatedAt": "2026-06-02T00:00:00.000Z",
+  "generatedAt": "2026-06-02T14:25:14-03:00",
   "sourceSafetyVerdict": "source-safe-v46-protocol-comprehension-promotion-metadata",
   "prePromotionPosture": "V45 active / V46 draft",
   "postPromotionPosture": "V46 active / V47 draft",
@@ -356,7 +356,7 @@
     {
       "relativePath": "BITCODE_SPEC_V46.md",
       "present": true,
-      "digest": "sha256:6f837626fc89526e4aaaf192d57be7e15451f0fd4518b672d3dec31331154ef3",
+      "digest": "sha256:48121ff59f812f15a1b3b1f771dfa523a231f6613ca5d45a5b3fb10583c10a50",
       "requiredTokens": [
         {
           "token": "V46 promotion readiness canon",
@@ -375,7 +375,7 @@
     {
       "relativePath": "BITCODE_SPEC_V46_DELTA.md",
       "present": true,
-      "digest": "sha256:bd5016d5d74128fcf34e78f4ac613a2567be20b3287b6661bba2c133137c8d7a",
+      "digest": "sha256:a16a16db40d4eeae612a0657cfb65952377ba9f6697a44f1f9dae831f87bf7bd",
       "requiredTokens": [
         {
           "token": "Gate 8: V46 Promotion Readiness",
@@ -394,7 +394,7 @@
     {
       "relativePath": "BITCODE_SPEC_V46_NOTES.md",
       "present": true,
-      "digest": "sha256:458320e184655e6db64c77ab8f5f5244fbf589d6449bf0086b1381480968b853",
+      "digest": "sha256:cca70aca3566132e7026351ca069e9c4efe84c7840fc9ddc58441c896dd1b075",
       "requiredTokens": [
         {
           "token": "Gate 8: V46 Promotion Readiness",
@@ -413,7 +413,7 @@
     {
       "relativePath": "BITCODE_SPEC_V46_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:fa5b05500caffc40b7a3c906416b55bd4af8688697650ae9318e1d3d8f6b337a",
+      "digest": "sha256:91b47eeaa106639d2d21856bb16906e7c2b8ce6f301a44c5ddad5e2c2d0ec499",
       "requiredTokens": [
         {
           "token": "Gate 8 implementation readback",
@@ -462,7 +462,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:7a7dcc0ddbc3d737a26e395cde7235a0102a64ccb9bdfb9c67e990b34ebd5e7c",
+      "digest": "sha256:f5b175049f4f4e8df179e184f40bc906ecd68181e425d4429a4dbb4a42a50c1a",
       "requiredTokens": [
         {
           "token": "V46 Gate 8",
