@@ -442,8 +442,10 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'roadmap-advanced-to-gate7',
       SOURCE_PATHS.roadmap,
-      sources.roadmap.includes('Current working gate: V46 Gate 7 Local Interface Comprehension Rehearsal') &&
-        sources.roadmap.includes('V46 Gate 6 closure anchor'),
+      (sources.roadmap.includes('Current working gate: V46 Gate 7 Local Interface Comprehension Rehearsal') &&
+        sources.roadmap.includes('V46 Gate 6 closure anchor')) ||
+        (sources.roadmap.includes('V46 Gate 7 closure anchor') &&
+          sources.roadmap.includes('Current working gate: V46 Gate 8 Promotion Readiness And Canonical Promotion')),
     ),
     predicateResult(
       'readmes-document-gate7',

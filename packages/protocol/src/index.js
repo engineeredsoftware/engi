@@ -947,6 +947,18 @@ export {
   buildV45PromotionReadinessReport,
   listMissingV45PromotionReadinessSources
 } from './canonical/v45-promotion-readiness-report.js';
+
+export {
+  V46_PROMOTION_READINESS_GATE_ARTIFACT_PATHS,
+  V46_PROMOTION_READINESS_GENERATED_OUTPUTS,
+  V46_PROMOTION_READINESS_REPORT_ARTIFACT_PATH,
+  V46_PROMOTION_READINESS_REPORT_CURRENT_TARGET,
+  V46_PROMOTION_READINESS_REPORT_SCHEMA_ID,
+  V46_PROMOTION_READINESS_REPORT_VERSION,
+  V46_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT,
+  buildV46PromotionReadinessReport,
+  listMissingV46PromotionReadinessSources
+} from './canonical/v46-promotion-readiness-report.js';
 export {
   V46_PROTOCOL_CLAIM_AUTHORITY_IDS,
   V46_PROTOCOL_CLAIM_CATEGORY_IDS,

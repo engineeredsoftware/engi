@@ -68,6 +68,9 @@ const STALE_PROMOTED_PHRASES = Object.freeze([
   'promoted V46',
   'active `BITCODE_SPEC_V46_PROVEN.md`',
   'check:v46-gate18',
+]);
+
+const GATE8_PROMOTION_READINESS_PHRASES = Object.freeze([
   'v46-canon-promotion.yml',
 ]);
 
@@ -116,9 +119,16 @@ function main() {
     'BITCODE_SPEC_V46_NOTES.md',
     'BITCODE_SPEC_V46_PARITY_MATRIX.md',
   ];
+  const gate8PromotionReadinessAccepted =
+    exists(root, 'scripts/check-v46-gate8-promotion-readiness.mjs') &&
+    exists(root, '.bitcode/v46-promotion-readiness-report.json');
+  const stalePromotedPhrases = gate8PromotionReadinessAccepted
+    ? STALE_PROMOTED_PHRASES
+    : [...STALE_PROMOTED_PHRASES, ...GATE8_PROMOTION_READINESS_PHRASES];
+
   for (const relativePath of specFamilyFiles) {
     const content = read(root, relativePath);
-    for (const phrase of STALE_PROMOTED_PHRASES) {
+    for (const phrase of stalePromotedPhrases) {
       assertCheck(failures, !content.includes(phrase), `${relativePath} contains stale promoted V46 posture phrase "${phrase}".`);
     }
     for (const phrase of [

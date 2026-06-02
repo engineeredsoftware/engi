@@ -9,9 +9,9 @@
 - Current canonical/latest target: `V45`
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v46-spec-family-report.json` and `.bitcode/v46-canonical-input-report.json`; later V46 gates must authorize proof-family, rehearsal, promotion-readiness, and generated proof appendix artifacts before they become required V46 evidence
-- Source parity state: V46 source parity has not been audited; Gate 1 opens the draft-target roadmap and validation boundary only
-- V46 state: draft opening; V46 notes record the initial commercial protocol comprehension plan over active V45 canon
+- Generated structured artifact inventory: `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, six Gate 2 through Gate 7 protocol comprehension artifacts, `.bitcode/v46-promotion-readiness-report.json`, and `BITCODE_SPEC_V46_PROVEN.md`
+- Source parity state: Gate 8 binds promotion readiness over accepted V46 protocol comprehension artifacts
+- V46 state: Gate 8 promotion readiness; V46 notes record the current protocol comprehension plan over active V45 canon
 - Scope: V46 draft notes for commercial protocol comprehension, public/operator explanation, source-safe interface claims, and proof-readable launch posture over promoted V45 knowledge commoditization law
 - Last fully realized canonical target preserved in source: `V45`
 
@@ -232,6 +232,31 @@ categories, authority ids, source roots, prior V46 artifact pass states,
 source-safe disclosure exclusions, package exports, generated artifact
 freshness, workflow wiring, and focused protocol tests. The artifact path is
 `.bitcode/v46-local-interface-comprehension-rehearsal.json`.
+
+## Gate 8: V46 Promotion Readiness
+
+Gate 8 records the promotion-readiness atom. It creates
+`.bitcode/v46-promotion-readiness-report.json`, binds the six accepted V46
+protocol comprehension artifacts, adds generated `BITCODE_SPEC_V46_PROVEN.md`
+support, wires `v46-canon-promotion.yml`, and prepares active V46 / draft V47
+posture after promotion. It remains source-safe promotion metadata over active
+V45 until the version-promotion pull request validates and updates
+`BITCODE_SPEC.txt`.
+
+Promotion readiness law:
+
+Gate 8 proves that the V46 specification family, generated artifacts, package
+exports, promotion scripts, shared workflows, and promotion workflow agree on
+the same state transition: V45 active / V46 draft before promotion, then active
+V46 / draft V47 after promotion. It must not treat proof-family catalog rows,
+source-bearing delivery, BTC finality, rights transfer, or value-bearing
+mainnet behavior as completed by documentation alone.
+
+Acceptance for this atom: `V46PromotionReadinessReport` must be source-safe,
+parseable, fresh, and backed by `check:v46-gate8`, V46 promotion-script
+support, `BITCODE_SPEC_V46_PROVEN.md`, `.github/workflows/v46-canon-promotion.yml`,
+gate/canon workflow support, docs support, package exports, generated artifact
+freshness, and focused protocol tests.
 
 ## V46 product route comprehension atom: route readback for Packs, Reading, and Depositing
 
