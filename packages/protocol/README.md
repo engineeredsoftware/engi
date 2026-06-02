@@ -67,6 +67,7 @@ Current exported commercial helpers include:
 - `V43PacksActivityMasterDetail` helpers for V43 source-safe PackActivity contracts, `/api/packs/activity`, `/packs` master-detail search/filter/sort/detail projection, proof roots, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirection;
 - `V46PublicOperatorClaimBoundaries` helpers for V46 source-safe public/operator claim boundary metadata across public docs, landing, operator docs, README surfaces, workflow checks, and forbidden overclaim scans;
 - `V46ProductRouteComprehensionReadback` helpers for V46 source-safe `/packs`, `/read`, and `/deposit` route comprehension metadata, low-detail defaults, expandable proof readback, route-owned state, and forbidden product-route overclaim scans;
+- `V46InterfaceClaimContracts` helpers for V46 source-safe API/MCP, ChatGPT App, Bitcode Chat, and package-consumer claim contracts, proof-root projection, denied-state repair, no parallel state authority, and forbidden interface overclaim scans;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -364,6 +365,18 @@ route-owned state, expandable proof readback, Reading and Depositing five-step
 flows, Packs search/filter/sort, proof-root readback, settlement/delivery
 boundaries, contributor compensation readback, and no-source/no-secret product
 route scans.
+
+V46 Gate 5 adds `V46InterfaceClaimContracts` through
+`packages/protocol/src/canonical/v46-interface-claim-contracts.js`,
+`packages/protocol/test/v46-interface-claim-contracts.test.js`,
+`.bitcode/v46-interface-claim-contracts.json`,
+`generate:v46-interface-claim-contracts`,
+`check:v46-interface-claim-contracts`, and `check:v46-gate5`. It binds public
+API schema compatibility, MCP tool contracts, ChatGPT App action contracts,
+Bitcode Chat conversation/stream/handoff contracts, and package-consumer read
+contracts to source-safe `InterfaceClaim` rows, proof-root projection,
+denied-state repair, no parallel state authority, package exports, and
+no-source/no-secret interface scans.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

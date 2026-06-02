@@ -145,6 +145,36 @@ Accepted Gate 4 decisions:
   prompts, raw provider responses, credentials, wallet private material,
   private settlement payloads, or value-bearing mainnet authority.
 
+## Gate 5: API/MCP, ChatGPT App, And Bitcode Chat Claim Contracts
+
+Gate 5 adds `V46InterfaceClaimContracts` as a source-safe generated artifact
+at `.bitcode/v46-interface-claim-contracts.json`. It binds public API, MCP
+API, ChatGPT App, Bitcode Chat, and package-consumer surfaces to the Gate 2
+`InterfaceClaim` taxonomy, Gate 3 public/operator claim boundaries, and Gate 4
+product-route readback law.
+
+Accepted Gate 5 decisions:
+
+- The public API exposes versionless source-safe schema compatibility, proof
+  roots, denied repair states, and compatibility posture without protected
+  source or private payload serialization.
+- MCP exposes package-owned tool contracts, permission requirements, provider
+  binding blockers, write-admission posture, proof roots, queue metadata, and
+  denied repair states; it does not settle BTC, transfer BTD rights, unlock
+  source, or deliver source-bearing AssetPacks by itself.
+- The ChatGPT App exposes package-owned Reading and delivery-adjacent action
+  contracts, source-safe rendering, explicit write admission, proof roots, and
+  settlement/right/delivery denied states until proof readback authorizes the
+  next boundary.
+- Bitcode Chat exposes route-local conversation, stream, proof-root, and
+  terminal-delegated handoff metadata; it does not advance protocol state or
+  create parallel state authority.
+- Package consumers receive stable source-safe contracts and generated
+  readback metadata, not a separate state machine or disclosure boundary.
+- Gate 5 remains source-safe metadata and contract readback work. It does not
+  authorize runtime behavior changes, source disclosure, settlement, delivery,
+  or value-bearing mainnet behavior.
+
 ## Commit-Body Direction
 
 V46 commit bodies should name the gate class, protocol law or interface claim
