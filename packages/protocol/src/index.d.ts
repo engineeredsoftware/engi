@@ -892,6 +892,17 @@ export const V46_PROOF_READBACK_REQUIRED_OPERATOR_QUESTION_IDS: readonly string[
 export const V46_PROOF_READBACK_OPERATOR_DECISION_IDS: readonly string[];
 export const V46_PROOF_READBACK_OPERATOR_EXPLANATION_ROWS: readonly Record<string, unknown>[];
 export function buildV46ProofReadbackOperatorExplanation(input?: Record<string, unknown>): BitcodeProtocolReport;
+export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ARTIFACT_PATH: string;
+export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_CURRENT_TARGET: string;
+export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_SCHEMA_ID: string;
+export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_VERSION: string;
+export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_SOURCE_SAFETY_VERDICT: string;
+export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_SOURCE_ROOTS: Readonly<Record<string, string>>;
+export const V46_LOCAL_INTERFACE_REHEARSAL_SURFACE_IDS: readonly string[];
+export const V46_LOCAL_INTERFACE_REHEARSAL_STEP_IDS: readonly string[];
+export const V46_LOCAL_INTERFACE_REHEARSAL_REQUIRED_ARTIFACT_IDS: readonly string[];
+export const V46_LOCAL_INTERFACE_COMPREHENSION_REHEARSAL_ROWS: readonly Record<string, unknown>[];
+export function buildV46LocalInterfaceComprehensionRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_ARTIFACT_PATH: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_CURRENT_TARGET: string;
 export const EXCHANGE_INTENT_ORDER_CONTRACTS_SCHEMA_ID: string;

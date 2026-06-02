@@ -123,7 +123,7 @@
       "sourceRoots": [
         "BITCODE_SPEC_V45.md:303eba5e7ebde2132d729f1f",
         "BITCODE_SPEC_V45_PROVEN.md:49cae72f47df688d9d02b655",
-        "BITCODE_SPEC_V46.md:009872679425104535947045"
+        "BITCODE_SPEC_V46.md:b8ecb2f2cbe1f3d8cb9c71f5"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -913,7 +913,7 @@
       "passed": true
     },
     {
-      "id": "roadmap-advanced-to-gate6",
+      "id": "roadmap-records-gate6-closure",
       "sourcePath": "SPECIFICATIONS_ROADMAP.md",
       "passed": true
     },
@@ -1029,9 +1029,9 @@
   },
   "proofRoots": {
     "rowSetRoot": "sha256:771d03cf064bc688ebd33cfa",
-    "predicateRoot": "sha256:1396b883c151f14662e7dd8b",
+    "predicateRoot": "sha256:9a92745e9d201f5f2746a59a",
     "coverageRoot": "sha256:bb649799af3d38991e70cb31",
-    "artifactRoot": "sha256:778f1be4964418b44855bd40"
+    "artifactRoot": "sha256:8dc431603385b71168794b4c"
   },
   "sourceSafety": {
     "sourceSafeMetadataOnly": true,

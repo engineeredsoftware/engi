@@ -8,7 +8,7 @@
 - Draft proof-source commit: not generated
 - Prior canonical anchor: `BITCODE_SPEC_V45.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- Generated structured artifact inventory: draft `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-protocol-comprehension-object-model.json`, and `.bitcode/v46-public-operator-claim-boundaries.json`; later V46 gates must add proof, rehearsal, workflow, and promotion artifacts only after their scope is accepted
+- Generated structured artifact inventory: draft `.bitcode/v46-spec-family-report.json`, `.bitcode/v46-canonical-input-report.json`, `.bitcode/v46-protocol-comprehension-object-model.json`, `.bitcode/v46-public-operator-claim-boundaries.json`, `.bitcode/v46-product-route-comprehension-readback.json`, `.bitcode/v46-interface-claim-contracts.json`, `.bitcode/v46-proof-readback-operator-explanation.json`, and `.bitcode/v46-local-interface-comprehension-rehearsal.json`; later V46 gates must add proof-family, workflow, and promotion artifacts only after their scope is accepted
 - Source parity state: V46 source parity is not audited yet; Gate 1 opens the draft-target roadmap only
 - Notes companion: `BITCODE_SPEC_V46_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V46_DELTA.md`
@@ -493,6 +493,30 @@ receipt, and repository delivery receipt. Telemetry is observability only.
 Provider observation is not final settlement until reconciled with quote,
 wallet authority, and finality policy.
 
+## V46 local interface comprehension rehearsal law
+
+V46 Gate 7 proves local interface comprehension before promotion. The local
+rehearsal loads public docs and landing surfaces, `/packs`, `/read`,
+`/deposit`, API/MCP, ChatGPT App, Bitcode Chat, proof telemetry, and repair
+readback source roots, then checks that each surface explains only the claims
+authorized by the Gate 2 object model, Gate 3 public/operator boundaries, Gate
+4 route readback, Gate 5 interface contracts, and Gate 6 proof authority
+ladder.
+
+The rehearsal is local-only and source-safe. It does not launch value-bearing
+mainnet behavior, does not run live payment finality, does not deliver
+source-bearing AssetPacks, and does not serialize protected source, unpaid
+AssetPack source, raw prompts, interpolated prompts, raw model/provider
+responses, credentials, wallet private material, private settlement payloads,
+or private repository access. It may emit deterministic roots, source-safe
+metadata, surface ids, claim ids, authority ids, repair expectations, and
+prior artifact pass/fail state.
+
+The source-safe generated artifact for this Gate 7 atom is
+`.bitcode/v46-local-interface-comprehension-rehearsal.json`; it is generated
+by `buildV46LocalInterfaceComprehensionRehearsal` and checked by
+`check:v46-gate7`.
+
 ## V46 gate taxonomy law
 
 V46 gates are classified as `notes-specification-atom`,
@@ -892,6 +916,7 @@ and quality summary.
 | `.bitcode/v46-product-route-comprehension-readback.json` | product route comprehension readback artifact | Gate 4 |
 | `.bitcode/v46-interface-claim-contracts.json` | API/MCP, ChatGPT App, Bitcode Chat, and package-consumer claim-contract artifact | Gate 5 |
 | `.bitcode/v46-proof-readback-operator-explanation.json` | proof readback and source-safe operator explanation artifact | Gate 6 |
+| `.bitcode/v46-local-interface-comprehension-rehearsal.json` | local interface comprehension rehearsal artifact | Gate 7 |
 | `.bitcode/v46-inference-synthesis-proof.json` | inference proof-family artifact | future proof gate |
 | `.bitcode/v46-prompt-completeness-proof.json` | prompt proof-family artifact | future proof gate |
 | `.bitcode/v46-static-code-analysis-proof.json` | static-code proof-family artifact | future proof gate |
@@ -913,7 +938,8 @@ V46 specifying generated artifacts must include `.bitcode/v46-spec-family-report
 `.bitcode/v46-public-operator-claim-boundaries.json`,
 `.bitcode/v46-product-route-comprehension-readback.json`,
 `.bitcode/v46-interface-claim-contracts.json`,
-`.bitcode/v46-proof-readback-operator-explanation.json`, all nine V46
+`.bitcode/v46-proof-readback-operator-explanation.json`,
+`.bitcode/v46-local-interface-comprehension-rehearsal.json`, all nine V46
 proof-family artifacts, `.bitcode/v46-source-safe-e2e-rehearsal.json`,
 `.bitcode/v46-promotion-readiness-report.json`, and future
 `BITCODE_SPEC_V46_PROVEN.md`; each artifact becomes required only when its own
@@ -971,6 +997,7 @@ Gate 1 validates only active V45 plus draft V46 posture:
 - `pnpm run check:v46-gate4`
 - `pnpm run check:v46-gate5`
 - `pnpm run check:v46-gate6`
+- `pnpm run check:v46-gate7`
 
 ## V46 promotion canon
 
@@ -1083,7 +1110,7 @@ artifact roots.
 
 Validation commands include `check:v46-gate1`, `check:v46-gate2`,
 `check:v46-gate3`, `check:v46-gate4`, `check:v46-gate5`,
-`check:v46-gate6`, draft V46
+`check:v46-gate6`, `check:v46-gate7`, draft V46
 spec-family checks, active V45 promoted checks, V45/V46 canon posture drift
 checks, and later parity, proof, implementation, rehearsal, and promotion
 commands.

@@ -204,6 +204,32 @@ Accepted Gate 6 decisions:
   authorize source disclosure, settlement, delivery, rights transfer, or
   value-bearing mainnet behavior.
 
+## Gate 7: Local Interface Comprehension Rehearsal
+
+Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` as a source-safe
+generated artifact at `.bitcode/v46-local-interface-comprehension-rehearsal.json`.
+It rehearses local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
+ChatGPT App, Bitcode Chat, proof telemetry, and repair readback surfaces
+against the Gate 2 through Gate 6 claim and authority artifacts.
+
+Accepted Gate 7 decisions:
+
+- The rehearsal is local-only and does not run value-bearing mainnet,
+  live BTC finality, source-bearing delivery, or external settlement.
+- Each rehearsed surface binds to Gate 2 claim ids, claim categories, and
+  authority ids.
+- Gate 2 through Gate 6 generated artifacts must pass before the rehearsal
+  can pass.
+- Public and product routes may explain source-safe state, but proof readback
+  remains state authority.
+- API/MCP, ChatGPT App, and Bitcode Chat remain source-safe guidance or machine
+  interfaces; they cannot create parallel protocol authority.
+- Proof telemetry and repair readback can show phases, steps, proof roots,
+  disclosure posture, and metadata, but telemetry remains observability only.
+- Gate 7 does not expose protected source, unpaid AssetPack source, prompts,
+  provider responses, credentials, wallet private material, private settlement
+  payloads, or private repository access.
+
 ## Commit-Body Direction
 
 V46 commit bodies should name the gate class, protocol law or interface claim

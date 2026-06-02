@@ -60,6 +60,17 @@ database projections, object-storage roots, telemetry streams,
 wallet/provider receipts, repository delivery receipts, and repair
 reconciliation receipts into a source-safe operator authority ladder.
 
+V46 Gate 7 adds `V46LocalInterfaceComprehensionRehearsal` through
+`packages/protocol/src/canonical/v46-local-interface-comprehension-rehearsal.js`,
+`.bitcode/v46-local-interface-comprehension-rehearsal.json`,
+`generate:v46-local-interface-comprehension-rehearsal`,
+`check:v46-local-interface-comprehension-rehearsal`, and `check:v46-gate7`.
+It rehearses local docs/landing, `/packs`, `/read`, `/deposit`, API/MCP,
+ChatGPT App, Bitcode Chat, proof telemetry, and repair readback against the
+V46 claim and authority artifacts without exposing protected source, unpaid
+AssetPack source, prompts, provider responses, credentials, wallet private
+material, private settlement payloads, or value-bearing mainnet behavior.
+
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
 Prompt, map registry composition and interpolation contracts, benchmark Reading
