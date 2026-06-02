@@ -1,22 +1,22 @@
 {
   "artifactId": "v46-product-route-comprehension-readback",
   "artifactPath": ".bitcode/v46-product-route-comprehension-readback.json",
-  "artifactRoot": "v46-product-route-comprehension-readback:f1a5d0211f739510cb8d2154",
+  "artifactRoot": "v46-product-route-comprehension-readback:6efcc43231d6d505c37eeaa3",
   "schemaId": "bitcode.v46.productRouteComprehensionReadback.v1",
   "version": "V46",
   "currentTarget": "V45",
   "sourceSafetyVerdict": "source-safe-product-route-comprehension-readback",
   "sourceRoots": {
-    "activePointer": "BITCODE_SPEC.txt:674f33696f4048b636f67e13",
-    "spec": "BITCODE_SPEC_V46.md:6f837626fc89526e4aaaf192",
-    "delta": "BITCODE_SPEC_V46_DELTA.md:bd5016d5d74128fcf34e78f4",
-    "notes": "BITCODE_SPEC_V46_NOTES.md:458320e184655e6db64c77ab",
-    "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:fa5b05500caffc40b7a3c906",
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V46.md:48121ff59f812f15a1b3b1f7",
+    "delta": "BITCODE_SPEC_V46_DELTA.md:a16a16db40d4eeae612a0657",
+    "notes": "BITCODE_SPEC_V46_NOTES.md:cca70aca3566132e7026351c",
+    "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "packageIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
     "packageTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packageSource": "packages/protocol/src/canonical/v46-product-route-comprehension-readback.js:c7b3e44d22703ca4b8f17ac3",
+    "packageSource": "packages/protocol/src/canonical/v46-product-route-comprehension-readback.js:eedce6a4b817c1354d457bc5",
     "packageTest": "packages/protocol/test/v46-product-route-comprehension-readback.test.js:3118d40ad600a9fb1d025bf6",
     "generator": "scripts/generate-v46-product-route-comprehension-readback.mjs:131473a8dcd0d665f74f56a7",
     "checker": "scripts/check-v46-gate4-product-route-comprehension-readback.mjs:483822ed6cd2809c20ee8fe5",
@@ -459,7 +459,7 @@
     "allAuthorityIdsKnown": true,
     "sourcePredicates": [
       {
-        "id": "active-pointer-remains-v45",
+        "id": "active-pointer-supports-v46-draft-or-later",
         "sourcePath": "BITCODE_SPEC.txt",
         "passed": true
       },

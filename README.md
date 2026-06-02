@@ -1,8 +1,8 @@
 # Bitcode Repository
 
 `BITCODE_SPEC.txt` is the canonical pointer for active-system work. It currently
-resolves to `V45`; V46 is the active draft target for commercial protocol
-comprehension over the knowledge-commoditization law promoted in V45.
+resolves to `V46`; V47 is the active draft target after commercial protocol
+comprehension was promoted as canon in V46.
 
 ## Current Product Posture
 
@@ -13,7 +13,7 @@ The promoted V43 enterprise routes are:
 - `/read` for the five-step Reading path from Read Request to settlement-gated delivery.
 - `/deposit` for connected-source deposit AssetPack option synthesis, review, and admission.
 
-The active V46 draft target makes those routes easier to explain and audit:
+The promoted V46 canon makes those routes easier to explain and audit:
 public docs, landing, and operator docs must teach AssetPack commodity flow,
 BTD scalar knowledge volume and rights, BTC settlement money, proof readback
 authority, and source-safe claim boundaries without turning public guidance into

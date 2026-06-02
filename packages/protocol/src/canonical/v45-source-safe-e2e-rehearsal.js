@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -288,7 +290,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-is-v45', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V45'),
+    predicateResult('active-canon-pointer-supports-v45-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V45')),
     predicateResult('v45-spec-defines-proof-and-rehearsal-law', SOURCE_ROOTS.spec, sources.spec.includes('V45 proof-family canon') && sources.spec.includes('rehearsal')),
     predicateResult('v45-parity-defines-gate17', SOURCE_ROOTS.parity, sources.parity.includes('Gate 17: Source-Safe End-To-End Rehearsal') && sources.parity.includes('check:v45-gate17')),
     predicateResult('v45-notes-allow-rehearsal-gates', SOURCE_ROOTS.notes, sources.notes.includes('| `rehearsal` |') && sources.notes.includes('replayable receipts')),

@@ -1,24 +1,24 @@
 {
   "artifactId": "v46-public-operator-claim-boundaries",
   "artifactPath": ".bitcode/v46-public-operator-claim-boundaries.json",
-  "artifactRoot": "v46-public-operator-claim-boundaries:8058b36a137942405d45bf4d",
+  "artifactRoot": "v46-public-operator-claim-boundaries:513e7199f07c21dcdff43c6d",
   "schemaId": "bitcode.v46.publicOperatorClaimBoundaries.v1",
   "version": "V46",
   "currentTarget": "V45",
   "sourceSafetyVerdict": "source-safe-public-operator-claim-boundary-metadata",
   "sourceRoots": {
-    "activePointer": "BITCODE_SPEC.txt:674f33696f4048b636f67e13",
-    "spec": "BITCODE_SPEC_V46.md:6f837626fc89526e4aaaf192",
-    "delta": "BITCODE_SPEC_V46_DELTA.md:bd5016d5d74128fcf34e78f4",
-    "notes": "BITCODE_SPEC_V46_NOTES.md:458320e184655e6db64c77ab",
-    "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:fa5b05500caffc40b7a3c906",
+    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
+    "spec": "BITCODE_SPEC_V46.md:48121ff59f812f15a1b3b1f7",
+    "delta": "BITCODE_SPEC_V46_DELTA.md:a16a16db40d4eeae612a0657",
+    "notes": "BITCODE_SPEC_V46_NOTES.md:cca70aca3566132e7026351c",
+    "parity": "BITCODE_SPEC_V46_PARITY_MATRIX.md:91b47eeaa106639d2d21856b",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:64b11cb963635e16fd70bf48",
-    "readme": "README.md:592ca0062eb52a55357c8f34",
-    "protocolReadme": "packages/protocol/README.md:7a7dcc0ddbc3d737a26e395c",
+    "readme": "README.md:d28ec731634e03953d8adfe6",
+    "protocolReadme": "packages/protocol/README.md:f5b175049f4f4e8df179e184",
     "packageJson": "package.json:b79014968c556bc1b43ab341",
     "packageIndex": "packages/protocol/src/index.js:1f16ea428bd71351a1292cb6",
     "packageTypes": "packages/protocol/src/index.d.ts:278dfc652c621533b5e86f4d",
-    "packageSource": "packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js:03799d116974cb5d9efba096",
+    "packageSource": "packages/protocol/src/canonical/v46-public-operator-claim-boundaries.js:6c4d8878be955f0fc6aa50f5",
     "packageTest": "packages/protocol/test/v46-public-operator-claim-boundaries.test.js:0afae65791ef7d7081b2a87a",
     "generator": "scripts/generate-v46-public-operator-claim-boundaries.mjs:5a7e5f8c9013c83e3c3818fb",
     "checker": "scripts/check-v46-gate3-public-operator-claim-boundaries.mjs:b958086681492633958639bf",
@@ -34,7 +34,7 @@
     "docsRoute": "uapi/app/docs/[slug]/page.tsx:af7f8bedcf6b3016f73046e8",
     "publicDocsUnitTest": "uapi/tests/publicDocsPageContent.test.tsx:f4605b2a539a93b9e1e1e36a",
     "docsContentUnitTest": "uapi/tests/bitcodeDocsContent.test.tsx:2ec2330df086eb414078ef45",
-    "operatorReadme": "internal-docs/README.md:ad7d9472f52198b7efe7296e"
+    "operatorReadme": "internal-docs/README.md:b723dde2988124dc8de83c56"
   },
   "surfaceIds": [
     "landing-page",
@@ -463,8 +463,8 @@
         "canonical-specification"
       ],
       "requiredCopyTokens": [
-        "BITCODE_SPEC.txt` -> `V45`",
-        "V46 is the active draft-target family for commercial protocol comprehension",
+        "resolves to `V46`",
+        "promoted V46 canon",
         "Operator notes may name proof roots",
         "Operator notes must not record secret values"
       ],
@@ -791,7 +791,7 @@
     "allAuthorityIdsKnown": true,
     "sourcePredicates": [
       {
-        "id": "active-canon-pointer-remains-v45",
+        "id": "active-canon-pointer-supports-v46-draft-or-later",
         "sourcePath": "BITCODE_SPEC.txt",
         "passed": true
       },

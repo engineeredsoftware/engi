@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -646,7 +648,7 @@ function buildSourceRoots(repoRoot) {
 function buildSourcePredicates(repoRoot) {
   const sources = Object.fromEntries(Object.entries(SOURCE_PATHS).map(([key, sourcePath]) => [key, readSource(repoRoot, sourcePath)]));
   return [
-    predicateResult('active-canon-pointer-remains-v45', SOURCE_PATHS.activePointer, sources.activePointer.trim() === 'V45'),
+    predicateResult('active-canon-pointer-supports-v46-draft-or-later', SOURCE_PATHS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V45')),
     predicateResult(
       'spec-defines-comprehension-object-model',
       SOURCE_PATHS.spec,

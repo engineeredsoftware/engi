@@ -5,6 +5,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
 import {
   V46_PROTOCOL_CLAIM_AUTHORITY_IDS,
   V46_PROTOCOL_CLAIM_CATEGORY_IDS,
@@ -414,7 +415,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-pointer-remains-v45', SOURCE_PATHS.activePointer, sources.activePointer.trim() === 'V45'),
+    predicateResult('active-pointer-supports-v46-draft-or-later', SOURCE_PATHS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V45')),
     predicateResult(
       'spec-defines-gate7-law',
       SOURCE_PATHS.spec,

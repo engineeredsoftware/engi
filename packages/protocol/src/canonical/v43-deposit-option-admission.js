@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -139,7 +141,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v42', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V42'),
+    predicateResult('active-canon-pointer-supports-v43-draft-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V42')),
     predicateResult('spec-defines-gate7', SOURCE_ROOTS.spec, sources.spec.includes('V43 Gate 7 Deposit Option Review, Approval, And Admission')),
     predicateResult('spec-names-admission-report', SOURCE_ROOTS.spec, sources.spec.includes('DepositAssetPackOptionAdmissionReport') && sources.spec.includes('DepositOptionAdmissionReceipt')),
     predicateResult('delta-records-gate7', SOURCE_ROOTS.delta, sources.delta.includes('Gate 7') && sources.delta.includes('v43-deposit-option-admission')),
@@ -155,7 +157,12 @@ function buildPredicateResults(repoRoot) {
     predicateResult('admission-model-defines-packs-sync', SOURCE_ROOTS.admissionModel, sources.admissionModel.includes('packsActivitySync') && sources.admissionModel.includes("'depository-assetpack'")),
     predicateResult('admission-model-defines-telemetry', SOURCE_ROOTS.admissionModel, sources.admissionModel.includes("eventType: 'deposit-option-admission'") && sources.admissionModel.includes("channel: 'execution-stream'")),
     predicateResult('admission-model-forbids-source-leakage', SOURCE_ROOTS.admissionModel, sources.admissionModel.includes('protectedSourceVisible: false') && sources.admissionModel.includes('rawProviderResponseVisible: false') && sources.admissionModel.includes('settlementPrivatePayloadVisible: false')),
-    predicateResult('route-model-owns-admission', SOURCE_ROOTS.routeModel, sources.routeModel.includes('DepositAssetPackOptionAdmissionReport') && sources.routeModel.includes('admissionAndIndexingOwnedByGate7')),
+    predicateResult(
+      'route-model-owns-admission',
+      SOURCE_ROOTS.routeModel,
+      sources.routeModel.includes('DepositAssetPackOptionAdmissionReport') &&
+        sources.routeModel.includes('admissionAndIndexingPolicyPresent: true'),
+    ),
     predicateResult('deposit-client-renders-admission', SOURCE_ROOTS.client, sources.client.includes('DepositAssetPackOptionAdmissionReport') && sources.client.includes('Approve for Depository') && sources.client.includes('Resynthesis queued')),
     predicateResult('pack-activity-recognizes-admission', SOURCE_ROOTS.packActivityModel, sources.packActivityModel.includes('deposit-option-admission') && sources.packActivityModel.includes('depository-assetpack')),
     predicateResult('asset-pack-package-exports-admission', SOURCE_ROOTS.packageIndex, sources.packageIndex.includes("export * from './deposit-asset-pack-option-admission'")),

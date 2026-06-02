@@ -1,6 +1,6 @@
 # Bitcode Internal Notes
 
-Status: non-canonical internal documentation. The active canonical system specification pointer is `BITCODE_SPEC.txt` -> `V45`. V46 is the active draft-target family for commercial protocol comprehension. These notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
+Status: non-canonical internal documentation. The active canonical system specification pointer resolves to `V46`. V47 is the active draft-target family after promoted V46 canon. These notes are useful only insofar as they help draft, implement, or verify the active SPEC family or the explicitly opened draft-target family.
 
 ## Rules
 

@@ -123,7 +123,7 @@
       "sourceRoots": [
         "BITCODE_SPEC_V45.md:303eba5e7ebde2132d729f1f",
         "BITCODE_SPEC_V45_PROVEN.md:49cae72f47df688d9d02b655",
-        "BITCODE_SPEC_V46.md:6f837626fc89526e4aaaf192"
+        "BITCODE_SPEC_V46.md:48121ff59f812f15a1b3b1f7"
       ],
       "sourceFilesPresent": true,
       "requiredCopyPresent": true
@@ -888,7 +888,7 @@
   ],
   "predicateResults": [
     {
-      "id": "active-pointer-remains-v45",
+      "id": "active-pointer-supports-v46-draft-or-later",
       "sourcePath": "BITCODE_SPEC.txt",
       "passed": true
     },
@@ -1029,9 +1029,9 @@
   },
   "proofRoots": {
     "rowSetRoot": "sha256:771d03cf064bc688ebd33cfa",
-    "predicateRoot": "sha256:9a92745e9d201f5f2746a59a",
+    "predicateRoot": "sha256:d52be54e2a0018da0049bc1a",
     "coverageRoot": "sha256:bb649799af3d38991e70cb31",
-    "artifactRoot": "sha256:8dc431603385b71168794b4c"
+    "artifactRoot": "sha256:85d65ffdc5bcb27c620cc7f1"
   },
   "sourceSafety": {
     "sourceSafeMetadataOnly": true,

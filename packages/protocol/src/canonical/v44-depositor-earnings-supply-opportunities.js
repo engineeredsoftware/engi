@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -163,7 +165,7 @@ function buildPredicateResults(repoRoot) {
     predicateResult(
       'active-canon-pointer-supports-v44-draft-or-promoted',
       SOURCE_ROOTS.activePointer,
-      ['V43', 'V44', 'V45'].includes(sources.activePointer.trim()),
+      bitcodeVersionAtLeast(sources.activePointer, 'V43'),
     ),
     predicateResult('spec-defines-gate5', SOURCE_ROOTS.spec, sources.spec.includes('V44 Gate 5 Depositor Earnings, ROI, And Supply Opportunity Intelligence')),
     predicateResult('spec-names-gate5-artifact', SOURCE_ROOTS.spec, sources.spec.includes('v44-depositor-earnings-supply-opportunities')),

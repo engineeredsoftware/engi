@@ -5,6 +5,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
 import {
   V46_PROTOCOL_CLAIM_AUTHORITY_IDS,
   V46_PROTOCOL_CLAIM_CATEGORY_IDS,
@@ -474,7 +475,7 @@ function buildPredicateResults(repoRoot) {
   const canonWorkflow = readSource(repoRoot, SOURCE_PATHS.canonWorkflow);
 
   return [
-    predicateResult('active-pointer-remains-v45', SOURCE_PATHS.activePointer, readSource(repoRoot, SOURCE_PATHS.activePointer).trim() === 'V45'),
+    predicateResult('active-pointer-supports-v46-draft-or-later', SOURCE_PATHS.activePointer, bitcodeVersionAtLeast(readSource(repoRoot, SOURCE_PATHS.activePointer), 'V45')),
     predicateResult('spec-defines-gate5-law', SOURCE_PATHS.spec, spec.includes('V46 interface claim contract law') && spec.includes(V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH)),
     predicateResult('delta-records-gate5', SOURCE_PATHS.delta, delta.includes('Gate 5: API/MCP, ChatGPT App, And Bitcode Chat Claim Contracts') && delta.includes(V46_INTERFACE_CLAIM_CONTRACTS_ARTIFACT_PATH)),
     predicateResult('notes-records-gate5', SOURCE_PATHS.notes, notes.includes('V46 interface claim contract atom') && notes.includes('InterfaceClaim contracts')),

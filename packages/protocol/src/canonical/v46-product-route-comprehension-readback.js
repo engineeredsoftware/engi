@@ -5,6 +5,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
 import {
   V46_PROTOCOL_CLAIM_AUTHORITY_IDS,
   V46_PROTOCOL_CLAIM_CATEGORY_IDS,
@@ -355,7 +356,7 @@ function buildSourceRoots(repoRoot) {
 function buildSourcePredicates(repoRoot) {
   const sources = Object.fromEntries(Object.entries(SOURCE_PATHS).map(([key, sourcePath]) => [key, readSource(repoRoot, sourcePath)]));
   return [
-    predicateResult('active-pointer-remains-v45', SOURCE_PATHS.activePointer, sources.activePointer.trim() === 'V45'),
+    predicateResult('active-pointer-supports-v46-draft-or-later', SOURCE_PATHS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V45')),
     predicateResult('spec-records-route-readback-law', SOURCE_PATHS.spec, sources.spec.includes('V46 product route comprehension readback law')),
     predicateResult('delta-records-gate4', SOURCE_PATHS.delta, sources.delta.includes('Gate 4: `/packs`, `/read`, And `/deposit` Comprehension UX Readback')),
     predicateResult('notes-record-gate4', SOURCE_PATHS.notes, sources.notes.includes('Gate 4 records the product-route comprehension atom')),

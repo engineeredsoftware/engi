@@ -5,6 +5,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
 import {
   V46_PROTOCOL_CLAIM_AUTHORITY_IDS,
   V46_PROTOCOL_CLAIM_CATEGORY_IDS,
@@ -324,8 +325,8 @@ export const V46_PUBLIC_OPERATOR_SURFACE_ROWS = Object.freeze([
     claimCategoryIds: ['operator-evidence', 'telemetry-observability', 'repair-claim'],
     authorityIds: ['generated-proof', 'telemetry-observability-only', 'canonical-specification'],
     requiredCopyTokens: [
-      'BITCODE_SPEC.txt` -> `V45`',
-      'V46 is the active draft-target family for commercial protocol comprehension',
+      'resolves to `V46`',
+      'promoted V46 canon',
       'Operator notes may name proof roots',
       'Operator notes must not record secret values',
     ],
@@ -404,7 +405,7 @@ function buildSourceRoots(repoRoot) {
 function buildSourcePredicates(repoRoot) {
   const sources = Object.fromEntries(Object.entries(SOURCE_PATHS).map(([key, sourcePath]) => [key, readSource(repoRoot, sourcePath)]));
   return [
-    predicateResult('active-canon-pointer-remains-v45', SOURCE_PATHS.activePointer, sources.activePointer.trim() === 'V45'),
+    predicateResult('active-canon-pointer-supports-v46-draft-or-later', SOURCE_PATHS.activePointer, bitcodeVersionAtLeast(sources.activePointer, 'V45')),
     predicateResult(
       'spec-defines-public-operator-claim-boundary-law',
       SOURCE_PATHS.spec,
@@ -461,8 +462,8 @@ function buildSourcePredicates(repoRoot) {
     predicateResult(
       'operator-readme-uses-current-claim-boundary',
       SOURCE_PATHS.operatorReadme,
-      sources.operatorReadme.includes('BITCODE_SPEC.txt` -> `V45`') &&
-        sources.operatorReadme.includes('V46 is the active draft-target family for commercial protocol comprehension') &&
+      sources.operatorReadme.includes('resolves to `V46`') &&
+        sources.operatorReadme.includes('promoted V46 canon') &&
         sources.operatorReadme.includes('Operator notes must not record secret values'),
     ),
     predicateResult(

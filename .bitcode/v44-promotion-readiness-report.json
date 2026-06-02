@@ -1,10 +1,9 @@
 {
-  "reportId": "v44-promotion-readiness-report",
   "artifactId": "v44-promotion-readiness-report",
   "schemaId": "bitcode.v44.promotionReadinessReport.v1",
   "version": "V44",
   "currentTarget": "V43",
-  "generatedAt": "2026-05-31T09:53:42-03:00",
+  "generatedAt": "2026-05-29T00:00:00.000Z",
   "sourceSafetyVerdict": "source-safe-v44-scaled-engineering-economy-promotion-metadata",
   "prePromotionPosture": "V43 active / V44 draft",
   "postPromotionPosture": "V44 active / V45 draft",
@@ -43,7 +42,7 @@
       "relativePath": ".bitcode/v44-economic-domain-model.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:ce579dd3076cb707a1f3f63492cbd5a2b2297b58cfb05fdbe677e2efebbc0a7e",
+      "digest": "sha256:1dd2a4d80bc7b8f9fdf8bd1ef597c87a3fad4fe4094307ab844264649911dd48",
       "byteLength": 25917,
       "sourceSafe": true,
       "artifactId": "v44-economic-domain-model",
@@ -54,7 +53,7 @@
       "relativePath": ".bitcode/v44-packs-portfolio-market-intelligence.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:3cb70cf1247d818133bbe4cd69e284132c0bf61d25694e653eb12e64703e2141",
+      "digest": "sha256:c708463a783bddcbae6830dcdff6f5b402202b869b58b29cda4704d608260a58",
       "byteLength": 10298,
       "sourceSafe": true,
       "artifactId": "v44-packs-portfolio-market-intelligence",
@@ -65,7 +64,7 @@
       "relativePath": ".bitcode/v44-reading-budget-quote-policy.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:f3a778bc96202a4f7a842193cdba33a70e860ddb8baa0b6d4aeb9b5598d0ee6b",
+      "digest": "sha256:6566a88cd086f3f754e117d12fdf0f59173737c442dd196571c245ec71bb88fc",
       "byteLength": 11938,
       "sourceSafe": true,
       "artifactId": "v44-reading-budget-quote-policy",
@@ -76,7 +75,7 @@
       "relativePath": ".bitcode/v44-depositor-earnings-supply-opportunities.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:f4c028484347edf2bf6a4f99946ef6dd8944b89ef95dfaefead6c6cb650fb7a5",
+      "digest": "sha256:df5e5230240a1b2e77fdd3b8db484e02fddce8d8e7c06c9a290a5b5b228a0700",
       "byteLength": 14109,
       "sourceSafe": true,
       "artifactId": "v44-depositor-earnings-supply-opportunities",
@@ -87,7 +86,7 @@
       "relativePath": ".bitcode/v44-btd-btc-compensation-statements.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:cc809b30a3d1e995cccc4696219e6ac908bc8bd86980bf55680222a10f992d96",
+      "digest": "sha256:b8845f4d0984f114e0b197c0a61f3a9569d1aa72aba48a39b795a7b9fc7511db",
       "byteLength": 15835,
       "sourceSafe": true,
       "artifactId": "v44-btd-btc-compensation-statements",
@@ -98,7 +97,7 @@
       "relativePath": ".bitcode/v44-organization-policy-wallet-authority.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:609d522a7e04a99c6b62c7d839b7052d7b668cd0a15439ae3496939a00d00bd6",
+      "digest": "sha256:dfd8c6ef6c8b3f42c82406633aa087110a5fd9f718ab96ec372806221789e946",
       "byteLength": 16126,
       "sourceSafe": true,
       "artifactId": "v44-organization-policy-wallet-authority",
@@ -109,7 +108,7 @@
       "relativePath": ".bitcode/v44-enterprise-product-ux.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:6a3b7035f66212726ed7a31b508da569c1b93f8cce15d2cb4b9e35d9897fec69",
+      "digest": "sha256:7fe6bdcd82ece5ce7d3aa2289cd6441fefcd2edce9adc9696a4ab32d75177ccc",
       "byteLength": 11638,
       "sourceSafe": true,
       "artifactId": "v44-enterprise-product-ux",
@@ -120,7 +119,7 @@
       "relativePath": ".bitcode/v44-scaled-network-rehearsal.json",
       "present": true,
       "parseable": true,
-      "digest": "sha256:fa311a954e7b387731e93e21d3c5c94f7dbf0f4b90346c5ddf2de816bd3c49c7",
+      "digest": "sha256:9e075e68baf3af55acf3ba7395c254d79daae60200a553ea39daa7e627542f3f",
       "byteLength": 32889,
       "sourceSafe": true,
       "artifactId": "v44-scaled-network-rehearsal",
@@ -174,7 +173,7 @@
     {
       "relativePath": "scripts/promote-bitcode-canon.mjs",
       "present": true,
-      "digest": "sha256:5c7dad86223accfd42a6ac205d471cea228570c070121633925f51a1246452c8",
+      "digest": "sha256:da02ac0ac8784b399f3004af768023f2a398dc00ea419ab48dd00880c52f62b3",
       "requiredTokens": [
         {
           "token": "if (version === 'V44')",
@@ -197,7 +196,7 @@
     {
       "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
       "present": true,
-      "digest": "sha256:566040782c417639c6d7ac8e073fcf6de56a48b4680f28542f9e1a684a47a259",
+      "digest": "sha256:73948c223c7a0d2587ee213145b35f5e9c605dfee8700044b360f3acbd3a46c8",
       "requiredTokens": [
         {
           "token": "if (version === 'V44')",
@@ -274,7 +273,7 @@
     {
       "relativePath": ".github/workflows/bitcode-gate-quality.yml",
       "present": true,
-      "digest": "sha256:a6b07a149236a411facd8f36898d7c01848562f4b7f5af420435d31279e96d96",
+      "digest": "sha256:e5de1dddfaeeb0ee525b0c0f9c04887334b5c180992ea9c82f9f73cb9d2a7c68",
       "requiredTokens": [
         {
           "token": "check-v44-gate10-promotion-readiness.mjs",
@@ -293,7 +292,7 @@
     {
       "relativePath": ".github/workflows/bitcode-canon-quality.yml",
       "present": true,
-      "digest": "sha256:6f265809cffee88a188b61c8ff7571fc9460f6874fe24e9d85798ccb05306ece",
+      "digest": "sha256:43cc4ded2bd9757dda9091dc7298cfbaa4171e16ed3aad5c79a9d0f780aa332d",
       "requiredTokens": [
         {
           "token": "check-v44-gate10-promotion-readiness.mjs",
@@ -312,7 +311,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/proven-generator.js",
       "present": true,
-      "digest": "sha256:696c9cf25133c4c7dbe088cbd1e654b9bcf99a909f8ef645970e39315a636a10",
+      "digest": "sha256:72fde86c1b4d36fb1df9f7cc33182a151bf6880dc559e07e035df027c2ca1fe4",
       "requiredTokens": [
         {
           "token": "buildV44ProvenPackage",
@@ -350,7 +349,7 @@
     {
       "relativePath": "packages/protocol/src/canonical/v21-specifying.js",
       "present": true,
-      "digest": "sha256:a88afc3c8814ffeec07dfebb024448439452b9d7950af3a1f8708c3024905c62",
+      "digest": "sha256:bdfcd76464c115301b3a50c8df6d6f984861140a3ce5257447086f4aa8716885",
       "requiredTokens": [
         {
           "token": ".bitcode/v44-promotion-readiness-report.json",
@@ -361,7 +360,7 @@
     {
       "relativePath": "package.json",
       "present": true,
-      "digest": "sha256:75e2eab494df4827d441b9c8e7ef1294e268ec59d8d018545f489153d4635d77",
+      "digest": "sha256:b79014968c556bc1b43ab3412ff5f85ae11b40e875e3186cc7304593d93adc19",
       "requiredTokens": [
         {
           "token": "generate:v44-promotion-readiness",
@@ -382,7 +381,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44.md",
       "present": true,
-      "digest": "sha256:02e482b8d45b070d4e37d79bf1698467cc331be4d6b94b8157fa233267baed3b",
+      "digest": "sha256:398a20b55d38df2ebced0591ea0225f76ff04c20e5a495d37668d24811c13e59",
       "requiredTokens": [
         {
           "token": "V44 promotion readiness canon",
@@ -401,7 +400,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44_DELTA.md",
       "present": true,
-      "digest": "sha256:91b54b2cbd8972d988982a1c6cb5d432f6710b51358692bc7f0074556278d2d2",
+      "digest": "sha256:eb779597425caf299574a3131fced29a46bf109e1e5c0eadc91300a3cdd5d5a4",
       "requiredTokens": [
         {
           "token": "Gate 10: V44 Promotion Readiness",
@@ -420,7 +419,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44_NOTES.md",
       "present": true,
-      "digest": "sha256:67b447545e1d09119d71c002b8881f8df6d82db1977f38692396518c897cd9b8",
+      "digest": "sha256:bedf9abebdc5d8ac538222b1bb22e1febec27869d004f4ac67a042fd5e0fef61",
       "requiredTokens": [
         {
           "token": "Gate 10: V44 Promotion Readiness",
@@ -439,7 +438,7 @@
     {
       "relativePath": "BITCODE_SPEC_V44_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:69249981126a45936151a6e7bfb0bfdb9ca90f99e545d4fce1dd651997ff64c6",
+      "digest": "sha256:533bbfe052c5c8469c31c1afdb48b66ee4bf24d05e0a3e303ad7b1adf9c9a06e",
       "requiredTokens": [
         {
           "token": "## Gate 10 Promotion readiness parity",
@@ -458,7 +457,7 @@
     {
       "relativePath": "SPECIFICATIONS_ROADMAP.md",
       "present": true,
-      "digest": "sha256:0651a1ea31db9a4af225b76298ec15d965f0ec6c2b60f8bd2b64760cae7847ac",
+      "digest": "sha256:64b11cb963635e16fd70bf4883ced25e0a70bd48ab428a0b35719aecf468d10f",
       "requiredTokens": [
         {
           "token": "V44 Gate 10 closure anchor",
@@ -473,7 +472,7 @@
     {
       "relativePath": "README.md",
       "present": true,
-      "digest": "sha256:ef6c7b33c7a6a3535012932a7d7544ee774b8d4a907fcfca5ffc22d6b10056c9",
+      "digest": "sha256:d28ec731634e03953d8adfe6cf6c07fe72db9b450d0aecce716fbc73cf6e4a5b",
       "requiredTokens": [
         {
           "token": "check:v44-gate10",
@@ -488,7 +487,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:aae160562370392979c25d42298ba991f8122719b768d5509eb56f10110acbb7",
+      "digest": "sha256:f5b175049f4f4e8df179e184f40bc906ecd68181e425d4429a4dbb4a42a50c1a",
       "requiredTokens": [
         {
           "token": "V44 Gate 10",
@@ -550,9 +549,5 @@
   "artifactRoot": "v44-scaled-engineering-economy-promotion-readiness-report:8db11db03bcc2287dd57c9f9",
   "passed": true,
   "failures": [],
-  "validationCommand": "pnpm run check:v44-gate10",
-  "proofSourceCommit": "bb1bfd14b21fa67a5e5690fe1eeb3acf095f6da3",
-  "generatorId": "bitcode.proven-generator.v1",
-  "worktreeState": "clean",
-  "sourceSafe": true
+  "validationCommand": "pnpm run check:v44-gate10"
 }

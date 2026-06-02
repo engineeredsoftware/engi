@@ -6,6 +6,8 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { bitcodeVersionAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -403,7 +405,7 @@ function buildPredicateResults(repoRoot, scan) {
     predicateResult(
       'active-canon-pointer-supports-v43-route-migration-posture',
       'BITCODE_SPEC.txt',
-      ['V42', 'V43', 'V44', 'V45'].includes(readSource(repoRoot, 'BITCODE_SPEC.txt').trim()),
+      bitcodeVersionAtLeast(readSource(repoRoot, 'BITCODE_SPEC.txt'), 'V42'),
     ),
     predicateResult('spec-defines-gate2-inventory', 'BITCODE_SPEC_V43.md', spec.includes('V43 Gate 2') && spec.includes('route vocabulary inventory')),
     predicateResult('spec-defines-migration-matrix', 'BITCODE_SPEC_V43.md', spec.includes('migration matrix') && spec.includes('retained debug cockpit')),
