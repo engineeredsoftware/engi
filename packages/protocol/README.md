@@ -378,6 +378,18 @@ contracts to source-safe `InterfaceClaim` rows, proof-root projection,
 denied-state repair, no parallel state authority, package exports, and
 no-source/no-secret interface scans.
 
+V46 Gate 6 adds `V46ProofReadbackOperatorExplanation` through
+`packages/protocol/src/canonical/v46-proof-readback-operator-explanation.js`,
+`packages/protocol/test/v46-proof-readback-operator-explanation.test.js`,
+`.bitcode/v46-proof-readback-operator-explanation.json`,
+`generate:v46-proof-readback-operator-explanation`,
+`check:v46-proof-readback-operator-explanation`, and `check:v46-gate6`. It
+distinguishes canonical/generated proof, execution/workflow receipts, ledger
+journals, database projections, object-storage roots, telemetry streams,
+wallet/provider receipts, repository delivery receipts, and repair
+reconciliation receipts without creating parallel state authority or exposing
+private payloads.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

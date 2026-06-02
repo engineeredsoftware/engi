@@ -168,6 +168,48 @@ source-safe disclosure exclusions, package exports, generated artifact
 freshness, workflow wiring, and focused protocol tests. The artifact path is
 `.bitcode/v46-interface-claim-contracts.json`.
 
+## Gate 6: Proof Readback And Source-Safe Operator Explanation
+
+Gate 6 records the proof readback operator explanation atom. It creates a
+source-safe artifact for evidence authority classes and operator repair
+readback. It remains draft-target metadata over active V45: it may audit and
+clarify evidence classes, authority ids, stronger/weaker evidence, conflict
+behavior, repair states, and tests, but it does not authorize source
+disclosure, settlement finality, delivery, rights transfer, or value-bearing
+mainnet admission.
+
+## V46 proof readback operator explanation atom: evidence authority ladder
+
+Audit classification: V45 defines proof-backed readback as the only state
+advancement mechanism, and Gates 2 through 5 make claims and interfaces
+source-safe. Operators and integrators still need one generated object that
+distinguishes which receipt has which authority when proof, ledger, database,
+storage, wallet/provider, repository delivery, telemetry, and repair evidence
+do not all agree.
+
+Proof readback operator law:
+
+Canonical specification and generated proof define the law and accepted proof
+families; they do not prove that a live payment, delivery, or rights transfer
+happened. Execution/workflow receipts prove that work ran and can be replayed;
+they do not own commercial finality. Ledger journals are payment/finality
+authority, but source unlock still requires matching rights, storage, and
+repository delivery readback. Database projections are read models and must
+yield to stronger roots. Object-storage roots prove custody and withheld
+bundle posture, not Reader entitlement by themselves. Telemetry streams are
+observability only. Wallet/provider receipts prove non-custodial payment
+observation posture, not finality. Repository delivery receipts prove
+entitled delivery after finality, BTD rights, source-to-shares compensation,
+and storage reconciliation. Repair/reconciliation receipts explain conflict,
+retry, approval, and fail-closed state.
+
+Acceptance for this atom: `V46ProofReadbackOperatorExplanation` must bind all
+evidence class ids, Gate 2 authority ids and claim ids, required operator
+question ids, source roots, stronger-evidence requirements, conflict behavior,
+repair states, source-safe disclosure exclusions, package exports, generated
+artifact freshness, workflow wiring, and focused protocol tests. The artifact
+path is `.bitcode/v46-proof-readback-operator-explanation.json`.
+
 ## V46 product route comprehension atom: route readback for Packs, Reading, and Depositing
 
 Audit classification: V43 through V45 created the route-product skeleton and

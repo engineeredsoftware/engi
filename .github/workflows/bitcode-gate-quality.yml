@@ -563,6 +563,9 @@ jobs:
               if [ -f scripts/check-v46-gate5-interface-claim-contracts.mjs ]; then
                 node scripts/check-v46-gate5-interface-claim-contracts.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v46-gate6-proof-readback-operator-explanation.mjs ]; then
+                node scripts/check-v46-gate6-proof-readback-operator-explanation.mjs --skip-branch-check --skip-package-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2
@@ -615,6 +618,9 @@ jobs:
               fi
               if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate5-interface-claim-contracts.mjs ]; then
                 node scripts/check-v46-gate5-interface-claim-contracts.mjs --skip-branch-check --skip-package-tests
+              fi
+              if [ -f BITCODE_SPEC_V46.md ] && [ -f scripts/check-v46-gate6-proof-readback-operator-explanation.mjs ]; then
+                node scripts/check-v46-gate6-proof-readback-operator-explanation.mjs --skip-branch-check --skip-package-tests
               fi
             fi
             if [ "$POINTER" = "V43" ] && [ -f scripts/check-v44-gate1-scaled-economy-roadmap-opening.mjs ]; then
