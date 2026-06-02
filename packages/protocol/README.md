@@ -66,6 +66,7 @@ Current exported commercial helpers include:
 - `V43RouteVocabularyInventory` helpers for V43 source-safe route vocabulary inventory, source-safe file/token counts, `/exchange` to `/packs` planning, `/terminal` to `/read` and `/deposit` planning, retained debug cockpit boundary, redirect compatibility, self-referential copy cleanup, and migration matrix proof;
 - `V43PacksActivityMasterDetail` helpers for V43 source-safe PackActivity contracts, `/api/packs/activity`, `/packs` master-detail search/filter/sort/detail projection, proof roots, settlement/compensation/delivery/repair readback, and `/exchange` compatibility redirection;
 - `V46PublicOperatorClaimBoundaries` helpers for V46 source-safe public/operator claim boundary metadata across public docs, landing, operator docs, README surfaces, workflow checks, and forbidden overclaim scans;
+- `V46ProductRouteComprehensionReadback` helpers for V46 source-safe `/packs`, `/read`, and `/deposit` route comprehension metadata, low-detail defaults, expandable proof readback, route-owned state, and forbidden product-route overclaim scans;
 - canonical proven-generation helpers;
 - the package app/server context used by commercial interfaces.
 
@@ -351,6 +352,18 @@ operator docs, README surfaces, workflow wiring, required copy anchors, and
 forbidden overclaim scans without serializing protected source, unpaid
 AssetPack source, raw prompts, raw provider responses, credentials, wallet
 private material, or value-bearing mainnet authority.
+
+V46 Gate 4 adds `V46ProductRouteComprehensionReadback` through
+`packages/protocol/src/canonical/v46-product-route-comprehension-readback.js`,
+`packages/protocol/test/v46-product-route-comprehension-readback.test.js`,
+`.bitcode/v46-product-route-comprehension-readback.json`,
+`generate:v46-product-route-comprehension-readback`,
+`check:v46-product-route-comprehension-readback`, and `check:v46-gate4`. It
+binds `/packs`, `/read`, and `/deposit` to source-safe low-detail defaults,
+route-owned state, expandable proof readback, Reading and Depositing five-step
+flows, Packs search/filter/sort, proof-root readback, settlement/delivery
+boundaries, contributor compensation readback, and no-source/no-secret product
+route scans.
 
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to

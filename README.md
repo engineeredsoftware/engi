@@ -30,6 +30,16 @@ keeping protected source, unpaid AssetPack source, raw prompts, raw provider
 responses, credentials, wallet private material, and value-bearing mainnet
 operation out of generated metadata.
 
+V46 Gate 4 adds `V46ProductRouteComprehensionReadback` through
+`packages/protocol/src/canonical/v46-product-route-comprehension-readback.js`,
+`.bitcode/v46-product-route-comprehension-readback.json`,
+`generate:v46-product-route-comprehension-readback`,
+`check:v46-product-route-comprehension-readback`, and `check:v46-gate4`. It
+binds `/packs`, `/read`, and `/deposit` to low-detail route defaults,
+route-owned state, searchable PackActivity readback, Reading and Depositing
+five-step flows, expandable proof detail, settlement/delivery boundaries,
+compensation readback, and no-source/no-secret route metadata.
+
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
 Prompt, map registry composition and interpolation contracts, benchmark Reading

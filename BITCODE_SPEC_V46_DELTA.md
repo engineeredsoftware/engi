@@ -119,6 +119,32 @@ Accepted Gate 3 decisions:
 - Gate 3 does not authorize runtime, route-state, settlement, delivery, or
   value-bearing mainnet behavior changes.
 
+## Gate 4: `/packs`, `/read`, And `/deposit` Comprehension UX Readback
+
+Gate 4 adds `V46ProductRouteComprehensionReadback` as a source-safe generated
+artifact at `.bitcode/v46-product-route-comprehension-readback.json`. It binds
+the three product routes to Gate 2 claim authority and Gate 3 public/operator
+boundaries so route UX can stay low-detail by default while preserving
+expandable proof readback.
+
+Accepted Gate 4 decisions:
+
+- `/packs` is the searchable PackActivity master-detail readback for
+  source-safe market, portfolio, settlement, compensation, delivery, repair,
+  governance, and proof-root activity.
+- `/read` remains the five-step Reading route: request Read, review
+  synthesized Need, request Finding Fits, review source-safe AssetPack preview,
+  and buy/settle.
+- `/deposit` remains the five-step source-supply route: connect source,
+  synthesize AssetPack options, review source-safe options, submit deposit, and
+  read Depository state.
+- Low-detail route summaries are allowed only when expandable source-safe
+  detail preserves route-owned state, proof roots, disclosure boundaries, and
+  repair blockers.
+- Gate 4 does not expose protected source, unpaid AssetPack source, raw
+  prompts, raw provider responses, credentials, wallet private material,
+  private settlement payloads, or value-bearing mainnet authority.
+
 ## Commit-Body Direction
 
 V46 commit bodies should name the gate class, protocol law or interface claim

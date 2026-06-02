@@ -101,6 +101,50 @@ operator notes. It remains draft-target metadata over active V45: no route
 behavior, API behavior, settlement behavior, delivery behavior, source
 disclosure, or value-bearing mainnet admission is authorized by this gate.
 
+## Gate 4: `/packs`, `/read`, And `/deposit` Comprehension UX Readback
+
+Gate 4 records the product-route comprehension atom. It creates a source-safe
+route readback artifact for `/packs`, `/read`, and `/deposit`. It remains
+draft-target metadata over active V45: it may audit and clarify route copy,
+state labels, readback roots, and tests, but it does not authorize source
+disclosure, payment finality, delivery, or value-bearing mainnet admission.
+
+## V46 product route comprehension atom: route readback for Packs, Reading, and Depositing
+
+Audit classification: V43 through V45 created the route-product skeleton and
+economic law, but product routes still need one V46 comprehension contract that
+binds their low-detail UX to proof readback. The route should be easy to scan
+in collapsed/default form, while every commercial claim must remain expandable
+to source-safe proof, route-owned state, and repair posture.
+
+Product-route law:
+
+`/packs` is the searchable PackActivity master-detail surface. It is allowed
+to show rows, filters, sorting, source-safe measurements, proof roots,
+settlement state, compensation state, delivery state, repair state, governance
+readback, accounting readback, portfolio positions, and market signals. It is
+not a source disclosure surface and cannot override ledger or proof readback.
+
+`/read` is the five-step Reading route. It moves from Read Request to reviewed
+Need, Finding Fits, source-safe AssetPack preview, and buy/settle. It must name
+`ReadNeedComprehensionSynthesis` and `ReadFitsFindingSynthesis`, preserve the
+accepted-Need blocker before Finding Fits, show preview and quote metadata
+without source, and keep source-bearing AssetPack contents withheld until BTC
+finality, BTD rights transfer, and entitled repository delivery.
+
+`/deposit` is the five-step source-supply route. It moves from connected
+source to AssetPack option synthesis, source-safe option review, deposit
+submission, and Depository state readback. It may show measurements, demand
+roots, policy roots, estimated ROI, BTD potential, and compensation metadata.
+It must not claim final Need-relative BTD or expose raw source at option time.
+
+Acceptance for this atom: `V46ProductRouteComprehensionReadback` must bind
+`/packs`, `/read`, and `/deposit` route ids, route paths, low-detail defaults,
+route-owned state, search/filter/sort, Reading and Depositing five-step flows,
+expandable proof readback, source-safe disclosure exclusions, package exports,
+generated artifact freshness, workflow wiring, and focused protocol tests. The
+artifact path is `.bitcode/v46-product-route-comprehension-readback.json`.
+
 ## V46 public/operator claim-boundary atom: public/operator claim boundaries
 
 Audit classification: Gate 2 defines the typed claim taxonomy, but public and
