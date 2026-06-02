@@ -446,7 +446,10 @@ function buildPredicateResults(repoRoot) {
       (sources.roadmap.includes('Current working gate: V46 Gate 7 Local Interface Comprehension Rehearsal') &&
         sources.roadmap.includes('V46 Gate 6 closure anchor')) ||
         (sources.roadmap.includes('V46 Gate 7 closure anchor') &&
-          sources.roadmap.includes('Current working gate: V46 Gate 8 Promotion Readiness And Canonical Promotion')),
+          sources.roadmap.includes('Current working gate: V46 Gate 8 Promotion Readiness And Canonical Promotion')) ||
+        (sources.roadmap.includes('V46 Gate 7 closure anchor') &&
+          sources.roadmap.includes('Latest closed gate: V46 Gate 8 Promotion Readiness And Canonical Promotion') &&
+          sources.roadmap.includes('Current working gate: V47 opening preparation')),
     ),
     predicateResult(
       'readmes-document-gate7',
