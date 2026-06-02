@@ -40,6 +40,16 @@ route-owned state, searchable PackActivity readback, Reading and Depositing
 five-step flows, expandable proof detail, settlement/delivery boundaries,
 compensation readback, and no-source/no-secret route metadata.
 
+V46 Gate 5 adds `V46InterfaceClaimContracts` through
+`packages/protocol/src/canonical/v46-interface-claim-contracts.js`,
+`.bitcode/v46-interface-claim-contracts.json`,
+`generate:v46-interface-claim-contracts`,
+`check:v46-interface-claim-contracts`, and `check:v46-gate5`. It binds public
+API, MCP API, ChatGPT App, Bitcode Chat, and package-consumer surfaces to
+source-safe `InterfaceClaim` contracts, proof-root projection, denied-state
+repair, no parallel state authority, and no-source/no-secret interface
+metadata.
+
 V41 Gate 1 opens the prompts-as-programs specification family over active V40
 with `check:v41-gate1`. V41 will catalogue every raw PromptPart and composed
 Prompt, map registry composition and interpolation contracts, benchmark Reading

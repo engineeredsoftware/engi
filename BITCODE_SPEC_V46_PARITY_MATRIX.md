@@ -63,7 +63,7 @@ source files and generated artifacts that implement or explain each row.
 | Claim taxonomy | Separate protocol law, product guidance, operator evidence, investor framing, telemetry, preview, quote, settlement, rights, delivery, compensation, and repair claims | implemented prerequisite | Gate 2 owns package-backed `V46ProtocolComprehensionObjectModel`, deterministic `.bitcode/v46-protocol-comprehension-object-model.json`, object rows, claim rows, evidence-specific authority ids, disclosure boundary ids, forbidden claim collapse ids, source-safe generated artifact freshness, protocol tests, docs, and workflow wiring. | Gate 2 |
 | Public and operator docs | Public docs, landing copy, README/operator docs, and route help stay accurate, source-safe, and non-overclaiming | implemented prerequisite | Gate 3 owns package-backed `V46PublicOperatorClaimBoundaries`, deterministic `.bitcode/v46-public-operator-claim-boundaries.json`, public docs, landing, operator docs, README anchors, protocol docs compatibility alias, forbidden overclaim scans, source-safety exclusions, focused tests, package exports, and workflow wiring. | Gate 3 |
 | Product route comprehension | `/packs`, `/read`, and `/deposit` expose low-detail default UX with expandable proof and consistent commercial terms | implemented prerequisite | Gate 4 owns package-backed `V46ProductRouteComprehensionReadback`, deterministic `.bitcode/v46-product-route-comprehension-readback.json`, route ids, route paths, low-detail defaults, route-owned state, Packs search/filter/sort, Reading five-step readback, Depositing five-step readback, source-safe proof detail, package exports, focused tests, and workflow wiring. | Gate 4 |
-| Machine and conversation interfaces | API/MCP, ChatGPT App, Bitcode Chat, and package consumers expose the same claim boundaries as website routes | draft-required | Prior interface parity exists, but V46 needs launch-facing readback contracts. | Gate 5 |
+| Machine and conversation interfaces | API/MCP, ChatGPT App, Bitcode Chat, and package consumers expose the same claim boundaries as website routes | implemented prerequisite | Gate 5 owns package-backed `V46InterfaceClaimContracts`, deterministic `.bitcode/v46-interface-claim-contracts.json`, public API schema compatibility, MCP tool contracts, ChatGPT App action contracts, Bitcode Chat conversation/stream/handoff contracts, package-consumer read contracts, proof-root projection, denied-state repair, source-safe disclosure exclusions, focused tests, and workflow wiring. | Gate 5 |
 | Proof readback explanation | Users and operators can understand why proof, ledger, database, storage, wallet/provider, and repository receipts have different authority | draft-required | V45 requires proof-backed state advancement; V46 must make it externally legible. | Gate 6 |
 | Local interface rehearsal | A source-safe local rehearsal verifies docs/routes/interfaces explain the protocol without exposing unpaid source | pending | No V46 rehearsal is authorized in Gate 1. | Gate 7 |
 | Promotion readiness | V46 can promote only after all accepted comprehension, parity, proof, interface, rehearsal, and source-safety gates close | accepted boundary | V45 remains active canon until a future promotion workflow advances the pointer. | Gate 8 |
@@ -81,6 +81,7 @@ source files and generated artifacts that implement or explain each row.
 | Protocol comprehension object model | V46 explanation surfaces share object ids, claim categories, claim authority ids, disclosure boundaries, and forbidden interpretation ids | implemented prerequisite | `V46ProtocolComprehensionObjectModel` binds AssetPack, BTD, BTC, preview, quote, settlement, rights, delivery, compensation, proof, repair, and InterfaceClaim rows without source-bearing payloads. | Gate 2 |
 | Public/operator claim-boundary artifact | Public and operator surfaces expose only source-safe guidance and proof posture while avoiding stale vocabulary and overclaims | implemented prerequisite | `V46PublicOperatorClaimBoundaries` binds landing, docs home, docs content, docs protocol page, operator README, root README, package README, and V46 spec-family rows to required copy anchors, claim authorities, forbidden overclaim scans, and `.bitcode/v46-public-operator-claim-boundaries.json`. | Gate 3 |
 | Product route comprehension readback artifact | `/packs`, `/read`, and `/deposit` expose route-specific source-safe readback without collapsing preview, quote, finality, delivery, compensation, or repair claims | implemented prerequisite | `V46ProductRouteComprehensionReadback` binds route rows to claim ids, authority ids, required copy anchors, low-detail defaults, expandable proof readback, route-owned state, no-source/no-secret checks, and `.bitcode/v46-product-route-comprehension-readback.json`. | Gate 4 |
+| Interface claim contracts artifact | API/MCP, ChatGPT App, Bitcode Chat, and package consumers expose source-safe contracts without parallel state authority | implemented prerequisite | `V46InterfaceClaimContracts` binds public API, MCP API, ChatGPT App, Bitcode Chat, and package-consumer rows to claim ids, category ids, authority ids, capability ids, source roots, proof-root projection, denied-state repair, no-source/no-secret checks, and `.bitcode/v46-interface-claim-contracts.json`. | Gate 5 |
 
 ## Grouped Closure Gates
 
@@ -113,11 +114,14 @@ more maintainable closure order.
 
 ## Current completion condition
 
-V46 Gate 4 is complete when `V46ProductRouteComprehensionReadback`,
-`.bitcode/v46-product-route-comprehension-readback.json`, `/packs`, `/read`,
-and `/deposit` route readback anchors, package exports, workflow checks,
-focused tests, and `check:v46-gate4` validate active V45 plus draft V46 and
-the gate branch is committed, pushed, and pull-requested into `version/v46`.
+V46 Gate 5 is complete when `V46InterfaceClaimContracts`,
+`.bitcode/v46-interface-claim-contracts.json`, public API, MCP API, ChatGPT
+App, Bitcode Chat, and package-consumer claim contract anchors, package
+exports, workflow checks, focused tests, and `check:v46-gate5` validate active
+V45 plus draft V46 and the gate branch is committed, pushed, and
+pull-requested into `version/v46`.
+
+Historical Gate 4 completion condition: V46 Gate 4 is complete when `V46ProductRouteComprehensionReadback`, `.bitcode/v46-product-route-comprehension-readback.json`, `/packs`, `/read`, and `/deposit` route readback anchors, package exports, workflow checks, focused tests, and `check:v46-gate4` validate active V45 plus draft V46 and the gate branch is committed, pushed, and pull-requested into `version/v46`.
 
 Historical Gate 3 completion condition: V46 Gate 3 is complete when `V46PublicOperatorClaimBoundaries`, `.bitcode/v46-public-operator-claim-boundaries.json`, public docs, landing copy, operator docs, README anchors, route compatibility docs, package exports, workflow checks, focused tests, and `check:v46-gate3` validate active V45 plus draft V46 and the gate branch is committed, pushed, and pull-requested into `version/v46`.
 

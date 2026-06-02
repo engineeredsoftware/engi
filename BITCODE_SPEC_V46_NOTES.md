@@ -109,6 +109,65 @@ draft-target metadata over active V45: it may audit and clarify route copy,
 state labels, readback roots, and tests, but it does not authorize source
 disclosure, payment finality, delivery, or value-bearing mainnet admission.
 
+## Gate 5: API/MCP, ChatGPT App, And Bitcode Chat Claim Contracts
+
+Gate 5 records the interface claim contract atom. It creates a source-safe
+artifact for API, MCP API, ChatGPT App, Bitcode Chat, and package-consumer
+readback. It remains draft-target metadata over active V45: it may audit and
+clarify schema contracts, tool/action contracts, source-safe rendering,
+conversation handoff, denied states, proof roots, and tests, but it does not
+authorize source disclosure, settlement finality, delivery, rights transfer, or
+value-bearing mainnet admission.
+
+## V46 interface claim contract atom: InterfaceClaim contracts
+
+Audit classification: Gates 2 through 4 make claim taxonomy, public/operator
+boundaries, and product route comprehension explicit, but machine and
+conversation surfaces still need a single source-safe contract that prevents
+API, MCP, ChatGPT App, Bitcode Chat, or package consumers from becoming a
+parallel state authority. The contract must make every surface readable to
+operators and integrators while preserving proof-backed protocol authority.
+
+Interface claim contract law:
+
+The public API is a versionless schema-compatibility boundary. It may expose
+source-safe fields, proof roots, denied repair states, example postures, and
+schema compatibility readback. It must not expose protected source, unpaid
+AssetPack source, raw protected prompts, raw provider responses, credentials,
+wallet private material, private settlement payloads, or live value-bearing
+mainnet authority.
+
+The MCP API is a package-owned tool boundary. It may expose tool ids,
+permission requirements, provider binding requirements, queue metadata,
+write-admission posture, proof roots, and denied repair states. It cannot
+settle BTC, transfer BTD rights, unlock source, or deliver source-bearing
+AssetPacks without the ledger, wallet, rights, and delivery receipts required
+by protocol law.
+
+The ChatGPT App is a package-owned assistant action boundary. It may expose
+source-safe Reading action descriptors, source-safe renderers, explicit
+confirmation/write-admission blockers, settlement blockers, delivery locks,
+and proof roots. It must keep the same source-safe preview and settlement
+boundary as `/read` and `/packs`.
+
+Bitcode Chat is a conversation overlay, stream, and terminal-delegated handoff
+surface. It may summarize route-local state, stream source-safe execution
+metadata, preserve proof roots, and hand users to `/read`; it cannot advance
+protocol state, create delivery entitlement, settle, or bypass route-owned
+state machines.
+
+Package consumers receive stable source-safe read contracts and generated
+metadata. They can inspect `InterfaceClaim` contracts and proof-root posture,
+but they do not get separate protocol authority, source access, settlement
+authority, or private payload visibility.
+
+Acceptance for this atom: `V46InterfaceClaimContracts` must bind all five
+surface ids, all required claim ids, claim categories, authority ids,
+capability ids, source roots, proof-root projection, denied-state repair,
+source-safe disclosure exclusions, package exports, generated artifact
+freshness, workflow wiring, and focused protocol tests. The artifact path is
+`.bitcode/v46-interface-claim-contracts.json`.
+
 ## V46 product route comprehension atom: route readback for Packs, Reading, and Depositing
 
 Audit classification: V43 through V45 created the route-product skeleton and

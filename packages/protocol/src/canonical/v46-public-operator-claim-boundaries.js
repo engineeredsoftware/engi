@@ -433,8 +433,7 @@ function buildSourcePredicates(repoRoot) {
     predicateResult(
       'roadmap-records-gate3',
       SOURCE_PATHS.roadmap,
-      sources.roadmap.includes('Latest closed gate: V46 Gate 3 Public Docs, Landing, And Operator Claim Boundaries') &&
-        sources.roadmap.includes('V46 Gate 3 closure anchor') &&
+      sources.roadmap.includes('V46 Gate 3 closure anchor') &&
         sources.roadmap.includes(V46_PUBLIC_OPERATOR_CLAIM_BOUNDARIES_ARTIFACT_PATH),
     ),
     predicateResult(

@@ -360,7 +360,7 @@ function buildSourcePredicates(repoRoot) {
     predicateResult('delta-records-gate4', SOURCE_PATHS.delta, sources.delta.includes('Gate 4: `/packs`, `/read`, And `/deposit` Comprehension UX Readback')),
     predicateResult('notes-record-gate4', SOURCE_PATHS.notes, sources.notes.includes('Gate 4 records the product-route comprehension atom')),
     predicateResult('parity-records-gate4', SOURCE_PATHS.parity, sources.parity.includes('Product route comprehension readback artifact')),
-    predicateResult('roadmap-records-current-gate4', SOURCE_PATHS.roadmap, sources.roadmap.includes('Current working gate: V46 Gate 4')),
+    predicateResult('roadmap-records-gate4-closure', SOURCE_PATHS.roadmap, sources.roadmap.includes('V46 Gate 4 closure anchor')),
     predicateResult('package-source-exists', SOURCE_PATHS.packageSource, sourceExists(repoRoot, SOURCE_PATHS.packageSource)),
     predicateResult('package-test-exists', SOURCE_PATHS.packageTest, sourceExists(repoRoot, SOURCE_PATHS.packageTest)),
     predicateResult('generator-exists', SOURCE_PATHS.generator, sourceExists(repoRoot, SOURCE_PATHS.generator)),
