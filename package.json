@@ -434,6 +434,7 @@
     "generate:v46-promotion-readiness": "node scripts/generate-v46-promotion-readiness-report.mjs",
     "check:v46-promotion-readiness": "node scripts/generate-v46-promotion-readiness-report.mjs --check",
     "check:v46-gate8": "node scripts/check-v46-gate8-promotion-readiness.mjs",
+    "check:v47-gate1": "node scripts/check-v47-gate1-scope-measurement-launch-freeze.mjs",
     "generate:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs",
     "check:v38-inference-surface-inventory": "node scripts/generate-v38-inference-surface-inventory.mjs --check",
     "check:v38-gate2": "node scripts/check-v38-gate2-inference-surface-inventory.mjs",
