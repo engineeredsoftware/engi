@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V46`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is pending; Gate 1 is specification, roadmap, measurement-law, and workflow-hook opening only
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 opened specification, roadmap, measurement-law, and workflow hooks; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V47.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -92,6 +92,16 @@ V47 file claims promoted authority.
 Gate 2 audits all website features and protocol surfaces for launch relevance.
 It removes wrong features, feature-flags post-V47 behavior, and records
 deferrals so the first generally available MVP is focused.
+
+Gate 2 owns `.bitcode/v47-feature-excess-alignment-audit.json`,
+`buildV47FeatureExcessAlignmentAudit`, and `check:v47-gate2`. The audit
+classifies `/deposit`, `/read`, and `/packs` as launch routes; `/docs`,
+Auxillaries, `/btd/[assetPackId]`, execution readback, and required APIs as
+supporting surfaces; and `/terminal` direct product entry, `/conversations`
+direct commercial launch, `/exchange` direct product entry, `/orbitals`,
+`/edgetimes`, `/demo-video`, API/MCP commercialization, ChatGPT App
+commercialization, Bitcode Chat commercialization, value-bearing mainnet, and
+advanced market mechanics as deferred or compatibility-only.
 
 ## Gate 3: Seller And Buyer State Machine Law
 

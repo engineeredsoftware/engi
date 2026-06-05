@@ -10,8 +10,8 @@
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is pending; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth
 - Scope: V47 starts as the commercial website testnet launch-readiness target over promoted V46 protocol comprehension canon.
 
 ## Notes companion rule
@@ -63,7 +63,10 @@ feature excess audit, E2E seller/buyer proof, and promotion readiness.
 ## Candidate V47 workstreams
 
 - Scope, testnet semantics, measurement law, and launch freeze.
-- Feature excess and gate alignment audit.
+- Feature excess and gate alignment audit: launch CTAs and public navigation
+  point to `/deposit`, `/read`, and `/packs`; `/exchange` is compatibility
+  redirect only; `/terminal` and `/conversations` are retained or flaggable
+  direct workspaces; deferred commercial surfaces stay out of launch.
 - Seller and buyer state machine law.
 - Depositor website completion.
 - Reader website completion.

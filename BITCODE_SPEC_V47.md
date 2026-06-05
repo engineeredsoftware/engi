@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V46`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is not yet implemented; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -107,6 +107,11 @@ Goals:
 - Specify measurement law: catalog, prompts, typed outputs, weights, BTD scalar
   formula, proof roots, and source-safe visualizations.
 - Audit feature excess and defer or flag anything that distracts from launch.
+- Treat `/deposit`, `/read`, and `/packs` as the website launch entrypoints;
+  route `/exchange` compatibility into `/packs`; keep `/terminal`,
+  `/conversations`, API/MCP, ChatGPT App, Bitcode Chat, value-bearing mainnet,
+  and advanced market mechanics out of the launch path unless a later gate
+  explicitly reopens them.
 - Prove E2E IP selling and IP buying through browser-level commercial tests.
 - Refurbish the landing page and public launch messaging for V47 testnet
   readiness.
@@ -681,7 +686,10 @@ disclosure, settlement, delivery, repair, and promotion evidence.
 V47 gates:
 
 1. Scope, Testnet Semantics, Measurement Law, And Launch Freeze.
-2. Feature Excess And Gate Alignment Audit.
+2. Feature Excess And Gate Alignment Audit. Gate 2 owns
+   `.bitcode/v47-feature-excess-alignment-audit.json`, the
+   `buildV47FeatureExcessAlignmentAudit` package object, and
+   `check:v47-gate2`.
 3. Seller And Buyer State Machine Law.
 4. Depositor Website Completion.
 5. Reader Website Completion.
@@ -698,6 +706,13 @@ Current source map roots include `uapi`, `packages/btd`,
 `packages/protocol`, `packages/prompts`, `packages/executions-mcp`,
 `packages/chatgptapp`, `protocol-demonstration`, `.github/workflows`, and
 `.bitcode` generated artifacts.
+
+V47 Gate 2 source-safe generated artifact:
+`.bitcode/v47-feature-excess-alignment-audit.json`. It records launch routes,
+supporting surfaces, deferred surfaces, feature policies, forbidden launch
+entry targets, source-safe payload boundaries, source-root digests, and
+predicate results without serializing source, prompt payloads, wallet private
+material, settlement private payloads, or mainnet value-bearing authority.
 
 ### Appendix F. Subsystem totality and derivability matrix
 
@@ -776,3 +791,13 @@ scope and ten-gate plan are recorded, the roadmap names V47 as active draft
 target, `check:v47-gate1` exists, gate/canon workflows validate active V46 plus
 draft V47, and the gate branch is committed, pushed, and pull-requested into
 `version/v47`.
+
+V47 Gate 2 is complete when launch-facing entrypoints resolve to `/deposit`,
+`/read`, and `/packs`; old `/exchange` entrypoints are compatibility redirects
+or rewritten into `/packs`; BTD acquisition and detail paths no longer send
+users to `/terminal` or `/exchange`; `/terminal` and `/conversations` direct
+entry are retained or flaggable rather than launch CTAs; API/MCP, ChatGPT App,
+Bitcode Chat, value-bearing mainnet, source-bearing previews, and advanced
+market mechanics are explicitly deferred; `.bitcode/v47-feature-excess-
+alignment-audit.json` is generated; `check:v47-gate2` validates the audit; and
+gate/canon workflows run the Gate 2 checker while V46 remains active canon.

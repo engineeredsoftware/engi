@@ -4,9 +4,9 @@ import React, { Suspense } from 'react';
 import TerminalPageClient from '@/app/terminal/TerminalPageClient';
 
 export const metadata: Metadata = {
-  title: 'Bitcode Terminal',
+  title: 'Bitcode Terminal Operator Workspace',
   description:
-    'The Bitcode Terminal for Deposit, Read, recent activity, AssetPack results, proofs, and closure history.',
+    'Retained Bitcode operator workspace for detailed execution inspection, compatibility activity, proofs, and closure history.',
   alternates: {
     canonical: '/terminal',
   },

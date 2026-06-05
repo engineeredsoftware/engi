@@ -4,8 +4,8 @@ import React, { useState, useMemo, useEffect } from 'react';
 import type { Session, User } from '@supabase/supabase-js';
 import { createClient } from '@bitcode/supabase/ssr/client';
 import MarketingSectionWrapper from './MarketingSectionWrapper';
-// Bundle presets are intentionally absent: V27 routes acquisition through Terminal Read
-// minting or minimal Exchange range-right transfer, not fungible checkout bundles.
+// Bundle presets are intentionally absent: V47 routes acquisition through Read
+// and Packs paths, not fungible checkout bundles.
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import BTDPrices from '@/components/base/bitcode/btd/BTDPrices';
 
@@ -18,17 +18,17 @@ const MarketingPricingSection: React.FC = () => {
    * Dynamic slider limits for BTD acquisition planning
    * -------------------------------------------------------------------------
    * The public surface cannot treat $BTD as a fungible checkout token. BTC pays
-   * fees; $BTD is a non-fungible AssetPack share/read-right. This widget keeps
+   * fees; $BTD records knowledge scalar-volume and settled rights. This widget keeps
    * a USD-denominated BTC-fee reference only so it can route the operator to
-   * Terminal minting or Exchange range-right transfer.
+   * Read or Packs acquisition paths.
    */
-  // Reference values only. Terminal minting and minimal Exchange acquisition are V27;
-  // broader order-book depth remains later-version work.
+  // Reference values only. Read acquisition and Packs acquisition are V47;
+  // broader market depth remains later-version work.
   /* ------------------------------------------------------------------
    * Dynamic acquisition reference
    * ------------------------------------------------------------------
-   * Terminal Read reference: future Fit mints new $BTD.
-   * Exchange reference: existing non-fungible $BTD range rights can transfer.
+   * Read reference: a future Fit can mint new $BTD.
+   * Packs reference: existing non-fungible $BTD range rights can transfer.
    */
 
   const TERMINAL_READ_REFERENCE_USD_PER_BTD = 0.25;
@@ -99,15 +99,15 @@ const MarketingPricingSection: React.FC = () => {
           btcFeeReferenceUsd: usdReferenceAmount,
           feeAsset: 'BTC',
           shareAsset: 'BTD',
-          btdSemantics: 'non-fungible asset-pack share/read-right',
+          btdSemantics: 'non-fungible asset-pack scalar-volume and settled-rights carrier',
           paths: [
-            { mode: 'terminal-read', target: '/terminal?intent=submit-read-for-btd', gate: 'V27' },
-            { mode: 'exchange-existing-btd', target: '/exchange?intent=buy-existing-btd', gate: 'V27' },
+            { mode: 'read-assetpack', target: '/read?intent=submit-read-for-btd', gate: 'V47' },
+            { mode: 'packs-existing-btd', target: '/packs?intent=buy-existing-btd', gate: 'V47' },
           ],
           createdAt: new Date().toISOString(),
         })
       );
-      window.location.assign('/terminal?intent=acquire-btd');
+      window.location.assign('/read?intent=acquire-btd');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Error opening BTD acquisition intent';
       setAcquisitionError(msg);
@@ -142,7 +142,7 @@ const MarketingPricingSection: React.FC = () => {
             <span className="block">Edge</span>
           </h2>
           <p className={subtitleClass}>
-            BTC pays fees. $BTD records non-fungible AssetPack share/read-right holdings and measured Bitcode content amount as Terminal and Exchange surfaces mature.
+            BTC pays fees. $BTD records non-fungible AssetPack scalar volume, settled rights, and measured Bitcode content amount as Read and Packs surfaces mature.
           </p>
           {/* Pricing card */}
           <div className="mb-12">
