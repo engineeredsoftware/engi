@@ -151,6 +151,11 @@ function sourceRoot(repoRoot, sourcePath) {
   return `${sourcePath}:${digest(readSource(repoRoot, sourcePath))}`;
 }
 
+function roadmapCurrentWorkingGateVersionAtLeast(roadmap, minimumVersion) {
+  const match = String(roadmap ?? '').match(/Current working gate:\s+(V\d+)/u);
+  return match ? bitcodeVersionAtLeast(match[1], minimumVersion) : false;
+}
+
 function predicateResult(id, sourcePath, passed) {
   return { id, sourcePath, passed: Boolean(passed) };
 }
@@ -448,11 +453,8 @@ function buildPredicateResults(repoRoot) {
         (sources.roadmap.includes('V46 Gate 7 closure anchor') &&
           sources.roadmap.includes('Current working gate: V46 Gate 8 Promotion Readiness And Canonical Promotion')) ||
         (sources.roadmap.includes('V46 Gate 7 closure anchor') &&
-          sources.roadmap.includes('Latest closed gate: V46 Gate 8 Promotion Readiness And Canonical Promotion') &&
-          (sources.roadmap.includes('Current working gate: V47 opening preparation') ||
-            sources.roadmap.includes(
-              'Current working gate: V47 Gate 1 Scope, Testnet Semantics, Measurement Law, And Launch Freeze',
-            ))),
+          sources.roadmap.includes('V46 Gate 8 closure anchor') &&
+          roadmapCurrentWorkingGateVersionAtLeast(sources.roadmap, 'V47')),
     ),
     predicateResult(
       'readmes-document-gate7',
