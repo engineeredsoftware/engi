@@ -175,9 +175,9 @@ function HeroClientInner() {
       user: user?.id || 'unknown',
       onboarded: isOnboardingComplete 
     }));
-    // Signed-in operators should land in transactions.
+    // Signed-in operators should land in the V47 Reading path.
     if (isOnboardingComplete) {
-      router.push('/terminal');
+      router.push('/read');
     } else {
       openAuxillaries('auxillaries');
     }

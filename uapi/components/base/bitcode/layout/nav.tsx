@@ -247,6 +247,7 @@ export default function Nav() {
   const disableAuxillaries = Boolean(FEATURE_FLAGS.DISABLE_AUXILLARIES);
   const disableCreateAccount = Boolean(FEATURE_FLAGS.DISABLE_CREATE_ACCOUNT);
   const disableExchangeLink = Boolean(FEATURE_FLAGS.DISABLE_EXCHANGE_LINK);
+  const disableTerminalLink = Boolean(FEATURE_FLAGS.DISABLE_TERMINAL_LINK);
   const containerEntranceClassName = showNavEntrance
     ? shouldAnimateNavEntrance
       ? 'nav-container-animated'
@@ -512,7 +513,7 @@ export default function Nav() {
                 {[
                   { href: '/terminal', label: 'terminal' },
                 ].map(({ href, label }, index) => {
-                  const isDisabled = false;
+                  const isDisabled = disableTerminalLink;
                   const shouldAnimate = showNavEntrance && shouldAnimateNavEntrance;
                   const isActiveRoute =
                     pathname === '/terminal' ||
@@ -525,23 +526,21 @@ export default function Nav() {
                     >
                       <div className="group relative">
                         {isDisabled ? (
-                          <span
-                            data-testid={`nav-${label}-link`}
-                            className={`
+                          <DisabledTooltipWrapper tooltip={DISABLED_FEATURE_TOOLTIPS.terminal}>
+                            <span
+                              data-testid={`nav-${label}-link`}
+                              role="link"
+                              aria-disabled="true"
+                              className={`
                           text-xl font-light text-neutral-700 dark:text-neutral-300
                           relative transition-all duration-200 ease-in-out
                           px-1 py-2 inline-block origin-left
                           ${baseShadow} opacity-50 pointer-events-none
                         `}
-                          >
-                            <span className="inline-block">{label}</span>
-                            <div className="absolute left-1/2 -translate-x-1/2 -bottom-8 hidden group-hover:block">
-                              <div className="bg-black/90 text-white text-xs rounded py-1 px-2 whitespace-nowrap">
-                                Complete Onboarding
-                              </div>
-                              <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-black/90 rotate-45"></div>
-                            </div>
-                          </span>
+                            >
+                              <span className="inline-block">{label}</span>
+                            </span>
+                          </DisabledTooltipWrapper>
                         ) : (
                           <a
                             data-testid={`nav-${label}-link`}
