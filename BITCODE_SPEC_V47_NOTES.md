@@ -7,19 +7,44 @@
 - Active canonical anchor: `BITCODE_SPEC_V46.md`
 - Active generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - Current canonical/latest target: `V46`
-- Prior canonical anchor: `BITCODE_SPEC_V45.md`
-- Prior generated proof appendix: `BITCODE_SPEC_V45_PROVEN.md`
-- V47 state: notes-only draft opening
-- Scope: V47 starts as a specification-workshopping target over promoted V46 protocol comprehension canon.
+- Prior canonical anchor: `BITCODE_SPEC_V46.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
+- V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is pending; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46
+- Scope: V47 starts as the commercial website testnet launch-readiness target over promoted V46 protocol comprehension canon.
 
-## Notes-only draft rule
+## Notes companion rule
 
-These notes make the V47 draft target visible to strict spec-quality checks after
-V46 promotion. They are not first-gate implementation authority, not a full V47
-specification family, and not permission to bypass the V46 canon. V47 work must
-continue by refining specification atoms, creating an explicit parity matrix,
-and then opening scoped gate branches only after the new specification intent is
-clear.
+These notes accompany the V47 draft specification family. They are not stronger
+than `BITCODE_SPEC_V47.md`, the active `BITCODE_SPEC.txt` pointer, or generated
+proof artifacts. They record concise launch intent, user-flow emphasis,
+measurement clarity, and deferrals while V46 remains active canon.
+
+## Concise current-system reading
+
+V45 and V46 made Bitcode's law and explanation precise enough for a final
+website commercial-readiness pass. V47 should make the rich website application
+deployable and demonstrable on staging-testnet across `/deposit`, `/read`,
+`/packs`, and Auxillaries.
+
+IP sellers should be able to connect source, receive deposit AssetPack options,
+review source-safe measurements, approve a deposit, and track future
+compensation posture. IP buyers should be able to request a Read, review a
+synthesized Need, request Finding Fits, review source-safe AssetPack
+measurements and quote, settle on BTC testnet, receive BTD rights, and get
+repository delivery.
+
+Measurement is the commercial center. Individual measurements, the prompts that
+command them, typed output schemas, weights, normalized contributions, and
+weighted BTD scalar visualization must be understandable to sellers and buyers.
+
+## Simplified-spec reading rule
+
+V47 should simplify launch experience, not protocol law. If a feature, route,
+copy block, state, or panel does not help a seller deposit IP, a buyer buy IP,
+an operator prove state, or a user understand source-safe measurement, it should
+be removed, hidden, feature-flagged, or deferred.
 
 ## Deferred from V46
 
@@ -30,30 +55,32 @@ ChatGPT App, Bitcode Chat, proof roots, repair states, Bitcoin/BTC settlement
 language, BTD scalar-volume and rights language, GitHub delivery boundaries, compute
 constraints, storage boundaries, and build/process validation.
 
-V47 begins from the remaining question: which protocol atoms need further
-precision before the next implementation parity pass. The opening posture is
-intentionally small so V47 can be workshopped from the promoted canon rather
-than inherited from stale notes.
+V47 begins from the remaining question: what is still required for complete
+commercial website testnet readiness. Its posture is intentionally focused:
+website application first, commercial testnet semantics, exact measurement law,
+feature excess audit, E2E seller/buyer proof, and promotion readiness.
 
 ## Candidate V47 workstreams
 
-- Protocol atom audit: inspect the promoted V46 law in small pieces and classify
-  each atom as precise, vague, contradictory, missing, or implementation-ready.
-- Parity matrix preparation: convert accepted V47 specification changes into a
-  source-to-proof matrix before implementation gates begin.
-- Product claim discipline: keep public, operator, interface, and proof
-  language aligned with source-safe AssetPack, BTD, BTC, rights, settlement,
-  delivery, repair, and compensation law.
-- Commercial readiness proofs: identify the tests, generated artifacts,
-  workflows, local rehearsals, and staging-testnet evidence needed for any V47
-  implementation gates.
+- Scope, testnet semantics, measurement law, and launch freeze.
+- Feature excess and gate alignment audit.
+- Seller and buyer state machine law.
+- Depositor website completion.
+- Reader website completion.
+- Packs and Auxillaries commercial dashboard.
+- E2E IP selling and buying tests.
+- Landing page and public launch messaging.
+- Staging-testnet deployment rehearsal.
+- V47 promotion readiness.
 
 ## Non-goals during V47 opening
 
-- Do not implement V47 product behavior from this notes-only opening.
-- Do not rewrite V46 promoted canon except through an explicit addendum.
+- Do not implement product behavior until a scoped V47 gate authorizes it.
+- Do not rewrite V46 promoted canon except through explicit V47 draft law and
+  accepted parity.
 - Do not expose raw source, unpaid AssetPack source, secrets, wallet private
   material, private settlement payloads, raw prompts, or raw provider responses.
 - Do not collapse estimate, quote, observed payment, final settlement,
   contributor allocation, delivery, compensation, and repair states.
-- Do not treat notes-only V47 material as stronger than active V46 protocol law.
+- Do not commercialize API/MCP, ChatGPT App, or Bitcode Chat in V47.
+- Do not launch value-bearing mainnet settlement in V47.

@@ -1,0 +1,778 @@
+# Bitcode Spec V47
+
+## Status
+
+- Version: `V47`
+- V47 state: draft opening; V46 remains the active canon while V47 scopes commercial website testnet launch readiness
+- Current canonical/latest target: `V46`
+- Prior canonical anchor: `BITCODE_SPEC_V46.md`
+- Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is not yet implemented; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46
+- Notes companion: `BITCODE_SPEC_V47_NOTES.md`
+- Delta companion: `BITCODE_SPEC_V47_DELTA.md`
+- Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
+- Scope: V47 draft system specification for commercial website testnet launch readiness over promoted V46 protocol comprehension canon
+- Last fully realized canonical target preserved in source: `V46`
+
+## Version executive summary
+
+V47 is the final commercial-readiness version before Bitcode can deploy a
+complete staging-testnet website experience for the first generally available
+MVP. It narrows launch scope to the rich website application: `/deposit`,
+`/read`, `/packs`, and Auxillaries for identity, connections, wallets,
+organizations, and histories.
+
+V47 does not make mainnet value-bearing claims. In V47, "testnet" means one
+thing: BTC amounts and settlement observations are testnet only, making the
+commercial transaction economically free while the rest of the system behaves
+as production-intended. Source-safe AssetPack synthesis, Depository admission,
+Finding Fits, preview, quote, BTD rights, delivery, proof readback,
+ledger/database/storage synchronization, and repair states must be real enough
+for commercial demonstration.
+
+Measurement is the key commercial primitive. V47 requires a clear measurement
+catalog, prompt ownership, typed measurement output, weights, weighted scalar
+BTD formula, and seller/buyer visualization so IP sellers can decide what to
+deposit and IP buyers can decide what to buy without source leakage.
+
+## Canonical Bitcode executive summary
+
+Bitcode commoditizes knowledge by packaging source, documents, data, workflows,
+and other technical materials as AssetPacks. Depositors supply AssetPacks into
+the Depository. Readers ask Bitcode to understand a Read Request, synthesize a
+Need, find fitting Depository AssetPacks, synthesize a Need-Fit AssetPack,
+preview source-safe measurements, settle in BTC, receive BTD rights, and receive
+entitled repository delivery.
+
+BTD is the weighted scalar knowledge-volume measured from source bits, bytes,
+content, documents, code, and other knowledge-bearing material. BTD can be
+estimated for deposit-side AssetPack options, but final BTD size is
+Need-relative: it is computed from measurements against a reviewed Need and
+bound to settlement, rights, delivery, and source-to-shares compensation.
+
+V47 makes the website experience commercially demonstrable on staging-testnet
+by proving both sides of the exchange: IP sellers can deposit AssetPacks, and IP
+buyers can buy Need-fitting AssetPacks.
+
+## V47 source-of-truth hierarchy
+
+`BITCODE_SPEC.txt` points to `V46`; V46 is the active promoted Bitcode canon.
+`BITCODE_SPEC_V47.md`, `BITCODE_SPEC_V47_DELTA.md`,
+`BITCODE_SPEC_V47_NOTES.md`, and `BITCODE_SPEC_V47_PARITY_MATRIX.md` are draft
+V47 material until V47 promotion. V47 authorizes implementation only gate by
+gate through accepted parity, generated proof artifacts, tests, and promotion
+readiness.
+
+Implementation remains unversioned in source paths. Routes, packages,
+components, tests, prompts, telemetry, schemas, APIs, and workflows continue to
+move in place as the single current Bitcode system after V47 gates authorize
+their changes.
+
+## V47 full-system, re-implementation, and audit rule
+
+V47 must be reconstructable from this draft family, source code, generated
+artifacts, proof roots, workflow receipts, ledger journals, database
+projections, object-storage roots, wallet/provider receipts, repository
+delivery receipts, and source-safe telemetry.
+
+No V47 surface may disclose protected source, unpaid AssetPack source, raw
+prompts, raw model/provider responses, credentials, wallet private material,
+private settlement payloads, private repository access, or source-bearing
+delivery contents before entitlement.
+
+## V47 totality and precision enforcement rule
+
+V47 must preserve V46 protocol comprehension while becoming operationally
+complete for the website launch. AssetPack is the commodity. BTD is weighted
+scalar knowledge-volume and, after settlement, a rights-bearing receipt. BTC is
+settlement money, testnet-only in V47 deployment. Source-to-shares is
+post-finality contributor allocation. Measurement is the basis for price.
+Preview is not source disclosure. Quote is not payment. Payment observation is
+not finality. Database projection is not ledger truth when stronger evidence
+conflicts.
+
+Every user-visible state must name whether it is estimate, potential, preview,
+quote, observed testnet payment, final settlement, rights transfer, delivery,
+contributor allocation, compensation, or repair.
+
+## V47 system goals, non-goals, and design principles
+
+Goals:
+
+- Launch-freeze the first generally available website MVP scope.
+- Make `/deposit`, `/read`, `/packs`, and Auxillaries commercially coherent on
+  staging-testnet.
+- Specify seller and buyer user flows with exact state machines.
+- Specify measurement law: catalog, prompts, typed outputs, weights, BTD scalar
+  formula, proof roots, and source-safe visualizations.
+- Audit feature excess and defer or flag anything that distracts from launch.
+- Prove E2E IP selling and IP buying through browser-level commercial tests.
+- Refurbish the landing page and public launch messaging for V47 testnet
+  readiness.
+
+Non-goals:
+
+- V47 does not launch value-bearing mainnet BTC settlement.
+- V47 does not commercialize Bitcode Chat, ChatGPT App, or MCP/API beyond
+  source-safe compatibility and future-readiness boundaries.
+- V47 does not finish deeper BTD mining cryptography beyond the website launch
+  contract.
+- V47 does not expose unpaid source or source-bearing prompts.
+- V47 does not add advanced market mechanics beyond MVP selling and buying.
+
+Design principles: measurement before price, price before settlement,
+settlement before source unlock, source safety before convenience, website
+clarity before advanced interfaces, proof-backed readback before projection,
+and testnet value semantics without weakening production-like system behavior.
+
+## V47 system architecture and layer boundaries
+
+V47 acts through the website application:
+
+- Auxillaries owns user identity, organizations, teams, wallets, source
+  connections, target repository connections, and histories.
+- `/deposit` owns IP-seller source connection, deposit AssetPack option
+  synthesis, source-safe option review, Depository admission, and compensation
+  expectation readback.
+- `/read` owns IP-buyer Read Request, ReadNeedComprehensionSynthesis,
+  Need review/resynthesis, ReadFitsFindingSynthesis, source-safe preview,
+  quote, BTC-testnet settlement, BTD rights transfer, and repository delivery.
+- `/packs` owns searchable master-detail PackActivity across deposits, reads,
+  previews, quotes, settlements, rights, delivery, compensation, repairs, proof
+  roots, and histories.
+- API/MCP, ChatGPT App, and Bitcode Chat remain deferred commercial surfaces in
+  V47, though their source-safe contracts must not regress.
+
+## V47 canonical domain model
+
+Canonical V47 launch objects:
+
+- IP seller, IP buyer, organization, team, wallet, BTC-testnet account,
+  source connection, target repository connection, deposit source bundle,
+  deposit AssetPack option, Depository AssetPack, Read Request, synthesized
+  Need, accepted Need, Fit candidate set, selected Fit set, Need-Fit AssetPack,
+  source-safe preview, measurement vector, measurement weight policy,
+  weighted BTD scalar, BTC-testnet quote, settlement receipt, BTD rights
+  receipt, repository delivery receipt, source-to-shares allocation,
+  compensation statement, PackActivity row, proof root, repair case, and
+  commercial rehearsal receipt.
+
+Canonical V47 states:
+
+- Seller states: `seller-connected`, `source-connected`,
+  `deposit-options-synthesizing`, `deposit-option-synthesized`,
+  `deposit-option-reviewed`, `deposit-option-approved`,
+  `depository-admission-submitted`, `depository-assetpack-admitted`,
+  `compensation-eligible`, `seller-repair-required`.
+- Buyer states: `buyer-connected`, `target-repository-connected`,
+  `read-requested`, `read-need-synthesizing`, `read-need-reviewing`,
+  `read-need-accepted`, `finding-fits-running`, `fits-found`,
+  `need-fit-assetpack-synthesized`, `source-safe-preview-reviewing`,
+  `btc-testnet-quote-issued`, `btc-testnet-settlement-observed`,
+  `btd-rights-transferred`, `repository-delivery-created`,
+  `buyer-repair-required`.
+- Pack states: `pack-activity-created`, `measurement-visualized`,
+  `proof-root-bound`, `ledger-projected`, `database-synchronized`,
+  `storage-root-bound`, `repair-opened`, `repair-closed`.
+
+## V47 measurement law
+
+Measurement is the singular key to valuable IP commoditization and exchange.
+Every V47 sale or deposit decision must be grounded in source-safe measurement
+readback.
+
+Measurement catalog:
+
+- Coverage measurement: how much of the Need or deposit option is addressed.
+- Specificity measurement: how precise the AssetPack is relative to a Need or
+  supply opportunity.
+- Novelty measurement: how much non-public or hard-to-recreate knowledge the
+  AssetPack contains without exposing source.
+- Reuse measurement: how likely the AssetPack is to help future Reads.
+- Risk measurement: source criticality, leakage risk, rights risk, and repair
+  risk.
+- Evidence measurement: proof-root, test, benchmark, repository, telemetry, and
+  provenance support.
+- Fit measurement: Need-relative alignment across candidate Fits.
+- Delivery measurement: confidence that the synthesized AssetPack can be
+  delivered as a repository PR or equivalent entitled delivery.
+
+Measurement prompt rule:
+
+- Each measurement must be commanded by a named Prompt or PromptPart composition
+  through the existing prompt registry.
+- Each inference-owned measurement must record its input context class, source
+  boundary, prompt template identity, interpolated prompt hash or source-safe
+  digest, typed output schema, parsed result, proof root, telemetry receipt,
+  and repair posture.
+- Raw protected prompts, raw provider responses, protected source, and unpaid
+  AssetPack source remain private. Source-safe prompt identity, prompt digest,
+  typed measurement result, and proof root are disclosable.
+
+Weighted scalar BTD formula:
+
+- Each measurement emits `measurementVolume`, `confidence`, `riskAdjustment`,
+  and `weight`.
+- Normalized contribution is
+  `measurementVolume * confidence * riskAdjustment * weight`.
+- Deposit-side BTD is an estimated or potential BTD range because no reviewed
+  buyer Need is bound yet.
+- Read-side BTD is the final Need-relative weighted scalar knowledge-volume
+  after measurement policy lock, Need acceptance, Fit selection, and quote
+  binding.
+- The sum of normalized contributions becomes the BTD scalar used for quote,
+  rights, delivery, and source-to-shares accounting.
+
+Seller visualization:
+
+- Depositors must see source-safe measurements for criticality, likely demand,
+  reuse value, evidence, estimated BTD range, ROI posture, compensation
+  expectation, source-safety blockers, and repair requirements before approving
+  deposit.
+
+Buyer visualization:
+
+- Readers must see source-safe measurements for Need coverage, Fit confidence,
+  selected Fit provenance, novelty, risk, delivery readiness, quote basis,
+  final BTD scalar, and repair blockers before paying BTC-testnet settlement.
+
+Measurement theorem:
+
+No measurement, no price. No price, no settlement. No settlement, no market.
+
+## V47 whole Bitcode operator chain
+
+1. Seller connects identity, wallet, organization, and source.
+2. Bitcode synthesizes source-safe deposit AssetPack options.
+3. Seller reviews measurements and approves an option for Depository admission.
+4. Depository indexes admitted AssetPack metadata, measurements, embeddings,
+   proof roots, and compensation posture.
+5. Buyer connects identity, wallet, organization, and target repository.
+6. Buyer requests a Read.
+7. Bitcode synthesizes a Need and the buyer accepts or resynthesizes it.
+8. Bitcode runs Finding Fits against the Depository.
+9. Bitcode synthesizes a Need-Fit AssetPack and source-safe preview.
+10. Buyer reviews measurements, quote, and proof posture.
+11. Buyer settles with BTC-testnet.
+12. Bitcode transfers BTD rights, unlocks entitled delivery, creates the
+    repository PR, journals compensation, and synchronizes `/packs`.
+13. Operators repair only through proof-backed state transitions.
+
+## V47 canonical subsystem surfaces
+
+### Depositing and asset supply
+
+- Current canonical objects and emitted artifacts: deposit source bundle,
+  deposit AssetPack option, Depository AssetPack, measurement vector, estimated
+  BTD range, admission receipt, compensation expectation, PackActivity row.
+- Current algorithms and derivation rules: synthesize options from connected
+  source, measure source-safe value, classify criticality, estimate demand,
+  admit approved options, index Depository metadata.
+- Current invariants and fail-closed conditions: no source exposure before
+  entitlement, no critical IP admission without explicit approval, no
+  compensation claim without settlement evidence.
+- Current proof obligations: source connection receipt, option synthesis
+  receipt, measurement receipt, approval receipt, admission receipt, index root.
+- Current source-bearing implementation basis: source remains protected behind
+  source-safe option review and storage boundaries.
+- Current validating commands and parity basis: V47 Gate 4 and Gate 7 tests
+  must prove seller flow and deposit-to-read continuity.
+- Current accepted boundaries: deposit estimates are not final BTD until a
+  Need-relative read binds them.
+
+### Reading and prompt/inference ownership
+
+- Current canonical objects and emitted artifacts: Read Request, synthesized
+  Need, accepted Need, Prompt/PromptPart measurement commands, typed inference
+  results, ReadFitsFindingSynthesis receipt, Need-Fit AssetPack.
+- Current algorithms and derivation rules: synthesize Need, review/resynthesize
+  Need, find Fits, measure Need-relative value, synthesize preview and delivery.
+- Current invariants and fail-closed conditions: no Finding Fits without
+  accepted Need, no paid delivery before settlement, no raw prompt/provider
+  response disclosure.
+- Current proof obligations: prompt identity, source-safe prompt digest, typed
+  output, parsed result, telemetry receipt, proof root, repair posture.
+- Current source-bearing implementation basis: protected source may inform
+  inference only through entitlement-safe execution boundaries.
+- Current validating commands and parity basis: V47 Gate 5 and Gate 7 tests
+  must prove buyer flow and measurement visualization.
+- Current accepted boundaries: inference output is advisory until parsed,
+  typed, proof-bound, and state-admitted.
+
+### Fit, recall, ranking, and verification
+
+- Current canonical objects and emitted artifacts: candidate Fits, selected Fit
+  set, recall receipts, ranking receipts, verification receipts, source-safe
+  provenance summaries.
+- Current algorithms and derivation rules: search Depository metadata,
+  embeddings, measurements, lexical indexes, and proof roots; rank above
+  threshold; verify candidate usefulness before AssetPack synthesis.
+- Current invariants and fail-closed conditions: no candidate source disclosure
+  before settlement, no survivor-free AssetPack, no ranking without proofable
+  measurement basis.
+- Current proof obligations: query synthesis receipt, search receipt, ranking
+  receipt, selected Fit receipt, verification receipt.
+- Current source-bearing implementation basis: source remains protected while
+  measurement metadata and provenance summaries remain source-safe.
+- Current validating commands and parity basis: V47 Gate 5 and Gate 7 tests
+  must prove Fit search drives buyer preview and delivery.
+- Current accepted boundaries: many Fits may contribute to one Need-Fit
+  AssetPack and compensation follows source-to-shares after settlement.
+
+### Selection and materialization
+
+- Current canonical objects and emitted artifacts: Need-Fit AssetPack,
+  withheld source bundle, preview, delivery branch, repository PR, delivery
+  receipt.
+- Current algorithms and derivation rules: synthesize source-safe preview
+  before settlement, materialize source-bearing delivery only after settlement
+  and rights transfer.
+- Current invariants and fail-closed conditions: preview is not source; quote
+  is not delivery; delivery requires settlement and rights transfer.
+- Current proof obligations: preview boundary receipt, quote receipt,
+  settlement receipt, BTD rights receipt, delivery receipt.
+- Current source-bearing implementation basis: source-bearing output is
+  withheld until entitlement.
+- Current validating commands and parity basis: V47 Gate 5 and Gate 7 tests
+  must prove repository delivery after settlement.
+- Current accepted boundaries: failed delivery opens repair, not silent success.
+
+### Identity, authorization, and sensitive flow
+
+- Current canonical objects and emitted artifacts: user identity, organization,
+  team, wallet, role, policy, source connection, target repository connection,
+  spend/deposit authority receipt.
+- Current algorithms and derivation rules: bind actions to identity, wallet,
+  org authority, connection authority, and policy.
+- Current invariants and fail-closed conditions: no deposit, read, settlement,
+  rights transfer, or delivery without authority.
+- Current proof obligations: auth receipt, wallet receipt, provider receipt,
+  policy receipt, denial receipt.
+- Current source-bearing implementation basis: credentials and wallet private
+  material remain secret.
+- Current validating commands and parity basis: V47 Gate 6 and Gate 7 tests
+  must prove Auxillaries and route authority.
+- Current accepted boundaries: testnet BTC does not weaken identity or rights
+  boundaries.
+
+### Disclosure and projection
+
+- Current canonical objects and emitted artifacts: source-safe preview,
+  measurement visualization, proof-root projection, PackActivity projection,
+  denied-state projection, repair projection.
+- Current algorithms and derivation rules: expose only source-safe
+  measurements, summaries, states, proof roots, and repair guidance before
+  entitlement.
+- Current invariants and fail-closed conditions: public projection
+  overexposure blocks state advancement.
+- Current proof obligations: disclosure policy receipt, projection receipt,
+  no-source/no-secret scan, repair receipt.
+- Current source-bearing implementation basis: raw source and raw protected
+  prompts remain outside public projection.
+- Current validating commands and parity basis: V47 Gate 6, Gate 7, and Gate 8
+  tests must prove disclosure boundaries.
+- Current accepted boundaries: source-safe value explanation is allowed; source
+  transfer is not.
+
+### Settlement and exact accounting
+
+- Current canonical objects and emitted artifacts: BTC-testnet quote, payment
+  observation, finality receipt, BTD scalar, BTD rights receipt,
+  source-to-shares allocation, compensation statement.
+- Current algorithms and derivation rules: compute quote from weighted BTD
+  scalar, observe BTC-testnet payment, finalize settlement, transfer rights,
+  allocate source-to-shares.
+- Current invariants and fail-closed conditions: observed payment is not
+  finality, finality is required before source unlock, compensation requires
+  conservation.
+- Current proof obligations: quote receipt, wallet/provider receipt, ledger
+  journal, rights receipt, compensation receipt, reconciliation receipt.
+- Current source-bearing implementation basis: settlement payloads remain
+  private except source-safe receipts.
+- Current validating commands and parity basis: V47 Gate 5, Gate 6, and Gate 7
+  tests must prove accounting and repair.
+- Current accepted boundaries: V47 BTC amounts are testnet; state semantics are
+  production-intended.
+
+### Proof contract, witnesses, and replay
+
+- Current canonical objects and emitted artifacts: proof root, generated
+  artifact, witness, replay receipt, workflow receipt, repair case.
+- Current algorithms and derivation rules: every state transition must bind to
+  a proofable receipt or fail closed.
+- Current invariants and fail-closed conditions: proof mismatch opens repair;
+  stale promoted status truth is failure.
+- Current proof obligations: generated artifact, replay proof, workflow proof,
+  diff hygiene, test receipt.
+- Current source-bearing implementation basis: proofs must be source-safe unless
+  entitlement authorizes source-bearing delivery.
+- Current validating commands and parity basis: V47 Gate 7, Gate 9, and Gate 10
+  must prove replay and promotion readiness.
+- Current accepted boundaries: proof readback decides; UI projection explains.
+
+## V47 proof-family canon
+
+### Exact proof-family inventory matrix
+
+| proofFamily | proofArtifactPath | memberIds | theoremIds | replayStepIds | witnessArtifactPaths | Current source basis |
+| --- | --- | --- | --- | --- | --- | --- |
+| Inference-synthesis | `.bitcode/v47-spec-family-report.json` | `measurement-prompt`, `need-synthesis`, `fit-synthesis` | `typed-measurement-output` | `v47-inference-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V46 inference and V47 measurement law |
+| Prompt-completeness | `.bitcode/v47-spec-family-report.json` | `measurement-prompts`, `visualization-prompts` | `prompt-identity-bound` | `v47-prompt-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Prompt registry and V41/V46 canon |
+| Static-code-analysis | `.bitcode/v47-canonical-input-report.json` | `route-static-contracts`, `workflow-hooks` | `source-safety-static` | `v47-static-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Current website source and workflows |
+| Verification-decisions | `.bitcode/v47-spec-family-report.json` | `seller-decision`, `buyer-decision` | `measurement-before-price` | `v47-decision-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V47 state machine law |
+| Selection-and-materialization | `.bitcode/v47-spec-family-report.json` | `fit-selection`, `delivery-materialization` | `settlement-before-source` | `v47-materialization-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Reading and delivery packages |
+| Authorization-and-sensitive-flow | `.bitcode/v47-canonical-input-report.json` | `identity`, `wallet`, `source-connection` | `authority-required` | `v47-authority-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Auxillaries and route authority |
+| Settlement-source-to-shares | `.bitcode/v47-spec-family-report.json` | `quote`, `settlement`, `compensation` | `btctestnet-conservation` | `v47-settlement-readback` | `BITCODE_SPEC_V47_PROVEN.md` | BTD/BTC accounting canon |
+| Disclosure-boundary | `.bitcode/v47-canonical-input-report.json` | `preview`, `measurement-visualization` | `no-unpaid-source` | `v47-disclosure-readback` | `BITCODE_SPEC_V47_PROVEN.md` | V45/V46 source-safety canon |
+| Proof-contract | `.bitcode/v47-spec-family-report.json` | `proof-root`, `replay`, `repair` | `proof-readback-decides` | `v47-proof-readback` | `BITCODE_SPEC_V47_PROVEN.md` | Generated proof and workflow canon |
+
+### Inference-synthesis
+
+- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- members: measurement prompts, Need synthesis, deposit option synthesis, Finding Fits, AssetPack synthesis
+- theoremIds: typed-measurement-output, inference-source-safety, measurement-before-price
+- replayStepIds: v47-inference-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: every inference-owned measurement must have prompt identity, typed output, proof root, and repair posture
+- current member verdict shape: source-safe typed receipt
+- current theorem-by-theorem closure reading: inference may guide state only after typed parsing and proof binding
+- current theorem-to-replay grouping: prompt identity, typed output, and measurement visualization replay together
+- minimum artifact/replay binding set: prompt registry id, digest, typed output schema, telemetry receipt
+- current proof-object fields: promptId, promptDigest, outputType, measurementId, proofRoot
+- generated-artifact and test bindings: V47 Gate 1 checker and later Gate 7 E2E tests
+- fail-closed conditions: prompt contract incompleteness, parsed-envelope inadmissibility
+
+### Prompt-completeness
+
+- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- members: measurement PromptParts, seller visualization prompts, buyer visualization prompts
+- theoremIds: prompt-identity-bound, prompt-output-typed
+- replayStepIds: v47-prompt-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: every measurement prompt must be catalogued and source-safe
+- current member verdict shape: prompt contract receipt
+- current theorem-by-theorem closure reading: prompt composition must identify source boundaries and output schema
+- current theorem-to-replay grouping: prompt registry and measurement output replay together
+- minimum artifact/replay binding set: PromptPart ids, Prompt id, interpolation keys, schema id
+- current proof-object fields: promptPartIds, promptId, interpolationDigest, outputSchema
+- generated-artifact and test bindings: V47 measurement-law parity and prompt tests
+- fail-closed conditions: missing prompt part, raw prompt leakage, schema mismatch
+
+### Static-code-analysis
+
+- proofArtifactPath: `.bitcode/v47-canonical-input-report.json`
+- members: route contracts, workflow hooks, no-source scans
+- theoremIds: source-safety-static, route-state-static
+- replayStepIds: v47-static-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: code and workflow changes must align to V47 launch scope
+- current member verdict shape: static pass/fail receipt
+- current theorem-by-theorem closure reading: static source must not expose protected payloads or stale route names
+- current theorem-to-replay grouping: source scan and spec-family scan replay together
+- minimum artifact/replay binding set: source paths, route ids, forbidden phrase scan
+- current proof-object fields: sourcePath, predicateId, verdict, proofRoot
+- generated-artifact and test bindings: gate/canon workflows and check-v47-gate1
+- fail-closed conditions: source exposure, stale route, missing workflow hook
+
+### Verification-decisions
+
+- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- members: seller approval, buyer payment, operator repair
+- theoremIds: measurement-before-price, proof-before-state
+- replayStepIds: v47-decision-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: decisions must show source-safe measurement and authority
+- current member verdict shape: decision receipt
+- current theorem-by-theorem closure reading: no decision is valid without measurement and proof
+- current theorem-to-replay grouping: measurement, decision, and state transition replay together
+- minimum artifact/replay binding set: actor, authority, measurement root, state transition
+- current proof-object fields: actorId, authorityId, measurementRoot, transitionId
+- generated-artifact and test bindings: V47 E2E seller/buyer tests
+- fail-closed conditions: authorization denial, missing measurement, projection mismatch
+
+### Selection-and-materialization
+
+- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- members: Fit selection, AssetPack preview, repository delivery
+- theoremIds: settlement-before-source, selected-fit-proof
+- replayStepIds: v47-materialization-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: selected Fits and delivery must have proof roots
+- current member verdict shape: materialization receipt
+- current theorem-by-theorem closure reading: delivery follows settlement and rights transfer
+- current theorem-to-replay grouping: Fit selection, quote, settlement, and delivery replay together
+- minimum artifact/replay binding set: fitSetId, assetPackId, quoteId, deliveryId
+- current proof-object fields: fitSetId, previewRoot, settlementRoot, deliveryRoot
+- generated-artifact and test bindings: V47 Gate 5 and Gate 7
+- fail-closed conditions: no-survivor asset pack, settlement mismatch, delivery failure
+
+### Authorization-and-sensitive-flow
+
+- proofArtifactPath: `.bitcode/v47-canonical-input-report.json`
+- members: identity, organization, wallet, source connection, repository connection
+- theoremIds: authority-required, secrets-never-projected
+- replayStepIds: v47-authority-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: every sensitive action must bind to authority and no-secret projection
+- current member verdict shape: authority receipt
+- current theorem-by-theorem closure reading: testnet does not weaken authority
+- current theorem-to-replay grouping: identity, wallet, connection, and route action replay together
+- minimum artifact/replay binding set: identityId, orgId, walletId, providerId, routeActionId
+- current proof-object fields: subjectId, policyId, walletReceipt, providerReceipt
+- generated-artifact and test bindings: V47 Gate 6 and Gate 7
+- fail-closed conditions: authorization denial, secret leakage, missing wallet
+
+### Settlement-source-to-shares
+
+- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- members: quote, BTC-testnet observation, finality, BTD rights, compensation
+- theoremIds: btctestnet-conservation, source-to-shares-conservation
+- replayStepIds: v47-settlement-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: quote, settlement, rights, and compensation must conserve measured BTD and source-to-shares
+- current member verdict shape: accounting receipt
+- current theorem-by-theorem closure reading: BTC-testnet is free economically but not loose semantically
+- current theorem-to-replay grouping: quote, payment, finality, rights, compensation replay together
+- minimum artifact/replay binding set: quoteId, paymentId, btdScalar, rightsId, allocationId
+- current proof-object fields: quoteAmount, testnetTxid, btdScalar, allocationRoot
+- generated-artifact and test bindings: V47 Gate 5, Gate 6, Gate 7
+- fail-closed conditions: settlement conservation drift, payment mismatch, compensation mismatch
+
+### Disclosure-boundary
+
+- proofArtifactPath: `.bitcode/v47-canonical-input-report.json`
+- members: preview, measurement visualization, proof projection
+- theoremIds: no-unpaid-source, measurement-visible-source-hidden
+- replayStepIds: v47-disclosure-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: every pre-settlement display must expose value without exposing source
+- current member verdict shape: disclosure receipt
+- current theorem-by-theorem closure reading: measurements can reveal value, confidence, risk, and fit but not protected source
+- current theorem-to-replay grouping: projection policy and UI state replay together
+- minimum artifact/replay binding set: projectionId, measurementIds, no-source scan
+- current proof-object fields: projectionId, allowedFields, deniedFields, scanRoot
+- generated-artifact and test bindings: V47 Gate 6, Gate 7, Gate 8
+- fail-closed conditions: public projection overexposure, raw prompt leakage, unpaid source leakage
+
+### Proof-contract
+
+- proofArtifactPath: `.bitcode/v47-spec-family-report.json`
+- members: proof root, workflow receipt, replay receipt, repair receipt
+- theoremIds: proof-readback-decides, stale-truth-fails
+- replayStepIds: v47-proof-readback
+- witnessArtifactPaths: `BITCODE_SPEC_V47_PROVEN.md`
+- current member closure criteria: every state transition must be proof-readable
+- current member verdict shape: proof receipt
+- current theorem-by-theorem closure reading: projection explains, proof decides
+- current theorem-to-replay grouping: generated artifact, workflow, and repair replay together
+- minimum artifact/replay binding set: artifactRoot, workflowRun, stateTransition, repairId
+- current proof-object fields: artifactRoot, workflowId, transitionId, repairState
+- generated-artifact and test bindings: V47 Gate 10 promotion readiness
+- fail-closed conditions: stale promoted status truth, missing proof root, generated artifact drift
+
+## V47 generated canon
+
+### Appendix C. Generated artifact contract catalog
+
+#### Inherited V19 reproducible-canon artifacts
+
+`.bitcode/v19-contract-change-ledger.json`,
+`.bitcode/v19-negative-proof-mutation-matrix.json`,
+`.bitcode/v19-proof-member-semantic-matrix.json`,
+`.bitcode/v19-theorem-evidence-matrix.json`,
+`.bitcode/v19-state-machine-matrix.json`,
+`.bitcode/v19-deterministic-replay-report.json`, and
+`.bitcode/v19-volatility-inventory.json` remain historical reproducibility
+inputs.
+
+#### Inherited V20 operator-quality artifacts
+
+`.bitcode/v20-operator-acceptance-transcript.json`,
+`.bitcode/v20-visual-regression-report.json`,
+`.bitcode/v20-accessibility-report.json`,
+`.bitcode/v20-performance-budget-report.json`,
+`.bitcode/v20-projection-quality-smoke-matrix.json`,
+`.bitcode/v20-quality-summary.json`, and `ENGI_SPEC_V20_PROVEN.md` remain
+historical operator-quality inputs.
+
+#### Exact generated-artifact inventory matrix
+
+| artifactPath | role | disclosability |
+| --- | --- | --- |
+| `.bitcode/v47-spec-family-report.json` | V47 spec-family validation report | source-safe |
+| `.bitcode/v47-canonical-input-report.json` | V47 canonical-input validation report | source-safe |
+| `BITCODE_SPEC_V47_PROVEN.md` | V47 generated proof appendix after promotion readiness | source-safe |
+
+#### V47 specifying generated artifacts
+
+V47 Gate 1 reserves `.bitcode/v47-spec-family-report.json` and
+`.bitcode/v47-canonical-input-report.json`. Later gates may add launch,
+measurement, route, and E2E rehearsal artifacts.
+
+#### Shared generated-artifact fields
+
+All V47 generated artifacts must carry artifact id, version, generatedAt or
+deterministic marker, source roots, proof root, source-safety verdict,
+predicate results, aggregate proof verdict, and repair posture.
+
+#### Artifact-specific generated payload fields
+
+Measurement artifacts must include measurement ids, weights, normalized
+contributions, prompt identities, typed output schemas, visualization fields,
+and source-safety denials.
+
+#### Artifact confidentiality and disclosability taxonomy
+
+V47 artifacts classify fields as public, operator, buyer, reviewer, internal,
+source-bearing, secret, or denied.
+
+#### Minimum generated appendix rendered contents
+
+The generated appendix must render aggregate proof verdict, exact proof-family
+inventory, exact per-family member inventory, exact per-family theorem
+inventory, exact replay-step inventories and theorem bindings, witness artifact
+inventories, generated artifact inventories, scenario and run coverage matrices,
+proof-source commit, and fail closed when conditions.
+
+#### Canonical regeneration and fail-closed posture
+
+Regeneration must fail closed when source roots drift, proof roots mismatch,
+generated artifact inventories are incomplete, scenario and run coverage
+matrices are stale, proof-source commit is missing, or source-safety scans fail.
+
+## V47 validation canon
+
+V47 Gate 1 validation requires:
+
+- `node scripts/check-bitcode-spec-family.mjs --version V46 --mode promoted --current-target V46`
+- `node scripts/check-bitcode-spec-family.mjs --version V47 --mode draft --current-target V46`
+- `node scripts/check-bitcode-canonical-inputs.mjs --current-target V46`
+- `node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V47`
+- `node scripts/check-v47-gate1-scope-measurement-launch-freeze.mjs --skip-branch-check`
+
+Later gates must add focused tests, browser E2E, proof generation, staging
+rehearsal, and promotion readiness checks.
+
+## V47 promotion canon
+
+V47 may promote only after all gates close, all generated artifacts are fresh,
+all commercial website launch tests are green, staging-testnet rehearsal proves
+seller and buyer E2E flows, and the maintained promotion workflow advances
+`BITCODE_SPEC.txt` to `V47`.
+
+## V47 appendices and canonical supporting material
+
+### Appendix A. Canonical type and surface catalog
+
+Canonical surfaces are `/deposit`, `/read`, `/packs`, Auxillaries, Depository
+indexes, proof roots, workflow receipts, ledger journals, database projections,
+object-storage roots, wallet/provider receipts, and repository delivery
+receipts. API/MCP, ChatGPT App, and Bitcode Chat remain compatibility surfaces
+for V47, not commercial launch scope.
+
+### Appendix B. Proof family closure catalog
+
+The nine proof families above close through measurement, state-machine,
+disclosure, settlement, delivery, repair, and promotion evidence.
+
+### Appendix D. Validation and checking gate catalog
+
+V47 gates:
+
+1. Scope, Testnet Semantics, Measurement Law, And Launch Freeze.
+2. Feature Excess And Gate Alignment Audit.
+3. Seller And Buyer State Machine Law.
+4. Depositor Website Completion.
+5. Reader Website Completion.
+6. Packs And Auxillaries Commercial Dashboard.
+7. E2E IP Selling And Buying Tests.
+8. Landing Page And Public Launch Messaging.
+9. Staging-Testnet Deployment Rehearsal.
+10. Promotion Readiness.
+
+### Appendix E. Current canonical source map
+
+Current source map roots include `uapi`, `packages/btd`,
+`packages/pipeline-asset-pack`, `packages/pipeline-hosts`,
+`packages/protocol`, `packages/prompts`, `packages/executions-mcp`,
+`packages/chatgptapp`, `protocol-demonstration`, `.github/workflows`, and
+`.bitcode` generated artifacts.
+
+### Appendix F. Subsystem totality and derivability matrix
+
+Required coverage phrases: repo supply and depositing; reading and measured
+demand; prompt/inference/evaluator ownership; deposit-to-read fit; recall and
+ranking; verification decisions; selection and materialization; branch
+artifacts and assetPackEvidence; identity, authority, signing, and policy;
+sensitive data and confidentiality flows; projection, disclosure, and
+redaction; proof families, members, theorems, witnesses, and replay;
+settlement, source-to-shares, journals, and exact accounting; telemetry,
+persistence, state, and failure semantics; host/runtime capability truth;
+operator experience and pedagogy; validation and test stack; generated
+artifacts and canonical promotion.
+
+### Appendix G. Canonical file-family and promotion contract catalog
+
+The V47 file family is `BITCODE_SPEC_V47.md`,
+`BITCODE_SPEC_V47_DELTA.md`, `BITCODE_SPEC_V47_NOTES.md`,
+`BITCODE_SPEC_V47_PARITY_MATRIX.md`, and eventually
+`BITCODE_SPEC_V47_PROVEN.md`. Promotion must be workflow-driven.
+
+### Appendix H. Operator surface and quality contract catalog
+
+Operators need source-safe views of seller flow, buyer flow, measurements,
+quotes, BTC-testnet observations, BTD rights, delivery, compensation, repair,
+proof roots, and workflow receipts. Operator surfaces must remain measurable,
+readable, accessible, performant, and repairable.
+
+### Appendix I. Scenario, workflow, and cross-product contract catalog
+
+V47 keeps historical scenario coverage terms auth-issuer-rollback,
+privacy-boundary-proof-export, polyglot-gateway-benchmark-remediation,
+auth-many-asset-normalization, Targeted deposit, Normalization deposit, patch,
+context, public, buyer, reviewer, internal, Openly writable, Measurably
+readable, Provable, and Valuable.
+
+New V47 scenarios are IP seller deposits an AssetPack and IP buyer buys a
+Need-Fit AssetPack on staging-testnet.
+
+### Appendix J. Fail-closed contract and error posture matrix
+
+V47 fails closed on invalid deposit, prompt contract incompleteness,
+parsed-envelope inadmissibility, no-survivor asset pack, authorization denial,
+public projection overexposure, settlement conservation drift, stale promoted
+status truth, measurement formula drift, BTC-testnet quote mismatch, and
+repository delivery failure.
+
+### Appendix K. Source-bearing AssetPack and artifact contract catalog
+
+Source-bearing artifacts include `.bitcode/asset-pack.lock.json`,
+`.bitcode/selected-source-material.json`,
+`.bitcode/verification-report.json`, `.bitcode/source-to-shares.json`,
+`.bitcode/projection-policy.json`, `.bitcode/system-proof-bundle.json`, and
+`BITCODE_SPEC_V47_PROVEN.md`. Source-bearing payloads remain protected until
+entitlement; source-safe receipts may be projected.
+
+## V47 accepted boundaries and reopen conditions
+
+- V46 remains active canon until V47 promotion.
+- V47 Gate 1 does not authorize runtime behavior changes.
+- V47 testnet means BTC amounts are testnet only; system behavior remains
+  production-intended.
+- Measurement must be visible and source-safe before a user decides to deposit
+  or buy.
+- Conversation surfaces, ChatGPT App commercialization, MCP/API
+  commercialization, deeper BTD mining cryptography, mainnet launch authority,
+  and advanced market mechanics are deferred to later versions.
+- Any source leakage, measurement ambiguity, quote/finality collapse, rights
+  ambiguity, or delivery ambiguity reopens the relevant gate.
+
+## V47 completion condition
+
+V47 Gate 1 is complete when the V47 draft spec family exists over active V46,
+testnet semantics and measurement law are specified, the seller/buyer launch
+scope and ten-gate plan are recorded, the roadmap names V47 as active draft
+target, `check:v47-gate1` exists, gate/canon workflows validate active V46 plus
+draft V47, and the gate branch is committed, pushed, and pull-requested into
+`version/v47`.

@@ -4,10 +4,12 @@
 
 - Current active canonical pointer: `BITCODE_SPEC.txt` -> `V46`
 - Current active canon: `BITCODE_SPEC_V46.md`
-- Current draft target: `BITCODE_SPEC_V47_NOTES.md` notes-only opening
-- Current working gate: V47 opening preparation after V46 canonical promotion.
-- Next queued work after V46 promotion: workshop V47 protocol atoms from promoted V46, then create the V47 parity matrix and scoped gate branches.
+- Current draft target: `BITCODE_SPEC_V47.md`
+- Current working gate: V47 Gate 1 Scope, Testnet Semantics, Measurement Law, And Launch Freeze.
+- Next queued work after V47 Gate 1: Feature Excess And Gate Alignment Audit.
 - Latest closed gate: V46 Gate 8 Promotion Readiness And Canonical Promotion, which added `V46PromotionReadinessReport`, `.bitcode/v46-promotion-readiness-report.json`, `BITCODE_SPEC_V46_PROVEN.md`, V46 promotion workflow support, promotion-script support, promoted V46 / draft V47 runtime posture, source-safe promotion metadata, package exports, focused tests, workflow wiring, `check:v46-gate8`, and the standalone `BITCODE_SPEC.txt` pointer promotion to V46.
+- V47 Gate 1 closure target: open the full V47 draft family over active V46, freeze V47 as commercial website testnet launch readiness for `/deposit`, `/read`, `/packs`, and Auxillaries, specify that testnet means BTC amounts are testnet/free while production-intended protocol behavior remains real, make measurement law explicit, name IP seller and IP buyer launch flows, list scoped V47 gates, expose `check:v47-gate1`, and wire CI to validate active V46 plus draft V47 without claiming V47 promotion.
+- V47 Gate 1 closure anchor: Gate 1 is closed when V47 SPEC, DELTA, NOTES, and PARITY files validate in draft mode; this roadmap lists V47 as the active draft target; V46 remains the active pointer; CI runs draft V47 checks when V47 files exist; `check:v47-gate1` passes; and the gate branch is committed, pushed, and pull-requested into `version/v47`.
 - V45 Gate 19 closure anchor: promoted V45 spec-family checks, canonical-input checks, canon-posture drift checks, promoted-stale-posture tests, generated artifact freshness checks, `check:v45-gate19`, and diff hygiene passed before merge to `main`.
 - V46 Gate 1 closure target: open the V46 draft family over active V45, name commercial protocol comprehension as the V46 focus, list provisional V46 gates, expose `check:v46-gate1`, and wire CI to validate active V45 plus draft V46 without claiming V46 promotion.
 - V46 Gate 1 closure anchor: Gate 1 is closed when V46 SPEC, DELTA, NOTES, and PARITY files validate in draft mode, this roadmap lists V46 as active draft target, V45 remains the active pointer, CI runs draft V46 checks when V46 files exist, `check:v46-gate1` passes, and the gate branch is committed, pushed, and pull-requested into `version/v46`.
@@ -158,7 +160,7 @@ They are referenced here for specification history only; active implementation w
 - Legacy ENGI specifications: `_legacy/ENGI_SPEC_V1.md` through `_legacy/ENGI_SPEC_V25.md`, with companion `NOTES`, `DELTA`, `PARITY_MATRIX`, `SYSTEM_PARITY_MATRIX`, `PROVEN`, and audit files where present.
 - Active Bitcode specifications: `BITCODE_SPEC_V46.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
 - Promoted Bitcode history: `BITCODE_SPEC_V26.md` through `BITCODE_SPEC_V45.md`, with companion `DELTA`, `NOTES`, `PARITY_MATRIX`, and `PROVEN` files.
-- Draft and future Bitcode specifications: V47 opens next over promoted V46 as `BITCODE_SPEC_V47_NOTES.md` until a full V47 specification family is intentionally drafted. Planned V47+ work follows the active roadmap and any accepted notes created after V46 promotion.
+- Draft and future Bitcode specifications: V47 opens over promoted V46 as `BITCODE_SPEC_V47.md`, with companion `DELTA`, `NOTES`, and `PARITY_MATRIX` files. Planned V47+ work follows the active roadmap, the V47 draft family, and any accepted notes created after V46 promotion.
 - Specification discipline references: `BITCODE_SPECIFYING.md` and `BITCODE_SPEC_TEMPLATEGUIDE.md`.
 
 ## Roadmap
@@ -211,7 +213,7 @@ They are referenced here for specification history only; active implementation w
 | V44 | `BITCODE_SPEC_V44.md` | promoted historical Bitcode canon | Scaled engineering economy and tokenized AssetPack network operation after V43 route cleanup: enterprise AssetPack portfolios, Pack market signals, Reading demand signals, deposit supply opportunities, Reading budget policy, AssetPack quote policy, BTD/BTC/source-to-shares accounting, contributor compensation statements, organization policy, wallet/spend authority, scaled local/staging-testnet rehearsal, and polished economic operation across `/packs`, `/read`, and `/deposit` while keeping value-bearing mainnet blocked until later launch authority. |
 | V45 | `BITCODE_SPEC_V45.md` | promoted historical Bitcode canon | Knowledge commoditization protocol precision after V44 scaled economics: AssetPack commodity lifecycle, BTD Need-relative scalar knowledge-volume and rights, BTC settlement finality, source-safe interface disclosure, proof-backed readback, operational repair, generated proof-family artifacts, source-safe end-to-end rehearsal, and canonical promotion. |
 | V46 | `BITCODE_SPEC_V46.md` | active canon | Commercial protocol comprehension and launch-facing interface claim readiness after V45 knowledge commoditization law: source-safe public/operator explanation, product route comprehension for `/packs`, `/read`, and `/deposit`, API/MCP/ChatGPT App/Bitcode Chat claim contracts, proof-readable market activity, local interface rehearsal without value-bearing mainnet authority, and canonical promotion. |
-| V47 | `BITCODE_SPEC_V47_NOTES.md` | notes-only draft target | Specification-workshopping target after promoted V46: audit protocol atoms in small pieces, refine exact Bitcode law before implementation parity, prepare the V47 parity matrix, and then open scoped gates only after the accepted specification changes are precise. |
+| V47 | `BITCODE_SPEC_V47.md` | active draft target | Commercial website testnet launch readiness after V46 protocol comprehension: launch-freeze `/deposit`, `/read`, `/packs`, and Auxillaries; define testnet as BTC amounts only; make measurement law, weighted BTD scalar visualization, IP seller and IP buyer state machines, feature-excess audit, E2E IP selling/buying proof, landing/public messaging, staging-testnet rehearsal, and promotion readiness exact before V47 canon. |
 
 ## Current Planning Spine
 
@@ -235,15 +237,16 @@ They are referenced here for specification history only; active implementation w
 18. V43 promoted agentic deposit-side and route-product cleanup after the MVP paths became reliable: enterprises get deposit AssetPack options synthesized from connected repositories and Bitcode's observed Depository/Reading demand, then approve or reject source-safe, sub-critical, positive-ROI options for Depository admission; `/terminal` split into `/read` and `/deposit`, and `/exchange` became `/packs`.
 19. V44 promoted the scaled engineering economy after product routes became intelligible: enterprise AssetPack portfolios, Pack market intelligence, Reading budgets and quote governance, deposit earning/ROI intelligence, BTD/BTC/source-to-shares compensation statements, organization policy/wallet authority, enterprise economic UX, and scaled local/staging-testnet rehearsal without weakening source-safety or value-bearing mainnet blocks.
 20. V45 promoted Bitcode's knowledge commoditization law after V44: AssetPack as commodity, BTD as Need-relative scalar knowledge-volume and settled rights, BTC as settlement money, proof-backed readback as state authority, source-safe interface disclosure, operational repair, generated proof-family artifacts, source-safe rehearsal, and canonical promotion.
-21. V46 opens commercial protocol comprehension after V45: the active law remains V45 while V46 drafts how public, operator, product, API/MCP, ChatGPT App, and Bitcode Chat surfaces explain AssetPacks, BTD scalar knowledge-volume and rights, BTC settlement, proof readback, source-safe preview, quotes, finality, delivery, compensation, and repair with launch-safe claims.
+21. V46 promoted commercial protocol comprehension after V45: public, operator, product, API/MCP, ChatGPT App, and Bitcode Chat surfaces now have source-safe claim contracts for explaining AssetPacks, BTD scalar knowledge-volume and rights, BTC settlement, proof readback, source-safe preview, quotes, finality, delivery, compensation, and repair with launch-safe claims.
+22. V47 opens commercial website testnet launch readiness after V46: the active law remains promoted V46 while V47 drafts the final website-first staging-testnet MVP scope, measurement law, IP seller and IP buyer launch flows, feature-excess audit, E2E IP exchange proof, landing-page readiness, staging-testnet rehearsal, and promotion readiness.
 
 ## Boundary Rules
 
 - Do not treat `_legacy/` ENGI specifications as active implementation authority.
 - Do use `_legacy/` specifications to understand why current Bitcode concepts exist and what must not regress.
-- New version work must build on V45 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
-- V46 is the active draft target opened from active V45 posture.
-- V46 Gate 1 is a roadmap/spec-family/checking gate only. It does not authorize runtime protocol behavior.
+- New version work must build on V46 active canon and V27 `$BTD` law unless a future promoted spec explicitly supersedes it.
+- V47 is the active draft target opened from active V46 posture.
+- V47 Gate 1 is a roadmap/spec-family/checking gate only. It does not authorize runtime protocol behavior.
 - V45 Gate 19 was a promotion addendum only. It repaired promoted specification posture and enforcement, not runtime protocol behavior.
 - No implementation route should be versioned by spec number; source should move in place with the active canon.
 - Future notes files are planning memory only until their version is explicitly opened as the draft-target SPEC family.
