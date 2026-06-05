@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V46`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -690,7 +690,10 @@ V47 gates:
    `.bitcode/v47-feature-excess-alignment-audit.json`, the
    `buildV47FeatureExcessAlignmentAudit` package object, and
    `check:v47-gate2`.
-3. Seller And Buyer State Machine Law.
+3. Seller And Buyer State Machine Law. Gate 3 owns
+   `.bitcode/v47-seller-buyer-state-machine-law.json`, the
+   `buildV47SellerBuyerStateMachineLaw` package object, and
+   `check:v47-gate3`.
 4. Depositor Website Completion.
 5. Reader Website Completion.
 6. Packs And Auxillaries Commercial Dashboard.
@@ -713,6 +716,15 @@ supporting surfaces, deferred surfaces, feature policies, forbidden launch
 entry targets, source-safe payload boundaries, source-root digests, and
 predicate results without serializing source, prompt payloads, wallet private
 material, settlement private payloads, or mainnet value-bearing authority.
+
+V47 Gate 3 source-safe generated artifact:
+`.bitcode/v47-seller-buyer-state-machine-law.json`. It records IP seller
+states, IP buyer states, transition guards, measurement ids, source-safe field
+ids, forbidden payload classes, source-root digests, and predicate results.
+The law requires measurement-before-price, proof-before-state, accepted Need
+before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
+BTD rights before source delivery, `/packs` history projection after each
+transition, and fail-closed repair on missing evidence.
 
 ### Appendix F. Subsystem totality and derivability matrix
 
@@ -801,3 +813,15 @@ Bitcode Chat, value-bearing mainnet, source-bearing previews, and advanced
 market mechanics are explicitly deferred; `.bitcode/v47-feature-excess-
 alignment-audit.json` is generated; `check:v47-gate2` validates the audit; and
 gate/canon workflows run the Gate 2 checker while V46 remains active canon.
+
+V47 Gate 3 is complete when the IP seller state machine covers source
+connection, deposit AssetPack option synthesis, source-safe measurement review,
+Depository admission approval, and compensation/repair tracking; the IP buyer
+state machine covers Read request, Need review, Finding Fits, source-safe
+AssetPack preview, BTC-testnet settlement, BTD rights, and repository delivery;
+the guards enforce measurement-before-price, proof-before-state, accepted Need
+before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
+BTD rights before source delivery, `/packs` history projection, and
+fail-closed repair; `.bitcode/v47-seller-buyer-state-machine-law.json` is
+generated; `check:v47-gate3` validates the law; and gate/canon workflows run
+the Gate 3 checker while V46 remains active canon.

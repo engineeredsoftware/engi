@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V46`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 records launch scope, measurement law, testnet semantics, and planned closure gates; Gate 2 records feature-excess and launch-alignment audit evidence
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 records launch scope, measurement law, testnet semantics, and planned closure gates; Gate 2 records feature-excess and launch-alignment audit evidence; Gate 3 records seller/buyer state-machine law evidence
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V47.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
@@ -41,8 +41,8 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Testnet semantics | Testnet means BTC amounts are testnet/free while the rest of the system behaves production-intended | drafted | Gate 1 records this as launch law. | Gate 1 |
 | Measurement law | Catalog measurements, prompts, typed outputs, weights, BTD scalar formula, seller/buyer visualization, and proof roots | drafted | Gate 1 makes measurement the basis for price and settlement. | Gate 1 |
 | Feature excess audit | Remove, hide, flag off, or defer non-launch behavior | implemented; promotion pending | `buildV47FeatureExcessAlignmentAudit` and `.bitcode/v47-feature-excess-alignment-audit.json` classify launch/supporting/deferred surfaces and check launch CTAs, compatibility redirects, and feature flags. | Gate 2 |
-| Seller state machine | IP seller can connect source, synthesize options, review measurements, approve deposit, and track compensation | draft-required | Seller flow exists conceptually and needs exact website parity. | Gate 3 and Gate 4 |
-| Buyer state machine | IP buyer can request Read, approve Need, Finding Fits, preview, settle, receive rights, and get PR delivery | draft-required | Buyer flow exists conceptually and needs exact website parity. | Gate 3 and Gate 5 |
+| Seller state machine | IP seller can connect source, synthesize options, review measurements, approve deposit, and track compensation | implemented; promotion pending | `buildV47SellerBuyerStateMachineLaw` and `.bitcode/v47-seller-buyer-state-machine-law.json` define seller states and guards; Gate 4 completes route UX. | Gate 3 and Gate 4 |
+| Buyer state machine | IP buyer can request Read, approve Need, Finding Fits, preview, settle, receive rights, and get PR delivery | implemented; promotion pending | `buildV47SellerBuyerStateMachineLaw` and `.bitcode/v47-seller-buyer-state-machine-law.json` define buyer states and guards; Gate 5 completes route UX. | Gate 3 and Gate 5 |
 | `/packs` dashboard | Master-detail PackActivity tracks deposits, reads, proofs, settlements, rights, delivery, compensation, repair | draft-required | V46 comprehension exists; V47 needs launch-ready dashboard behavior. | Gate 6 |
 | Auxillaries launch readiness | Identity, source connections, target repository connections, wallets, teams, histories are usable | draft-required | Auxillaries must support website launch flows. | Gate 6 |
 | E2E IP exchange tests | Browser tests prove selling and buying IP the Bitcode way | draft-required | V47 needs experiential proof, not only unit checks. | Gate 7 |
@@ -63,6 +63,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Website-only launch focus | API/MCP, ChatGPT App, and Bitcode Chat are deferred commercial surfaces | accepted boundary | V47 avoids scope sprawl. | Gate 1 and Gate 2 |
 | Mainnet block | Value-bearing mainnet remains blocked | accepted boundary | BTC amounts are testnet only in V47. | Gate 1+ |
 | Launch route discipline | Public navigation, landing CTAs, pricing acquisition, and BTD detail paths use `/deposit`, `/read`, or `/packs` rather than `/terminal` or `/exchange` | implemented; promotion pending | Gate 2 rewrites launch-facing entrypoints and keeps `/exchange` redirect-only. | Gate 2 |
+| State-machine guards | Measurement-before-price, proof-before-state, accepted Need before Finding Fits, finality before BTD rights, BTD rights before delivery, and repair fail closed | implemented; promotion pending | Gate 3 source object binds the guards to Deposit, Read, Packs, BTD settlement, receipts, source-to-shares, and semantic volume sources. | Gate 3 |
 
 ## Grouped closure gates
 
@@ -98,3 +99,11 @@ its package object and tests pass, public launch entrypoints resolve to
 current routes, deferred surfaces are classified, `/exchange` remains
 compatibility-only, `/terminal` and `/conversations` direct entry are flaggable
 or retained, and gate/canon workflows run `check:v47-gate2`.
+
+V47 Gate 3 is complete when the V47 seller/buyer state-machine law artifact is
+generated, its package object and tests pass, seller and buyer states are
+bound to `/deposit`, `/read`, `/packs`, BTD receipts, settlement,
+source-to-shares, and semantic volume sources, transition guards preserve
+measurement-before-price and proof-before-state, source-safe fields and
+forbidden payload classes are explicit, and gate/canon workflows run
+`check:v47-gate3`.
