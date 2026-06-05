@@ -449,7 +449,10 @@ function buildPredicateResults(repoRoot) {
           sources.roadmap.includes('Current working gate: V46 Gate 8 Promotion Readiness And Canonical Promotion')) ||
         (sources.roadmap.includes('V46 Gate 7 closure anchor') &&
           sources.roadmap.includes('Latest closed gate: V46 Gate 8 Promotion Readiness And Canonical Promotion') &&
-          sources.roadmap.includes('Current working gate: V47 opening preparation')),
+          (sources.roadmap.includes('Current working gate: V47 opening preparation') ||
+            sources.roadmap.includes(
+              'Current working gate: V47 Gate 1 Scope, Testnet Semantics, Measurement Law, And Launch Freeze',
+            ))),
     ),
     predicateResult(
       'readmes-document-gate7',
