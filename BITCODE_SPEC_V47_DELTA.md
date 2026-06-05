@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V46`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opened specification, roadmap, measurement-law, and workflow hooks; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 opened specification, roadmap, measurement-law, and workflow hooks; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds source-safe seller/buyer state-machine law
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V47.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -107,6 +107,15 @@ advanced market mechanics as deferred or compatibility-only.
 
 Gate 3 specifies exact IP seller and IP buyer state machines, including
 measurement, proof, repair, settlement, delivery, and `/packs` history.
+
+Gate 3 owns `.bitcode/v47-seller-buyer-state-machine-law.json`,
+`buildV47SellerBuyerStateMachineLaw`, and `check:v47-gate3`. The state-machine
+law names seller states from source connection through compensation/repair
+tracking; buyer states from Read request through delivery; guards for
+measurement-before-price, proof-before-state, accepted Need before Finding
+Fits, quote-before-settlement, BTC finality before BTD rights, BTD rights
+before source delivery, `/packs` projection, and fail-closed repair; and the
+source-safe fields that may be projected without source leakage.
 
 ## Gate 4: Depositor Website Completion
 
