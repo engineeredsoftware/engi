@@ -586,6 +586,65 @@ export default function DepositPageClient() {
     ],
   );
 
+  const handleSynthesizeOptions = useCallback(async () => {
+    setOptionsRequested(true);
+    replaceDepositSearchParams(
+      writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
+    );
+
+    const nextSession = buildDepositRouteSession({
+      ...depositRouteInput,
+      optionsRequested: true,
+      optionReviewDecisions: optionReviewDecisionRecords,
+    });
+
+    try {
+      await handleRecordActivity({
+        type: "pipeline:deposit-option-synthesis",
+        status: "completed",
+        summary: `Synthesized ${nextSession.synthesis.optionCount} source-safe deposit AssetPack options for ${nextSession.routeState.repositoryFullName || "the selected source"}.`,
+        selectAfterRecord: true,
+        output: {
+          depositRouteSession: nextSession,
+          depositOptionSynthesis: nextSession.synthesis,
+          depositOptionPolicy: nextSession.policy,
+          depositorEarningSupplyIntelligence:
+            nextSession.earningSupplyIntelligence,
+          organizationPolicyWalletAuthority:
+            nextSession.organizationPolicyWalletAuthority,
+        },
+        context: {
+          source: "deposit-option-synthesis",
+          workbench: "deposit-option-synthesis",
+          route: DEPOSIT_ROUTE,
+          repositoryFullName: nextSession.routeState.repositoryFullName,
+          sourceBranch: nextSession.routeState.sourceBranch,
+          sourceCommit: nextSession.routeState.sourceCommit,
+          optionCount: nextSession.synthesis.optionCount,
+          synthesisRoot: nextSession.synthesis.roots.synthesisRoot,
+          policyReportRoot: nextSession.policy.roots.policyReportRoot,
+          earningSupplyIntelligenceRoot:
+            nextSession.earningSupplyIntelligence.roots.intelligenceRoot,
+          organizationPolicyWalletAuthorityRoot:
+            nextSession.organizationPolicyWalletAuthority.roots.authorityRoot,
+          sourceSafetyClass: nextSession.disclosure.sourceSafetyClass,
+        },
+      });
+    } catch (error) {
+      setRunsLoadError(
+        error instanceof Error
+          ? error.message
+          : "Unable to record deposit option synthesis.",
+      );
+    }
+  }, [
+    depositRouteInput,
+    handleRecordActivity,
+    optionReviewDecisionRecords,
+    readCurrentSearchParams,
+    replaceDepositSearchParams,
+  ]);
+
   const handleOptionReviewDecision = useCallback(
     async (optionId: string, decision: DepositOptionReviewDecisionState) => {
       const nextDecisions = {
@@ -835,15 +894,10 @@ export default function DepositPageClient() {
                 <button
                   type="button"
                   onClick={() => {
-                    setOptionsRequested(true);
-                    replaceDepositSearchParams(
-                      writeDepositRouteStage(
-                        readCurrentSearchParams(),
-                        "review-options",
-                      ),
-                    );
+                    void handleSynthesizeOptions();
                   }}
-                  className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18"
+                  disabled={!depositRouteSession.routeState.repositoryFullName}
+                  className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
                 >
                   Synthesize options
                 </button>

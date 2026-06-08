@@ -1,6 +1,6 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 
 import DepositPageClient from "@/app/deposit/DepositPageClient";
 
@@ -248,5 +248,83 @@ describe("DepositPageClient", () => {
       "false",
     );
     expect(screen.getByText("Recent Deposit activity")).toBeInTheDocument();
+  });
+
+  it("records source-safe option synthesis as a deposit execution row", async () => {
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({
+        execution: {
+          id: "deposit-synthesis-1",
+          created_at: "2026-05-29T10:01:00.000Z",
+          status: "completed",
+          type: "pipeline:deposit-option-synthesis",
+          agentic_execution: {
+            canonicalType: "pipeline:deposit-option-synthesis",
+            lens: "deposit",
+            proofStatus: "source-safe synthesis proof ready",
+            closureFocus: "deposit option synthesis",
+          },
+          context: {
+            source: "deposit-option-synthesis",
+            optionCount: 3,
+          },
+          repo_snapshot: {
+            org: "engineeredsoftware",
+            repo: "ENGI",
+            branch: "main",
+            commit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+          },
+          output: {},
+          items: [],
+        },
+      }),
+    });
+    global.fetch = fetchMock;
+
+    render(<DepositPageClient />);
+
+    const synthesizeButton = await screen.findByRole("button", {
+      name: "Synthesize options",
+    });
+    await waitFor(() => expect(synthesizeButton).not.toBeDisabled());
+    fireEvent.click(synthesizeButton);
+
+    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
+    const [, init] = fetchMock.mock.calls[0];
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/executions/history",
+      expect.objectContaining({ method: "POST" }),
+    );
+
+    const body = JSON.parse(String(init.body));
+    expect(body.pipeline_type).toBe("pipeline:deposit-option-synthesis");
+    expect(body.status).toBe("completed");
+    expect(body.context).toMatchObject({
+      source: "deposit-option-synthesis",
+      workbench: "deposit-option-synthesis",
+      route: "/deposit",
+      repositoryFullName: "engineeredsoftware/ENGI",
+      optionCount: 3,
+      sourceSafetyClass: "source_safe_deposit_option_route_metadata",
+    });
+    expect(body.output.depositRouteSession.schema).toBe(
+      "bitcode.deposit.route-session",
+    );
+    expect(body.output.depositOptionSynthesis.schema).toBe(
+      "bitcode.deposit.asset-pack-option-synthesis",
+    );
+    expect(body.output.depositOptionPolicy.schema).toBe(
+      "bitcode.deposit.asset-pack-option-policy-report",
+    );
+    expect(body.output.depositorEarningSupplyIntelligence.schema).toBe(
+      "bitcode.deposit.earning-supply-intelligence",
+    );
+    expect(
+      body.output.depositRouteSession.disclosure.protectedSourceVisible,
+    ).toBe(false);
+    expect(
+      body.output.depositRouteSession.disclosure.unpaidAssetPackSourceVisible,
+    ).toBe(false);
   });
 });
