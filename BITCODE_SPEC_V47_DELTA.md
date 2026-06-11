@@ -142,6 +142,22 @@ responses, wallet private material, or value-bearing mainnet authority.
 Gate 5 completes Read Request, Need synthesis/review, Finding Fits, preview,
 quote, BTC-testnet settlement, BTD rights transfer, and PR delivery.
 
+Gate 5 owns `.bitcode/v47-reader-website-completion.json`,
+`buildV47ReaderWebsiteCompletion`, and `check:v47-gate5`. The completion
+binds the five-step `/read` route session (`request-read`,
+`review-synthesized-need`, `request-fit`, `review-synthesized-asset-pack`,
+`buy-asset-pack-settle`) to a source-safe fit measurement review rendering
+Need coverage, Fit confidence, specificity, novelty, reuse, risk, evidence,
+delivery readiness, selected Fit provenance, final BTD scalar, and the
+deterministic BTC-testnet quote basis before any payment; orders payment
+observation, BTC-testnet finality, BTD rights transfer receipt, and
+repository PR delivery as fail-closed readback with source-bearing delivery
+locked until rights transfer; keeps Reading activity and settled AssetPacks
+reachable through `/packs`; and exposes everything as source-safe metadata
+only, with no protected source, unpaid AssetPack source, raw prompts, raw
+provider responses, wallet private material, or value-bearing mainnet
+authority.
+
 ## Gate 6: Packs And Auxillaries Commercial Dashboard
 
 Gate 6 completes identity, teams, wallets, histories, PackActivity
