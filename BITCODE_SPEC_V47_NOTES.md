@@ -11,7 +11,7 @@
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth; Gate 5 records Reader Website Completion truth; Gate 6 records Packs And Auxillaries Commercial Dashboard truth; Gate 7 records E2E IP Selling And Buying Tests truth; Gate 8 records Landing Page And Public Launch Messaging truth
+- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth; Gate 5 records Reader Website Completion truth; Gate 6 records Packs And Auxillaries Commercial Dashboard truth; Gate 7 records E2E IP Selling And Buying Tests truth; Gate 8 records Landing Page And Public Launch Messaging truth; Gate 9 records Staging-Testnet Deployment Rehearsal truth
 - Scope: V47 starts as the commercial website testnet launch-readiness target over promoted V46 protocol comprehension canon.
 
 ## Notes companion rule
@@ -107,7 +107,12 @@ feature excess audit, E2E seller/buyer proof, and promotion readiness.
   packs core flow with route links, and states proof-backed trust and
   source-safe IP exchange positioning; public docs carry the testnet-meaning
   card; promoted V46 claim tokens stay intact.
-- Staging-testnet deployment rehearsal.
+- Staging-Testnet Deployment Rehearsal: four dry-run lanes bind the
+  deployment truth sources (Vercel host, Supabase database/ledger,
+  object storage, long-runner, BTC-testnet provider), satisfy the
+  realistic-data contract minimums, rehearse the settlement ordering law
+  (observation, finality, rights, delivery), and keep value-bearing mainnet
+  blocked; live deployment execution stays operator opt-in.
 - V47 promotion readiness.
 
 ## Non-goals during V47 opening

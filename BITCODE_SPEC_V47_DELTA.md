@@ -223,6 +223,21 @@ Gate 9 validates the canonical staging-testnet deployment with realistic data,
 real routes, real storage/database/ledger projections, and BTC-testnet
 settlement.
 
+Gate 9 owns `.bitcode/v47-staging-testnet-deployment-rehearsal.json`,
+`buildV47StagingTestnetDeploymentRehearsal`, and `check:v47-gate9`. The
+rehearsal law binds four dry-run lanes — staging-testnet full stack,
+realistic-data population, BTC-testnet settlement observation, and blocked
+value-bearing mainnet — to the deployment truth sources (vercel.json,
+supabase config and migrations, long-runner Dockerfiles and Kubernetes
+manifest, the uapi build and browser-proof commands). The realistic-data
+contract sets explicit minimums across deposits, admissions, Reads, accepted
+Needs, previews, quotes, settlement observations, finality confirmations,
+BTD rights transfers, repository PR deliveries, compensation statements, and
+repair cases. Settlement observation rehearses the production ordering law
+(observation → finality → rights → delivery). Lane receipts are dry-run with
+live deployment execution as operator opt-in; no live service credentials,
+protected source, or value-bearing mainnet authority are serialized.
+
 ## Gate 10: V47 Promotion Readiness
 
 Gate 10 closes parity matrix, generated proof artifacts, CI/promotion workflow,
