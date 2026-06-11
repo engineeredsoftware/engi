@@ -204,6 +204,19 @@ Gate 8 refurbishes landing and public docs for V47 commercial testnet
 readiness, core flows, proof-backed trust, source-safe IP exchange, and the
 meaning of testnet.
 
+Gate 8 owns `.bitcode/v47-landing-public-launch-messaging.json`,
+`buildV47LandingPublicLaunchMessaging`, and `check:v47-gate8`. The landing
+gains a commercial-testnet section (`MarketingLandingTestnetSection` over
+`BITCODE_PUBLIC_COPY.testnetLaunch`) stating that BTC amounts are testnet and
+free while measurements, quotes, settlement ordering, BTD rights, and
+repository delivery stay production-intended; documenting the deposit → read
+→ packs core flow with launch-route links; and carrying proof-backed trust
+and source-safe IP exchange positioning. Public docs gain the
+`testnet-meaning` card with the blocked value-bearing mainnet posture. The
+messaging is additive over promoted V46 claim boundaries: required V46 copy
+tokens and `/deposit`, `/read`, `/packs` launch navigation remain intact, and
+no surface claims mainnet authority or source visibility.
+
 ## Gate 9: Staging-Testnet Deployment Rehearsal
 
 Gate 9 validates the canonical staging-testnet deployment with realistic data,
