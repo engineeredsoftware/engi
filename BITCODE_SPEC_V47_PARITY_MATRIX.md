@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V46`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, `.bitcode/v47-reader-website-completion.json`, `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 records launch scope, measurement law, testnet semantics, and planned closure gates; Gate 2 records feature-excess and launch-alignment audit evidence; Gate 3 records seller/buyer state-machine law evidence; Gate 4 records depositor website completion evidence; Gate 5 records reader website completion evidence; Gate 6 records packs/Auxillaries commercial dashboard evidence
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, `.bitcode/v47-reader-website-completion.json`, `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, `.bitcode/v47-e2e-ip-selling-buying-tests.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 records launch scope, measurement law, testnet semantics, and planned closure gates; Gate 2 records feature-excess and launch-alignment audit evidence; Gate 3 records seller/buyer state-machine law evidence; Gate 4 records depositor website completion evidence; Gate 5 records reader website completion evidence; Gate 6 records packs/Auxillaries commercial dashboard evidence; Gate 7 records E2E IP exchange browser-proof evidence
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V47.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
@@ -45,7 +45,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Buyer state machine | IP buyer can request Read, approve Need, Finding Fits, preview, settle, receive rights, and get PR delivery | implemented; promotion pending | `buildV47SellerBuyerStateMachineLaw` and `.bitcode/v47-seller-buyer-state-machine-law.json` define buyer states and guards; `buildV47ReaderWebsiteCompletion` and `.bitcode/v47-reader-website-completion.json` bind the `/read` route session, fit measurement review, settlement/rights/delivery ordering, and `/packs` sync. | Gate 3 and Gate 5 |
 | `/packs` dashboard | Master-detail PackActivity tracks deposits, reads, proofs, settlements, rights, delivery, compensation, repair | implemented; promotion pending | `buildV47PacksAuxillariesCommercialDashboard` and `.bitcode/v47-packs-auxillaries-commercial-dashboard.json` bind searchable master-detail rows, settlement/rights/compensation/delivery/repair state readback, proof roots, and the fail-closed repair surface validated by `check:v47-gate6`. | Gate 6 |
 | Auxillaries launch readiness | Identity, source connections, target repository connections, wallets, teams, histories are usable | implemented; promotion pending | Auxillaries panes cover identity profile, external source connections, interfaces, wallet authority with BTD history readback, and organization team/treasury settings, recorded by the Gate 6 artifact. | Gate 6 |
-| E2E IP exchange tests | Browser tests prove selling and buying IP the Bitcode way | draft-required | V47 needs experiential proof, not only unit checks. | Gate 7 |
+| E2E IP exchange tests | Browser tests prove selling and buying IP the Bitcode way | implemented; promotion pending | `commercial-mvp.ip-exchange.spec.ts` proves the seller deposit flow, buyer measurement/quote/settlement/rights/delivery flow, and `/packs` repair-surface readback in deterministic mock mode, recorded by `buildV47E2eIpSellingBuyingTests` and `.bitcode/v47-e2e-ip-selling-buying-tests.json` validated by `check:v47-gate7`. | Gate 7 |
 | Landing and public messaging | Landing page explains commercial testnet readiness and user flows | draft-required | Public claim readiness must match launch behavior. | Gate 8 |
 | Staging-testnet rehearsal | Canonical deployment validates real routes, real data stores, and BTC-testnet settlement | draft-required | V47 promotion needs deployment-grade evidence. | Gate 9 |
 | Promotion readiness | V47 generated artifacts, parity, CI, and promotion workflow are green | pending | Promotion remains later. | Gate 10 |
@@ -131,3 +131,11 @@ delivery, and repair state readback, proof roots, and a fail-closed repair
 surface, Auxillaries panes cover identity, source connections, interfaces,
 wallet authority with histories, and organization team/treasury settings, and
 gate/canon workflows run `check:v47-gate6`.
+
+V47 Gate 7 is complete when the V47 E2E IP exchange artifact is generated,
+its package object and tests pass, the browser proof sells IP on `/deposit`,
+buys IP on `/read` with measurement-before-price and ordered
+settlement/rights/delivery readback, audits `/packs` including the
+fail-closed repair surface, runs in deterministic source-safe mock mode with
+a clean browser error trap, `uapi` exposes `test:e2e:ip-exchange`, and
+gate/canon workflows run `check:v47-gate7`.
