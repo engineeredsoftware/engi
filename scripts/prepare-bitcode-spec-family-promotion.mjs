@@ -203,6 +203,71 @@ function rewriteV45PromotedParityMatrix(content, version) {
  * @param {string} content
  * @param {string} version
  */
+function rewriteV47PromotedSourceOfTruthHierarchy(content, version) {
+  if (version !== 'V47') return content;
+  return content.replace(
+    [
+      '`BITCODE_SPEC.txt` points to `V46`; V46 is the active promoted Bitcode canon.',
+      '`BITCODE_SPEC_V47.md`, `BITCODE_SPEC_V47_DELTA.md`,',
+      '`BITCODE_SPEC_V47_NOTES.md`, and `BITCODE_SPEC_V47_PARITY_MATRIX.md` are draft',
+      'V47 material until V47 promotion. V47 authorizes implementation only gate by',
+      'gate through accepted parity, generated proof artifacts, tests, and promotion',
+      'readiness.'
+    ].join('\n'),
+    [
+      '`BITCODE_SPEC.txt` points to `V47`; V47 is the active promoted Bitcode canon.',
+      '`BITCODE_SPEC_V47.md`, `BITCODE_SPEC_V47_DELTA.md`,',
+      '`BITCODE_SPEC_V47_NOTES.md`, and `BITCODE_SPEC_V47_PARITY_MATRIX.md` are the',
+      'promoted V47 specification-family material. The V47 formal specification family',
+      'is active canon and authorizes implementation behavior only through the',
+      'source-safe, measurement-before-price, proof-backed launch boundaries it',
+      'states.'
+    ].join('\n')
+  );
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ */
+function rewriteV47PromotedDraftPosture(content, version) {
+  if (version !== 'V47') return content;
+  return content
+    .replaceAll('V47 draft work', 'V47 promoted canon work')
+    .replaceAll('V47 formal draft', 'V47 formal canon')
+    .replaceAll('V47 remains draft', 'V47 is active canon')
+    .replaceAll('until V47 promotion', 'through V47 promotion')
+    .replaceAll('before V47 can promote', 'before V47 promotion closure')
+    .replaceAll('V46 remains active canon until V47 promotion', 'V47 is active canon after promotion workflow validation')
+    .replaceAll('V46 remains active canon while V47 scopes website commercial testnet launch readiness', 'V47 is the active promoted commercial website testnet launch canon')
+    .replaceAll('V46 remains the active pointer', 'V47 holds the active pointer')
+    .replaceAll('while V46 remains active canon', 'under promoted V47 canon')
+    .replaceAll('V46 remains active canon during V47 draft work.', 'V47 is active canon after promotion workflow validation.')
+    .replaceAll('Canonical pointer: `BITCODE_SPEC.txt` -> `V46`', 'Canonical pointer: `BITCODE_SPEC.txt` -> `V47`')
+    .replaceAll('Active canonical anchor: `BITCODE_SPEC_V46.md`', 'Active canonical anchor: `BITCODE_SPEC_V47.md`')
+    .replaceAll('Active generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`', 'Active generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`')
+    .replaceAll('V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon', 'V47 state: canonical promotion complete; V47 is the active commercial website testnet launch canon')
+    .replaceAll('V47 state: draft parity opening; V46 remains active canon while V47 scopes website commercial testnet launch readiness', 'V47 state: canonical promotion complete; V47 parity truth, generated launch artifacts, browser proof, staging-testnet rehearsal, gate closure, and promotion automation are aligned')
+    .replaceAll('V47 is the active draft target opened from active V46 posture.', 'V47 is the active promoted canon over the prior V46 anchor.');
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ */
+function rewriteV47PromotedParityMatrix(content, version) {
+  if (version !== 'V47') return content;
+  return content
+    .replaceAll('| draft-required |', '| closed |')
+    .replaceAll('| drafted |', '| closed |')
+    .replaceAll('| implemented; promotion pending |', '| closed |')
+    .replaceAll('| pending |', '| closed |');
+}
+
+/**
+ * @param {string} content
+ * @param {string} version
+ */
 function rewriteV46PromotedSourceOfTruthHierarchy(content, version) {
   if (version !== 'V46') return content;
   return content.replace(
@@ -823,6 +888,41 @@ function rewritePromotionStatus(version, commit, content, kind) {
     return kind === 'parity'
       ? rewriteV45PromotedParityMatrix(rewritePromotedParityJudgments(promotedSourceTruth, version), version)
       : promotedSourceTruth;
+  }
+
+  if (version === 'V47') {
+    const sharedInventory = 'active canonical `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-canon-posture-drift-report.json`, V47 launch artifacts (`.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, `.bitcode/v47-reader-website-completion.json`, `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, `.bitcode/v47-e2e-ip-selling-buying-tests.json`, `.bitcode/v47-landing-public-launch-messaging.json`, `.bitcode/v47-staging-testnet-deployment-rehearsal.json`), `.bitcode/v47-promotion-readiness-report.json`, V47 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V47_PROVEN.md` as the generated proof appendix for V47 promotion';
+    const scopeByKind = {
+      spec: 'V47 canonical system specification for commercial website testnet launch readiness, measurement law, seller/buyer launch state machines, route completion, browser-proven IP exchange, staging-testnet rehearsal, and promotion readiness over promoted V46 protocol comprehension canon',
+      delta: 'V47 canonical delta for commercial website testnet launch readiness over promoted V46 protocol comprehension canon',
+      notes: 'V47 canonical notes for commercial website testnet launch readiness over promoted V46 protocol comprehension canon',
+      parity: 'V47 canonical parity ledger for commercial website testnet launch readiness over promoted V46 protocol comprehension canon'
+    };
+    const stateByKind = {
+      spec: 'canonical promotion complete; V47 is the active commercial website testnet launch canon and the V47 hand-authored plus generated canon are aligned',
+      delta: 'canonical promotion complete; this delta records the promoted V46-to-V47 commercial website testnet launch closure set',
+      notes: 'canonical promotion complete; V47 notes record accepted measurement law, launch state machines, route completions, browser proof, dashboard, messaging, staging-testnet rehearsal, and promotion-readiness evidence',
+      parity: 'canonical promotion complete; V47 parity truth, generated launch artifacts, browser proof, staging-testnet rehearsal, gate closure, and promotion automation are aligned'
+    };
+    const rewritten = rewriteStatusValues(content, {
+      Scope: scopeByKind[kind],
+      ...(kind !== 'delta'
+        ? { 'Last fully realized canonical target preserved in source': '`V47`' }
+        : {}),
+      'Current canonical/latest target': '`V47`',
+      'Canonical proof-source commit': `\`${commit}\``,
+      'Generated structured artifact inventory': sharedInventory,
+      'Source parity state':
+        'V47 source-side measurement law, seller/buyer state machines, depositor and reader route completions, packs/Auxillaries dashboard, E2E IP exchange browser proof, landing/public launch messaging, staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V47 file family',
+      'V47 state': stateByKind[kind]
+    });
+    const promotedPosture = rewriteV47PromotedDraftPosture(
+      rewriteV47PromotedSourceOfTruthHierarchy(rewritten, version),
+      version
+    );
+    return kind === 'parity'
+      ? rewriteV47PromotedParityMatrix(rewritePromotedParityJudgments(promotedPosture, version), version)
+      : promotedPosture;
   }
 
   if (version === 'V46') {

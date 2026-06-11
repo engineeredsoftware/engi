@@ -415,6 +415,19 @@ source, unpaid AssetPack source, raw prompts, provider payloads, credentials,
 wallet private material, private settlement payloads, live logs, or
 value-bearing mainnet authority.
 
+V47 Gate 10 adds `V47PromotionReadinessReport` through
+`packages/protocol/src/canonical/v47-promotion-readiness-report.js`,
+`packages/protocol/test/v47-promotion-readiness.test.js`,
+`.bitcode/v47-promotion-readiness-report.json`,
+`generate:v47-promotion-readiness`, `check:v47-promotion-readiness`, and
+`check:v47-gate10`. It binds the accepted V47 commercial website testnet
+launch artifacts, generated `BITCODE_SPEC_V47_PROVEN.md` support,
+`v47-canon-promotion.yml`, promotion dry-run support, workflow posture,
+package exports, and the promoted `V47` active, `V48` draft runtime
+preparation without serializing protected source, unpaid AssetPack source,
+raw prompts, provider payloads, credentials, wallet private material, or
+private settlement payloads.
+
 Historical V39 promotion moved this package through the `V39` active, `V40`
 draft posture. V40 promotion has since advanced the current package posture to
 `V40` active, `V41` draft.

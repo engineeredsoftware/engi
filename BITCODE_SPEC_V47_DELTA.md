@@ -242,3 +242,15 @@ protected source, or value-bearing mainnet authority are serialized.
 
 Gate 10 closes parity matrix, generated proof artifacts, CI/promotion workflow,
 commercial website readiness, and canonical promotion.
+
+Gate 10 owns `.bitcode/v47-promotion-readiness-report.json`,
+`buildV47PromotionReadinessReport`, and `check:v47-gate10`. The
+promotion scripts support V47: `promote-bitcode-canon.mjs` gains the V47 command plan
+and derived commit-message body, `prepare-bitcode-spec-family-promotion.mjs`
+gains the V47 promoted-family rewrite, the runtime promotion preparation
+prepares the next draft, `proven-generator.js` gains the V47 proven package,
+and `v47-canon-promotion.yml` validates and promotes `version/v47` into
+`main`. Gate/canon workflows validate both the V46 pre-promotion and V47
+post-promotion pointer postures, and the readiness report fails closed when
+any Gate 2-9 artifact, workflow, script, documentation token, or source-safety
+boundary is missing.
