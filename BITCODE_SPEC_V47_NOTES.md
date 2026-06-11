@@ -11,7 +11,7 @@
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law
+- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth
 - Scope: V47 starts as the commercial website testnet launch-readiness target over promoted V46 protocol comprehension canon.
 
 ## Notes companion rule
@@ -72,7 +72,14 @@ feature excess audit, E2E seller/buyer proof, and promotion readiness.
   and compensation/repair tracking; buyers move Read request, Need review,
   Finding Fits, source-safe preview, BTC-testnet settlement, BTD rights, and
   delivery under measurement-before-price and proof-before-state guards.
-- Depositor website completion.
+- Depositor Website Completion: the `/deposit` route owns a five-step session
+  (connect source, synthesize options, review options, submit deposit, read
+  Depository state) and journals `pipeline:deposit-option-synthesis`,
+  `pipeline:deposit-option-review`, and `pipeline:deposit-option-admission`
+  as source-safe execution rows; sellers see measurements, criticality,
+  demand, ROI, BTD potential, BTC source-to-shares preview, option roots,
+  compensation estimates, and organization/wallet authority before and after
+  approval, with admitted options synchronized to `/packs`.
 - Reader website completion.
 - Packs and Auxillaries commercial dashboard.
 - E2E IP selling and buying tests.

@@ -5,6 +5,8 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { roadmapWorkingGatePostureAtLeast } from './version-posture.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const DEFAULT_REPO_ROOT = path.resolve(__dirname, '..', '..', '..', '..');
@@ -250,7 +252,8 @@ function buildPredicateResults(repoRoot) {
       SOURCE_ROOTS.roadmap,
       sources.roadmap.includes('V47 Gate 3 closure anchor') &&
         (sources.roadmap.includes('Current working gate: V47 Gate 3 Seller And Buyer State Machine Law') ||
-          sources.roadmap.includes('Latest closed gate: V47 Gate 3 Seller And Buyer State Machine Law')),
+          sources.roadmap.includes('Latest closed gate: V47 Gate 3 Seller And Buyer State Machine Law') ||
+          roadmapWorkingGatePostureAtLeast(sources.roadmap, 'V47', 4)),
     ),
     predicateResult(
       'deposit-route-binds-seller-states',

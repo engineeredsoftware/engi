@@ -7,8 +7,8 @@
 - Current canonical/latest target: `V46`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 records launch scope, measurement law, testnet semantics, and planned closure gates; Gate 2 records feature-excess and launch-alignment audit evidence; Gate 3 records seller/buyer state-machine law evidence
+- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
+- Source parity state: V47 source parity is in progress; Gate 1 records launch scope, measurement law, testnet semantics, and planned closure gates; Gate 2 records feature-excess and launch-alignment audit evidence; Gate 3 records seller/buyer state-machine law evidence; Gate 4 records depositor website completion evidence
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V47.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
@@ -41,7 +41,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Testnet semantics | Testnet means BTC amounts are testnet/free while the rest of the system behaves production-intended | drafted | Gate 1 records this as launch law. | Gate 1 |
 | Measurement law | Catalog measurements, prompts, typed outputs, weights, BTD scalar formula, seller/buyer visualization, and proof roots | drafted | Gate 1 makes measurement the basis for price and settlement. | Gate 1 |
 | Feature excess audit | Remove, hide, flag off, or defer non-launch behavior | implemented; promotion pending | `buildV47FeatureExcessAlignmentAudit` and `.bitcode/v47-feature-excess-alignment-audit.json` classify launch/supporting/deferred surfaces and check launch CTAs, compatibility redirects, and feature flags. | Gate 2 |
-| Seller state machine | IP seller can connect source, synthesize options, review measurements, approve deposit, and track compensation | implemented; promotion pending | `buildV47SellerBuyerStateMachineLaw` and `.bitcode/v47-seller-buyer-state-machine-law.json` define seller states and guards; Gate 4 completes route UX. | Gate 3 and Gate 4 |
+| Seller state machine | IP seller can connect source, synthesize options, review measurements, approve deposit, and track compensation | implemented; promotion pending | `buildV47SellerBuyerStateMachineLaw` and `.bitcode/v47-seller-buyer-state-machine-law.json` define seller states and guards; `buildV47DepositorWebsiteCompletion` and `.bitcode/v47-depositor-website-completion.json` bind the `/deposit` route session, journaled synthesis/review/admission rows, and `/packs` sync. | Gate 3 and Gate 4 |
 | Buyer state machine | IP buyer can request Read, approve Need, Finding Fits, preview, settle, receive rights, and get PR delivery | implemented; promotion pending | `buildV47SellerBuyerStateMachineLaw` and `.bitcode/v47-seller-buyer-state-machine-law.json` define buyer states and guards; Gate 5 completes route UX. | Gate 3 and Gate 5 |
 | `/packs` dashboard | Master-detail PackActivity tracks deposits, reads, proofs, settlements, rights, delivery, compensation, repair | draft-required | V46 comprehension exists; V47 needs launch-ready dashboard behavior. | Gate 6 |
 | Auxillaries launch readiness | Identity, source connections, target repository connections, wallets, teams, histories are usable | draft-required | Auxillaries must support website launch flows. | Gate 6 |
@@ -58,7 +58,7 @@ storage readback, wallet/provider receipts, and repository delivery receipts.
 | Draft files | V47 SPEC, DELTA, NOTES, and PARITY files exist | drafted | Gate 1 creates full draft family. | Gate 1 |
 | CI posture | Gate and canon workflows validate active V46 plus draft V47 | drafted | Gate 1 wires `check:v47-gate1`. | Gate 1 |
 | Measurement prompt traceability | Every measurement points to prompt identity, typed output, weight, and proof | draft-required | Later gates must audit concrete prompt registry bindings. | Gate 3+ |
-| Seller visualization | Depositors see source-safe measurement and compensation basis | draft-required | Deposit route must support decision-quality measurement views. | Gate 4 |
+| Seller visualization | Depositors see source-safe measurement and compensation basis | implemented; promotion pending | `/deposit` renders measurements, criticality, demand, ROI, BTD potential, BTC source-to-shares preview, option roots, compensation estimates, and authority readback validated by `check:v47-gate4`. | Gate 4 |
 | Buyer visualization | Readers see source-safe fit measurements and quote basis before paying | draft-required | Read route must support decision-quality preview views. | Gate 5 |
 | Website-only launch focus | API/MCP, ChatGPT App, and Bitcode Chat are deferred commercial surfaces | accepted boundary | V47 avoids scope sprawl. | Gate 1 and Gate 2 |
 | Mainnet block | Value-bearing mainnet remains blocked | accepted boundary | BTC amounts are testnet only in V47. | Gate 1+ |
@@ -107,3 +107,11 @@ source-to-shares, and semantic volume sources, transition guards preserve
 measurement-before-price and proof-before-state, source-safe fields and
 forbidden payload classes are explicit, and gate/canon workflows run
 `check:v47-gate3`.
+
+V47 Gate 4 is complete when the V47 depositor website completion artifact is
+generated, its package object and tests pass, the `/deposit` route binds
+source connection before synthesis, journals option synthesis, review, and
+admission as source-safe execution rows, renders decision-quality measurement,
+BTD potential, BTC source-to-shares preview, compensation, and authority
+views, synchronizes admitted options to `/packs`, and gate/canon workflows run
+`check:v47-gate4`.

@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law
+- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -694,7 +694,10 @@ V47 gates:
    `.bitcode/v47-seller-buyer-state-machine-law.json`, the
    `buildV47SellerBuyerStateMachineLaw` package object, and
    `check:v47-gate3`.
-4. Depositor Website Completion.
+4. Depositor Website Completion. Gate 4 owns
+   `.bitcode/v47-depositor-website-completion.json`, the
+   `buildV47DepositorWebsiteCompletion` package object, and
+   `check:v47-gate4`.
 5. Reader Website Completion.
 6. Packs And Auxillaries Commercial Dashboard.
 7. E2E IP Selling And Buying Tests.
@@ -725,6 +728,18 @@ The law requires measurement-before-price, proof-before-state, accepted Need
 before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
 BTD rights before source delivery, `/packs` history projection after each
 transition, and fail-closed repair on missing evidence.
+
+V47 Gate 4 source-safe generated artifact:
+`.bitcode/v47-depositor-website-completion.json`. It records the five-step
+`/deposit` route session steps, journaled pipeline and event ids, visible
+seller decision ids (measurement catalog, criticality, demand, ROI, BTD
+potential, BTC source-to-shares preview, admission, `/packs` activity sync,
+and authority states), completion rows for source connection, option-synthesis
+journaling, source-safe measurement review, admission and repair actions,
+compensation/authority readback, and `/packs` history readback, forbidden
+payload classes, source-root digests, and predicate results without
+serializing protected source, unpaid AssetPack source, raw prompts, raw
+provider responses, wallet private material, or settlement private payloads.
 
 ### Appendix F. Subsystem totality and derivability matrix
 
@@ -825,3 +840,14 @@ BTD rights before source delivery, `/packs` history projection, and
 fail-closed repair; `.bitcode/v47-seller-buyer-state-machine-law.json` is
 generated; `check:v47-gate3` validates the law; and gate/canon workflows run
 the Gate 3 checker while V46 remains active canon.
+
+V47 Gate 4 is complete when the `/deposit` route binds source connection
+before option synthesis; option synthesis, review, and admission decisions are
+journaled as source-safe execution rows; depositors review measurements,
+criticality, demand, ROI, BTD potential, BTC source-to-shares preview, and
+option roots before approval; approved policy-eligible options emit admission
+readback synchronized to `/packs`; compensation estimates, supply
+recommendations, and organization/wallet authority state are visible as
+source-safe metadata; `.bitcode/v47-depositor-website-completion.json` is
+generated; `check:v47-gate4` validates the completion; and gate/canon
+workflows run the Gate 4 checker while V46 remains active canon.
