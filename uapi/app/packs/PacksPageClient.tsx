@@ -725,6 +725,12 @@ export default function PacksPageClient() {
                   </div>
                   <div className="flex items-center justify-between gap-3">
                     {statusPill(
+                      detail.states.rights,
+                      "BTD rights not recorded",
+                    )}
+                  </div>
+                  <div className="flex items-center justify-between gap-3">
+                    {statusPill(
                       detail.states.compensation,
                       "compensation not recorded",
                     )}
@@ -740,6 +746,32 @@ export default function PacksPageClient() {
                   </div>
                 </div>
               </DetailSection>
+
+              {detail.commodityState?.repairRequired ||
+              detail.commodityState?.blockers?.length ? (
+                <DetailSection title="Repair surface">
+                  <div className="grid gap-2 text-sm">
+                    <div className="flex items-center justify-between gap-3">
+                      {statusPill(
+                        detail.states.repair || "repair-required",
+                        "repair posture pending",
+                      )}
+                    </div>
+                    <ul className="grid gap-1 text-xs text-neutral-400">
+                      {(detail.commodityState?.blockers || []).map((blocker) => (
+                        <li key={blocker} className="break-words">
+                          {blocker}
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="text-xs text-neutral-500">
+                      State advances only through proof-backed readback; repair
+                      fails closed until the missing or contradictory evidence
+                      above is reconciled.
+                    </p>
+                  </div>
+                </DetailSection>
+              ) : null}
 
               {detail.accounting && (
                 <DetailSection title="Accounting">

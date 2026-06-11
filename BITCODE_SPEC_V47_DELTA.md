@@ -163,6 +163,21 @@ authority.
 Gate 6 completes identity, teams, wallets, histories, PackActivity
 master-detail, filters/search, proof readback, and repair surfaces.
 
+Gate 6 owns `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`,
+`buildV47PacksAuxillariesCommercialDashboard`, and `check:v47-gate6`. The
+dashboard law binds `/packs` to a searchable master-detail PackActivity
+surface with type/state facets and saved market-intelligence filters; the
+detail surface reads back overview, measurements, settlement, BTD rights,
+compensation, delivery, and repair states, accounting, governance, and proof
+roots, with rights states derived only from finality-consistent
+commodity-state evidence and a fail-closed repair surface listing
+commodity-state blockers; and binds Auxillaries to identity profile, external
+source connections, interfaces, wallet authority with BTD history readback,
+and organization team and treasury settings — all as source-safe metadata
+only, with no protected source, unpaid AssetPack source, raw prompts, raw
+provider responses, wallet private material, or value-bearing mainnet
+authority.
+
 ## Gate 7: E2E IP Selling And Buying Tests
 
 Gate 7 adds browser-level tests proving both sides of Bitcode: deposit IP into

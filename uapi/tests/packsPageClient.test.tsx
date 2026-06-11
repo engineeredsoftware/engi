@@ -161,6 +161,7 @@ describe("PacksPageClient", () => {
           ],
           states: {
             settlement: "quote_ready",
+            rights: null,
             compensation: "source_to_shares_preview_ready",
             delivery: "locked_until_settlement",
             repair: "not_required",
@@ -231,9 +232,49 @@ describe("PacksPageClient", () => {
     ).toBeGreaterThan(1);
     expect(screen.getByText("settlement-root-def")).toBeInTheDocument();
     expect(screen.getAllByText("quote_ready").length).toBeGreaterThan(0);
+    expect(screen.getByText("State readback")).toBeInTheDocument();
+    expect(screen.getByText("BTD rights not recorded")).toBeInTheDocument();
+    expect(screen.queryByText("Repair surface")).not.toBeInTheDocument();
     expect(
       JSON.stringify(screen.queryByText(/protected source/i)),
     ).not.toContain("protected source body");
+  });
+
+  it("renders the fail-closed repair surface for repair-required activity", async () => {
+    const baseResponse = await (global.fetch as jest.Mock)().then(
+      (response: { json: () => Promise<Record<string, unknown>> }) =>
+        response.json(),
+    );
+    const repairDetail = {
+      ...(baseResponse.detail as Record<string, unknown>),
+      states: {
+        settlement: "btc-payment-mismatch",
+        rights: null,
+        compensation: null,
+        delivery: null,
+        repair: "repair-required",
+      },
+      commodityState: {
+        repairRequired: true,
+        blockers: ["settlement finality evidence missing"],
+      },
+    };
+    global.fetch = jest.fn(async () => ({
+      ok: true,
+      json: async () => ({ ...baseResponse, detail: repairDetail }),
+    })) as jest.Mock;
+
+    render(<PacksPageClient />);
+
+    await waitFor(() =>
+      expect(screen.getByText("Repair surface")).toBeInTheDocument(),
+    );
+    expect(
+      screen.getByText("settlement finality evidence missing"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/repair\s+fails closed until the missing or contradictory evidence/u),
+    ).toBeInTheDocument();
   });
 
   it("writes route query params for filters and selected detail", async () => {

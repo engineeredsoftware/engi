@@ -100,6 +100,7 @@ export interface PackActivityRecord {
   repository: string | null;
   assetPackTitle: string | null;
   settlementState: string | null;
+  rightsState: string | null;
   compensationState: string | null;
   deliveryState: string | null;
   repairState: string | null;
@@ -154,6 +155,7 @@ export interface PackActivityDetailProjection {
   governance: PackActivityGovernanceReadback | null;
   states: {
     settlement: string | null;
+    rights: string | null;
     compensation: string | null;
     delivery: string | null;
     repair: string | null;
@@ -646,6 +648,11 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
   const metadata = redactMetadata(record.payload) as Record<string, unknown>;
   const commodityState = buildCommodityStateDisplay(record.payload);
   const settlementState = readState(record, ['settlementState', 'settlement_state', 'finalityState']) || commodityState.btcState;
+  const rightsState =
+    readState(record, ['rightsState', 'rights_state', 'btdRightsState']) ||
+    (['btd-rights-transferred', 'btd-source-to-shares-allocated'].includes(commodityState.btdState)
+      ? commodityState.btdState
+      : null);
   const compensationState =
     readState(record, ['compensationState', 'compensation_state', 'sourceToSharesState']) ||
     (commodityState.assetPackState === 'compensated-and-reconciled' ? commodityState.assetPackState : null);
@@ -667,6 +674,7 @@ export function normalizePackActivityRecord(record: BitcodeActivityRecord): Pack
     repository: inferRepository(record),
     assetPackTitle: inferAssetPackTitle(record),
     settlementState,
+    rightsState,
     compensationState,
     deliveryState,
     repairState,
@@ -886,6 +894,7 @@ export function buildPackActivityDetailProjection(
     governance: record.governance,
     states: {
       settlement: record.settlementState,
+      rights: record.rightsState,
       compensation: record.compensationState,
       delivery: record.deliveryState,
       repair: record.repairState,
