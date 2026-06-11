@@ -601,6 +601,9 @@ jobs:
               if [ -f scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs ]; then
                 node scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs --skip-branch-check --skip-package-tests
               fi
+              if [ -f scripts/check-v47-gate8-landing-public-launch-messaging.mjs ]; then
+                node scripts/check-v47-gate8-landing-public-launch-messaging.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
+              fi
             fi
           else
             echo "Unexpected BITCODE_SPEC.txt pointer: $POINTER" >&2

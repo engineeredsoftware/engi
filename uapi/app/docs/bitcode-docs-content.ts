@@ -181,6 +181,22 @@ const whatIsBitcodeSections = [
       'Use the proof and interface chapters when operating against real integrations.',
     ],
   },
+  {
+    id: 'testnet-meaning',
+    eyebrow: 'Commercial testnet',
+    title: 'Testnet means free BTC amounts with production-intended behavior',
+    summary:
+      'The commercial launch runs on BTC testnet: payment amounts are testnet and free, while measurements, quotes, settlement ordering, BTD rights, compensation routing, and repository delivery behave exactly as the production protocol intends.',
+    detail:
+      'Testnet does not weaken identity, rights, authority, source safety, or delivery boundaries. Source-bearing AssetPack contents stay withheld until BTC-testnet finality and BTD rights transfer, every state advance is proof-backed, and value-bearing mainnet settlement remains blocked until a later promoted version authorizes it.',
+    reason:
+      'Buyers and depositors should understand exactly which part of the exchange is rehearsal money and which part is real protocol state before they trust the launch surfaces.',
+    points: [
+      'BTC amounts are testnet and free; nothing else is simulated.',
+      'Quotes, settlement finality, BTD rights, and delivery follow production protocol law.',
+      'Value-bearing mainnet stays blocked; proof readback decides every state.',
+    ],
+  },
 ] as const satisfies readonly DocsGuideCard[];
 
 const sourceSharesSections = [

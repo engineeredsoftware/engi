@@ -44,6 +44,39 @@ export const BITCODE_PUBLIC_COPY = {
     kicker: 'Activity preview',
     rail: ['deposit', 'read', 'settle'],
   },
+  testnetLaunch: {
+    badge: 'Commercial testnet',
+    title: 'Sell and buy IP the Bitcode way, live on BTC testnet.',
+    meaning:
+      'Testnet means BTC amounts are testnet and free while everything else stays production-intended: source-safe measurements, deterministic quotes, settlement ordering, BTD rights, and repository delivery are real protocol state.',
+    flow: [
+      {
+        step: '01',
+        label: 'Deposit IP',
+        href: '/deposit',
+        detail:
+          'Connect a repository, review source-safe AssetPack measurements, and approve Depository admission.',
+      },
+      {
+        step: '02',
+        label: 'Read and buy',
+        href: '/read',
+        detail:
+          'Accept a synthesized Need, review fit measurements and the BTC-testnet quote basis, then settle.',
+      },
+      {
+        step: '03',
+        label: 'Audit on Packs',
+        href: '/packs',
+        detail:
+          'Follow settlement, BTD rights, delivery, and compensation through expandable proof readback.',
+      },
+    ],
+    trust:
+      'Proof-backed trust: protocol law and proof readback decide state; the website explains it.',
+    sourceSafety:
+      'Source-safe IP exchange: measurements stay visible while source-bearing AssetPack contents stay withheld until BTC finality and BTD rights transfer.',
+  },
   operatorFrame: {
     title: 'Bitcode Reading',
     subtitle: 'deposit, read, proof, settlement, and delivery around one flow',

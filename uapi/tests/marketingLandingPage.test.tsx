@@ -108,4 +108,36 @@ describe('MarketingLandingPage', () => {
     expect(screen.getByTestId('landing-pointer-glow')).toHaveClass('hidden', 'laptop:block');
     expect(screen.getByTestId('landing-ambient-glow')).toHaveClass('hidden', 'laptop:block');
   });
+
+  it('explains commercial testnet launch readiness with core flows and source-safe trust messaging', () => {
+    render(<MarketingLandingPage />);
+
+    const section = screen.getByTestId('landing-testnet-launch');
+    expect(section).toBeInTheDocument();
+    expect(screen.getByText('Commercial testnet')).toBeInTheDocument();
+    expect(
+      screen.getByText('Sell and buy IP the Bitcode way, live on BTC testnet.'),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/BTC amounts are testnet and free while everything else stays production-intended/u),
+    ).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /01\s*Deposit IP/u })).toHaveAttribute(
+      'href',
+      '/deposit',
+    );
+    expect(screen.getByRole('link', { name: /02\s*Read and buy/u })).toHaveAttribute(
+      'href',
+      '/read',
+    );
+    expect(screen.getByRole('link', { name: /03\s*Audit on Packs/u })).toHaveAttribute(
+      'href',
+      '/packs',
+    );
+    expect(
+      screen.getByText(/protocol law and proof readback decide state/u),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/source-bearing AssetPack contents stay withheld until BTC finality and BTD rights transfer/u),
+    ).toBeInTheDocument();
+  });
 });
