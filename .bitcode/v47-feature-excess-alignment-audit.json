@@ -5,7 +5,7 @@
   "currentTarget": "V46",
   "sourceSafetyVerdict": "source-safe-launch-scope-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v47-feature-excess-alignment-audit:5791a33c12bfcc4f51cf11d4",
+  "artifactRoot": "v47-feature-excess-alignment-audit:9c60e3494bc2eb65e89c83a8",
   "passed": true,
   "launchRouteIds": [
     "/deposit",
@@ -166,11 +166,11 @@
   ],
   "sourceRoots": {
     "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
-    "spec": "BITCODE_SPEC_V47.md:3205ee951e4214949af35465",
-    "delta": "BITCODE_SPEC_V47_DELTA.md:a76cebef61723dd709914638",
-    "notes": "BITCODE_SPEC_V47_NOTES.md:9df058e14bbcba4957843f0f",
-    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:acdc7cc79287870eadf88695",
-    "roadmap": "SPECIFICATIONS_ROADMAP.md:9f1caf66a580d0dda3f09e9c",
+    "spec": "BITCODE_SPEC_V47.md:867cb6f9af5fbf3f7f757f68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:de7d68aebeff1756eafc16b8",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:3b0d18b58f46616b77bf8aba",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:059c410d08d286fe541ed6ad",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:dd65b4f247f3f62a2b2ed547",
     "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
     "nav": "uapi/components/base/bitcode/layout/nav.tsx:2b2eaaf65982969883af8d1e",
     "features": "uapi/config/features.ts:6ff2da113ab17dfc468d7461",
@@ -186,15 +186,15 @@
     "exchangePage": "uapi/app/exchange/page.tsx:be7a744d1f9c9252d1b6eba9",
     "exchangeReadme": "uapi/app/exchange/README.md:3a0b7052de6be76fcda2b094",
     "btdDetailPage": "uapi/app/btd/[assetPackId]/page.tsx:b94efe66179c2a2a27bde659",
-    "packageJson": "package.json:8ad36a15021f65636806b26d",
-    "protocolIndex": "packages/protocol/src/index.js:32ad9f8ec05124f7f4d26ce2",
-    "protocolTypes": "packages/protocol/src/index.d.ts:b560509ff6cfe102f1169a74",
+    "packageJson": "package.json:4d9f041eb01a920860a26f75",
+    "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
+    "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
     "protocolSource": "packages/protocol/src/canonical/v47-feature-excess-alignment-audit.js:b816208bf2ff100ad0ed6542",
     "protocolTest": "packages/protocol/test/v47-feature-excess-alignment-audit.test.js:d4eb230b98bcbc3ee18af459",
     "generator": "scripts/generate-v47-feature-excess-alignment-audit.mjs:1132b37cd29dddc216db998d",
     "checker": "scripts/check-v47-gate2-feature-excess-alignment-audit.mjs:007c139e5c0a60e0d621e7f4",
-    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:059a79809a67af087bcb7ca5",
-    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:e800236f4dda16f499f6eea7"
+    "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
+    "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
   },
   "predicateResults": [
     {

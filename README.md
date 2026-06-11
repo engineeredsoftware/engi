@@ -512,6 +512,18 @@ continuing to withhold protected source, unpaid AssetPack source, raw prompts,
 provider payloads, credentials, wallet private material, private settlement
 payloads, live logs, and value-bearing mainnet operation.
 
+V47 Gate 10 adds `V47PromotionReadinessReport`,
+`.bitcode/v47-promotion-readiness-report.json`,
+`generate:v47-promotion-readiness`, `check:v47-promotion-readiness`,
+`check:v47-gate10`, and `v47-canon-promotion.yml`. It binds the accepted V47
+commercial website testnet launch artifacts, generated
+`BITCODE_SPEC_V47_PROVEN.md` support, V47 promotion scripts, gate/canon
+workflow posture, package exports, focused tests, and the promoted `V47`
+active, `V48` draft runtime posture while continuing to withhold protected
+source, unpaid AssetPack source, raw prompts, provider payloads, credentials,
+wallet private material, private settlement payloads, and value-bearing
+mainnet authority.
+
 Exchange is inherited V36 canon: market-wide activity master-detail, buy/sell/
 bid/ask/cancel/accept/settle/history flows, AssetPack range trading,
 rights-transfer review, pricing/liquidity/wrapper analysis, settlement

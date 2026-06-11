@@ -552,6 +552,19 @@ function buildV21LikeProfile(version) {
           '.bitcode/v46-promotion-readiness-report.json'
         ]
       : []),
+      ...(version === 'V47'
+        ? [
+          '.bitcode/v47-feature-excess-alignment-audit.json',
+          '.bitcode/v47-seller-buyer-state-machine-law.json',
+          '.bitcode/v47-depositor-website-completion.json',
+          '.bitcode/v47-reader-website-completion.json',
+          '.bitcode/v47-packs-auxillaries-commercial-dashboard.json',
+          '.bitcode/v47-e2e-ip-selling-buying-tests.json',
+          '.bitcode/v47-landing-public-launch-messaging.json',
+          '.bitcode/v47-staging-testnet-deployment-rehearsal.json',
+          '.bitcode/v47-promotion-readiness-report.json'
+        ]
+      : []),
       ...(version === 'V26'
         ? [
           '.bitcode/terminal-composition-proof.json',
