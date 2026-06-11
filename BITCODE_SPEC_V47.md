@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website; Gate 5 completes the reader website; Gate 6 completes the packs and Auxillaries commercial dashboard; Gate 7 proves IP selling and buying in the browser
+- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website; Gate 5 completes the reader website; Gate 6 completes the packs and Auxillaries commercial dashboard; Gate 7 proves IP selling and buying in the browser; Gate 8 records landing and public launch messaging
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -710,7 +710,10 @@ V47 gates:
    `.bitcode/v47-e2e-ip-selling-buying-tests.json`, the
    `buildV47E2eIpSellingBuyingTests` package object, and
    `check:v47-gate7`.
-8. Landing Page And Public Launch Messaging.
+8. Landing Page And Public Launch Messaging. Gate 8 owns
+   `.bitcode/v47-landing-public-launch-messaging.json`, the
+   `buildV47LandingPublicLaunchMessaging` package object, and
+   `check:v47-gate8`.
 9. Staging-Testnet Deployment Rehearsal.
 10. Promotion Readiness.
 
@@ -794,6 +797,20 @@ and predicate results without serializing protected source, unpaid AssetPack
 source, raw prompts, raw provider responses, wallet private material, or
 settlement private payloads. The browser proof runs on BTC-testnet semantics
 only.
+
+V47 Gate 8 source-safe generated artifact:
+`.bitcode/v47-landing-public-launch-messaging.json`. It records the public
+launch narrative law: the landing testnet section stating the meaning of
+commercial testnet (BTC amounts are testnet and free; measurements, quotes,
+settlement ordering, BTD rights, and repository delivery stay
+production-intended), the deposit → read → packs core-flow messaging with
+launch-route links, the proof-backed trust and source-safe IP exchange
+positioning, the public docs testnet-meaning card with the blocked
+value-bearing mainnet posture, the preserved promoted V46 claim-boundary
+tokens, surface ids, message ids, forbidden payload classes, source-root
+digests, and predicate results without serializing protected source, unpaid
+AssetPack source, raw prompts, raw provider responses, wallet private
+material, or settlement private payloads.
 
 ### Appendix F. Subsystem totality and derivability matrix
 
@@ -946,3 +963,14 @@ clean; `uapi` exposes `test:e2e:ip-exchange`;
 `.bitcode/v47-e2e-ip-selling-buying-tests.json` is generated;
 `check:v47-gate7` validates the coverage; and gate/canon workflows run the
 Gate 7 checker while V46 remains active canon.
+
+V47 Gate 8 is complete when the landing page renders a commercial-testnet
+section explaining that BTC amounts are testnet and free while protocol
+behavior stays production-intended; the deposit → read → packs core flow is
+documented with launch-route links; proof-backed trust and source-safe IP
+exchange positioning are stated; public docs carry the testnet-meaning card
+with blocked value-bearing mainnet posture; promoted V46 claim-boundary
+tokens and launch navigation remain intact;
+`.bitcode/v47-landing-public-launch-messaging.json` is generated;
+`check:v47-gate8` validates the messaging; and gate/canon workflows run the
+Gate 8 checker while V46 remains active canon.

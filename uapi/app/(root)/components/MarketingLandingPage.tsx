@@ -5,6 +5,7 @@ import Footer from '@/components/base/bitcode/layout/footer';
 
 import { MarketingLandingHero } from './landing/MarketingLandingHero';
 import { MarketingLandingTerminalPreview } from './landing/MarketingLandingTerminalPreview';
+import { MarketingLandingTestnetSection } from './landing/MarketingLandingTestnetSection';
 import '../../../styles/marketing-landing-shell.css';
 import '../../../styles/marketing-landing-glow.css';
 import '../../../styles/particle-effect.css';
@@ -175,6 +176,8 @@ export default function MarketingLandingPage() {
               <MarketingLandingTerminalPreview />
             </div>
           </main>
+
+          <MarketingLandingTestnetSection />
 
           <div className="relative z-20 mt-auto w-full">
             <Footer showPrimaryContent={false} className="mt-0 border-white/10 bg-[#02060d]/72 backdrop-blur-xl" />
