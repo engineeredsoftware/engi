@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website; Gate 5 completes the reader website; Gate 6 completes the packs and Auxillaries commercial dashboard; Gate 7 proves IP selling and buying in the browser; Gate 8 records landing and public launch messaging
+- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website; Gate 5 completes the reader website; Gate 6 completes the packs and Auxillaries commercial dashboard; Gate 7 proves IP selling and buying in the browser; Gate 8 records landing and public launch messaging; Gate 9 rehearses the staging-testnet deployment
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -714,7 +714,10 @@ V47 gates:
    `.bitcode/v47-landing-public-launch-messaging.json`, the
    `buildV47LandingPublicLaunchMessaging` package object, and
    `check:v47-gate8`.
-9. Staging-Testnet Deployment Rehearsal.
+9. Staging-Testnet Deployment Rehearsal. Gate 9 owns
+   `.bitcode/v47-staging-testnet-deployment-rehearsal.json`, the
+   `buildV47StagingTestnetDeploymentRehearsal` package object, and
+   `check:v47-gate9`.
 10. Promotion Readiness.
 
 ### Appendix E. Current canonical source map
@@ -811,6 +814,23 @@ tokens, surface ids, message ids, forbidden payload classes, source-root
 digests, and predicate results without serializing protected source, unpaid
 AssetPack source, raw prompts, raw provider responses, wallet private
 material, or settlement private payloads.
+
+V47 Gate 9 source-safe generated artifact:
+`.bitcode/v47-staging-testnet-deployment-rehearsal.json`. It records the
+staging-testnet rehearsal law: dry-run lane receipts for the full-stack
+deployment (Vercel website host, Supabase database/ledger projections,
+object-storage roots, long-runner pipeline host, BTC-testnet settlement
+provider), the realistic-data contract minimums (24 deposit AssetPack
+options, 12 admitted Depository AssetPacks, 18 Read requests and accepted
+Needs, 12 source-safe previews and BTC-testnet quotes, 9 settlement
+observations, finality confirmations, and BTD rights transfers, 6 repository
+PR deliveries and compensation statements, 3 repair cases), the settlement
+observation ordering law (observation → finality → rights → delivery), the
+blocked value-bearing mainnet lane, the deployment truth source digests
+(vercel.json, supabase config and migrations, long-runner Dockerfiles and
+Kubernetes manifest), the rehearsal validation command catalog, forbidden
+payload classes, and predicate results. Lane receipts are dry-run with live
+execution operator opt-in; no live service credentials are serialized.
 
 ### Appendix F. Subsystem totality and derivability matrix
 
@@ -974,3 +994,13 @@ tokens and launch navigation remain intact;
 `.bitcode/v47-landing-public-launch-messaging.json` is generated;
 `check:v47-gate8` validates the messaging; and gate/canon workflows run the
 Gate 8 checker while V46 remains active canon.
+
+V47 Gate 9 is complete when the staging-testnet rehearsal law binds the
+deployment truth sources for every launch surface; the realistic-data
+contract minimums are satisfied by the rehearsed population; the BTC-testnet
+settlement observation lane preserves the production ordering law; the
+value-bearing mainnet lane rehearses as blocked; lane receipts remain dry-run
+with live execution operator opt-in and no serialized live credentials;
+`.bitcode/v47-staging-testnet-deployment-rehearsal.json` is generated;
+`check:v47-gate9` validates the rehearsal; and gate/canon workflows run the
+Gate 9 checker while V46 remains active canon.
