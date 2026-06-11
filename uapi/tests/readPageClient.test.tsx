@@ -209,4 +209,36 @@ describe("ReadPageClient", () => {
     expect(workbench).toHaveAttribute("data-demonstration", "false");
     expect(screen.getByText("Recent Reading activity")).toBeInTheDocument();
   });
+
+  it("renders buyer fit measurement review and settlement/rights/delivery readback", async () => {
+    render(<ReadPageClient />);
+
+    await waitFor(() =>
+      expect(
+        screen.getByLabelText("Repository source selector"),
+      ).toBeInTheDocument(),
+    );
+
+    expect(screen.getByText("Fit measurement review")).toBeInTheDocument();
+    expect(
+      screen.getByText(/No measurement, no price/u),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("Settlement, rights, and delivery"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText(/BTC-testnet finality precedes BTD rights/u),
+    ).toBeInTheDocument();
+    expect(screen.getByText("Payment observation")).toBeInTheDocument();
+    expect(screen.getByText("Finality")).toBeInTheDocument();
+    expect(screen.getByText("BTD rights receipt")).toBeInTheDocument();
+    expect(screen.getByText("Repository PR delivery")).toBeInTheDocument();
+    expect(screen.getByText(/delivery locked/u)).toBeInTheDocument();
+    expect(
+      screen.getByRole("link", { name: "Open settled pack activity" }),
+    ).toHaveAttribute("href", "/packs?type=settled-assetpack");
+    expect(
+      screen.getByRole("link", { name: "Open pack activity" }),
+    ).toHaveAttribute("href", "/packs?type=read-need-fit-preview");
+  });
 });

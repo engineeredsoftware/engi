@@ -1,7 +1,9 @@
 import {
   assertReadRouteSessionSourceSafe,
+  buildReadFitMeasurementReview,
   buildReadProcurementGovernance,
   buildReadRouteSession,
+  buildReadSettlementRightsDelivery,
   readReadRouteStage,
   writeReadRouteStage,
 } from '@/app/read/read-route-model';
@@ -149,6 +151,111 @@ describe('read-route-model', () => {
       'accepted Need required',
     );
     expect(assertReadRouteSessionSourceSafe(session).admitted).toBe(true);
+  });
+
+  it('renders Need-relative fit measurement review whose contributions decide the quote basis', () => {
+    const session = buildReadRouteSession({
+      transactionId: 'read-run-measured',
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      hasRepositorySource: true,
+      hasReadMeasurement: true,
+      hasSynthesizedNeed: true,
+      hasAcceptedNeed: true,
+      hasSourceSafePreview: true,
+      measuredBtd: 120,
+      selectedFitIds: ['fit-depository-1', 'fit-depository-2'],
+    });
+    const review = session.fitMeasurementReview;
+
+    expect(review.schema).toBe('bitcode.read.fit-measurement-review');
+    expect(review.visible).toBe(true);
+    expect(review.measurements.map((row) => row.visualizationId)).toEqual([
+      'need-coverage',
+      'fit-confidence',
+      'specificity',
+      'novelty',
+      'reuse',
+      'risk',
+      'evidence',
+      'delivery-readiness',
+    ]);
+    expect(review.measurements.reduce((sum, row) => sum + row.weight, 0)).toBeCloseTo(1, 5);
+    expect(
+      review.measurements.reduce((sum, row) => sum + row.normalizedContribution, 0),
+    ).toBeCloseTo(review.btdScalarVolume, 2);
+    expect(review.btdScalarVolume).toBe(120);
+    expect(review.quoteBasis.network).toBe('btc-testnet');
+    expect(review.quoteBasis.feeAsset).toBe('BTC');
+    expect(review.quoteBasis.grossSats).toBe(
+      session.procurementGovernance.quotePolicy.shareToFee.grossSats,
+    );
+    expect(review.selectedFitProvenance.fitIds).toEqual(['fit-depository-1', 'fit-depository-2']);
+    expect(review.selectedFitProvenance.depositoryAssetPackCount).toBe(2);
+    expect(review.repairBlockers).toEqual([]);
+    expect(assertReadRouteSessionSourceSafe(session).admitted).toBe(true);
+
+    const hiddenReview = buildReadFitMeasurementReview({ hasAcceptedNeed: false });
+    expect(hiddenReview.visible).toBe(false);
+    expect(hiddenReview.btdScalarVolume).toBe(0);
+    expect(hiddenReview.repairBlockers).toContain(
+      'accepted Need required before Fit measurement review',
+    );
+  });
+
+  it('fails closed through payment observation, finality, BTD rights, and delivery ordering', () => {
+    const observedOnly = buildReadSettlementRightsDelivery({
+      transactionId: 'read-run-settling',
+      hasSettlementReadback: true,
+    });
+    expect(observedOnly.paymentObservation.state).toBe('btc-testnet-payment-observed');
+    expect(observedOnly.finality.state).toBe('awaiting-finality');
+    expect(observedOnly.btdRights.state).toBe('rights-pending');
+    expect(observedOnly.delivery.state).toBe('delivery-locked');
+    expect(observedOnly.blockers).toContain('BTC-testnet finality confirmation required');
+
+    const delivered = buildReadSettlementRightsDelivery({
+      transactionId: 'read-run-delivered',
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      hasSettlementReadback: true,
+      hasDeliveryReadback: true,
+      deliveryPullRequestReference: 'engineeredsoftware/ENGI#412',
+    });
+    expect(delivered.finality.state).toBe('btc-testnet-finality-confirmed');
+    expect(delivered.btdRights.state).toBe('btd-rights-transferred');
+    expect(delivered.delivery.state).toBe('repository-pr-delivery-materialized');
+    expect(delivered.delivery.pullRequestReference).toBe('engineeredsoftware/ENGI#412');
+    expect(delivered.blockers).toEqual([]);
+    expect(delivered.network).toBe('btc-testnet');
+    expect(delivered.valueBearingMainnetEnabled).toBe(false);
+
+    const skippedChain = buildReadSettlementRightsDelivery({
+      transactionId: 'read-run-skip',
+      deliveryMaterialized: true,
+      rightsTransferred: true,
+      finalityConfirmed: true,
+    });
+    expect(skippedChain.paymentObservation.state).toBe('awaiting-payment');
+    expect(skippedChain.finality.state).toBe('awaiting-finality');
+    expect(skippedChain.btdRights.state).toBe('rights-pending');
+    expect(skippedChain.delivery.state).toBe('delivery-locked');
+
+    const deliveredSession = buildReadRouteSession({
+      transactionId: 'read-run-delivered',
+      repositoryFullName: 'engineeredsoftware/ENGI',
+      hasRepositorySource: true,
+      hasReadMeasurement: true,
+      hasSynthesizedNeed: true,
+      hasAcceptedNeed: true,
+      hasSourceSafePreview: true,
+      hasSettlementReadback: true,
+      hasDeliveryReadback: true,
+      measuredBtd: 80,
+    });
+    expect(deliveredSession.readObjects.deliveryUnlocked).toBe(true);
+    expect(deliveredSession.settlementRightsDelivery.delivery.state).toBe(
+      'repository-pr-delivery-materialized',
+    );
+    expect(assertReadRouteSessionSourceSafe(deliveredSession).admitted).toBe(true);
   });
 
   it('reads and writes the route-owned readingStage query parameter', () => {

@@ -1,42 +1,48 @@
 {
-  "artifactId": "v47-depositor-website-completion",
-  "schemaId": "bitcode.v47.depositorWebsiteCompletion.v1",
+  "artifactId": "v47-reader-website-completion",
+  "schemaId": "bitcode.v47.readerWebsiteCompletion.v1",
   "version": "V47",
   "currentTarget": "V46",
-  "artifactPath": ".bitcode/v47-depositor-website-completion.json",
-  "sourceSafetyVerdict": "source-safe-depositor-website-completion",
+  "artifactPath": ".bitcode/v47-reader-website-completion.json",
+  "sourceSafetyVerdict": "source-safe-reader-website-completion",
   "stepIds": [
-    "connect-source",
-    "synthesize-options",
-    "review-options",
-    "submit-deposit",
-    "read-depository-state"
+    "request-read",
+    "review-synthesized-need",
+    "request-fit",
+    "review-synthesized-asset-pack",
+    "buy-asset-pack-settle"
   ],
   "pipelineIds": [
-    "DepositAssetPackOptionSynthesis",
-    "DepositAssetPackOptionPolicy",
-    "DepositAssetPackOptionAdmissionReport",
-    "DepositorEarningSupplyIntelligence",
+    "ReadNeedComprehensionSynthesis",
+    "ReadFitsFindingSynthesis",
+    "AssetPackPreviewBoundary",
+    "AssetPackSettlementRightsDelivery",
     "OrganizationPolicyWalletAuthority"
   ],
-  "eventIds": [
-    "pipeline:deposit-option-synthesis",
-    "pipeline:deposit-option-review",
-    "pipeline:deposit-option-admission"
+  "readbackIds": [
+    "read-fit-measurement-review",
+    "read-quote-basis",
+    "read-payment-observation",
+    "read-settlement-finality",
+    "read-btd-rights-receipt",
+    "read-delivery-receipt"
   ],
   "visibleDecisionIds": [
-    "coverage-measurement",
-    "specificity-measurement",
-    "novelty-measurement",
-    "reuse-measurement",
-    "risk-measurement",
-    "evidence-measurement",
-    "criticality-state",
-    "demand-state",
-    "roi-state",
-    "btd-potential-state",
-    "btc-source-to-shares-preview",
-    "admission-state",
+    "need-coverage",
+    "fit-confidence",
+    "specificity",
+    "novelty",
+    "reuse",
+    "risk",
+    "evidence",
+    "delivery-readiness",
+    "selected-fit-provenance",
+    "final-btd-scalar",
+    "quote-basis",
+    "settlement-observation-state",
+    "finality-state",
+    "btd-rights-state",
+    "delivery-state",
     "packs-activity-sync-state",
     "authority-state"
   ],
@@ -53,14 +59,14 @@
   ],
   "completionRows": [
     {
-      "rowId": "source-connection",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
-      "route": "/deposit",
-      "contract": "Depositors connect a repository, branch, commit, and source scope through the route-owned source selector before option synthesis can be journaled.",
+      "rowId": "read-request-initiation",
+      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "route": "/read",
+      "contract": "Readers initiate a Read request from a connected repository source through the route-owned five-step session before any Need synthesis is recorded.",
       "requiredFields": [
+        "request-read",
         "TerminalRepositoryContextPanel",
-        "routePath={DEPOSIT_ROUTE}",
-        "disabled={!depositRouteSession.routeState.repositoryFullName}"
+        "handleRecordActivity"
       ],
       "sourceSafeMetadataOnly": true,
       "protectedSourceVisible": false,
@@ -83,17 +89,17 @@
         "settlement_private_payload",
         "mainnet_value_bearing_payment_secret"
       ],
-      "rowRoot": "v47-depositor-website-completion-row:e6d5ae3b600a2a00ca4313ab"
+      "rowRoot": "v47-reader-website-completion-row:c45b859a1b2d8e56d15863a2"
     },
     {
-      "rowId": "option-synthesis-journal",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
-      "route": "/deposit",
-      "contract": "The synthesize action records a source-safe execution row with route session, synthesis, policy, earning intelligence, authority, proof roots, and repository context.",
+      "rowId": "need-review-acceptance",
+      "owner": "uapi/app/read/read-route-model.ts",
+      "route": "/read",
+      "contract": "A synthesized Need must be reviewed and accepted before Finding Fits; the route session records acceptance state and blocks the fit step without it.",
       "requiredFields": [
-        "pipeline:deposit-option-synthesis",
-        "depositOptionSynthesis",
-        "depositorEarningSupplyIntelligence"
+        "hasAcceptedNeed",
+        "acceptedNeedRequiredBeforeFindingFits",
+        "ReadNeedComprehensionSynthesis"
       ],
       "sourceSafeMetadataOnly": true,
       "protectedSourceVisible": false,
@@ -116,18 +122,18 @@
         "settlement_private_payload",
         "mainnet_value_bearing_payment_secret"
       ],
-      "rowRoot": "v47-depositor-website-completion-row:453ea5871adda914095eb770"
+      "rowRoot": "v47-reader-website-completion-row:35fe4e3675f79fdbaed55da4"
     },
     {
-      "rowId": "source-safe-measurement-review",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
-      "route": "/deposit",
-      "contract": "Depositors review option measurements, criticality, demand, ROI, BTD potential, compensation preview, roots, and recommendations before approval.",
+      "rowId": "fit-measurement-review",
+      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "route": "/read",
+      "contract": "Readers review source-safe Need coverage, Fit confidence, specificity, novelty, reuse, risk, evidence, delivery readiness, selected Fit provenance, final BTD scalar, and quote basis before paying.",
       "requiredFields": [
-        "option.measurements.map",
-        "BTD potential",
-        "BTC source-to-shares preview",
-        "Option roots"
+        "fitMeasurementReview.measurements.map",
+        "Final BTD scalar",
+        "Quote basis",
+        "Selected Fit provenance"
       ],
       "sourceSafeMetadataOnly": true,
       "protectedSourceVisible": false,
@@ -150,18 +156,18 @@
         "settlement_private_payload",
         "mainnet_value_bearing_payment_secret"
       ],
-      "rowRoot": "v47-depositor-website-completion-row:3f2b360e49c742c24a8e2235"
+      "rowRoot": "v47-reader-website-completion-row:4586d9aa4b0e0a61dd7da72d"
     },
     {
-      "rowId": "admission-and-repair-actions",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
-      "route": "/deposit",
-      "contract": "Depositors approve, reject, or request resynthesis; approved policy-eligible options emit admission readback and synchronize to /packs.",
+      "rowId": "quote-before-settlement",
+      "owner": "uapi/app/read/read-route-model.ts",
+      "route": "/read",
+      "contract": "The BTC-testnet quote derives deterministically from the weighted fit measurement contributions; settlement readiness is blocked until quote, approval, buyer, and wallet authority agree.",
       "requiredFields": [
-        "Approve for Depository",
-        "Reject",
-        "Resynthesize",
-        "synchronized-to-packs"
+        "quoteBasis",
+        "btdScalarVolume",
+        "normalizedContribution",
+        "ready-for-testnet-settlement"
       ],
       "sourceSafeMetadataOnly": true,
       "protectedSourceVisible": false,
@@ -184,18 +190,18 @@
         "settlement_private_payload",
         "mainnet_value_bearing_payment_secret"
       ],
-      "rowRoot": "v47-depositor-website-completion-row:ec876a83cf4f292dc752d9ee"
+      "rowRoot": "v47-reader-website-completion-row:c6422ac2ae44950544979a8b"
     },
     {
-      "rowId": "compensation-authority-readback",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
-      "route": "/deposit",
-      "contract": "The route exposes future BTC compensation estimates, unfit Need opportunity roots, source-to-shares preview posture, and organization/wallet authority state.",
+      "rowId": "settlement-finality-rights-delivery",
+      "owner": "uapi/app/read/ReadPageClient.tsx",
+      "route": "/read",
+      "contract": "Payment observation, BTC-testnet finality, BTD rights transfer receipt, and repository PR delivery render as ordered fail-closed readback; delivery stays locked until rights transfer.",
       "requiredFields": [
-        "Supply opportunity",
-        "Organization authority",
-        "Expected compensation",
-        "Authority root"
+        "Payment observation",
+        "Finality",
+        "BTD rights receipt",
+        "Repository PR delivery"
       ],
       "sourceSafeMetadataOnly": true,
       "protectedSourceVisible": false,
@@ -218,17 +224,17 @@
         "settlement_private_payload",
         "mainnet_value_bearing_payment_secret"
       ],
-      "rowRoot": "v47-depositor-website-completion-row:97be7d0c2c4735ed4fd93176"
+      "rowRoot": "v47-reader-website-completion-row:abbef096e667ee8763bd96f4"
     },
     {
       "rowId": "packs-history-readback",
-      "owner": "uapi/app/deposit/DepositPageClient.tsx",
+      "owner": "uapi/app/read/ReadPageClient.tsx",
       "route": "/packs",
-      "contract": "Recent Deposit activity and admitted Depository AssetPack rows remain reachable from /deposit through source-safe execution history and /packs activity.",
+      "contract": "Recent Reading activity, Need-Fit previews, and settled AssetPack rows remain reachable from /read through source-safe execution history and /packs activity.",
       "requiredFields": [
-        "Recent Deposit activity",
-        "/packs?type=depository-assetpack",
-        "Open pack activity"
+        "Recent Reading activity",
+        "/packs?type=read-need-fit-preview",
+        "/packs?type=settled-assetpack"
       ],
       "sourceSafeMetadataOnly": true,
       "protectedSourceVisible": false,
@@ -251,7 +257,7 @@
         "settlement_private_payload",
         "mainnet_value_bearing_payment_secret"
       ],
-      "rowRoot": "v47-depositor-website-completion-row:3f4f31b3a8668d107f66bdb7"
+      "rowRoot": "v47-reader-website-completion-row:8c2098a8da17d48b1823c6ad"
     }
   ],
   "predicateResults": [
@@ -261,103 +267,98 @@
       "passed": true
     },
     {
-      "id": "spec-records-gate4-depositor-website-completion",
+      "id": "spec-records-gate5-reader-website-completion",
       "sourcePath": "BITCODE_SPEC_V47.md",
       "passed": true
     },
     {
-      "id": "delta-records-gate4-depositor-website-completion",
+      "id": "delta-records-gate5-reader-website-completion",
       "sourcePath": "BITCODE_SPEC_V47_DELTA.md",
       "passed": true
     },
     {
-      "id": "notes-record-gate4-depositor-website-completion",
+      "id": "notes-record-gate5-reader-website-completion",
       "sourcePath": "BITCODE_SPEC_V47_NOTES.md",
       "passed": true
     },
     {
-      "id": "parity-records-gate4-depositor-website-completion",
+      "id": "parity-records-gate5-reader-website-completion",
       "sourcePath": "BITCODE_SPEC_V47_PARITY_MATRIX.md",
       "passed": true
     },
     {
-      "id": "roadmap-records-gate4-closure",
+      "id": "roadmap-records-gate5-closure",
       "sourcePath": "SPECIFICATIONS_ROADMAP.md",
       "passed": true
     },
     {
-      "id": "deposit-route-model-binds-five-step-source-safe-session",
-      "sourcePath": "uapi/app/deposit/deposit-route-model.ts",
+      "id": "read-route-model-binds-five-step-source-safe-session",
+      "sourcePath": "uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
-      "id": "deposit-client-binds-source-connection-before-synthesis",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "id": "read-route-model-binds-fit-measurement-quote-basis",
+      "sourcePath": "uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
-      "id": "deposit-client-records-option-synthesis-execution",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "id": "read-route-model-orders-settlement-rights-delivery",
+      "sourcePath": "uapi/app/read/read-route-model.ts",
       "passed": true
     },
     {
-      "id": "deposit-client-renders-source-safe-measurement-review",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "id": "read-client-renders-fit-measurement-review",
+      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
-      "id": "deposit-client-records-review-admission-actions",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "id": "read-client-renders-settlement-rights-delivery",
+      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
-      "id": "deposit-client-renders-compensation-authority-readback",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "id": "read-client-links-packs-history-readback",
+      "sourcePath": "uapi/app/read/ReadPageClient.tsx",
       "passed": true
     },
     {
-      "id": "deposit-client-links-packs-history-readback",
-      "sourcePath": "uapi/app/deposit/DepositPageClient.tsx",
+      "id": "read-route-model-test-covers-measurement-quote-binding",
+      "sourcePath": "uapi/tests/readRouteModel.test.ts",
       "passed": true
     },
     {
-      "id": "deposit-page-test-covers-synthesis-journaling",
-      "sourcePath": "uapi/tests/depositPageClient.test.tsx",
+      "id": "read-page-test-covers-buyer-readback",
+      "sourcePath": "uapi/tests/readPageClient.test.tsx",
       "passed": true
     },
     {
-      "id": "deposit-route-model-test-covers-admission-compensation",
-      "sourcePath": "uapi/tests/depositRouteModel.test.ts",
+      "id": "pipeline-models-bind-reader-website-dependencies",
+      "sourcePath": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts",
       "passed": true
     },
     {
-      "id": "pipeline-models-bind-depositor-website-dependencies",
-      "sourcePath": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts",
-      "passed": true
-    },
-    {
-      "id": "pack-activity-model-supports-depository-assetpack-sync",
+      "id": "pack-activity-model-supports-read-readback",
       "sourcePath": "uapi/components/base/bitcode/activity/pack-activity-model.ts",
       "passed": true
     },
     {
-      "id": "package-exports-gate4",
+      "id": "package-exports-gate5",
       "sourcePath": "packages/protocol/src/index.js",
       "passed": true
     },
     {
-      "id": "package-json-exposes-gate4",
+      "id": "package-json-exposes-gate5",
       "sourcePath": "package.json",
       "passed": true
     },
     {
-      "id": "workflows-run-gate4-check",
+      "id": "workflows-run-gate5-check",
       "sourcePath": ".github/workflows/bitcode-gate-quality.yml",
       "passed": true
     },
     {
       "id": "generator-checker-test-exist",
-      "sourcePath": "scripts/generate-v47-depositor-website-completion.mjs",
+      "sourcePath": "scripts/generate-v47-reader-website-completion.mjs",
       "passed": true
     }
   ],
@@ -368,38 +369,37 @@
     "notes": "BITCODE_SPEC_V47_NOTES.md:4bc61f933332743ac4ed3694",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:9a8230ecc50d23015c962ad6",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:681907090de43e26d061e9b1",
-    "depositRouteModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
-    "depositClient": "uapi/app/deposit/DepositPageClient.tsx:f01b600f9ef64cd3739460ef",
-    "depositPage": "uapi/app/deposit/page.tsx:6bab6a9debab3f4350d0ddca",
-    "depositRouteModelTest": "uapi/tests/depositRouteModel.test.ts:3f7377f8c55ce132f970ad09",
-    "depositPageTest": "uapi/tests/depositPageClient.test.tsx:2687bda81e123c91056efeb6",
+    "readRouteModel": "uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
+    "readClient": "uapi/app/read/ReadPageClient.tsx:71e7c03e77104e9ab995dafb",
+    "readPage": "uapi/app/read/page.tsx:37a723ed87feac05c0504249",
+    "readRouteModelTest": "uapi/tests/readRouteModel.test.ts:be174a4be0d7e7bfe56266f3",
+    "readPageTest": "uapi/tests/readPageClient.test.tsx:96cbea4852b42501b7e08181",
     "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:88d0334af8bc699e071ca2a1",
-    "optionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts:df560ea2544282645f57a6b5",
-    "policyModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-policy.ts:12816b23b2d8e304ab4a1638",
-    "admissionModel": "packages/pipelines/asset-pack/src/deposit-asset-pack-option-admission.ts:4d2b0c5e6e10c2b14a75a8c8",
-    "earningModel": "packages/pipelines/asset-pack/src/depositor-earning-supply-intelligence.ts:e0ec2d83cfaf3bfaaa126387",
+    "previewBoundaryModel": "packages/pipelines/asset-pack/src/asset-pack-preview-boundary.ts:1319dd4223292e03b795ab87",
+    "settlementRightsDeliveryModel": "packages/pipelines/asset-pack/src/asset-pack-settlement-rights-delivery.ts:3d2b0984fc9e2c3c108d6eb0",
+    "needReviewModel": "packages/pipelines/asset-pack/src/read-need-review-resynthesis.ts:347bd88040c9456420e03c0e",
+    "fitsFindingModel": "packages/pipelines/asset-pack/src/read-fits-finding-runtime.ts:4e89eacdc2b73bd6bc70a085",
     "authorityModel": "packages/pipelines/asset-pack/src/organization-policy-wallet-authority.ts:ed6fa07bc3f69caaca598249",
     "packageJson": "package.json:8b75d21dc1f680be68094bb8",
     "protocolIndex": "packages/protocol/src/index.js:73e79f7bd4afca94cc389678",
     "protocolTypes": "packages/protocol/src/index.d.ts:c39022fedff40a0b52756a74",
-    "protocolSource": "packages/protocol/src/canonical/v47-depositor-website-completion.js:13be769e5cbeb901de02bb8c",
-    "protocolTest": "packages/protocol/test/v47-depositor-website-completion.test.js:227e3b47a4fbbed7cea7e642",
-    "generator": "scripts/generate-v47-depositor-website-completion.mjs:d14545eb606901fdc4df3b08",
-    "checker": "scripts/check-v47-gate4-depositor-website-completion.mjs:b918d7afafcad45ec6c22360",
+    "protocolSource": "packages/protocol/src/canonical/v47-reader-website-completion.js:143350da6d05f8cf4232376d",
+    "protocolTest": "packages/protocol/test/v47-reader-website-completion.test.js:067393dc86876d820d83b6e3",
+    "generator": "scripts/generate-v47-reader-website-completion.mjs:396705fdf05e3a58d2dd1c59",
+    "checker": "scripts/check-v47-gate5-reader-website-completion.mjs:22d541c91d1666bc190dbbb4",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:e7e6817efaff43ce29f79086",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:6c498c32ef28e1a57aba4967"
   },
-  "artifactRoot": "v47-depositor-website-completion:d33e3201906792b355d91e99",
+  "artifactRoot": "v47-reader-website-completion:e413839e92e75219de1b2644",
   "coverage": {
-    "requiredPredicateCount": 21,
-    "passedPredicateCount": 21,
+    "requiredPredicateCount": 20,
+    "passedPredicateCount": 20,
     "failedPredicateIds": [],
-    "sourceConnectionComplete": true,
-    "optionSynthesisJournaled": true,
-    "sourceSafeMeasurementReviewComplete": true,
-    "admissionActionsComplete": true,
-    "compensationVisibilityComplete": true,
-    "authorityReadbackComplete": true,
+    "readRequestInitiationComplete": true,
+    "needReviewAcceptanceComplete": true,
+    "fitMeasurementReviewComplete": true,
+    "quoteBeforeSettlementComplete": true,
+    "settlementFinalityRightsDeliveryComplete": true,
     "packsHistoryReadbackComplete": true,
     "sourceSafeMetadataOnly": true,
     "protectedSourceVisible": false,
