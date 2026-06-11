@@ -122,6 +122,21 @@ source-safe fields that may be projected without source leakage.
 Gate 4 completes source connection, deposit AssetPack option synthesis,
 source-safe review, Depository admission, and compensation visibility.
 
+Gate 4 owns `.bitcode/v47-depositor-website-completion.json`,
+`buildV47DepositorWebsiteCompletion`, and `check:v47-gate4`. The completion
+binds the five-step `/deposit` route session (`connect-source`,
+`synthesize-options`, `review-options`, `submit-deposit`,
+`read-depository-state`) to journaled source-safe execution rows for
+`pipeline:deposit-option-synthesis`, `pipeline:deposit-option-review`, and
+`pipeline:deposit-option-admission`; renders seller visualization of the
+measurement catalog, criticality, demand, ROI, BTD potential, BTC
+source-to-shares preview, and option roots before approval; records approve,
+reject, and resynthesis decisions with admission readback synchronized to
+`/packs`; and exposes compensation estimates, supply recommendations, and
+organization/wallet authority state as source-safe metadata only, with no
+protected source, unpaid AssetPack source, raw prompts, raw provider
+responses, wallet private material, or value-bearing mainnet authority.
+
 ## Gate 5: Reader Website Completion
 
 Gate 5 completes Read Request, Need synthesis/review, Finding Fits, preview,

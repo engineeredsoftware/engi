@@ -1029,8 +1029,25 @@ export default function DepositPageClient() {
                                 Compensation
                               </dt>
                               <dd className="mt-1 text-sm text-neutral-200">
-                                {policyEvaluation.compensation.state} / BTC
-                                source-to-shares preview
+                                {policyEvaluation.compensation.state}
+                              </dd>
+                            </div>
+                            <div className="border border-white/8 bg-white/[0.035] px-3 py-2">
+                              <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
+                                {"BTC source-to-shares preview"}
+                              </dt>
+                              <dd className="mt-1 text-sm text-neutral-200">
+                                depositor{" "}
+                                {policyEvaluation.compensation
+                                  .depositorShareBasisPoints / 100}
+                                % / treasury{" "}
+                                {policyEvaluation.compensation
+                                  .protocolTreasuryBasisPoints / 100}
+                                % /{" "}
+                                {
+                                  policyEvaluation.compensation
+                                    .sourceToSharesProofState
+                                }
                               </dd>
                             </div>
                             {admissionReceipt ? (
