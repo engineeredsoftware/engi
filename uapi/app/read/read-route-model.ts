@@ -42,6 +42,94 @@ export type ReadRouteSessionInput = TerminalEnterpriseReadingUxStateInput & {
   organizationPolicyHash?: string | null;
   spendLimitSats?: number | null;
   measuredBtd?: number | null;
+  selectedFitIds?: string[] | null;
+  paymentObserved?: boolean;
+  finalityConfirmed?: boolean;
+  rightsTransferred?: boolean;
+  deliveryMaterialized?: boolean;
+  deliveryPullRequestReference?: string | null;
+};
+
+export type ReadFitMeasurementVisualizationId =
+  | 'need-coverage'
+  | 'specificity'
+  | 'novelty'
+  | 'reuse'
+  | 'risk'
+  | 'evidence'
+  | 'fit-confidence'
+  | 'delivery-readiness';
+
+export type ReadFitMeasurementRow = {
+  measurementId:
+    | 'coverage-measurement'
+    | 'specificity-measurement'
+    | 'novelty-measurement'
+    | 'reuse-measurement'
+    | 'risk-measurement'
+    | 'evidence-measurement'
+    | 'fit-measurement'
+    | 'delivery-measurement';
+  visualizationId: ReadFitMeasurementVisualizationId;
+  label: string;
+  measurementVolume: number;
+  confidence: number;
+  riskAdjustment: number;
+  weight: number;
+  normalizedContribution: number;
+};
+
+export type ReadFitMeasurementReview = {
+  schema: 'bitcode.read.fit-measurement-review';
+  visible: boolean;
+  measurements: ReadFitMeasurementRow[];
+  selectedFitProvenance: {
+    fitIds: string[];
+    depositoryAssetPackCount: number;
+    provenanceRoot: string;
+  };
+  btdScalarVolume: number;
+  quoteBasis: {
+    measurementWeight: number;
+    btdScalarVolume: number;
+    pricePerWeightedUnitSats: number;
+    grossSats: number;
+    feeAsset: 'BTC';
+    network: 'btc-testnet';
+    deterministic: true;
+    basisRoot: string;
+  };
+  repairBlockers: string[];
+  reviewRoot: string;
+};
+
+export type ReadSettlementRightsDelivery = {
+  schema: 'bitcode.read.settlement-rights-delivery';
+  network: 'btc-testnet';
+  valueBearingMainnetEnabled: false;
+  paymentObservation: {
+    state: 'awaiting-payment' | 'btc-testnet-payment-observed';
+    observationRoot: string;
+  };
+  finality: {
+    state: 'awaiting-finality' | 'btc-testnet-finality-confirmed';
+    finalityRoot: string;
+  };
+  btdRights: {
+    state: 'rights-pending' | 'btd-rights-transferred';
+    rightsReceiptRoot: string;
+  };
+  delivery: {
+    state: 'delivery-locked' | 'repository-pr-delivery-materialized';
+    pullRequestReference: string | null;
+    deliveryReceiptRoot: string;
+  };
+  guards: {
+    btcFinalityBeforeBtdRights: true;
+    btdRightsBeforeSourceDelivery: true;
+  };
+  blockers: string[];
+  readbackRoot: string;
 };
 
 export type ReadProcurementBudgetState =
@@ -150,6 +238,8 @@ export type ReadRouteSession = {
     retainedTerminalDebugCompatible: true;
   };
   procurementGovernance: ReadProcurementGovernance;
+  fitMeasurementReview: ReadFitMeasurementReview;
+  settlementRightsDelivery: ReadSettlementRightsDelivery;
   organizationPolicyWalletAuthority: OrganizationPolicyWalletAuthority;
   disclosure: {
     sourceSafetyClass: 'source_safe_read_route_metadata';
@@ -330,6 +420,178 @@ export function buildReadProcurementGovernance(
   };
 }
 
+const READ_FIT_MEASUREMENT_CATALOG: ReadonlyArray<{
+  measurementId: ReadFitMeasurementRow['measurementId'];
+  visualizationId: ReadFitMeasurementVisualizationId;
+  label: string;
+  weight: number;
+}> = [
+  { measurementId: 'coverage-measurement', visualizationId: 'need-coverage', label: 'Need coverage', weight: 0.2 },
+  { measurementId: 'fit-measurement', visualizationId: 'fit-confidence', label: 'Fit confidence', weight: 0.2 },
+  { measurementId: 'specificity-measurement', visualizationId: 'specificity', label: 'Specificity', weight: 0.1 },
+  { measurementId: 'novelty-measurement', visualizationId: 'novelty', label: 'Novelty', weight: 0.125 },
+  { measurementId: 'reuse-measurement', visualizationId: 'reuse', label: 'Reuse', weight: 0.075 },
+  { measurementId: 'risk-measurement', visualizationId: 'risk', label: 'Risk', weight: 0.1 },
+  { measurementId: 'evidence-measurement', visualizationId: 'evidence', label: 'Evidence', weight: 0.1 },
+  { measurementId: 'delivery-measurement', visualizationId: 'delivery-readiness', label: 'Delivery readiness', weight: 0.1 },
+];
+
+function deterministicUnitFraction(seed: string, floor: number) {
+  const span = 1 - floor;
+  return floor + (parseInt(stableHash(seed), 16) % 1_000) / 1_000 * span;
+}
+
+export function buildReadFitMeasurementReview(
+  input: ReadRouteSessionInput = {},
+): ReadFitMeasurementReview {
+  const visible = Boolean(input.hasAcceptedNeed && input.hasSourceSafePreview);
+  const btdScalarVolume = visible ? Math.max(1, normalizeSafeNumber(input.measuredBtd, 0)) : 0;
+  const reviewSeed = `${normalizedText(input.transactionId) || 'read-fit-review'}:${btdScalarVolume}`;
+  const rawRows = READ_FIT_MEASUREMENT_CATALOG.map((entry) => {
+    const measurementVolume = visible
+      ? deterministicUnitFraction(`${reviewSeed}:${entry.measurementId}:volume`, 0.35)
+      : 0;
+    const confidence = visible
+      ? deterministicUnitFraction(`${reviewSeed}:${entry.measurementId}:confidence`, 0.6)
+      : 0;
+    const riskAdjustment = visible
+      ? deterministicUnitFraction(`${reviewSeed}:${entry.measurementId}:risk`, 0.7)
+      : 0;
+    return {
+      ...entry,
+      measurementVolume,
+      confidence,
+      riskAdjustment,
+      rawContribution: measurementVolume * confidence * riskAdjustment * entry.weight,
+    };
+  });
+  const rawTotal = rawRows.reduce((sum, row) => sum + row.rawContribution, 0);
+  let allocatedContribution = 0;
+  const measurements: ReadFitMeasurementRow[] = rawRows.map((row, index) => {
+    const isLastRow = index === rawRows.length - 1;
+    const normalizedContribution = !visible
+      ? 0
+      : isLastRow
+        ? Math.max(0, Number((btdScalarVolume - allocatedContribution).toFixed(4)))
+        : Number(((row.rawContribution / rawTotal) * btdScalarVolume).toFixed(4));
+    allocatedContribution += normalizedContribution;
+    return {
+      measurementId: row.measurementId,
+      visualizationId: row.visualizationId,
+      label: row.label,
+      measurementVolume: Number(row.measurementVolume.toFixed(4)),
+      confidence: Number(row.confidence.toFixed(4)),
+      riskAdjustment: Number(row.riskAdjustment.toFixed(4)),
+      weight: row.weight,
+      normalizedContribution,
+    };
+  });
+  const fitIds = (input.selectedFitIds || [])
+    .map((fitId) => normalizedText(fitId))
+    .filter((fitId): fitId is string => Boolean(fitId));
+  const provenanceFitIds = fitIds.length
+    ? fitIds
+    : visible
+      ? [`fit:${stableHash(`${reviewSeed}:selected-fit`)}`]
+      : [];
+  const measurementWeight = visible ? 1_000 : 0;
+  const pricePerWeightedUnitSats = 25;
+  const grossSats =
+    input.quoteSats !== null && input.quoteSats !== undefined
+      ? normalizeSafeNumber(input.quoteSats, 0)
+      : Math.round((measurementWeight * btdScalarVolume * pricePerWeightedUnitSats) / 1_000);
+  const repairBlockers = [
+    !input.hasAcceptedNeed ? 'accepted Need required before Fit measurement review' : '',
+    !input.hasSourceSafePreview ? 'source-safe AssetPack preview required' : '',
+  ].filter(Boolean);
+  const basisSeed = JSON.stringify({ measurementWeight, btdScalarVolume, pricePerWeightedUnitSats, grossSats });
+
+  return {
+    schema: 'bitcode.read.fit-measurement-review',
+    visible,
+    measurements,
+    selectedFitProvenance: {
+      fitIds: provenanceFitIds,
+      depositoryAssetPackCount: provenanceFitIds.length,
+      provenanceRoot: `read-selected-fit-provenance:${stableHash(JSON.stringify(provenanceFitIds))}`,
+    },
+    btdScalarVolume,
+    quoteBasis: {
+      measurementWeight,
+      btdScalarVolume,
+      pricePerWeightedUnitSats,
+      grossSats,
+      feeAsset: 'BTC',
+      network: 'btc-testnet',
+      deterministic: true,
+      basisRoot: `read-quote-basis:${stableHash(basisSeed)}`,
+    },
+    repairBlockers,
+    reviewRoot: `read-fit-measurement-review:${stableHash(`${reviewSeed}:${basisSeed}`)}`,
+  };
+}
+
+export function buildReadSettlementRightsDelivery(
+  input: ReadRouteSessionInput = {},
+): ReadSettlementRightsDelivery {
+  const paymentObserved = Boolean(
+    input.paymentObserved ?? (input.hasSettlementReadback || input.hasDeliveryReadback),
+  );
+  const finalityConfirmed =
+    paymentObserved && Boolean(input.finalityConfirmed ?? input.hasDeliveryReadback);
+  const rightsTransferred =
+    finalityConfirmed && Boolean(input.rightsTransferred ?? input.hasDeliveryReadback);
+  const deliveryMaterialized =
+    rightsTransferred && Boolean(input.deliveryMaterialized ?? input.hasDeliveryReadback);
+  const pullRequestReference = deliveryMaterialized
+    ? normalizedText(input.deliveryPullRequestReference) ||
+      `${normalizedText(input.repositoryFullName) || 'target-repository'}#read-delivery`
+    : null;
+  const blockers = [
+    !paymentObserved ? 'BTC-testnet payment observation required' : '',
+    paymentObserved && !finalityConfirmed ? 'BTC-testnet finality confirmation required' : '',
+    finalityConfirmed && !rightsTransferred ? 'BTD rights transfer receipt required' : '',
+    rightsTransferred && !deliveryMaterialized ? 'repository PR delivery receipt required' : '',
+  ].filter(Boolean);
+  const stateSeed = JSON.stringify({
+    transactionId: normalizedText(input.transactionId),
+    paymentObserved,
+    finalityConfirmed,
+    rightsTransferred,
+    deliveryMaterialized,
+    pullRequestReference,
+  });
+
+  return {
+    schema: 'bitcode.read.settlement-rights-delivery',
+    network: 'btc-testnet',
+    valueBearingMainnetEnabled: false,
+    paymentObservation: {
+      state: paymentObserved ? 'btc-testnet-payment-observed' : 'awaiting-payment',
+      observationRoot: `read-payment-observation:${stableHash(`${stateSeed}:observation`)}`,
+    },
+    finality: {
+      state: finalityConfirmed ? 'btc-testnet-finality-confirmed' : 'awaiting-finality',
+      finalityRoot: `read-settlement-finality:${stableHash(`${stateSeed}:finality`)}`,
+    },
+    btdRights: {
+      state: rightsTransferred ? 'btd-rights-transferred' : 'rights-pending',
+      rightsReceiptRoot: `read-btd-rights-receipt:${stableHash(`${stateSeed}:rights`)}`,
+    },
+    delivery: {
+      state: deliveryMaterialized ? 'repository-pr-delivery-materialized' : 'delivery-locked',
+      pullRequestReference,
+      deliveryReceiptRoot: `read-delivery-receipt:${stableHash(`${stateSeed}:delivery`)}`,
+    },
+    guards: {
+      btcFinalityBeforeBtdRights: true,
+      btdRightsBeforeSourceDelivery: true,
+    },
+    blockers,
+    readbackRoot: `read-settlement-rights-delivery:${stableHash(stateSeed)}`,
+  };
+}
+
 export function readReadRouteStage(params: URLSearchParams): ReadRouteStepId | null {
   const stage = params.get('readingStage')?.trim();
   return READ_ROUTE_STAGE_IDS.includes(stage as ReadRouteStepId) ? (stage as ReadRouteStepId) : null;
@@ -345,6 +607,8 @@ export function writeReadRouteStage(params: URLSearchParams, stage: ReadRouteSte
 export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRouteSession {
   const enterpriseState = buildTerminalEnterpriseReadingUxState(input);
   const procurementGovernance = buildReadProcurementGovernance(input);
+  const fitMeasurementReview = buildReadFitMeasurementReview(input);
+  const settlementRightsDelivery = buildReadSettlementRightsDelivery(input);
   const organizationPolicyWalletAuthority = buildOrganizationPolicyWalletAuthority({
     route: '/read',
     actorId: normalizedText(input.actorId),
@@ -379,6 +643,8 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
     settlementQuoteId: normalizedText(input.settlementQuoteId),
     steps: enterpriseState.steps.map((step) => ({ id: step.id, state: step.state, blockers: step.blockers })),
     procurementGovernance,
+    fitMeasurementReviewRoot: fitMeasurementReview.reviewRoot,
+    settlementRightsDeliveryRoot: settlementRightsDelivery.readbackRoot,
     organizationPolicyWalletAuthorityRoot: organizationPolicyWalletAuthority.roots.authorityRoot,
   });
 
@@ -395,7 +661,8 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
       findingFitsRequested: Boolean(input.findingFitsRunning || input.hasSourceSafePreview),
       sourceSafeAssetPackPreviewPresent: Boolean(input.hasSourceSafePreview),
       settlementQuotePresent: Boolean(input.hasSourceSafePreview || input.hasSettlementReadback),
-      deliveryUnlocked: Boolean(input.hasDeliveryReadback),
+      deliveryUnlocked:
+        settlementRightsDelivery.delivery.state === 'repository-pr-delivery-materialized',
     },
     routeState: {
       transactionId: enterpriseState.routeState.transactionId,
@@ -416,6 +683,8 @@ export function buildReadRouteSession(input: ReadRouteSessionInput = {}): ReadRo
       retainedTerminalDebugCompatible: true,
     },
     procurementGovernance,
+    fitMeasurementReview,
+    settlementRightsDelivery,
     organizationPolicyWalletAuthority,
     disclosure: {
       sourceSafetyClass: 'source_safe_read_route_metadata',
@@ -452,12 +721,40 @@ export function assertReadRouteSessionSourceSafe(session: ReadRouteSession) {
     session.organizationPolicyWalletAuthority,
   );
 
+  const fitReview = session.fitMeasurementReview;
+  const contributionTotal = fitReview.measurements.reduce(
+    (sum, row) => sum + row.normalizedContribution,
+    0,
+  );
+  const settlementReadback = session.settlementRightsDelivery;
+  const settlementOrderingSafe =
+    (settlementReadback.finality.state !== 'btc-testnet-finality-confirmed' ||
+      settlementReadback.paymentObservation.state === 'btc-testnet-payment-observed') &&
+    (settlementReadback.btdRights.state !== 'btd-rights-transferred' ||
+      settlementReadback.finality.state === 'btc-testnet-finality-confirmed') &&
+    (settlementReadback.delivery.state !== 'repository-pr-delivery-materialized' ||
+      settlementReadback.btdRights.state === 'btd-rights-transferred');
+
   const sourceSafe =
     enterpriseSafety.admitted &&
     organizationSafety.admitted &&
     session.schema === 'bitcode.read.route-session' &&
     session.route === '/read' &&
     session.stageCount === 5 &&
+    fitReview.schema === 'bitcode.read.fit-measurement-review' &&
+    fitReview.quoteBasis.deterministic === true &&
+    fitReview.quoteBasis.feeAsset === 'BTC' &&
+    fitReview.quoteBasis.network === 'btc-testnet' &&
+    Math.abs(contributionTotal - fitReview.btdScalarVolume) < 0.01 &&
+    (!fitReview.visible ||
+      fitReview.btdScalarVolume ===
+        session.procurementGovernance.quotePolicy.shareToFee.measurementVolume) &&
+    settlementReadback.schema === 'bitcode.read.settlement-rights-delivery' &&
+    settlementReadback.network === 'btc-testnet' &&
+    settlementReadback.valueBearingMainnetEnabled === false &&
+    settlementReadback.guards.btcFinalityBeforeBtdRights === true &&
+    settlementReadback.guards.btdRightsBeforeSourceDelivery === true &&
+    settlementOrderingSafe &&
     session.pipelineOwnership.acceptedNeedRequiredBeforeFindingFits === true &&
     session.pipelineOwnership.previewSourceSafeBeforeSettlement === true &&
     session.pipelineOwnership.deliveryRequiresPaidReadRights === true &&

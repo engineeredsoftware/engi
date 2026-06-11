@@ -11,7 +11,7 @@
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth
+- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth; Gate 5 records Reader Website Completion truth
 - Scope: V47 starts as the commercial website testnet launch-readiness target over promoted V46 protocol comprehension canon.
 
 ## Notes companion rule
@@ -80,7 +80,15 @@ feature excess audit, E2E seller/buyer proof, and promotion readiness.
   demand, ROI, BTD potential, BTC source-to-shares preview, option roots,
   compensation estimates, and organization/wallet authority before and after
   approval, with admitted options synchronized to `/packs`.
-- Reader website completion.
+- Reader Website Completion: the `/read` route owns a five-step session
+  (request Read, review synthesized Need, request Finding Fits, review
+  synthesized AssetPack, buy and settle) and renders a source-safe
+  fit measurement review (Need coverage, Fit confidence, specificity, novelty,
+  reuse, risk, evidence, delivery readiness, selected Fit provenance, final
+  BTD scalar, BTC-testnet quote basis) before payment; payment observation,
+  finality, BTD rights receipt, and repository PR delivery read back in
+  fail-closed order, with Reading activity and settled AssetPacks reachable
+  through `/packs`.
 - Packs and Auxillaries commercial dashboard.
 - E2E IP selling and buying tests.
 - Landing page and public launch messaging.
