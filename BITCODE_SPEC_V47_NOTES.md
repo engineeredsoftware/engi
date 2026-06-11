@@ -11,7 +11,7 @@
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth; Gate 5 records Reader Website Completion truth; Gate 6 records Packs And Auxillaries Commercial Dashboard truth
+- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth; Gate 5 records Reader Website Completion truth; Gate 6 records Packs And Auxillaries Commercial Dashboard truth; Gate 7 records E2E IP Selling And Buying Tests truth
 - Scope: V47 starts as the commercial website testnet launch-readiness target over promoted V46 protocol comprehension canon.
 
 ## Notes companion rule
@@ -95,7 +95,12 @@ feature excess audit, E2E seller/buyer proof, and promotion readiness.
   fail-closed repair surface; Auxillaries panes cover identity profile,
   external source connections, interfaces, wallet authority with BTD history
   readback, and organization team and treasury settings.
-- E2E IP selling and buying tests.
+- E2E IP Selling And Buying Tests: a deterministic browser proof sells IP on
+  `/deposit` (source connection, option synthesis, measurement review,
+  admission, journaled rows), buys IP on `/read` (fit measurement review,
+  final BTD scalar, BTC-testnet quote basis, then observation, finality, BTD
+  rights, and PR delivery readback in order), and audits `/packs` state
+  readback and the fail-closed repair surface.
 - Landing page and public launch messaging.
 - Staging-testnet deployment rehearsal.
 - V47 promotion readiness.
