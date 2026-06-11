@@ -184,6 +184,20 @@ Gate 7 adds browser-level tests proving both sides of Bitcode: deposit IP into
 Bitcode, buy synthesized IP from Bitcode, and verify ledger/database/storage,
 proof, settlement, rights, compensation, and delivery.
 
+Gate 7 owns `.bitcode/v47-e2e-ip-selling-buying-tests.json`,
+`buildV47E2eIpSellingBuyingTests`, and `check:v47-gate7`. The browser proof
+(`uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts`, run by
+`test:e2e:ip-exchange`) drives `/deposit` from source connection through
+option synthesis, source-safe measurement review, and Depository admission
+with journaled execution rows; drives `/read` through the five-step buyer
+session asserting the fit measurement review, final BTD scalar, deterministic
+BTC-testnet quote basis, and the ordered payment observation, finality, BTD
+rights receipt, and repository PR delivery readback; and audits `/packs`
+master-detail state readback and the fail-closed repair surface. The proof
+runs in deterministic mock mode with a stateful execution-history journal and
+a browser error trap, asserts source-safe metadata only, and never exercises
+value-bearing mainnet behavior.
+
 ## Gate 8: Landing Page And Public Launch Messaging
 
 Gate 8 refurbishes landing and public docs for V47 commercial testnet

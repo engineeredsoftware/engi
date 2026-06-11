@@ -8,7 +8,7 @@
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website; Gate 5 completes the reader website; Gate 6 completes the packs and Auxillaries commercial dashboard
+- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website; Gate 5 completes the reader website; Gate 6 completes the packs and Auxillaries commercial dashboard; Gate 7 proves IP selling and buying in the browser
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
@@ -706,7 +706,10 @@ V47 gates:
    `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, the
    `buildV47PacksAuxillariesCommercialDashboard` package object, and
    `check:v47-gate6`.
-7. E2E IP Selling And Buying Tests.
+7. E2E IP Selling And Buying Tests. Gate 7 owns
+   `.bitcode/v47-e2e-ip-selling-buying-tests.json`, the
+   `buildV47E2eIpSellingBuyingTests` package object, and
+   `check:v47-gate7`.
 8. Landing Page And Public Launch Messaging.
 9. Staging-Testnet Deployment Rehearsal.
 10. Promotion Readiness.
@@ -776,6 +779,21 @@ history readback, organization team and treasury settings), forbidden payload
 classes, source-root digests, and predicate results without serializing
 protected source, unpaid AssetPack source, raw prompts, raw provider
 responses, wallet private material, or settlement private payloads.
+
+V47 Gate 7 source-safe generated artifact:
+`.bitcode/v47-e2e-ip-selling-buying-tests.json`. It records the browser-proof
+scenarios (IP seller deposits an AssetPack on `/deposit`; IP buyer reviews
+fit measurements, quote basis, settlement finality, BTD rights, and
+repository delivery on `/read`; `/packs` reads back settlement, rights,
+compensation, delivery, and the fail-closed repair surface), the
+deterministic mock-mode harness bindings (stateful execution-history
+journaling, VCS/auxillary mocks, browser error trap), the verification ids
+covering source-connection-before-synthesis through
+fail-closed-repair-surface, forbidden payload classes, source-root digests,
+and predicate results without serializing protected source, unpaid AssetPack
+source, raw prompts, raw provider responses, wallet private material, or
+settlement private payloads. The browser proof runs on BTC-testnet semantics
+only.
 
 ### Appendix F. Subsystem totality and derivability matrix
 
@@ -914,3 +932,17 @@ organization team and treasury settings;
 `.bitcode/v47-packs-auxillaries-commercial-dashboard.json` is generated;
 `check:v47-gate6` validates the completion; and gate/canon workflows run the
 Gate 6 checker while V46 remains active canon.
+
+V47 Gate 7 is complete when browser-level tests prove both sides of Bitcode
+in deterministic mock mode: depositing IP through source connection, option
+synthesis, source-safe measurement review, and Depository admission on
+`/deposit` with journaled execution rows; buying synthesized IP through the
+five-step `/read` session with the fit measurement review, final BTD scalar,
+and deterministic BTC-testnet quote basis rendered before payment and with
+payment observation, finality, BTD rights receipt, and repository PR delivery
+read back in order; auditing settlement, rights, compensation, delivery, and
+the fail-closed repair surface on `/packs`; the browser error trap stays
+clean; `uapi` exposes `test:e2e:ip-exchange`;
+`.bitcode/v47-e2e-ip-selling-buying-tests.json` is generated;
+`check:v47-gate7` validates the coverage; and gate/canon workflows run the
+Gate 7 checker while V46 remains active canon.
