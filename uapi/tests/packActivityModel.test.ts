@@ -169,12 +169,40 @@ describe('pack-activity-model', () => {
 
     const detail = buildPackActivityDetailProjection(result.records[0]);
     expect(detail.states.settlement).toBe('quote_ready');
+    expect(detail.states.rights).toBeNull();
     expect(detail.commodityState.assetPackState).toBe('need-fit-assetpack-quoted');
     expect(detail.commodityState.sourceSafety.protectedSourceVisible).toBe(false);
     expect(detail.accounting?.statementRoot).toBe('btd-btc-accounting-root-abc');
     expect(detail.governance?.authorityRoot).toBe('organization-authority-root-abc');
     expect(detail.proofRoots.length).toBeGreaterThan(0);
     expect(assertPackActivitySourceSafe(detail)).toBe(true);
+  });
+
+  it('tracks BTD rights transfer state from explicit fields and commodity-state readback', () => {
+    const explicitRights = normalizePackActivityRecord({
+      ...baseRecord,
+      id: 'pack-activity-rights-explicit',
+      payload: {
+        ...(baseRecord.payload as Record<string, unknown>),
+        rightsState: 'btd-rights-transferred',
+      },
+    });
+    expect(explicitRights.rightsState).toBe('btd-rights-transferred');
+    expect(buildPackActivityDetailProjection(explicitRights).states.rights).toBe(
+      'btd-rights-transferred',
+    );
+
+    const commodityRights = normalizePackActivityRecord({
+      ...baseRecord,
+      id: 'pack-activity-rights-commodity',
+      payload: {
+        ...(baseRecord.payload as Record<string, unknown>),
+        btdState: 'btd-rights-transferred',
+        btcState: 'btc-finality-confirmed',
+      },
+    });
+    expect(commodityRights.commodityState.btdState).toBe('btd-rights-transferred');
+    expect(commodityRights.rightsState).toBe('btd-rights-transferred');
   });
 
   it('projects approved deposit admission receipts as Depository AssetPack activity', () => {
