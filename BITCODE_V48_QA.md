@@ -84,7 +84,7 @@
 - Severity: medium (legacy surface reachable post-launch; post-auth callback landed there until pinned to `/packs`)
 - Observed: first successful wallet sign-in landed on `/terminal` — `buildAuxillariesRoutePath` builds `/terminal?auxillary-open-to=…` via `AUXILLARY_OVERLAY_ROUTE_ROOT = '/terminal'` (`uapi/app/auxillaries/components/auxillary-pane-meta.ts:18`), and the legacy terminal page still renders.
 - Canon: `/terminal` functionality was split into `/packs`, `/read`, and `/deposit`. A V48 gate should (a) verify each terminal capability was properly ported to the three routes, (b) retarget or remove `AUXILLARY_OVERLAY_ROUTE_ROOT` and remaining `/terminal` links, and (c) remove the unused terminal page/code (relates to F4 — another surface the V47 feature-excess audit never classified).
-- Interim fix: wallet sign-in post-auth destination pinned to `/packs` in `AuxillariesWalletConnectionPanel`.
+- Interim fix: wallet sign-in post-auth destination pinned to `/packs` in `AuxillariesWalletConnectionPanel`; GitHub connect redirect retargeted to `/packs?auxillary-open-to=externals` in `tps/github/_callback-handler.ts` (the `AuxillariesProvider` reads the open-to param on any route, so the Externals overlay opens over `/packs`). Remaining `/terminal` consumers (contract repair routes, orbitals links, browser-proof paths, `AUXILLARY_OVERLAY_ROUTE_ROOT` itself) stay for the F8 gate.
 
 ### F9 — Organization Authority permanently Denied for solo operators; no bootstrap path exists
 
@@ -119,7 +119,7 @@
 - [x] Wallet binding persisted after sign-in — verified 2026-06-12: identity-derived bind populated `username` (`wallet_tb1p6x70u8ag`) and the full `walletBinding` (address, provider `leather`, network `testnet`, status `pending`, `proofKind: provider_session`, `boundAt` stamped on bridge mount). `payment_address`/`addressType` stay null in identity-derived binds (GoTrue drops the custom claims); they backfill via the in-panel signature flow, which settlement-adjacent actions require anyway.
 - [ ] Session persists across refresh (watch F2)
 - [ ] Profile pane readback (optional email binding behaves as contact-binding, not sign-in)
-- [ ] Externals: GitHub App connect + repository inventory
+- [ ] Externals: GitHub App connect + repository inventory — connect verified 2026-06-12 (installation `139922918`, account `engineeredsoftware`, repository_selection `all`, installation token with contents/PR write, connection saved for the wallet-identity user after fixing the env placeholders). Post-connect redirect retargeted from the legacy `/terminal` overlay to `/packs?auxillary-open-to=externals`. Remaining: visual confirm of Externals pane repository inventory readback.
 - [ ] Wallet pane: binding shows verified, fauceted testnet4 balance visible
 - [ ] Organization/team + treasury panes render
 

@@ -13,7 +13,7 @@ import {
   readInstanceUrl,
   type ProviderRouteContext,
 } from '@/app/api/vcs/_shared';
-import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { AUXILLARY_OPEN_QUERY_PARAM } from '@/app/auxillaries/components/auxillary-pane-meta';
 
 type OptionalUserContext = Awaited<ReturnType<typeof getRouteSupabaseUser>>;
 
@@ -51,7 +51,13 @@ function buildConnectsRedirect(
   request: Request,
   params: Record<string, string | number | boolean | null | undefined>,
 ) {
-  const redirectUrl = new URL(buildAuxillariesRoutePath('externals'), request.url);
+  // Land on /packs with the Auxillaries Externals overlay open (the
+  // AuxillariesProvider reads the open-to param on any route), not the
+  // legacy /terminal overlay root (QA ledger F8).
+  const redirectUrl = new URL(
+    `/packs?${AUXILLARY_OPEN_QUERY_PARAM}=externals`,
+    request.url,
+  );
   redirectUrl.searchParams.set('pane', 'externals');
 
   for (const [key, value] of Object.entries(params)) {
