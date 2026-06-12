@@ -1009,6 +1009,15 @@ export const V47_STAGING_TESTNET_VALIDATION_COMMANDS: readonly Record<string, un
 export const V47_STAGING_TESTNET_FORBIDDEN_PAYLOAD_IDS: readonly string[];
 export function buildV47StagingTestnetDeploymentRehearsal(input?: Record<string, unknown>): BitcodeProtocolReport;
 export function buildV47StagingTestnetRehearsalLanes(): readonly Record<string, unknown>[];
+export const V47_PROMOTION_READINESS_REPORT_ARTIFACT_PATH: string;
+export const V47_PROMOTION_READINESS_REPORT_CURRENT_TARGET: string;
+export const V47_PROMOTION_READINESS_REPORT_SCHEMA_ID: string;
+export const V47_PROMOTION_READINESS_REPORT_VERSION: string;
+export const V47_PROMOTION_READINESS_SOURCE_SAFETY_VERDICT: string;
+export const V47_PROMOTION_READINESS_GATE_ARTIFACT_PATHS: readonly string[];
+export const V47_PROMOTION_READINESS_GENERATED_OUTPUTS: readonly string[];
+export function buildV47PromotionReadinessReport(input?: Record<string, unknown>): BitcodeProtocolReport;
+export function listMissingV47PromotionReadinessSources(repoRoot?: string): string[];
 export const V46_PROMOTION_READINESS_REPORT_ARTIFACT_PATH: string;
 export const V46_PROMOTION_READINESS_REPORT_CURRENT_TARGET: string;
 export const V46_PROMOTION_READINESS_REPORT_SCHEMA_ID: string;
