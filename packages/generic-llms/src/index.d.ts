@@ -7,5 +7,6 @@
 export { openAIProvider } from './providers/openai';
 export { anthropicProvider } from './providers/anthropic';
 export { googleProvider } from './providers/google';
+export { resolveDefaultLLMConfig, resolveDefaultLLMModel, resolveDefaultLLMProvider, type BitcodeLLMEnvironment, } from './defaults';
 import { LLMRegistry } from '@bitcode/llm-generics';
 export declare function factoryLLMRegistryWithProviders(): LLMRegistry;

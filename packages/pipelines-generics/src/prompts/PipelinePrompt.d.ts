@@ -5,7 +5,7 @@
  * This prompt provides the base abstraction for pipeline-level prompting.
  */
 import { Prompt } from '@bitcode/prompts/prompt';
-import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
+import { type PromptPart } from '@bitcode/prompts/parts/PromptPart';
 /**
  * Base Pipeline Prompt
  *

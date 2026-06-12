@@ -4,7 +4,7 @@
  * Pauses execution waiting for user instruction to be added to execution state.
  * Used after validation when selfInstruction confidence < threshold.
  */
-import { Executor } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
 export interface WaitForInstructionOptions {
     confidence: number;
     timeoutMs?: number;

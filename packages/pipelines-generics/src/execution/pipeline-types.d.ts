@@ -4,7 +4,7 @@
  * Pipeline/PipelineExecution - The EE pair for top-level pipeline orchestration
  * PhaseDelegator/PhaseDelegation - The Executor/Execution pair for phase delegation to agents
  */
-import { Executor } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
 import { Execution } from '@bitcode/execution-generics/Execution';
 import { PipelineExecution as PipelineExecutionBase, type PipelineExecutionLineage } from './PipelineExecution';
 export { PipelineExecution } from './PipelineExecution';

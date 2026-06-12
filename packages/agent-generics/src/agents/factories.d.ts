@@ -9,8 +9,8 @@
  * purpose: Create type-safe agent executors
  * pattern: factory-functions
  */
-import { Executor } from '@bitcode/execution-generics';
-import { Execution } from '@bitcode/execution-generics/Execution';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import { Agent, AgentStep } from '../types';
 import { z } from 'zod';
 export type BitcodePTRRStepName = 'plan' | 'try' | 'refine' | 'retry';
@@ -120,7 +120,6 @@ export declare function factoryAgentWithPTRRGenerations<TInput, TOutput>(config:
         backoff?: number;
     };
 }): Agent<TInput, TOutput>;
-export {};
 /**
  * factoryQuickAgent - Preferred minimal agent for simple, single-step behaviors.
  *
@@ -136,3 +135,4 @@ export declare function factoryQuickAgent<TInput, TOutput>(config: {
     description?: string;
     execute: (input: TInput, execution: Execution) => Promise<TOutput>;
 }): Executor<TInput, TOutput>;
+export {};

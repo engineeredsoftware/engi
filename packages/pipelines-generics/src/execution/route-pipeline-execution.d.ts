@@ -7,8 +7,8 @@
  *
  * @package @bitcode/pipelines-generics
  */
-import { Executor } from '@bitcode/execution-generics';
-import { Execution } from '@bitcode/execution-generics/Execution';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import type { Gate, GateState, GateConfig } from '../gate-system/types';
 /**
  * Gate-aware execution context

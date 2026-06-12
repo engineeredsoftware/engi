@@ -25,5 +25,5 @@ export declare function prepareContextForPrompt(context?: GlobalContext): {
     branch: string;
     commit: string;
     task: string;
-    otfInstructions: any[] | undefined;
+    otfInstructions: any[];
 };

@@ -5,9 +5,9 @@ export interface DPPhaseDelegation {
     started_at?: string | null;
     completed_at?: string | null;
     status?: string | null;
-    input?: unknown;
-    output?: unknown;
-    error?: unknown;
+    input_data?: unknown;
+    output_data?: unknown;
+    error_data?: unknown;
 }
 export type DPPhaseDelegationInsert = Omit<DPPhaseDelegation, 'id'> & {
     id?: string;
@@ -20,6 +20,9 @@ export interface DPAgentStep {
     started_at?: string | null;
     completed_at?: string | null;
     status?: string | null;
+    input_data?: unknown;
+    output_data?: unknown;
+    error_data?: unknown;
 }
 export type DPAgentStepInsert = Omit<DPAgentStep, 'id'> & {
     id?: string;
