@@ -86,6 +86,15 @@
 - Canon: `/terminal` functionality was split into `/packs`, `/read`, and `/deposit`. A V48 gate should (a) verify each terminal capability was properly ported to the three routes, (b) retarget or remove `AUXILLARY_OVERLAY_ROUTE_ROOT` and remaining `/terminal` links, and (c) remove the unused terminal page/code (relates to F4 — another surface the V47 feature-excess audit never classified).
 - Interim fix: wallet sign-in post-auth destination pinned to `/packs` in `AuxillariesWalletConnectionPanel`.
 
+### F9 — Organization Authority permanently Denied for solo operators; no bootstrap path exists
+
+- Severity: medium now (misleading pane UX), high later (blocker the moment enforcement lands)
+- Observed: fresh wallet-identity account shows Organization Authority **Denied** for `pay_btc_fee via terminal` (organization `n/a`, explicit grants `none`) despite wallet binding `bound`.
+- Law trace (`packages/btd/src/authority.ts` `buildBtdOrganizationPolicyAuthority`): `pay_btc_fee` requires organizationId + normalized role + explicit `settlement:pay_btc_fee` grant + policy id/hash. Denial reasons fired: `organization_missing`, `role_missing` (profile role `user` normalizes to null — only viewer/member/admin/owner/lead/dev count), `explicit_permission_grant_required`, `policy_missing`. The decision is correct fail-closed law.
+- Gap: no writer exists anywhere in the product for `organization_id`, `organization_permission_grants`, organization-grade roles, or `organization_policy_confirmed` — the only organizationId sources are GitHub-org repos or Profile companyName, and neither supplies role/grants. Every solo operator therefore reads Denied permanently.
+- Enforcement status: display-only today — `buildBtdOrganizationPolicyAuthority` feeds only the Auxillaries pane, and `postBtdOrganizationInterfaceAuthority` (`/api/btd/organization-interface-authority`) has no callers; the V47 ip-exchange e2e proof ran deposit→read→settle without org config. Tracks 2–3 QA are not blocked.
+- V48 gate decision needed (spec law, not a hotfix): either (a) personal-organization bootstrap at wallet sign-up (organization = operator, role `owner`, default grants including `settlement:pay_btc_fee`, policy confirmed) so solo commerce is allowed-by-law, or (b) the pane renders "no organization configured" as a neutral state instead of Denied until organization features ship — paired with deciding where enforcement actually attaches before mainnet.
+
 - Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
 
 ## Track 1 — Identity / Authentication / Auxillaries
