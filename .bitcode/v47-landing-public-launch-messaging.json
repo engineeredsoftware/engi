@@ -292,7 +292,7 @@
     "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
-    "roadmap": "SPECIFICATIONS_ROADMAP.md:dd65b4f247f3f62a2b2ed547",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
     "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
     "landingPage": "uapi/app/(root)/components/MarketingLandingPage.tsx:5a7bbc85fa67525dd83127b2",
     "testnetSection": "uapi/app/(root)/components/landing/MarketingLandingTestnetSection.tsx:04e5895c15559d4f262335dc",
@@ -309,7 +309,7 @@
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
   },
-  "artifactRoot": "v47-landing-public-launch-messaging:57accb8f0e8c1f4a4849e668",
+  "artifactRoot": "v47-landing-public-launch-messaging:73fe7d4d1b7fd9823bb4039a",
   "coverage": {
     "requiredPredicateCount": 17,
     "passedPredicateCount": 17,

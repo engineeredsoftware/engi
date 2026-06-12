@@ -1820,6 +1820,9 @@ function buildRequiredCanonicalArtifacts(repoRoot, currentTarget) {
   if (currentTarget === 'V46') {
     artifacts.push(...buildV21LikeProfile('V46').requiredGeneratedArtifactPaths);
   }
+  if (currentTarget === 'V47') {
+    artifacts.push(...buildV21LikeProfile('V47').requiredGeneratedArtifactPaths);
+  }
   return artifacts.map((relativePath) => path.join(repoRoot, relativePath));
 }
 
