@@ -7,6 +7,13 @@
 - Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4
 - Source-safety posture: source-safe evidence only; no secrets, protected source, provider payloads, wallet material, service-role keys, database credentials, or raw private prompts are serialized here.
 
+## Testnet BTC resources
+
+- Faucet (testnet4): https://coinfaucet.eu/en/btc-testnet4/
+- Faucet/exchange (testnet coins): https://altquick.com/exchange/
+- Explorer (testnet4): https://mempool.space/testnet4 — tx view at `…/testnet4/tx/<txid>`, address view at `…/testnet4/address/<address>`
+- The in-app "BTC in wallet" card reads the bound address via `/api/wallet/btc-balance` (mempool.space, testnet4-first with testnet3 fallback for the ambiguous `testnet` binding label).
+
 ## QA scripts (committed at `supabase/queries/v48_qa_*.sql`)
 
 Run in the Supabase SQL editor; all auto-target the most recent `custom:bitcode-bitcoin` user (purge-proof, no UUID editing). Run-after map:
@@ -135,7 +142,7 @@ Track 2-4 scripts (deposit activity, BTD ledger, settlement, pack journaling) ge
 - [~] Profile pane readback (optional email binding) — deferred by decision 2026-06-12: wallet (plus GitHub) is the root of identity; email is optional contact only and not required for Track 1 closure. The "Add Email" repair CTA routing was fixed regardless (contract repair routes → `/packs`). The `signInWithOtp` contact-binding semantics check moves to the F4 legacy-auth eradication gate, where the email path gets disambiguated from authentication wholesale.
 - [x] Externals: GitHub App connect + repository inventory — verified 2026-06-12: installation `139922918` (`engineeredsoftware`, repository_selection `all`), provider readiness "succeeded" with source-safe token posture, 46 repositories synced into `vcs_repositories` with full metadata. Post-connect redirect retargeted from the legacy `/terminal` overlay to `/packs?auxillary-open-to=externals`. Connected Scope pill list was hard-capped at 8 (`repositories.slice(0, 8)`) — now renders all in a scrollable wrap.
 - QA evidence hygiene note: ad-hoc `user_connections` dumps that select `connection_data` wholesale expose the GitHub installation `access_token` (short-lived, 1h expiry — the one pasted on 2026-06-12 expired 21:08Z; no rotation needed). Use `v48_qa_03_user_connections_token_safe.sql` instead; never paste raw `connection_data`.
-- [ ] Wallet pane: binding shows verified, fauceted testnet4 balance visible
+- [ ] Wallet pane: fauceted testnet4 balance visible — live on-chain balance plumbing built 2026-06-12 (`/api/wallet/btc-balance` + "BTC in wallet" card; previously nothing in the codebase ever fetched a chain balance, so the card showed "Binding pending" and the nav chip rendered null as 0). Awaiting visual confirm post-faucet. Binding status stays `pending` by design until signature verification ships (checklist's earlier "verified" wording was aspirational). Nav chip wiring to the live source is a follow-up.
 - [ ] Organization/team + treasury panes render
 
 ## Track 2 — Depositing
