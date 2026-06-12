@@ -25,8 +25,11 @@ Run in the Supabase SQL editor; all auto-target the most recent `custom:bitcode-
 | `v48_qa_03_user_connections_token_safe` | wallet binding write or GitHub install callback |
 | `v48_qa_04_repository_inventory` | Externals pane load post-GitHub-connect (repo sync) |
 | `v48_qa_05_track1_readiness_rollup` | anytime — one-row Track 1 summary |
+| `v48_qa_06_deposit_activity` | each /deposit action (connect, synthesize, approve, deposit) |
+| `v48_qa_07_depository_admission_evidence` | deposit approval (Depository admission roots/index state) |
+| `v48_qa_08_recent_errors` | whenever a flow misbehaves or qa06 shows has_error |
 
-Track 2-4 scripts (deposit activity, BTD ledger, settlement, pack journaling) get added when those tracks open; the `v28_qa_terminal_*` set remains the historical reference.
+Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those tracks open; the `v28_qa_terminal_*` set remains the historical reference.
 
 ## QA Tracks
 
@@ -145,7 +148,9 @@ Track 2-4 scripts (deposit activity, BTD ledger, settlement, pack journaling) ge
 - [x] Wallet pane: fauceted testnet4 balance visible — verified 2026-06-12: "BTC in wallet" shows 0.00763373 BTC live from mempool.space testnet4 (faucet tx `fff98a94…ec6d` paid the payment address `tb1q8whq…s7d8t2`, 263,373 sats + follow-up). The identity-derived bind initially showed 0 because it carried only the taproot auth address; Reconnect Leather (signed-in panel flow) backfilled `paymentAddress`/`addressType` and upgraded proofKind to `bitcoin_message_signature` — the F5a payment-address residual repair path is verified. Binding status stays `pending` by design until signature verification ships. Nav chip wiring to the live source is a follow-up.
 - [x] Organization/team + treasury panes render — verified 2026-06-12: Organization Authority and treasury/wallet-posture surfaces render without errors; the Denied content posture is the parked F9 decision, not a render defect.
 
-## Track 2 — Depositing
+## Track 2 — Depositing (Gate 2, opened 2026-06-12 on `v48/gate-2-depositing-interactive-qa`)
+
+- Environment: add to `uapi/.env.local` and restart `dev:remote` — `BITCODE_ASSET_PACK_REAL_INFERENCE=true` and `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` (provider keys already present; without the flags, synthesis runs deterministic bring-up branches, and the pipeline harness preflight rejects Read/Fit QA). `BITCODE_ENABLE_PIPELINE_HARNESS_API` is unnecessary locally (the harness route is open on non-production deployments).
 
 - [ ] Connect repository on /deposit
 - [ ] Synthesize AssetPack options (real inference if enabled)
