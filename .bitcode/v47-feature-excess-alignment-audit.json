@@ -5,7 +5,7 @@
   "currentTarget": "V46",
   "sourceSafetyVerdict": "source-safe-launch-scope-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v47-feature-excess-alignment-audit:76351ff10deb6505730951c4",
+  "artifactRoot": "v47-feature-excess-alignment-audit:dab72941b86dd32b989699fa",
   "passed": true,
   "launchRouteIds": [
     "/deposit",
@@ -170,7 +170,7 @@
     "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
-    "roadmap": "SPECIFICATIONS_ROADMAP.md:dd65b4f247f3f62a2b2ed547",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
     "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
     "nav": "uapi/components/base/bitcode/layout/nav.tsx:2b2eaaf65982969883af8d1e",
     "features": "uapi/config/features.ts:6ff2da113ab17dfc468d7461",

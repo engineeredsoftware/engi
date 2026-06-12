@@ -453,7 +453,7 @@
     "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
     "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
     "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
-    "roadmap": "SPECIFICATIONS_ROADMAP.md:dd65b4f247f3f62a2b2ed547",
+    "roadmap": "SPECIFICATIONS_ROADMAP.md:2400ea79d304ff28b7fd8e7a",
     "depositRouteModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
     "readRouteModel": "uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
     "packActivityModel": "uapi/components/base/bitcode/activity/pack-activity-model.ts:5505d016bb0af42b461d98bb",
@@ -471,7 +471,7 @@
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
   },
-  "artifactRoot": "v47-seller-buyer-state-machine-law:40121031f1834158f610c7ce",
+  "artifactRoot": "v47-seller-buyer-state-machine-law:aa2e39a8535a5227507c7cba",
   "coverage": {
     "requiredPredicateCount": 18,
     "passedPredicateCount": 18,
