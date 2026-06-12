@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Boxes,
   GitBranch,
@@ -182,6 +182,11 @@ export default function DepositPageClient() {
   // measurements staled by time triggering resynthesis on re-deposit.
   const [confirmingAdmissionOptionId, setConfirmingAdmissionOptionId] =
     useState<string | null>(null);
+  // A submitted deposit request immediately runs AssetPacksSynthesis with
+  // visible telemetry (V48 Gate 2 law: every deposit/read submission shows
+  // the executing pipeline live). Ref breaks the callback ordering cycle.
+  const synthesizeOptionsRef = useRef<(() => Promise<void>) | null>(null);
+  const synthesisTelemetryRef = useRef<HTMLElement | null>(null);
 
   const readCurrentSearchParams = useCallback(
     () =>
@@ -642,6 +647,15 @@ export default function DepositPageClient() {
       if (draft.selectAfterRecord !== false)
         replaceDepositRouteTransaction(nextRun.id);
       void refreshLiveRuns();
+      // A composer deposit submission IS a Deposit Request: run
+      // AssetPacksSynthesis immediately so the executing pipeline is
+      // visible from the moment of submission.
+      if (
+        (draft.context as Record<string, unknown> | undefined)?.source ===
+        "terminal-deposit-composer"
+      ) {
+        void synthesizeOptionsRef.current?.();
+      }
       return nextRun;
     },
     [
@@ -736,6 +750,18 @@ export default function DepositPageClient() {
     replaceDepositSearchParams,
     repositoryContext,
   ]);
+
+  useEffect(() => {
+    synthesizeOptionsRef.current = handleSynthesizeOptions;
+  }, [handleSynthesizeOptions]);
+
+  useEffect(() => {
+    if (!synthesisRunId) return;
+    synthesisTelemetryRef.current?.scrollIntoView?.({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [synthesisRunId]);
 
   const handleOptionReviewDecision = useCallback(
     async (optionId: string, decision: DepositOptionReviewDecisionState) => {
@@ -1046,6 +1072,7 @@ export default function DepositPageClient() {
 
             {synthesisRunId ? (
               <section
+                ref={synthesisTelemetryRef}
                 className="border border-white/10 bg-white/[0.035] px-4 py-4"
                 aria-label="AssetPacksSynthesis run telemetry"
                 data-testid="deposit-synthesis-telemetry"
