@@ -40,9 +40,85 @@ export default function WalletSessionPersistenceBridge() {
   useEffect(() => {
     let cancelled = false;
 
+    // Canonical wallet sign-up signs on the OAuth provider authorize page, so
+    // nothing is staged locally to replay. Ask the server to derive the
+    // binding from the session's GoTrue-verified Bitcoin identity instead.
+    const persistOAuthIdentityBinding = async (
+      reason: string,
+      localIdentity: LocalBitcodeWalletIdentity | null,
+    ) => {
+      if (localIdentity?.persistence === 'server') return;
+
+      try {
+        const supabase = createClient();
+        const existing = await supabase.auth.getUser();
+        const user = existing.data.user;
+        if (cancelled || !user) return;
+
+        const hasBitcoinIdentity = (user.identities ?? []).some(
+          (entry: { provider?: string }) => entry?.provider === 'custom:bitcode-bitcoin',
+        );
+        if (!hasBitcoinIdentity) return;
+
+        const persistenceKey = `oauth-identity:${user.id}`;
+        if (inFlightKeyRef.current === persistenceKey) return;
+        inFlightKeyRef.current = persistenceKey;
+
+        bitcodeQaTelemetry('info', 'wallet-session', 'oauth-identity-bind-start', { reason });
+
+        const response = await fetch('/api/wallet/authenticate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ source: 'oauth-identity', proofKind: 'provider_session' }),
+        });
+        const payload = await response.json().catch(() => null);
+
+        if (!response.ok) {
+          inFlightKeyRef.current = null;
+          bitcodeQaTelemetry('warn', 'wallet-session', 'oauth-identity-bind-failed', {
+            status: response.status,
+            error: typeof (payload as any)?.error === 'string' ? (payload as any).error : null,
+          });
+          return;
+        }
+
+        if (cancelled) return;
+
+        const status = (payload as any)?.walletConnectionStatus ?? null;
+        const address = typeof status?.address === 'string' ? status.address : null;
+        const provider = typeof status?.provider === 'string' ? status.provider : null;
+        if (address && provider) {
+          writeLocalBitcodeWalletIdentity({
+            address,
+            provider,
+            network: typeof status?.network === 'string' ? status.network : null,
+            status: readPersistedStatus(payload, 'pending'),
+            connectedAt: readPersistedAt(payload, new Date().toISOString()),
+            proofKind: 'provider_session',
+            paymentAddress: null,
+            authAddress: address,
+            persistence: 'server',
+          });
+        }
+        await mutateUserData();
+        bitcodeQaTelemetry('info', 'wallet-session', 'oauth-identity-bind-success', {
+          reason,
+          address: compactBitcodeAddress(address),
+        });
+      } catch (error) {
+        inFlightKeyRef.current = null;
+        bitcodeQaTelemetry('warn', 'wallet-session', 'oauth-identity-bind-error', {
+          message: error instanceof Error ? error.message : String(error),
+        });
+      }
+    };
+
     const persistLocalWalletIdentity = async (reason: string) => {
       const identity = readLocalBitcodeWalletIdentity();
-      if (!canPersistWalletIdentity(identity)) return;
+      if (!canPersistWalletIdentity(identity)) {
+        await persistOAuthIdentityBinding(reason, identity);
+        return;
+      }
 
       const persistenceKey = `${identity.provider}:${identity.address}:${identity.signature}`;
       if (inFlightKeyRef.current === persistenceKey) return;

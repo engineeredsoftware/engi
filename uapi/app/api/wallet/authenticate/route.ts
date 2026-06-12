@@ -25,6 +25,7 @@ type WalletAuthPayload = {
   addressType?: unknown;
   issuedAt?: unknown;
   connectedAt?: unknown;
+  source?: unknown;
 };
 
 const BITCOIN_WALLET_PROVIDERS = new Set([
@@ -76,6 +77,73 @@ function isBitcodeBitcoinWalletMessage(message: string, address: string) {
   );
 }
 
+function asRecord(value: unknown): Record<string, unknown> | null {
+  return value && typeof value === 'object' && !Array.isArray(value)
+    ? (value as Record<string, unknown>)
+    : null;
+}
+
+// GoTrue keeps only standard OIDC claims in identity_data, so the userinfo
+// label ("Leather Bitcoin wallet") is often the only provider signal left.
+const WALLET_PROVIDER_LABEL_ALIASES: Record<string, string> = {
+  okx: 'okx-bitcoin',
+};
+
+type BitcoinOAuthIdentityLike = {
+  provider?: string;
+  created_at?: string;
+  identity_data?: Record<string, unknown> | null;
+};
+
+function deriveWalletFromBitcoinOAuthIdentity(user: {
+  identities?: BitcoinOAuthIdentityLike[] | null;
+}) {
+  const identity = (user.identities ?? []).find(
+    (entry) => entry?.provider === 'custom:bitcode-bitcoin',
+  );
+  if (!identity) return null;
+
+  const claims = identity.identity_data ?? {};
+  const sub = readNonEmptyString(claims.sub);
+  const subMatch = sub ? /^bitcoin:([a-z0-9-]+):(\S+)$/i.exec(sub) : null;
+  const address =
+    readNonEmptyString(claims.bitcoin_auth_address) ??
+    readNonEmptyString(claims.bitcoin_address) ??
+    (subMatch ? subMatch[2] : null);
+  if (!address || !isPlausibleBitcoinAddress(address)) return null;
+
+  const labelStem =
+    readNonEmptyString(claims.wallet_provider) ??
+    readNonEmptyString(claims.wallet_provider_label) ??
+    readNonEmptyString(claims.name)?.replace(/\s+bitcoin\s+wallet$/i, '') ??
+    '';
+  const providerKey = labelStem.toLowerCase();
+  const provider = BITCOIN_WALLET_PROVIDERS.has(providerKey)
+    ? providerKey
+    : WALLET_PROVIDER_LABEL_ALIASES[providerKey] ?? 'bitcoin-wallet';
+
+  const network =
+    readNonEmptyString(claims.bitcoin_network) ??
+    (subMatch ? subMatch[1].toLowerCase() : null) ??
+    (address.toLowerCase().startsWith('tb1')
+      ? 'testnet'
+      : address.toLowerCase().startsWith('bcrt1')
+        ? 'regtest'
+        : 'mainnet');
+
+  return {
+    address,
+    provider,
+    network,
+    paymentAddress: readNonEmptyString(claims.bitcoin_payment_address),
+    authAddress: readNonEmptyString(claims.bitcoin_auth_address) ?? address,
+    addressType: readNonEmptyString(claims.bitcoin_address_type),
+    connectedAt:
+      readNonEmptyString(claims.wallet_proof_captured_at) ??
+      readNonEmptyString(identity.created_at),
+  };
+}
+
 export async function POST(request: Request) {
   const supabase = await createClient();
   const {
@@ -105,17 +173,48 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const address = readNonEmptyString(body.address);
-  const provider = normalizeProvider(body.provider);
-  const network = readNonEmptyString(body.network);
-  const message = readNonEmptyString(body.message);
-  const signature = readNonEmptyString(body.signature);
-  const proofKind = normalizeProofKind(body.proofKind);
-  const paymentAddress = readNonEmptyString(body.paymentAddress);
-  const authAddress = readNonEmptyString(body.authAddress);
-  const addressType = readNonEmptyString(body.addressType);
+  let address = readNonEmptyString(body.address);
+  let provider = normalizeProvider(body.provider);
+  let network = readNonEmptyString(body.network);
+  let message = readNonEmptyString(body.message);
+  let signature = readNonEmptyString(body.signature);
+  let proofKind = normalizeProofKind(body.proofKind);
+  let paymentAddress = readNonEmptyString(body.paymentAddress);
+  let authAddress = readNonEmptyString(body.authAddress);
+  let addressType = readNonEmptyString(body.addressType);
   const issuedAt = readNonEmptyString(body.issuedAt);
-  const connectedAt = readNonEmptyString(body.connectedAt) ?? issuedAt;
+  let connectedAt = readNonEmptyString(body.connectedAt) ?? issuedAt;
+
+  // OAuth-identity mode: the canonical wallet sign-up signs on the provider
+  // authorize page, so nothing is staged client-side to replay. Derive the
+  // binding from the session's GoTrue-verified identity instead of trusting
+  // any client-supplied wallet fields.
+  const fromOAuthIdentity = readNonEmptyString(body.source) === 'oauth-identity';
+  if (fromOAuthIdentity) {
+    const derived = deriveWalletFromBitcoinOAuthIdentity(user);
+    if (!derived) {
+      bitcodeServerTelemetry('warn', 'wallet-authenticate', 'oauth-identity-missing', {
+        userId: compactBitcodeServerId(user.id),
+      });
+      return NextResponse.json(
+        {
+          error: 'No Bitcoin wallet OAuth identity is attached to this Bitcode session.',
+          code: 'wallet_oauth_identity_missing',
+        },
+        { status: 422 },
+      );
+    }
+    address = derived.address;
+    provider = derived.provider;
+    network = derived.network;
+    message = null;
+    signature = null;
+    proofKind = 'provider_session';
+    paymentAddress = derived.paymentAddress;
+    authAddress = derived.authAddress;
+    addressType = derived.addressType;
+    connectedAt = derived.connectedAt ?? connectedAt;
+  }
 
   if (!address || !isPlausibleBitcoinAddress(address)) {
     bitcodeServerTelemetry('warn', 'wallet-authenticate', 'invalid-address', {
@@ -196,6 +295,37 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: profileReadError.message }, { status: 500 });
   }
 
+  // Idempotent no-op for identity-derived binds: the bridge retries on
+  // mount/focus, so a matching existing binding short-circuits the writes.
+  if (fromOAuthIdentity) {
+    const settingsRecord = asRecord(existingProfile?.settings);
+    const existingBinding =
+      asRecord(asRecord(settingsRecord?.bitcodeProfile)?.walletBinding) ??
+      asRecord(settingsRecord?.walletBinding);
+    if (readNonEmptyString(existingBinding?.address) === address) {
+      const existingStatus = readNonEmptyString(existingBinding?.status) ?? 'pending';
+      return NextResponse.json({
+        success: true,
+        alreadyBound: true,
+        profile: hydrateBitcodeProfile(existingProfile),
+        walletConnectionStatus: {
+          connected: true,
+          provider: readNonEmptyString(existingBinding?.provider) ?? provider,
+          valid: existingStatus === 'verified',
+          address,
+          network: readNonEmptyString(existingBinding?.network) ?? network,
+          verificationState: existingStatus,
+          metadata: {
+            source: 'bitcoin_wallet_oauth_identity',
+            connectionAddress: address,
+            matchesBindingAddress: true,
+            connectedAt: readNonEmptyString(existingBinding?.boundAt) ?? connectedAt,
+          },
+        },
+      });
+    }
+  }
+
   const username =
     typeof existingProfile?.username === 'string' && existingProfile.username.trim()
       ? existingProfile.username.trim()
@@ -252,7 +382,7 @@ export async function POST(request: Request) {
         network,
         verification_state: bindingStatus,
         status: bindingStatus,
-        auth_source: 'bitcoin_wallet_provider',
+        auth_source: fromOAuthIdentity ? 'bitcoin_wallet_oauth_identity' : 'bitcoin_wallet_provider',
         proof_kind: proofKind,
         payment_address: paymentAddress,
         auth_address: authAddress,
@@ -308,9 +438,10 @@ export async function POST(request: Request) {
         provider,
         valid: true,
         address,
+        network,
         verificationState: bindingStatus,
         metadata: {
-          source: 'wallet_provider_connection',
+          source: fromOAuthIdentity ? 'bitcoin_wallet_oauth_identity' : 'wallet_provider_connection',
           connectionAddress: address,
           matchesBindingAddress: true,
           connectedAt: connectedAt ?? persistedAt,

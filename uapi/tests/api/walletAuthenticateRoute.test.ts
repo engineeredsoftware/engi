@@ -206,6 +206,116 @@ describe('POST /api/wallet/authenticate', () => {
     );
   });
 
+  const OAUTH_ADDRESS = 'tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2';
+  const OAUTH_USER = {
+    id: 'user-1',
+    identities: [
+      {
+        provider: 'custom:bitcode-bitcoin',
+        created_at: '2026-06-12T18:53:23.217Z',
+        identity_data: {
+          sub: `bitcoin:testnet:${OAUTH_ADDRESS}`,
+          name: 'Leather Bitcoin wallet',
+          preferred_username: 'btc_tb1p6x70u8ag7hkmgs',
+        },
+      },
+    ],
+  };
+
+  function createOAuthIdentityRequest() {
+    return new Request('http://localhost/api/wallet/authenticate', {
+      method: 'POST',
+      body: JSON.stringify({ source: 'oauth-identity', proofKind: 'provider_session' }),
+    });
+  }
+
+  it('derives the wallet binding server-side from the session OAuth identity', async () => {
+    const { profileWriteBuilder, connectionWriteBuilder } = installSupabaseMocks({
+      user: OAUTH_USER,
+    });
+
+    const response = await POST(createOAuthIdentityRequest());
+    expect(response.status).toBe(201);
+    expect(profileWriteBuilder.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        id: 'user-1',
+        username: 'wallet_tb1p6x70u8ag',
+        settings: expect.objectContaining({
+          bitcodeProfile: expect.objectContaining({
+            walletBinding: expect.objectContaining({
+              address: OAUTH_ADDRESS,
+              provider: 'leather',
+              status: 'pending',
+              network: 'testnet',
+              proofKind: 'provider_session',
+              authAddress: OAUTH_ADDRESS,
+            }),
+          }),
+        }),
+      }),
+      { onConflict: 'id' },
+    );
+    expect(connectionWriteBuilder.upsert).toHaveBeenCalledWith(
+      expect.objectContaining({
+        user_id: 'user-1',
+        provider: 'leather',
+        connection_data: expect.objectContaining({
+          auth_source: 'bitcoin_wallet_oauth_identity',
+          proof_kind: 'provider_session',
+          verification_state: 'pending',
+        }),
+      }),
+      { onConflict: 'user_id,provider' },
+    );
+  });
+
+  it('no-ops idempotently when the OAuth identity binding already exists', async () => {
+    const { profileWriteBuilder, connectionWriteBuilder } = installSupabaseMocks({
+      user: OAUTH_USER,
+      existingProfile: {
+        id: 'user-1',
+        username: 'wallet_tb1p6x70u8ag',
+        settings: {
+          bitcodeProfile: {
+            walletBinding: {
+              address: OAUTH_ADDRESS,
+              provider: 'leather',
+              status: 'pending',
+              boundAt: '2026-06-12T18:53:23.217Z',
+              network: 'testnet',
+            },
+          },
+        },
+      },
+    });
+
+    const response = await POST(createOAuthIdentityRequest());
+    expect(response.status).toBe(200);
+    await expect(response.json()).resolves.toEqual(
+      expect.objectContaining({
+        success: true,
+        alreadyBound: true,
+        walletConnectionStatus: expect.objectContaining({
+          address: OAUTH_ADDRESS,
+          provider: 'leather',
+          verificationState: 'pending',
+        }),
+      }),
+    );
+    expect(profileWriteBuilder.upsert).not.toHaveBeenCalled();
+    expect(connectionWriteBuilder.upsert).not.toHaveBeenCalled();
+  });
+
+  it('rejects oauth-identity mode when the session carries no Bitcoin identity', async () => {
+    installSupabaseMocks({ user: { id: 'user-1' } });
+
+    const response = await POST(createOAuthIdentityRequest());
+    expect(response.status).toBe(422);
+    await expect(response.json()).resolves.toEqual(
+      expect.objectContaining({ code: 'wallet_oauth_identity_missing' }),
+    );
+  });
+
   it('surfaces the migration prerequisite if wallet connection persistence is still constrained', async () => {
     installSupabaseMocks({
       user: { id: 'user-1' },
