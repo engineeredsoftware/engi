@@ -232,24 +232,18 @@ describe("DepositPageClient", () => {
     expect(
       screen.getByText(/Unfit Need opportunities/u),
     ).toBeInTheDocument();
+    // Blueprint option cards are retired from the surface: until a real
+    // AssetPacksSynthesis run returns, the options grid shows the
+    // await-synthesis state instead of deterministic previews (F12).
     expect(
-      screen.getAllByText(/BTC source-to-shares preview/u).length,
-    ).toBeGreaterThan(0);
-    expect(
-      screen.getAllByText(/Approve for Depository/u).length,
-    ).toBeGreaterThan(0);
-    expect(
-      screen.getAllByText(/not-admitted-pending-review/u).length,
-    ).toBeGreaterThan(0);
-    expect(
-      screen.getByTestId("deposit-option-capability-slice"),
+      screen.getByTestId("deposit-options-await-synthesis"),
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId("deposit-option-implementation-pattern"),
-    ).toBeInTheDocument();
+      screen.queryByTestId("deposit-option-capability-slice"),
+    ).not.toBeInTheDocument();
     expect(
-      screen.getByTestId("deposit-option-proof-operations-slice"),
-    ).toBeInTheDocument();
+      screen.queryByTestId("deposit-option-proof-operations-slice"),
+    ).not.toBeInTheDocument();
 
     await waitFor(() =>
       expect(

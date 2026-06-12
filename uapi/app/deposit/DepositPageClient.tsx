@@ -1137,8 +1137,23 @@ export default function DepositPageClient() {
                     : ""}
                 </p>
               ) : null}
+              {!realSynthesis ? (
+                <div
+                  data-testid="deposit-options-await-synthesis"
+                  className="mt-5 border border-white/10 bg-black/20 px-4 py-6 text-sm leading-6 text-neutral-400"
+                >
+                  Measured AssetPack options appear here after
+                  AssetPacksSynthesis runs against the connected source —
+                  connect a repository and Synthesize options. Deterministic
+                  blueprint previews are retired from this surface; every
+                  reviewable option carries real measurements.
+                </div>
+              ) : null}
               <div className="mt-5 grid gap-3 xl:grid-cols-3">
-                {depositRouteSession.synthesis.options.map((option) => {
+                {(realSynthesis
+                  ? depositRouteSession.synthesis.options
+                  : []
+                ).map((option) => {
                   const reviewDecision =
                     optionReviewDecisions[option.optionId] ||
                     "pending-depositor-review";
