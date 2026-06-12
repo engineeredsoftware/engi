@@ -7,6 +7,20 @@
 - Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4
 - Source-safety posture: source-safe evidence only; no secrets, protected source, provider payloads, wallet material, service-role keys, database credentials, or raw private prompts are serialized here.
 
+## QA scripts (committed at `supabase/queries/v48_qa_*.sql`)
+
+Run in the Supabase SQL editor; all auto-target the most recent `custom:bitcode-bitcoin` user (purge-proof, no UUID editing). Run-after map:
+
+| Script | Run after |
+|---|---|
+| `v48_qa_01_auth_user_identity` | wallet sign-up / sign-in |
+| `v48_qa_02_profile_wallet_binding` | first sessioned page load (bridge mount) or any wallet persist |
+| `v48_qa_03_user_connections_token_safe` | wallet binding write or GitHub install callback |
+| `v48_qa_04_repository_inventory` | Externals pane load post-GitHub-connect (repo sync) |
+| `v48_qa_05_track1_readiness_rollup` | anytime — one-row Track 1 summary |
+
+Track 2-4 scripts (deposit activity, BTD ledger, settlement, pack journaling) get added when those tracks open; the `v28_qa_terminal_*` set remains the historical reference.
+
 ## QA Tracks
 
 1. Identity, authentication, sign up/in, Auxillaries (GitHub, wallet connections)
@@ -119,7 +133,8 @@
 - [x] Wallet binding persisted after sign-in — verified 2026-06-12: identity-derived bind populated `username` (`wallet_tb1p6x70u8ag`) and the full `walletBinding` (address, provider `leather`, network `testnet`, status `pending`, `proofKind: provider_session`, `boundAt` stamped on bridge mount). `payment_address`/`addressType` stay null in identity-derived binds (GoTrue drops the custom claims); they backfill via the in-panel signature flow, which settlement-adjacent actions require anyway.
 - [ ] Session persists across refresh (watch F2)
 - [ ] Profile pane readback (optional email binding behaves as contact-binding, not sign-in)
-- [ ] Externals: GitHub App connect + repository inventory — connect verified 2026-06-12 (installation `139922918`, account `engineeredsoftware`, repository_selection `all`, installation token with contents/PR write, connection saved for the wallet-identity user after fixing the env placeholders). Post-connect redirect retargeted from the legacy `/terminal` overlay to `/packs?auxillary-open-to=externals`. Remaining: visual confirm of Externals pane repository inventory readback.
+- [x] Externals: GitHub App connect + repository inventory — verified 2026-06-12: installation `139922918` (`engineeredsoftware`, repository_selection `all`), provider readiness "succeeded" with source-safe token posture, 46 repositories synced into `vcs_repositories` with full metadata. Post-connect redirect retargeted from the legacy `/terminal` overlay to `/packs?auxillary-open-to=externals`. Connected Scope pill list was hard-capped at 8 (`repositories.slice(0, 8)`) — now renders all in a scrollable wrap.
+- QA evidence hygiene note: ad-hoc `user_connections` dumps that select `connection_data` wholesale expose the GitHub installation `access_token` (short-lived, 1h expiry — the one pasted on 2026-06-12 expired 21:08Z; no rotation needed). Use `v48_qa_03_user_connections_token_safe.sql` instead; never paste raw `connection_data`.
 - [ ] Wallet pane: binding shows verified, fauceted testnet4 balance visible
 - [ ] Organization/team + treasury panes render
 
