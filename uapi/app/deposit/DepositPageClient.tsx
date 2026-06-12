@@ -55,6 +55,7 @@ import {
   buildDepositRouteSession,
   readDepositRouteStage,
   writeDepositRouteStage,
+  type DepositRouteSession,
 } from "./deposit-route-model";
 import type {
   DepositOptionReviewDecision,
@@ -138,7 +139,34 @@ export default function DepositPageClient() {
       "packages/pipelines/asset-pack/src/depository-supply-index.ts",
     ].join("\n"),
   );
+  const [protectedIpExclusionsText, setProtectedIpExclusionsText] = useState("");
   const [optionsRequested, setOptionsRequested] = useState(false);
+  const [synthesisStatus, setSynthesisStatus] = useState<
+    "idle" | "running" | "complete" | "failed"
+  >("idle");
+  const [synthesisError, setSynthesisError] = useState<string | null>(null);
+  const [realSynthesis, setRealSynthesis] = useState<{
+    synthesis: DepositRouteSession["synthesis"] & {
+      synthesisMode?: string;
+      inference?: {
+        provider: string | null;
+        model: string | null;
+        totalTokens: number | null;
+        durationMs: number | null;
+      };
+      exclusionPosture?: {
+        protectedIpExclusionCount: number;
+        excludedPathCount: number;
+        droppedCandidateCount: number;
+      };
+    };
+    reviewProjections: Array<{
+      optionId: string;
+      title: string;
+      coveredSourcePaths: string[];
+      measurementRationale: string;
+    }>;
+  } | null>(null);
   const [optionReviewDecisions, setOptionReviewDecisions] = useState<
     Record<string, DepositOptionReviewDecisionState>
   >({});
@@ -425,6 +453,7 @@ export default function DepositPageClient() {
       reviewerId: user?.id || preferredSignerAddress || null,
       hasRepositorySource: Boolean(repositoryContext?.selectedRepository),
       optionsRequested,
+      precomputedOptionSynthesis: realSynthesis?.synthesis ?? null,
       hasReviewedOption: optionReviewDecisionRecords.length > 0,
       hasSubmittedDeposit,
       hasDepositoryReadback,
@@ -439,6 +468,7 @@ export default function DepositPageClient() {
       optionsRequested,
       optionReviewDecisionRecords.length,
       preferredSignerAddress,
+      realSynthesis,
       repositoryContext,
       routeDepositStage,
       selectedRun?.id,
@@ -586,63 +616,80 @@ export default function DepositPageClient() {
     ],
   );
 
+  // Real option synthesis via the AssetPacksSynthesis pipeline (deposit
+  // lens). The server route builds the exclusion-filtered source inventory,
+  // runs bounded inference, persists the execution row with real
+  // token/duration accounting, and returns the measured synthesis. The
+  // deterministic blueprint path is no longer reachable from this surface
+  // (V48 Gate 2, QA ledger F12/F14).
   const handleSynthesizeOptions = useCallback(async () => {
-    setOptionsRequested(true);
-    replaceDepositSearchParams(
-      writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
-    );
-
-    const nextSession = buildDepositRouteSession({
-      ...depositRouteInput,
-      optionsRequested: true,
-      optionReviewDecisions: optionReviewDecisionRecords,
-    });
+    setSynthesisStatus("running");
+    setSynthesisError(null);
 
     try {
-      await handleRecordActivity({
-        type: "pipeline:deposit-option-synthesis",
-        status: "completed",
-        summary: `Synthesized ${nextSession.synthesis.optionCount} source-safe deposit AssetPack options for ${nextSession.routeState.repositoryFullName || "the selected source"}.`,
-        selectAfterRecord: true,
-        output: {
-          depositRouteSession: nextSession,
-          depositOptionSynthesis: nextSession.synthesis,
-          depositOptionPolicy: nextSession.policy,
-          depositorEarningSupplyIntelligence:
-            nextSession.earningSupplyIntelligence,
-          organizationPolicyWalletAuthority:
-            nextSession.organizationPolicyWalletAuthority,
-        },
-        context: {
-          source: "deposit-option-synthesis",
-          workbench: "deposit-option-synthesis",
-          route: DEPOSIT_ROUTE,
-          repositoryFullName: nextSession.routeState.repositoryFullName,
-          sourceBranch: nextSession.routeState.sourceBranch,
-          sourceCommit: nextSession.routeState.sourceCommit,
-          optionCount: nextSession.synthesis.optionCount,
-          synthesisRoot: nextSession.synthesis.roots.synthesisRoot,
-          policyReportRoot: nextSession.policy.roots.policyReportRoot,
-          earningSupplyIntelligenceRoot:
-            nextSession.earningSupplyIntelligence.roots.intelligenceRoot,
-          organizationPolicyWalletAuthorityRoot:
-            nextSession.organizationPolicyWalletAuthority.roots.authorityRoot,
-          sourceSafetyClass: nextSession.disclosure.sourceSafetyClass,
-        },
+      const response = await fetch("/api/deposit/synthesize-options", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          repositoryFullName:
+            repositoryContext?.selectedRepository?.fullName || null,
+          sourceBranch: repositoryContext?.selectedBranch || null,
+          sourceCommit: repositoryContext?.selectedCommit || null,
+          depositorInstructions,
+          protectedIpExclusions: protectedIpExclusionsText,
+          demandContext: [
+            ...depositRouteInput.depositoryDemandSignals.map(
+              (signal) => signal.label,
+            ),
+            ...depositRouteInput.readingDemandSignals.map(
+              (signal) => signal.label,
+            ),
+          ],
+          depositoryDemandSignals: depositRouteInput.depositoryDemandSignals,
+          readingDemandSignals: depositRouteInput.readingDemandSignals,
+          existingDepositorySignals:
+            depositRouteInput.existingDepositorySignals,
+        }),
       });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.ok || !payload?.synthesis) {
+        throw new Error(
+          typeof payload?.error === "string"
+            ? payload.error
+            : "Deposit option synthesis failed.",
+        );
+      }
+
+      setRealSynthesis({
+        synthesis: payload.synthesis,
+        reviewProjections: Array.isArray(payload.reviewProjections)
+          ? payload.reviewProjections
+          : [],
+      });
+      setOptionsRequested(true);
+      setSynthesisStatus("complete");
+      replaceDepositSearchParams(
+        writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
+      );
+      void refreshLiveRuns();
     } catch (error) {
-      setRunsLoadError(
+      setSynthesisStatus("failed");
+      setSynthesisError(
         error instanceof Error
           ? error.message
-          : "Unable to record deposit option synthesis.",
+          : "Deposit option synthesis failed.",
       );
     }
   }, [
-    depositRouteInput,
-    handleRecordActivity,
-    optionReviewDecisionRecords,
+    depositorInstructions,
+    depositRouteInput.depositoryDemandSignals,
+    depositRouteInput.existingDepositorySignals,
+    depositRouteInput.readingDemandSignals,
+    protectedIpExclusionsText,
     readCurrentSearchParams,
+    refreshLiveRuns,
     replaceDepositSearchParams,
+    repositoryContext,
   ]);
 
   const handleOptionReviewDecision = useCallback(
@@ -891,16 +938,48 @@ export default function DepositPageClient() {
                     className="mt-2 min-h-[6rem] w-full border border-white/10 bg-black/30 px-3 py-3 font-mono text-xs leading-5 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
                 </label>
+                <label className="mt-4 block">
+                  <span className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
+                    Protected IP exclusions (one per line)
+                  </span>
+                  <textarea
+                    value={protectedIpExclusionsText}
+                    onChange={(event) =>
+                      setProtectedIpExclusionsText(event.target.value)
+                    }
+                    placeholder={"e.g. src/secret-engine/\ninternal pricing model"}
+                    className="mt-2 min-h-[6rem] w-full border border-amber-300/15 bg-black/30 px-3 py-3 font-mono text-xs leading-5 text-neutral-100 outline-none transition focus:border-amber-300/40"
+                  />
+                  <span className="mt-1 block text-xs leading-5 text-neutral-500">
+                    Excluded paths and concepts never enter AssetPack knowledge
+                    synthesis: they are removed from the source inventory before
+                    measurement, and candidates that touch them are dropped
+                    fail-closed.
+                  </span>
+                </label>
                 <button
                   type="button"
                   onClick={() => {
                     void handleSynthesizeOptions();
                   }}
-                  disabled={!depositRouteSession.routeState.repositoryFullName}
+                  disabled={
+                    !depositRouteSession.routeState.repositoryFullName ||
+                    synthesisStatus === "running"
+                  }
                   className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
                 >
-                  Synthesize options
+                  {synthesisStatus === "running"
+                    ? "Synthesizing with AssetPacksSynthesis…"
+                    : "Synthesize options"}
                 </button>
+                {synthesisStatus === "failed" && synthesisError ? (
+                  <p
+                    role="alert"
+                    className="mt-3 border border-rose-300/25 bg-rose-300/10 px-3 py-2 text-xs leading-5 text-rose-100"
+                  >
+                    {synthesisError}
+                  </p>
+                ) : null}
               </section>
             </div>
 
@@ -930,6 +1009,26 @@ export default function DepositPageClient() {
                   {depositRouteSession.synthesis.pipeline}
                 </span>
               </div>
+              {realSynthesis?.synthesis?.inference ? (
+                <p
+                  data-testid="deposit-synthesis-inference"
+                  className="mt-3 border border-emerald-300/12 bg-emerald-300/[0.05] px-3 py-2 text-xs leading-5 text-emerald-100/90"
+                >
+                  Measured by AssetPacksSynthesis (deposit lens):{" "}
+                  {realSynthesis.synthesis.inference.model || "configured model"}
+                  {typeof realSynthesis.synthesis.inference.totalTokens ===
+                  "number"
+                    ? ` · ${realSynthesis.synthesis.inference.totalTokens.toLocaleString()} tokens`
+                    : ""}
+                  {typeof realSynthesis.synthesis.inference.durationMs ===
+                  "number"
+                    ? ` · ${(realSynthesis.synthesis.inference.durationMs / 1000).toFixed(1)}s`
+                    : ""}
+                  {realSynthesis.synthesis.exclusionPosture
+                    ? ` · ${realSynthesis.synthesis.exclusionPosture.protectedIpExclusionCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
+                    : ""}
+                </p>
+              ) : null}
               <div className="mt-5 grid gap-3 xl:grid-cols-3">
                 {depositRouteSession.synthesis.options.map((option) => {
                   const reviewDecision =
@@ -974,6 +1073,29 @@ export default function DepositPageClient() {
                         <p className="mt-2 text-sm leading-6 text-neutral-400">
                           {option.summary}
                         </p>
+                        {(() => {
+                          const projection =
+                            realSynthesis?.reviewProjections.find(
+                              (entry) => entry.optionId === option.optionId,
+                            );
+                          if (!projection) return null;
+                          return (
+                            <details className="mt-2 text-xs leading-5 text-neutral-400">
+                              <summary className="cursor-pointer text-neutral-300">
+                                Covered source (
+                                {projection.coveredSourcePaths.length} paths)
+                              </summary>
+                              <ul className="mt-1 max-h-32 overflow-y-auto font-mono">
+                                {projection.coveredSourcePaths.map((path) => (
+                                  <li key={path}>{path}</li>
+                                ))}
+                              </ul>
+                              <p className="mt-2 text-neutral-500">
+                                {projection.measurementRationale}
+                              </p>
+                            </details>
+                          );
+                        })()}
                       </div>
                       <dl className="grid gap-2">
                         {policyEvaluation ? (

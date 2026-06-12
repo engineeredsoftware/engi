@@ -129,6 +129,1192 @@
   },
   "assets": [
     {
+      "assetId": "asset_some-python_cf52968514",
+      "depositedAt": "2026-06-12T22:20:29.402Z",
+      "title": "Some Python",
+      "artifactKind": "Codez",
+      "artifactType": "Codez",
+      "repositoryFullName": "engineeredsoftware/demo-python",
+      "sourceBranch": "main",
+      "sourceCommit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+      "hasWalletOrAttestationProof": true,
+      "hasAssetMeasurementEvidence": true,
+      "proofRoot": "sha256:6e327d59bf1c2337a888691a33caf35ccc4723f7f69ada3ffc4d8726a20e3e39",
+      "measurementRoot": "sha256:c8962cfaf6310ac1efe4327c654c6f682dc20624d9ba035550fd8fae5755a6c8",
+      "reconciliationReadbackRoot": "sha256:665b36c0ffd5e71460da16320698f62e3315e6e9df6af040dc388f315926853f",
+      "depositorySearchDocumentRoot": "sha256:84a020b3aaa706122e16c6a84fff98dd9316513a80fee10cc600c10b2b4cbd6a",
+      "lexicalDocumentRoot": "sha256:c686c9c64a92c2e0000e5ff2b16b047523108c465b3db8edab558cb22f455804",
+      "vectorDocumentRoot": "sha256:05d0393593a42c2b2531690b85254734eaa5ed515dbd914e36c55e8a97c8d58a",
+      "compensationPreviewRoot": "sha256:64b3ed95053c8f91b3827ba8fb270cdb8f26331c4caeed3bcad2a439a59fb97f",
+      "sourceToSharesPreviewRoot": "sha256:d84b9e545abbfed37b366c0cf67a9d2d495dead2328163f9cef063da3acab709",
+      "depositorWalletId": "wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+      "compensationPreview": {
+        "schema": "bitcode.depository.supply-compensation-preview",
+        "state": "eligible-if-selected-for-assetpack",
+        "assetId": "asset_some-python_cf52968514",
+        "depositorWalletId": "wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+        "candidateBtdRange": null,
+        "compensationRoute": {
+          "payer": "future-reader-after-settlement",
+          "payee": "depositing-wallet",
+          "priceAsset": "BTC",
+          "allocationMethod": "source-to-shares-largest-remainder",
+          "sourceToSharesProofState": "not-created-until-accepted-need-fit-and-settlement",
+          "btdMintBoundary": "not-minted-by-deposit-admission",
+          "btdRightsTransferBoundary": "reader-receives-rights-only-after-btc-settlement"
+        },
+        "readiness": {
+          "sourceBound": true,
+          "proofReady": true,
+          "measurementReady": true,
+          "searchable": true,
+          "depositorWalletReady": true,
+          "eligibleForFindingFits": true,
+          "eligibleForCompensationIfSelected": true,
+          "blockers": [],
+          "warnings": []
+        },
+        "visibility": {
+          "beforeSettlement": "source-safe-compensation-route-metadata",
+          "protectedSourceVisible": false,
+          "unpaidAssetPackSourceVisible": false,
+          "walletPrivateMaterialVisible": false,
+          "settlementPrivatePayloadVisible": false
+        },
+        "readback": {
+          "ledgerAccountKeys": [
+            "supplier:asset_some-python_cf52968514:pending_claims",
+            "depositor:wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2:deposited_assets",
+            "depositor:wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2:eligible_compensation_routes"
+          ],
+          "databaseProjectionTables": [
+            "deliverables",
+            "deliverable_vectors",
+            "ledger_entries",
+            "source_to_shares_allocations"
+          ],
+          "objectStorageVisibility": "source-safe-metadata-only-before-settlement"
+        },
+        "roots": {
+          "compensationRouteRoot": "sha256:6e83d2bfdca105ca52b71ecce89c48d661a1a4c3022366a2204171b121b0c64f",
+          "sourceToSharesPreviewRoot": "sha256:d84b9e545abbfed37b366c0cf67a9d2d495dead2328163f9cef063da3acab709",
+          "readbackRoot": "sha256:e7d15b74ca60fc1b1b0d21a577f6ffce9b951ac1aa7670339fd553ddf8d1fa68",
+          "compensationPreviewRoot": "sha256:64b3ed95053c8f91b3827ba8fb270cdb8f26331c4caeed3bcad2a439a59fb97f"
+        }
+      },
+      "depositoryEvidence": {
+        "schema": "bitcode.depository.deposit-evidence",
+        "assetId": "asset_some-python_cf52968514",
+        "repositoryFullName": "engineeredsoftware/demo-python",
+        "sourceBranch": "main",
+        "sourceCommit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+        "contentRoot": "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+        "proofRoot": "sha256:6e327d59bf1c2337a888691a33caf35ccc4723f7f69ada3ffc4d8726a20e3e39",
+        "measurementRoot": "sha256:c8962cfaf6310ac1efe4327c654c6f682dc20624d9ba035550fd8fae5755a6c8",
+        "reconciliationReadbackRoot": "sha256:665b36c0ffd5e71460da16320698f62e3315e6e9df6af040dc388f315926853f",
+        "depositorySearchDocumentRoot": "sha256:84a020b3aaa706122e16c6a84fff98dd9316513a80fee10cc600c10b2b4cbd6a",
+        "lexicalDocumentRoot": "sha256:c686c9c64a92c2e0000e5ff2b16b047523108c465b3db8edab558cb22f455804",
+        "vectorDocumentRoot": "sha256:05d0393593a42c2b2531690b85254734eaa5ed515dbd914e36c55e8a97c8d58a",
+        "compensationPreview": {
+          "schema": "bitcode.depository.supply-compensation-preview",
+          "state": "eligible-if-selected-for-assetpack",
+          "assetId": "asset_some-python_cf52968514",
+          "depositorWalletId": "wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+          "candidateBtdRange": null,
+          "compensationRoute": {
+            "payer": "future-reader-after-settlement",
+            "payee": "depositing-wallet",
+            "priceAsset": "BTC",
+            "allocationMethod": "source-to-shares-largest-remainder",
+            "sourceToSharesProofState": "not-created-until-accepted-need-fit-and-settlement",
+            "btdMintBoundary": "not-minted-by-deposit-admission",
+            "btdRightsTransferBoundary": "reader-receives-rights-only-after-btc-settlement"
+          },
+          "readiness": {
+            "sourceBound": true,
+            "proofReady": true,
+            "measurementReady": true,
+            "searchable": true,
+            "depositorWalletReady": true,
+            "eligibleForFindingFits": true,
+            "eligibleForCompensationIfSelected": true,
+            "blockers": [],
+            "warnings": []
+          },
+          "visibility": {
+            "beforeSettlement": "source-safe-compensation-route-metadata",
+            "protectedSourceVisible": false,
+            "unpaidAssetPackSourceVisible": false,
+            "walletPrivateMaterialVisible": false,
+            "settlementPrivatePayloadVisible": false
+          },
+          "readback": {
+            "ledgerAccountKeys": [
+              "supplier:asset_some-python_cf52968514:pending_claims",
+              "depositor:wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2:deposited_assets",
+              "depositor:wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2:eligible_compensation_routes"
+            ],
+            "databaseProjectionTables": [
+              "deliverables",
+              "deliverable_vectors",
+              "ledger_entries",
+              "source_to_shares_allocations"
+            ],
+            "objectStorageVisibility": "source-safe-metadata-only-before-settlement"
+          },
+          "roots": {
+            "compensationRouteRoot": "sha256:6e83d2bfdca105ca52b71ecce89c48d661a1a4c3022366a2204171b121b0c64f",
+            "sourceToSharesPreviewRoot": "sha256:d84b9e545abbfed37b366c0cf67a9d2d495dead2328163f9cef063da3acab709",
+            "readbackRoot": "sha256:e7d15b74ca60fc1b1b0d21a577f6ffce9b951ac1aa7670339fd553ddf8d1fa68",
+            "compensationPreviewRoot": "sha256:64b3ed95053c8f91b3827ba8fb270cdb8f26331c4caeed3bcad2a439a59fb97f"
+          }
+        },
+        "compensationPreviewRoot": "sha256:64b3ed95053c8f91b3827ba8fb270cdb8f26331c4caeed3bcad2a439a59fb97f",
+        "sourceToSharesPreviewRoot": "sha256:d84b9e545abbfed37b366c0cf67a9d2d495dead2328163f9cef063da3acab709",
+        "searchDocuments": {
+          "lexical": {
+            "schema": "bitcode.depository.lexical-document",
+            "documentId": "lexical:asset_some-python_cf52968514",
+            "assetId": "asset_some-python_cf52968514",
+            "title": "Some Python",
+            "artifactKind": "Codez",
+            "artifactType": "Codez",
+            "repositoryFullName": "engineeredsoftware/demo-python",
+            "sourceBranch": "main",
+            "sourceCommit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+            "contentRoot": "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+            "contentUnitIds": [
+              "asset_some-python_cf52968514:unit-1"
+            ],
+            "contentUnitRoots": [
+              "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+            ],
+            "searchableTermsRoot": "sha256:2a5cc7ebbde981a0ca5bf670a4e79c988fc1258c890b1726244300f67fde821e",
+            "documentRoot": "sha256:c686c9c64a92c2e0000e5ff2b16b047523108c465b3db8edab558cb22f455804"
+          },
+          "vector": {
+            "schema": "bitcode.depository.vector-document",
+            "documentId": "vector:asset_some-python_cf52968514",
+            "assetId": "asset_some-python_cf52968514",
+            "sourceTextRoot": "sha256:8b1339865bb6ea3647b3dfb5267aa51bc84a35b1435e976e7975ee1cb19b197f",
+            "embeddingPolicy": {
+              "model": "text-embedding-3-small",
+              "dimensions": 1536,
+              "inputKind": "source-bound-depository-document",
+              "vectorStore": {
+                "table": "deliverable_vectors",
+                "rpc": "match_deliverable_vectors",
+                "distanceMetric": "cosine"
+              }
+            },
+            "indexState": "ready_for_embedding_generation",
+            "documentRoot": "sha256:05d0393593a42c2b2531690b85254734eaa5ed515dbd914e36c55e8a97c8d58a"
+          }
+        },
+        "depositorBoundary": {
+          "walletId": "wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+          "signerAddress": "tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+          "signerClass": "depositor",
+          "ownershipState": "depositor-owned-before-read-settlement",
+          "readerVisibilityBeforeSettlement": "measurements-and-non-source-metadata-only"
+        },
+        "indexState": {
+          "lexical": "ready",
+          "vector": "ready_for_embedding_generation",
+          "table": "deliverable_vectors",
+          "rpc": "match_deliverable_vectors"
+        },
+        "sourceProofRoots": {
+          "addressingRoot": "sha256:73996e8e396491f6bd2b3d584850e73929ecd16de4b64af4269a5296b175f4f8",
+          "selectedInventoryRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "authPayloadHash": "sha256:8d29c9ffcdb959a2f0338782ec4d756c9334388e783db4c0d511e1319655494f"
+        }
+      },
+      "sourceMaterialBinding": {
+        "mode": "read-only-mounted-copy",
+        "confidentiality": "private-required",
+        "mutableInBranch": false,
+        "materializationRoot": ".bitcode/source-material/asset_some-python_cf52968514"
+      },
+      "contentRoot": "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+      "contentUnits": [
+        {
+          "unitId": "asset_some-python_cf52968514:unit-1",
+          "assetId": "asset_some-python_cf52968514",
+          "unitKind": "text",
+          "text": "Bitcode repository revision deposit\nTitle: Some Python\nProvider: github\nRepository: engineeredsoftware/demo-python\nBranch: main\nCommit: 30c79f605a739f7133c7cc691d796f7b7f90ed40\nSigner: tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2\nOperator note: it's some python\nMaterialization: live VCS repository selection anchored by repository, branch, and commit.",
+          "codeAnalysisFacts": {
+            "symbols": [
+              "Bitcode",
+              "Title",
+              "Some",
+              "Python",
+              "Provider",
+              "Repository",
+              "Branch",
+              "Commit",
+              "Signer",
+              "Operator",
+              "Materialization",
+              "VCS"
+            ],
+            "paths": [],
+            "configKeys": [],
+            "stackTags": [],
+            "constraints": []
+          },
+          "embeddings": {
+            "taskVector": {
+              "spec": {
+                "vectorSpace": "task-semantic-space.v8",
+                "dimensions": 16,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": true,
+                "provider": "bitcode",
+                "modelId": "deterministic-local-evaluator.v15",
+                "generationMethod": "deterministic-stand-in",
+                "inputHash": "sha256:0ea8592c765d63d8175a884729c74f4d049c67530e60b5a90f5835a13a07204d"
+              },
+              "values": [
+                0.246183,
+                0.246183,
+                0.123091,
+                0.123091,
+                0.492366,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.492366,
+                0.123091,
+                0.246183,
+                0.246183,
+                0.369274
+              ]
+            },
+            "failureModeVector": {
+              "spec": {
+                "vectorSpace": "failure-mode-space.v8",
+                "dimensions": 16,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": true,
+                "provider": "bitcode",
+                "modelId": "deterministic-local-evaluator.v15",
+                "generationMethod": "deterministic-stand-in",
+                "inputHash": "sha256:b125fc17601f0370682bce4f82b67ead6c22fe6a3616d788e46adb781488b487"
+              },
+              "values": [
+                0.246183,
+                0.246183,
+                0.123091,
+                0.123091,
+                0.492366,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.492366,
+                0.123091,
+                0.246183,
+                0.246183,
+                0.369274
+              ]
+            },
+            "technicalContextVector": {
+              "spec": {
+                "vectorSpace": "technical-context-space.v8",
+                "dimensions": 16,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": true,
+                "provider": "bitcode",
+                "modelId": "deterministic-local-evaluator.v15",
+                "generationMethod": "deterministic-stand-in",
+                "inputHash": "sha256:88dbccffc13ba027b9ed88e0fcdb8c548f7e634f470e5c90725f2caad945896c"
+              },
+              "values": [
+                0.246183,
+                0.246183,
+                0.123091,
+                0.123091,
+                0.492366,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.123091,
+                0.492366,
+                0.123091,
+                0.246183,
+                0.246183,
+                0.369274
+              ]
+            }
+          },
+          "semanticInterfaces": {
+            "contentUnitContractVersion": "v7",
+            "embeddingHandOffReady": true,
+            "profileAStandInEmbeddings": true,
+            "profileBFutureReplacementBoundary": "replace embedding artifact values/providers without changing unit metadata contract"
+          },
+          "measurementProvenance": [
+            {
+              "mode": "static",
+              "measurementClass": "static-analysis",
+              "evaluatorKind": "deterministic-static-command",
+              "toolOrPromptId": "content-unit.extract-static-code-analysis.v15",
+              "version": "demo-v15.0",
+              "evidenceRefs": [
+                "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+              ],
+              "receiptRefs": [
+                "static_receipt_df6e012e0c74"
+              ],
+              "evaluatorSurface": {
+                "evaluatorId": "content-unit.extract-static-code-analysis.v15",
+                "evaluatorKind": "deterministic-static-command",
+                "measurementClass": "static-analysis",
+                "mode": "static",
+                "modelId": "deterministic-local-evaluator.v15",
+                "promptId": null,
+                "toolId": "content-unit.extract-static-code-analysis.v15",
+                "replayableTrace": true,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": false,
+                "evidenceRefs": [
+                  "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+                ]
+              }
+            },
+            {
+              "mode": "hybrid",
+              "measurementClass": "embedding-derivation",
+              "evaluatorKind": "embedding-generator",
+              "toolOrPromptId": "content-unit.embedding-standin.v8",
+              "version": "demo-v15.0",
+              "evidenceRefs": [
+                "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+              ],
+              "receiptRefs": [],
+              "evaluatorSurface": {
+                "evaluatorId": "content-unit.embedding-standin.v8",
+                "evaluatorKind": "embedding-generator",
+                "measurementClass": "embedding-derivation",
+                "mode": "hybrid",
+                "modelId": "deterministic-local-evaluator.v15",
+                "promptId": null,
+                "toolId": "content-unit.embedding-standin.v8",
+                "replayableTrace": true,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": true,
+                "evidenceRefs": [
+                  "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+                ]
+              }
+            }
+          ],
+          "staticExecutionReceipts": [
+            {
+              "receiptId": "static_receipt_df6e012e0c74",
+              "receiptKind": "content-unit-static-code-analysis",
+              "stageId": "content-unit.extract-static-code-analysis.v15",
+              "toolId": "content-unit.extract-static-code-analysis.v15",
+              "conformanceProfile": "Profile A — targeted deposit / bounded read",
+              "productionIntentProfile": "Profile B — normalization deposit / composite read",
+              "executedLocally": true,
+              "standIn": false,
+              "inputsHash": "sha256:dbf4ac6e49f1575c1b4b485c9576c86d729e454f5a829c5ebd4731dde0f637de",
+              "outputHash": "sha256:80823ba6ebddcb8521c5340eb1c60cb5a107359423b4f0efc9c8b49b50dc1520",
+              "evidenceRefs": [
+                "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+              ],
+              "replayInputClosure": [
+                "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+              ],
+              "normalizedOutputEnvelope": {
+                "symbols": [
+                  "Bitcode",
+                  "Title",
+                  "Some",
+                  "Python",
+                  "Provider",
+                  "Repository",
+                  "Branch",
+                  "Commit",
+                  "Signer",
+                  "Operator",
+                  "Materialization",
+                  "VCS"
+                ],
+                "paths": [],
+                "configKeys": [],
+                "stackTags": [],
+                "constraints": []
+              },
+              "receiptHash": "sha256:f4e000e62056a5cbb23d94a5dec272eb846ac0e3d0a92dc3856535cea91c11cc"
+            }
+          ],
+          "semanticSummary": {
+            "tokenCount": 28,
+            "embeddingSpaces": [
+              "task-semantic-space.v8",
+              "failure-mode-space.v8",
+              "technical-context-space.v8"
+            ],
+            "codeAnalysisFactCounts": {
+              "symbols": 12,
+              "paths": 0,
+              "configKeys": 0,
+              "stackTags": 0,
+              "constraints": 0
+            }
+          },
+          "unitHash": "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+        }
+      ],
+      "attestations": [
+        {
+          "attestationId": "att_ec150daf72d9",
+          "signerAddress": "tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+          "signatureChecksPass": true,
+          "payloadHash": "sha256:e2823429a1058451fb5fe855efd65e9b399afab699b2402b14f263603f4f4cb4",
+          "signedPayloadHashMatchesContentRoot": true,
+          "cosignSatisfied": true,
+          "attestationHash": "sha256:08ef644ca13c6aa6c64ed591a20a34558893770737d5f1463e178b6512d200c3"
+        }
+      ],
+      "uploadSurface": {
+        "uploadId": "upload_035002737d48",
+        "artifactKind": "Codez",
+        "artifactType": "Codez",
+        "artifactSelectionSurface": {
+          "intakeMode": "raw-fallback",
+          "authSessionId": null,
+          "selectedRepo": "engineeredsoftware/demo-python",
+          "selectedRepositoryId": null,
+          "selectedInventoryEntryIds": [],
+          "selectedInventoryEntries": [],
+          "selectedInventoryRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "selectedArtifactKinds": [
+            "Codez"
+          ],
+          "selectedArtifactKindCounts": {
+            "Codez": 1
+          },
+          "selectedOriginKinds": [],
+          "selectedOriginKindCounts": {},
+          "rawFallbackUsed": false,
+          "appendedOperatorNote": true,
+          "selectionLabel": "raw fallback content only"
+        },
+        "precision": {
+          "kindDeterminedBy": "user-specified",
+          "typeDeterminedBy": "user-specified",
+          "sourceSignalCounts": {
+            "symbols": 12,
+            "paths": 0,
+            "configKeys": 0
+          },
+          "inventorySelectionCount": 0,
+          "inventorySelectionRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "surfaces": [
+          {
+            "surfaceId": "visual-preview",
+            "mediaType": "text/markdown",
+            "role": "visual",
+            "available": true,
+            "valuePreview": "Bitcode repository revision deposit\nTitle: Some Python\nProvider: github\nRepository: engineeredsoftware/demo-python\nBranch: main\nCommit: 30c79f605a739f7133c7cc691d796f7b7f90ed40\nSigner: tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2\nOperator note: it's some python\nMaterialization: live VCS repository sel"
+          },
+          {
+            "surfaceId": "raw-content",
+            "mediaType": "text/plain",
+            "role": "raw",
+            "available": true,
+            "valuePreview": "Bitcode repository revision deposit\nTitle: Some Python\nProvider: github\nRepository: engineeredsoftware/demo-python\nBranch: main\nCommit: 30c79f605a739f7133c7cc691d796f7b7f90ed40\nSigner: tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanx"
+          },
+          {
+            "surfaceId": "code-analysis-summary",
+            "mediaType": "application/json",
+            "role": "derived",
+            "available": true,
+            "valuePreview": "{\"symbols\":12,\"paths\":0,\"configKeys\":0}"
+          },
+          {
+            "surfaceId": "repo-artifact-selection",
+            "mediaType": "application/json",
+            "role": "selection",
+            "available": false,
+            "valuePreview": "{\"selectedInventoryEntryIds\":[],\"selectedInventoryRoot\":\"sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945\",\"originKinds\":[]}"
+          }
+        ],
+        "githubBinding": {
+          "sourceProvider": "github",
+          "sourceRepo": "engineeredsoftware/demo-python",
+          "sourceCommit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+          "workflowRunId": null,
+          "workflowPath": null,
+          "authSessionId": null,
+          "repositoryId": null,
+          "repositoryNodeId": null,
+          "selectedInventoryEntryIds": [],
+          "selectedInventoryRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+          "authPayloadHash": null,
+          "localBoundary": "Stored locally as modeled metadata only.",
+          "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
+          "profileABoundary": "Stored locally as modeled metadata only.",
+          "profileBBoundary": "Would bind to real GitHub/App installation objects and remote fetches."
+        }
+      },
+      "artifactSelectionSurface": {
+        "intakeMode": "raw-fallback",
+        "authSessionId": null,
+        "selectedRepo": "engineeredsoftware/demo-python",
+        "selectedRepositoryId": null,
+        "selectedInventoryEntryIds": [],
+        "selectedInventoryEntries": [],
+        "selectedInventoryRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "selectedArtifactKinds": [
+          "Codez"
+        ],
+        "selectedArtifactKindCounts": {
+          "Codez": 1
+        },
+        "selectedOriginKinds": [],
+        "selectedOriginKindCounts": {},
+        "rawFallbackUsed": false,
+        "appendedOperatorNote": true,
+        "selectionLabel": "raw fallback content only"
+      },
+      "addressingSurface": {
+        "addressingScope": "repo-commit",
+        "repo": "engineeredsoftware/demo-python",
+        "owner": "engineeredsoftware",
+        "repoName": "demo-python",
+        "repositoryId": "gh_repo_8535326f48",
+        "repositoryNodeId": "R_9bb05b8f09963c4e",
+        "ref": "main",
+        "commit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+        "workflowRunId": null,
+        "workflowPath": null,
+        "workflowJobName": null,
+        "sourcePaths": [],
+        "selectedInventoryEntryIds": [],
+        "selectedInventoryAddressRefs": [],
+        "addressedInventoryEntries": [],
+        "primaryAddressRef": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+        "addressingRoot": "sha256:73996e8e396491f6bd2b3d584850e73929ecd16de4b64af4269a5296b175f4f8"
+      },
+      "signingSurface": {
+        "signerAddress": "tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+        "signerClass": "issuer-principal",
+        "signingAlgorithm": "bitcoin_message_signature",
+        "keySource": "leather-browser-wallet",
+        "statementKind": "bitcode-asset-intake-attestation.v11",
+        "payloadHash": "sha256:e2823429a1058451fb5fe855efd65e9b399afab699b2402b14f263603f4f4cb4",
+        "signatureChecksPass": true,
+        "signedPayloadHashMatchesContentRoot": true,
+        "attestationHash": "sha256:08ef644ca13c6aa6c64ed591a20a34558893770737d5f1463e178b6512d200c3",
+        "walletAuthorizationProof": null,
+        "signedAddressingRoot": "sha256:73996e8e396491f6bd2b3d584850e73929ecd16de4b64af4269a5296b175f4f8",
+        "signedSelectionRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "signedGitHubAppAuthRoot": "sha256:8d29c9ffcdb959a2f0338782ec4d756c9334388e783db4c0d511e1319655494f"
+      },
+      "githubAppAuthSurface": {
+        "authMechanism": "manual-unbound",
+        "authSessionId": null,
+        "appId": null,
+        "appSlug": null,
+        "installationId": null,
+        "installationAccountLogin": null,
+        "installationAccountId": null,
+        "installationAccountNodeId": null,
+        "installationAccountType": null,
+        "operatorLogin": null,
+        "owner": "engineeredsoftware",
+        "repoName": "demo-python",
+        "repositoryId": "gh_repo_8535326f48",
+        "repositoryNodeId": "R_9bb05b8f09963c4e",
+        "repositoryVisibility": "private",
+        "repositorySelection": "selected",
+        "permissions": {},
+        "permissionsRoot": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "tokenBoundary": {
+          "mintingState": "manual-unbound",
+          "tokenMaterialPresent": false,
+          "modeledOnly": false,
+          "liveExchangeImplemented": false,
+          "repo": "engineeredsoftware/demo-python",
+          "installationId": null,
+          "readableScopes": [],
+          "writableScopes": []
+        },
+        "localBoundary": "No authenticated GitHub App session is bound to this raw/manual candidate asset.",
+        "externalBoundary": "A production flow would require a real installation-scoped GitHub App token for repository inventory selection.",
+        "profileABoundary": "No authenticated GitHub App session is bound to this raw/manual candidate asset.",
+        "profileBBoundary": "A production flow would require a real installation-scoped GitHub App token for repository inventory selection.",
+        "authPayloadHash": "sha256:8d29c9ffcdb959a2f0338782ec4d756c9334388e783db4c0d511e1319655494f"
+      },
+      "githubBoundary": {
+        "sourceProvider": "github",
+        "sourceRepo": "engineeredsoftware/demo-python",
+        "sourceCommit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+        "workflowRunId": null,
+        "workflowPath": null,
+        "authSessionId": null,
+        "repositoryId": "gh_repo_8535326f48",
+        "repositoryNodeId": "R_9bb05b8f09963c4e",
+        "selectedInventoryEntryIds": [],
+        "selectedInventoryRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "authPayloadHash": "sha256:8d29c9ffcdb959a2f0338782ec4d756c9334388e783db4c0d511e1319655494f",
+        "localBoundary": "Stored locally as modeled metadata only.",
+        "externalBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
+        "profileABoundary": "Stored locally as modeled metadata only.",
+        "profileBBoundary": "Would bind to real GitHub/App installation objects and remote fetches.",
+        "installationId": null,
+        "permissions": {},
+        "permissionsRoot": "sha256:44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+        "addressingScope": "repo-commit",
+        "addressingRoot": "sha256:73996e8e396491f6bd2b3d584850e73929ecd16de4b64af4269a5296b175f4f8"
+      },
+      "identitySurface": {
+        "signerAddress": "tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2",
+        "signerClass": "issuer-principal",
+        "signerSource": "signing-surface",
+        "authSessionId": null,
+        "installationId": null,
+        "authMechanism": "manual-unbound",
+        "selectedInventoryRoot": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+        "addressingRoot": "sha256:73996e8e396491f6bd2b3d584850e73929ecd16de4b64af4269a5296b175f4f8",
+        "authPayloadHash": "sha256:8d29c9ffcdb959a2f0338782ec4d756c9334388e783db4c0d511e1319655494f",
+        "signedPayloadHash": "sha256:e2823429a1058451fb5fe855efd65e9b399afab699b2402b14f263603f4f4cb4",
+        "localBoundary": "Local modeled signer binding only.",
+        "externalBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally.",
+        "profileABoundary": "Local modeled signer binding only.",
+        "profileBBoundary": "Would verify real signer identity / GitHub App / org-bound authorization externally."
+      },
+      "provenanceBinding": {
+        "sourceProvider": "github",
+        "repo": "engineeredsoftware/demo-python",
+        "commit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+        "paths": [],
+        "workflowPath": ".github/workflows/benchmark.yml",
+        "workflowRunId": "gha_run_auth_001"
+      },
+      "verificationEvidence": {
+        "testsPassed": true,
+        "typecheckPassed": true,
+        "staticAnalysisPassed": true,
+        "benchmarkRan": true,
+        "benchmarkRunId": "gha_run_auth_001",
+        "reproSteps": [
+          "rerun benchmark workflow",
+          "inspect issuer compatibility logs"
+        ],
+        "pinnedEnvironment": "ubuntu-24.04 + node 22 + rust stable",
+        "proofLogs": [],
+        "proofRoot": "sha256:6e327d59bf1c2337a888691a33caf35ccc4723f7f69ada3ffc4d8726a20e3e39",
+        "measurementRoot": "sha256:c8962cfaf6310ac1efe4327c654c6f682dc20624d9ba035550fd8fae5755a6c8",
+        "reconciliationReadbackRoot": "sha256:665b36c0ffd5e71460da16320698f62e3315e6e9df6af040dc388f315926853f",
+        "depositorySearchDocumentRoot": "sha256:84a020b3aaa706122e16c6a84fff98dd9316513a80fee10cc600c10b2b4cbd6a",
+        "lexicalDocumentRoot": "sha256:c686c9c64a92c2e0000e5ff2b16b047523108c465b3db8edab558cb22f455804",
+        "vectorDocumentRoot": "sha256:05d0393593a42c2b2531690b85254734eaa5ed515dbd914e36c55e8a97c8d58a",
+        "compensationPreviewRoot": "sha256:64b3ed95053c8f91b3827ba8fb270cdb8f26331c4caeed3bcad2a439a59fb97f",
+        "sourceToSharesPreviewRoot": "sha256:d84b9e545abbfed37b366c0cf67a9d2d495dead2328163f9cef063da3acab709"
+      },
+      "metadata": {
+        "author": "Mario",
+        "organization": "$BTD",
+        "sourceRepo": "engineeredsoftware/demo-python",
+        "sourceCommit": "30c79f605a739f7133c7cc691d796f7b7f90ed40",
+        "sourcePaths": [],
+        "tags": [],
+        "declaredStacks": [],
+        "declaredConstraints": [],
+        "summary": "Bitcode repository revision deposit\nTitle: Some Python\nProvider: github\nRepository: engineeredsoftware/demo-python\nBranch: main\nCommit: 30c79f605a739f7133c7cc691d796f7b7f90ed40\nSigner: tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanx",
+        "privateContent": "Bitcode repository revision deposit\nTitle: Some Python\nProvider: github\nRepository: engineeredsoftware/demo-python\nBranch: main\nCommit: 30c79f605a739f7133c7cc691d796f7b7f90ed40\nSigner: tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2\nOperator note: it's some python\nMaterialization: live VCS repository selection anchored by repository, branch, and commit.",
+        "issuerPolicyStatus": "allowed"
+      },
+      "assetMeasurement": {
+        "assetId": "asset_some-python_cf52968514",
+        "codeAnalysisFacts": {
+          "symbols": [
+            "Bitcode",
+            "Title",
+            "Some",
+            "Python",
+            "Provider",
+            "Repository",
+            "Branch",
+            "Commit",
+            "Signer",
+            "Operator",
+            "Materialization",
+            "VCS"
+          ],
+          "paths": [],
+          "configKeys": [],
+          "stackTags": [],
+          "constraints": []
+        },
+        "contentUnitSemantics": [
+          {
+            "unitId": "asset_some-python_cf52968514:unit-1",
+            "unitKind": "text",
+            "unitHash": "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33",
+            "codeAnalysisFactCounts": {
+              "symbols": 12,
+              "paths": 0,
+              "configKeys": 0,
+              "stackTags": 0,
+              "constraints": 0
+            },
+            "embeddingSpecs": {
+              "taskVector": {
+                "vectorSpace": "task-semantic-space.v8",
+                "dimensions": 16,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": true,
+                "provider": "bitcode",
+                "modelId": "deterministic-local-evaluator.v15",
+                "generationMethod": "deterministic-stand-in",
+                "inputHash": "sha256:0ea8592c765d63d8175a884729c74f4d049c67530e60b5a90f5835a13a07204d"
+              },
+              "failureModeVector": {
+                "vectorSpace": "failure-mode-space.v8",
+                "dimensions": 16,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": true,
+                "provider": "bitcode",
+                "modelId": "deterministic-local-evaluator.v15",
+                "generationMethod": "deterministic-stand-in",
+                "inputHash": "sha256:b125fc17601f0370682bce4f82b67ead6c22fe6a3616d788e46adb781488b487"
+              },
+              "technicalContextVector": {
+                "vectorSpace": "technical-context-space.v8",
+                "dimensions": 16,
+                "profile": "Profile A — targeted deposit / bounded read",
+                "standIn": true,
+                "provider": "bitcode",
+                "modelId": "deterministic-local-evaluator.v15",
+                "generationMethod": "deterministic-stand-in",
+                "inputHash": "sha256:88dbccffc13ba027b9ed88e0fcdb8c548f7e634f470e5c90725f2caad945896c"
+              }
+            }
+          }
+        ],
+        "vectorInterfaces": {
+          "taskVectorSpace": "task-semantic-space.v8",
+          "failureModeVectorSpace": "failure-mode-space.v8",
+          "technicalContextVectorSpace": "technical-context-space.v8",
+          "profileAStandInEmbeddings": true,
+          "profileBFutureBoundary": "swap embedding providers/models while preserving vector-space contracts and unit ids"
+        },
+        "provenance": [
+          {
+            "mode": "static",
+            "measurementClass": "static-analysis",
+            "evaluatorKind": "deterministic-static-command",
+            "toolOrPromptId": "asset.measurement.extract.v15",
+            "version": "demo-v15.0",
+            "evidenceRefs": [
+              "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9"
+            ],
+            "receiptRefs": [
+              "static_receipt_3ddd207b9c70"
+            ],
+            "evaluatorSurface": {
+              "evaluatorId": "asset.measurement.extract.v15",
+              "evaluatorKind": "deterministic-static-command",
+              "measurementClass": "static-analysis",
+              "mode": "static",
+              "modelId": "deterministic-local-evaluator.v15",
+              "promptId": null,
+              "toolId": "asset.measurement.extract.v15",
+              "replayableTrace": true,
+              "profile": "Profile A — targeted deposit / bounded read",
+              "standIn": false,
+              "evidenceRefs": [
+                "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9"
+              ]
+            }
+          },
+          {
+            "mode": "hybrid",
+            "measurementClass": "embedding-derivation",
+            "evaluatorKind": "embedding-generator",
+            "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
+            "version": "demo-v15.0",
+            "evidenceRefs": [
+              "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+              "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+            ],
+            "receiptRefs": [],
+            "evaluatorSurface": {
+              "evaluatorId": "asset.measurement.semantic-hand-off.v8",
+              "evaluatorKind": "embedding-generator",
+              "measurementClass": "embedding-derivation",
+              "mode": "hybrid",
+              "modelId": "deterministic-local-evaluator.v15",
+              "promptId": null,
+              "toolId": "asset.measurement.semantic-hand-off.v8",
+              "replayableTrace": true,
+              "profile": "Profile A — targeted deposit / bounded read",
+              "standIn": true,
+              "evidenceRefs": [
+                "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+                "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+              ]
+            }
+          }
+        ],
+        "staticExecutionReceipts": [
+          {
+            "receiptId": "static_receipt_3ddd207b9c70",
+            "receiptKind": "asset-static-code-analysis",
+            "stageId": "asset.measurement.extract.v15",
+            "toolId": "asset.measurement.extract.v15",
+            "conformanceProfile": "Profile A — targeted deposit / bounded read",
+            "productionIntentProfile": "Profile B — normalization deposit / composite read",
+            "executedLocally": true,
+            "standIn": false,
+            "inputsHash": "sha256:3e2d5be65ef02196cf1a4848ba261db4b5d1eeffd46f1d59eac110b659649182",
+            "outputHash": "sha256:80823ba6ebddcb8521c5340eb1c60cb5a107359423b4f0efc9c8b49b50dc1520",
+            "evidenceRefs": [
+              "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9"
+            ],
+            "replayInputClosure": [
+              "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+              "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+            ],
+            "normalizedOutputEnvelope": {
+              "symbols": [
+                "Bitcode",
+                "Title",
+                "Some",
+                "Python",
+                "Provider",
+                "Repository",
+                "Branch",
+                "Commit",
+                "Signer",
+                "Operator",
+                "Materialization",
+                "VCS"
+              ],
+              "paths": [],
+              "configKeys": [],
+              "stackTags": [],
+              "constraints": []
+            },
+            "receiptHash": "sha256:dc850352a69d0389a3d4cb3f73fd7596099d0aaff0197bfa29c6d86dee495cde"
+          },
+          {
+            "receiptId": "static_receipt_df6e012e0c74",
+            "receiptKind": "content-unit-static-code-analysis",
+            "stageId": "content-unit.extract-static-code-analysis.v15",
+            "toolId": "content-unit.extract-static-code-analysis.v15",
+            "conformanceProfile": "Profile A — targeted deposit / bounded read",
+            "productionIntentProfile": "Profile B — normalization deposit / composite read",
+            "executedLocally": true,
+            "standIn": false,
+            "inputsHash": "sha256:dbf4ac6e49f1575c1b4b485c9576c86d729e454f5a829c5ebd4731dde0f637de",
+            "outputHash": "sha256:80823ba6ebddcb8521c5340eb1c60cb5a107359423b4f0efc9c8b49b50dc1520",
+            "evidenceRefs": [
+              "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+            ],
+            "replayInputClosure": [
+              "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+            ],
+            "normalizedOutputEnvelope": {
+              "symbols": [
+                "Bitcode",
+                "Title",
+                "Some",
+                "Python",
+                "Provider",
+                "Repository",
+                "Branch",
+                "Commit",
+                "Signer",
+                "Operator",
+                "Materialization",
+                "VCS"
+              ],
+              "paths": [],
+              "configKeys": [],
+              "stackTags": [],
+              "constraints": []
+            },
+            "receiptHash": "sha256:f4e000e62056a5cbb23d94a5dec272eb846ac0e3d0a92dc3856535cea91c11cc"
+          }
+        ],
+        "analysisFactLifecycle": {
+          "determined": [
+            "extractStaticCodeAnalysisFacts",
+            "repo provenance normalization",
+            "artifact upload precision mapping"
+          ],
+          "recorded": [
+            "assetMeasurement.codeAnalysisFacts",
+            "contentUnits[].codeAnalysisFacts",
+            "uploadSurface"
+          ],
+          "vectorized": [
+            "contentUnits[].embeddings.taskVector",
+            "contentUnits[].embeddings.failureModeVector",
+            "contentUnits[].embeddings.technicalContextVector"
+          ],
+          "searched": [
+            {
+              "channelId": "semanticTaskSearch",
+              "signalFamily": "semantic/vector",
+              "determinesFrom": [
+                "read.task",
+                "unit.text"
+              ],
+              "recordedOn": [
+                "read.queryRepresentations.task",
+                "asset.contentUnits[].embeddings.taskVector"
+              ],
+              "vectorizedIn": "task-semantic-space.v8",
+              "searchedBy": "cosineSimilarity",
+              "scoredBy": "similarity score",
+              "rankedUsage": "readMatch.taskSemanticFit + recall fusion",
+              "downstreamUses": [
+                "candidate recall ordering",
+                "read-match scoring",
+                "asset-pack selection"
+              ]
+            },
+            {
+              "channelId": "failureModeSearch",
+              "signalFamily": "semantic/vector",
+              "determinesFrom": [
+                "read.failureModes",
+                "read.failingCases",
+                "unit.text",
+                "unit.codeAnalysisFacts.constraints",
+                "unit.codeAnalysisFacts.symbols"
+              ],
+              "recordedOn": [
+                "read.queryRepresentations.failureModes",
+                "asset.contentUnits[].embeddings.failureModeVector"
+              ],
+              "vectorizedIn": "failure-mode-space.v8",
+              "searchedBy": "cosineSimilarity",
+              "scoredBy": "similarity score",
+              "rankedUsage": "readMatch.failureModeFit + benchmarkImpact.likelyImprovesFailingCases",
+              "downstreamUses": [
+                "candidate recall ordering",
+                "benchmark-impact scoring",
+                "asset-pack coverage"
+              ]
+            },
+            {
+              "channelId": "technicalContextSearch",
+              "signalFamily": "semantic/vector",
+              "determinesFrom": [
+                "read.touchedPaths",
+                "read.extractedSymbols",
+                "read.configKeys",
+                "read.stackHints",
+                "unit.codeAnalysisFacts.*"
+              ],
+              "recordedOn": [
+                "read.queryRepresentations.technicalContext",
+                "asset.contentUnits[].embeddings.technicalContextVector"
+              ],
+              "vectorizedIn": "technical-context-space.v8",
+              "searchedBy": "cosineSimilarity",
+              "scoredBy": "similarity score",
+              "rankedUsage": "pathFit/stackFit/context generalization",
+              "downstreamUses": [
+                "repo-context ranking",
+                "benchmark generalization scoring",
+                "branch selection guardrails"
+              ]
+            },
+            {
+              "channelId": "lexicalSearch",
+              "signalFamily": "lexical",
+              "determinesFrom": [
+                "tokenize(read.task/failureModes/constraints/weakDimensions)",
+                "tokenize(unit.text)"
+              ],
+              "recordedOn": [
+                "read.lexicalTerms",
+                "unit text tokens"
+              ],
+              "vectorizedIn": null,
+              "searchedBy": "exact token overlap",
+              "scoredBy": "hit ratio",
+              "rankedUsage": "support-only lexical evidence",
+              "downstreamUses": [
+                "recall provenance",
+                "readMatch.lexicalSupport",
+                "visual explainability"
+              ]
+            },
+            {
+              "channelId": "symbolSearch",
+              "signalFamily": "symbolic",
+              "determinesFrom": [
+                "read.extractedSymbols",
+                "unit.codeAnalysisFacts.symbols"
+              ],
+              "recordedOn": [
+                "read.extractedSymbols",
+                "asset.contentUnits[].codeAnalysisFacts.symbols"
+              ],
+              "vectorizedIn": null,
+              "searchedBy": "exact symbol intersection",
+              "scoredBy": "binary presence",
+              "rankedUsage": "readMatch.symbolFit + recall fusion",
+              "downstreamUses": [
+                "subsystem alignment",
+                "implementation specificity",
+                "visual explainability"
+              ]
+            },
+            {
+              "channelId": "pathSearch",
+              "signalFamily": "path",
+              "determinesFrom": [
+                "read.touchedPaths",
+                "asset.metadata.sourcePaths",
+                "unit.codeAnalysisFacts.paths"
+              ],
+              "recordedOn": [
+                "read.touchedPaths",
+                "asset provenance/source paths"
+              ],
+              "vectorizedIn": null,
+              "searchedBy": "exact path intersection",
+              "scoredBy": "binary presence",
+              "rankedUsage": "readMatch.pathFit + repo-context linkage",
+              "downstreamUses": [
+                "asset-pack coverage",
+                "benchmark impact generalization",
+                "penalty avoidance"
+              ]
+            },
+            {
+              "channelId": "configKeySearch",
+              "signalFamily": "config",
+              "determinesFrom": [
+                "read.configKeys",
+                "unit.codeAnalysisFacts.configKeys"
+              ],
+              "recordedOn": [
+                "read.configKeys",
+                "asset.contentUnits[].codeAnalysisFacts.configKeys"
+              ],
+              "vectorizedIn": null,
+              "searchedBy": "exact config-key intersection",
+              "scoredBy": "binary presence",
+              "rankedUsage": "subsystem alignment + context linkage",
+              "downstreamUses": [
+                "read-match scoring",
+                "artifact precision",
+                "visual explainability"
+              ]
+            },
+            {
+              "channelId": "artifactKindFilteredSearch",
+              "signalFamily": "artifact-kind/type",
+              "determinesFrom": [
+                "read.targetArtifactKinds",
+                "asset.artifactKind",
+                "asset.artifactType"
+              ],
+              "recordedOn": [
+                "read.targetArtifactKinds",
+                "asset metadata"
+              ],
+              "vectorizedIn": null,
+              "searchedBy": "kind/type eligibility filter",
+              "scoredBy": "binary match",
+              "rankedUsage": "artifact kind fit + candidate filtering",
+              "downstreamUses": [
+                "read-match scoring",
+                "penalty mass",
+                "asset-pack assembly"
+              ]
+            }
+          ],
+          "downstreamUses": [
+            "recallCandidates",
+            "evaluateCandidates",
+            "assembleAssetPack",
+            "visual explainability"
+          ]
+        }
+      },
+      "measurementProvenance": [
+        {
+          "mode": "static",
+          "measurementClass": "static-analysis",
+          "evaluatorKind": "deterministic-static-command",
+          "toolOrPromptId": "asset.measurement.extract.v15",
+          "version": "demo-v15.0",
+          "evidenceRefs": [
+            "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9"
+          ],
+          "receiptRefs": [
+            "static_receipt_3ddd207b9c70"
+          ],
+          "evaluatorSurface": {
+            "evaluatorId": "asset.measurement.extract.v15",
+            "evaluatorKind": "deterministic-static-command",
+            "measurementClass": "static-analysis",
+            "mode": "static",
+            "modelId": "deterministic-local-evaluator.v15",
+            "promptId": null,
+            "toolId": "asset.measurement.extract.v15",
+            "replayableTrace": true,
+            "profile": "Profile A — targeted deposit / bounded read",
+            "standIn": false,
+            "evidenceRefs": [
+              "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9"
+            ]
+          }
+        },
+        {
+          "mode": "hybrid",
+          "measurementClass": "embedding-derivation",
+          "evaluatorKind": "embedding-generator",
+          "toolOrPromptId": "asset.measurement.semantic-hand-off.v8",
+          "version": "demo-v15.0",
+          "evidenceRefs": [
+            "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+            "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+          ],
+          "receiptRefs": [],
+          "evaluatorSurface": {
+            "evaluatorId": "asset.measurement.semantic-hand-off.v8",
+            "evaluatorKind": "embedding-generator",
+            "measurementClass": "embedding-derivation",
+            "mode": "hybrid",
+            "modelId": "deterministic-local-evaluator.v15",
+            "promptId": null,
+            "toolId": "asset.measurement.semantic-hand-off.v8",
+            "replayableTrace": true,
+            "profile": "Profile A — targeted deposit / bounded read",
+            "standIn": true,
+            "evidenceRefs": [
+              "sha256:a72423026b75fdc6fa42de3a28665f91458803f521b8839290a836723f726ba9",
+              "sha256:150889f0f5dce28eff2e12e703d2b31cbe1cabc329e7907e3a785966511b6a33"
+            ]
+          }
+        }
+      ]
+    },
+    {
       "assetId": "asset_enterprise-auth-migration-rollback-playbook_0c53ca5874",
       "depositedAt": "2026-05-06T13:02:20.271Z",
       "title": "Enterprise auth migration rollback playbook",
@@ -28620,7 +29806,10 @@
       "supplier:asset_projection-safe-bounded-proof-export-notes_a74e682378:pending_claims": "0",
       "supplier:asset_session-validator-compatibility-witness-dossier_b262bc6896:pending_claims": "0",
       "supplier:asset_auth-audit-receipt-reconciliation-patchset_e4e5e04a99:pending_claims": "0",
-      "supplier:asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7:pending_claims": "0"
+      "supplier:asset_polyglot-gateway-rollback-coordination-playbook_16aae88df7:pending_claims": "0",
+      "supplier:asset_some-python_cf52968514:pending_claims": "0",
+      "depositor:wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2:deposited_assets": "1",
+      "depositor:wallet:tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2:eligible_compensation_routes": "1"
     },
     "journalEvents": []
   },

@@ -89,6 +89,49 @@ at wallet sign-up versus a neutral unconfigured state); complete the GitHub
 App sessionless install staging path, whose pending-installation cookie
 currently has no consumer.
 
+## V48 Gate 2 in progress: depositing interactive QA and the AssetPacksSynthesis refactor
+
+Gate 2 (branch `v48/gate-2-depositing-interactive-qa`) is explicitly the
+significant-refactoring gate and a critical gate for the commercial viability
+of Bitcode: interactive depositing QA exposed that deposit AssetPack option
+"synthesis" was deterministic blueprint scaffolding (`BITCODE_V48_QA.md`
+F12), and the accepted repair is architectural, not cosmetic. Gate 2's
+charter (Garrett, 2026-06-12): consolidate Bitcode's pipelines into the
+single AssetPacksSynthesis pipeline (plural Packs — one run can create
+multiple packs), clean all legacy terminal code, and correct the incomplete
+pipeline-execution actualities (real data, the Vercel sandbox actually
+running pipelines, real accounting) so V48 QA reaches real demonstrability
+of information commoditization — the ability to exchange knowledge,
+fundamentally unlocked by measurement. The implementation builds maturely on
+the existing strong primitives (prompts, registries, executions) and
+generics (agents, pipelines) rather than inventing parallel machinery.
+
+Accepted V48 architecture law (decided 2026-06-12):
+
+- Bitcode has a single synthesis/measurement pipeline: **AssetPacksSynthesis**
+  (`packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`). Depositing
+  and Reading are the same operation at the core — measuring source knowledge
+  into commercially legible AssetPack candidates — with variance carried
+  entirely by the lens: steering prompts (depositor instructions versus read
+  Need), the available measurement catalog (deposit: source-coverage /
+  demand-alignment / reuse-likelihood; read adds need-fit), and candidate
+  framing. Measurement is the heart of Bitcode's commodification capability,
+  so it is centralized in this one pipeline; lens adapters translate
+  lens-specific contracts to and from the core. The deposit lens shipped in
+  Gate 2; the reading lens migrates onto the core when Track 3 opens.
+- Deposit option synthesis is real: `POST /api/deposit/synthesize-options`
+  builds an exclusion-filtered source inventory from the depositor's
+  connected GitHub source, runs bounded structured inference, persists the
+  execution with real token/duration accounting, and emits options that keep
+  the promoted V43/V47 option law (schema, roots, review boundaries,
+  source-safety posture) so policy and admission consume them unchanged.
+- Protected-IP exclusions are first-class synthesis steering: excluded paths
+  and concepts never enter measurement, prompts, or option summaries, and
+  candidates that touch them are dropped fail-closed (F14).
+- Legacy `/terminal` code is refactored out as it is encountered during gate
+  work (rule accepted 2026-06-12), with the dedicated F8 sweep retiring the
+  remainder.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
