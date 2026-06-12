@@ -13,7 +13,7 @@
 - Scope: V48 starts as the interactive local experiential QA target over promoted V47 commercial website testnet launch canon.
 - QA findings ledger: `BITCODE_V48_QA.md` (the running record of accepted V48 findings and repairs)
 - Gate 1 (in progress): identity and authentication interactive QA on branch `v48/gate-1-identity-auth-interactive-qa`
-- Full draft family (`BITCODE_SPEC_V48.md`, `BITCODE_SPEC_V48_DELTA.md`, `BITCODE_SPEC_V48_PARITY_MATRIX.md`) opens at Gate 1 closure, per the V47 Gate 1 precedent
+- Full draft family (`BITCODE_SPEC_V48.md`, `BITCODE_SPEC_V48_DELTA.md`, `BITCODE_SPEC_V48_PARITY_MATRIX.md`) opens in a dedicated specification-authoring gate once the interactive QA tracks have accumulated the specification intent; Gate 1 closed as the identity/authentication QA-and-repairs gate
 
 ## Notes-only draft rule
 
