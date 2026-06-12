@@ -11,6 +11,9 @@
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
 - V48 state: notes-only draft opening
 - Scope: V48 starts as the interactive local experiential QA target over promoted V47 commercial website testnet launch canon.
+- QA findings ledger: `BITCODE_V48_QA.md` (the running record of accepted V48 findings and repairs)
+- Gate 1 (in progress): identity and authentication interactive QA on branch `v48/gate-1-identity-auth-interactive-qa`
+- Full draft family (`BITCODE_SPEC_V48.md`, `BITCODE_SPEC_V48_DELTA.md`, `BITCODE_SPEC_V48_PARITY_MATRIX.md`) opens in a dedicated specification-authoring gate once the interactive QA tracks have accumulated the specification intent; Gate 1 closed as the identity/authentication QA-and-repairs gate
 
 ## Notes-only draft rule
 
@@ -52,6 +55,39 @@ deployed staging-testnet system end to end, step by step, and fix what breaks.
   Need, reviewing potential Fits, and buying Fit(s).
 - Ledgerized journaling: replayability, auditability, `/packs` page UX/UI, and
   the personal (Auxillaries) history of work.
+
+## V48 Gate 1 in progress: identity and authentication interactive QA
+
+Gate 1 exercises the live commercial testnet experience exactly as the
+notes-only rule directs: interactively, recording accepted findings in
+`BITCODE_V48_QA.md` (F1-F10 so far), and landing fail-closed repairs on the
+gate branch. The full draft family is authored at Gate 1 closure from this
+QA-driven specification intent.
+
+Accepted findings converted to repairs so far:
+
+- Supabase `redirect_to` law: GoTrue validates the Auth redirect allow-list by
+  exact string match, so `redirect_to` must stay query-free. The post-auth
+  destination travels through origin-local storage
+  (`uapi/lib/supabase-auth-redirect.ts`) and is consumed once by the callback.
+  This repaired wallet sign-in from both localhost and production www, which
+  previously stranded the PKCE verifier and never minted a session.
+- Identity-derived wallet binding: the canonical wallet sign-up signs on the
+  OAuth provider authorize page, so nothing is staged client-side to replay.
+  `/api/wallet/authenticate` now derives the binding server-side from the
+  session's GoTrue-verified `custom:bitcode-bitcoin` identity
+  (`source: 'oauth-identity'`), and `WalletSessionPersistenceBridge` triggers
+  it whenever a wallet-backed session has no replayable local proof.
+- Post-auth landing is `/packs`, not the legacy `/terminal` overlay route.
+
+Specification intent surfaced for the eventual V48 family (decisions, not yet
+law): eradicate legacy email/phone authentication residue (`/login`,
+`LoginForm`, PhoneSSO) and the legacy `/terminal` route after verifying its
+capabilities ported to `/packs`, `/read`, and `/deposit`; decide the
+solo-operator organization-authority posture (personal-organization bootstrap
+at wallet sign-up versus a neutral unconfigured state); complete the GitHub
+App sessionless install staging path, whose pending-installation cookie
+currently has no consumer.
 
 ## Non-goals during V48 opening
 

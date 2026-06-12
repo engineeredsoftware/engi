@@ -7,6 +7,7 @@ import { FcGoogle } from 'react-icons/fc'
 import ChatGPTIcon from '@/components/base/bitcode/icons/social/ChatGPTIcon'
 import MetamaskIcon from '@/components/base/bitcode/icons/social/MetamaskIcon'
 import { toast } from '@/components/base/shadcn/sonner'
+import { buildSupabaseAuthCallbackRedirect } from '@/lib/supabase-auth-redirect'
 import dynamic from 'next/dynamic'
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 
@@ -86,7 +87,7 @@ export default function SocialAccountLinker({ provider, compact = false }: Socia
     setLoading(true)
     try {
       const authAny = supabase.auth as any
-      const redirectTo = `${window.location.origin}/tps/supabase/callback?next=${encodeURIComponent(window.location.pathname)}`
+      const redirectTo = buildSupabaseAuthCallbackRedirect(window.location.pathname)
       // Build OAuth options; include offline/consent for Google to get refresh tokens
       const oauthOptions: any = { redirectTo };
       if (provider === 'google') {

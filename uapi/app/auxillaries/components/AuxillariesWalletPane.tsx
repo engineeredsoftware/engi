@@ -248,6 +248,33 @@ export default function AuxillariesWalletPane({
   const [selectedActivityId, setSelectedActivityId] = useState<string | null>(
     MASTER_MOCK_MODE ? MOCK_RUNS[0]?.id ?? null : null,
   );
+  const [liveBtcBalance, setLiveBtcBalance] = useState<{
+    confirmedBtc: number;
+    pendingBtc: number;
+    network: string;
+  } | null>(null);
+
+  useEffect(() => {
+    if (!walletBinding?.address) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const response = await fetch('/api/wallet/btc-balance');
+        const payload = await response.json().catch(() => null);
+        if (cancelled || !response.ok || !payload?.ok) return;
+        setLiveBtcBalance({
+          confirmedBtc: typeof payload.confirmedBtc === 'number' ? payload.confirmedBtc : 0,
+          pendingBtc: typeof payload.pendingBtc === 'number' ? payload.pendingBtc : 0,
+          network: typeof payload.network === 'string' ? payload.network : 'testnet4',
+        });
+      } catch {
+        // Balance source unavailable: the card keeps its posture fallback.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [walletBinding?.address]);
 
   useEffect(() => {
     if (onCompletionStatusChange && !hasCalledCompletionRef.current) {
@@ -503,8 +530,18 @@ export default function AuxillariesWalletPane({
                     },
                     {
                       label: "BTC in wallet",
-                      value: formatBtcFeeBalance(supportTreasury?.btcFeeBalance ?? btcFeeBalanceSource),
-                      detail: supportTreasury?.organizationTreasurySeparated
+                      value: formatBtcFeeBalance(
+                        liveBtcBalance?.confirmedBtc ??
+                          supportTreasury?.btcFeeBalance ??
+                          btcFeeBalanceSource,
+                      ),
+                      detail: liveBtcBalance
+                        ? `Live on-chain ${liveBtcBalance.network} balance for the bound wallet address${
+                            liveBtcBalance.pendingBtc > 0
+                              ? `; ${liveBtcBalance.pendingBtc.toLocaleString(undefined, { maximumFractionDigits: 8 })} BTC pending confirmation`
+                              : ''
+                          }.`
+                        : supportTreasury?.organizationTreasurySeparated
                         ? "Account treasury posture is source-safe and separate from organization treasury controls and Exchange market state."
                         : hasReadableBtcFeeBalance
                         ? "Live BTC fee-liquidity posture supplied by the connected wallet posture."

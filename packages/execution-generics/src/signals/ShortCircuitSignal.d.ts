@@ -2,8 +2,8 @@
  * Short Circuit Signal - Pipeline termination primitive
  *
  * Enables agents to signal pipeline termination with automatic refund handling.
- * This is an AssetPack-pipeline pattern implemented as a
- * generic execution primitive for elegant composition.
+ * This is an AssetPack-pipeline pattern implemented as a generic execution
+ * primitive for elegant composition.
  */
 import { z } from 'zod';
 /**
@@ -31,16 +31,16 @@ export declare const ShortCircuitSignalSchema: z.ZodObject<{
     confidence: z.ZodNumber;
     metadata: z.ZodOptional<z.ZodRecord<z.ZodString, z.ZodAny>>;
 }, "strip", z.ZodTypeAny, {
-    metadata?: Record<string, any>;
     type?: "SHORT_CIRCUIT";
     reason?: string;
     confidence?: number;
+    metadata?: Record<string, any>;
     refundType?: "full" | "partial";
 }, {
-    metadata?: Record<string, any>;
     type?: "SHORT_CIRCUIT";
     reason?: string;
     confidence?: number;
+    metadata?: Record<string, any>;
     refundType?: "full" | "partial";
 }>;
 /**

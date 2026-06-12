@@ -5,7 +5,7 @@
  * Agents organize Actions, Actions sequence Steps, Steps sequence GenerationSteps.
  */
 export type { PreparedContext } from '@bitcode/context';
-import { Executor } from '@bitcode/execution-generics';
+import type { Executor } from '@bitcode/execution-generics';
 import { Tool } from '@bitcode/tools-generics';
 /**
  * Agent Variation Steps - The four fundamental steps
@@ -111,7 +111,7 @@ export type StepExecutor<TInput = any, TOutput = any> = Executor<TInput, TOutput
 /**
  * AgentGeneration - Preferred alias for AgentStep. A Generation is a typed
  * executor (input → output) that may be composed by PTRR failsafes and tools
-     * postprocess. AgentStep remains the concrete execution shape.
+ * postprocess. AgentStep remains the concrete execution shape.
  */
 export type AgentGeneration<TInput = any, TOutput = any> = AgentStep<TInput, TOutput>;
 /**

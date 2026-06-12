@@ -20,7 +20,7 @@ import {
   type LocalBitcodeWalletIdentity,
 } from '@/lib/bitcode-wallet-local';
 import { bitcodeQaTelemetry, compactBitcodeAddress } from '@/lib/bitcode-qa-telemetry';
-import { buildAuxillariesRoutePath } from '@/app/auxillaries/components/auxillary-pane-meta';
+import { buildSupabaseAuthCallbackRedirect } from '@/lib/supabase-auth-redirect';
 
 const BITCODE_BITCOIN_SUPABASE_PROVIDER = 'custom:bitcode-bitcoin';
 const BITCODE_BITCOIN_SUPABASE_SCOPES = 'profile wallet:bitcoin';
@@ -181,7 +181,9 @@ export default function AuxillariesWalletConnectionPanel({
         return { ready: true as const };
       }
 
-      const redirectTo = `${window.location.origin}/tps/supabase/callback?next=${encodeURIComponent(buildAuxillariesRoutePath('wallet'))}`;
+      // Post-auth landing is /packs (ledgerized activity), not the legacy
+      // /terminal overlay route that buildAuxillariesRoutePath still targets.
+      const redirectTo = buildSupabaseAuthCallbackRedirect('/packs');
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: BITCODE_BITCOIN_SUPABASE_PROVIDER as any,
         options: {

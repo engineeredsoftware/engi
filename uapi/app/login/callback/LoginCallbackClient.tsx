@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, useMotionValue, useMotionTemplate } from 'framer-motion';
 import QuantumEffect from '@/components/base/bitcode/effects/QuantumEffect';
 import TypingAnimation from '@/components/base/bitcode/typing-animation';
+import { consumeAuthNextPath } from '@/lib/supabase-auth-redirect';
 
 interface LoginCallbackClientProps {
   code: string;
@@ -29,6 +30,12 @@ export default function LoginCallbackClient({
 
   // Determine if this is an OTP flow (magic-link) or an OAuth redirect
   const isOtpFlow = codeKind === 'token_hash' && Boolean(code && code.trim().length > 0);
+
+  // The post-auth destination travels via origin-local storage because the
+  // Supabase redirect_to must stay query-free (allow-list exact matching);
+  // an explicit `?next=` query param still wins when present.
+  const resolveNextPath = () =>
+    nextPath && nextPath !== '/' ? nextPath : consumeAuthNextPath() ?? nextPath ?? '/';
 
   // Track mouse for subtle effect
   const mx = useMotionValue(0);
@@ -122,7 +129,7 @@ export default function LoginCallbackClient({
           } catch {}
 
           window.close();
-          window.location.href = nextPath || '/';
+          window.location.href = resolveNextPath();
         }, 600);
       };
 

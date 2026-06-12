@@ -1,5 +1,5 @@
-import { Executor } from '@bitcode/execution-generics';
-import { Execution } from '@bitcode/execution-generics/Execution';
+import type { Executor } from '@bitcode/execution-generics';
+import type { Execution } from '@bitcode/execution-generics/Execution';
 import { SubStepExecution } from '../execution';
 import { z } from 'zod';
 import { PreparedContext, Reasoning, UseTool, Judgment, UsedTool } from '../types';

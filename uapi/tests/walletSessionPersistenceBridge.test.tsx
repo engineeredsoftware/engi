@@ -87,6 +87,71 @@ describe('WalletSessionPersistenceBridge', () => {
     expect(persistedIdentity?.connectedAt).toBe('2026-05-14T14:08:42.562Z');
   });
 
+  it('derives the wallet binding from the OAuth identity when nothing is staged locally', async () => {
+    const oauthAddress = 'tb1p6x70u8ag7hkmgsve58lxhpgk5fhnanxp2vtuhvccv6n54f2m9mrsxe6wc2';
+    getUser.mockResolvedValue({
+      data: {
+        user: {
+          id: 'user-1',
+          identities: [
+            {
+              provider: 'custom:bitcode-bitcoin',
+              identity_data: { sub: `bitcoin:testnet:${oauthAddress}` },
+            },
+          ],
+        },
+      },
+      error: null,
+    });
+    global.fetch = jest.fn(async () => ({
+      ok: true,
+      status: 201,
+      json: async () => ({
+        walletConnectionStatus: {
+          address: oauthAddress,
+          provider: 'leather',
+          network: 'testnet',
+          verificationState: 'pending',
+          metadata: { connectedAt: '2026-06-12T18:53:26.059Z' },
+        },
+      }),
+    })) as jest.Mock;
+
+    render(<WalletSessionPersistenceBridge />);
+
+    await waitFor(() => {
+      expect(global.fetch).toHaveBeenCalledWith(
+        '/api/wallet/authenticate',
+        expect.objectContaining({
+          method: 'POST',
+          body: JSON.stringify({ source: 'oauth-identity', proofKind: 'provider_session' }),
+        }),
+      );
+      expect(mockMutateUserData).toHaveBeenCalled();
+    });
+
+    const persistedIdentity = readLocalBitcodeWalletIdentity();
+    expect(persistedIdentity?.persistence).toBe('server');
+    expect(persistedIdentity?.address).toBe(oauthAddress);
+    expect(persistedIdentity?.provider).toBe('leather');
+    expect(persistedIdentity?.proofKind).toBe('provider_session');
+    expect(persistedIdentity?.connectedAt).toBe('2026-06-12T18:53:26.059Z');
+  });
+
+  it('skips identity-derived binding for sessions without a Bitcoin OAuth identity', async () => {
+    getUser.mockResolvedValue({
+      data: { user: { id: 'user-1', identities: [{ provider: 'github' }] } },
+      error: null,
+    });
+
+    render(<WalletSessionPersistenceBridge />);
+
+    await waitFor(() => {
+      expect(getUser).toHaveBeenCalled();
+    });
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
   it('does not call wallet persistence without a Supabase user session', async () => {
     getUser.mockResolvedValueOnce({ data: { user: null }, error: null });
     window.localStorage.setItem(

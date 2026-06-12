@@ -389,8 +389,8 @@ export default function AuxillariesExternalsPane({
                         <p className="text-sm font-medium text-white">
                           Connected Repositories ({repositories.length})
                         </p>
-                        <div className="flex flex-wrap gap-2">
-                          {repositories.slice(0, 8).map((repository: any) => {
+                        <div className="flex max-h-72 flex-wrap gap-2 overflow-y-auto">
+                          {repositories.map((repository: any) => {
                             const label =
                               typeof repository === 'string'
                                 ? repository
