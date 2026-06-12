@@ -3,7 +3,7 @@
   "schemaId": "bitcode.v47.promotionReadinessReport.v1",
   "version": "V47",
   "currentTarget": "V46",
-  "generatedAt": "2026-06-11T00:00:00.000Z",
+  "generatedAt": "2026-06-12T12:58:57-03:00",
   "sourceSafetyVerdict": "source-safe-v47-commercial-website-testnet-launch-promotion-metadata",
   "prePromotionPosture": "V46 active / V47 draft",
   "postPromotionPosture": "V47 active / V48 draft",
@@ -380,7 +380,7 @@
     {
       "relativePath": "BITCODE_SPEC_V47.md",
       "present": true,
-      "digest": "sha256:867cb6f9af5fbf3f7f757f686bce56d6d44c854b47fd8e8a8769d7db9d680666",
+      "digest": "sha256:476ca5a5d0b07b31694f0b68511f3474d43641af24191e3fda5e779ccb247aa0",
       "requiredTokens": [
         {
           "token": "V47 promotion readiness canon",
@@ -399,7 +399,7 @@
     {
       "relativePath": "BITCODE_SPEC_V47_DELTA.md",
       "present": true,
-      "digest": "sha256:de7d68aebeff1756eafc16b8a56d6d72305982c5788fe7c9086a379edf7f9500",
+      "digest": "sha256:40c3a78f1d2502d7b3cdca93a13abfe4084fdf4524be2943988a5104f3ace312",
       "requiredTokens": [
         {
           "token": "Gate 10: V47 Promotion Readiness",
@@ -418,7 +418,7 @@
     {
       "relativePath": "BITCODE_SPEC_V47_NOTES.md",
       "present": true,
-      "digest": "sha256:3b0d18b58f46616b77bf8abad2b1067ddcdf358bc186bc4723e6303c4d7ad2de",
+      "digest": "sha256:171306fae397cc25ca8de67f4c1274cf88e559a0b7a9f52bcf61b7cb6c76f6b3",
       "requiredTokens": [
         {
           "token": "Gate 10: V47 Promotion Readiness",
@@ -437,7 +437,7 @@
     {
       "relativePath": "BITCODE_SPEC_V47_PARITY_MATRIX.md",
       "present": true,
-      "digest": "sha256:059c410d08d286fe541ed6adc3cb27271132fbb5182863c3a871da7a4d744801",
+      "digest": "sha256:f2ec234455412a4f64c4e7432531cbb3cf0edaca06262a3b5f697d4c6a8fabb5",
       "requiredTokens": [
         {
           "token": "Gate 10 implementation readback",
@@ -486,7 +486,7 @@
     {
       "relativePath": "packages/protocol/README.md",
       "present": true,
-      "digest": "sha256:d0d639d5fccd6afc9bca2b6fc70d78bbc5017e1fbd21dc40e78cf5f5a5836650",
+      "digest": "sha256:1a81b9507325d3a5da87f627f206fc69f23d6dcc4f7590111c561206ef55127e",
       "requiredTokens": [
         {
           "token": "V47 Gate 10",

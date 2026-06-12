@@ -3,16 +3,17 @@
 ## Status
 
 - Version: `V47`
-- V47 state: draft opening; V46 remains active canon while V47 scopes website commercial testnet launch readiness
-- Current canonical/latest target: `V46`
+- V47 state: canonical promotion complete; this delta records the promoted V46-to-V47 commercial website testnet launch closure set
+- Current canonical/latest target: `V47`
+- Canonical proof-source commit: `0d594d117e7d9f2065c3622dd51c0e5e5456757e`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opened specification, roadmap, measurement-law, and workflow hooks; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds source-safe seller/buyer state-machine law
+- Generated structured artifact inventory: active canonical `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-canon-posture-drift-report.json`, V47 launch artifacts (`.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, `.bitcode/v47-reader-website-completion.json`, `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, `.bitcode/v47-e2e-ip-selling-buying-tests.json`, `.bitcode/v47-landing-public-launch-messaging.json`, `.bitcode/v47-staging-testnet-deployment-rehearsal.json`), `.bitcode/v47-promotion-readiness-report.json`, V47 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V47_PROVEN.md` as the generated proof appendix for V47 promotion
+- Source parity state: V47 source-side measurement law, seller/buyer state machines, depositor and reader route completions, packs/Auxillaries dashboard, E2E IP exchange browser proof, landing/public launch messaging, staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V47 file family
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Spec companion: `BITCODE_SPEC_V47.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
-- Scope: V47 delta for commercial website testnet readiness over promoted V46 protocol comprehension canon
+- Scope: V47 canonical delta for commercial website testnet launch readiness over promoted V46 protocol comprehension canon
 - Last fully realized canonical target preserved in source: `V46`
 
 ## Why V47 exists
