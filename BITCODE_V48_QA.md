@@ -99,7 +99,7 @@
 
 ## Track 1 — Identity / Authentication / Auxillaries
 
-- [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`
+- [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`. Re-verified from fully nuked state (purged user + cleared site data): created 19:29:21 → session 19:29:25 → binding auto-written 19:29:29 by the bridge on `/packs` mount with no Auxillaries visit; UI consistent across nav, Wallet, and Profile panes.
 - [x] Wallet binding persisted after sign-in — verified 2026-06-12: identity-derived bind populated `username` (`wallet_tb1p6x70u8ag`) and the full `walletBinding` (address, provider `leather`, network `testnet`, status `pending`, `proofKind: provider_session`, `boundAt` stamped on bridge mount). `payment_address`/`addressType` stay null in identity-derived binds (GoTrue drops the custom claims); they backfill via the in-panel signature flow, which settlement-adjacent actions require anyway.
 - [ ] Session persists across refresh (watch F2)
 - [ ] Profile pane readback (optional email binding behaves as contact-binding, not sign-in)
