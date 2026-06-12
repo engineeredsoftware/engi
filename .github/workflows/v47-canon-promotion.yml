@@ -75,8 +75,8 @@ jobs:
           POINTER="$(cat BITCODE_SPEC.txt)"
           if [ "$POINTER" = "V46" ]; then
             run_checked node scripts/check-bitcode-spec-family.mjs --version V47 --mode draft --current-target V46
-            run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V47 --draft-target V48
-            run_checked node scripts/check-bitcode-canonical-inputs.mjs --current-target V47
+            run_checked node scripts/check-bitcode-canon-posture-drift.mjs --active-canon V46 --draft-target V47
+            run_checked node scripts/check-bitcode-canonical-inputs.mjs --current-target V46
             run_checked node scripts/check-v47-gate1-scope-measurement-launch-freeze.mjs --skip-branch-check
             run_checked node scripts/check-v47-gate2-feature-excess-alignment-audit.mjs --skip-branch-check --skip-uapi-tests
             run_checked node scripts/check-v47-gate3-seller-buyer-state-machine-law.mjs --skip-branch-check --skip-package-tests --skip-uapi-tests
