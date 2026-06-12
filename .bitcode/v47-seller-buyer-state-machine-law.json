@@ -357,7 +357,7 @@
   ],
   "predicateResults": [
     {
-      "id": "active-canon-pointer-remains-v46",
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
       "sourcePath": "BITCODE_SPEC.txt",
       "passed": true
     },
@@ -448,11 +448,11 @@
     }
   ],
   "sourceRoots": {
-    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
-    "spec": "BITCODE_SPEC_V47.md:867cb6f9af5fbf3f7f757f68",
-    "delta": "BITCODE_SPEC_V47_DELTA.md:de7d68aebeff1756eafc16b8",
-    "notes": "BITCODE_SPEC_V47_NOTES.md:3b0d18b58f46616b77bf8aba",
-    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:059c410d08d286fe541ed6ad",
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:dd65b4f247f3f62a2b2ed547",
     "depositRouteModel": "uapi/app/deposit/deposit-route-model.ts:6485e388dd745c79907f992c",
     "readRouteModel": "uapi/app/read/read-route-model.ts:d033da8b41b8116c65cbcc7f",
@@ -464,14 +464,14 @@
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/protocol/src/canonical/v47-seller-buyer-state-machine-law.js:5693270ee09e104fe7b70ed5",
+    "protocolSource": "packages/protocol/src/canonical/v47-seller-buyer-state-machine-law.js:4a6cbf385f24c673e9fee3fd",
     "protocolTest": "packages/protocol/test/v47-seller-buyer-state-machine-law.test.js:de93bfe59fad2e7a9a2a3ce7",
     "generator": "scripts/generate-v47-seller-buyer-state-machine-law.mjs:256bbbf5ca089285f27fcad7",
     "checker": "scripts/check-v47-gate3-seller-buyer-state-machine-law.mjs:fa453f967b42423e4ee0bfc1",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
   },
-  "artifactRoot": "v47-seller-buyer-state-machine-law:f57987448e9992dd37d2e346",
+  "artifactRoot": "v47-seller-buyer-state-machine-law:40121031f1834158f610c7ce",
   "coverage": {
     "requiredPredicateCount": 18,
     "passedPredicateCount": 18,
