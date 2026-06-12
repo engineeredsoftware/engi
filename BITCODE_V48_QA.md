@@ -135,6 +135,30 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Env preparation (2026-06-12): local `GITHUB_APP_ID`/`GITHUB_PRIVATE_KEY` were template placeholders (`YOUR_GITHUB_APP_ID`; JWT signing failed with `DECODER routines::unsupported`); the install callback otherwise reached localhost and dispatched correctly. Fix: real App ID + base64-encoded PEM (the JWT helper accepts base64/`\n`-escaped/quoted PEMs). Also verify the prod deployment env carries real values — placeholders there break the prod install path identically. Re-running the flow after an env fix does not need a fresh install: the installation branch ignores the single-use `code`, so re-visiting the callback URL with `installation_id` suffices.
 - Related: post-connect redirect builds `/terminal?auxillary-open-to=externals` — another F8 legacy-route consumer.
 
+### F12 — Deposit AssetPack option "synthesis" is deterministic blueprints; the measurement pipeline never runs
+
+- Severity: high (Track 2 core; the commercial deposit experience is not real)
+- Observed: options appeared instantly after connect+notes; every execution row has `total_tokens: null`, `duration_ms: null`, `created_at == completed_at`; the three option titles are fixed archetypes.
+- Trace: `/deposit` option synthesis runs `deposit-route-model.ts` → `buildDepositAssetPackOptions` (`packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts`) — three hardcoded `OPTION_BLUEPRINTS` with constant `measurementBias` (0.72/0.66/0.61) and FNV-hash pseudo-roots; the file still carries `approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review'` scaffolding markers from an earlier version. `BITCODE_ASSET_PACK_REAL_INFERENCE` reaches only the pipeline-harness QA routes (`/api/pipeline-harness/asset-pack`), never the `/deposit` flow — the env flags change nothing for depositing. Admission/rejection rows are journal writes over the blueprints; the qa7 sha256 roots are the composer execution's deterministic evidence.
+- Gate 2 core work: wire `/deposit` option synthesis to the real asset-pack measurement pipeline under the bounded real-inference profile, producing measured options (real measurement vectors, token/cost/duration accounting, depositor-notes-conditioned synthesis) with the blueprint path retained only as an explicit mock/bring-up mode.
+
+### F13 — Deposit option decision semantics: approve is irreversibly final with no confirmation; reject should be archive
+
+- Severity: medium (spec intent for the V48 family + UX gate work)
+- Law intent (Garrett, 2026-06-12): approve = permanent Depository admission — correct that it is final, wrong that one click does it with no explicit confirmation boundary; toggling an admission back is NOT correct. Reject is semantically "archive": re-depositable at any time, with the caveat that measurements go stale over time — re-deposit triggers resynthesis/remeasurement.
+- Work: explicit confirm step (or staged "ready to admit" state) before admission; rename/restyle reject to archive; archived options carry measurement-staleness posture and a resynthesize action.
+
+### F14 — No protected-IP exclusion instructions for deposit synthesis
+
+- Severity: medium-high (source-safety law surface)
+- Gap: the deposit composer accepts depositor notes but offers no way to declare which IP in the connected source must be protected and excluded from AssetPack knowledge synthesis. The synthesis pipeline (once real, F12) must accept and honor exclusion instructions as a fail-closed boundary (excluded paths/concepts never enter measurement, prompts, or option summaries).
+
+### F15 — Packs master-detail rows are not selectable; type taxonomy unclear
+
+- Severity: medium (Track 4 UX, surfaced during Track 2)
+- Observed: pack activity rows render but cannot be selected to open their detail view (the master-detail contract's most critical interaction). The TYPE column shows generic "Executions" for everything; the conceptual taxonomy should read as: Deposit Request ("Some Python" — parity with Read Request) → synthesized AssetPack options → per-option decisions (admitted/archived).
+- Work: row selection opens the per-activity detail page (clean full readback); type column gains the deposit-request/option/decision taxonomy.
+
 - Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
 
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
