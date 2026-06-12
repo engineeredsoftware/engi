@@ -3,23 +3,25 @@
 ## Status
 
 - Version: `V47`
-- Canonical pointer: `BITCODE_SPEC.txt` -> `V46`
-- Active canonical anchor: `BITCODE_SPEC_V46.md`
-- Active generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Current canonical/latest target: `V46`
+- Canonical pointer: `BITCODE_SPEC.txt` -> `V47`
+- Active canonical anchor: `BITCODE_SPEC_V47.md`
+- Active generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`
+- Current canonical/latest target: `V47`
+- Canonical proof-source commit: `0d594d117e7d9f2065c3622dd51c0e5e5456757e`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 commercial website testnet artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens launch scope, testnet semantics, measurement law, and closure gates over promoted V46; Gate 2 records source-safe feature excess and launch alignment truth; Gate 3 records seller/buyer state-machine law; Gate 4 records Depositor Website Completion truth; Gate 5 records Reader Website Completion truth; Gate 6 records Packs And Auxillaries Commercial Dashboard truth; Gate 7 records E2E IP Selling And Buying Tests truth; Gate 8 records Landing Page And Public Launch Messaging truth; Gate 9 records Staging-Testnet Deployment Rehearsal truth; Gate 10 records V47 Promotion Readiness truth
-- Scope: V47 starts as the commercial website testnet launch-readiness target over promoted V46 protocol comprehension canon.
+- V47 state: canonical promotion complete; V47 notes record accepted measurement law, launch state machines, route completions, browser proof, dashboard, messaging, staging-testnet rehearsal, and promotion-readiness evidence
+- Generated structured artifact inventory: active canonical `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-canon-posture-drift-report.json`, V47 launch artifacts (`.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, `.bitcode/v47-reader-website-completion.json`, `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, `.bitcode/v47-e2e-ip-selling-buying-tests.json`, `.bitcode/v47-landing-public-launch-messaging.json`, `.bitcode/v47-staging-testnet-deployment-rehearsal.json`), `.bitcode/v47-promotion-readiness-report.json`, V47 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V47_PROVEN.md` as the generated proof appendix for V47 promotion
+- Source parity state: V47 source-side measurement law, seller/buyer state machines, depositor and reader route completions, packs/Auxillaries dashboard, E2E IP exchange browser proof, landing/public launch messaging, staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V47 file family
+- Scope: V47 canonical notes for commercial website testnet launch readiness over promoted V46 protocol comprehension canon
+- Last fully realized canonical target preserved in source: `V47`
 
 ## Notes companion rule
 
 These notes accompany the V47 draft specification family. They are not stronger
 than `BITCODE_SPEC_V47.md`, the active `BITCODE_SPEC.txt` pointer, or generated
 proof artifacts. They record concise launch intent, user-flow emphasis,
-measurement clarity, and deferrals while V46 remains active canon.
+measurement clarity, and deferrals under promoted V47 canon.
 
 ## Concise current-system reading
 

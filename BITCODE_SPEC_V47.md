@@ -3,17 +3,18 @@
 ## Status
 
 - Version: `V47`
-- V47 state: draft opening; V46 remains the active canon while V47 scopes commercial website testnet launch readiness
-- Current canonical/latest target: `V46`
+- V47 state: canonical promotion complete; V47 is the active commercial website testnet launch canon and the V47 hand-authored plus generated canon are aligned
+- Current canonical/latest target: `V47`
+- Canonical proof-source commit: `0d594d117e7d9f2065c3622dd51c0e5e5456757e`
 - Prior canonical anchor: `BITCODE_SPEC_V46.md`
 - Prior generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`
-- Generated structured artifact inventory: planned draft `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, V47 launch-readiness artifacts, V47 commercial website testnet rehearsal artifacts, and `BITCODE_SPEC_V47_PROVEN.md` after promotion readiness
-- Source parity state: V47 source parity is in progress; Gate 1 opens the draft family, testnet semantics, measurement law, launch freeze, and closure gates over promoted V46; Gate 2 adds source-safe feature-excess and launch-alignment audit coverage; Gate 3 adds seller/buyer state-machine law; Gate 4 completes the depositor website; Gate 5 completes the reader website; Gate 6 completes the packs and Auxillaries commercial dashboard; Gate 7 proves IP selling and buying in the browser; Gate 8 records landing and public launch messaging; Gate 9 rehearses the staging-testnet deployment; Gate 10 records promotion readiness
+- Generated structured artifact inventory: active canonical `.bitcode/v47-spec-family-report.json`, `.bitcode/v47-canonical-input-report.json`, `.bitcode/v47-canon-posture-drift-report.json`, V47 launch artifacts (`.bitcode/v47-feature-excess-alignment-audit.json`, `.bitcode/v47-seller-buyer-state-machine-law.json`, `.bitcode/v47-depositor-website-completion.json`, `.bitcode/v47-reader-website-completion.json`, `.bitcode/v47-packs-auxillaries-commercial-dashboard.json`, `.bitcode/v47-e2e-ip-selling-buying-tests.json`, `.bitcode/v47-landing-public-launch-messaging.json`, `.bitcode/v47-staging-testnet-deployment-rehearsal.json`), `.bitcode/v47-promotion-readiness-report.json`, V47 gate-quality and promotion workflow evidence, and `BITCODE_SPEC_V47_PROVEN.md` as the generated proof appendix for V47 promotion
+- Source parity state: V47 source-side measurement law, seller/buyer state machines, depositor and reader route completions, packs/Auxillaries dashboard, E2E IP exchange browser proof, landing/public launch messaging, staging-testnet rehearsal, workflow, and promotion surfaces are canonicalized in the promoted V47 file family
 - Notes companion: `BITCODE_SPEC_V47_NOTES.md`
 - Delta companion: `BITCODE_SPEC_V47_DELTA.md`
 - Parity companion: `BITCODE_SPEC_V47_PARITY_MATRIX.md`
-- Scope: V47 draft system specification for commercial website testnet launch readiness over promoted V46 protocol comprehension canon
-- Last fully realized canonical target preserved in source: `V46`
+- Scope: V47 canonical system specification for commercial website testnet launch readiness, measurement law, seller/buyer launch state machines, route completion, browser-proven IP exchange, staging-testnet rehearsal, and promotion readiness over promoted V46 protocol comprehension canon
+- Last fully realized canonical target preserved in source: `V47`
 
 ## Version executive summary
 
@@ -57,12 +58,13 @@ buyers can buy Need-fitting AssetPacks.
 
 ## V47 source-of-truth hierarchy
 
-`BITCODE_SPEC.txt` points to `V46`; V46 is the active promoted Bitcode canon.
+`BITCODE_SPEC.txt` points to `V47`; V47 is the active promoted Bitcode canon.
 `BITCODE_SPEC_V47.md`, `BITCODE_SPEC_V47_DELTA.md`,
-`BITCODE_SPEC_V47_NOTES.md`, and `BITCODE_SPEC_V47_PARITY_MATRIX.md` are draft
-V47 material until V47 promotion. V47 authorizes implementation only gate by
-gate through accepted parity, generated proof artifacts, tests, and promotion
-readiness.
+`BITCODE_SPEC_V47_NOTES.md`, and `BITCODE_SPEC_V47_PARITY_MATRIX.md` are the
+promoted V47 specification-family material. The V47 formal specification family
+is active canon and authorizes implementation behavior only through the
+source-safe, measurement-before-price, proof-backed launch boundaries it
+states.
 
 Implementation remains unversioned in source paths. Routes, packages,
 components, tests, prompts, telemetry, schemas, APIs, and workflows continue to
@@ -906,7 +908,7 @@ entitlement; source-safe receipts may be projected.
 
 ## V47 accepted boundaries and reopen conditions
 
-- V46 remains active canon until V47 promotion.
+- V47 replaced V46 as active canon through the promotion workflow.
 - V47 Gate 1 does not authorize runtime behavior changes.
 - V47 testnet means BTC amounts are testnet only; system behavior remains
   production-intended.
@@ -935,7 +937,7 @@ entry are retained or flaggable rather than launch CTAs; API/MCP, ChatGPT App,
 Bitcode Chat, value-bearing mainnet, source-bearing previews, and advanced
 market mechanics are explicitly deferred; `.bitcode/v47-feature-excess-
 alignment-audit.json` is generated; `check:v47-gate2` validates the audit; and
-gate/canon workflows run the Gate 2 checker while V46 remains active canon.
+gate/canon workflows run the Gate 2 checker under promoted V47 canon.
 
 V47 Gate 3 is complete when the IP seller state machine covers source
 connection, deposit AssetPack option synthesis, source-safe measurement review,
@@ -947,7 +949,7 @@ before Finding Fits, quote-before-settlement, BTC finality before BTD rights,
 BTD rights before source delivery, `/packs` history projection, and
 fail-closed repair; `.bitcode/v47-seller-buyer-state-machine-law.json` is
 generated; `check:v47-gate3` validates the law; and gate/canon workflows run
-the Gate 3 checker while V46 remains active canon.
+the Gate 3 checker under promoted V47 canon.
 
 V47 Gate 4 is complete when the `/deposit` route binds source connection
 before option synthesis; option synthesis, review, and admission decisions are
@@ -958,7 +960,7 @@ readback synchronized to `/packs`; compensation estimates, supply
 recommendations, and organization/wallet authority state are visible as
 source-safe metadata; `.bitcode/v47-depositor-website-completion.json` is
 generated; `check:v47-gate4` validates the completion; and gate/canon
-workflows run the Gate 4 checker while V46 remains active canon.
+workflows run the Gate 4 checker under promoted V47 canon.
 
 V47 Gate 5 is complete when the `/read` route binds Read request initiation
 from a connected repository source; a synthesized Need is reviewed and
@@ -971,7 +973,7 @@ with delivery locked until rights transfer; Reading activity and settled
 AssetPacks remain reachable through `/packs`;
 `.bitcode/v47-reader-website-completion.json` is generated; `check:v47-gate5`
 validates the completion; and gate/canon workflows run the Gate 5 checker
-while V46 remains active canon.
+under promoted V47 canon.
 
 V47 Gate 6 is complete when `/packs` renders searchable master-detail
 PackActivity with type, scope, repository, and settlement, compensation,
@@ -985,7 +987,7 @@ connections, interfaces, wallet authority with BTD history readback, and
 organization team and treasury settings;
 `.bitcode/v47-packs-auxillaries-commercial-dashboard.json` is generated;
 `check:v47-gate6` validates the completion; and gate/canon workflows run the
-Gate 6 checker while V46 remains active canon.
+Gate 6 checker under promoted V47 canon.
 
 V47 Gate 7 is complete when browser-level tests prove both sides of Bitcode
 in deterministic mock mode: depositing IP through source connection, option
@@ -999,7 +1001,7 @@ the fail-closed repair surface on `/packs`; the browser error trap stays
 clean; `uapi` exposes `test:e2e:ip-exchange`;
 `.bitcode/v47-e2e-ip-selling-buying-tests.json` is generated;
 `check:v47-gate7` validates the coverage; and gate/canon workflows run the
-Gate 7 checker while V46 remains active canon.
+Gate 7 checker under promoted V47 canon.
 
 V47 Gate 8 is complete when the landing page renders a commercial-testnet
 section explaining that BTC amounts are testnet and free while protocol
@@ -1010,7 +1012,7 @@ with blocked value-bearing mainnet posture; promoted V46 claim-boundary
 tokens and launch navigation remain intact;
 `.bitcode/v47-landing-public-launch-messaging.json` is generated;
 `check:v47-gate8` validates the messaging; and gate/canon workflows run the
-Gate 8 checker while V46 remains active canon.
+Gate 8 checker under promoted V47 canon.
 
 V47 Gate 9 is complete when the staging-testnet rehearsal law binds the
 deployment truth sources for every launch surface; the realistic-data
@@ -1020,7 +1022,7 @@ value-bearing mainnet lane rehearses as blocked; lane receipts remain dry-run
 with live execution operator opt-in and no serialized live credentials;
 `.bitcode/v47-staging-testnet-deployment-rehearsal.json` is generated;
 `check:v47-gate9` validates the rehearsal; and gate/canon workflows run the
-Gate 9 checker while V46 remains active canon.
+Gate 9 checker under promoted V47 canon.
 
 V47 Gate 10 is complete when the promotion readiness report binds all accepted
 Gate 2-9 artifacts as present, parseable, and source-safe; the promotion
@@ -1030,5 +1032,5 @@ V46 pre-promotion and V47 post-promotion pointer postures; a draft-preview
 `BITCODE_SPEC_V47_PROVEN.md` is generated; the V47 promotion dry-run passes;
 `.bitcode/v47-promotion-readiness-report.json` is generated; `check:v47-gate10`
 validates the readiness; and the prepared post-promotion posture is
-V47 active / draft V48 while V46 remains active canon until the promotion
+V47 active / draft V48 under promoted V47 canon until the promotion
 workflow advances `BITCODE_SPEC.txt`.
