@@ -176,7 +176,7 @@
   ],
   "predicateResults": [
     {
-      "id": "active-canon-pointer-remains-v46",
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
       "sourcePath": "BITCODE_SPEC.txt",
       "passed": true
     },
@@ -262,11 +262,11 @@
     }
   ],
   "sourceRoots": {
-    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
-    "spec": "BITCODE_SPEC_V47.md:867cb6f9af5fbf3f7f757f68",
-    "delta": "BITCODE_SPEC_V47_DELTA.md:de7d68aebeff1756eafc16b8",
-    "notes": "BITCODE_SPEC_V47_NOTES.md:3b0d18b58f46616b77bf8aba",
-    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:059c410d08d286fe541ed6ad",
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:dd65b4f247f3f62a2b2ed547",
     "ipExchangeSpec": "uapi/tests/e2e/commercial-mvp.ip-exchange.spec.ts:86af66133e5ede25935ffd9d",
     "e2eHelpers": "uapi/tests/e2e/commercial-mvp.helpers.ts:5bb8c28f36170b877e8a467a",
@@ -278,14 +278,14 @@
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/protocol/src/canonical/v47-e2e-ip-selling-buying-tests.js:74a3ed6605317d28aa87f9a0",
+    "protocolSource": "packages/protocol/src/canonical/v47-e2e-ip-selling-buying-tests.js:1ecddb0bd123deefbc5068b1",
     "protocolTest": "packages/protocol/test/v47-e2e-ip-selling-buying-tests.test.js:4faaa57ae3a59253e6f1cb7e",
     "generator": "scripts/generate-v47-e2e-ip-selling-buying-tests.mjs:c0c83f7b37d8db3db755d1c5",
     "checker": "scripts/check-v47-gate7-e2e-ip-selling-buying-tests.mjs:a4cda45b853fd314679baab4",
     "gateWorkflow": ".github/workflows/bitcode-gate-quality.yml:406e0b5c647ecf5d1f1b3097",
     "canonWorkflow": ".github/workflows/bitcode-canon-quality.yml:ab37403273c35c918071e3cd"
   },
-  "artifactRoot": "v47-e2e-ip-selling-buying-tests:b5854cc25ea01781ba5f215b",
+  "artifactRoot": "v47-e2e-ip-selling-buying-tests:41410d8306013276c481f356",
   "coverage": {
     "requiredPredicateCount": 17,
     "passedPredicateCount": 17,
