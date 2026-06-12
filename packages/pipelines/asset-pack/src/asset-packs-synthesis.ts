@@ -110,6 +110,19 @@ export interface AssetPacksSynthesisRequest {
   inventory: AssetPacksSynthesisSourceInventory;
   candidateKinds: string[];
   maxCandidates?: number;
+  /**
+   * Optional streaming execution node (execution-generics). When provided,
+   * source-safe telemetry (phase/agent/step states, generation stages,
+   * provider/model, usage) streams through it live; prompt and response
+   * CONTENT is always withheld (rawPromptVisible/rawProviderResponseVisible
+   * stay false by law) — only content-withheld summaries are forwarded.
+   */
+  execution?: SourceSafeStreamTarget | null;
+}
+
+export interface SourceSafeStreamTarget {
+  store?: (section: string, key: string, value: unknown) => unknown;
+  child?: (name: string) => SourceSafeStreamTarget;
 }
 
 export interface AssetPackCandidateMeasurement {
@@ -199,10 +212,61 @@ function createUsageRecorder() {
   return { recorder, captured };
 }
 
-function createRecorderExecution(recorder: UsageRecorder) {
-  const node = {
-    store: recorder.store,
-    child: () => node,
+// Bounded-inference stores carry full prompt/response content for in-memory
+// usage capture; only content-withheld summaries may reach a streaming
+// target, keeping rawPromptVisible/rawProviderResponseVisible false by law.
+const CONTENT_BEARING_LLM_KEYS = new Set([
+  'input',
+  'output',
+  'reasoningOutput',
+  'judgmentOutput',
+  'parsedOutput',
+]);
+
+function sourceSafeLlmSummary(key: string, value: unknown) {
+  const record = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
+  const generation = typeof record.generation === 'string' ? record.generation : null;
+  const provider = typeof record.provider === 'string' ? record.provider : null;
+  const model = typeof record.model === 'string' ? record.model : null;
+  const contentChars =
+    typeof record.content === 'string'
+      ? record.content.length
+      : typeof (record as { rawResponse?: unknown }).rawResponse === 'string'
+        ? String((record as { rawResponse?: unknown }).rawResponse).length
+        : null;
+  return {
+    contentWithheld: true,
+    sourceSafetyClass: 'source_safe',
+    stage: key,
+    generation,
+    provider,
+    model,
+    contentChars,
+    phase: typeof record.phase === 'string' ? record.phase : null,
+    agent: typeof record.agent === 'string' ? record.agent : null,
+    step: typeof record.step === 'string' ? record.step : null,
+  };
+}
+
+function createRecorderExecution(recorder: UsageRecorder, target?: SourceSafeStreamTarget | null) {
+  const node: SourceSafeStreamTarget & { store: (s: string, k: string, v: unknown) => void } = {
+    store(section, key, value) {
+      recorder.store(section, key, value);
+      if (!target?.store) return;
+      try {
+        if (section === 'llm' && CONTENT_BEARING_LLM_KEYS.has(key)) {
+          target.store(section, key, sourceSafeLlmSummary(key, value));
+          return;
+        }
+        target.store(section, key, value);
+      } catch {
+        // Streaming is observability, never a synthesis failure.
+      }
+    },
+    child(name: string) {
+      const childTarget = target?.child ? target.child(name) : target;
+      return createRecorderExecution(recorder, childTarget);
+    },
   };
   return node;
 }
@@ -309,7 +373,7 @@ export async function synthesizeAssetPackCandidates(
     userPrompt,
     schema: candidateSetSchema,
     fallback: () => ({ options: [] }),
-    execution: createRecorderExecution(recorder),
+    execution: createRecorderExecution(recorder, request.execution ?? null),
   });
 
   const inventoryPathSet = new Set(request.inventory.paths);

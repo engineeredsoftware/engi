@@ -1,8 +1,12 @@
+import { randomUUID } from 'crypto';
+
 import { NextResponse } from 'next/server';
 
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { GitHubService } from '@bitcode/api/src/vcs/github-service';
+import { ExecutionStreamAdapter } from '@bitcode/execution-generics';
+import { createStreamingExecution, emitPhaseTransition } from '@bitcode/pipelines-generics';
 import {
   applyExclusionsToInventory,
   normalizeProtectedIpExclusions,
@@ -23,8 +27,10 @@ export const maxDuration = 300;
 const MAX_INVENTORY_PATHS = 400;
 const MAX_SAMPLE_FILES = 10;
 const MAX_SAMPLE_CHARS = 1600;
+const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type SynthesizeOptionsBody = {
+  runId?: unknown;
   repositoryFullName?: unknown;
   sourceBranch?: unknown;
   sourceCommit?: unknown;
@@ -171,6 +177,8 @@ export async function POST(request: Request) {
   if (!repositoryFullName || !/^[\w.-]+\/[\w.-]+$/.test(repositoryFullName)) {
     return NextResponse.json({ error: 'repositoryFullName (owner/repo) is required.' }, { status: 400 });
   }
+  const requestedRunId = readString(body.runId);
+  const runId = requestedRunId && UUID_PATTERN.test(requestedRunId) ? requestedRunId : randomUUID();
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
   const depositorInstructions = readString(body.depositorInstructions);
@@ -207,21 +215,69 @@ export async function POST(request: Request) {
     );
   }
 
+  // Streaming execution: a running executions row plus live execution_events
+  // the /deposit accordion log tails. Only source-safe telemetry streams
+  // (phase/agent/stage/provider/model/usage); prompt and response content is
+  // withheld by the synthesis bridge.
+  const execution = createStreamingExecution({
+    runId,
+    userId: user.id,
+    supabase: supabaseAdmin,
+    streamToDatabase: true,
+    structuredToDatabase: false,
+  });
+  const emitStatus = (message: string, extra: Record<string, unknown> = {}) =>
+    ExecutionStreamAdapter.emitEvent(execution.id, 'status' as never, { message, ...extra });
+
   const startedAt = Date.now();
+  const startedAtIso = new Date(startedAt).toISOString();
+  const finalizeExecutionRow = async (row: Record<string, unknown>) => {
+    const { error: rowError } = await supabaseAdmin.from('executions').upsert(
+      {
+        id: runId,
+        user_id: user.id,
+        type: 'agentic-execution:asset-pack',
+        created_at: startedAtIso,
+        started_at: startedAtIso,
+        updated_at: new Date().toISOString(),
+        ...row,
+      },
+      { onConflict: 'id' },
+    );
+    if (rowError) {
+      bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'execution-write-failed', {
+        userId: compactBitcodeServerId(user.id),
+        message: rowError.message,
+      });
+    }
+  };
+
   try {
+    await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'start', {
+      repositoryFullName,
+      sourceBranch,
+      sourceCommit,
+    });
+    await emitStatus(`AssetPacksSynthesis (deposit lens) started for ${repositoryFullName}.`);
+
     const auth = await GitHubService.getValidAuth(
       githubConnection.connection_data as never,
       user.id,
       supabaseAdmin,
     );
     const reference = sourceCommit || sourceBranch || 'HEAD';
+    await emitStatus(`Building source inventory from ${repositoryFullName}@${reference}…`);
     const rawInventory = await buildSourceInventory({
       token: auth.accessToken,
       repositoryFullName,
       reference,
     });
     const inventory = applyExclusionsToInventory(rawInventory, protectedIpExclusions);
+    await emitStatus(
+      `Inventory ready: ${inventory.paths.length} paths (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; ${inventory.samples.length} excerpts sampled).`,
+    );
 
+    await emitStatus('Running bounded structured inference (reason → judge → structured output)…');
     const result = await synthesizeRealDepositOptionCandidates({
       repositoryFullName,
       sourceBranch,
@@ -230,7 +286,11 @@ export async function POST(request: Request) {
       protectedIpExclusions,
       demandContext,
       inventory,
+      execution: execution as never,
     });
+    await emitStatus(
+      `Validated candidates fail-closed: ${result.candidates.length} admissible, ${result.droppedCandidateCount} dropped.`,
+    );
 
     const { synthesis, reviewProjections } = buildRealDepositAssetPackOptionSynthesis(
       {
@@ -249,56 +309,53 @@ export async function POST(request: Request) {
     );
 
     const durationMs = Date.now() - startedAt;
-    const now = new Date().toISOString();
-    const { data: execution, error: executionError } = await supabaseAdmin
-      .from('executions')
-      .insert({
-        user_id: user.id,
-        type: 'agentic-execution:asset-pack',
-        status: 'completed',
-        context: {
-          source: 'deposit-option-synthesis',
-          workbench: 'deposit-option-synthesis',
-          route: '/deposit',
-          pipelineCore: 'AssetPacksSynthesis',
-          synthesisMode: synthesis.synthesisMode,
-          repositoryFullName,
-          sourceBranch,
-          sourceCommit,
-          optionCount: synthesis.optionCount,
-          synthesisRoot: synthesis.roots.synthesisRoot,
-          exclusionCount: synthesis.exclusionPosture.protectedIpExclusionCount,
-          excludedPathCount: synthesis.exclusionPosture.excludedPathCount,
-          droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
-          inventoryPathCount: inventory.paths.length,
-          inferenceProvider: result.inference.provider,
-          inferenceModel: result.inference.model,
-        },
-        output: {
-          summary: `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`,
-          depositOptionSynthesis: synthesis,
-        },
-        items: [],
-        created_at: now,
-        started_at: new Date(startedAt).toISOString(),
-        completed_at: now,
-        updated_at: now,
-        total_tokens: result.inference.totalTokens,
-        duration_ms: durationMs,
-      })
-      .select('id')
-      .single();
+    await emitStatus(
+      `Synthesized ${synthesis.optionCount} measured AssetPack options (${result.inference.totalTokens ?? 'n/a'} tokens, ${(durationMs / 1000).toFixed(1)}s).`,
+    );
+    await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'complete', {
+      optionCount: synthesis.optionCount,
+    });
+    await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
+      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
+      runId,
+    });
 
-    if (executionError) {
-      bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'execution-write-failed', {
-        userId: compactBitcodeServerId(user.id),
-        message: executionError.message,
-      });
-    }
+    await finalizeExecutionRow({
+      status: 'completed',
+      completed_at: new Date().toISOString(),
+      context: {
+        source: 'deposit-option-synthesis',
+        workbench: 'deposit-option-synthesis',
+        route: '/deposit',
+        pipelineCore: 'AssetPacksSynthesis',
+        synthesisMode: synthesis.synthesisMode,
+        repositoryFullName,
+        sourceBranch,
+        sourceCommit,
+        optionCount: synthesis.optionCount,
+        synthesisRoot: synthesis.roots.synthesisRoot,
+        exclusionCount: synthesis.exclusionPosture.protectedIpExclusionCount,
+        excludedPathCount: synthesis.exclusionPosture.excludedPathCount,
+        droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
+        inventoryPathCount: inventory.paths.length,
+        inferenceProvider: result.inference.provider,
+        inferenceModel: result.inference.model,
+      },
+      output: {
+        summary: `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`,
+        depositOptionSynthesis: synthesis,
+      },
+      items: [],
+      total_tokens: result.inference.totalTokens,
+      duration_ms: durationMs,
+    });
+
+    ExecutionStreamAdapter.unregisterStreamer(execution.id);
 
     bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'synthesized', {
       userId: compactBitcodeServerId(user.id),
       repositoryFullName,
+      runId,
       optionCount: synthesis.optionCount,
       droppedCandidateCount: synthesis.exclusionPosture.droppedCandidateCount,
       totalTokens: result.inference.totalTokens,
@@ -307,7 +364,8 @@ export async function POST(request: Request) {
 
     return NextResponse.json({
       ok: true,
-      executionId: execution?.id ?? null,
+      executionId: runId,
+      runId,
       synthesis,
       reviewProjections,
       inference: { ...result.inference, durationMs },
@@ -315,13 +373,32 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
+    try {
+      await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, { message, runId });
+    } catch {}
+    await finalizeExecutionRow({
+      status: 'failed',
+      completed_at: new Date().toISOString(),
+      error: { message },
+      context: {
+        source: 'deposit-option-synthesis',
+        route: '/deposit',
+        pipelineCore: 'AssetPacksSynthesis',
+        repositoryFullName,
+        sourceBranch,
+        sourceCommit,
+      },
+      duration_ms: Date.now() - startedAt,
+    });
+    ExecutionStreamAdapter.unregisterStreamer(execution.id);
     bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'failed', {
       userId: compactBitcodeServerId(user.id),
       repositoryFullName,
+      runId,
       message,
     });
     return NextResponse.json(
-      { error: message, code: 'deposit_option_synthesis_failed' },
+      { error: message, code: 'deposit_option_synthesis_failed', runId },
       { status: 502 },
     );
   }

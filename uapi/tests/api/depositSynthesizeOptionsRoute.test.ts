@@ -18,6 +18,22 @@ jest.mock('@bitcode/api/src/vcs/github-service', () => ({
   },
 }));
 
+jest.mock('@bitcode/pipelines-generics', () => ({
+  createStreamingExecution: jest.fn(() => ({
+    id: 'streaming-execution-1',
+    store: jest.fn(),
+    child: jest.fn(),
+  })),
+  emitPhaseTransition: jest.fn(async () => undefined),
+}));
+
+jest.mock('@bitcode/execution-generics', () => ({
+  ExecutionStreamAdapter: {
+    emitEvent: jest.fn(async () => undefined),
+    unregisterStreamer: jest.fn(),
+  },
+}));
+
 jest.mock('@bitcode/pipeline-asset-pack/runtime-inference-policy', () => ({
   isAssetPackRealInferenceEnabled: jest.fn(() => true),
 }));
@@ -61,6 +77,7 @@ function installSupabaseMocks(options: {
         single: jest.fn().mockResolvedValue({ data: { id: 'execution-1' }, error: null }),
       }),
     }),
+    upsert: jest.fn().mockResolvedValue({ error: null }),
   };
 
   (supabaseAdmin.from as jest.Mock).mockImplementation((table: string) => {
@@ -216,7 +233,7 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(synthesizeInput.inventory.paths).toEqual(['README.md', 'src/app.py']);
     expect(synthesizeInput.protectedIpExclusions).toEqual(['secret/']);
 
-    expect(executionInsert.insert).toHaveBeenCalledWith(
+    expect(executionInsert.upsert).toHaveBeenCalledWith(
       expect.objectContaining({
         user_id: 'user-1',
         type: 'agentic-execution:asset-pack',
@@ -229,7 +246,9 @@ describe('POST /api/deposit/synthesize-options', () => {
           exclusionCount: 1,
         }),
       }),
+      { onConflict: 'id' },
     );
+    expect(payload.runId).toMatch(/^[0-9a-f-]{36}$/i);
   });
 
   it('returns 502 with the failure reason when synthesis fails', async () => {

@@ -27,6 +27,22 @@ jest.mock("@/networking/api-client", () => ({
   fetchPipelineExecutionHistory: () => mockFetchPipelineExecutionHistory(),
 }));
 
+// PipelineExecutionLog pulls react-syntax-highlighter ESM styles that jest
+// cannot transform; the telemetry panel contract is asserted via the stub.
+jest.mock("@/components/base/bitcode/execution/pipeline-execution-log", () => ({
+  PipelineExecutionLog: ({
+    output,
+    isProcessing,
+  }: {
+    output: string;
+    isProcessing: boolean;
+  }) => (
+    <div data-testid="pipeline-execution-log" data-processing={String(isProcessing)}>
+      {output}
+    </div>
+  ),
+}));
+
 jest.mock("@/app/terminal/terminal-shell-bridge", () => ({
   TerminalShellBridgeProvider: ({
     children,

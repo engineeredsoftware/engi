@@ -57,6 +57,9 @@ import {
   writeDepositRouteStage,
   type DepositRouteSession,
 } from "./deposit-route-model";
+import { usePipelineExecution } from "@/hooks/usePipelineExecution";
+import { buildTerminalRunActivityFromEvents } from "@/app/terminal/terminal-run-activity";
+import { PipelineExecutionLog } from "@/components/base/bitcode/execution/pipeline-execution-log";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -141,6 +144,8 @@ export default function DepositPageClient() {
   );
   const [protectedIpExclusionsText, setProtectedIpExclusionsText] = useState("");
   const [optionsRequested, setOptionsRequested] = useState(false);
+  const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
+  const [synthesisLogScrolled, setSynthesisLogScrolled] = useState(false);
   const [synthesisStatus, setSynthesisStatus] = useState<
     "idle" | "running" | "complete" | "failed"
   >("idle");
@@ -487,6 +492,30 @@ export default function DepositPageClient() {
     [depositRouteInput, optionReviewDecisionRecords],
   );
 
+  // Live tail of the AssetPacksSynthesis run: execution_events stream into
+  // the rich accordion log while the route works.
+  const {
+    events: synthesisEvents,
+    latestWorkUpdate: synthesisWorkUpdate,
+    iterationUpdates: synthesisIterationUpdates,
+    error: synthesisStreamError,
+  } = usePipelineExecution(synthesisRunId);
+  const synthesisActivity = useMemo(
+    () =>
+      buildTerminalRunActivityFromEvents(
+        synthesisEvents,
+        synthesisWorkUpdate,
+        synthesisIterationUpdates,
+        synthesisStreamError,
+      ),
+    [
+      synthesisEvents,
+      synthesisIterationUpdates,
+      synthesisStreamError,
+      synthesisWorkUpdate,
+    ],
+  );
+
   const sessionRows = [
     {
       label: "Repository",
@@ -625,12 +654,21 @@ export default function DepositPageClient() {
   const handleSynthesizeOptions = useCallback(async () => {
     setSynthesisStatus("running");
     setSynthesisError(null);
+    // Client-issued run id so the streaming log can tail the execution from
+    // the first event while the route is still working.
+    const runId =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    setSynthesisRunId(runId);
+    setSynthesisLogScrolled(false);
 
     try {
       const response = await fetch("/api/deposit/synthesize-options", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          runId,
           repositoryFullName:
             repositoryContext?.selectedRepository?.fullName || null,
           sourceBranch: repositoryContext?.selectedBranch || null,
@@ -982,6 +1020,53 @@ export default function DepositPageClient() {
                 ) : null}
               </section>
             </div>
+
+            {synthesisRunId ? (
+              <section
+                className="border border-white/10 bg-white/[0.035] px-4 py-4"
+                aria-label="AssetPacksSynthesis run telemetry"
+                data-testid="deposit-synthesis-telemetry"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                      AssetPacksSynthesis
+                    </p>
+                    <h2 className="mt-2 text-lg font-semibold text-white">
+                      Synthesis run telemetry
+                    </h2>
+                    <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
+                      Source-safe pipeline telemetry streamed live from the
+                      running synthesis: phases, agents, generation stages,
+                      provider, model, and usage. Prompt and response content
+                      stays withheld by law.
+                    </p>
+                  </div>
+                  <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
+                    {synthesisRunId}
+                  </span>
+                </div>
+                <div className="mt-4">
+                  <PipelineExecutionLog
+                    output={synthesisActivity.output}
+                    outputDetails={synthesisActivity.outputDetails}
+                    isProcessing={synthesisStatus === "running"}
+                    error={
+                      synthesisStatus === "failed"
+                        ? synthesisError
+                        : synthesisActivity.error
+                    }
+                    onRetry={() => {
+                      void handleSynthesizeOptions();
+                    }}
+                    onDismissError={() => setSynthesisError(null)}
+                    userHasScrolled={synthesisLogScrolled}
+                    setUserHasScrolled={setSynthesisLogScrolled}
+                    compact
+                  />
+                </div>
+              </section>
+            ) : null}
 
             <TerminalSupplySelectionPanel
               repositoryContext={repositoryContext}

@@ -64,6 +64,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
   protectedIpExclusions: string[];
   demandContext: string[];
   inventory: AssetPacksSynthesisSourceInventory;
+  execution?: import('./asset-packs-synthesis').SourceSafeStreamTarget | null;
 }): Promise<AssetPacksSynthesisResult> {
   return synthesizeAssetPackCandidates({
     lens: 'deposit',
@@ -78,6 +79,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
     inventory: input.inventory,
     candidateKinds: DEPOSIT_OPTION_KINDS,
     maxCandidates: 4,
+    execution: input.execution ?? null,
   });
 }
 
