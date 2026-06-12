@@ -248,7 +248,10 @@ function rewriteV47PromotedDraftPosture(content, version) {
     .replaceAll('Active generated proof appendix: `BITCODE_SPEC_V46_PROVEN.md`', 'Active generated proof appendix: `BITCODE_SPEC_V47_PROVEN.md`')
     .replaceAll('V47 state: draft opening for commercial website testnet launch readiness; V46 remains active canon', 'V47 state: canonical promotion complete; V47 is the active commercial website testnet launch canon')
     .replaceAll('V47 state: draft parity opening; V46 remains active canon while V47 scopes website commercial testnet launch readiness', 'V47 state: canonical promotion complete; V47 parity truth, generated launch artifacts, browser proof, staging-testnet rehearsal, gate closure, and promotion automation are aligned')
-    .replaceAll('V47 is the active draft target opened from active V46 posture.', 'V47 is the active promoted canon over the prior V46 anchor.');
+    .replaceAll('V47 is the active draft target opened from active V46 posture.', 'V47 is the active promoted canon over the prior V46 anchor.')
+    .replaceAll('V46 remains active canon through V47 promotion.', 'V47 replaced V46 as active canon through the promotion workflow.')
+    .replaceAll('V46 remains active canon during V47 promoted canon work.', 'V47 is active canon; V46 is the prior promoted anchor.')
+    .replaceAll('V46 remains active canon', 'the prior V46 canon is superseded');
 }
 
 /**

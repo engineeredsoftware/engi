@@ -195,7 +195,7 @@
     {
       "relativePath": "scripts/prepare-bitcode-spec-family-promotion.mjs",
       "present": true,
-      "digest": "sha256:fba727ba98dd08c1285eb7b6ef870c3b07679e719b49c32cb3649df35cae6eaa",
+      "digest": "sha256:81c6ca92e3cac8726ffb031698528d526630aadedcc46db8ee4f7941041e9ba1",
       "requiredTokens": [
         {
           "token": "if (version === 'V47')",
