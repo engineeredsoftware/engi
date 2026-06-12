@@ -95,6 +95,12 @@
 - Enforcement status: display-only today — `buildBtdOrganizationPolicyAuthority` feeds only the Auxillaries pane, and `postBtdOrganizationInterfaceAuthority` (`/api/btd/organization-interface-authority`) has no callers; the V47 ip-exchange e2e proof ran deposit→read→settle without org config. Tracks 2–3 QA are not blocked.
 - V48 gate decision needed (spec law, not a hotfix): either (a) personal-organization bootstrap at wallet sign-up (organization = operator, role `owner`, default grants including `settlement:pay_btc_fee`, policy confirmed) so solo commerce is allowed-by-law, or (b) the pane renders "no organization configured" as a neutral state instead of Denied until organization features ship — paired with deciding where enforcement actually attaches before mainnet.
 
+### F11 — GitHub App webhook URL points at a route with no POST handler (deliveries 404)
+
+- Severity: medium (all GitHub webhook deliveries lost; `POST /api/webhook` drives asset-pack pipeline automation from GitHub events)
+- Observed: the App registration's Webhook URL is `https://bitcode.exchange/github`, but the only routes there are GET-only 308 shims (`/github/callback`, `/github/setup`); the live receiver is `POST /api/webhook` (signature-verified via `GITHUB_WEBHOOK_SECRET`). GitHub does not follow redirects on webhook POSTs, so a shim cannot fix this.
+- Fix (dashboard): Webhook URL → `https://bitcode.exchange/api/webhook`; verify via App Advanced → Recent Deliveries (history should show the 404s; redeliver one to confirm 2xx).
+
 ### F10 — GitHub App sessionless install staging is a dead end (cookie has no consumer)
 
 - Severity: medium (drops real installations whenever the post-install redirect lands on an origin without a session — e.g. the registered Setup URL origin differs from where the user signed in)
