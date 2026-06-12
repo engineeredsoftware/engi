@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 
+import { supabaseAdmin } from '@bitcode/supabase';
+
 import { GET as getActivity } from '@/app/api/activity/route';
+import { buildBitcodeActivityRecordFromExecutionHistory } from '@/components/base/bitcode/activity/bitcode-activity-model';
 import {
   assertPackActivitySourceSafe,
   buildPackActivityDetailProjection,
@@ -72,6 +75,36 @@ async function readBaseActivity(request: Request, limit: number) {
   return { response, payload };
 }
 
+/**
+ * Globally visible Depository commerce (V48 Gate 2 specification): AssetPacks
+ * admitted to the Depository are network-scope rows every account can see on
+ * /packs, regardless of which depositor admitted them. Source-safe execution
+ * projections only; the per-record source-safety assertion still gates the
+ * response.
+ */
+async function readGlobalDepositoryRecords(limit: number): Promise<BitcodeActivityRecord[]> {
+  try {
+    const { data } = await supabaseAdmin
+      .from('executions')
+      .select('id, created_at, status, type, output, context')
+      .eq('context->>source', 'deposit-option-review-admission')
+      .eq('context->>admissionState', 'admitted-to-depository')
+      .order('created_at', { ascending: false })
+      .limit(Math.min(limit, 50));
+    return (data || []).map((row: Record<string, unknown>) =>
+      buildBitcodeActivityRecordFromExecutionHistory({
+        ...row,
+        summary:
+          typeof (row.output as Record<string, unknown> | null)?.summary === 'string'
+            ? String((row.output as Record<string, unknown>).summary)
+            : null,
+      } as never),
+    );
+  } catch {
+    return [];
+  }
+}
+
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const params = url.searchParams;
@@ -92,7 +125,13 @@ export async function GET(request: Request) {
   const baseRecords = Array.isArray(payload?.records)
     ? (payload.records as BitcodeActivityRecord[])
     : [];
-  const packRecords = baseRecords.map(normalizePackActivityRecord);
+  const globalRecords = await readGlobalDepositoryRecords(limit);
+  const seenIds = new Set(baseRecords.map((record) => String(record.id)));
+  const mergedRecords = [
+    ...baseRecords,
+    ...globalRecords.filter((record) => !seenIds.has(String(record.id))),
+  ];
+  const packRecords = mergedRecords.map(normalizePackActivityRecord);
   const query = queryPackActivityRecords(packRecords, {
     search: params.get('q') || params.get('search') || '',
     filters,

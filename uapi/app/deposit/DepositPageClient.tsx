@@ -175,6 +175,13 @@ export default function DepositPageClient() {
   const [optionReviewDecisions, setOptionReviewDecisions] = useState<
     Record<string, DepositOptionReviewDecisionState>
   >({});
+  // Admission is permanent: approval arms an explicit confirmation first,
+  // and an admitted option accepts no further decisions (V48 Gate 2, QA
+  // ledger F13). 'rejected-by-depositor' renders as Archive: Reject
+  // semantics are archive semantics — re-depositable anytime, with
+  // measurements staled by time triggering resynthesis on re-deposit.
+  const [confirmingAdmissionOptionId, setConfirmingAdmissionOptionId] =
+    useState<string | null>(null);
 
   const readCurrentSearchParams = useCallback(
     () =>
@@ -732,6 +739,19 @@ export default function DepositPageClient() {
 
   const handleOptionReviewDecision = useCallback(
     async (optionId: string, decision: DepositOptionReviewDecisionState) => {
+      // Admission is one-time and permanent: an admitted option accepts no
+      // further decisions, and approval only executes after the armed
+      // confirmation step.
+      if (optionReviewDecisions[optionId] === "approved-for-admission") {
+        return;
+      }
+      if (decision === "approved-for-admission") {
+        if (confirmingAdmissionOptionId !== optionId) {
+          setConfirmingAdmissionOptionId(optionId);
+          return;
+        }
+        setConfirmingAdmissionOptionId(null);
+      }
       const nextDecisions = {
         ...optionReviewDecisions,
         [optionId]: decision,
@@ -773,7 +793,9 @@ export default function DepositPageClient() {
           status: "completed",
           summary: admitted
             ? `Admitted ${receipt.title} to the Depository.`
-            : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
+            : decision === "rejected-by-depositor"
+              ? `Archived ${receipt.title} (re-depositable; measurements staled by time trigger resynthesis).`
+              : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
           selectAfterRecord: admitted,
           output: {
             assetPackTitle: receipt.title,
@@ -806,6 +828,7 @@ export default function DepositPageClient() {
       }
     },
     [
+      confirmingAdmissionOptionId,
       depositRouteInput,
       handleRecordActivity,
       optionReviewDecisions,
@@ -1333,53 +1356,88 @@ export default function DepositPageClient() {
                         </dl>
                       </details>
                       <div className="grid gap-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            void handleOptionReviewDecision(
-                              option.optionId,
-                              "approved-for-admission",
-                            );
-                          }}
-                          className="border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18"
-                        >
-                          {reviewDecision === "approved-for-admission"
-                            ? "Approved for Depository"
-                            : "Approve for Depository"}
-                        </button>
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              void handleOptionReviewDecision(
-                                option.optionId,
-                                "rejected-by-depositor",
-                              );
-                            }}
-                            className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-red-300/30 hover:bg-red-300/10"
-                          >
-                            {reviewDecision === "rejected-by-depositor"
-                              ? "Rejected"
-                              : "Reject"}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              void handleOptionReviewDecision(
-                                option.optionId,
-                                "resynthesis-requested",
-                              );
-                            }}
-                            className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-amber-300/30 hover:bg-amber-300/10"
-                          >
-                            {reviewDecision === "resynthesis-requested"
-                              ? "Resynthesis queued"
-                              : "Resynthesize"}
-                          </button>
-                        </div>
+                        {/* Admission is one-time and permanent; Reject
+                            semantics are archive semantics (re-depositable;
+                            stale measurements trigger resynthesis). */}
+                        {reviewDecision === "approved-for-admission" ? (
+                          <p className="border border-emerald-300/30 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100">
+                            Admitted to Depository — permanent
+                          </p>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                void handleOptionReviewDecision(
+                                  option.optionId,
+                                  "approved-for-admission",
+                                );
+                              }}
+                              className={`border px-4 py-3 text-sm font-medium transition ${
+                                confirmingAdmissionOptionId === option.optionId
+                                  ? "border-amber-300/45 bg-amber-300/15 text-amber-100 hover:border-amber-200/60 hover:bg-amber-300/20"
+                                  : "border-emerald-300/25 bg-emerald-300/12 text-emerald-100 hover:border-emerald-200/45 hover:bg-emerald-300/18"
+                              }`}
+                            >
+                              {confirmingAdmissionOptionId === option.optionId
+                                ? "Confirm permanent deposit"
+                                : "Approve for Depository"}
+                            </button>
+                            {confirmingAdmissionOptionId ===
+                            option.optionId ? (
+                              <p className="text-xs leading-5 text-amber-100/85">
+                                Approval is final: this AssetPack option is
+                                admitted to the Bitcode Depository permanently.
+                                Confirm to deposit, or choose another action to
+                                stand down.
+                              </p>
+                            ) : null}
+                            <div className="grid grid-cols-2 gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setConfirmingAdmissionOptionId(null);
+                                  void handleOptionReviewDecision(
+                                    option.optionId,
+                                    "rejected-by-depositor",
+                                  );
+                                }}
+                                className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-sky-300/30 hover:bg-sky-300/10"
+                              >
+                                {reviewDecision === "rejected-by-depositor"
+                                  ? "Archived"
+                                  : "Archive"}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setConfirmingAdmissionOptionId(null);
+                                  void handleOptionReviewDecision(
+                                    option.optionId,
+                                    "resynthesis-requested",
+                                  );
+                                }}
+                                className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-amber-300/30 hover:bg-amber-300/10"
+                              >
+                                {reviewDecision === "resynthesis-requested"
+                                  ? "Resynthesis queued"
+                                  : "Resynthesize"}
+                              </button>
+                            </div>
+                          </>
+                        )}
+                        {reviewDecision === "rejected-by-depositor" ? (
+                          <p className="text-xs leading-5 text-neutral-400">
+                            Archived — visible in your packs and re-depositable
+                            anytime; measurements go stale over time, so
+                            re-deposit triggers resynthesis.
+                          </p>
+                        ) : null}
                         <p className="text-[0.66rem] uppercase tracking-[0.14em] text-neutral-500">
                           {reviewed
-                            ? reviewDecision.replace(/-/g, " ")
+                            ? reviewDecision === "rejected-by-depositor"
+                              ? "archived by depositor"
+                              : reviewDecision.replace(/-/g, " ")
                             : "Pending depositor review"}
                         </p>
                       </div>

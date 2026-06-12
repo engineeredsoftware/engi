@@ -148,6 +148,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Severity: medium (spec intent for the V48 family + UX gate work)
 - Law intent (Garrett, 2026-06-12): approve = permanent Depository admission — correct that it is final, wrong that one click does it with no explicit confirmation boundary; toggling an admission back is NOT correct. Reject is semantically "archive": re-depositable at any time, with the caveat that measurements go stale over time — re-deposit triggers resynthesis/remeasurement.
 - Work: explicit confirm step (or staged "ready to admit" state) before admission; rename/restyle reject to archive; archived options carry measurement-staleness posture and a resynthesize action.
+- IMPLEMENTED (2026-06-12): approval is a one-time armed-confirmation flow ("Approve for Depository" → "Confirm permanent deposit"); an admitted option locks permanently ("Admitted to Depository — permanent", no further decisions accepted by the handler). Reject renders and records as **Archive**: re-depositable anytime, visible in the depositor's packs (personal scope), with the staleness/resynthesis note; the `'rejected-by-depositor'` contract value is unchanged so admission law and the V47 checker pins hold.
 
 ### F14 — No protected-IP exclusion instructions for deposit synthesis
 
@@ -166,6 +167,7 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Severity: medium (Track 4 UX, surfaced during Track 2)
 - Observed: pack activity rows render but cannot be selected to open their detail view (the master-detail contract's most critical interaction). The TYPE column shows generic "Executions" for everything; the conceptual taxonomy should read as: Deposit Request ("Some Python" — parity with Read Request) → synthesized AssetPack options → per-option decisions (admitted/archived).
 - Work: row selection opens the per-activity detail page (clean full readback); type column gains the deposit-request/option/decision taxonomy.
+- PARTIAL (2026-06-12) — scope taxonomy implemented: execution activity now derives scope by specification (admitted Depository AssetPacks and settled/read APs = `network`, globally visible; deposit requests, syntheses, review decisions including archived options, connected sources = `personal`) instead of hardcoding everything `network`; `/api/packs/activity` merges a global Depository feed (admitted APs across all accounts, source-safe projections, dedupe against own rows); `/packs` gains a Visibility scope filter (All / Network — deposited and read AssetPacks / Mine — archived options, sources, requests). Remaining: live-verify row→detail selection (the detailId mechanism exists and is test-covered — widen the click target if the live miss reproduces) and the clearer type-column taxonomy.
 
 - Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
 
