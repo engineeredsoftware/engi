@@ -5,7 +5,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { roadmapWorkingGatePostureAtLeast } from './version-posture.js';
+import { bitcodeVersionAtLeast, roadmapWorkingGatePostureAtLeast } from './version-posture.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -221,7 +221,7 @@ function buildPredicateResults(repoRoot) {
   );
 
   return [
-    predicateResult('active-canon-pointer-remains-v46', SOURCE_ROOTS.activePointer, sources.activePointer.trim() === 'V46'),
+    predicateResult('active-canon-pointer-supports-v47-launch-or-later', SOURCE_ROOTS.activePointer, bitcodeVersionAtLeast(sources.activePointer.trim(), 'V46')),
     predicateResult(
       'spec-records-gate3-state-machine-law',
       SOURCE_ROOTS.spec,

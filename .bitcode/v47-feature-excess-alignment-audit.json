@@ -5,7 +5,7 @@
   "currentTarget": "V46",
   "sourceSafetyVerdict": "source-safe-launch-scope-metadata",
   "generatedAt": "deterministic",
-  "artifactRoot": "v47-feature-excess-alignment-audit:9c60e3494bc2eb65e89c83a8",
+  "artifactRoot": "v47-feature-excess-alignment-audit:76351ff10deb6505730951c4",
   "passed": true,
   "launchRouteIds": [
     "/deposit",
@@ -165,11 +165,11 @@
     }
   ],
   "sourceRoots": {
-    "activePointer": "BITCODE_SPEC.txt:820a850b09546da1a1a1c447",
-    "spec": "BITCODE_SPEC_V47.md:867cb6f9af5fbf3f7f757f68",
-    "delta": "BITCODE_SPEC_V47_DELTA.md:de7d68aebeff1756eafc16b8",
-    "notes": "BITCODE_SPEC_V47_NOTES.md:3b0d18b58f46616b77bf8aba",
-    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:059c410d08d286fe541ed6ad",
+    "activePointer": "BITCODE_SPEC.txt:8c4fbbb3acf2c3e74be6b449",
+    "spec": "BITCODE_SPEC_V47.md:476ca5a5d0b07b31694f0b68",
+    "delta": "BITCODE_SPEC_V47_DELTA.md:40c3a78f1d2502d7b3cdca93",
+    "notes": "BITCODE_SPEC_V47_NOTES.md:171306fae397cc25ca8de67f",
+    "parity": "BITCODE_SPEC_V47_PARITY_MATRIX.md:f2ec234455412a4f64c4e743",
     "roadmap": "SPECIFICATIONS_ROADMAP.md:dd65b4f247f3f62a2b2ed547",
     "publicCopy": "uapi/components/base/bitcode/layout/bitcode-public-copy.ts:c5be84e7b72e6930dd78f91d",
     "nav": "uapi/components/base/bitcode/layout/nav.tsx:2b2eaaf65982969883af8d1e",
@@ -189,7 +189,7 @@
     "packageJson": "package.json:4d9f041eb01a920860a26f75",
     "protocolIndex": "packages/protocol/src/index.js:fdc9c740328fe41b9c7134c8",
     "protocolTypes": "packages/protocol/src/index.d.ts:df3330e66cf6b01b41c762ee",
-    "protocolSource": "packages/protocol/src/canonical/v47-feature-excess-alignment-audit.js:b816208bf2ff100ad0ed6542",
+    "protocolSource": "packages/protocol/src/canonical/v47-feature-excess-alignment-audit.js:3b2f56997d5b108960a5c9e2",
     "protocolTest": "packages/protocol/test/v47-feature-excess-alignment-audit.test.js:d4eb230b98bcbc3ee18af459",
     "generator": "scripts/generate-v47-feature-excess-alignment-audit.mjs:1132b37cd29dddc216db998d",
     "checker": "scripts/check-v47-gate2-feature-excess-alignment-audit.mjs:007c139e5c0a60e0d621e7f4",
@@ -198,7 +198,7 @@
   },
   "predicateResults": [
     {
-      "id": "active-canon-pointer-remains-v46",
+      "id": "active-canon-pointer-supports-v47-launch-or-later",
       "sourcePath": "BITCODE_SPEC.txt",
       "passed": true
     },
