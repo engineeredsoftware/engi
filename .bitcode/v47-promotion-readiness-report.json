@@ -237,7 +237,7 @@
     {
       "relativePath": ".github/workflows/v47-canon-promotion.yml",
       "present": true,
-      "digest": "sha256:80483ff5de209b36ce595bc3cfbeb3326330f3a3e878181fb20fa672b9e902fa",
+      "digest": "sha256:824531af8f8551d2f3877585c542c1f0daea73c367c769a6fd49c9589aa6f74b",
       "requiredTokens": [
         {
           "token": "head.ref == 'version/v47'",
