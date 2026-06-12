@@ -8,6 +8,7 @@ import ChatGPTIcon from '@/components/base/bitcode/icons/social/ChatGPTIcon';
 import MetamaskIcon from '@/components/base/bitcode/icons/social/MetamaskIcon';
 import AppleIcon from '@/components/base/bitcode/icons/social/Apple.svg'
 import MicrosoftIcon from '@/components/base/bitcode/icons/social/Microsoft.svg'
+import { buildSupabaseAuthCallbackRedirect } from '@/lib/supabase-auth-redirect'
 import BitbucketIcon from '@/components/base/bitcode/icons/social/Bitbucket.svg'
 import FacebookIcon from '@/components/base/bitcode/icons/social/Facebook.svg'
 import FigmaIcon from '@/components/base/bitcode/icons/social/Figma.svg'
@@ -60,13 +61,14 @@ export default function SocialLoginButton({ provider, iconOnly = false, nextPath
   const disabled = disabledProp ?? !isActiveProvider
   const handleClick = () => {
     if (disabled) return // no-op when disabled
-    // Preserve `next` parameters in the callback URL
-    let redirectTo = `${window.location.origin}/tps/supabase/callback`
+    // Preserve `next` via origin-local storage; redirect_to must stay
+    // query-free or GoTrue's allow-list match fails and the auth code falls
+    // back to the Site URL origin, away from the PKCE verifier.
     let np = nextPath
     try {
       if (!np) np = new URLSearchParams(window.location.search).get('next') || undefined
     } catch {}
-    if (np) redirectTo += `?next=${encodeURIComponent(np)}`
+    const redirectTo = buildSupabaseAuthCallbackRedirect(np)
 
     // Build the OAuth authorize URL
     const supabaseUrl = (process.env.NEXT_PUBLIC_SUPABASE_URL || '').replace(/\/+$/, '')

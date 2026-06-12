@@ -1,0 +1,118 @@
+# Bitcode V48 QA Ledger
+
+## Status
+
+- Version: `V48`
+- Active canon during QA: `V47`
+- Posture: interactive local experiential QA of the first live commercial (testnet) experience; app runs locally (`pnpm -C uapi dev:remote`) against the staging Supabase project; wallet network testnet4
+- Source-safety posture: source-safe evidence only; no secrets, protected source, provider payloads, wallet material, service-role keys, database credentials, or raw private prompts are serialized here.
+
+## QA Tracks
+
+1. Identity, authentication, sign up/in, Auxillaries (GitHub, wallet connections)
+2. Depositing (connect knowledge, request AssetPack syntheses, review, deposit)
+3. Reading (connect knowledge, request Read, review Need, review Fits, buy Fits)
+4. Ledgerized journaling (replayability, auditability, `/packs` UX/UI, Auxillaries history)
+
+## Findings
+
+### F1 — doc-code build broken on clean checkout (pre-existing)
+
+- Severity: low (no runtime consumers; only the `uapi dev` script's prebuild chain invokes it)
+- Observed: `pnpm -w --filter @bitcode/doc-code build` fails with TS6059/TS6307 rootDir violations — the package extends the root tsconfig whose `paths` map `@bitcode/*` to package source trees, so `tsc -b` pulls `agent-generics/src` into the program.
+- Disposition: candidate for repair or retirement in a V48 gate; `dev:remote` unaffected.
+
+### F2 — Triplicated Supabase browser clients (GoTrueClient warning)
+
+- Severity: medium (Supabase: "may produce undefined behavior when used concurrently under the same storage key" — credible source of auth/session flakiness)
+- Observed on first page load (`/`): three `GoTrueClient` constructions —
+  1. `packages/supabase/src/index.ts:87` module-level client, reaching the browser bundle via `packages/btd` → `packages/api/src/routes/auxillaries-contract.ts` → `auxillary-pane-meta.ts` → `hooks/useUserData.ts` → `WalletSessionPersistenceBridge`.
+  2. `packages/artifacts/src/artifacts.ts:29` module-level client, via `packages/logger` → `packages/orm` models → `useUserData` (note: ORM in the client bundle at all is a packaging smell).
+  3. `uapi` `AuthProvider` → `createBrowserClient` (the legitimate one).
+- Disposition: V48 fix candidate — single browser client (or lazy/server-only module-level clients) and pruning server-only packages from the client graph.
+
+### F3 — Wallet-extension console noise on page load (benign, external)
+
+- Observed: `contentscript.js`/`inpage.js` MaxListenersExceededWarning, ObjectMultiplex orphaned-stream warnings, `Unable to set StacksProvider` — emitted by browser wallet extensions (provider injection collisions), not by the app.
+- Disposition: no action; QA hygiene note — run with a single wallet extension enabled to keep sats-connect provider selection deterministic.
+
+### F4 — Legacy email/phone authentication residue contradicts wallet-first identity
+
+- Severity: medium (user-facing identity confusion; canonical law is "a Bitcoin wallet is the minimum identity/authentication path for staging; email remains optional notification and recovery contact after wallet identity exists")
+- Canonical path (calibrated): nav "Connect Wallet" guest CTA (gated by `DISABLE_CREATE_ACCOUNT`, default-open in dev/QA) → Auxillaries SignUpWindow → Wallet pane → sats-connect signature (testnet4) → `signInWithOAuth({ provider: 'custom:bitcode-bitcoin' })` → Supabase session → `/tps/supabase/callback`.
+- Residue inventory (eradication candidates for a V48 gate):
+  1. `uapi/app/login/` route family (page, head, magic-link `actions.ts`, `callback/LoginCallbackClient.tsx`) — live legacy email-first sign-in surface at `/login`.
+  2. `AuxillariesLoginPane.tsx:76` mounts legacy email-OTP `LoginForm` inside the canonical wallet-first pane.
+  3. `components/base/bitcode/auth/PhoneSSO.tsx` — phone-OTP sign-in, routes to `/login`.
+  4. `AuxillariesProfilePane.tsx:283-289` — `signInWithOtp` used for the optional-email flow; needs disambiguation from authentication semantics.
+  5. `SocialAccountLinker.tsx` — generic `signInWithOAuth`; keep only if scoped to account linking, not session minting.
+  6. Root cause: `/login` was never classified by the V47 Gate 2 feature-excess audit (absent from `.bitcode/v47-feature-excess-alignment-audit.json`), so it escaped the launch freeze.
+- Production note: deployed launch requires `NEXT_PUBLIC_BITCODE_ENV=testnet` (or explicit flag) or `DISABLE_CREATE_ACCOUNT` defaults ON and the Connect Wallet CTA is disabled.
+
+### F5 — Query string on `redirect_to` defeats GoTrue allow-list matching; auth code strands on the Site URL origin; no session is ever minted (FIXED in code)
+
+- Severity: high (track-1 blocker; also breaks production sign-in from `www.bitcode.exchange`, not just localhost)
+- Observed (two attempts): Connect Wallet → Leather signature OK → Supabase created the auth user (`custom:bitcode-bitcoin`, sub `bitcoin:testnet:tb1p6x7…`) → both callbacks landed on `bitcode.exchange` instead of localhost; `auth.users.last_sign_in_at: null` both times; `user_profiles` trigger-created with all-null binding fields; localhost showed sessionless "connected" chrome.
+- Root cause (proven by curl probes against staging GoTrue, no wallet needed — `/auth/v1/authorize` to capture flow `state`, then `/auth/v1/callback?code=garbage&state=…` to reveal the stored redirect):
+  - `http://localhost:3000/tps/supabase/callback` (exact allow-list entry) → honored.
+  - The same URL with `?next=%2Fauxillaries%2Fwallet` (what the app actually sent) → rejected → Site URL fallback (`https://bitcode.exchange`).
+  - `https://www.bitcode.exchange/tps/supabase/callback?next=…` → also rejected → apex fallback (production sign-in equally broken).
+  - The dashboard glob `http://localhost:3000/**` matches nothing (bare root rejected too); the Site-URL hostname (apex) is exempt from matching entirely, which is why only apex "worked".
+  - GoTrue allow-list matching is exact-string against entries; any query string defeats the match. The first-attempt diagnosis (missing allow-list entry) was wrong — the entries were present and correct.
+- Failure chain after fallback: auth code lands on apex root → `uapi/app/page.tsx:40` forwards stray `?code` to `/tps/supabase/callback` → `exchangeCodeForSession` fails because the PKCE `code_verifier` lives in the initiating origin's storage → `LoginCallbackClient.tsx` emits `/?loginError=server_error&loginErrorDescription=…code verifier should be non-empty`. All observed symptoms reproduce from this one defect.
+- Fix (code, implemented): `uapi/lib/supabase-auth-redirect.ts` — `redirect_to` is now always the query-free `${origin}/tps/supabase/callback`; the post-auth destination travels via origin-local storage and is consumed once by `LoginCallbackClient` (explicit `?next=` still wins for back-compat). Call sites converted: `AuxillariesWalletConnectionPanel`, `SocialAccountLinker`, `SocialLoginButton`. Regression-pinned by `uapi/tests/supabaseAuthRedirect.test.ts`.
+- Dashboard: no change required — exact entries for localhost and www callbacks already exist and exact matching now applies; glob entries can stay but are ineffective.
+- Code-hardening candidates (still open): (a) the app renders "connected" wallet chrome from client-side wallet-session persistence even when `hasUser: false` — sessionless state should not look signed-in; (b) `loginError`/`loginErrorDescription` query params surfaced only as raw URL params — no visible error UI; (c) callback flow should fail loudly when the PKCE verifier is absent.
+- Retest (local, 2026-06-12): VERIFIED — session minted (`auth.users.last_sign_in_at` set ~3s after creation, user `267ccb92…`), callback returned to `localhost:3000`, signed-in nav chrome with Sign out renders. Post-auth landing initially hit `/terminal` because `buildAuxillariesRoutePath` targets the legacy overlay root (see F8); destination now pinned to `/packs`.
+- Note on the production `/tps/wallet/authorize` hop: expected and correct even for localhost sessions. The custom provider's authorize/token endpoints are registered once per Supabase project (project-level config, one URL), so every client transits the registered production origin. The hop is PKCE-safe: the verifier never leaves the initiating origin; the provider page only ferries `code`+`state` back to GoTrue, which then redirects to the initiating origin's callback. A localhost authorize URL would require a separate Supabase project (or local GoTrue) — unnecessary.
+- Residual (next QA item): `user_profiles` binding fields remain all-null after sign-in (`wallet_address`, `wallet_provider`, `wallet_binding_status`, `auth_address`, `payment_address` all null); Wallet Auxillary shows "No Bitcoin wallet connected"/"Binding repairable" and Profile readiness is Blocked. The OAuth identity carries the wallet sub (`bitcoin:testnet:tb1p6x7…`) but nothing persists it into the profile/binding row — the wallet binding write path after session mint is the open defect.
+
+### F6 — Auxillaries readiness blockers render authentication-shaped errors in a sessionless state
+
+- Severity: medium (misleading; says "Profile row is missing" / "Wallet binding is missing" when the actual condition is "not signed in")
+- Cause: `packages/api/src/routes/auxillaries-contract.ts:765` emits `profile.missing` whenever the contract receives no profile; an unauthenticated request gets no profile via RLS, so all blockers fire. The readiness contract should distinguish "no session" from "session with incomplete profile" and lead with the wallet sign-in action.
+
+### F7 — React hydration errors (#418/#423) on production landing (www.bitcode.exchange)
+
+- Severity: low/medium (prod console errors on first paint; minified — needs dev reproduction to attribute; suspects: client-only state rendered during SSR in nav/landing chrome)
+
+### F8 — Legacy `/terminal` route still live; auxillaries plumbing routes to it
+
+- Severity: medium (legacy surface reachable post-launch; post-auth callback landed there until pinned to `/packs`)
+- Observed: first successful wallet sign-in landed on `/terminal` — `buildAuxillariesRoutePath` builds `/terminal?auxillary-open-to=…` via `AUXILLARY_OVERLAY_ROUTE_ROOT = '/terminal'` (`uapi/app/auxillaries/components/auxillary-pane-meta.ts:18`), and the legacy terminal page still renders.
+- Canon: `/terminal` functionality was split into `/packs`, `/read`, and `/deposit`. A V48 gate should (a) verify each terminal capability was properly ported to the three routes, (b) retarget or remove `AUXILLARY_OVERLAY_ROUTE_ROOT` and remaining `/terminal` links, and (c) remove the unused terminal page/code (relates to F4 — another surface the V47 feature-excess audit never classified).
+- Interim fix: wallet sign-in post-auth destination pinned to `/packs` in `AuxillariesWalletConnectionPanel`.
+
+- Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
+
+## Track 1 — Identity / Authentication / Auxillaries
+
+- [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`
+- [ ] Wallet binding persisted after sign-in (`user_profiles` wallet/binding fields populated — currently all null, see F5 residual)
+- [ ] Session persists across refresh (watch F2)
+- [ ] Profile pane readback (optional email binding behaves as contact-binding, not sign-in)
+- [ ] Externals: GitHub App connect + repository inventory
+- [ ] Wallet pane: binding shows verified, fauceted testnet4 balance visible
+- [ ] Organization/team + treasury panes render
+
+## Track 2 — Depositing
+
+- [ ] Connect repository on /deposit
+- [ ] Synthesize AssetPack options (real inference if enabled)
+- [ ] Source-safe measurement review renders
+- [ ] Approve → Depository admission readback
+- [ ] /packs?type=depository-assetpack shows the admission
+
+## Track 3 — Reading
+
+- [ ] Read request on /read
+- [ ] Need synthesis + review
+- [ ] Finding Fits + fit measurement review + BTC-testnet quote
+- [ ] Settle (testnet) → observation → finality → BTD rights readback
+- [ ] Repository PR delivery readback
+
+## Track 4 — Ledgerized Journaling
+
+- [ ] /packs master-detail: states, proof roots, repair surface
+- [ ] Replay/audit: journaled rows match actions taken
+- [ ] Auxillaries personal history readback
