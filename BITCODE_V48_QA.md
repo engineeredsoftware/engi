@@ -95,6 +95,14 @@
 - Enforcement status: display-only today — `buildBtdOrganizationPolicyAuthority` feeds only the Auxillaries pane, and `postBtdOrganizationInterfaceAuthority` (`/api/btd/organization-interface-authority`) has no callers; the V47 ip-exchange e2e proof ran deposit→read→settle without org config. Tracks 2–3 QA are not blocked.
 - V48 gate decision needed (spec law, not a hotfix): either (a) personal-organization bootstrap at wallet sign-up (organization = operator, role `owner`, default grants including `settlement:pay_btc_fee`, policy confirmed) so solo commerce is allowed-by-law, or (b) the pane renders "no organization configured" as a neutral state instead of Denied until organization features ship — paired with deciding where enforcement actually attaches before mainnet.
 
+### F10 — GitHub App sessionless install staging is a dead end (cookie has no consumer)
+
+- Severity: medium (drops real installations whenever the post-install redirect lands on an origin without a session — e.g. the registered Setup URL origin differs from where the user signed in)
+- Trace: `uapi/app/tps/github/_callback-handler.ts` — with a session, the installation persists to `user_connections` correctly; without one, it writes a `bitcode_github_installation_pending` cookie (15 min) and redirects with `vcsConnection=installation_staged`, but no code anywhere reads that cookie. Staged installations are silently dropped.
+- Structural note: GitHub Apps have a single registered Setup URL (no per-request redirect override), so the post-install origin is fixed at registration — same origin-hop class as F5. The grace path was clearly designed for this and needs completing: on next authenticated load, claim the pending cookie (verify the installation's account/visibility) and persist the connection; or replace the cookie with a server-side staged row keyed to the installation id.
+- Local QA workaround: temporarily point the App's Setup URL at `http://localhost:3000/tps/github/app-install` (enable redirect-on-update if already installed), revert after.
+- Related: post-connect redirect builds `/terminal?auxillary-open-to=externals` — another F8 legacy-route consumer.
+
 - Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
 
 ## Track 1 — Identity / Authentication / Auxillaries
