@@ -1465,7 +1465,7 @@ export function buildOrganizationPolicyAuthority(input: {
         readString(profile?.multiSigPolicyRoot) ??
         null,
     },
-    recoveryRoute: '/terminal?auxillary-open-to=profile',
+    recoveryRoute: '/packs?auxillary-open-to=profile',
   });
 }
 
@@ -1498,7 +1498,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
         severity: readiness.connected ? 'warning' : 'blocking',
         summary: `${readiness.provider} provider readiness requires repair.`,
         requiredAction: readiness.requiredRepairAction,
-        repairRoute: '/terminal?auxillary-open-to=externals',
+        repairRoute: '/packs?auxillary-open-to=externals',
         retryPolicy: 'after_repair',
       }));
     }
@@ -1511,7 +1511,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'blocking',
       summary: 'Wallet binding is missing for settlement-adjacent support actions.',
       requiredAction: 'Connect and verify a Bitcoin wallet.',
-      repairRoute: '/terminal?auxillary-open-to=wallet',
+      repairRoute: '/packs?auxillary-open-to=wallet',
       retryPolicy: 'after_repair',
     }));
   } else if (!input.walletBtdPaneState.signerPosture.ready) {
@@ -1521,7 +1521,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'warning',
       summary: 'Wallet binding exists but signer posture is not verified.',
       requiredAction: input.walletBtdPaneState.signerPosture.requiredAction,
-      repairRoute: '/terminal?auxillary-open-to=wallet',
+      repairRoute: '/packs?auxillary-open-to=wallet',
       retryPolicy: 'after_repair',
     }));
   }
@@ -1534,7 +1534,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'warning',
       summary: `${blockedInterface.interfaceId} is not admitted for the requested support surface.`,
       requiredAction: blockedInterface.blockers.join(', ') || 'Review interface policy.',
-      repairRoute: '/terminal?auxillary-open-to=interfaces',
+      repairRoute: '/packs?auxillary-open-to=interfaces',
       retryPolicy: 'after_repair',
     }));
   }
@@ -1546,7 +1546,7 @@ export function buildAuxillariesReadinessDiagnostics(input: {
       severity: 'warning',
       summary: 'Organization authority is not admitted for settlement-adjacent actions.',
       requiredAction: 'Review organization role, grants, and wallet binding.',
-      repairRoute: '/terminal?auxillary-open-to=profile',
+      repairRoute: '/packs?auxillary-open-to=profile',
       retryPolicy: 'after_repair',
     }));
   }
@@ -2048,7 +2048,7 @@ function buildProfileCompletenessIssue(input: {
   const repairRoute: AuxillariesProfileRepairRoute = {
     issueId: input.id,
     pane: input.pane,
-    route: `/terminal?auxillary-open-to=${input.pane}`,
+    route: `/packs?auxillary-open-to=${input.pane}`,
     label: input.label,
     retryPolicy: 'after_repair',
   };
