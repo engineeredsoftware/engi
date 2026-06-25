@@ -1,11 +1,11 @@
-jest.mock('../bounded-structured-inference', () => ({
-  runBoundedStructuredInference: jest.fn(),
+jest.mock('../asset-packs-synthesis-pipeline', () => ({
+  synthesizeAssetPackCandidatesFormal: jest.fn(),
 }));
 jest.mock('../runtime-inference-policy', () => ({
   isAssetPackRealInferenceEnabled: jest.fn(() => true),
 }));
 
-import { runBoundedStructuredInference } from '../bounded-structured-inference';
+import { synthesizeAssetPackCandidatesFormal } from '../asset-packs-synthesis-pipeline';
 import {
   applyExclusionsToInventory,
   isPathExcluded,
@@ -16,7 +16,16 @@ import {
 import { buildRealDepositAssetPackOptionSynthesis } from '../deposit-option-real-synthesis';
 import { assertDepositAssetPackOptionSynthesisSourceSafe } from '../deposit-asset-pack-options';
 
-const mockInference = runBoundedStructuredInference as jest.Mock;
+// The formal pipeline (PipelineExecution → factoryAgent → Failsafe ∘ Thricified)
+// is mocked here; its own correctness is covered by the agent-generics suites.
+// These tests cover the lens contract + fail-closed validation this module owns.
+const mockInference = synthesizeAssetPackCandidatesFormal as jest.Mock;
+const inferenceOutcome = (options: unknown[]) => ({
+  options,
+  provider: 'anthropic',
+  model: 'claude-sonnet-4-6',
+  totalTokens: 1234,
+});
 
 const INVENTORY = {
   paths: ['README.md', 'src/app.py', 'src/utils.py', 'secret/keys.py'],
@@ -63,7 +72,7 @@ describe('AssetPacksSynthesis core', () => {
   });
 
   it('maps inference candidates through the lens measurement catalog', async () => {
-    mockInference.mockResolvedValue({ options: [inferenceCandidate()] });
+    mockInference.mockResolvedValue(inferenceOutcome([inferenceCandidate()]));
 
     const result = await synthesizeAssetPackCandidates({
       lens: 'deposit',
@@ -86,13 +95,13 @@ describe('AssetPacksSynthesis core', () => {
   });
 
   it('drops candidates that violate exclusions or reference unknown paths, fail-closed', async () => {
-    mockInference.mockResolvedValue({
-      options: [
+    mockInference.mockResolvedValue(
+      inferenceOutcome([
         inferenceCandidate(),
         inferenceCandidate({ title: 'Violates exclusion boundary now', coveredSourcePaths: ['secret/keys.py'] }),
         inferenceCandidate({ title: 'References unknown paths now', coveredSourcePaths: ['made/up.py'] }),
-      ],
-    });
+      ]),
+    );
 
     const result = await synthesizeAssetPackCandidates({
       lens: 'deposit',
@@ -110,9 +119,9 @@ describe('AssetPacksSynthesis core', () => {
   });
 
   it('throws when no admissible candidates survive', async () => {
-    mockInference.mockResolvedValue({
-      options: [inferenceCandidate({ coveredSourcePaths: ['secret/keys.py'] })],
-    });
+    mockInference.mockResolvedValue(
+      inferenceOutcome([inferenceCandidate({ coveredSourcePaths: ['secret/keys.py'] })]),
+    );
 
     await expect(
       synthesizeAssetPackCandidates({
@@ -134,7 +143,7 @@ describe('deposit lens adapter', () => {
   });
 
   it('builds a law-compatible synthesis with real measurements and exclusion posture', async () => {
-    mockInference.mockResolvedValue({ options: [inferenceCandidate()] });
+    mockInference.mockResolvedValue(inferenceOutcome([inferenceCandidate()]));
     const inventory = { ...INVENTORY, totalPathCount: 4, excludedPathCount: 1 };
     const result = await synthesizeAssetPackCandidates({
       lens: 'deposit',

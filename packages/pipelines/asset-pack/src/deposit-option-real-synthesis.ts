@@ -64,7 +64,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
   protectedIpExclusions: string[];
   demandContext: string[];
   inventory: AssetPacksSynthesisSourceInventory;
-  execution?: import('./asset-packs-synthesis').SourceSafeStreamTarget | null;
+  execution?: import('@bitcode/execution-generics/Execution').Execution | null;
 }): Promise<AssetPacksSynthesisResult> {
   return synthesizeAssetPackCandidates({
     lens: 'deposit',

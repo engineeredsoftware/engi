@@ -277,7 +277,9 @@ export async function POST(request: Request) {
       `Inventory ready: ${inventory.paths.length} paths (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; ${inventory.samples.length} excerpts sampled).`,
     );
 
-    await emitStatus('Running bounded structured inference (reason → judge → structured output)…');
+    await emitStatus(
+      'Running the AssetPacksSynthesis measurement agent (failsafe ∘ reason → judge → structured output)…',
+    );
     const result = await synthesizeRealDepositOptionCandidates({
       repositoryFullName,
       sourceBranch,
