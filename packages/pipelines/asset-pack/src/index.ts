@@ -104,6 +104,39 @@ function storePreprocessedSnapshot(
   } catch {}
 }
 
+/**
+ * Deposit-mode preprocess. The depositor supplies a repository to synthesize
+ * into reviewable AssetPack patches — there is no read Need / fits-finding, so
+ * the read-lensed preprocess is skipped entirely. We store the repository
+ * coordinates and depositor steering for the SDIVF phases: Setup clones +
+ * danger-walls, Discovery explores, Implementation writes the AP patches,
+ * Validation gates quality, Finish uploads the artifacts to Bitcode for review.
+ */
+async function preprocessDepositMode(processedInput: any, execution: Execution): Promise<any> {
+  const repo = processedInput?.repository || {};
+  const repository = {
+    url: repo.url || processedInput?.repositoryUrl || null,
+    owner: repo.owner || null,
+    name: repo.name || repo.repo || null,
+    branch: repo.branch || processedInput?.sourceBranch || null,
+    commit: processedInput?.sourceCommit || null,
+    fullName:
+      processedInput?.repositoryFullName ||
+      (repo.owner && (repo.name || repo.repo) ? `${repo.owner}/${repo.name || repo.repo}` : null),
+  };
+  try { processedInput.repository = { ...repo, ...repository }; } catch {}
+  execution.store('pipeline', 'input', processedInput);
+  execution.store('pipeline', 'synthesizeMode', 'deposit');
+  execution.store('deposit', 'repository', repository);
+  execution.store('deposit', 'instructions', processedInput?.depositorInstructions || null);
+  execution.store('deposit', 'protectedIpExclusions', processedInput?.protectedIpExclusions || []);
+  execution.store('deposit', 'demandContext', processedInput?.demandContext || []);
+  if (processedInput?.inventory) {
+    execution.store('deposit', 'inventory', processedInput.inventory);
+  }
+  return processedInput;
+}
+
 function factoryPreprocess(): Executor<any, any> {
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
@@ -117,6 +150,14 @@ function factoryPreprocess(): Executor<any, any> {
     // Apply gate preprocessing
     const processedInput = gatePreprocess(input, execution);
     try { (processedInput as any).synthesizeMode = mode; } catch {}
+
+    // Deposit mode skips the read Need / fits-finding preprocess entirely.
+    if (mode === 'deposit') {
+      const depositInput = await preprocessDepositMode(processedInput, execution);
+      storePreprocessedSnapshot(execution, depositInput, resolveWrittenAssetType(depositInput));
+      return depositInput;
+    }
+
     const expressedRead = resolveExpressedRead(processedInput);
 
     const writtenAssetType = resolveWrittenAssetType(processedInput);
@@ -448,6 +489,15 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
     return digestPhase(input, execution);
   }
 });
+
+/**
+ * SynthesizeAssetPacks — the unified SDIVF synthesis pipeline, callable directly
+ * in deposit or read mode (mode is resolved from the input / execution in
+ * preprocess). This is the one-and-only synthesis entry; deposit and read both
+ * run it. `assetPackPipeline` above remains the legacy Design/Develop/Digest
+ * gate router whose Develop gate is this same SDIVF synthesis.
+ */
+export const synthesizeAssetPacksPipeline: Executor<any, any> = factoryDevelopPhase();
 
 // ==================== EXPORTS ====================
 
