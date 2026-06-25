@@ -103,6 +103,37 @@ function buildShapePart(catalog: AssetPackMeasurementSpec[], maxCandidates: numb
   );
 }
 
+export interface SynthesisPromptLayer {
+  /** setSpecificExecution path under the agent's ExecutionPrompt. */
+  path: string;
+  part: PromptPart;
+}
+
+/**
+ * The layered synthesis system prompt, in hierarchical order:
+ *   pipeline identity → pipeline source-safety → phase lens-role →
+ *   agent measurement-catalog → agent rules → step candidate-shape.
+ * Registered on the AgentExecution.prompt via setSpecificExecution and composed
+ * upwards by buildHierarchicalPrompt / hierarchicalFormatter. Pure + exported so
+ * the registry build-up and formatting correctness are unit-tested (Gate 3
+ * chunk F: PromptPart/Prompt sanity-check).
+ */
+export function buildSynthesisPromptLayers(
+  lens: AssetPacksSynthesisLens,
+  catalog: AssetPackMeasurementSpec[],
+  candidateKinds: string[],
+  maxCandidates: number,
+): SynthesisPromptLayer[] {
+  return [
+    { path: 'pipeline:asset-packs-synthesis:identity', part: PIPELINE_IDENTITY },
+    { path: 'pipeline:asset-packs-synthesis:source-safety', part: PIPELINE_SOURCE_SAFETY },
+    { path: `phase:${lens}:role`, part: LENS_ROLE[lens] },
+    { path: 'agent:measure:catalog', part: buildCatalogPart(catalog) },
+    { path: 'agent:measure:rules', part: buildRulesPart(candidateKinds, maxCandidates) },
+    { path: 'step:candidate:shape', part: buildShapePart(catalog, maxCandidates) },
+  ];
+}
+
 // ---- Formal source-inventory Tool ------------------------------------------
 
 type InventoryToolArgs = {
@@ -228,19 +259,19 @@ export async function synthesizeAssetPackCandidatesFormal(
       }
     } catch {}
 
-    // Layered system prompt parts on the AgentExecution.prompt (compose upwards).
+    // Layered system prompt parts on the AgentExecution.prompt — composed
+    // upwards by buildHierarchicalPrompt. Built by the pure, tested factory.
     try {
       const p = (agentExec as any).prompt;
       if (p?.setSpecificExecution) {
-        p.setSpecificExecution('pipeline:asset-packs-synthesis:identity', PIPELINE_IDENTITY);
-        p.setSpecificExecution('pipeline:asset-packs-synthesis:source-safety', PIPELINE_SOURCE_SAFETY);
-        p.setSpecificExecution(`phase:${request.lens}:role`, LENS_ROLE[request.lens]);
-        p.setSpecificExecution('agent:measure:catalog', buildCatalogPart(catalog));
-        p.setSpecificExecution(
-          'agent:measure:rules',
-          buildRulesPart(request.candidateKinds, request.maxCandidates),
-        );
-        p.setSpecificExecution('step:candidate:shape', buildShapePart(catalog, request.maxCandidates));
+        for (const layer of buildSynthesisPromptLayers(
+          request.lens,
+          catalog,
+          request.candidateKinds,
+          request.maxCandidates,
+        )) {
+          p.setSpecificExecution(layer.path, layer.part);
+        }
       }
     } catch {}
 
