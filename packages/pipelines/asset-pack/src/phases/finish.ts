@@ -50,17 +50,25 @@ export function runFinishPhase(deliveryMechanismTemplate: string) {
 export function registerFinishAgentsForType(
   _deliveryMechanismTemplate: string,
   agentRegistry: any,
-  // mode drives conditional registration. Both modes will Finish by UPLOADING
-  // synthesized artifacts to Bitcode for user review (deposit: before
-  // depositing; read: before purchase) — replacing PR delivery in a later chunk.
-  _mode?: SynthesizeAssetPacksMode,
+  // Both modes will Finish by UPLOADING the synthesized artifacts to Bitcode for
+  // user review (deposit: before admission; read: before purchase). Deposit is
+  // wired now; read keeps its legacy delivery until migrated at gate close
+  // (PR/settlement moves to the future Gate-6 SettleAssetPacks pipeline).
+  mode?: SynthesizeAssetPacksMode,
 ): void {
-  agentRegistry.registerAgent(
-    'finish:deliver-asset-pack-to-destination-agent',
-    () => import('../agents/finish/deliver-asset-pack-to-destination-agent').then(m => m.default)
+  if (mode === 'deposit') {
+    agentRegistry.registerAgent('finish:deliver-asset-pack-to-destination-agent', () =>
+      import('../agents/finish/upload-asset-packs-for-review-agent').then(m => m.default),
+    );
+    agentRegistry.registerAgent('finish:asset-pack-completion', () =>
+      import('../agents/finish/asset-pack-completion-agent').then(m => m.default),
+    );
+    return;
+  }
+  agentRegistry.registerAgent('finish:deliver-asset-pack-to-destination-agent', () =>
+    import('../agents/finish/deliver-asset-pack-to-destination-agent').then(m => m.default),
   );
-  agentRegistry.registerAgent(
-    'finish:asset-pack-completion',
-    () => import('../agents/finish/asset-pack-completion-agent').then(m => m.default)
+  agentRegistry.registerAgent('finish:asset-pack-completion', () =>
+    import('../agents/finish/asset-pack-completion-agent').then(m => m.default),
   );
 }
