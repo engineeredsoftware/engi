@@ -25,8 +25,11 @@ Run in the Supabase SQL editor; all auto-target the most recent `custom:bitcode-
 | `v48_qa_03_user_connections_token_safe` | wallet binding write or GitHub install callback |
 | `v48_qa_04_repository_inventory` | Externals pane load post-GitHub-connect (repo sync) |
 | `v48_qa_05_track1_readiness_rollup` | anytime — one-row Track 1 summary |
+| `v48_qa_06_deposit_activity` | each /deposit action (connect, synthesize, approve, deposit) |
+| `v48_qa_07_depository_admission_evidence` | deposit approval (Depository admission roots/index state) |
+| `v48_qa_08_recent_errors` | whenever a flow misbehaves or qa06 shows has_error |
 
-Track 2-4 scripts (deposit activity, BTD ledger, settlement, pack journaling) get added when those tracks open; the `v28_qa_terminal_*` set remains the historical reference.
+Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those tracks open; the `v28_qa_terminal_*` set remains the historical reference.
 
 ## QA Tracks
 
@@ -132,6 +135,40 @@ Track 2-4 scripts (deposit activity, BTD ledger, settlement, pack journaling) ge
 - Env preparation (2026-06-12): local `GITHUB_APP_ID`/`GITHUB_PRIVATE_KEY` were template placeholders (`YOUR_GITHUB_APP_ID`; JWT signing failed with `DECODER routines::unsupported`); the install callback otherwise reached localhost and dispatched correctly. Fix: real App ID + base64-encoded PEM (the JWT helper accepts base64/`\n`-escaped/quoted PEMs). Also verify the prod deployment env carries real values — placeholders there break the prod install path identically. Re-running the flow after an env fix does not need a fresh install: the installation branch ignores the single-use `code`, so re-visiting the callback URL with `installation_id` suffices.
 - Related: post-connect redirect builds `/terminal?auxillary-open-to=externals` — another F8 legacy-route consumer.
 
+### F12 — Deposit AssetPack option "synthesis" is deterministic blueprints; the measurement pipeline never runs
+
+- Severity: high (Track 2 core; the commercial deposit experience is not real)
+- Observed: options appeared instantly after connect+notes; every execution row has `total_tokens: null`, `duration_ms: null`, `created_at == completed_at`; the three option titles are fixed archetypes.
+- Trace: `/deposit` option synthesis runs `deposit-route-model.ts` → `buildDepositAssetPackOptions` (`packages/pipelines/asset-pack/src/deposit-asset-pack-options.ts`) — three hardcoded `OPTION_BLUEPRINTS` with constant `measurementBias` (0.72/0.66/0.61) and FNV-hash pseudo-roots; the file still carries `approvedOptionsAdmittedBy: 'future-gate7-deposit-option-review'` scaffolding markers from an earlier version. `BITCODE_ASSET_PACK_REAL_INFERENCE` reaches only the pipeline-harness QA routes (`/api/pipeline-harness/asset-pack`), never the `/deposit` flow — the env flags change nothing for depositing. Admission/rejection rows are journal writes over the blueprints; the qa7 sha256 roots are the composer execution's deterministic evidence.
+- Gate 2 core work: wire `/deposit` option synthesis to the real asset-pack measurement pipeline under the bounded real-inference profile, producing measured options (real measurement vectors, token/cost/duration accounting, depositor-notes-conditioned synthesis) with the blueprint path retained only as an explicit mock/bring-up mode.
+- IMPLEMENTED (first increment, 2026-06-12): the **AssetPacksSynthesis** pipeline core (`packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`) — Bitcode's single synthesis/measurement pipeline, lens-parameterized (deposit | read) per the accepted V48 architecture law (steering prompts + measurement catalogs carry the variance; one run creates multiple packs). The deposit lens adapter (`deposit-option-real-synthesis.ts`) translates candidates into the promoted V43/V47 option law (same schema/roots/review boundaries, so policy + admission consume them unchanged). `POST /api/deposit/synthesize-options` builds an exclusion-filtered source inventory from the connected GitHub source (session + repo-ownership checked, server-derived token), runs bounded structured inference fail-closed (`real_inference_required` without the flags), persists the execution with REAL `total_tokens`/`duration_ms`, and the `/deposit` UI now requests synthesis from it (async with status; blueprint path unreachable from the surface). Gate 2 charter elevation: consolidate remaining pipelines onto AssetPacksSynthesis, clean all legacy terminal code, correct pipeline-execution actualities (data, Vercel sandbox actually running pipelines) — reading lens migration lands with Track 3.
+
+### F13 — Deposit option decision semantics: approve is irreversibly final with no confirmation; reject should be archive
+
+- Severity: medium (spec intent for the V48 family + UX gate work)
+- Law intent (Garrett, 2026-06-12): approve = permanent Depository admission — correct that it is final, wrong that one click does it with no explicit confirmation boundary; toggling an admission back is NOT correct. Reject is semantically "archive": re-depositable at any time, with the caveat that measurements go stale over time — re-deposit triggers resynthesis/remeasurement.
+- Work: explicit confirm step (or staged "ready to admit" state) before admission; rename/restyle reject to archive; archived options carry measurement-staleness posture and a resynthesize action.
+- IMPLEMENTED (2026-06-12): approval is a one-time armed-confirmation flow ("Approve for Depository" → "Confirm permanent deposit"); an admitted option locks permanently ("Admitted to Depository — permanent", no further decisions accepted by the handler). Reject renders and records as **Archive**: re-depositable anytime, visible in the depositor's packs (personal scope), with the staleness/resynthesis note; the `'rejected-by-depositor'` contract value is unchanged so admission law and the V47 checker pins hold.
+
+### F14 — No protected-IP exclusion instructions for deposit synthesis
+
+- Severity: medium-high (source-safety law surface)
+- Gap: the deposit composer accepts depositor notes but offers no way to declare which IP in the connected source must be protected and excluded from AssetPack knowledge synthesis. The synthesis pipeline (once real, F12) must accept and honor exclusion instructions as a fail-closed boundary (excluded paths/concepts never enter measurement, prompts, or option summaries).
+- IMPLEMENTED (2026-06-12): "Protected IP exclusions" field on `/deposit`; exclusions are honored fail-closed at both ends of AssetPacksSynthesis — excluded paths removed from the source inventory before any prompt is built, and candidates whose covered paths violate exclusions (or cite paths outside the real inventory) dropped after inference. Exclusion roots + withheld-path counts surface in the synthesis exclusion posture and the executions row.
+
+### F16 — Depository state persists into a git-tracked repo file, not the database
+
+- Severity: high (Gate 2 charter: pipeline-execution actualities — data)
+- Observed: the live deposit QA session wrote ~1,200 lines of runtime depository state (assets, options, roots for the "Some Python" deposit) into `packages/protocol/data/state.json`, a tracked file that historically changes only at canonical promotions. Runtime commerce state does not belong in git: it cannot serve concurrent users, deployments reset it, and QA sessions dirty the working tree (one such mutation was accidentally committed in `569c6e19` and reverted immediately after).
+- Gate 2 work: move depository/ledger runtime state to the database (executions/ledger tables + object storage roots already exist for this), keeping `state.json` as promotion-managed demonstration canon only.
+
+### F15 — Packs master-detail rows are not selectable; type taxonomy unclear
+
+- Severity: medium (Track 4 UX, surfaced during Track 2)
+- Observed: pack activity rows render but cannot be selected to open their detail view (the master-detail contract's most critical interaction). The TYPE column shows generic "Executions" for everything; the conceptual taxonomy should read as: Deposit Request ("Some Python" — parity with Read Request) → synthesized AssetPack options → per-option decisions (admitted/archived).
+- Work: row selection opens the per-activity detail page (clean full readback); type column gains the deposit-request/option/decision taxonomy.
+- PARTIAL (2026-06-12) — scope taxonomy implemented: execution activity now derives scope by specification (admitted Depository AssetPacks and settled/read APs = `network`, globally visible; deposit requests, syntheses, review decisions including archived options, connected sources = `personal`) instead of hardcoding everything `network`; `/api/packs/activity` merges a global Depository feed (admitted APs across all accounts, source-safe projections, dedupe against own rows); `/packs` gains a Visibility scope filter (All / Network — deposited and read AssetPacks / Mine — archived options, sources, requests). Remaining: live-verify row→detail selection (the detailId mechanism exists and is test-covered — widen the click target if the live miss reproduces) and the clearer type-column taxonomy.
+
 - Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
 
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
@@ -145,7 +182,9 @@ Track 2-4 scripts (deposit activity, BTD ledger, settlement, pack journaling) ge
 - [x] Wallet pane: fauceted testnet4 balance visible — verified 2026-06-12: "BTC in wallet" shows 0.00763373 BTC live from mempool.space testnet4 (faucet tx `fff98a94…ec6d` paid the payment address `tb1q8whq…s7d8t2`, 263,373 sats + follow-up). The identity-derived bind initially showed 0 because it carried only the taproot auth address; Reconnect Leather (signed-in panel flow) backfilled `paymentAddress`/`addressType` and upgraded proofKind to `bitcoin_message_signature` — the F5a payment-address residual repair path is verified. Binding status stays `pending` by design until signature verification ships. Nav chip wiring to the live source is a follow-up.
 - [x] Organization/team + treasury panes render — verified 2026-06-12: Organization Authority and treasury/wallet-posture surfaces render without errors; the Denied content posture is the parked F9 decision, not a render defect.
 
-## Track 2 — Depositing
+## Track 2 — Depositing (Gate 2, opened 2026-06-12 on `v48/gate-2-depositing-interactive-qa`)
+
+- Environment: add to `uapi/.env.local` and restart `dev:remote` — `BITCODE_ASSET_PACK_REAL_INFERENCE=true` and `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded` (provider keys already present; without the flags, synthesis runs deterministic bring-up branches, and the pipeline harness preflight rejects Read/Fit QA). `BITCODE_ENABLE_PIPELINE_HARNESS_API` is unnecessary locally (the harness route is open on non-production deployments).
 
 - [ ] Connect repository on /deposit
 - [ ] Synthesize AssetPack options (real inference if enabled)

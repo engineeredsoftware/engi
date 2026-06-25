@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  Anchor,
   Boxes,
   GitBranch,
   GitCommitHorizontal,
@@ -27,9 +28,7 @@ import { useUserData } from "@/hooks/useUserData";
 import { fetchPipelineExecutionHistory } from "@/networking/api-client";
 import type { PipelineExecution } from "@/types/api";
 
-import TerminalDepositComposer from "@/app/terminal/TerminalDepositComposer";
-import TerminalRepositoryContextPanel from "@/app/terminal/TerminalRepositoryContextPanel";
-import TerminalSupplySelectionPanel from "@/app/terminal/TerminalSupplySelectionPanel";
+import DepositSourceSelection from "@/app/deposit/DepositSourceSelection";
 import {
   buildTerminalExecutionHistoryRequest,
   mapExecutionHistoryRunToWorkspaceRun,
@@ -55,7 +54,11 @@ import {
   buildDepositRouteSession,
   readDepositRouteStage,
   writeDepositRouteStage,
+  type DepositRouteSession,
 } from "./deposit-route-model";
+import { usePipelineExecution } from "@/hooks/usePipelineExecution";
+import { buildTerminalRunActivityFromEvents } from "@/app/terminal/terminal-run-activity";
+import { PipelineExecutionLog } from "@/components/base/bitcode/execution/pipeline-execution-log";
 import type {
   DepositOptionReviewDecision,
   DepositOptionReviewDecisionState,
@@ -138,10 +141,83 @@ export default function DepositPageClient() {
       "packages/pipelines/asset-pack/src/depository-supply-index.ts",
     ].join("\n"),
   );
+  const [protectedIpExclusionsText, setProtectedIpExclusionsText] = useState("");
   const [optionsRequested, setOptionsRequested] = useState(false);
+  const [synthesisRunId, setSynthesisRunId] = useState<string | null>(null);
+  const [synthesisLogScrolled, setSynthesisLogScrolled] = useState(false);
+  const [synthesisStatus, setSynthesisStatus] = useState<
+    "idle" | "running" | "complete" | "failed"
+  >("idle");
+  const [synthesisError, setSynthesisError] = useState<string | null>(null);
+  const [realSynthesis, setRealSynthesis] = useState<{
+    synthesis: DepositRouteSession["synthesis"] & {
+      synthesisMode?: string;
+      inference?: {
+        provider: string | null;
+        model: string | null;
+        totalTokens: number | null;
+        durationMs: number | null;
+      };
+      exclusionPosture?: {
+        protectedIpExclusionCount: number;
+        excludedPathCount: number;
+        droppedCandidateCount: number;
+      };
+    };
+    reviewProjections: Array<{
+      optionId: string;
+      title: string;
+      coveredSourcePaths: string[];
+      measurementRationale: string;
+    }>;
+  } | null>(null);
   const [optionReviewDecisions, setOptionReviewDecisions] = useState<
     Record<string, DepositOptionReviewDecisionState>
   >({});
+  // North-star Sell step D: the depositor SELECTS which synthesized AssetPacks
+  // to deposit, then ONE armed confirmation admits the whole selected set in a
+  // single deposit call (V48 Gate 2, QA ledger F13). Admission is permanent;
+  // 'rejected-by-depositor' is Archive (re-depositable; stale measurements
+  // trigger resynthesis on re-deposit).
+  const [selectedPackIds, setSelectedPackIds] = useState<string[]>([]);
+  const [confirmingBatchDeposit, setConfirmingBatchDeposit] = useState(false);
+  // Per-option resynthesis with optional new steering instructions: clicking
+  // Resynthesize opens an optional instructions input that re-runs the
+  // AssetPacksSynthesis pipeline (north-star Sell §C).
+  const [resynthesisForOptionId, setResynthesisForOptionId] = useState<
+    string | null
+  >(null);
+  const [resynthesisInstructions, setResynthesisInstructions] = useState("");
+  // Network depository visibility ("the" half of the economy overview): count
+  // of network-visible admitted AssetPacks from the global Depository feed.
+  const [networkDepositoryCount, setNetworkDepositoryCount] = useState<
+    number | null
+  >(null);
+  useEffect(() => {
+    let disposed = false;
+    const request = fetch(
+      "/api/packs/activity?scope=network&type=depository-assetpack",
+    );
+    if (request && typeof request.then === "function") {
+      request
+        .then((response) => (response && response.ok ? response.json() : null))
+        .then((payload) => {
+          if (disposed || !payload) return;
+          setNetworkDepositoryCount(
+            Array.isArray(payload.records) ? payload.records.length : null,
+          );
+        })
+        .catch(() => {});
+    }
+    return () => {
+      disposed = true;
+    };
+  }, []);
+  // A submitted deposit request immediately runs AssetPacksSynthesis with
+  // visible telemetry (V48 Gate 2 law: every deposit/read submission shows
+  // the executing pipeline live). Ref breaks the callback ordering cycle.
+  const synthesizeOptionsRef = useRef<(() => Promise<void>) | null>(null);
+  const synthesisTelemetryRef = useRef<HTMLElement | null>(null);
 
   const readCurrentSearchParams = useCallback(
     () =>
@@ -425,6 +501,7 @@ export default function DepositPageClient() {
       reviewerId: user?.id || preferredSignerAddress || null,
       hasRepositorySource: Boolean(repositoryContext?.selectedRepository),
       optionsRequested,
+      precomputedOptionSynthesis: realSynthesis?.synthesis ?? null,
       hasReviewedOption: optionReviewDecisionRecords.length > 0,
       hasSubmittedDeposit,
       hasDepositoryReadback,
@@ -439,6 +516,7 @@ export default function DepositPageClient() {
       optionsRequested,
       optionReviewDecisionRecords.length,
       preferredSignerAddress,
+      realSynthesis,
       repositoryContext,
       routeDepositStage,
       selectedRun?.id,
@@ -455,6 +533,30 @@ export default function DepositPageClient() {
         optionReviewDecisions: optionReviewDecisionRecords,
       }),
     [depositRouteInput, optionReviewDecisionRecords],
+  );
+
+  // Live tail of the AssetPacksSynthesis run: execution_events stream into
+  // the rich accordion log while the route works.
+  const {
+    events: synthesisEvents,
+    latestWorkUpdate: synthesisWorkUpdate,
+    iterationUpdates: synthesisIterationUpdates,
+    error: synthesisStreamError,
+  } = usePipelineExecution(synthesisRunId);
+  const synthesisActivity = useMemo(
+    () =>
+      buildTerminalRunActivityFromEvents(
+        synthesisEvents,
+        synthesisWorkUpdate,
+        synthesisIterationUpdates,
+        synthesisStreamError,
+      ),
+    [
+      synthesisEvents,
+      synthesisIterationUpdates,
+      synthesisStreamError,
+      synthesisWorkUpdate,
+    ],
   );
 
   const sessionRows = [
@@ -576,6 +678,15 @@ export default function DepositPageClient() {
       if (draft.selectAfterRecord !== false)
         replaceDepositRouteTransaction(nextRun.id);
       void refreshLiveRuns();
+      // A composer deposit submission IS a Deposit Request: run
+      // AssetPacksSynthesis immediately so the executing pipeline is
+      // visible from the moment of submission.
+      if (
+        (draft.context as Record<string, unknown> | undefined)?.source ===
+        "terminal-deposit-composer"
+      ) {
+        void synthesizeOptionsRef.current?.();
+      }
       return nextRun;
     },
     [
@@ -586,67 +697,115 @@ export default function DepositPageClient() {
     ],
   );
 
-  const handleSynthesizeOptions = useCallback(async () => {
-    setOptionsRequested(true);
-    replaceDepositSearchParams(
-      writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
-    );
-
-    const nextSession = buildDepositRouteSession({
-      ...depositRouteInput,
-      optionsRequested: true,
-      optionReviewDecisions: optionReviewDecisionRecords,
-    });
+  // Real option synthesis via the AssetPacksSynthesis pipeline (deposit
+  // lens). The server route builds the exclusion-filtered source inventory,
+  // runs bounded inference, persists the execution row with real
+  // token/duration accounting, and returns the measured synthesis. The
+  // deterministic blueprint path is no longer reachable from this surface
+  // (V48 Gate 2, QA ledger F12/F14).
+  const handleSynthesizeOptions = useCallback(async (instructionsOverride?: string) => {
+    const effectiveInstructions =
+      typeof instructionsOverride === "string" && instructionsOverride.trim()
+        ? instructionsOverride
+        : depositorInstructions;
+    setSynthesisStatus("running");
+    setSynthesisError(null);
+    // Client-issued run id so the streaming log can tail the execution from
+    // the first event while the route is still working.
+    const runId =
+      typeof crypto !== "undefined" && "randomUUID" in crypto
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    setSynthesisRunId(runId);
+    setSynthesisLogScrolled(false);
 
     try {
-      await handleRecordActivity({
-        type: "pipeline:deposit-option-synthesis",
-        status: "completed",
-        summary: `Synthesized ${nextSession.synthesis.optionCount} source-safe deposit AssetPack options for ${nextSession.routeState.repositoryFullName || "the selected source"}.`,
-        selectAfterRecord: true,
-        output: {
-          depositRouteSession: nextSession,
-          depositOptionSynthesis: nextSession.synthesis,
-          depositOptionPolicy: nextSession.policy,
-          depositorEarningSupplyIntelligence:
-            nextSession.earningSupplyIntelligence,
-          organizationPolicyWalletAuthority:
-            nextSession.organizationPolicyWalletAuthority,
-        },
-        context: {
-          source: "deposit-option-synthesis",
-          workbench: "deposit-option-synthesis",
-          route: DEPOSIT_ROUTE,
-          repositoryFullName: nextSession.routeState.repositoryFullName,
-          sourceBranch: nextSession.routeState.sourceBranch,
-          sourceCommit: nextSession.routeState.sourceCommit,
-          optionCount: nextSession.synthesis.optionCount,
-          synthesisRoot: nextSession.synthesis.roots.synthesisRoot,
-          policyReportRoot: nextSession.policy.roots.policyReportRoot,
-          earningSupplyIntelligenceRoot:
-            nextSession.earningSupplyIntelligence.roots.intelligenceRoot,
-          organizationPolicyWalletAuthorityRoot:
-            nextSession.organizationPolicyWalletAuthority.roots.authorityRoot,
-          sourceSafetyClass: nextSession.disclosure.sourceSafetyClass,
-        },
+      const response = await fetch("/api/deposit/synthesize-options", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          runId,
+          repositoryFullName:
+            repositoryContext?.selectedRepository?.fullName || null,
+          sourceBranch: repositoryContext?.selectedBranch || null,
+          sourceCommit: repositoryContext?.selectedCommit || null,
+          depositorInstructions: effectiveInstructions,
+          protectedIpExclusions: protectedIpExclusionsText,
+          demandContext: [
+            ...depositRouteInput.depositoryDemandSignals.map(
+              (signal) => signal.label,
+            ),
+            ...depositRouteInput.readingDemandSignals.map(
+              (signal) => signal.label,
+            ),
+          ],
+          depositoryDemandSignals: depositRouteInput.depositoryDemandSignals,
+          readingDemandSignals: depositRouteInput.readingDemandSignals,
+          existingDepositorySignals:
+            depositRouteInput.existingDepositorySignals,
+        }),
       });
+      const payload = await response.json().catch(() => null);
+      if (!response.ok || !payload?.ok || !payload?.synthesis) {
+        throw new Error(
+          typeof payload?.error === "string"
+            ? payload.error
+            : "Deposit option synthesis failed.",
+        );
+      }
+
+      setRealSynthesis({
+        synthesis: payload.synthesis,
+        reviewProjections: Array.isArray(payload.reviewProjections)
+          ? payload.reviewProjections
+          : [],
+      });
+      setOptionsRequested(true);
+      setSynthesisStatus("complete");
+      replaceDepositSearchParams(
+        writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
+      );
+      void refreshLiveRuns();
     } catch (error) {
-      setRunsLoadError(
+      setSynthesisStatus("failed");
+      setSynthesisError(
         error instanceof Error
           ? error.message
-          : "Unable to record deposit option synthesis.",
+          : "Deposit option synthesis failed.",
       );
     }
   }, [
-    depositRouteInput,
-    handleRecordActivity,
-    optionReviewDecisionRecords,
+    depositorInstructions,
+    depositRouteInput.depositoryDemandSignals,
+    depositRouteInput.existingDepositorySignals,
+    depositRouteInput.readingDemandSignals,
+    protectedIpExclusionsText,
     readCurrentSearchParams,
+    refreshLiveRuns,
     replaceDepositSearchParams,
+    repositoryContext,
   ]);
 
+  useEffect(() => {
+    synthesizeOptionsRef.current = handleSynthesizeOptions;
+  }, [handleSynthesizeOptions]);
+
+  useEffect(() => {
+    if (!synthesisRunId) return;
+    synthesisTelemetryRef.current?.scrollIntoView?.({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, [synthesisRunId]);
+
+  // Secondary per-option actions only: Archive (rejected-by-depositor) and
+  // Resynthesize. Approval/deposit is a single batch call (handleDepositSelected).
   const handleOptionReviewDecision = useCallback(
     async (optionId: string, decision: DepositOptionReviewDecisionState) => {
+      // An admitted option accepts no further decisions.
+      if (optionReviewDecisions[optionId] === "approved-for-admission") {
+        return;
+      }
       const nextDecisions = {
         ...optionReviewDecisions,
         [optionId]: decision,
@@ -688,7 +847,9 @@ export default function DepositPageClient() {
           status: "completed",
           summary: admitted
             ? `Admitted ${receipt.title} to the Depository.`
-            : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
+            : decision === "rejected-by-depositor"
+              ? `Archived ${receipt.title} (re-depositable; measurements staled by time trigger resynthesis).`
+              : `Recorded ${decision.replace(/-/g, " ")} for ${receipt.title}.`,
           selectAfterRecord: admitted,
           output: {
             assetPackTitle: receipt.title,
@@ -731,6 +892,109 @@ export default function DepositPageClient() {
     ],
   );
 
+  // Toggle a synthesized option in/out of the deposit selection (north-star
+  // step D). Re-arming the confirmation is reset whenever the set changes.
+  const handleToggleSelect = useCallback((optionId: string) => {
+    setConfirmingBatchDeposit(false);
+    setSelectedPackIds((current) =>
+      current.includes(optionId)
+        ? current.filter((id) => id !== optionId)
+        : [...current, optionId],
+    );
+  }, []);
+
+  // Single deposit call: admit the whole selected set at once. First click arms
+  // the permanent-admission confirmation; the second performs one admission run
+  // (not one per pack), recording the aggregate admission as a single activity.
+  const handleDepositSelected = useCallback(async () => {
+    const idsToDeposit = selectedPackIds.filter(
+      (id) => optionReviewDecisions[id] !== "approved-for-admission",
+    );
+    if (idsToDeposit.length === 0) return;
+    if (!confirmingBatchDeposit) {
+      setConfirmingBatchDeposit(true);
+      return;
+    }
+    setConfirmingBatchDeposit(false);
+
+    const nextDecisions = { ...optionReviewDecisions };
+    for (const id of idsToDeposit) {
+      nextDecisions[id] = "approved-for-admission";
+    }
+    setOptionsRequested(true);
+    setOptionReviewDecisions(nextDecisions);
+    setSelectedPackIds([]);
+
+    const nextDecisionRecords = Object.entries(nextDecisions).map(
+      ([optionId, decision]) => ({
+        optionId,
+        decision,
+        reviewerId: user?.id || preferredSignerAddress || null,
+      }),
+    );
+    const nextSession = buildDepositRouteSession({
+      ...depositRouteInput,
+      optionsRequested: true,
+      hasReviewedOption: true,
+      optionReviewDecisions: nextDecisionRecords,
+    });
+    const admittedReceipts = nextSession.admission.receipts.filter(
+      (entry) =>
+        idsToDeposit.includes(entry.optionId) &&
+        entry.admission.state === "admitted-to-depository",
+    );
+    replaceDepositSearchParams(
+      writeDepositRouteStage(
+        readCurrentSearchParams(),
+        admittedReceipts.length ? "read-depository-state" : "review-options",
+      ),
+    );
+    if (admittedReceipts.length === 0) return;
+
+    try {
+      await handleRecordActivity({
+        type: "pipeline:deposit-option-admission",
+        status: "completed",
+        summary: `Admitted ${admittedReceipts.length} AssetPack${
+          admittedReceipts.length === 1 ? "" : "s"
+        } to the Depository.`,
+        selectAfterRecord: true,
+        output: {
+          assetPackTitle: admittedReceipts.map((entry) => entry.title).join("; "),
+          depositAdmission: nextSession.admission,
+          admittedCount: admittedReceipts.length,
+          depositoryAssetPackIds: admittedReceipts.map(
+            (entry) => entry.admission.depositoryAssetPackId,
+          ),
+          packsActivityRoot:
+            admittedReceipts[0]?.packsActivitySync.activityRoot ?? null,
+        },
+        context: {
+          source: "deposit-batch-admission",
+          workbench: "deposit-option-review",
+          admittedOptionIds: admittedReceipts.map((entry) => entry.optionId),
+          admittedCount: admittedReceipts.length,
+        },
+      });
+    } catch (error) {
+      setRunsLoadError(
+        error instanceof Error
+          ? error.message
+          : "Unable to record deposit admission.",
+      );
+    }
+  }, [
+    confirmingBatchDeposit,
+    depositRouteInput,
+    handleRecordActivity,
+    optionReviewDecisions,
+    preferredSignerAddress,
+    readCurrentSearchParams,
+    replaceDepositSearchParams,
+    selectedPackIds,
+    user?.id,
+  ]);
+
   const handleRepositorySourceBranchChange = useCallback(
     (branch: string) => {
       const nextParams = readCurrentSearchParams();
@@ -771,7 +1035,7 @@ export default function DepositPageClient() {
         tone="emerald"
         label="Deposit"
         title="Depositing"
-        summary="Source -> Options -> Review -> Admission -> Depository."
+        summary="Synthesize, review, and deposit AssetPacks from your repository."
         icon={Boxes}
         metrics={[
           {
@@ -782,7 +1046,25 @@ export default function DepositPageClient() {
             label: "Options",
             value: depositRouteSession.synthesis.optionCount,
           },
-          { label: "Boundary", value: "source-safe" },
+          {
+            label: "Positive ROI",
+            value: depositRouteSession.policy.reviewablePositiveRoiCount,
+          },
+          {
+            label: "Admitted",
+            value: depositRouteSession.admission.admittedCount,
+          },
+          {
+            label: "Network",
+            value:
+              networkDepositoryCount === null ? "—" : networkDepositoryCount,
+          },
+          {
+            label: "Authority",
+            value:
+              depositRouteSession.organizationPolicyWalletAuthority.aggregate
+                .state,
+          },
           {
             label: "Earning estimate",
             value: formatSats(
@@ -799,60 +1081,139 @@ export default function DepositPageClient() {
           tone="emerald"
           testIdPrefix="deposit-route-step"
           stateDataAttribute="data-deposit-step-state"
-          onSelect={(stepId) =>
+          compact
+          onSelect={(stepId) => {
             replaceDepositSearchParams(
               writeDepositRouteStage(readCurrentSearchParams(), stepId),
-            )
-          }
+            );
+            if (typeof document === "undefined") return;
+            const targetId =
+              stepId.includes("connect") || stepId.includes("source")
+                ? "deposit-section-source"
+                : stepId.includes("synth")
+                  ? "deposit-section-synthesize"
+                  : "deposit-section-review";
+            document
+              .getElementById(targetId)
+              ?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
         />
 
-        <ProductRouteEnterpriseSummary
-          testId="deposit-enterprise-economic-summary"
-          tone="emerald"
-          title="Depositing economy overview"
-          metrics={[
-            {
-              label: "Options",
-              value: String(depositRouteSession.synthesis.optionCount),
-              state: "source-safe",
-              description: "Reviewable AssetPack supply options.",
-            },
-            {
-              label: "Positive ROI",
-              value: String(depositRouteSession.policy.reviewablePositiveRoiCount),
-              state: "estimate",
-              description: "Options whose expected settlement exceeds cost.",
-            },
-            {
-              label: "Admitted",
-              value: String(depositRouteSession.admission.admittedCount),
-              state: "Depository",
-              description: "Approved options ready for source-safe indexing.",
-            },
-            {
-              label: "Authority",
-              value:
-                depositRouteSession.organizationPolicyWalletAuthority.aggregate
-                  .state,
-              state:
-                depositRouteSession.organizationPolicyWalletAuthority
-                  .walletAuthority.state,
-              description: "Deposit policy, wallet, and critical-source checks.",
-            },
-          ]}
-        />
+        <section
+          className="border border-white/10 bg-white/[0.035] px-4 py-4"
+          aria-label="Recent Deposit activity"
+        >
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
+                Readback
+              </p>
+              <h2 className="mt-2 text-lg font-semibold text-white">
+                Recent Deposit activity
+              </h2>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                void refreshLiveRuns();
+              }}
+              className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
+              aria-label="Refresh Deposit activity"
+            >
+              <RefreshCw className="h-4 w-4" aria-hidden="true" />
+            </button>
+          </div>
+          {runsLoadError ? (
+            <div className="mt-3">
+              <ProductRouteStatePanel
+                compact
+                variant="error"
+                title="Deposit activity unavailable"
+                message={runsLoadError}
+              />
+            </div>
+          ) : null}
+          <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+            {recentDepositRuns.length ? (
+              recentDepositRuns.map((run) => (
+                <Link
+                  key={run.id}
+                  href={buildDepositHref(
+                    writeTerminalTransactionId(
+                      readCurrentSearchParams(),
+                      run.id,
+                    ),
+                  )}
+                  className="border border-white/8 bg-black/20 px-3 py-3 transition hover:border-emerald-300/25 hover:bg-emerald-300/[0.05]"
+                >
+                  <span className="flex items-center justify-between gap-2 text-xs uppercase tracking-[0.16em] text-neutral-500">
+                    <span>{run.type}</span>
+                    <span>{run.status}</span>
+                  </span>
+                  <span className="mt-2 block text-sm font-medium text-neutral-100">
+                    {run.summary || run.id}
+                  </span>
+                  <span className="mt-2 flex flex-wrap gap-2 text-[0.68rem] text-neutral-400">
+                    <span className="inline-flex items-center gap-1">
+                      <GitBranch className="h-3.5 w-3.5" aria-hidden="true" />
+                      {run.branch || "branch pending"}
+                    </span>
+                    <span className="inline-flex items-center gap-1">
+                      <GitCommitHorizontal
+                        className="h-3.5 w-3.5"
+                        aria-hidden="true"
+                      />
+                      {shortIdentifier(run.sourceCommit)}
+                    </span>
+                    <span>{formatDate(run.created_at)}</span>
+                  </span>
+                </Link>
+              ))
+            ) : (
+              <ProductRouteStatePanel
+                compact
+                variant={isLoadingRuns ? "loading" : "empty"}
+                title={
+                  isLoadingRuns
+                    ? "Loading Deposit activity"
+                    : "No Deposit activity"
+                }
+                message={
+                  isLoadingRuns
+                    ? "Recent pipeline rows are loading."
+                    : "Connect source and synthesize reviewable options."
+                }
+              />
+            )}
+          </div>
+          <Link
+            href="/packs?type=depository-assetpack"
+            className="mt-3 inline-flex w-full items-center justify-center border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
+          >
+            Open pack activity
+          </Link>
+        </section>
 
         <section className="grid gap-5 xl:grid-cols-[minmax(0,1.45fr)_minmax(380px,0.55fr)]">
           <div className="grid min-w-0 gap-5">
             <div className="grid gap-5 xl:grid-cols-2">
-              <TerminalRepositoryContextPanel
-                preferredRepository={selectedRun?.repository || null}
-                onContextChange={setRepositoryContext}
-                onRecordActivity={handleRecordActivity}
-                routePath={DEPOSIT_ROUTE}
-                buildRouteHref={buildDepositHref}
-              />
-              <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <div id="deposit-section-source" className="min-w-0">
+                <DepositSourceSelection
+                  preferredRepository={selectedRun?.repository || null}
+                  onContextChange={setRepositoryContext}
+                  onRecordActivity={handleRecordActivity}
+                  routePath={DEPOSIT_ROUTE}
+                  buildRouteHref={buildDepositHref}
+                  repoEarningEstimateSats={
+                    depositRouteSession.earningSupplyIntelligence.aggregate
+                      .totalExpectedCompensationSats
+                  }
+                />
+              </div>
+              <section
+                id="deposit-section-synthesize"
+                className="border border-white/10 bg-white/[0.035] px-4 py-4"
+              >
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
@@ -891,26 +1252,101 @@ export default function DepositPageClient() {
                     className="mt-2 min-h-[6rem] w-full border border-white/10 bg-black/30 px-3 py-3 font-mono text-xs leading-5 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
                 </label>
+                <label className="mt-4 block">
+                  <span className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
+                    Protected IP exclusions (one per line)
+                  </span>
+                  <textarea
+                    value={protectedIpExclusionsText}
+                    onChange={(event) =>
+                      setProtectedIpExclusionsText(event.target.value)
+                    }
+                    placeholder={"e.g. src/secret-engine/\ninternal pricing model"}
+                    className="mt-2 min-h-[6rem] w-full border border-amber-300/15 bg-black/30 px-3 py-3 font-mono text-xs leading-5 text-neutral-100 outline-none transition focus:border-amber-300/40"
+                  />
+                  <span className="mt-1 block text-xs leading-5 text-neutral-500">
+                    Excluded paths and concepts never enter AssetPack knowledge
+                    synthesis: they are removed from the source inventory before
+                    measurement, and candidates that touch them are dropped
+                    fail-closed.
+                  </span>
+                </label>
                 <button
                   type="button"
                   onClick={() => {
                     void handleSynthesizeOptions();
                   }}
-                  disabled={!depositRouteSession.routeState.repositoryFullName}
+                  disabled={
+                    !depositRouteSession.routeState.repositoryFullName ||
+                    synthesisStatus === "running"
+                  }
                   className="mt-4 inline-flex w-full items-center justify-center border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/[0.03] disabled:text-neutral-500"
                 >
-                  Synthesize options
+                  {synthesisStatus === "running"
+                    ? "Synthesizing with AssetPacksSynthesis…"
+                    : "Synthesize options"}
                 </button>
+                {synthesisStatus === "failed" && synthesisError ? (
+                  <p
+                    role="alert"
+                    className="mt-3 border border-rose-300/25 bg-rose-300/10 px-3 py-2 text-xs leading-5 text-rose-100"
+                  >
+                    {synthesisError}
+                  </p>
+                ) : null}
               </section>
             </div>
 
-            <TerminalSupplySelectionPanel
-              repositoryContext={repositoryContext}
-              onRecordActivity={handleRecordActivity}
-              buildRouteHref={buildDepositHref}
-            />
+            {synthesisRunId ? (
+              <section
+                ref={synthesisTelemetryRef}
+                className="border border-white/10 bg-white/[0.035] px-4 py-4"
+                aria-label="AssetPacksSynthesis run telemetry"
+                data-testid="deposit-synthesis-telemetry"
+              >
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
+                      AssetPacksSynthesis
+                    </p>
+                    <h2 className="mt-2 text-lg font-semibold text-white">
+                      Synthesis run telemetry
+                    </h2>
+                    <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
+                      Source-safe pipeline telemetry streamed live from the
+                      running synthesis: phases, agents, generation stages,
+                      provider, model, and usage. Prompt and response content
+                      stays withheld by law.
+                    </p>
+                  </div>
+                  <span className="border border-white/10 bg-black/30 px-3 py-2 font-mono text-[0.62rem] text-neutral-400">
+                    {synthesisRunId}
+                  </span>
+                </div>
+                <div className="mt-4">
+                  <PipelineExecutionLog
+                    output={synthesisActivity.output}
+                    outputDetails={synthesisActivity.outputDetails}
+                    isProcessing={synthesisStatus === "running"}
+                    error={
+                      synthesisStatus === "failed"
+                        ? synthesisError
+                        : synthesisActivity.error
+                    }
+                    onRetry={() => {
+                      void handleSynthesizeOptions();
+                    }}
+                    onDismissError={() => setSynthesisError(null)}
+                    userHasScrolled={synthesisLogScrolled}
+                    setUserHasScrolled={setSynthesisLogScrolled}
+                    compact
+                  />
+                </div>
+              </section>
+            ) : null}
 
             <section
+              id="deposit-section-review"
               className="border border-white/10 bg-white/[0.035] px-4 py-4"
               aria-label="Deposit AssetPack options"
             >
@@ -922,16 +1358,46 @@ export default function DepositPageClient() {
                   <h2 className="mt-2 text-lg font-semibold text-white">
                     Source-safe AssetPack proposals
                   </h2>
-                  <p className="mt-2 max-w-3xl text-sm leading-6 text-neutral-400">
-                    Criticality, demand, ROI, BTD potential, compensation.
-                  </p>
                 </div>
                 <span className="border border-emerald-300/15 bg-emerald-300/10 px-3 py-2 text-[0.62rem] uppercase tracking-[0.16em] text-emerald-100">
                   {depositRouteSession.synthesis.pipeline}
                 </span>
               </div>
+              {realSynthesis?.synthesis?.inference ? (
+                <p
+                  data-testid="deposit-synthesis-inference"
+                  className="mt-3 border border-emerald-300/12 bg-emerald-300/[0.05] px-3 py-2 text-xs leading-5 text-emerald-100/90"
+                >
+                  Measured by AssetPacksSynthesis (deposit lens):{" "}
+                  {realSynthesis.synthesis.inference.model || "configured model"}
+                  {typeof realSynthesis.synthesis.inference.totalTokens ===
+                  "number"
+                    ? ` · ${realSynthesis.synthesis.inference.totalTokens.toLocaleString()} tokens`
+                    : ""}
+                  {typeof realSynthesis.synthesis.inference.durationMs ===
+                  "number"
+                    ? ` · ${(realSynthesis.synthesis.inference.durationMs / 1000).toFixed(1)}s`
+                    : ""}
+                  {realSynthesis.synthesis.exclusionPosture
+                    ? ` · ${realSynthesis.synthesis.exclusionPosture.protectedIpExclusionCount} exclusions, ${realSynthesis.synthesis.exclusionPosture.excludedPathCount} paths withheld`
+                    : ""}
+                </p>
+              ) : null}
+              {!realSynthesis ? (
+                <div
+                  data-testid="deposit-options-await-synthesis"
+                  className="mt-5 border border-white/10 bg-black/20 px-4 py-6 text-sm leading-6 text-neutral-400"
+                >
+                  Measured AssetPack options appear here after synthesis —
+                  select a repository, describe what to synthesize, then
+                  Synthesize.
+                </div>
+              ) : null}
               <div className="mt-5 grid gap-3 xl:grid-cols-3">
-                {depositRouteSession.synthesis.options.map((option) => {
+                {(realSynthesis
+                  ? depositRouteSession.synthesis.options
+                  : []
+                ).map((option) => {
                   const reviewDecision =
                     optionReviewDecisions[option.optionId] ||
                     "pending-depositor-review";
@@ -965,15 +1431,66 @@ export default function DepositPageClient() {
                       }`}
                     >
                       <div>
-                        <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
-                          {option.kind}
-                        </p>
+                        <div className="flex items-start justify-between gap-2">
+                          <p className="text-[0.6rem] uppercase tracking-[0.16em] text-neutral-500">
+                            {option.kind}
+                          </p>
+                          <button
+                            type="button"
+                            aria-label="Anchor this AssetPack to the activity ledger"
+                            title="Anchor AssetPack to the activity ledger"
+                            onClick={() => {
+                              void handleRecordActivity({
+                                type: "pipeline:deposit-option-anchor",
+                                status: "completed",
+                                summary: `Anchored ${option.title} to the activity ledger.`,
+                                selectAfterRecord: false,
+                                output: {
+                                  assetPackTitle: option.title,
+                                  optionId: option.optionId,
+                                  optionRoots: option.roots,
+                                },
+                                context: {
+                                  source: "deposit-option-anchor",
+                                  workbench: "deposit-option-review",
+                                  optionId: option.optionId,
+                                },
+                              });
+                            }}
+                            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-300 transition hover:border-emerald-300/35 hover:bg-emerald-300/10"
+                          >
+                            <Anchor className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
                         <h3 className="mt-2 text-base font-semibold text-white">
                           {option.title}
                         </h3>
                         <p className="mt-2 text-sm leading-6 text-neutral-400">
                           {option.summary}
                         </p>
+                        {(() => {
+                          const projection =
+                            realSynthesis?.reviewProjections.find(
+                              (entry) => entry.optionId === option.optionId,
+                            );
+                          if (!projection) return null;
+                          return (
+                            <details className="mt-2 text-xs leading-5 text-neutral-400">
+                              <summary className="cursor-pointer text-neutral-300">
+                                Covered source (
+                                {projection.coveredSourcePaths.length} paths)
+                              </summary>
+                              <ul className="mt-1 max-h-32 overflow-y-auto font-mono">
+                                {projection.coveredSourcePaths.map((path) => (
+                                  <li key={path}>{path}</li>
+                                ))}
+                              </ul>
+                              <p className="mt-2 text-neutral-500">
+                                {projection.measurementRationale}
+                              </p>
+                            </details>
+                          );
+                        })()}
                       </div>
                       <dl className="grid gap-2">
                         {policyEvaluation ? (
@@ -1126,128 +1643,199 @@ export default function DepositPageClient() {
                         </dl>
                       </details>
                       <div className="grid gap-2">
-                        <button
-                          type="button"
-                          onClick={() => {
-                            void handleOptionReviewDecision(
-                              option.optionId,
-                              "approved-for-admission",
-                            );
-                          }}
-                          className="border border-emerald-300/25 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18"
-                        >
-                          {reviewDecision === "approved-for-admission"
-                            ? "Approved for Depository"
-                            : "Approve for Depository"}
-                        </button>
-                        <div className="grid grid-cols-2 gap-2">
-                          <button
-                            type="button"
-                            onClick={() => {
-                              void handleOptionReviewDecision(
+                        {/* North-star step D: select packs to deposit; one batch
+                            action admits the selected set. Archive
+                            (re-depositable) and Resynthesize are secondary. */}
+                        {reviewDecision === "approved-for-admission" ? (
+                          <p className="border border-emerald-300/30 bg-emerald-300/12 px-4 py-3 text-sm font-medium text-emerald-100">
+                            Admitted to Depository — permanent
+                          </p>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              data-testid={`deposit-option-select-${option.kind}`}
+                              aria-pressed={selectedPackIds.includes(
                                 option.optionId,
-                                "rejected-by-depositor",
-                              );
-                            }}
-                            className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-red-300/30 hover:bg-red-300/10"
-                          >
-                            {reviewDecision === "rejected-by-depositor"
-                              ? "Rejected"
-                              : "Reject"}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              void handleOptionReviewDecision(
-                                option.optionId,
-                                "resynthesis-requested",
-                              );
-                            }}
-                            className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-amber-300/30 hover:bg-amber-300/10"
-                          >
-                            {reviewDecision === "resynthesis-requested"
-                              ? "Resynthesis queued"
-                              : "Resynthesize"}
-                          </button>
-                        </div>
+                              )}
+                              onClick={() => handleToggleSelect(option.optionId)}
+                              className={`border px-4 py-3 text-sm font-medium transition ${
+                                selectedPackIds.includes(option.optionId)
+                                  ? "border-emerald-300/45 bg-emerald-300/18 text-emerald-100 hover:border-emerald-200/60 hover:bg-emerald-300/24"
+                                  : "border-white/15 bg-white/[0.04] text-neutral-200 hover:border-emerald-300/35 hover:bg-emerald-300/10"
+                              }`}
+                            >
+                              {selectedPackIds.includes(option.optionId)
+                                ? "Selected for deposit ✓"
+                                : "Select for deposit"}
+                            </button>
+                            <div className="grid grid-cols-2 gap-2">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  void handleOptionReviewDecision(
+                                    option.optionId,
+                                    "rejected-by-depositor",
+                                  );
+                                }}
+                                className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-sky-300/30 hover:bg-sky-300/10"
+                              >
+                                {reviewDecision === "rejected-by-depositor"
+                                  ? "Archived"
+                                  : "Archive"}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setResynthesisForOptionId(
+                                    resynthesisForOptionId === option.optionId
+                                      ? null
+                                      : option.optionId,
+                                  )
+                                }
+                                className="border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-medium text-neutral-200 transition hover:border-amber-300/30 hover:bg-amber-300/10"
+                              >
+                                {resynthesisForOptionId === option.optionId
+                                  ? "Cancel resynthesis"
+                                  : "Resynthesize"}
+                              </button>
+                            </div>
+                            {resynthesisForOptionId === option.optionId ? (
+                              <div className="grid gap-2 border border-amber-300/20 bg-amber-300/[0.04] px-3 py-3">
+                                <label className="text-[0.6rem] uppercase tracking-[0.16em] text-amber-100/80">
+                                  Optional new synthesis instructions
+                                </label>
+                                <textarea
+                                  rows={2}
+                                  value={resynthesisInstructions}
+                                  onChange={(event) =>
+                                    setResynthesisInstructions(event.target.value)
+                                  }
+                                  placeholder="Steer the re-run, or leave blank to resynthesize with current instructions…"
+                                  className="w-full rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs text-white outline-none transition focus:border-amber-300/40"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    const trimmed = resynthesisInstructions.trim();
+                                    if (trimmed) setDepositorInstructions(trimmed);
+                                    setResynthesisForOptionId(null);
+                                    setResynthesisInstructions("");
+                                    void handleSynthesizeOptions(
+                                      trimmed || undefined,
+                                    );
+                                  }}
+                                  className="border border-amber-300/35 bg-amber-300/15 px-3 py-2 text-xs font-medium text-amber-100 transition hover:border-amber-200/55 hover:bg-amber-300/22"
+                                >
+                                  Resynthesize now
+                                </button>
+                              </div>
+                            ) : null}
+                          </>
+                        )}
+                        {reviewDecision === "rejected-by-depositor" ? (
+                          <p className="text-xs leading-5 text-neutral-400">
+                            Archived — visible in your packs and re-depositable
+                            anytime; measurements go stale over time, so
+                            re-deposit triggers resynthesis.
+                          </p>
+                        ) : null}
                         <p className="text-[0.66rem] uppercase tracking-[0.14em] text-neutral-500">
-                          {reviewed
-                            ? reviewDecision.replace(/-/g, " ")
-                            : "Pending depositor review"}
+                          {reviewDecision === "approved-for-admission"
+                            ? "admitted to depository"
+                            : reviewDecision === "rejected-by-depositor"
+                              ? "archived by depositor"
+                              : selectedPackIds.includes(option.optionId)
+                                ? "selected for deposit"
+                                : "Pending depositor review"}
                         </p>
                       </div>
                     </article>
                   );
                 })}
               </div>
+              {realSynthesis ? (
+                <div
+                  className="mt-4 border border-emerald-300/20 bg-emerald-300/[0.04] px-4 py-4"
+                  aria-label="Deposit selected AssetPacks"
+                >
+                  {depositRouteSession.admission.admittedCount > 0 ? (
+                    <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border border-emerald-300/35 bg-emerald-300/15 px-4 py-3">
+                      <p className="text-sm font-medium text-emerald-100">
+                        ✓ {depositRouteSession.admission.admittedCount} AssetPack
+                        {depositRouteSession.admission.admittedCount === 1
+                          ? ""
+                          : "s"}{" "}
+                        deposited to the Depository — permanent.
+                      </p>
+                      <Link
+                        href="/packs?type=depository-assetpack"
+                        className="inline-flex items-center border border-emerald-300/30 bg-emerald-300/10 px-3 py-2 text-xs font-medium text-emerald-100 transition hover:border-emerald-200/45 hover:bg-emerald-300/18"
+                      >
+                        View in your packs
+                      </Link>
+                    </div>
+                  ) : null}
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <p className="text-sm text-neutral-300">
+                      {selectedPackIds.length === 0
+                        ? "Select the AssetPacks you want to deposit, then deposit the set in one step."
+                        : `${selectedPackIds.length} AssetPack${
+                            selectedPackIds.length === 1 ? "" : "s"
+                          } selected for deposit.`}
+                    </p>
+                    <button
+                      type="button"
+                      data-testid="deposit-selected-packs"
+                      disabled={selectedPackIds.length === 0}
+                      onClick={() => {
+                        void handleDepositSelected();
+                      }}
+                      className={`border px-5 py-3 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40 ${
+                        confirmingBatchDeposit
+                          ? "border-amber-300/45 bg-amber-300/15 text-amber-100 hover:border-amber-200/60 hover:bg-amber-300/20"
+                          : "border-emerald-300/30 bg-emerald-300/14 text-emerald-100 hover:border-emerald-200/50 hover:bg-emerald-300/20"
+                      }`}
+                    >
+                      {confirmingBatchDeposit
+                        ? `Confirm deposit of ${selectedPackIds.length} AssetPack${
+                            selectedPackIds.length === 1 ? "" : "s"
+                          }`
+                        : selectedPackIds.length
+                          ? `Deposit ${selectedPackIds.length} selected AssetPack${
+                              selectedPackIds.length === 1 ? "" : "s"
+                            }`
+                          : "Deposit selected AssetPacks"}
+                    </button>
+                  </div>
+                  {confirmingBatchDeposit ? (
+                    <p className="mt-3 text-xs leading-5 text-amber-100/85">
+                      Deposit is final: the selected AssetPacks are admitted to
+                      the Bitcode Depository permanently. Confirm to deposit, or
+                      change the selection to stand down.
+                    </p>
+                  ) : null}
+                </div>
+              ) : null}
             </section>
-
-            <TerminalDepositComposer
-              onRecordActivity={handleRecordActivity}
-              repositoryAnchor={
-                repositoryContext?.selectedRepository?.fullName || null
-              }
-              repositoryProvider={repositoryContext?.provider || null}
-              repositoryBranch={repositoryContext?.selectedBranch || null}
-              repositoryCommit={repositoryContext?.selectedCommit || null}
-              repositoryBranches={repositoryContext?.branches || []}
-              repositoryCommits={repositoryContext?.commits || []}
-              isLoadingRepositoryBranches={
-                repositoryContext?.isLoadingBranches || false
-              }
-              isLoadingRepositoryCommits={
-                repositoryContext?.isLoadingCommits || false
-              }
-              onRepositorySourceBranchChange={
-                handleRepositorySourceBranchChange
-              }
-              onRepositorySourceCommitChange={
-                handleRepositorySourceCommitChange
-              }
-              transactionReadiness={transactionReadiness}
-              showDemonstrationDraft={false}
-              preferredSignerAddress={preferredSignerAddress}
-              preferredSignerLabel={preferredSignerLabel}
-              preferredSignerProvider={walletConnectionStatus?.provider || null}
-            />
           </div>
 
           <aside className="grid h-fit gap-5" aria-label="Deposit route state">
-            <ProductRouteKeyboardHint
-              testId="deposit-keyboard-navigation"
-              tone="emerald"
-              shortcuts={[
-                {
-                  keys: "Tab",
-                  label:
-                    "Move through deposit stages, option actions, and source controls.",
-                },
-                {
-                  keys: "Enter",
-                  label: "Activate focused stage, option review, or route action.",
-                },
-                {
-                  keys: "Space",
-                  label: "Open or close source-safe proof detail.",
-                },
-              ]}
-            />
-
-            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
-              <div className="flex items-start justify-between gap-3">
+            <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                     Earnings
                   </p>
                   <h2 className="mt-2 text-lg font-semibold text-white">
-                    Supply opportunity
+                    All-repositories supply estimate
                   </h2>
                 </div>
                 <TrendingUp
                   className="h-5 w-5 text-emerald-200"
                   aria-hidden="true"
                 />
-              </div>
+              </summary>
               <dl className="mt-4 grid gap-2">
                 <div className="border border-emerald-300/15 bg-emerald-300/[0.04] px-3 py-2">
                   <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-neutral-500">
@@ -1331,10 +1919,10 @@ export default function DepositPageClient() {
                   )}
                 </dl>
               </details>
-            </section>
+            </details>
 
-            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
-              <div className="flex items-start justify-between gap-3">
+            <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                     Governance
@@ -1347,7 +1935,7 @@ export default function DepositPageClient() {
                   className="h-5 w-5 text-emerald-200"
                   aria-hidden="true"
                 />
-              </div>
+              </summary>
               <dl className="mt-4 grid gap-2">
                 {authorityRows.map((row) => (
                   <div
@@ -1376,10 +1964,10 @@ export default function DepositPageClient() {
                   </ProductRouteDisclosure>
                 </div>
               ) : null}
-            </section>
+            </details>
 
-            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
-              <div className="flex items-start justify-between gap-3">
+            <details className="border border-white/10 bg-white/[0.035] px-4 py-4">
+              <summary className="flex cursor-pointer list-none items-start justify-between gap-3">
                 <div>
                   <p className="text-[0.68rem] uppercase tracking-[0.22em] text-emerald-200/80">
                     Session
@@ -1392,7 +1980,7 @@ export default function DepositPageClient() {
                   className="h-5 w-5 text-emerald-200"
                   aria-hidden="true"
                 />
-              </div>
+              </summary>
               <dl className="mt-4 grid gap-2">
                 {sessionRows.map((row) => (
                   <div
@@ -1464,102 +2052,7 @@ export default function DepositPageClient() {
                   ]}
                 />
               </div>
-            </section>
-
-            <section className="border border-white/10 bg-white/[0.035] px-4 py-4">
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <p className="text-[0.68rem] uppercase tracking-[0.22em] text-neutral-500">
-                    Readback
-                  </p>
-                  <h2 className="mt-2 text-lg font-semibold text-white">
-                    Recent Deposit activity
-                  </h2>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => {
-                    void refreshLiveRuns();
-                  }}
-                  className="inline-flex h-9 w-9 items-center justify-center border border-white/10 bg-white/[0.04] text-neutral-200 transition hover:border-emerald-300/30 hover:bg-emerald-300/10"
-                  aria-label="Refresh Deposit activity"
-                >
-                  <RefreshCw className="h-4 w-4" aria-hidden="true" />
-                </button>
-              </div>
-              {runsLoadError ? (
-                <div className="mt-3">
-                  <ProductRouteStatePanel
-                    compact
-                    variant="error"
-                    title="Deposit activity unavailable"
-                    message={runsLoadError}
-                  />
-                </div>
-              ) : null}
-              <div className="mt-4 grid gap-2">
-                {recentDepositRuns.length ? (
-                  recentDepositRuns.map((run) => (
-                    <Link
-                      key={run.id}
-                      href={buildDepositHref(
-                        writeTerminalTransactionId(
-                          readCurrentSearchParams(),
-                          run.id,
-                        ),
-                      )}
-                      className="border border-white/8 bg-black/20 px-3 py-3 transition hover:border-emerald-300/25 hover:bg-emerald-300/[0.05]"
-                    >
-                      <span className="flex items-center justify-between gap-2 text-xs uppercase tracking-[0.16em] text-neutral-500">
-                        <span>{run.type}</span>
-                        <span>{run.status}</span>
-                      </span>
-                      <span className="mt-2 block text-sm font-medium text-neutral-100">
-                        {run.summary || run.id}
-                      </span>
-                      <span className="mt-2 flex flex-wrap gap-2 text-[0.68rem] text-neutral-400">
-                        <span className="inline-flex items-center gap-1">
-                          <GitBranch
-                            className="h-3.5 w-3.5"
-                            aria-hidden="true"
-                          />
-                          {run.branch || "branch pending"}
-                        </span>
-                        <span className="inline-flex items-center gap-1">
-                          <GitCommitHorizontal
-                            className="h-3.5 w-3.5"
-                            aria-hidden="true"
-                          />
-                          {shortIdentifier(run.sourceCommit)}
-                        </span>
-                        <span>{formatDate(run.created_at)}</span>
-                      </span>
-                    </Link>
-                  ))
-                ) : (
-                  <ProductRouteStatePanel
-                    compact
-                    variant={isLoadingRuns ? "loading" : "empty"}
-                    title={
-                      isLoadingRuns
-                        ? "Loading Deposit activity"
-                        : "No Deposit activity"
-                    }
-                    message={
-                      isLoadingRuns
-                        ? "Recent pipeline rows are loading."
-                        : "Connect source and synthesize reviewable options."
-                    }
-                  />
-                )}
-              </div>
-              <Link
-                href="/packs?type=depository-assetpack"
-                className="mt-3 inline-flex w-full items-center justify-center border border-emerald-300/20 bg-emerald-300/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-200/40 hover:bg-emerald-300/15"
-              >
-                Open pack activity
-              </Link>
-            </section>
+            </details>
           </aside>
         </section>
       </ProductRouteShell>

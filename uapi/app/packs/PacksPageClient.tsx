@@ -145,6 +145,7 @@ export default function PacksPageClient() {
     | PackActivityType
     | "all";
   const state = readParam(routeParams, "state", "all");
+  const scope = readParam(routeParams, "scope", "all");
   const sort = readParam(
     routeParams,
     "sort",
@@ -447,6 +448,18 @@ export default function PacksPageClient() {
                   {option.label}
                 </option>
               ))}
+            </select>
+            <select
+              value={scope}
+              onChange={(event) =>
+                writeParams({ scope: event.currentTarget.value })
+              }
+              className="h-11 border border-white/10 bg-black/30 px-3 text-sm text-neutral-200 outline-none focus:border-emerald-300/45"
+              aria-label="Visibility scope"
+            >
+              <option value="all">All scopes</option>
+              <option value="network">Network — deposited and read AssetPacks</option>
+              <option value="personal">Mine — archived options, sources, requests</option>
             </select>
             <input
               value={state === "all" ? "" : state}

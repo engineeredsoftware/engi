@@ -27,7 +27,7 @@ export const anthropicProvider: LLMProvider = {
       const finalConfig = { ...config, ...input.config };
       
       const request: AnthropicRequest = {
-        model: finalConfig.model || 'claude-3-opus-20240229',
+        model: finalConfig.model || 'claude-sonnet-4-6',
         messages: input.messages,
         max_tokens: finalConfig.maxTokens || 4096,
         temperature: finalConfig.temperature,
@@ -91,8 +91,9 @@ export const anthropicProvider: LLMProvider = {
   },
 
   validateConfig(config: LLMConfig): boolean {
-    const validModels = ['claude-3-opus-20240229', 'claude-3-sonnet-20240229', 'claude-3-haiku-20240307'];
-    if (config.model && !validModels.includes(config.model)) {
+    // Model names rotate with releases; validate the family shape rather
+    // than pinning a stale allowlist.
+    if (config.model && !config.model.toLowerCase().startsWith('claude')) {
       return false;
     }
     if (config.temperature !== undefined && (config.temperature < 0 || config.temperature > 1)) {

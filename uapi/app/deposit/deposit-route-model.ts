@@ -41,6 +41,13 @@ export type DepositRouteStepState = 'complete' | 'current' | 'blocked' | 'ready'
 export interface DepositRouteSessionInput extends DepositOptionSynthesisRequest {
   depositStage?: DepositRouteStepId | null;
   transactionId?: string | null;
+  /**
+   * Real synthesis from the AssetPacksSynthesis pipeline (deposit lens),
+   * produced server-side by POST /api/deposit/synthesize-options. When
+   * present it replaces the deterministic blueprint synthesis (V48 Gate 2,
+   * QA ledger F12).
+   */
+  precomputedOptionSynthesis?: DepositAssetPackOptionSynthesis | null;
   sourceCriticalitySignals?: DepositOptionCriticalitySignal[] | null;
   unfitNeedOpportunitySignals?: DepositOptionDemandSignal[] | null;
   developmentCostSats?: number | null;
@@ -233,17 +240,24 @@ export function buildDepositRouteSession(input: DepositRouteSessionInput = {}): 
   const repositoryFullName = normalizedText(input.repositoryFullName);
   const sourceBranch = normalizedText(input.sourceBranch);
   const sourceCommit = normalizedText(input.sourceCommit);
-  const synthesis = buildDepositAssetPackOptionSynthesis({
-    repositoryFullName,
-    sourceBranch,
-    sourceCommit,
-    depositorInstructions: input.depositorInstructions,
-    sourcePathHints: input.sourcePathHints,
-    depositoryDemandSignals: input.depositoryDemandSignals,
-    readingDemandSignals: input.readingDemandSignals,
-    existingDepositorySignals: input.existingDepositorySignals,
-    createdAt: input.createdAt,
-  });
+  // Prefer the real AssetPacksSynthesis (deposit lens) result when the
+  // server has produced one; the deterministic blueprint synthesis remains
+  // only as the explicit bring-up fallback (V48 Gate 2, QA ledger F12).
+  const synthesis =
+    input.precomputedOptionSynthesis &&
+    input.precomputedOptionSynthesis.request.repositoryFullName === repositoryFullName
+      ? input.precomputedOptionSynthesis
+      : buildDepositAssetPackOptionSynthesis({
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          depositorInstructions: input.depositorInstructions,
+          sourcePathHints: input.sourcePathHints,
+          depositoryDemandSignals: input.depositoryDemandSignals,
+          readingDemandSignals: input.readingDemandSignals,
+          existingDepositorySignals: input.existingDepositorySignals,
+          createdAt: input.createdAt,
+        });
   const policy = buildDepositAssetPackOptionPolicyReport({
     synthesis,
     sourceCriticalitySignals: input.sourceCriticalitySignals,

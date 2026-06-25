@@ -234,6 +234,28 @@ export function buildBitcodeActivityRecordFromExecutionEvent(
   };
 }
 
+/**
+ * Scope taxonomy (V48 Gate 2 specification): globally visible commerce —
+ * AssetPacks admitted to the Depository and settled/read AssetPacks — is
+ * 'network'; the depositor's own work — deposit requests, option syntheses,
+ * review decisions including archived options, connected sources — is
+ * 'personal'.
+ */
+export function inferExecutionHistoryScope(
+  row: BitcodeExecutionHistoryLike,
+): BitcodeActivityScope {
+  const context = asObject((row as Record<string, any>).context);
+  const admissionState = String(context.admissionState || context.admission_state || '');
+  if (admissionState === 'admitted-to-depository') return 'network';
+  const type = String(row.type || '');
+  if (type.includes('settlement') || type.includes('settled')) return 'network';
+  const packActivityType = String(context.packActivityType || '');
+  if (packActivityType === 'depository-assetpack' || packActivityType === 'settled-assetpack') {
+    return 'network';
+  }
+  return 'personal';
+}
+
 export function buildBitcodeActivityRecordFromExecutionHistory(
   row: BitcodeExecutionHistoryLike,
 ): BitcodeActivityRecord {
@@ -253,7 +275,7 @@ export function buildBitcodeActivityRecordFromExecutionHistory(
   return {
     id: String(row.id),
     kind: 'execution',
-    scope: 'network',
+    scope: inferExecutionHistoryScope(row),
     channel: 'system-surface',
     label: getBitcodeActivityKindLabel('execution'),
     title: formatExecutionHistoryTitle(row.type),

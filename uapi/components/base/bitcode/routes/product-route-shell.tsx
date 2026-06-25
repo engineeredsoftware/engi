@@ -145,6 +145,8 @@ type ProductRouteStepGridProps<StepId extends string> = {
   testIdPrefix: string;
   stateDataAttribute: string;
   onSelect: (stepId: StepId) => void;
+  /** Denser cards: smaller height/padding and no guidance text. */
+  compact?: boolean;
 };
 
 export function ProductRouteStepGrid<StepId extends string>({
@@ -155,6 +157,7 @@ export function ProductRouteStepGrid<StepId extends string>({
   testIdPrefix,
   stateDataAttribute,
   onSelect,
+  compact = false,
 }: ProductRouteStepGridProps<StepId>) {
   const toneClasses = TONE_CLASSES[tone];
 
@@ -170,7 +173,9 @@ export function ProductRouteStepGrid<StepId extends string>({
             data-testid={`${testIdPrefix}-${step.id}`}
             aria-current={active ? "step" : undefined}
             onClick={() => onSelect(step.id)}
-            className={`min-h-[9rem] border px-4 py-4 text-left outline-none transition focus-visible:ring-2 ${toneClasses.focusRing} ${
+            className={`border text-left outline-none transition focus-visible:ring-2 ${
+              compact ? "px-3 py-2.5" : "min-h-[9rem] px-4 py-4"
+            } ${toneClasses.focusRing} ${
               active ? toneClasses.activeStep : toneClasses.inactiveStep
             }`}
             {...stateAttribute}
@@ -178,10 +183,14 @@ export function ProductRouteStepGrid<StepId extends string>({
             <span className="text-[0.6rem] uppercase tracking-[0.18em] text-neutral-500">
               {step.state}
             </span>
-            <span className="mt-2 block text-sm font-semibold text-neutral-100">
+            <span
+              className={`block font-semibold text-neutral-100 ${
+                compact ? "mt-1 text-xs" : "mt-2 text-sm"
+              }`}
+            >
               {step.label}
             </span>
-            {step.lowDetailGuidance ? (
+            {!compact && step.lowDetailGuidance ? (
               <span className="mt-2 block text-xs leading-5 text-neutral-400">
                 {step.lowDetailGuidance}
               </span>

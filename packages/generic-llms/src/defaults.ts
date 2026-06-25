@@ -28,7 +28,7 @@ export function resolveDefaultLLMModel(
     case 'google':
       return 'gemini-2.5-flash';
     case 'anthropic':
-      return 'claude-3-opus-20240229';
+      return 'claude-sonnet-4-6';
     case 'openai':
     default:
       return 'gpt-4.1-mini';

@@ -359,6 +359,33 @@ let nextConfig = {
         'src',
         'read-need.ts'
       ),
+      '@bitcode/pipeline-asset-pack/asset-packs-synthesis': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'asset-pack',
+        'src',
+        'asset-packs-synthesis.ts'
+      ),
+      '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'asset-pack',
+        'src',
+        'deposit-option-real-synthesis.ts'
+      ),
+      '@bitcode/pipeline-asset-pack/runtime-inference-policy': path.resolve(
+        __dirname,
+        '..',
+        'packages',
+        'pipelines',
+        'asset-pack',
+        'src',
+        'runtime-inference-policy.ts'
+      ),
       '@bitcode/pipeline-asset-pack/read-need-review-resynthesis': path.resolve(
         __dirname,
         '..',

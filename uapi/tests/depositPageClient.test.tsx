@@ -27,6 +27,22 @@ jest.mock("@/networking/api-client", () => ({
   fetchPipelineExecutionHistory: () => mockFetchPipelineExecutionHistory(),
 }));
 
+// PipelineExecutionLog pulls react-syntax-highlighter ESM styles that jest
+// cannot transform; the telemetry panel contract is asserted via the stub.
+jest.mock("@/components/base/bitcode/execution/pipeline-execution-log", () => ({
+  PipelineExecutionLog: ({
+    output,
+    isProcessing,
+  }: {
+    output: string;
+    isProcessing: boolean;
+  }) => (
+    <div data-testid="pipeline-execution-log" data-processing={String(isProcessing)}>
+      {output}
+    </div>
+  ),
+}));
+
 jest.mock("@/app/terminal/terminal-shell-bridge", () => ({
   TerminalShellBridgeProvider: ({
     children,
@@ -39,7 +55,7 @@ jest.mock("@/app/terminal/terminal-shell-bridge", () => ({
   }),
 }));
 
-jest.mock("@/app/terminal/TerminalRepositoryContextPanel", () => ({
+jest.mock("@/app/deposit/DepositSourceSelection", () => ({
   __esModule: true,
   default: ({
     onContextChange,
@@ -70,22 +86,13 @@ jest.mock("@/app/terminal/TerminalRepositoryContextPanel", () => ({
     }, [onContextChange]);
     return (
       <section
-        aria-label="Repository source selector"
+        aria-label="Deposit source selection"
         data-route-path={routePath}
       >
-        Repository source selector
+        Deposit source selection
       </section>
     );
   },
-}));
-
-jest.mock("@/app/terminal/TerminalSupplySelectionPanel", () => ({
-  __esModule: true,
-  default: () => (
-    <section aria-label="Deposit supply selector">
-      Deposit supply selector
-    </section>
-  ),
 }));
 
 jest.mock("@/app/terminal/TerminalDepositComposer", () => ({
@@ -200,89 +207,207 @@ describe("DepositPageClient", () => {
     expect(
       screen.getAllByText("DepositorEarningSupplyIntelligence").length,
     ).toBeGreaterThan(0);
+    // The economy overview is now combined into the top route header (its
+    // metrics: options, positive ROI, admitted, authority), so the separate
+    // enterprise-summary block no longer renders.
     expect(
-      screen.getByTestId("deposit-enterprise-economic-summary"),
-    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
-    expect(screen.getByTestId("deposit-keyboard-navigation")).toHaveAttribute(
-      "data-enterprise-ux",
-      "keyboard-navigation",
-    );
+      screen.queryByTestId("deposit-enterprise-economic-summary"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("deposit-keyboard-navigation"),
+    ).not.toBeInTheDocument();
     expect(screen.getByTestId("deposit-expandable-proof-detail")).toHaveAttribute(
       "data-enterprise-ux",
       "expandable-proof-detail",
     );
-    expect(screen.getByText("Supply opportunity")).toBeInTheDocument();
+    expect(
+      screen.getByText("All-repositories supply estimate"),
+    ).toBeInTheDocument();
     expect(screen.getAllByText(/Earning estimate/u).length).toBeGreaterThan(0);
     expect(
       screen.getByText(/Unfit Need opportunities/u),
     ).toBeInTheDocument();
+    // Blueprint option cards are retired from the surface: until a real
+    // AssetPacksSynthesis run returns, the options grid shows the
+    // await-synthesis state instead of deterministic previews (F12).
     expect(
-      screen.getAllByText(/BTC source-to-shares preview/u).length,
-    ).toBeGreaterThan(0);
-    expect(
-      screen.getAllByText(/Approve for Depository/u).length,
-    ).toBeGreaterThan(0);
-    expect(
-      screen.getAllByText(/not-admitted-pending-review/u).length,
-    ).toBeGreaterThan(0);
-    expect(
-      screen.getByTestId("deposit-option-capability-slice"),
+      screen.getByTestId("deposit-options-await-synthesis"),
     ).toBeInTheDocument();
     expect(
-      screen.getByTestId("deposit-option-implementation-pattern"),
-    ).toBeInTheDocument();
+      screen.queryByTestId("deposit-option-capability-slice"),
+    ).not.toBeInTheDocument();
     expect(
-      screen.getByTestId("deposit-option-proof-operations-slice"),
-    ).toBeInTheDocument();
+      screen.queryByTestId("deposit-option-proof-operations-slice"),
+    ).not.toBeInTheDocument();
 
     await waitFor(() =>
       expect(
-        screen.getByLabelText("Repository source selector"),
+        screen.getByLabelText("Deposit source selection"),
       ).toHaveAttribute("data-route-path", "/deposit"),
     );
+    // The legacy instant-write composer is removed; the single batch-deposit
+    // action only appears after a real AssetPacksSynthesis run returns options.
     expect(
-      screen.getByLabelText("Deposit supply selector"),
-    ).toBeInTheDocument();
-    expect(screen.getByLabelText("Deposit composer")).toHaveAttribute(
-      "data-demonstration",
-      "false",
-    );
+      screen.queryByLabelText("Deposit composer"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("deposit-selected-packs"),
+    ).not.toBeInTheDocument();
     expect(screen.getByText("Recent Deposit activity")).toBeInTheDocument();
   });
 
-  it("records source-safe option synthesis as a deposit execution row", async () => {
-    const fetchMock = jest.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({
-        execution: {
-          id: "deposit-synthesis-1",
-          created_at: "2026-05-29T10:01:00.000Z",
-          status: "completed",
-          type: "pipeline:deposit-option-synthesis",
-          agentic_execution: {
-            canonicalType: "pipeline:deposit-option-synthesis",
-            lens: "deposit",
-            proofStatus: "source-safe synthesis proof ready",
-            closureFocus: "deposit option synthesis",
-          },
-          context: {
-            source: "deposit-option-synthesis",
-            optionCount: 3,
-          },
-          repo_snapshot: {
-            org: "engineeredsoftware",
-            repo: "ENGI",
-            branch: "main",
-            commit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
-          },
-          output: {},
-          items: [],
+  it("requests real option synthesis from the AssetPacksSynthesis route with exclusions", async () => {
+    const realOption = {
+      schema: "bitcode.deposit.asset-pack-option",
+      optionId: "deposit-option-real-1-abcd1234",
+      kind: "capability-slice",
+      title: "Real measured capability slice",
+      summary:
+        "A source-safe slice describing the demo capability measured by AssetPacksSynthesis under the deposit lens.",
+      sourceBinding: {
+        repositoryFullName: "engineeredsoftware/ENGI",
+        sourceBranch: "main",
+        sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+        sourcePathRoots: ["deposit-option-source-path:11111111"],
+        sourcePathCount: 1,
+        rawSourceStoredExternally: true,
+        protectedSourceVisibleInOption: false,
+      },
+      demandAlignment: {
+        posture: "source-safe-demand-signals-only",
+        depositorySignalRoots: [],
+        readingSignalRoots: [],
+        existingDepositorySignalRoots: [],
+        confidence: 0.8,
+      },
+      measurements: [
+        {
+          id: "deposit-option-real-1:source-coverage",
+          label: "Source coverage",
+          measurementKind: "source-coverage",
+          weight: 0.36,
+          volume: 0.62,
+          evidenceRoot: "deposit-option-measurement:22222222",
         },
-      }),
+      ],
+      reviewBoundary: {
+        state: "reviewable-source-safe-option",
+        decision: "pending-depositor-review",
+        depositAdmissionBoundary: "not-admitted-until-depositor-approval",
+        btdMintBoundary: "not-minted-by-deposit-option",
+        settlementBoundary:
+          "future-reader-settlement-required-for-source-bearing-assetpack",
+      },
+      policyBoundary: {
+        sourceCriticalityPolicy: "deferred-to-gate6",
+        demandRoiPolicy: "deferred-to-gate6",
+        compensationPolicy: "deferred-to-gate6",
+      },
+      visibility: {
+        sourceSafeMetadataOnly: true,
+        protectedSourceVisible: false,
+        rawSourceTextVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        rawPromptVisible: false,
+        interpolatedPromptVisible: false,
+        rawProviderResponseVisible: false,
+        walletPrivateMaterialVisible: false,
+      },
+      roots: {
+        optionRoot: "deposit-asset-pack-option:33333333",
+        sourceBindingRoot: "deposit-option-source-binding:44444444",
+        demandAlignmentRoot: "deposit-option-demand-alignment:55555555",
+        measurementRoot: "deposit-option-measurements:66666666",
+        reviewBoundaryRoot: "deposit-option-review-boundary:77777777",
+      },
+    };
+    const fetchMock = jest.fn(async (url: string) => {
+      if (url === "/api/deposit/synthesize-options") {
+        return {
+          ok: true,
+          json: async () => ({
+            ok: true,
+            executionId: "real-synthesis-execution-1",
+            synthesis: {
+              schema: "bitcode.deposit.asset-pack-option-synthesis",
+              pipeline: "DepositAssetPackOptionSynthesis",
+              requestId: "deposit-option-request:99999999",
+              createdAt: "2026-06-12T22:00:00.000Z",
+              request: {
+                repositoryFullName: "engineeredsoftware/ENGI",
+                sourceBranch: "main",
+                sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+                depositorInstructionRoot: null,
+                sourcePathRoots: ["deposit-option-source-path:11111111"],
+              },
+              options: [realOption],
+              optionCount: 1,
+              sourceSafety: {
+                sourceSafeMetadataOnly: true,
+                protectedSourceVisible: false,
+                rawSourceTextVisible: false,
+                unpaidAssetPackSourceVisible: false,
+                rawPromptVisible: false,
+                interpolatedPromptVisible: false,
+                rawProviderResponseVisible: false,
+                walletPrivateMaterialVisible: false,
+              },
+              reviewBoundary: {
+                route: "/deposit",
+                defaultDecisionState: "pending-depositor-review",
+                approvedOptionsAdmittedBy: "future-gate7-deposit-option-review",
+                sourceCriticalityDemandRoiPolicyOwnedBy: "future-gate6-policy",
+              },
+              roots: {
+                requestRoot: "deposit-option-request:99999999",
+                synthesisRoot: "deposit-asset-pack-option-synthesis:88888888",
+                optionRoots: ["deposit-asset-pack-option:33333333"],
+              },
+              synthesisMode: "real-bounded-inference",
+              pipelineCore: "AssetPacksSynthesis",
+              inference: {
+                provider: "anthropic",
+                model: "claude-haiku-4-5-20251001",
+                totalTokens: 5421,
+                durationMs: 18450,
+              },
+              exclusionPosture: {
+                protectedIpExclusionCount: 1,
+                exclusionRoots: ["deposit-option-ip-exclusion:aaaaaaaa"],
+                excludedPathCount: 2,
+                droppedCandidateCount: 0,
+              },
+            },
+            reviewProjections: [
+              {
+                optionId: "deposit-option-real-1-abcd1234",
+                title: "Real measured capability slice",
+                coveredSourcePaths: ["src/app.py"],
+                measurementRationale: "Covers the primary capability path.",
+              },
+            ],
+            inference: {
+              provider: "anthropic",
+              model: "claude-haiku-4-5-20251001",
+              totalTokens: 5421,
+              durationMs: 18450,
+            },
+            exclusionViolations: [],
+          }),
+        };
+      }
+      return { ok: true, json: async () => ({}) };
     });
-    global.fetch = fetchMock;
+    global.fetch = fetchMock as unknown as typeof fetch;
 
     render(<DepositPageClient />);
+
+    const exclusionsField = await screen.findByLabelText(
+      /Protected IP exclusions/,
+    );
+    fireEvent.change(exclusionsField, {
+      target: { value: "secret-engine/" },
+    });
 
     const synthesizeButton = await screen.findByRole("button", {
       name: "Synthesize options",
@@ -290,41 +415,31 @@ describe("DepositPageClient", () => {
     await waitFor(() => expect(synthesizeButton).not.toBeDisabled());
     fireEvent.click(synthesizeButton);
 
-    await waitFor(() => expect(fetchMock).toHaveBeenCalled());
-    const [, init] = fetchMock.mock.calls[0];
-    expect(fetchMock).toHaveBeenCalledWith(
-      "/api/executions/history",
-      expect.objectContaining({ method: "POST" }),
+    await waitFor(() =>
+      expect(fetchMock).toHaveBeenCalledWith(
+        "/api/deposit/synthesize-options",
+        expect.objectContaining({ method: "POST" }),
+      ),
     );
+    const synthesisCall = fetchMock.mock.calls.find(
+      ([url]) => url === "/api/deposit/synthesize-options",
+    );
+    const body = JSON.parse(String(synthesisCall?.[1]?.body));
+    expect(body.repositoryFullName).toBe("engineeredsoftware/ENGI");
+    expect(body.protectedIpExclusions).toBe("secret-engine/");
+    expect(Array.isArray(body.demandContext)).toBe(true);
 
-    const body = JSON.parse(String(init.body));
-    expect(body.pipeline_type).toBe("pipeline:deposit-option-synthesis");
-    expect(body.status).toBe("completed");
-    expect(body.context).toMatchObject({
-      source: "deposit-option-synthesis",
-      workbench: "deposit-option-synthesis",
-      route: "/deposit",
-      repositoryFullName: "engineeredsoftware/ENGI",
-      optionCount: 3,
-      sourceSafetyClass: "source_safe_deposit_option_route_metadata",
-    });
-    expect(body.output.depositRouteSession.schema).toBe(
-      "bitcode.deposit.route-session",
-    );
-    expect(body.output.depositOptionSynthesis.schema).toBe(
-      "bitcode.deposit.asset-pack-option-synthesis",
-    );
-    expect(body.output.depositOptionPolicy.schema).toBe(
-      "bitcode.deposit.asset-pack-option-policy-report",
-    );
-    expect(body.output.depositorEarningSupplyIntelligence.schema).toBe(
-      "bitcode.deposit.earning-supply-intelligence",
+    await waitFor(() =>
+      expect(
+        screen.getByText("Real measured capability slice"),
+      ).toBeInTheDocument(),
     );
     expect(
-      body.output.depositRouteSession.disclosure.protectedSourceVisible,
-    ).toBe(false);
+      screen.getByTestId("deposit-synthesis-inference"),
+    ).toHaveTextContent("AssetPacksSynthesis");
     expect(
-      body.output.depositRouteSession.disclosure.unpaidAssetPackSourceVisible,
-    ).toBe(false);
+      screen.getByTestId("deposit-synthesis-inference"),
+    ).toHaveTextContent("5,421 tokens");
+    expect(screen.getByText("src/app.py")).toBeInTheDocument();
   });
 });
