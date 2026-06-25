@@ -15,6 +15,7 @@ import {
   resolveDeliveryMechanismTemplateFromExecution,
   resolveWrittenAssetTypeFromExecution,
 } from '../semantic-resolution';
+import { synthesizeAssetPacksModeFromExecution } from '../synthesize-asset-packs';
 import type {
   AssetPackInput,
   AssetPackOutput,
@@ -41,7 +42,8 @@ export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegat
  */
 // Disable other phases during bring-up (no-op delegators)
 export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (input: AssetPackInput, execution: any) => {
-  try { registerDiscoveryAgents((execution as any).agents); } catch {}
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
+  try { registerDiscoveryAgents((execution as any).agents, mode); } catch {}
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('discovery:gather-context'),
     createAgentExecutor('discovery:understand-requirements'),
@@ -61,7 +63,8 @@ export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (asy
  * templates. They do not choose implementation behavior.
  */
 export const implementationPhase: PhaseDelegator<DiscoveryOutput, ImplementationOutput> = (async (input: any, execution: any) => {
-  try { registerImplementationAgents((execution as any).agents); } catch {}
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
+  try { registerImplementationAgents((execution as any).agents, mode); } catch {}
   const synthesize = createAgentExecutor('implementation:ReadFitsFindingSynthesisAssetPackSynthesisAgent');
   return await synthesize(input, execution);
 }) as unknown as PhaseDelegator<DiscoveryOutput, ImplementationOutput>;
@@ -73,8 +76,9 @@ export const implementationPhase: PhaseDelegator<DiscoveryOutput, Implementation
  * Danger-wall has been moved to Setup phase
  */
 export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOutput> = (async (input: any, execution: any) => {
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
   const writtenAssetType = resolveWrittenAssetTypeFromExecution(execution);
-  try { registerValidationAgentsForType(writtenAssetType, (execution as any).agents); } catch {}
+  try { registerValidationAgentsForType(writtenAssetType, (execution as any).agents, mode); } catch {}
 
   const parallelValidators = parallel(
     createAgentExecutor('validation:validate-last-iterations-validation-phase'),
@@ -121,8 +125,9 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
  * AssetPackPartials through pull-request shippables.
  */
 export const finishPhase: PhaseDelegator<ValidationOutput, AssetPackOutput> = (async (input: any, execution: any) => {
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
   const deliveryMechanismTemplate = resolveDeliveryMechanismTemplateFromExecution(execution);
-  try { registerFinishAgentsForType(deliveryMechanismTemplate, (execution as any).agents); } catch {}
+  try { registerFinishAgentsForType(deliveryMechanismTemplate, (execution as any).agents, mode); } catch {}
   const exec: Executor<any, any> = sequential(
     createAgentExecutor('finish:deliver-asset-pack-to-destination-agent'),
     createAgentExecutor('finish:asset-pack-completion')

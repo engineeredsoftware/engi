@@ -1,6 +1,7 @@
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 import { registerValidationAgentsForType as registerAgents } from '../agents/validation-agents';
 import { AssetPackWrittenAssetType } from '../types/AssetPackWrittenAssetType';
+import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
  * Validation phase configuration placeholder.
@@ -21,6 +22,12 @@ export const runValidationPhase = createPhaseRunner(validationPhaseConfig);
 /**
  * Register validation agents (delegates to the canonical agents module).
  */
-export function registerValidationAgentsForType(writtenAssetType: string, agentRegistry: any): void {
+export function registerValidationAgentsForType(
+  writtenAssetType: string,
+  agentRegistry: any,
+  // mode drives conditional registration: deposit validates synthesized AP
+  // patches for deposit review; read validates fits artifacts. Shared for now.
+  _mode?: SynthesizeAssetPacksMode,
+): void {
   registerAgents(writtenAssetType || AssetPackWrittenAssetType.ReadSatisfactionAssetPack, agentRegistry);
 }

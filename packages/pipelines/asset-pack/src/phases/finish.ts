@@ -9,6 +9,7 @@
  */
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
+import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
  * Create the canonical Finish sequence for AssetPack runs.
@@ -48,7 +49,11 @@ export function runFinishPhase(deliveryMechanismTemplate: string) {
  */
 export function registerFinishAgentsForType(
   _deliveryMechanismTemplate: string,
-  agentRegistry: any
+  agentRegistry: any,
+  // mode drives conditional registration. Both modes will Finish by UPLOADING
+  // synthesized artifacts to Bitcode for user review (deposit: before
+  // depositing; read: before purchase) — replacing PR delivery in a later chunk.
+  _mode?: SynthesizeAssetPacksMode,
 ): void {
   agentRegistry.registerAgent(
     'finish:deliver-asset-pack-to-destination-agent',

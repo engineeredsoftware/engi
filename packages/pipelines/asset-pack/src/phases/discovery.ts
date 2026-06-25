@@ -12,6 +12,7 @@
 
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
 import { registerDiscoveryAgents as registerCanonicalDiscoveryAgents } from '../agents/discovery-agents';
+import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
 /**
  * Discovery phase configuration with parallel execution groups
@@ -37,6 +38,11 @@ export const runDiscoveryPhase = createPhaseRunner(discoveryPhaseConfig);
  * Discovery phase agent registration
  * Called after setup phase to register discovery agents
  */
-export function registerDiscoveryAgents(agentRegistry: any): void {
+export function registerDiscoveryAgents(
+  agentRegistry: any,
+  // mode drives conditional runtime registration; deposit-specific discovery
+  // (exploration) variants register here in a later chunk. Read = default.
+  _mode?: SynthesizeAssetPacksMode,
+): void {
   registerCanonicalDiscoveryAgents(agentRegistry);
 }

@@ -57,6 +57,12 @@ import {
   resolveReadNeedFromPipelineInput,
   synthesizeReadNeedForPipelineInput,
 } from './read-need';
+import {
+  resolveSynthesizeAssetPacksMode,
+  storeSynthesizeAssetPacksMode,
+} from './synthesize-asset-packs';
+
+export * from './synthesize-asset-packs';
 
 export * from './depositor-earning-supply-intelligence';
 
@@ -102,8 +108,15 @@ function factoryPreprocess(): Executor<any, any> {
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
 
+    // Resolve + store the synthesis mode (deposit | read) once; every phase
+    // reads it to drive conditional runtime registries. Default is read.
+    const mode = resolveSynthesizeAssetPacksMode(input, execution);
+    storeSynthesizeAssetPacksMode(execution, mode);
+    try { (input as any).synthesizeMode = mode; } catch {}
+
     // Apply gate preprocessing
     const processedInput = gatePreprocess(input, execution);
+    try { (processedInput as any).synthesizeMode = mode; } catch {}
     const expressedRead = resolveExpressedRead(processedInput);
 
     const writtenAssetType = resolveWrittenAssetType(processedInput);
