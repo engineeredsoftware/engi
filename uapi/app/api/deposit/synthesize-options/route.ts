@@ -10,7 +10,9 @@ import { createStreamingExecution, emitPhaseTransition } from '@bitcode/pipeline
 import {
   applyExclusionsToInventory,
   normalizeProtectedIpExclusions,
+  validateDepositSynthesisOptions,
 } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
+import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import {
   buildRealDepositAssetPackOptionSynthesis,
   synthesizeRealDepositOptionCandidates,
@@ -277,19 +279,87 @@ export async function POST(request: Request) {
       `Inventory ready: ${inventory.paths.length} paths (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; ${inventory.samples.length} excerpts sampled).`,
     );
 
-    await emitStatus(
-      'Running the AssetPacksSynthesis measurement agent (failsafe ∘ reason → judge → structured output)…',
-    );
-    const result = await synthesizeRealDepositOptionCandidates({
-      repositoryFullName,
-      sourceBranch,
-      sourceCommit,
-      depositorInstructions,
-      protectedIpExclusions,
-      demandContext,
-      inventory,
-      execution: execution as never,
-    });
+    const DEPOSIT_OPTION_KINDS = ['capability-slice', 'implementation-pattern', 'proof-operations-slice'];
+    // Default: run the full SynthesizeAssetPacks SDIVF pipeline (deposit mode)
+    // inline so the rich phase→agent→step→failsafe→generation telemetry streams.
+    // Set BITCODE_DEPOSIT_SYNTHESIS_PIPELINE=0 to use the bounded synthesis only.
+    const useFullPipeline = process.env.BITCODE_DEPOSIT_SYNTHESIS_PIPELINE !== '0';
+
+    type DepositResult = Awaited<ReturnType<typeof synthesizeRealDepositOptionCandidates>>;
+    let result: DepositResult;
+
+    if (useFullPipeline) {
+      await emitStatus(
+        'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
+      );
+      const [owner, name] = repositoryFullName.split('/');
+      await synthesizeAssetPacksPipeline(
+        {
+          mode: 'deposit',
+          synthesizeMode: 'deposit',
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          repository: {
+            owner,
+            name,
+            repo: name,
+            branch: sourceBranch,
+            commit: sourceCommit,
+            fullName: repositoryFullName,
+            url: `https://github.com/${repositoryFullName}`,
+          },
+          depositorInstructions,
+          protectedIpExclusions,
+          demandContext,
+          inventory,
+          candidateKinds: DEPOSIT_OPTION_KINDS,
+        } as never,
+        execution as never,
+      );
+      const rawOptions = ((execution as any).get?.('implementation', 'options') ??
+        (execution as any).findUp?.('implementation', 'options') ??
+        []) as Parameters<typeof validateDepositSynthesisOptions>[0];
+      const validated = validateDepositSynthesisOptions(rawOptions, {
+        lens: 'deposit',
+        inventoryPaths: inventory.paths,
+        protectedIpExclusions,
+        candidateKinds: DEPOSIT_OPTION_KINDS,
+      });
+      result = {
+        lens: 'deposit',
+        candidates: validated.candidates,
+        droppedCandidateCount: validated.droppedCandidateCount,
+        exclusionViolations: validated.exclusionViolations,
+        inference: { provider: null, model: null, totalTokens: null, durationMs: Date.now() - startedAt },
+      };
+      if (result.candidates.length === 0) {
+        // Pipeline produced no admissible options — fall back to bounded synthesis.
+        await emitStatus('Pipeline yielded no admissible options; falling back to bounded deposit synthesis…');
+        result = await synthesizeRealDepositOptionCandidates({
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          depositorInstructions,
+          protectedIpExclusions,
+          demandContext,
+          inventory,
+          execution: execution as never,
+        });
+      }
+    } else {
+      await emitStatus('Running the bounded deposit synthesis (reason → judge → structured output)…');
+      result = await synthesizeRealDepositOptionCandidates({
+        repositoryFullName,
+        sourceBranch,
+        sourceCommit,
+        depositorInstructions,
+        protectedIpExclusions,
+        demandContext,
+        inventory,
+        execution: execution as never,
+      });
+    }
     await emitStatus(
       `Validated candidates fail-closed: ${result.candidates.length} admissible, ${result.droppedCandidateCount} dropped.`,
     );
