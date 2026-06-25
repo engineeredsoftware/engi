@@ -236,9 +236,37 @@ export async function runBoundedStructuredInference<T>({
       agentExecution?.store?.('llm', 'usage', mergeUsage(reasoningOutput.usage, judgmentOutput.usage, output.usage));
     } catch {}
 
-    const parsed = realInferenceRequired
-      ? schema.parse(JSON.parse(extractJsonFromResponse(output.content)))
-      : await parseResponse(output.content, schema, fallback, { maxRetries: 0 });
+    let parsed: T;
+    if (realInferenceRequired) {
+      try {
+        parsed = schema.parse(JSON.parse(extractJsonFromResponse(output.content)));
+      } catch (validationError) {
+        // One corrective pass: feed the validation error back so the model can
+        // fix the shape (e.g. a missing top-level key) instead of failing the run.
+        const corrected = await resolvedLLM.llm({
+          messages: [
+            ...messages,
+            {
+              role: 'user' as const,
+              content: [
+                'ThricifiedGeneration stage 3/3 (correction): your previous JSON failed schema validation.',
+                `Validation error: ${validationError instanceof Error ? validationError.message : String(validationError)}`,
+                'Return ONLY corrected JSON that strictly matches the required shape, including every required top-level key. No markdown, no prose.',
+                `Reasoning JSON: ${JSON.stringify(reasoning)}`,
+                `Judgment JSON: ${JSON.stringify(judgment)}`,
+              ].join('\n'),
+            },
+          ],
+          config: { responseFormat: 'json', temperature: 0.1, maxTokens: 4096 },
+        });
+        try {
+          agentExecution?.store?.('bounded-inference', 'status', 'corrected-retry');
+        } catch {}
+        parsed = schema.parse(JSON.parse(extractJsonFromResponse(corrected.content)));
+      }
+    } else {
+      parsed = await parseResponse(output.content, schema, fallback, { maxRetries: 0 });
+    }
     try {
       agentExecution?.store?.('llm', 'parsedOutput', {
         parsed,

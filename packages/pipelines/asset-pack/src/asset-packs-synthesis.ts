@@ -341,7 +341,11 @@ export async function synthesizeAssetPackCandidates(
     '- measurements is an object with EXACTLY these keys, each an honest 0..1 volume:',
     ...catalog.map((spec) => `    ${spec.measurementKind}: ${spec.guidance}`),
     '- Justify every measurement in measurementRationale.',
-    'Return only the requested typed JSON.',
+    'Return ONLY a JSON object with this EXACT top-level shape (no markdown fences, no prose, no other top-level keys):',
+    `{"options":[{"kind":string,"title":string,"summary":string,"coveredSourcePaths":[string],"measurements":{${catalog
+      .map((spec) => `"${spec.measurementKind}":number`)
+      .join(',')}},"measurementRationale":string,"confidence":number}]}`,
+    `The top-level key MUST be "options" — an array of 2-${maxCandidates} candidate objects. Never return a bare array or any other wrapper key.`,
   ].join('\n');
 
   const sampleBlock = request.inventory.samples
