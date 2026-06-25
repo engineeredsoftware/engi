@@ -345,3 +345,72 @@ export async function synthesizeAssetPackCandidates(
     },
   };
 }
+
+/**
+ * Validate raw synthesized candidate options (from the SynthesizeAssetPacks
+ * pipeline's Implementation phase) into source-safe AssetPackCandidates,
+ * fail-closed: drop any option whose covered paths are unknown to the inventory
+ * or violate the protected-IP exclusions, and map measurements through the lens
+ * catalog. Used by the deposit route to turn the pipeline output into the
+ * deposit option synthesis (mirrors synthesizeAssetPackCandidates' validation).
+ */
+export function validateDepositSynthesisOptions(
+  rawOptions: Array<{
+    kind: string;
+    title: string;
+    summary: string;
+    coveredSourcePaths: string[];
+    measurements: Record<string, number>;
+    measurementRationale: string;
+    confidence: number;
+  }>,
+  context: {
+    lens: AssetPacksSynthesisLens;
+    inventoryPaths: string[];
+    protectedIpExclusions: string[];
+    candidateKinds: string[];
+  },
+): { candidates: AssetPackCandidate[]; droppedCandidateCount: number; exclusionViolations: string[] } {
+  const catalog = measurementCatalogForLens(context.lens);
+  const inventoryPathSet = new Set(context.inventoryPaths);
+  const allowedKinds = new Set(context.candidateKinds);
+  const exclusionViolations: string[] = [];
+  const candidates: AssetPackCandidate[] = [];
+  for (const option of rawOptions || []) {
+    const coveredSourcePaths = [
+      ...new Set((option.coveredSourcePaths || []).map((path) => String(path).trim()).filter(Boolean)),
+    ];
+    const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
+    const excludedPaths = coveredSourcePaths.filter((path) =>
+      isPathExcluded(path, context.protectedIpExclusions),
+    );
+    if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
+      exclusionViolations.push(
+        `${option.title}: ${excludedPaths.length ? `excluded paths ${excludedPaths.join(', ')}` : ''}${
+          unknownPaths.length ? ` unknown paths ${unknownPaths.join(', ')}` : ''
+        }`.trim(),
+      );
+      continue;
+    }
+    const measurements = catalog.map((spec) => ({
+      measurementKind: spec.measurementKind,
+      label: spec.label,
+      weight: spec.weight,
+      volume: clampVolume(option.measurements?.[spec.measurementKind] ?? 0),
+    }));
+    candidates.push({
+      kind: allowedKinds.has(option.kind) ? option.kind : context.candidateKinds[0],
+      title: String(option.title).trim(),
+      summary: String(option.summary).trim(),
+      coveredSourcePaths,
+      measurements,
+      measurementRationale: String(option.measurementRationale).trim(),
+      confidence: clampVolume(option.confidence),
+    });
+  }
+  return {
+    candidates,
+    droppedCandidateCount: (rawOptions?.length || 0) - candidates.length,
+    exclusionViolations,
+  };
+}
