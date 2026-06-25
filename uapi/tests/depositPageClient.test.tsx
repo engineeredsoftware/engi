@@ -55,7 +55,7 @@ jest.mock("@/app/terminal/terminal-shell-bridge", () => ({
   }),
 }));
 
-jest.mock("@/app/terminal/TerminalRepositoryContextPanel", () => ({
+jest.mock("@/app/deposit/DepositSourceSelection", () => ({
   __esModule: true,
   default: ({
     onContextChange,
@@ -86,22 +86,13 @@ jest.mock("@/app/terminal/TerminalRepositoryContextPanel", () => ({
     }, [onContextChange]);
     return (
       <section
-        aria-label="Repository source selector"
+        aria-label="Deposit source selection"
         data-route-path={routePath}
       >
-        Repository source selector
+        Deposit source selection
       </section>
     );
   },
-}));
-
-jest.mock("@/app/terminal/TerminalSupplySelectionPanel", () => ({
-  __esModule: true,
-  default: () => (
-    <section aria-label="Deposit supply selector">
-      Deposit supply selector
-    </section>
-  ),
 }));
 
 jest.mock("@/app/terminal/TerminalDepositComposer", () => ({
@@ -216,18 +207,22 @@ describe("DepositPageClient", () => {
     expect(
       screen.getAllByText("DepositorEarningSupplyIntelligence").length,
     ).toBeGreaterThan(0);
+    // The economy overview is now combined into the top route header (its
+    // metrics: options, positive ROI, admitted, authority), so the separate
+    // enterprise-summary block no longer renders.
     expect(
-      screen.getByTestId("deposit-enterprise-economic-summary"),
-    ).toHaveAttribute("data-enterprise-ux", "economic-summary");
-    expect(screen.getByTestId("deposit-keyboard-navigation")).toHaveAttribute(
-      "data-enterprise-ux",
-      "keyboard-navigation",
-    );
+      screen.queryByTestId("deposit-enterprise-economic-summary"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("deposit-keyboard-navigation"),
+    ).not.toBeInTheDocument();
     expect(screen.getByTestId("deposit-expandable-proof-detail")).toHaveAttribute(
       "data-enterprise-ux",
       "expandable-proof-detail",
     );
-    expect(screen.getByText("Supply opportunity")).toBeInTheDocument();
+    expect(
+      screen.getByText("All-repositories supply estimate"),
+    ).toBeInTheDocument();
     expect(screen.getAllByText(/Earning estimate/u).length).toBeGreaterThan(0);
     expect(
       screen.getByText(/Unfit Need opportunities/u),
@@ -247,16 +242,17 @@ describe("DepositPageClient", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByLabelText("Repository source selector"),
+        screen.getByLabelText("Deposit source selection"),
       ).toHaveAttribute("data-route-path", "/deposit"),
     );
+    // The legacy instant-write composer is removed; the single batch-deposit
+    // action only appears after a real AssetPacksSynthesis run returns options.
     expect(
-      screen.getByLabelText("Deposit supply selector"),
-    ).toBeInTheDocument();
-    expect(screen.getByLabelText("Deposit composer")).toHaveAttribute(
-      "data-demonstration",
-      "false",
-    );
+      screen.queryByLabelText("Deposit composer"),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByTestId("deposit-selected-packs"),
+    ).not.toBeInTheDocument();
     expect(screen.getByText("Recent Deposit activity")).toBeInTheDocument();
   });
 

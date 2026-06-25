@@ -62,6 +62,9 @@ interface TerminalRepositoryContextPanelProps {
   onRecordActivity?: (draft: TerminalActivityRecordDraft) => Promise<unknown>;
   routePath?: string;
   buildRouteHref?: (params?: URLSearchParams | string | null) => string;
+  // The deposit surface flattens A→B (repo selection flows straight into
+  // describe/synthesize), so it hides this terminal step-advance button.
+  showContinueToDeposit?: boolean;
 }
 
 export default function TerminalRepositoryContextPanel({
@@ -70,6 +73,7 @@ export default function TerminalRepositoryContextPanel({
   onRecordActivity,
   routePath = TERMINAL_ROUTE,
   buildRouteHref = buildTerminalHref,
+  showContinueToDeposit = true,
 }: TerminalRepositoryContextPanelProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -539,16 +543,18 @@ export default function TerminalRepositoryContextPanel({
               />
 
               <div className="flex flex-wrap items-center gap-3">
-                <button
-                  type="button"
-                  // Depositing requires the full source package: repository,
-                  // branch, and commit (defaults count once they resolve).
-                  disabled={!selectedRepository || !selectedBranch || !selectedCommit}
-                  onClick={() => jumpToShellSection('terminalSupplySelection')}
-                  className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-neutral-500"
-                >
-                  Continue to deposit
-                </button>
+                {showContinueToDeposit ? (
+                  <button
+                    type="button"
+                    // Depositing requires the full source package: repository,
+                    // branch, and commit (defaults count once they resolve).
+                    disabled={!selectedRepository || !selectedBranch || !selectedCommit}
+                    onClick={() => jumpToShellSection('terminalSupplySelection')}
+                    className="rounded-[1.2rem] border border-emerald-400/30 bg-emerald-400/10 px-4 py-3 text-sm font-medium text-emerald-100 transition hover:border-emerald-300/45 hover:bg-emerald-400/15 disabled:cursor-not-allowed disabled:border-white/10 disabled:bg-white/5 disabled:text-neutral-500"
+                  >
+                    Continue to deposit
+                  </button>
+                ) : null}
                 <button
                   type="button"
                   disabled={!selectedRepository || isRecording}
