@@ -217,7 +217,12 @@ Accepted V48 architecture law (decided 2026-06-25):
   null-separated row key; the renderer displays the text before the separator,
   keys details by the full key, and bypasses de-dup for uniquely-keyed rows. This
   is what removes the `try`/`setup-plan`/`thricified-generation`/path fragments
-  and stabilizes the pipeline↔UI payload contract.
+  and stabilizes the pipeline↔UI payload contract. The contract depends on the
+  client seeing the SAME structured event shape live as on reload: the live SSE
+  tail (`usePipelineExecution`) therefore relays raw `event_data` verbatim
+  (namespace/key/executionState intact) rather than re-parsing it — re-parsing
+  flattened events into namespace-less status frames, which defeated the
+  classifier and leaked every store as a fragment row during streaming.
 - **OTF (on-the-fly instructions) is eradicated entirely** as legacy residue:
   the dead telemetry types (`otf_instructions`/`otf_adherence`), the unused
   `setOnTheFly` prompt primitive, the live instruction-injection feature (the
