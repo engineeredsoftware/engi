@@ -149,10 +149,16 @@ Accepted V48 architecture law (decided 2026-06-25):
   **SDIVF** pipeline (Setup -> Discovery -> Implementation -> Validation ->
   Finish, with the Discovery/Implementation/Validation loop iterating up to a
   bounded maxIterations) executed in one of two **modes**: deposit or read.
-  The mode is resolved once in preprocess and stored on the execution; all
-  variance is carried by **conditional runtime registries** — each phase
-  registers and resolves the mode-appropriate agents, tools, and prompts under
-  the same phase keys. Renamed SynthesizeAssetPacks for parity with the future
+  The mode is resolved once and stored on the **shared pipeline execution** (the
+  parent of all phase children), NOT on a phase sibling — `sequential` runs
+  preprocess and each phase on isolated sibling child executions
+  (`execution.child('seq-N')`) and mode resolution only walks ancestors, so a
+  mode stored inside preprocess is invisible to the phases (QA F20: they default
+  to read and run the read-lens agents during a deposit run). All variance is
+  carried by **conditional runtime registries** — each phase registers and
+  resolves the mode-appropriate agents, tools, and prompts under the same phase
+  keys (the registry is shared up the execution tree, so a phase's registrations
+  are visible to its agent resolution). Renamed SynthesizeAssetPacks for parity with the future
   Gate-6 **SettleAssetPacks** pipeline; it subsumes the legacy, poorly-named
   "Develop" gate (which remains a thin alias so its `develop.*` observability
   is unchanged).

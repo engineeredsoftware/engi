@@ -449,6 +449,17 @@ function factorySynthesizeAssetPacksPipeline(
 
   return async (input, execution) => {
     await initializeAssetPackPipeline(execution as any);
+    // Resolve + store the synthesis mode on THIS (shared) execution so every
+    // SDIVF phase can read it. factorySDIVFExecutorPipeline composes the phases
+    // with `sequential`, which runs preprocess and each phase on ISOLATED sibling
+    // child executions (`execution.child('seq-N')`). Storing the mode only inside
+    // preprocess (itself a sibling) left it unreachable from the phase children —
+    // synthesizeAssetPacksModeFromExecution only walks ancestors — so every phase
+    // defaulted to `read` and ran the read-lens agents during deposit runs (QA
+    // F20). Storing it here, on the parent of all phase children, makes the
+    // upward resolution find it; the shared agents registry then receives each
+    // phase's mode-conditional (deposit) registrations.
+    storeSynthesizeAssetPacksMode(execution, resolveSynthesizeAssetPacksMode(input, execution));
     return developExecutor(input, execution);
   };
 }
