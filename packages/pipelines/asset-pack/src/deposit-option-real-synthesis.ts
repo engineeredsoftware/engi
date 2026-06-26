@@ -60,7 +60,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
   repositoryFullName: string;
   sourceBranch: string | null;
   sourceCommit: string | null;
-  depositorInstructions: string | null;
+  obfuscations: string | null;
   protectedIpExclusions: string[];
   demandContext: string[];
   inventory: AssetPacksSynthesisSourceInventory;
@@ -72,7 +72,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
     sourceBranch: input.sourceBranch,
     sourceCommit: input.sourceCommit,
     steering: {
-      instructions: input.depositorInstructions,
+      instructions: input.obfuscations,
       protectedIpExclusions: input.protectedIpExclusions,
       demandContext: input.demandContext,
     },
@@ -142,7 +142,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
   const repositoryFullName = normalizedText(request.repositoryFullName);
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
-  const depositorInstructions = normalizedText(request.depositorInstructions);
+  const obfuscations = normalizedText(request.obfuscations);
   const protectedIpExclusions = normalizeProtectedIpExclusions(request.protectedIpExclusions);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
@@ -154,8 +154,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
     repositoryFullName,
     sourceBranch,
     sourceCommit,
-    depositorInstructionRoot: depositorInstructions
-      ? root('deposit-option-instructions', depositorInstructions)
+    depositorInstructionRoot: obfuscations
+      ? root('deposit-option-instructions', obfuscations)
       : null,
     synthesisMode: 'real-bounded-inference',
     pipelineCore: 'AssetPacksSynthesis',
@@ -276,8 +276,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
       repositoryFullName,
       sourceBranch,
       sourceCommit,
-      depositorInstructionRoot: depositorInstructions
-        ? root('deposit-option-instructions', depositorInstructions)
+      depositorInstructionRoot: obfuscations
+        ? root('deposit-option-instructions', obfuscations)
         : null,
       sourcePathRoots: [...new Set(options.flatMap((option) => option.sourceBinding.sourcePathRoots))],
     },

@@ -36,7 +36,7 @@ type SynthesizeOptionsBody = {
   repositoryFullName?: unknown;
   sourceBranch?: unknown;
   sourceCommit?: unknown;
-  depositorInstructions?: unknown;
+  obfuscations?: unknown;
   protectedIpExclusions?: unknown;
   demandContext?: unknown;
   depositoryDemandSignals?: unknown;
@@ -183,7 +183,7 @@ export async function POST(request: Request) {
   const runId = requestedRunId && UUID_PATTERN.test(requestedRunId) ? requestedRunId : randomUUID();
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
-  const depositorInstructions = readString(body.depositorInstructions);
+  const obfuscations = readString(body.obfuscations);
   const protectedIpExclusions = normalizeProtectedIpExclusions(readStringList(body.protectedIpExclusions));
   const demandContext = readStringList(body.demandContext);
 
@@ -309,7 +309,7 @@ export async function POST(request: Request) {
             fullName: repositoryFullName,
             url: `https://github.com/${repositoryFullName}`,
           },
-          depositorInstructions,
+          obfuscations,
           protectedIpExclusions,
           demandContext,
           inventory,
@@ -340,7 +340,7 @@ export async function POST(request: Request) {
           repositoryFullName,
           sourceBranch,
           sourceCommit,
-          depositorInstructions,
+          obfuscations,
           protectedIpExclusions,
           demandContext,
           inventory,
@@ -353,7 +353,7 @@ export async function POST(request: Request) {
         repositoryFullName,
         sourceBranch,
         sourceCommit,
-        depositorInstructions,
+        obfuscations,
         protectedIpExclusions,
         demandContext,
         inventory,
@@ -369,7 +369,7 @@ export async function POST(request: Request) {
         repositoryFullName,
         sourceBranch,
         sourceCommit,
-        depositorInstructions,
+        obfuscations,
         protectedIpExclusions,
         depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
         readingDemandSignals: readSignals(body.readingDemandSignals),

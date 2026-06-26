@@ -128,7 +128,7 @@ async function preprocessDepositMode(processedInput: any, execution: Execution):
   execution.store('pipeline', 'input', processedInput);
   execution.store('pipeline', 'synthesizeMode', 'deposit');
   execution.store('deposit', 'repository', repository);
-  execution.store('deposit', 'instructions', processedInput?.depositorInstructions || null);
+  execution.store('deposit', 'obfuscations', processedInput?.obfuscations || null);
   execution.store('deposit', 'protectedIpExclusions', processedInput?.protectedIpExclusions || []);
   execution.store('deposit', 'demandContext', processedInput?.demandContext || []);
   if (processedInput?.inventory) {

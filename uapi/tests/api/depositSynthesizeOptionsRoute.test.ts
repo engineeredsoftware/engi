@@ -148,7 +148,7 @@ function createRequest(overrides: Record<string, unknown> = {}) {
       repositoryFullName: 'engineeredsoftware/demo-python',
       sourceBranch: 'main',
       sourceCommit: 'abc123',
-      depositorInstructions: 'demo instructions',
+      obfuscations: 'demo instructions',
       protectedIpExclusions: 'secret/',
       ...overrides,
     }),

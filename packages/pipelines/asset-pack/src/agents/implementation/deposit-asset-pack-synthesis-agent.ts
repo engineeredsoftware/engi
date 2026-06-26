@@ -125,7 +125,7 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 export default async function runDepositAssetPackSynthesisAgent(input: any, execution: any) {
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
-  const instructions = input?.instructions ?? findValue(execution, 'deposit', 'instructions') ?? null;
+  const obfuscations = input?.instructions ?? findValue(execution, 'deposit', 'obfuscations') ?? null;
   const protectedIpExclusions =
     input?.protectedIpExclusions ?? findValue(execution, 'deposit', 'protectedIpExclusions') ?? [];
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
@@ -135,7 +135,7 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     {
       ...input,
       repository,
-      instructions,
+      instructions: obfuscations,
       protectedIpExclusions,
       demandContext,
       inventory,

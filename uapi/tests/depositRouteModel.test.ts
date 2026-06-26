@@ -13,7 +13,7 @@ describe('deposit-route-model', () => {
       repositoryFullName: 'engineeredsoftware/ENGI',
       sourceBranch: 'main',
       sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-      depositorInstructions: 'Create bounded source-safe AssetPack options for review.',
+      obfuscations: 'Create bounded source-safe AssetPack options for review.',
       sourcePathHints: ['uapi/app/deposit/DepositPageClient.tsx'],
       sourceCriticalitySignals: [
         {

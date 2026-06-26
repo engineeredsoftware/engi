@@ -19,7 +19,7 @@ export interface DepositOptionSynthesisRequest {
   repositoryFullName?: string | null;
   sourceBranch?: string | null;
   sourceCommit?: string | null;
-  depositorInstructions?: string | null;
+  obfuscations?: string | null;
   sourcePathHints?: string[] | null;
   depositoryDemandSignals?: DepositOptionDemandSignal[] | null;
   readingDemandSignals?: DepositOptionDemandSignal[] | null;
@@ -270,7 +270,7 @@ export function buildDepositAssetPackOptionSynthesis(
   const repositoryFullName = normalizedText(request.repositoryFullName);
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
-  const depositorInstructions = normalizedText(request.depositorInstructions);
+  const obfuscations = normalizedText(request.obfuscations);
   const sourcePathHints = normalizedList(request.sourcePathHints);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
@@ -285,7 +285,7 @@ export function buildDepositAssetPackOptionSynthesis(
     repositoryFullName,
     sourceBranch,
     sourceCommit,
-    depositorInstructionRoot: depositorInstructions ? root('deposit-option-instructions', depositorInstructions) : null,
+    depositorInstructionRoot: obfuscations ? root('deposit-option-instructions', obfuscations) : null,
     sourcePathRoots,
     depositoryDemandSignals,
     readingDemandSignals,
@@ -395,7 +395,7 @@ export function buildDepositAssetPackOptionSynthesis(
       repositoryFullName,
       sourceBranch,
       sourceCommit,
-      depositorInstructionRoot: depositorInstructions ? root('deposit-option-instructions', depositorInstructions) : null,
+      depositorInstructionRoot: obfuscations ? root('deposit-option-instructions', obfuscations) : null,
       sourcePathRoots,
     },
     options,

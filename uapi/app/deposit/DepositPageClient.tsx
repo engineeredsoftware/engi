@@ -132,8 +132,8 @@ export default function DepositPageClient() {
   const [runsLoadError, setRunsLoadError] = useState<string | null>(null);
   const [repositoryContext, setRepositoryContext] =
     useState<TerminalRepositoryContextState | null>(null);
-  const [depositorInstructions, setDepositorInstructions] = useState(
-    "Propose source-safe AssetPack options that are sub-critical to expose after settlement and likely useful for future Reading demand.",
+  const [obfuscations, setObfuscations] = useState(
+    "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.",
   );
   const [sourcePathHintsText, setSourcePathHintsText] = useState(
     [
@@ -428,7 +428,7 @@ export default function DepositPageClient() {
         repositoryContext?.selectedRepository?.fullName || null,
       sourceBranch: repositoryContext?.selectedBranch || null,
       sourceCommit: repositoryContext?.selectedCommit || null,
-      depositorInstructions,
+      obfuscations,
       sourcePathHints,
       depositoryDemandSignals: [
         {
@@ -507,7 +507,7 @@ export default function DepositPageClient() {
       hasDepositoryReadback,
     }),
     [
-      depositorInstructions,
+      obfuscations,
       hasDepositoryReadback,
       hasSubmittedDeposit,
       hasValidGitHubConnection,
@@ -707,7 +707,7 @@ export default function DepositPageClient() {
     const effectiveInstructions =
       typeof instructionsOverride === "string" && instructionsOverride.trim()
         ? instructionsOverride
-        : depositorInstructions;
+        : obfuscations;
     setSynthesisStatus("running");
     setSynthesisError(null);
     // Client-issued run id so the streaming log can tail the execution from
@@ -729,7 +729,7 @@ export default function DepositPageClient() {
             repositoryContext?.selectedRepository?.fullName || null,
           sourceBranch: repositoryContext?.selectedBranch || null,
           sourceCommit: repositoryContext?.selectedCommit || null,
-          depositorInstructions: effectiveInstructions,
+          obfuscations: effectiveInstructions,
           protectedIpExclusions: protectedIpExclusionsText,
           demandContext: [
             ...depositRouteInput.depositoryDemandSignals.map(
@@ -775,7 +775,7 @@ export default function DepositPageClient() {
       );
     }
   }, [
-    depositorInstructions,
+    obfuscations,
     depositRouteInput.depositoryDemandSignals,
     depositRouteInput.existingDepositorySignals,
     depositRouteInput.readingDemandSignals,
@@ -1220,7 +1220,7 @@ export default function DepositPageClient() {
                       Option synthesis
                     </p>
                     <h2 className="mt-2 text-lg font-semibold text-white">
-                      Depositor instruction
+                      Obfuscations
                     </h2>
                   </div>
                   <Sparkles
@@ -1230,12 +1230,12 @@ export default function DepositPageClient() {
                 </div>
                 <label className="mt-4 block">
                   <span className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
-                    Instructions
+                    What to obfuscate or withhold
                   </span>
                   <textarea
-                    value={depositorInstructions}
+                    value={obfuscations}
                     onChange={(event) =>
-                      setDepositorInstructions(event.target.value)
+                      setObfuscations(event.target.value)
                     }
                     className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
@@ -1718,7 +1718,7 @@ export default function DepositPageClient() {
                                   type="button"
                                   onClick={() => {
                                     const trimmed = resynthesisInstructions.trim();
-                                    if (trimmed) setDepositorInstructions(trimmed);
+                                    if (trimmed) setObfuscations(trimmed);
                                     setResynthesisForOptionId(null);
                                     setResynthesisInstructions("");
                                     void handleSynthesizeOptions(

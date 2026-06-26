@@ -160,7 +160,7 @@ describe('deposit lens adapter', () => {
         repositoryFullName: 'engineeredsoftware/demo-python',
         sourceBranch: 'main',
         sourceCommit: 'abc123',
-        depositorInstructions: 'demo',
+        obfuscations: 'demo',
         protectedIpExclusions: ['secret/'],
         createdAt: '2026-06-12T22:00:00.000Z',
       },
