@@ -50,23 +50,15 @@ export function runFinishPhase(deliveryMechanismTemplate: string) {
 export function registerFinishAgentsForType(
   _deliveryMechanismTemplate: string,
   agentRegistry: any,
-  // Both modes will Finish by UPLOADING the synthesized artifacts to Bitcode for
-  // user review (deposit: before admission; read: before purchase). Deposit is
-  // wired now; read keeps its legacy delivery until migrated at gate close
-  // (PR/settlement moves to the future Gate-6 SettleAssetPacks pipeline).
-  mode?: SynthesizeAssetPacksMode,
+  // BOTH synthesis modes Finish by uploading the synthesized artifacts to
+  // Bitcode for user review (deposit: before Depository admission; read: before
+  // purchase). Opening a pull request is NO LONGER part of synthesis — PR /
+  // settlement delivery moves to the future Gate-6 SettleAssetPacks pipeline
+  // (the legacy deliver-asset-pack-to-destination-agent is retained for it).
+  _mode?: SynthesizeAssetPacksMode,
 ): void {
-  if (mode === 'deposit') {
-    agentRegistry.registerAgent('finish:deliver-asset-pack-to-destination-agent', () =>
-      import('../agents/finish/upload-asset-packs-for-review-agent').then(m => m.default),
-    );
-    agentRegistry.registerAgent('finish:asset-pack-completion', () =>
-      import('../agents/finish/asset-pack-completion-agent').then(m => m.default),
-    );
-    return;
-  }
   agentRegistry.registerAgent('finish:deliver-asset-pack-to-destination-agent', () =>
-    import('../agents/finish/deliver-asset-pack-to-destination-agent').then(m => m.default),
+    import('../agents/finish/upload-asset-packs-for-review-agent').then(m => m.default),
   );
   agentRegistry.registerAgent('finish:asset-pack-completion', () =>
     import('../agents/finish/asset-pack-completion-agent').then(m => m.default),

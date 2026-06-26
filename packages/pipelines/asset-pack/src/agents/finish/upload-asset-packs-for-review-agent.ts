@@ -21,6 +21,9 @@ function findValue(execution: any, namespace: string, key: string): any {
 
 export default async function runUploadAssetPacksForReviewAgent(input: any, execution: any) {
   const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
+  // Deposit Implementation stores measured candidate options; read stores
+  // synthesis artifacts. Upload whichever the active mode produced.
+  const options = findValue(execution, 'implementation', 'options') ?? null;
   const artifacts =
     findValue(execution, 'implementation', 'assetPackSynthesisArtifacts') ??
     findValue(execution, 'implementation', 'writtenAssets') ??
@@ -39,6 +42,7 @@ export default async function runUploadAssetPacksForReviewAgent(input: any, exec
     },
     assetPack,
     artifacts,
+    options,
     summary: `Synthesized AssetPacks uploaded to Bitcode for ${mode} review.`,
     sourceSummary,
   };
