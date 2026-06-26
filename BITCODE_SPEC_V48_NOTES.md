@@ -195,8 +195,13 @@ Accepted V48 architecture law (decided 2026-06-25):
 
 AssetPack model (decided 2026-06-25):
 
-- An **AssetPack is a measured patch** — a code patch together with its
-  measurements.
+- An **AssetPack is ALWAYS a completely synthesized artifact** — never a slice of
+  existing source. It comprises: the synthesized **patch** (new content written
+  as code edits to the repo — deposit: the depositing repo; read: the reading
+  repo), its **measurements**, and its **metadata** (e.g., the contributing
+  AssetPacks for a pack synthesized for a Need). Implementation synthesizes the
+  patch into the Setup-cloned workspace (via a code-edit/write tool), measures it,
+  and attaches the metadata; the patch CONTENT is withheld pre-settlement.
 - **Deposit** AssetPacks are "Readless/Needless": patches against the
   **depositing** repo carrying only **absolute** measurements (taken by looking
   at the content directly, independent of any Need). Depositing produces them as
