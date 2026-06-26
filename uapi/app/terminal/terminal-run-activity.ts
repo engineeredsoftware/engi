@@ -88,6 +88,107 @@ function normalizeEventMessage(payload: any) {
   return null;
 }
 
+// ---------------------------------------------------------------------------
+// Formal telemetry log-line contract (V48, QA F19)
+//
+// The rich telemetry renders EXACTLY two formal log-line kinds, plus a few
+// terminal/high-level signals — nothing else:
+//   • LLM call  — the inference leaf. Canonically the Thricified substep output
+//     (`llm/output`, stream type `generation`), whose value carries the full
+//     hierarchy {phase, agent, step, failsafe, generation}. Rendered with all
+//     five pills + source-safe content + provider/model/usage metadata.
+//   • Tool use  — a tool invocation inside a step (`tool/result` on success,
+//     `tool/error` on failure). Carries Phase/Agent/Step (from the rolling
+//     context — tool stores don't embed the hierarchy) + tool name/arguments.
+// Every other store event (step/agent/phase name stores, prompt-side llm keys,
+// `llm/response` registry copies, cwd paths, generation markers, tool sub-keys)
+// is intermediate CONTEXT: it updates the rolling hierarchy but never becomes a
+// row. This is what stops `try` / `setup-plan` / `thricified-generation` / path
+// fragments from fragmenting the log and stabilizes the pipeline↔UI contract.
+// ---------------------------------------------------------------------------
+
+// A null byte separates a row's display text from a unique row key in the
+// `output` string. The renderer splits each line on it: text before, key after.
+// Distinct LLM/tool calls that share withheld text (e.g. two `[content withheld]`
+// reason calls in one step) therefore stay distinct rows instead of collapsing
+// under the renderer's text-keyed de-dup.
+export const TELEMETRY_ROW_KEY_SEP = '\u0000';
+
+interface ExecContext {
+  phase?: string | null;
+  agent?: string | null;
+  step?: string | null;
+  failsafe?: string | null;
+  generation?: string | null;
+}
+
+function readEventExecutionState(payload: any): ExecContext {
+  const es =
+    (payload?.status?.executionState && typeof payload.status.executionState === 'object'
+      ? payload.status.executionState
+      : null) ||
+    (payload?.executionState && typeof payload.executionState === 'object' ? payload.executionState : null) ||
+    {};
+  const data = payload?.data && typeof payload.data === 'object' ? payload.data : {};
+  return {
+    phase: es.phase ?? data.phase ?? null,
+    agent: es.agent ?? data.agent ?? null,
+    step: es.step ?? data.step ?? null,
+    failsafe: es.failsafe ?? data.failsafe ?? null,
+    generation: es.generation ?? data.generation ?? null,
+  };
+}
+
+// Merge a freshly observed context into the rolling one (non-null wins). Name
+// stores (`phase/current`, `agent/name`, `step/name`) and the live-stream
+// `phase`/`agent` transition events carry the hierarchy as a bare value rather
+// than in executionState, so fold those in explicitly.
+function updateRollingContext(ctx: ExecContext, payload: any): void {
+  const es = readEventExecutionState(payload);
+  if (es.phase) ctx.phase = es.phase;
+  if (es.agent) ctx.agent = es.agent;
+  if (es.step) ctx.step = es.step;
+  if (es.failsafe) ctx.failsafe = es.failsafe;
+  if (es.generation) ctx.generation = es.generation;
+
+  const ns = String(payload?.namespace || '');
+  const key = String(payload?.key || '');
+  const value = payload?.data;
+  if (typeof value === 'string') {
+    if (ns === 'phase' && (key === 'current' || key === 'name')) ctx.phase = value;
+    if (ns === 'agent' && key === 'name') ctx.agent = value;
+    if (ns === 'step' && key === 'name') ctx.step = value;
+  }
+  if (payload?.type === 'phase' && payload?.phase) ctx.phase = String(payload.phase);
+  if (payload?.type === 'agent' && payload?.agent) ctx.agent = String(payload.agent);
+}
+
+type FormalLogLineKind = 'llm' | 'tool' | 'signal' | 'status';
+
+function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
+  const type = String(payload?.type || '');
+  const ns = String(payload?.namespace || '');
+  const key = String(payload?.key || '');
+
+  // Formal LLM call: the Thricified substep output is canonical (full hierarchy).
+  if (type === 'generation') return 'llm';
+  if (ns === 'llm' && key === 'output') return 'llm';
+
+  // Formal tool use: one row per completed tool call (result | error).
+  if (type === 'tool-use') return 'tool';
+  if ((ns === 'tool' || ns === 'tools') && (key === 'result' || key === 'error')) return 'tool';
+
+  // Terminal signals — not fragments; keep them as informational rows.
+  if (type === 'completion' || type === 'error') return 'signal';
+
+  // High-level status emitted via emitEvent (no store namespace), e.g. "Pipeline
+  // execution started". onStore fragment status events always carry a namespace
+  // and are suppressed (context only).
+  if (type === 'status' && !ns) return 'status';
+
+  return null;
+}
+
 export function buildTerminalRunActivityFromEvents(
   events: ExecutionEvent[],
   latestWorkUpdate: any | null,
@@ -110,6 +211,33 @@ export function buildTerminalRunActivityFromEvents(
     }
   }
 
+  // Rolling hierarchy + per-tool-node accumulators drive the formal log-line
+  // contract: only LLM calls and Tool uses (plus terminal/high-level signals)
+  // become rows; every other event just advances the rolling context.
+  const rollingContext: ExecContext = {};
+  const toolByNode = new Map<string, { name?: string; input?: unknown }>();
+  let rowSeq = 0;
+
+  const pushRow = (displayText: string, enriched: any) => {
+    const text = toSafeSingleLine(displayText);
+    if (!text) return;
+    // Unique key keeps distinct LLM/tool calls from collapsing under the
+    // renderer's text-keyed de-dup; the renderer strips everything from the
+    // separator on for display.
+    const rowKey = `${text}${TELEMETRY_ROW_KEY_SEP}${rowSeq++}`;
+    outputLines.push(rowKey);
+    outputDetails[rowKey] = enriched;
+  };
+
+  const stampExecutionState = (state: ExecContext, payload: any, extra?: Record<string, unknown>) => ({
+    ...payload,
+    executionState: { ...state, ...(extra || {}) },
+    status: {
+      ...(payload?.status && typeof payload.status === 'object' ? payload.status : {}),
+      executionState: { ...state, ...(extra || {}) },
+    },
+  });
+
   for (const entry of events) {
     const payload = entry.event || {};
     if (payload?.type === 'work-update' && payload.update) {
@@ -119,12 +247,71 @@ export function buildTerminalRunActivityFromEvents(
       continue;
     }
 
+    // Every event advances the rolling hierarchy before we decide whether it is
+    // itself a formal log line.
+    updateRollingContext(rollingContext, payload);
+
+    // Accumulate tool name/arguments per tool-execution node so the eventual
+    // result/error row can render the complete tool-use line.
+    const ns = String(payload?.namespace || '');
+    const key = String(payload?.key || '');
+    const nodeId = String(payload?.executionNodeId || '');
+    if ((ns === 'tool' || ns === 'tools') && nodeId) {
+      if (key === 'name' && typeof payload?.data === 'string') {
+        const acc = toolByNode.get(nodeId) || {};
+        acc.name = payload.data;
+        toolByNode.set(nodeId, acc);
+      } else if (key === 'input' || key === 'arguments') {
+        const acc = toolByNode.get(nodeId) || {};
+        acc.input = payload?.data ?? null;
+        toolByNode.set(nodeId, acc);
+      }
+    }
+
+    const kind = classifyFormalLogLine(payload);
+    if (!kind) continue;
+
+    if (kind === 'llm') {
+      // The LLM call carries the full hierarchy itself; fall back to the rolling
+      // context only for any field the event omits.
+      const own = readEventExecutionState(payload);
+      const merged: ExecContext = {
+        phase: own.phase ?? rollingContext.phase ?? null,
+        agent: own.agent ?? rollingContext.agent ?? null,
+        step: own.step ?? rollingContext.step ?? null,
+        failsafe: own.failsafe ?? null,
+        generation: own.generation ?? null,
+      };
+      const text = String(payload?.message || payload?.status?.message || '[content withheld — source-safe]');
+      pushRow(text, stampExecutionState(merged, { ...payload, type: 'generation' }));
+      continue;
+    }
+
+    if (kind === 'tool') {
+      const acc = toolByNode.get(nodeId) || {};
+      const toolName =
+        acc.name || payload?.data?.tool || payload?.metadata?.toolName || (key === 'error' ? 'tool (failed)' : 'tool');
+      // Tool uses have Phase/Agent/Step but no Failsafe/Thricified.
+      const merged: ExecContext = {
+        phase: rollingContext.phase ?? null,
+        agent: rollingContext.agent ?? null,
+        step: rollingContext.step ?? null,
+      };
+      const enriched = stampExecutionState(merged, { ...payload, type: 'tool-use' }, { tool: toolName });
+      enriched.metadata = {
+        ...(payload?.metadata && typeof payload.metadata === 'object' ? payload.metadata : {}),
+        toolName,
+        toolInput: acc.input ?? null,
+      };
+      pushRow(toolName, enriched);
+      if (nodeId) toolByNode.delete(nodeId);
+      continue;
+    }
+
+    // Terminal/high-level signal — keep as an informational row.
     const normalized = normalizeEventMessage(payload);
     if (!normalized) continue;
-    const safeText = toSafeSingleLine(normalized.text);
-    if (!safeText) continue;
-    outputLines.push(safeText);
-    outputDetails[safeText] = payload;
+    pushRow(normalized.text, payload);
   }
 
   const latestStatusEvent = statusEvents[statusEvents.length - 1];

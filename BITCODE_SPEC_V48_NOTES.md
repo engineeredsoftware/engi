@@ -201,6 +201,23 @@ Accepted V48 architecture law (decided 2026-06-25):
   row, never fragmented by embedded newlines) and the log row title spans carry
   `min-w-0` so a long line truncates within its row rather than x-overflowing the
   page (QA F18).
+- **Formal telemetry log-line contract** (QA F19): the rich telemetry renders
+  EXACTLY two formal log-line kinds, plus a few terminal/high-level signals —
+  nothing else. (1) **LLM calls** — the inference leaf, canonically the Thricified
+  substep output (`llm/output`, stream type `generation`), carrying the full
+  hierarchy Phase→Agent→Step→Failsafe→Thricified + source-safe content +
+  provider/model/usage, each level its own pill. (2) **Tool uses** —
+  `tool|tools:result|error`, carrying Phase→Agent→Step + tool name/arguments (no
+  Failsafe/Thricified). Every other store event (step/agent/phase name stores,
+  prompt-side llm keys, the `llm/response` registry copy, cwd paths, generation
+  markers, tool sub-keys) is intermediate CONTEXT: the activity builder folds it
+  into a rolling `{phase, agent, step, failsafe, generation}` context (so the next
+  LLM/tool row is stamped with its full hierarchy) but never emits it as a row.
+  Distinct calls that share withheld text stay distinct rows via a unique
+  null-separated row key; the renderer displays the text before the separator,
+  keys details by the full key, and bypasses de-dup for uniquely-keyed rows. This
+  is what removes the `try`/`setup-plan`/`thricified-generation`/path fragments
+  and stabilizes the pipeline↔UI payload contract.
 - **OTF (on-the-fly instructions) is eradicated entirely** as legacy residue:
   the dead telemetry types (`otf_instructions`/`otf_adherence`), the unused
   `setOnTheFly` prompt primitive, the live instruction-injection feature (the

@@ -463,8 +463,15 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
     // Process each line
     lines.forEach(line => {
-      const logLine: LogLine & { type?: string } = { text: line } as any;
-      const storedChunk = outputDetails?.[line.trim()];
+      // A row key may carry a unique suffix after a null separator (so distinct
+      // LLM/tool calls with identical withheld text never collapse under the
+      // text-keyed de-dup). Display only the text before the separator; look up
+      // details by the full key.
+      const sepIdx = line.indexOf('\u0000');
+      const displayText = sepIdx >= 0 ? line.slice(0, sepIdx) : line;
+      const logLine: LogLine & { type?: string } = { text: displayText } as any;
+      const storedChunk =
+        outputDetails?.[line] ?? outputDetails?.[line.trim()] ?? outputDetails?.[displayText.trim()];
 
       // Preserve canonical stream message `type` if available for colour-coding
       if (storedChunk?.type) {
@@ -477,7 +484,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         logLine.type = 'reading-telemetry';
       } else {
         // Heuristic fallback when mock data lacks explicit type
-        const lower = line.toLowerCase();
+        const lower = displayText.toLowerCase();
         if (lower.includes('thinking')) logLine.type = 'thinking';
         else if (lower.includes('tool')) logLine.type = 'tool-use';
         else if (lower.includes('ai call') || lower.includes('(ai') || lower.includes('generation')) logLine.type = 'generation';
@@ -512,7 +519,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         }
 
         // Try to extract iteration from the line or metadata
-        const iterationMatch = line.match(/iteration[:\s]*(\d+)/i);
+        const iterationMatch = displayText.match(/iteration[:\s]*(\d+)/i);
         if (iterationMatch) {
           logLine.iteration = parseInt(iterationMatch[1], 10);
         } else if (storedChunk.status?.metadata?.iteration) {
@@ -532,28 +539,28 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       }
 
       // Clean up the log line text - remove any timestamp suffixes
-      const textParts = line.split('_');
+      const textParts = displayText.split('_');
       if (textParts.length > 1 && /^\d+$/.test(textParts[textParts.length - 1])) {
         // Remove timestamp suffix
         logLine.text = textParts.slice(0, -1).join('_');
       }
 
       // Determine line type
-      logLine.isError = line.toLowerCase().includes('error') ||
+      logLine.isError = displayText.toLowerCase().includes('error') ||
         (storedChunk?.status?.progress === 'error') ||
         storedChunk?.progress === 'blocked' ||
         storedChunk?.progress === 'repair-required';
-      logLine.isSuccess = line.toLowerCase().includes('success') ||
-        line.toLowerCase().includes('completed') ||
+      logLine.isSuccess = displayText.toLowerCase().includes('success') ||
+        displayText.toLowerCase().includes('completed') ||
         (storedChunk?.status?.progress === 'success') ||
         storedChunk?.progress === 'completed';
-      logLine.isInfo = line.toLowerCase().includes('info') ||
-        line.toLowerCase().includes('processing') ||
+      logLine.isInfo = displayText.toLowerCase().includes('info') ||
+        displayText.toLowerCase().includes('processing') ||
         (storedChunk?.status?.progress === 'in-progress') ||
         storedChunk?.progress === 'running' ||
         storedChunk?.progress === 'planned';
-      logLine.isComplete = line.toLowerCase().includes('complete') ||
-        line.toLowerCase().includes('completed') ||
+      logLine.isComplete = displayText.toLowerCase().includes('complete') ||
+        displayText.toLowerCase().includes('completed') ||
         (storedChunk?.status?.progress === 'success');
 
       // If phase is not specified, try to infer from the line text or stored chunk
@@ -565,7 +572,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         } else {
           // Then try to infer from text
           for (const phase of PHASES) {
-            if (line.includes(phase)) {
+            if (displayText.includes(phase)) {
               logLine.phase = phase;
               break;
             }
@@ -579,8 +586,11 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       // Add to the appropriate phase group
       const phaseGroup = phaseGroups.get(phase);
       if (phaseGroup) {
-        // Check for duplicate messages - only add if unique
-        const isDuplicate = phaseGroup.lines.some(existingLine => {
+        // Uniquely-keyed rows (separator-suffixed by the activity builder) are
+        // distinct formal log lines — distinct LLM/tool calls can share withheld
+        // text, so they must never be de-duped. Only legacy text-only lines fall
+        // through to message de-dup.
+        const isDuplicate = sepIdx < 0 && phaseGroup.lines.some(existingLine => {
           return existingLine.text === logLine.text &&
             existingLine.agent === logLine.agent &&
             existingLine.step === logLine.step &&
