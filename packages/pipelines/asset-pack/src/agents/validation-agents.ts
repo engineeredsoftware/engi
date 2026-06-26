@@ -207,7 +207,6 @@ export async function AssetPackValidationReadyToFinishAgent(
   };
   try {
     execution?.store?.('validation', 'readyToFinish', output);
-    execution?.store?.('validation', 'selfInstruction', { confidence: output.overallConfidence });
   } catch {}
   return output;
 }
@@ -250,11 +249,6 @@ export function registerValidationAgentsForType(
       try { execution.store('validation/implementation', 'issues', issues); } catch {}
       return { issues };
     }
-  );
-
-  agentRegistry.registerAgent(
-    'validation:asset-pack-ready-to-instruct',
-    () => import('./validation/asset-pack-ready-to-instruct-agent').then(m => m.default)
   );
 
   agentRegistry.registerAgent(

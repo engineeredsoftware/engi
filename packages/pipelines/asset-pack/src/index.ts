@@ -349,27 +349,7 @@ function factoryPreprocess(): Executor<any, any> {
 function factoryIterationPreprocess(): Executor<any, any> {
   return async (input, execution) => {
     // Apply gate preprocessing for each iteration
-    const processedInput = gatePreprocess(input, execution);
-
-    // Fetch latest instructions
-    const { supabaseAdmin } = await import('@bitcode/supabase');
-    const { data: instructions } = await supabaseAdmin
-      .from('instructions')
-      .select('*')
-      .eq('execution_id', execution.id)
-      .order('created_at', { ascending: true });
-
-    if (instructions?.length) {
-      const normalizedInstructions = instructions.map((i: any) => ({
-        id: i.id,
-        createdAt: i.created_at,
-        content: i.content,
-      }));
-      execution.store('instructions', 'list', normalizedInstructions);
-      input.userInstructions = normalizedInstructions.map((i: any) => {
-        try { return JSON.parse(i.content); } catch { return { text: i.content }; }
-      });
-    }
+    gatePreprocess(input, execution);
 
     // Process attachments
     const attachments = execution.get('attachments', 'list') || [];
@@ -386,7 +366,6 @@ function factoryIterationPreprocess(): Executor<any, any> {
     execution.store('pipeline', `iteration:${iter}`, {
       preprocessedAt: new Date().toISOString(),
       attachmentCount: Array.isArray(attachments) ? attachments.length : 0,
-      instructionCount: Array.isArray(input.userInstructions) ? input.userInstructions.length : 0,
     });
 
     return input;

@@ -90,29 +90,11 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
   //  - validation/discovery:issues
   //  - validation/implementation:issues
   // The final ReadyToFinish agent reads from these stores to decide.
-  // Sequential: validators -> ready-to-instruct -> wait (if needed) -> ReadyToFinish
-  const readyToInstruct = createAgentExecutor('validation:asset-pack-ready-to-instruct');
+  // Sequential: validators -> ReadyToFinish
   const readyToFinish = createAgentExecutor('validation:asset-pack-ready-to-finish-agent');
-
-  // Wait for instruction if confidence < threshold
-  const waitIfNeeded = async (input: any, exec: any) => {
-    const selfInstruct = exec.get('validation', 'selfInstruction');
-
-    if (selfInstruct && selfInstruct.confidence < 0.8) {
-      const { waitForInstruction } = await import('@bitcode/pipelines-generics');
-
-      return waitForInstruction({
-        confidence: selfInstruct.confidence
-      })(input, exec);
-    }
-
-    return input;  // High confidence, proceed immediately
-  };
 
   const exec: Executor<any, any> = sequential(
     parallelValidators as any,
-    readyToInstruct,  // Generates selfInstructConfidence
-    waitIfNeeded,     // Pauses if confidence < 0.8
     readyToFinish     // Final go/no-go before Finish
   );
   return await exec(input, execution);
