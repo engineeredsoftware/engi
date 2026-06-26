@@ -1424,7 +1424,7 @@ export default function DepositPageClient() {
                     <article
                       key={option.optionId}
                       data-testid={`deposit-option-${option.kind}`}
-                      className={`grid gap-4 border px-4 py-4 ${
+                      className={`grid min-w-0 gap-4 border px-4 py-4 ${
                         reviewed
                           ? "border-emerald-300/38 bg-emerald-300/10"
                           : "border-white/10 bg-black/20"
@@ -1480,7 +1480,7 @@ export default function DepositPageClient() {
                                 Covered source (
                                 {projection.coveredSourcePaths.length} paths)
                               </summary>
-                              <ul className="mt-1 max-h-32 overflow-y-auto font-mono">
+                              <ul className="mt-1 max-h-32 overflow-y-auto break-all font-mono">
                                 {projection.coveredSourcePaths.map((path) => (
                                   <li key={path}>{path}</li>
                                 ))}

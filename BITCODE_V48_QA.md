@@ -171,6 +171,13 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 
 - Environment note (by design, not a finding): `www.bitcode.exchange` and localhost both point at the staging-testnet Supabase project — the testnet launch IS the production deployment. QA users/data therefore land in live data; keep QA to dedicated testnet wallets.
 
+### F17 — Synthesized AssetPack option cards overflow into the right panel; per-option action buttons overlap
+
+- Severity: low (Gate 3 deposit review UX)
+- Observed (2026-06-26): on `/deposit`, synthesized AssetPack option cards overflow their column rightward into the 380px telemetry/activity panel, visually x-overlapping the per-option action buttons (Select for deposit / Archive / Resynthesize) with the right column.
+- Cause: the option `<article>` (a grid item in the `xl:grid-cols-3` options grid) lacked `min-w-0`, and the `font-mono` covered-source-paths list lacked `break-all`, so a card with long unbreakable mono content refused to shrink below its content's min-content width and overflowed the `minmax(0,1.45fr)` left column.
+- Repair (2026-06-26, `DepositPageClient.tsx`): `min-w-0` on the option card + `break-all` on the covered-paths list (the Option-roots `<dd>` already wrapped). The card now shrinks to its grid column and long paths/roots wrap rather than forcing overflow.
+
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
 
 - [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`. Re-verified from fully nuked state (purged user + cleared site data): created 19:29:21 → session 19:29:25 → binding auto-written 19:29:29 by the bridge on `/packs` mount with no Auxillaries visit; UI consistent across nav, Wallet, and Profile panes.
