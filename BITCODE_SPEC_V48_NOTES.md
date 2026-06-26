@@ -193,22 +193,59 @@ Accepted V48 architecture law (decided 2026-06-25):
   `waitForInstruction` Validation-phase pause), and the physical
   `deliverable_pipeline_otf_instructions` table (drop migration).
 
-Open specification decisions (Gate 3, pending Garrett — recorded here so
-implementation stays reproducible from spec):
+AssetPack model (decided 2026-06-25):
 
-- **The nature of a deposit AssetPack.** Implementation currently emits measured,
-  source-safe candidate options (kind/title/summary/coveredSourcePaths/
-  measurements/rationale/confidence) the depositor reviews. Garrett's "the
-  AssetPacks (patches) new contents actually get written as code edits" implies
-  the AssetPack content is synthesized code — to be reconciled: measured
-  candidate metadata only, an actual synthesized patch, or the candidate-now
-  with patch content materialized on admission.
-- **Deposit Discovery shape.** Reuse the five read discovery agents with
-  deposit-lensed prompts, or a deposit-specific exploration set, and what each
-  produces for the deposit Implementation.
-- **Deposit Validation.** The specific synthesis-quality checks and the
-  iterate-vs-complete (DIV-loop) criteria for deposit.
-- **The deposit danger-wall** admission checks.
+- An **AssetPack is a measured patch** — a code patch together with its
+  measurements.
+- **Deposit** AssetPacks are "Readless/Needless": patches against the
+  **depositing** repo carrying only **absolute** measurements (taken by looking
+  at the content directly, independent of any Need). Depositing produces them as
+  Depository supply.
+- **Read** AssetPacks are patches against the **reading** repo, synthesized from
+  the deposited AssetPacks that fit-finding selects from the Depository (the
+  deposited packs are the synthesis input). A read AssetPack carries the absolute
+  measurements PLUS the **fit** measurements (how well the pack fits the read
+  Need). Its **BTD** — what is bought for Bitcoin — is the **normalized scalar
+  weighted sum of all fit-only measurements**; the reader's Need unlocks the
+  additional fit measurements that finalize the pack's BTD content.
+- The first technical measurement schemas and the BTD computation are grounded in
+  the protocol demonstration (`protocol-demonstration/`) and the initial
+  commercial measurement work; Gate 3 reuses those, not invented parallel
+  schemas.
+
+Lens inputs (decided 2026-06-25): the single-prompt user input is
+**Obfuscations** when depositing (what to obfuscate/withhold — supersedes the
+"depositor instructions" naming) and a **Need** when reading. Depositing and
+reading run ~the same agents; the lens carries the variance by adding the Need
+(read) or the Obfuscations (deposit).
+
+The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
+
+- **Setup**: clone the repository, danger-wall (risk admission), and
+  **input-comprehension** (comprehend the Need when reading / the Obfuscations
+  when depositing).
+- **Discovery** — three agents discovering from the codebase, the Depository, and
+  the model itself respectively, for the synthesis lens:
+  - `discovery:codebase-comprehension` — comprehends the cloned source.
+  - `discovery:depository-search` — deposit: guides likely-to-be-read framing for
+    the packs being synthesized; read: finds the deposited AssetPacks from the
+    Depository that fit (will help synthesize the read AssetPack).
+  - `discovery:inherent-regurgitation` — the model returns, from its training
+    data, any and all information useful to the deposit/read synthesis.
+- **Implementation**: synthesize the AssetPack patch(es) with their absolute
+  measurements (read additionally computes the fit measurements and the BTD).
+- **Validation**: quality thresholds, coverage/corrections/fixes, and AssetPack
+  smoke/sanity checks; the Discovery/Implementation/Validation loop iterates until
+  complete or maxIterations.
+- **Finish**: upload the synthesized AssetPack(s) to Bitcode for review.
+
+Implementation status vs this model (Gate-3 build-down list): the deposit
+Implementation currently emits measured candidate OPTIONS (metadata), not yet the
+measured PATCH carrying the absolute-measurement schemas; Discovery still runs the
+legacy five read agents, not the canonical three; the deposit input is still
+"instructions", not Obfuscations; Setup lacks input-comprehension. These are now
+specified and become the remaining Gate-3 implementation. The measurement-schema
+and BTD-computation grounding is to be drawn from `protocol-demonstration/`.
 
 ## Non-goals during V48 opening
 
