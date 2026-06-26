@@ -39,8 +39,12 @@ describe('terminal-run-activity helpers', () => {
       null,
     );
 
-    expect(snapshot.output).toContain('Preparing run');
-    expect(snapshot.output).toContain('[completion]');
+    // Only the LLM-call layer becomes a row; informational status and the
+    // completion notice are dropped from the log (surfaced via the processing
+    // indicator / executionState / isStreamingComplete instead).
+    expect(snapshot.output).toContain('Model call completed');
+    expect(snapshot.output).not.toContain('Preparing run');
+    expect(snapshot.output).not.toContain('[completion]');
     expect(snapshot.executionState.phase).toBe('Discovery');
     expect(snapshot.isStreamingComplete).toBe(true);
     expect(snapshot.generationCount).toBe(1);

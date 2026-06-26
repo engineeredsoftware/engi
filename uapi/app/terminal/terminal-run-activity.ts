@@ -54,40 +54,6 @@ function toSafeSingleLine(value: string): string {
     : collapsed;
 }
 
-function normalizeEventMessage(payload: any) {
-  if (!payload || typeof payload !== 'object') return null;
-
-  if (payload?.status?.message) {
-    return { text: String(payload.status.message), key: `status:${String(payload.status.message)}` };
-  }
-
-  if (payload?.message) {
-    return { text: String(payload.message), key: `message:${String(payload.message)}` };
-  }
-
-  if (payload?.type === 'pipeline') {
-    return { text: `[pipeline:${payload.status}]`, key: `pipeline:${payload.status}:${payload.timestamp || ''}` };
-  }
-
-  if (payload?.type === 'phase') {
-    return { text: `[phase:${payload.status}] ${payload.phase}`, key: `phase:${payload.phase}:${payload.status}:${payload.timestamp || ''}` };
-  }
-
-  if (payload?.type === 'agent') {
-    return { text: `[agent:${payload.status}] ${payload.agent}`, key: `agent:${payload.agent}:${payload.status}:${payload.timestamp || ''}` };
-  }
-
-  if (payload?.type === 'error') {
-    return { text: `[error] ${payload.error || payload.message || 'Unknown error'}`, key: `error:${payload.error || payload.message || ''}:${payload.timestamp || ''}` };
-  }
-
-  if (payload?.type === 'completion') {
-    return { text: '[completion]', key: `completion:${payload.timestamp || ''}` };
-  }
-
-  return null;
-}
-
 // ---------------------------------------------------------------------------
 // Formal telemetry log-line contract (V48, QA F19)
 //
@@ -163,12 +129,19 @@ function updateRollingContext(ctx: ExecContext, payload: any): void {
   if (payload?.type === 'agent' && payload?.agent) ctx.agent = String(payload.agent);
 }
 
-type FormalLogLineKind = 'llm' | 'tool' | 'signal' | 'status';
+type FormalLogLineKind = 'llm' | 'tool';
 
 function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   const type = String(payload?.type || '');
   const ns = String(payload?.namespace || '');
   const key = String(payload?.key || '');
+
+  // The rich telemetry renders ONLY the ultimate LLM-call layer and Tool uses —
+  // each with its complete hierarchy (LLM: Phase/Agent/Step/Failsafe/Thricified;
+  // Tool: Phase/Agent/Step + tool). Everything else (informational status, phase
+  // banners, completion/error notices) advances the rolling context but never
+  // becomes a row; run completion is surfaced by the processing indicator and
+  // errors by the log's error banner, not by accordion rows.
 
   // Formal LLM call: the Thricified substep output is canonical (full hierarchy).
   if (type === 'generation') return 'llm';
@@ -177,14 +150,6 @@ function classifyFormalLogLine(payload: any): FormalLogLineKind | null {
   // Formal tool use: one row per completed tool call (result | error).
   if (type === 'tool-use') return 'tool';
   if ((ns === 'tool' || ns === 'tools') && (key === 'result' || key === 'error')) return 'tool';
-
-  // Terminal signals — not fragments; keep them as informational rows.
-  if (type === 'completion' || type === 'error') return 'signal';
-
-  // High-level status emitted via emitEvent (no store namespace), e.g. "Pipeline
-  // execution started". onStore fragment status events always carry a namespace
-  // and are suppressed (context only).
-  if (type === 'status' && !ns) return 'status';
 
   return null;
 }
@@ -307,11 +272,6 @@ export function buildTerminalRunActivityFromEvents(
       if (nodeId) toolByNode.delete(nodeId);
       continue;
     }
-
-    // Terminal/high-level signal — keep as an informational row.
-    const normalized = normalizeEventMessage(payload);
-    if (!normalized) continue;
-    pushRow(normalized.text, payload);
   }
 
   const latestStatusEvent = statusEvents[statusEvents.length - 1];

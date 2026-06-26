@@ -208,13 +208,18 @@ Accepted V48 architecture law (decided 2026-06-25):
   `min-w-0` so a long line truncates within its row rather than x-overflowing the
   page (QA F18).
 - **Formal telemetry log-line contract** (QA F19): the rich telemetry renders
-  EXACTLY two formal log-line kinds, plus a few terminal/high-level signals —
-  nothing else. (1) **LLM calls** — the inference leaf, canonically the Thricified
-  substep output (`llm/output`, stream type `generation`), carrying the full
-  hierarchy Phase→Agent→Step→Failsafe→Thricified + source-safe content +
+  EXACTLY two formal log-line kinds — the ultimate LLM-call layer and Tool uses,
+  nothing else (informational status, phase banners, and completion/error notices
+  are NOT rows: run completion shows via the processing indicator and errors via
+  the log's error banner). (1) **LLM calls** — the inference leaf, canonically the
+  Thricified substep output (`llm/output`, stream type `generation`), carrying the
+  full hierarchy Phase→Agent→Step→Failsafe→Thricified + source-safe content +
   provider/model/usage, each level its own pill. (2) **Tool uses** —
   `tool|tools:result|error`, carrying Phase→Agent→Step + tool name/arguments (no
-  Failsafe/Thricified). Every other store event (step/agent/phase name stores,
+  Failsafe/Thricified). Pills map by fixed role: Phase (grey, phase icon) top-left,
+  Agent (blue, agent icon) top-2nd; Step / Failsafe / Thricified bottom 1-2-3, each
+  with a guaranteed icon (per-type default refined by a label substring match).
+  Every other store event (step/agent/phase name stores,
   prompt-side llm keys, the `llm/response` registry copy, cwd paths, generation
   markers, tool sub-keys) is intermediate CONTEXT: the activity builder folds it
   into a rolling `{phase, agent, step, failsafe, generation}` context (so the next
