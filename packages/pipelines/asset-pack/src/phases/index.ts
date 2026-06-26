@@ -44,13 +44,19 @@ export const setupPhase = assetPackSetupPhaseExecutor as unknown as PhaseDelegat
 export const discoveryPhase: PhaseDelegator<SetupOutput, DiscoveryOutput> = (async (input: AssetPackInput, execution: any) => {
   const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
   try { registerDiscoveryAgents((execution as any).agents, mode); } catch {}
-  const exec: Executor<any, any> = sequential(
-    createAgentExecutor('discovery:gather-context'),
-    createAgentExecutor('discovery:understand-requirements'),
-    createAgentExecutor('discovery:research-approach'),
-    createAgentExecutor('discovery:plan-implementation'),
-    createAgentExecutor('discovery:assess-complexity')
-  );
+  const exec: Executor<any, any> = mode === 'deposit'
+    ? sequential(
+        createAgentExecutor('discovery:codebase-comprehension'),
+        createAgentExecutor('discovery:depository-search'),
+        createAgentExecutor('discovery:inherent-regurgitation')
+      )
+    : sequential(
+        createAgentExecutor('discovery:gather-context'),
+        createAgentExecutor('discovery:understand-requirements'),
+        createAgentExecutor('discovery:research-approach'),
+        createAgentExecutor('discovery:plan-implementation'),
+        createAgentExecutor('discovery:assess-complexity')
+      );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<SetupOutput, DiscoveryOutput>;
 

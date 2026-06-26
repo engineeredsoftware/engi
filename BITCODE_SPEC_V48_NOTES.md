@@ -253,6 +253,11 @@ The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
     Depository that fit (will help synthesize the read AssetPack).
   - `discovery:inherent-regurgitation` — the model returns, from its training
     data, any and all information useful to the deposit/read synthesis.
+  - Deposit stores each agent's comprehension for the Implementation phase:
+    `discovery:codebaseComprehension` (capabilities / knowledge-areas / modules),
+    `discovery:depositorySearch` (likely-read topics / demand-alignment /
+    readability), `discovery:inherentRegurgitation` (relevant knowledge / patterns
+    / references).
 - **Implementation**: synthesize the AssetPack patch(es) with their absolute
   measurements (read additionally computes the fit measurements and the BTD).
 - **Validation**: quality thresholds, coverage/corrections/fixes, and AssetPack

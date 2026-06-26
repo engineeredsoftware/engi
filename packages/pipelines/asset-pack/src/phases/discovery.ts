@@ -40,9 +40,22 @@ export const runDiscoveryPhase = createPhaseRunner(discoveryPhaseConfig);
  */
 export function registerDiscoveryAgents(
   agentRegistry: any,
-  // mode drives conditional runtime registration; deposit-specific discovery
-  // (exploration) variants register here in a later chunk. Read = default.
-  _mode?: SynthesizeAssetPacksMode,
+  // mode drives conditional runtime registration; deposit-mode discovery explores
+  // the depositor repository through three lenses (codebase / depository / model).
+  // Read = default (the canonical 5-agent discovery sequence).
+  mode?: SynthesizeAssetPacksMode,
 ): void {
+  if (mode === 'deposit') {
+    agentRegistry.registerAgent('discovery:codebase-comprehension', () =>
+      import('../agents/discovery/deposit-codebase-comprehension-agent').then(m => m.default),
+    );
+    agentRegistry.registerAgent('discovery:depository-search', () =>
+      import('../agents/discovery/deposit-depository-search-agent').then(m => m.default),
+    );
+    agentRegistry.registerAgent('discovery:inherent-regurgitation', () =>
+      import('../agents/discovery/deposit-inherent-regurgitation-agent').then(m => m.default),
+    );
+    return;
+  }
   registerCanonicalDiscoveryAgents(agentRegistry);
 }
