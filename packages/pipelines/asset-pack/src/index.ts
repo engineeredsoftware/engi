@@ -402,7 +402,9 @@ function factoryPostprocess(): Executor<any, any> {
   };
 }
 
-function factoryDevelopPhase(): Executor<any, any> {
+function factorySynthesizeAssetPacksPipeline(
+  pipelineName: string = 'synthesize-asset-packs',
+): Executor<any, any> {
   const maxIterations = 3;
   const setupPhase: Executor<any, any> = async (input, execution) => {
     const isTest = String(process?.env?.NODE_ENV || '').toLowerCase() === 'test';
@@ -454,7 +456,7 @@ function factoryDevelopPhase(): Executor<any, any> {
     return assetPackPhases.finish(input, execution);
   };
 
-  const developExecutor = factorySDIVFExecutorPipeline('develop', {
+  const developExecutor = factorySDIVFExecutorPipeline(pipelineName, {
     preprocess: factoryPreprocess(),
     setup: setupPhase,
     discovery: discoveryPhase,
@@ -470,6 +472,16 @@ function factoryDevelopPhase(): Executor<any, any> {
     await initializeAssetPackPipeline(execution as any);
     return developExecutor(input, execution);
   };
+}
+
+/**
+ * Legacy alias: the Design/Develop/Digest "Develop" gate is the same SDIVF
+ * synthesis under its old (poorly-named) name. Kept so the DDD router + its
+ * observability (phase ids `develop.*`) are unchanged while the canonical
+ * deposit/read entry runs as `synthesize-asset-packs`.
+ */
+function factoryDevelopPhase(): Executor<any, any> {
+  return factorySynthesizeAssetPacksPipeline('develop');
 }
 
 // ==================== DDD GATE ROUTER ====================
@@ -497,7 +509,7 @@ export const assetPackPipeline: Executor<any, any> = createGuidedPipelineExecuti
  * run it. `assetPackPipeline` above remains the legacy Design/Develop/Digest
  * gate router whose Develop gate is this same SDIVF synthesis.
  */
-export const synthesizeAssetPacksPipeline: Executor<any, any> = factoryDevelopPhase();
+export const synthesizeAssetPacksPipeline: Executor<any, any> = factorySynthesizeAssetPacksPipeline();
 
 // ==================== EXPORTS ====================
 
