@@ -260,6 +260,16 @@ The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
     / references).
 - **Implementation**: synthesize the AssetPack patch(es) with their absolute
   measurements (read additionally computes the fit measurements and the BTD).
+  Each candidate is a measured patch — the measured option fields plus a
+  SOURCE-SAFE patch descriptor (`fileChanges` [path + change-op] and a
+  natural-language `patchSummary`), recorded via the `AssetPackPatchWriteTool`
+  (a formal `ExecutionTool`) which the synthesis agent reads from the Discovery
+  stores (`discovery:codebaseComprehension` / `:depositorySearch` /
+  `:inherentRegurgitation`) and the obfuscation comprehension. Pre-settlement the
+  RAW patch content is never produced — only the descriptor + measurements are
+  reviewable (stored at `implementation:assetPacks`; the reviewable face at
+  `implementation:options`). Physical materialization of the raw content into the
+  cloned workspace is the delivery/settlement context.
 - **Validation**: quality thresholds, coverage/corrections/fixes, and AssetPack
   smoke/sanity checks; the Discovery/Implementation/Validation loop iterates until
   complete or maxIterations.
