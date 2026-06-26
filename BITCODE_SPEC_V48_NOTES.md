@@ -132,6 +132,84 @@ Accepted V48 architecture law (decided 2026-06-12):
   work (rule accepted 2026-06-12), with the dedicated F8 sweep retiring the
   remainder.
 
+## V48 Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness, and the SynthesizeAssetPacks SDIVF unification
+
+Gate 3 (branch `v48/gate-3-synthesis-pipeline-correctness`) is the synthesis
+pipeline correctness gate, driven by interactive QA of the deposit synthesis
+telemetry. It pursues both algorithmic correctness (the pipeline runs on the
+real Bitcode execution/agent/prompt primitives rather than a hand-rolled
+inference loop) and telemetric correctness (every LLM call renders decipherably
+in the rich SDIVF telemetry), and in doing so unifies and formalizes the
+pipeline.
+
+Accepted V48 architecture law (decided 2026-06-25):
+
+- The Gate-2 AssetPacksSynthesis measurement core is generalized into the
+  one-and-only Bitcode synthesis pipeline: **SynthesizeAssetPacks** — a full
+  **SDIVF** pipeline (Setup -> Discovery -> Implementation -> Validation ->
+  Finish, with the Discovery/Implementation/Validation loop iterating up to a
+  bounded maxIterations) executed in one of two **modes**: deposit or read.
+  The mode is resolved once in preprocess and stored on the execution; all
+  variance is carried by **conditional runtime registries** — each phase
+  registers and resolves the mode-appropriate agents, tools, and prompts under
+  the same phase keys. Renamed SynthesizeAssetPacks for parity with the future
+  Gate-6 **SettleAssetPacks** pipeline; it subsumes the legacy, poorly-named
+  "Develop" gate (which remains a thin alias so its `develop.*` observability
+  is unchanged).
+- Every LLM call builds upwards the prompt registry of
+  Pipeline+Phase+Agent+Step+Generation and runs on the formal primitives, not
+  hand-rolled inference: `PipelineExecution` -> phase -> `factoryAgent`/
+  `factoryAgentWithPTRR` -> step -> Failsafe(prepare|chunk|stitch) of
+  Thricified(reason|judge|structured_output). The pipeline is N agents
+  (mostly PTRR, some Simple — both are base `Agent` implementations) across the
+  5 phases; each PTRR agent renders 4 steps x 3 failsafe x 3 thricified = 36
+  formal LLM calls. Every call renders in the rich SDIVF telemetry with correct
+  phase/agent/step/failsafe/generation labels, because the formal executors
+  populate the execution state (the lightweight path's `undefined` labels were
+  a symptom of bypassing them).
+- Per-phase jobs (Garrett, 2026-06-25): **Setup** clones the repository and
+  runs a danger-wall (safety/risk admission); **Discovery** explores the
+  source; **Implementation** synthesizes the AssetPacks; **Validation**
+  determines synthesis quality, corrections/additions, and the iterate-vs-
+  complete decision; **Finish** uploads the synthesized artifacts.
+- **Finish uploads the synthesized artifacts to Bitcode for user review in
+  BOTH modes** (deposit: before Depository admission; read: before purchase).
+  Opening a pull request is NO LONGER part of synthesis — PR / settlement
+  delivery moves to the future Gate-6 SettleAssetPacks pipeline (confirm BTC
+  payment, mint BTD, transfer rights to the reader). Develop-gate consumers
+  degrade gracefully to no-PR.
+- The deposit lens now RUNS the full SDIVF pipeline inline from
+  `POST /api/deposit/synthesize-options` against the streaming execution, so the
+  SDIVF telemetry renders end to end; the bounded-structured-inference path
+  remains a resilience fallback when the pipeline yields no admissible options.
+- Source-safety is enforced universally: a content-withholding streaming filter
+  withholds every pipeline's `llm` content events (prompt/input/output/reasoning/
+  judgment/parsed), plus a synthesis-local defense-in-depth candidate assertion;
+  `rawPromptVisible` / `rawProviderResponseVisible` stay false by law.
+- **OTF (on-the-fly instructions) is eradicated entirely** as legacy residue:
+  the dead telemetry types (`otf_instructions`/`otf_adherence`), the unused
+  `setOnTheFly` prompt primitive, the live instruction-injection feature (the
+  instructions API + the `run_otf_instructions` ORM model + the submit UI + the
+  `waitForInstruction` Validation-phase pause), and the physical
+  `deliverable_pipeline_otf_instructions` table (drop migration).
+
+Open specification decisions (Gate 3, pending Garrett — recorded here so
+implementation stays reproducible from spec):
+
+- **The nature of a deposit AssetPack.** Implementation currently emits measured,
+  source-safe candidate options (kind/title/summary/coveredSourcePaths/
+  measurements/rationale/confidence) the depositor reviews. Garrett's "the
+  AssetPacks (patches) new contents actually get written as code edits" implies
+  the AssetPack content is synthesized code — to be reconciled: measured
+  candidate metadata only, an actual synthesized patch, or the candidate-now
+  with patch content materialized on admission.
+- **Deposit Discovery shape.** Reuse the five read discovery agents with
+  deposit-lensed prompts, or a deposit-specific exploration set, and what each
+  produces for the deposit Implementation.
+- **Deposit Validation.** The specific synthesis-quality checks and the
+  iterate-vs-complete (DIV-loop) criteria for deposit.
+- **The deposit danger-wall** admission checks.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
