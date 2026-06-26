@@ -1,5 +1,8 @@
 import { createPhaseRunner, PhaseConfig } from '@bitcode/pipelines-generics';
-import { registerValidationAgentsForType as registerAgents } from '../agents/validation-agents';
+import {
+  registerValidationAgentsForType as registerAgents,
+  AssetPackValidationReadyToFinishAgent,
+} from '../agents/validation-agents';
 import { AssetPackWrittenAssetType } from '../types/AssetPackWrittenAssetType';
 import type { SynthesizeAssetPacksMode } from '../synthesize-asset-packs';
 
@@ -25,9 +28,21 @@ export const runValidationPhase = createPhaseRunner(validationPhaseConfig);
 export function registerValidationAgentsForType(
   writtenAssetType: string,
   agentRegistry: any,
-  // mode drives conditional registration: deposit validates synthesized AP
-  // patches for deposit review; read validates fits artifacts. Shared for now.
-  _mode?: SynthesizeAssetPacksMode,
+  // mode drives conditional registration: deposit validates the synthesized AP
+  // patches for deposit review; read validates fits artifacts.
+  mode?: SynthesizeAssetPacksMode,
 ): void {
+  if (mode === 'deposit') {
+    // Deposit lens: a single quality validator over the synthesized AssetPacks,
+    // then the canonical ReadyToFinish gate (it reads validation/implementation:issues).
+    agentRegistry.registerAgent('validation:deposit-quality', () =>
+      import('../agents/validation/deposit-validation-agent').then(m => m.default),
+    );
+    agentRegistry.registerAgent(
+      'validation:asset-pack-ready-to-finish-agent',
+      AssetPackValidationReadyToFinishAgent,
+    );
+    return;
+  }
   registerAgents(writtenAssetType || AssetPackWrittenAssetType.ReadSatisfactionAssetPack, agentRegistry);
 }

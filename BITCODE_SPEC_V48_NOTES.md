@@ -272,7 +272,12 @@ The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
   cloned workspace is the delivery/settlement context.
 - **Validation**: quality thresholds, coverage/corrections/fixes, and AssetPack
   smoke/sanity checks; the Discovery/Implementation/Validation loop iterates until
-  complete or maxIterations.
+  complete or maxIterations. The deposit validator (`validation:deposit-quality`)
+  validates the synthesized AssetPacks — measurement honesty (0..1), distinctness,
+  source-safety, obfuscation/exclusion compliance, patch-descriptor coherence, and
+  coverage — emitting `{issues, qualityScore, coverageGaps, recommendation}`. Its
+  issues are stored at `validation/implementation:issues` (the key the canonical
+  ReadyToFinish gate reads); any issue forces `iterate`.
 - **Finish**: upload the synthesized AssetPack(s) to Bitcode for review.
 
 Implementation status vs this model (Gate-3 build-down list): the deposit

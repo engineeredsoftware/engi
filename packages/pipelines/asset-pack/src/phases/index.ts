@@ -99,10 +99,18 @@ export const validationPhase: PhaseDelegator<ImplementationOutput, ValidationOut
   // Sequential: validators -> ReadyToFinish
   const readyToFinish = createAgentExecutor('validation:asset-pack-ready-to-finish-agent');
 
-  const exec: Executor<any, any> = sequential(
-    parallelValidators as any,
-    readyToFinish     // Final go/no-go before Finish
-  );
+  // Deposit lens: validate the synthesized AssetPacks for quality (the deposit
+  // validator writes validation/implementation:issues), then the same ReadyToFinish
+  // gate. Read lens keeps the canonical parallel validators -> ReadyToFinish.
+  const exec: Executor<any, any> = mode === 'deposit'
+    ? sequential(
+        createAgentExecutor('validation:deposit-quality'),
+        readyToFinish     // Final go/no-go before Finish
+      )
+    : sequential(
+        parallelValidators as any,
+        readyToFinish     // Final go/no-go before Finish
+      );
   return await exec(input, execution);
 }) as unknown as PhaseDelegator<ImplementationOutput, ValidationOutput>;
 
