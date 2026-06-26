@@ -208,10 +208,23 @@ AssetPack model (decided 2026-06-25):
   Need). Its **BTD** — what is bought for Bitcoin — is the **normalized scalar
   weighted sum of all fit-only measurements**; the reader's Need unlocks the
   additional fit measurements that finalize the pack's BTD content.
-- The first technical measurement schemas and the BTD computation are grounded in
-  the protocol demonstration (`protocol-demonstration/`) and the initial
-  commercial measurement work; Gate 3 reuses those, not invented parallel
-  schemas.
+- Measurement + BTD grounding (mapped 2026-06-25): the canonical V48 measurement
+  catalogs live in `packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`.
+  **Absolute** (deposit): source-coverage (0.36) / demand-alignment (0.40) /
+  reuse-likelihood (0.24). The read catalog adds the **fit-only `need-fit`**
+  (0.44) alongside source-coverage (0.28) / reuse-likelihood (0.28). The BTD
+  scalar is computed in `btd-scalar-volume-quote.ts` under the fixed-point
+  weighted-volume policy `need-relative-fixed-point-weighted-volume`
+  (weightScaleBps 10000, volumeScale 1e6, floor-row-remainder-rooted):
+  `scalarMicroBtd = volume × weightBps × admittedFitQualityBps / 1e8` per
+  measurement, summed and normalized — a read AssetPack's BTD is this sum over its
+  fit-only measurements. The read Need pricing vector
+  (semantic_relevance / source_binding / artifact_kind_fit / closure_specificity)
+  is in `read-need.ts`. The patch is carried as `fileChanges` + the source binding
+  (covered paths) with the actual patch CONTENT withheld pre-settlement (the
+  source-safe preview boundary; content unlocks to owner_read / licensed_read on
+  settlement). `protocol-demonstration/` is the V47 realization framework (type
+  contracts, receipt schemas), NOT the V48 measurement source of truth.
 
 Lens inputs (decided 2026-06-25): the single-prompt user input is
 **Obfuscations** when depositing (what to obfuscate/withhold — supersedes the
