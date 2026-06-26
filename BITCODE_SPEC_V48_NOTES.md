@@ -241,7 +241,10 @@ The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
 
 - **Setup**: clone the repository, danger-wall (risk admission), and
   **input-comprehension** (comprehend the Need when reading / the Obfuscations
-  when depositing).
+  when depositing). The deposit input-comprehension produces structured
+  obfuscation guidance — the source paths and concepts to withhold and how
+  synthesis must honor them — stored at `setup:inputComprehension` for the
+  downstream phases (authoritative alongside the protected-IP exclusions).
 - **Discovery** — three agents discovering from the codebase, the Depository, and
   the model itself respectively, for the synthesis lens:
   - `discovery:codebase-comprehension` — comprehends the cloned source.
