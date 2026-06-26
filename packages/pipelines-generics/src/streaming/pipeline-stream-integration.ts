@@ -27,25 +27,38 @@ export interface PipelineStreamConfig {
 }
 
 // Source-safety law (V48): pipeline telemetry must never serialize raw prompts
-// or provider responses (rawPromptVisible/rawProviderResponseVisible=false). The
-// formal LLM substeps store full prompt/response content under the `llm`
-// namespace, which auto-streams via Execution.store. This withholds that content
-// from any persisted/streamed event, leaving only a content-withheld summary —
-// applied universally to every pipeline stream event (not per-pipeline).
-const SOURCE_SAFE_LLM_CONTENT_KEYS = new Set([
-  'prompt',
-  'input',
-  'output',
-  'reasoningOutput',
-  'judgmentOutput',
-  'parsedOutput',
+// or provider responses (rawPromptVisible/rawProviderResponseVisible=false). Raw
+// prompt/response content auto-streams via Execution.store under the `llm`
+// namespace, but the content-bearing key NAMES drift between the two LLM-call
+// paths: the formal Thricified substeps store `input`/`prompt`/`output`/
+// `parsedOutput`, while AgentLLMsRegistry/PipelineLLMRegistry (direct getLLM
+// calls) store `messages`/`config`/`response`. A content-key denylist silently
+// missed `response`, so a raw model response leaked through as a status-event
+// message (and the renderer split that multi-line payload into one row per
+// line). We therefore withhold by ALLOWLIST: every `llm` store is content-
+// withheld EXCEPT a fixed set of source-safe metadata keys. This is robust to
+// new content keys and is applied universally to every pipeline stream event
+// (not per-pipeline).
+const SOURCE_SAFE_LLM_METADATA_KEYS = new Set([
+  'startTime',
+  'endTime',
+  'duration',
+  'usage',
+  'status',
+  'provider',
+  'model',
+  'configKey',
+  'stopReason',
+  'error',
 ]);
 
 export function sourceSafeStreamEvent(event: any): any {
   if (!event || typeof event !== 'object') return event;
   const namespace = (event as any).namespace;
   const key = (event as any).key;
-  if (namespace !== 'llm' || !SOURCE_SAFE_LLM_CONTENT_KEYS.has(String(key))) {
+  // Only llm-namespace stores carry raw prompt/response content. Anything that
+  // is an llm metadata store, or any non-llm event, passes through unchanged.
+  if (namespace !== 'llm' || SOURCE_SAFE_LLM_METADATA_KEYS.has(String(key))) {
     return event;
   }
   const data =

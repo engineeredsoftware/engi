@@ -182,10 +182,25 @@ Accepted V48 architecture law (decided 2026-06-25):
   `POST /api/deposit/synthesize-options` against the streaming execution, so the
   SDIVF telemetry renders end to end; the bounded-structured-inference path
   remains a resilience fallback when the pipeline yields no admissible options.
-- Source-safety is enforced universally: a content-withholding streaming filter
-  withholds every pipeline's `llm` content events (prompt/input/output/reasoning/
-  judgment/parsed), plus a synthesis-local defense-in-depth candidate assertion;
-  `rawPromptVisible` / `rawProviderResponseVisible` stay false by law.
+- Source-safety is enforced universally by `sourceSafeStreamEvent`, the single
+  content-withholding gate every persisted/streamed pipeline event passes through.
+  It withholds by **metadata allowlist**, not a content-key denylist: every `llm`
+  store is content-withheld (message → `[content withheld — source-safe]`, data →
+  a structural summary of {stage, generation, provider, model, contentChars,
+  phase, agent, step}) EXCEPT a fixed source-safe metadata set
+  (`startTime/endTime/duration/usage/status/provider/model/configKey/stopReason/
+  error`). The allowlist is required because the two LLM-call paths name their
+  content keys differently — the Thricified substeps use `input/prompt/output/
+  parsedOutput`, while `AgentLLMsRegistry`/`PipelineLLMRegistry` (direct `getLLM`)
+  use `messages/config/response` — and a denylist silently leaked `llm/response`
+  (the raw provider response) as a status-event message (QA F18). A
+  synthesis-local defense-in-depth candidate assertion remains; `rawPromptVisible`
+  / `rawProviderResponseVisible` stay false by law.
+- Telemetry rendering is single-line and bounded: the activity builder collapses
+  every event to exactly one bounded line (one streamed event = one accordion
+  row, never fragmented by embedded newlines) and the log row title spans carry
+  `min-w-0` so a long line truncates within its row rather than x-overflowing the
+  page (QA F18).
 - **OTF (on-the-fly instructions) is eradicated entirely** as legacy residue:
   the dead telemetry types (`otf_instructions`/`otf_adherence`), the unused
   `setOnTheFly` prompt primitive, the live instruction-injection feature (the

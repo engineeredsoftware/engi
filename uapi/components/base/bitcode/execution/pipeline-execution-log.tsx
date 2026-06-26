@@ -869,7 +869,7 @@ function renderLogLine(
           />
           <span
             title={logLine.text}
-            className="truncate flex-1 text-[0.82rem] leading-none m-0"
+            className="truncate flex-1 min-w-0 text-[0.82rem] leading-none m-0"
           >
             {logLine.text}
           </span>
@@ -995,7 +995,7 @@ function renderLogLine(
           {/* Main text */}
           <span
             title={logLine.text}
-            className="select-text cursor-text truncate pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
+            className="select-text cursor-text truncate min-w-0 flex-1 pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
           >
             <Icon className="inline-block laptop:hidden w-4 h-4 text-current" />
             {logLine.text}

@@ -35,6 +35,25 @@ export type MockRunActivitySnapshot = {
   error?: string | null;
 };
 
+// One streamed event must render as exactly one accordion row. The renderer
+// (PipelineExecutionLog) splits `output` on '\n', so any embedded newline in an
+// event message would fragment a single event into many rows (and break the
+// outputDetails key lookup, since the key is the full multi-line string). We
+// therefore collapse every event line to a single bounded line. Raw model
+// content is already withheld upstream by sourceSafeStreamEvent; this is the
+// client-side guarantee that nothing can fragment or overflow the log even if a
+// future event slips a newline through.
+const MAX_ACTIVITY_LINE_CHARS = 280;
+function toSafeSingleLine(value: string): string {
+  const collapsed = String(value ?? '')
+    .replace(/\s*\r?\n\s*/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
+  return collapsed.length > MAX_ACTIVITY_LINE_CHARS
+    ? `${collapsed.slice(0, MAX_ACTIVITY_LINE_CHARS - 1)}…`
+    : collapsed;
+}
+
 function normalizeEventMessage(payload: any) {
   if (!payload || typeof payload !== 'object') return null;
 
@@ -102,8 +121,10 @@ export function buildTerminalRunActivityFromEvents(
 
     const normalized = normalizeEventMessage(payload);
     if (!normalized) continue;
-    outputLines.push(normalized.text);
-    outputDetails[normalized.text] = payload;
+    const safeText = toSafeSingleLine(normalized.text);
+    if (!safeText) continue;
+    outputLines.push(safeText);
+    outputDetails[safeText] = payload;
   }
 
   const latestStatusEvent = statusEvents[statusEvents.length - 1];

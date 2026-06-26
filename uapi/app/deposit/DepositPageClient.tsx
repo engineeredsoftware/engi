@@ -1300,7 +1300,7 @@ export default function DepositPageClient() {
             {synthesisRunId ? (
               <section
                 ref={synthesisTelemetryRef}
-                className="border border-white/10 bg-white/[0.035] px-4 py-4"
+                className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
                 aria-label="AssetPacksSynthesis run telemetry"
                 data-testid="deposit-synthesis-telemetry"
               >
@@ -1323,7 +1323,7 @@ export default function DepositPageClient() {
                     {synthesisRunId}
                   </span>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 min-w-0">
                   <PipelineExecutionLog
                     output={synthesisActivity.output}
                     outputDetails={synthesisActivity.outputDetails}
