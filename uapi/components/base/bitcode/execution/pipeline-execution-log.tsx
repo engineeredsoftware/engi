@@ -5,7 +5,6 @@ import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 
 import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibility';
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import {
-  ChatBubbleIcon,
   CheckCircledIcon,
   ExclamationTriangleIcon,
   InfoCircledIcon,
@@ -314,13 +313,6 @@ const TYPE_STYLES: Record<
     border: 'border-purple-400/25',
     Icon: WrenchIcon,
   },
-  'otf_instructions': {
-    bg: 'bg-gradient-to-r from-orange-700/25 to-orange-700/10',
-    text: 'text-orange-200',
-    border: 'border-orange-400/25',
-    Icon: ChatBubbleIcon,
-    glow: true,
-  },
   'reading-telemetry': {
     bg: 'bg-gradient-to-r from-sky-700/20 to-emerald-700/10',
     text: 'text-sky-200',
@@ -350,13 +342,6 @@ const TYPE_STYLES: Record<
     text: 'text-red-200',
     border: 'border-red-400/20',
     Icon: ExclamationTriangleIcon,
-  },
-  otf_adherence: {
-    bg: 'bg-gradient-to-r from-sky-700/15 to-sky-700/5',
-    text: 'text-sky-200',
-    border: 'border-sky-400/20',
-    Icon: InfoCircledIcon,
-    glow: true,
   },
   'file-diff': {
     bg: 'bg-gradient-to-r from-indigo-700/25 to-indigo-700/10',
@@ -483,9 +468,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
       // Preserve canonical stream message `type` if available for colour-coding
       if (storedChunk?.type) {
-        // Normalise custom aliases used in some mock/staging data
-        if (storedChunk.type === 'user_otf_instruction') logLine.type = 'otf_instructions';
-        else logLine.type = storedChunk.type;
+        logLine.type = storedChunk.type;
       } else if (storedChunk?.schema === 'bitcode.reading.operational-operator-readback') {
         logLine.type = 'operator-readback';
       } else if (storedChunk?.eventKind === 'repair') {
@@ -498,7 +481,6 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         if (lower.includes('thinking')) logLine.type = 'thinking';
         else if (lower.includes('tool')) logLine.type = 'tool-use';
         else if (lower.includes('ai call') || lower.includes('(ai') || lower.includes('generation')) logLine.type = 'generation';
-        else if (lower.includes('on-the-fly') || lower.includes('otf')) logLine.type = 'otf_instructions';
         else if (lower.includes('error')) logLine.type = 'error';
         else if (lower.includes('complete') || lower.includes('finalizing')) logLine.type = 'completion';
         else logLine.type = undefined;
@@ -707,8 +689,6 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         return 'text-emerald-400'; // Bitcode green
       case 'tool-use':
         return 'text-purple-400';  // Bitcode purple
-      case 'otf_instructions':
-        return 'text-orange-400';  // orange
       case 'reading-telemetry':
         return 'text-sky-300';
       case 'operator-readback':

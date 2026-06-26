@@ -335,24 +335,6 @@ export const parseStreamChunk = (chunk: string): ParsedStreamData => {
           }
           break;
         }
-      case 'otf_instructions': {
-        parsedData.type = 'otf_instructions';
-        // instructions array of { id, content, attachments, state, created_at }
-        parsedData.instructions = Array.isArray(data.metadata?.instructions)
-          ? data.metadata.instructions
-          : [];
-        break;
-      }
-      case 'otf_adherence': {
-        parsedData.type = 'otf_adherence';
-        // metadata: { score, thoughts }
-        const { score, thoughts } = data.metadata || {};
-        parsedData.adherence = { score, thoughts };
-        if (score !== undefined && thoughts) {
-          parsedData.text += `📏 Adherence ${score.toFixed(2)}: ${thoughts}\n`;
-        }
-        break;
-      }
 
       // ---------------------------------------------------------
       // Ad-hoc pipeline events (Conversations quick tasks)
