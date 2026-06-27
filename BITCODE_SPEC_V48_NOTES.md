@@ -382,13 +382,47 @@ The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
   ReadyToFinish gate reads); any issue forces `iterate`.
 - **Finish**: upload the synthesized AssetPack(s) to Bitcode for review.
 
-Implementation status vs this model (Gate-3 build-down list): the deposit
-Implementation currently emits measured candidate OPTIONS (metadata), not yet the
-measured PATCH carrying the absolute-measurement schemas; Discovery still runs the
-legacy five read agents, not the canonical three; the deposit input is still
-"instructions", not Obfuscations; Setup lacks input-comprehension. These are now
-specified and become the remaining Gate-3 implementation. The measurement-schema
-and BTD-computation grounding is to be drawn from `protocol-demonstration/`.
+Implementation status vs this model (Gate-3 build-down): the deposit pipeline now
+runs the canonical agents (mode propagated to the phases — F20), the measured
+PATCH descriptor (F-series), Obfuscations + Setup input-comprehension, neediness
+v0 (F24); inference is non-configurable (profiles removed — F26-A), the synthesis
+runs decoupled via the harness (F26-B), and the PTRR envelope is unwrapped so real
+output flows (F26-A/F27). The remaining Gate-3 measurement obligation is the formal
+**absolutes** measurement category (see the roadmap below) — the catalog grounded
+in `protocol-demonstration/`; the current source-coverage / demand-alignment /
+reuse-likelihood are placeholders to be superseded.
+
+Measurement formalization + the `measure-agent` hierarchy (Gates 3-5 roadmap;
+Garrett, 2026-06-27):
+
+- AssetPack measurements form TWO formal CATEGORIES (pluralized): **absolutes** and
+  **needinesses**. Absolutes are intrinsic content measures — sizes (functions,
+  types, etc.), a correctness estimate, and others drawn from the demonstration
+  implementation (`protocol-demonstration/`). Needinesses are the read-demand / fit
+  measures (the deposit-side neediness preview [F24 v0] + the read-side Need-fit;
+  the BTD is the scalar over the needinesses). The legacy
+  source-coverage / demand-alignment / reuse-likelihood placeholders are superseded
+  by the formalized absolutes.
+- The measurers are a base-class hierarchy of formal PTRR agents. In
+  `generic-agents`: a base **measure-agent** (PTRR); from it two bases —
+  **measure-agent-absolutes** and **measure-agent-needinesses**. In the asset-pack
+  pipeline those base the two concrete measurers — **agent-measure-absolutes** and
+  **agent-measure-needinesses** — each respecting the pipeline lens/mode
+  (deposit | read) in Gate 4 (two lens-parameterized agents covering the four
+  lens×category measurements).
+- **Gate 3 (current)** formalizes the **absolutes** category (the non-needinesses):
+  `measure-agent` + `measure-agent-absolutes` -> `agent-measure-absolutes`, with the
+  absolutes catalog (sizes, correctness, …) grounded in `protocol-demonstration/`.
+- **Gate 4 (read)** is lens FINALIZATIONS of the SAME SynthesizeAssetPacks pipeline
+  (not a new pipeline — finalize the read lens) and MOSTLY the **needinesses**
+  formalization: `measure-agent-needinesses` -> `agent-measure-needinesses`, beyond
+  the F24 v0 preview. (Neediness v1 — the real embedding-vector supply-index probe +
+  Read-Need/demand-corpus search — remains Gate 7.)
+- **Gate 5** removes the lens/mode concept and splits SynthesizeAssetPacks into two
+  pipelines — **SynthesizeAssetPacksForDepositor** and **SynthesizeAssetPacksForReader**
+  — breaking the lens-configured implementations into per-role variants
+  (`agent-measure-asset-packs-absolutes-for-depositor`,
+  `agent-measure-asset-packs-needinesses-for-reader`, etc.).
 
 ## Non-goals during V48 opening
 
