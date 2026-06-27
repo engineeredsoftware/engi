@@ -110,10 +110,12 @@ export default async function runDepositInherentRegurgitationAgent(input: any, e
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
 
-  const result = await DepositInherentRegurgitationAgent(
+  const raw = await DepositInherentRegurgitationAgent(
     { ...input, repository, inventory, inventoryPaths: inventory?.paths },
     execution,
   );
+  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput }); unwrap (F27).
+  const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const regurgitation: DepositInherentRegurgitation = (result as any)?.regurgitation ?? {
     summary:

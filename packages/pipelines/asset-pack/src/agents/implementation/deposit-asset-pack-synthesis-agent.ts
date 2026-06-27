@@ -205,7 +205,7 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
   const obfuscationGuidance =
     input?.obfuscationGuidance ?? findValue(execution, 'setup', 'inputComprehension');
 
-  const result = await DepositAssetPackSynthesisAgent(
+  const raw = await DepositAssetPackSynthesisAgent(
     {
       ...input,
       repository,
@@ -226,6 +226,10 @@ export default async function runDepositAssetPackSynthesisAgent(input: any, exec
     },
     execution,
   );
+  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // unwrap it to the agent's typed structured output (F27) — otherwise the
+  // synthesized options are dropped and the route falls back to bounded synthesis.
+  const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const options = Array.isArray((result as any)?.options) ? (result as any).options : [];
 

@@ -106,10 +106,13 @@ export default async function runDepositInputComprehensionAgent(input: any, exec
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
 
-  const result = await DepositInputComprehensionAgent(
+  const raw = await DepositInputComprehensionAgent(
     { ...input, obfuscations, repository, inventory, inventoryPaths: inventory?.paths },
     execution,
   );
+  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // unwrap it to the agent's typed structured output (F27).
+  const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const comprehension: DepositObfuscationComprehension = (result as any)?.comprehension ?? {
     summary:

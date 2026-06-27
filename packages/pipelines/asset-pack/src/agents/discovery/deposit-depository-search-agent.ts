@@ -116,10 +116,13 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
   const demandContext = input?.demandContext ?? findValue(execution, 'deposit', 'demandContext') ?? [];
 
-  const result = await DepositDepositorySearchAgent(
+  const raw = await DepositDepositorySearchAgent(
     { ...input, repository, inventory, inventoryPaths: inventory?.paths, demandContext },
     execution,
   );
+  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // unwrap it to the agent's typed structured output (F27).
+  const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const guidance: DepositReadDemandGuidance = (result as any)?.guidance ?? {
     summary:

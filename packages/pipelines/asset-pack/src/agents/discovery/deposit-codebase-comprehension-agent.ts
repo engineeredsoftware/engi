@@ -108,10 +108,12 @@ export default async function runDepositCodebaseComprehensionAgent(input: any, e
   const repository = input?.repository ?? findValue(execution, 'deposit', 'repository') ?? {};
   const inventory = input?.inventory ?? findValue(execution, 'deposit', 'inventory');
 
-  const result = await DepositCodebaseComprehensionAgent(
+  const raw = await DepositCodebaseComprehensionAgent(
     { ...input, repository, inventory, inventoryPaths: inventory?.paths, excerpts: inventory?.samples },
     execution,
   );
+  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput }); unwrap (F27).
+  const result = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
 
   const comprehension: DepositCodebaseComprehension = (result as any)?.comprehension ?? {
     summary:
