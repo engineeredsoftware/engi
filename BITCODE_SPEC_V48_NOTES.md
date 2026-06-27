@@ -343,10 +343,11 @@ The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
   per-pack `needinessSignal {demand, saturation, rationale}`; `computeNeediness`
   derives the scalar in the shared lib (`asset-packs-synthesis.ts`); the `/deposit`
   option cards preview it as earning potential. Source-safe: derived scalars +
-  topic descriptors only, never raw source. v1 seam: replace `saturation` with a
-  real embedding-vector probe of the pack against the Depository supply index, and
-  `demand` with a search against an accrued Read-Need / demand corpus; once the
-  pack is read, the realized read `need-fit` + BTD calibrate the estimate.
+  topic descriptors only, never raw source. **v1 is deferred to Gate 7**: replace
+  `saturation` with a real embedding-vector probe of the pack against the
+  Depository supply index, and `demand` with a search against an accrued
+  Read-Need / demand corpus; once the pack is read, the realized read `need-fit`
+  + BTD calibrate the estimate.
 - **Validation**: quality thresholds, coverage/corrections/fixes, and AssetPack
   smoke/sanity checks; the Discovery/Implementation/Validation loop iterates until
   complete or maxIterations. The deposit validator (`validation:deposit-quality`)
