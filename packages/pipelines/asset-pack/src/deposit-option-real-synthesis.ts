@@ -229,6 +229,16 @@ export function buildRealDepositAssetPackOptionSynthesis(
           rationale: candidate.neediness.rationale,
         }
       : null;
+    // The deposit-decision payload: what Bitcode RECEIVES if deposited — the
+    // synthesized AP contents (source-safe patch descriptor) + the provenant source
+    // (covered files). Shown to the depositor; source-safe (path+op + summary + the
+    // depositor's own paths).
+    const contents = {
+      patchSummary: candidate.patch?.patchSummary ?? '',
+      fileChanges: (candidate.patch?.fileChanges ?? []).map((fc) => ({ path: fc.path, op: fc.op })),
+      provenantSourcePaths: candidate.coveredSourcePaths,
+      provenantSourceCount: candidate.coveredSourcePaths.length,
+    };
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),
@@ -237,6 +247,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
       sourceBinding,
       demandAlignment,
       measurements,
+      contents,
       neediness,
       reviewBoundary,
     };
@@ -271,6 +282,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
         sourceBindingRoot: root('deposit-option-source-binding', sourceBinding),
         demandAlignmentRoot: root('deposit-option-demand-alignment', demandAlignment),
         measurementRoot: root('deposit-option-measurements', measurements),
+        contentsRoot: root('deposit-option-contents', contents),
         needinessRoot: neediness ? root('deposit-option-neediness', neediness) : null,
         reviewBoundaryRoot: root('deposit-option-review-boundary', reviewBoundary),
       },

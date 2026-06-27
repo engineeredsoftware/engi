@@ -1518,29 +1518,94 @@ export default function DepositPageClient() {
                         <p className="mt-2 text-sm leading-6 text-neutral-400">
                           {option.summary}
                         </p>
-                        {(() => {
-                          const projection =
-                            realSynthesis?.reviewProjections.find(
-                              (entry) => entry.optionId === option.optionId,
-                            );
-                          if (!projection) return null;
-                          return (
-                            <details className="mt-2 text-xs leading-5 text-neutral-400">
-                              <summary className="cursor-pointer text-neutral-300">
-                                Covered source (
-                                {projection.coveredSourcePaths.length} paths)
-                              </summary>
-                              <ul className="mt-1 max-h-32 overflow-y-auto break-all font-mono">
-                                {projection.coveredSourcePaths.map((path) => (
+                        {option.contents ? (
+                          // The deposit/no-deposit decision payload: what Bitcode
+                          // RECEIVES if this AssetPack is deposited — the synthesized
+                          // AP contents + the provenant source files.
+                          <div className="mt-3 border border-emerald-300/20 bg-emerald-300/[0.05] px-3 py-3">
+                            <p className="text-[0.58rem] font-medium uppercase tracking-[0.16em] text-emerald-200/85">
+                              If deposited, Bitcode receives
+                            </p>
+                            {option.contents.patchSummary ? (
+                              <p className="mt-2 break-words text-xs leading-5 text-neutral-300">
+                                {option.contents.patchSummary}
+                              </p>
+                            ) : null}
+                            {option.contents.fileChanges.length > 0 ? (
+                              <div className="mt-2">
+                                <p className="text-[0.56rem] uppercase tracking-[0.14em] text-neutral-500">
+                                  Synthesized contents · {option.contents.fileChanges.length} file
+                                  {option.contents.fileChanges.length === 1 ? "" : "s"}
+                                </p>
+                                <ul className="mt-1 max-h-32 space-y-0.5 overflow-y-auto break-all font-mono text-[0.7rem]">
+                                  {option.contents.fileChanges.map((change) => (
+                                    <li
+                                      key={`${change.op}:${change.path}`}
+                                      className="flex items-baseline gap-1.5"
+                                    >
+                                      <span
+                                        className={`shrink-0 uppercase ${
+                                          change.op === "create"
+                                            ? "text-emerald-300/80"
+                                            : change.op === "delete"
+                                              ? "text-rose-300/80"
+                                              : "text-amber-300/80"
+                                        }`}
+                                      >
+                                        {change.op}
+                                      </span>
+                                      <span className="text-neutral-400">{change.path}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ) : null}
+                            <div className="mt-2">
+                              <p className="text-[0.56rem] uppercase tracking-[0.14em] text-neutral-500">
+                                Provenant source · {option.contents.provenantSourceCount} file
+                                {option.contents.provenantSourceCount === 1 ? "" : "s"} available to
+                                Bitcode
+                              </p>
+                              <ul className="mt-1 max-h-32 overflow-y-auto break-all font-mono text-[0.7rem] text-neutral-400">
+                                {option.contents.provenantSourcePaths.map((path) => (
                                   <li key={path}>{path}</li>
                                 ))}
                               </ul>
-                              <p className="mt-2 text-neutral-500">
-                                {projection.measurementRationale}
-                              </p>
-                            </details>
-                          );
-                        })()}
+                            </div>
+                            {(() => {
+                              const projection = realSynthesis?.reviewProjections.find(
+                                (entry) => entry.optionId === option.optionId,
+                              );
+                              return projection?.measurementRationale ? (
+                                <p className="mt-2 break-words text-[0.7rem] leading-5 text-neutral-500">
+                                  {projection.measurementRationale}
+                                </p>
+                              ) : null;
+                            })()}
+                          </div>
+                        ) : (
+                          (() => {
+                            const projection = realSynthesis?.reviewProjections.find(
+                              (entry) => entry.optionId === option.optionId,
+                            );
+                            if (!projection) return null;
+                            return (
+                              <details className="mt-2 text-xs leading-5 text-neutral-400">
+                                <summary className="cursor-pointer text-neutral-300">
+                                  Covered source ({projection.coveredSourcePaths.length} paths)
+                                </summary>
+                                <ul className="mt-1 max-h-32 overflow-y-auto break-all font-mono">
+                                  {projection.coveredSourcePaths.map((path) => (
+                                    <li key={path}>{path}</li>
+                                  ))}
+                                </ul>
+                                <p className="mt-2 text-neutral-500">
+                                  {projection.measurementRationale}
+                                </p>
+                              </details>
+                            );
+                          })()
+                        )}
                       </div>
                       <dl className="grid gap-2">
                         {policyEvaluation ? (

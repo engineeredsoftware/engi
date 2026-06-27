@@ -278,6 +278,16 @@ export interface AssetPackNeediness {
   rationale: string;
 }
 
+/**
+ * The source-safe patch descriptor — the synthesized AssetPack CONTENTS the
+ * depositor reviews: which files the AP creates/modifies (path + op) and a
+ * natural-language summary of the knowledge it encodes. NEVER raw source/code.
+ */
+export interface AssetPackPatchDescriptor {
+  fileChanges: Array<{ path: string; op: string }>;
+  patchSummary: string;
+}
+
 export interface AssetPackCandidate {
   kind: string;
   title: string;
@@ -286,6 +296,8 @@ export interface AssetPackCandidate {
   measurements: AssetPackCandidateMeasurement[];
   measurementRationale: string;
   confidence: number;
+  /** The synthesized AP contents (source-safe patch descriptor) for the deposit decision. */
+  patch?: AssetPackPatchDescriptor;
   /** Deposit lens only: the read-demand preview (v0). Absent on read candidates. */
   neediness?: AssetPackNeediness;
 }
@@ -506,6 +518,9 @@ export function validateDepositSynthesisOptions(
     // Validation phase. When present these are the candidate's measurements (the
     // legacy `measurements` record is the back-compat fallback only).
     absolutes?: AssetPackCandidateMeasurement[] | null;
+    // The synthesized AP contents (source-safe patch descriptor) — carried to the
+    // deposit card so the depositor sees what knowledge/edits the AP encodes.
+    patch?: { fileChanges?: Array<{ path?: unknown; op?: unknown }>; patchSummary?: unknown } | null;
     // Deposit lens only: the read-demand preview signal (v0). neediness is
     // COMPUTED from this; absent/invalid signals yield no neediness preview.
     needinessSignal?: { demand?: number; saturation?: number; rationale?: string } | null;
@@ -560,6 +575,17 @@ export function validateDepositSynthesisOptions(
             weight: spec.weight,
             volume: clampVolume(option.measurements?.[spec.measurementKind] ?? 0),
           }));
+    // Carry the source-safe patch descriptor (the synthesized AP contents) for the
+    // deposit card — path+op + summary only, never raw source.
+    const rawFileChanges = Array.isArray(option.patch?.fileChanges) ? option.patch!.fileChanges! : [];
+    const patch: AssetPackPatchDescriptor | undefined = rawFileChanges.length
+      ? {
+          fileChanges: rawFileChanges
+            .map((fc) => ({ path: String((fc as any)?.path ?? '').trim(), op: String((fc as any)?.op ?? '').trim() }))
+            .filter((fc) => fc.path),
+          patchSummary: String(option.patch?.patchSummary ?? '').trim(),
+        }
+      : undefined;
     candidates.push({
       kind: allowedKinds.has(option.kind) ? option.kind : context.candidateKinds[0],
       title: String(option.title).trim(),
@@ -568,6 +594,7 @@ export function validateDepositSynthesisOptions(
       measurements,
       measurementRationale: String(option.measurementRationale).trim(),
       confidence: clampVolume(option.confidence),
+      patch,
       // Deposit preview of read Need-fit (v0); read candidates carry no neediness.
       neediness: context.lens === 'deposit' ? buildNeedinessFromSignal(option.needinessSignal) : undefined,
     });

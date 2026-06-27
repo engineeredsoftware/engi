@@ -68,6 +68,18 @@ export interface DepositAssetPackOption {
     confidence: number;
   };
   measurements: DepositAssetPackOptionMeasurement[];
+  // V48 Gate 3 — the deposit-decision payload: what Bitcode RECEIVES if this AP is
+  // deposited. The synthesized AP CONTENTS (source-safe patch descriptor) and the
+  // PROVENANT SOURCE (covered files that become available for future reader
+  // settlement). Shown to the depositor, who owns the source. Source-safe: path+op
+  // + summary + the depositor's own paths only — never raw source/code. Absent
+  // (null) on the deterministic blueprint synthesis.
+  contents?: {
+    patchSummary: string;
+    fileChanges: Array<{ path: string; op: string }>;
+    provenantSourcePaths: string[];
+    provenantSourceCount: number;
+  } | null;
   // Deposit neediness PREVIEW (v0): the read-demand estimate (0..1) — the
   // deposit-side preview of read Need-fit / earning potential. Separate from the
   // absolute `measurements` composite; absent (null) when no signal was produced.
@@ -104,6 +116,7 @@ export interface DepositAssetPackOption {
     sourceBindingRoot: string;
     demandAlignmentRoot: string;
     measurementRoot: string;
+    contentsRoot?: string | null;
     needinessRoot?: string | null;
     reviewBoundaryRoot: string;
   };
