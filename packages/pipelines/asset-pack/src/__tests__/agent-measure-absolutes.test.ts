@@ -8,6 +8,7 @@ import {
 import {
   ASSET_PACK_ABSOLUTES_CATALOG,
   ASSET_PACK_ABSOLUTE_KINDS,
+  validateDepositSynthesisOptions,
 } from '../asset-packs-synthesis';
 
 const PATCH: MeasurableAssetPackPatch = {
@@ -68,5 +69,47 @@ describe('agent-measure-absolutes', () => {
     expect(read.name).toBe('AssetPackMeasureAbsolutesAgent:read');
     expect(deposit.measurementCategory).toBe('absolute');
     expect(deposit.measurementSpecs).toHaveLength(ASSET_PACK_ABSOLUTES_CATALOG.length);
+  });
+});
+
+describe('validateDepositSynthesisOptions absolutes wiring', () => {
+  const baseOption = {
+    kind: 'capability-slice',
+    title: 'Auth capability slice',
+    summary: 'A reusable authentication capability extracted from the source.',
+    coveredSourcePaths: ['src/auth.ts'],
+    measurements: { 'source-coverage': 0.7, 'demand-alignment': 0.6, 'reuse-likelihood': 0.5 },
+    measurementRationale: 'Covers the auth module.',
+    confidence: 0.8,
+  };
+  const context = {
+    lens: 'deposit' as const,
+    inventoryPaths: ['src/auth.ts'],
+    protectedIpExclusions: [],
+    candidateKinds: ['capability-slice', 'implementation-pattern', 'proof-operations-slice'],
+  };
+
+  it('prefers the formal absolutes over the placeholder catalog', () => {
+    const absolutes = [
+      { measurementKind: 'function-count', label: 'Functions', weight: 0.18, volume: 0.5, category: 'absolute', magnitude: 12, unit: 'functions' },
+      { measurementKind: 'semantic-volume', label: 'Semantic volume', weight: 0.28, volume: 0.66, category: 'absolute', unit: 'normalized' },
+    ];
+    const out = validateDepositSynthesisOptions([{ ...baseOption, absolutes }], context);
+    const measurements = out.candidates[0].measurements;
+    expect(measurements.map((m) => m.measurementKind)).toEqual(['function-count', 'semantic-volume']);
+    const fn = measurements.find((m) => m.measurementKind === 'function-count');
+    expect(fn?.magnitude).toBe(12);
+    expect(fn?.category).toBe('absolute');
+    expect(fn?.unit).toBe('functions');
+    // placeholder kinds are NOT present once formal absolutes are supplied
+    expect(measurements.map((m) => m.measurementKind)).not.toContain('source-coverage');
+  });
+
+  it('falls back to the placeholder catalog when no absolutes are present', () => {
+    const out = validateDepositSynthesisOptions([baseOption], context);
+    const kinds = out.candidates[0].measurements.map((m) => m.measurementKind);
+    expect(kinds).toContain('source-coverage');
+    expect(kinds).toContain('demand-alignment');
+    expect(kinds).toContain('reuse-likelihood');
   });
 });

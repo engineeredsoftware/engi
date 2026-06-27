@@ -30,9 +30,18 @@ export interface DepositOptionSynthesisRequest {
 export interface DepositAssetPackOptionMeasurement {
   id: string;
   label: string;
-  measurementKind: 'source-coverage' | 'demand-alignment' | 'reuse-likelihood';
+  // V48 Gate 3: widened to the absolutes catalog kinds (function-count, type-count,
+  // file-span, correctness-estimate, semantic-volume) — the formal measurements —
+  // as well as the legacy placeholder kinds the deterministic blueprint emits.
+  measurementKind: string;
   weight: number;
   volume: number;
+  /** Which measurement category — absolutes form the weighted composite. */
+  category?: 'absolute' | 'neediness';
+  /** Raw count for size measurements (functions / types / files). */
+  magnitude?: number;
+  /** functions | types | files | estimate | normalized. */
+  unit?: string;
   evidenceRoot: string;
 }
 

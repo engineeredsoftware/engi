@@ -27,6 +27,7 @@ import { Prompt } from '@bitcode/prompts/prompt';
 import type { PromptPart } from '@bitcode/prompts/parts/PromptPart';
 import { z } from 'zod';
 import { DEPOSIT_MEASUREMENT_CATALOG } from '../../asset-packs-synthesis';
+import { measureAssetPackAbsolutes } from './agent-measure-absolutes';
 
 const part = (content: string): PromptPart => content as PromptPart;
 
@@ -290,6 +291,44 @@ export default async function runDepositValidationAgent(input: any, execution: a
     // Record the full deposit-quality verdict for telemetry / the /deposit surface.
     execution.store('validation', 'depositQuality', result);
   } catch {}
+
+  // V48 Gate 3 — formal ABSOLUTES measurement. Each AssetPack is a measured patch:
+  // the patch was synthesized in Implementation; here the formal measure-agent
+  // (agent-measure-absolutes) MEASURES its absolutes (sizes / correctness /
+  // semantic-volume) and attaches them to the pack in place. Real inference runs
+  // the measure-agent (its PTRR substeps render in the SDIVF telemetry, content
+  // withheld); otherwise the deterministic descriptor-derived fallback applies.
+  // Per pack in parallel so wall-clock ≈ one measurement; each LLM call is bounded
+  // by the F25 per-call timeout.
+  if (packs.length > 0) {
+    await Promise.all(
+      packs.map(async (pack: any) => {
+        try {
+          const absolutes = await measureAssetPackAbsolutes(
+            {
+              title: String(pack?.title ?? ''),
+              summary: String(pack?.summary ?? ''),
+              coveredSourcePaths: asPathList(pack?.coveredSourcePaths),
+              fileChanges: Array.isArray(pack?.patch?.fileChanges) ? pack.patch.fileChanges : undefined,
+              confidence: typeof pack?.confidence === 'number' ? pack.confidence : undefined,
+              patchSummary:
+                typeof pack?.patch?.patchSummary === 'string' ? pack.patch.patchSummary : undefined,
+            },
+            { lens: 'deposit', execution },
+          );
+          // Attach the formal absolutes to the measured patch in place; the route's
+          // validateDepositSynthesisOptions prefers these over the legacy inline record.
+          pack.absolutes = absolutes;
+        } catch {}
+      }),
+    );
+    try {
+      // Re-store the measured packs (in-place mutation + explicit re-store) under the
+      // exact keys the route + Finish read.
+      execution.store('implementation', 'options', packs);
+      execution.store('implementation', 'assetPacks', packs);
+    } catch {}
+  }
 
   return { ...(input || {}), ...result };
 }

@@ -1687,8 +1687,26 @@ export default function DepositPageClient() {
                               {measurement.label}
                             </dt>
                             <dd className="mt-1 text-sm text-neutral-200">
-                              {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                              {measurement.weight.toFixed(2)}
+                              {typeof measurement.magnitude === "number" ? (
+                                <>
+                                  {measurement.magnitude}
+                                  {measurement.unit &&
+                                  measurement.unit !== "normalized" &&
+                                  measurement.unit !== "estimate"
+                                    ? ` ${measurement.unit}`
+                                    : ""}
+                                  <span className="text-neutral-500">
+                                    {" "}
+                                    · {(measurement.volume * 100).toFixed(0)}% / weight{" "}
+                                    {measurement.weight.toFixed(2)}
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  {(measurement.volume * 100).toFixed(0)}% / weight{" "}
+                                  {measurement.weight.toFixed(2)}
+                                </>
+                              )}
                             </dd>
                           </div>
                         ))}

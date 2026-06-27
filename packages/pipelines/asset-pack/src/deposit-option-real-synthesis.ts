@@ -180,9 +180,13 @@ export function buildRealDepositAssetPackOptionSynthesis(
     const measurements: DepositAssetPackOptionMeasurement[] = candidate.measurements.map((measurement) => ({
       id: `${optionId}:${measurement.measurementKind}`,
       label: measurement.label,
-      measurementKind: measurement.measurementKind as DepositAssetPackOptionMeasurement['measurementKind'],
+      measurementKind: measurement.measurementKind,
       weight: measurement.weight,
       volume: measurement.volume,
+      // V48 Gate 3: carry the absolutes provenance (category + size magnitude/unit).
+      ...(measurement.category ? { category: measurement.category } : {}),
+      ...(typeof measurement.magnitude === 'number' ? { magnitude: measurement.magnitude } : {}),
+      ...(measurement.unit ? { unit: measurement.unit } : {}),
       evidenceRoot: root('deposit-option-measurement', {
         measurementKind: measurement.measurementKind,
         weight: measurement.weight,

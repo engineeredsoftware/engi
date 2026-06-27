@@ -502,6 +502,10 @@ export function validateDepositSynthesisOptions(
     measurements: Record<string, number>;
     measurementRationale: string;
     confidence: number;
+    // V48 Gate 3: the FORMAL absolutes measured by agent-measure-absolutes in the
+    // Validation phase. When present these are the candidate's measurements (the
+    // legacy `measurements` record is the back-compat fallback only).
+    absolutes?: AssetPackCandidateMeasurement[] | null;
     // Deposit lens only: the read-demand preview signal (v0). neediness is
     // COMPUTED from this; absent/invalid signals yield no neediness preview.
     needinessSignal?: { demand?: number; saturation?: number; rationale?: string } | null;
@@ -534,12 +538,28 @@ export function validateDepositSynthesisOptions(
       );
       continue;
     }
-    const measurements = catalog.map((spec) => ({
-      measurementKind: spec.measurementKind,
-      label: spec.label,
-      weight: spec.weight,
-      volume: clampVolume(option.measurements?.[spec.measurementKind] ?? 0),
-    }));
+    // Prefer the FORMAL absolutes (agent-measure-absolutes, Validation phase) when
+    // present; otherwise map the legacy inline record through the lens catalog.
+    const formalAbsolutes = Array.isArray(option.absolutes) ? option.absolutes : null;
+    const measurements: AssetPackCandidateMeasurement[] =
+      formalAbsolutes && formalAbsolutes.length > 0
+        ? formalAbsolutes.map((m) => ({
+            measurementKind: String(m.measurementKind),
+            label: String(m.label ?? m.measurementKind),
+            weight: Number.isFinite(m.weight) ? Number(m.weight) : 0,
+            volume: clampVolume(Number(m.volume) || 0),
+            category: m.category === 'neediness' ? 'neediness' : 'absolute',
+            ...(Number.isFinite(m.magnitude as number)
+              ? { magnitude: Math.max(0, Math.round(Number(m.magnitude))) }
+              : {}),
+            ...(m.unit ? { unit: String(m.unit) } : {}),
+          }))
+        : catalog.map((spec) => ({
+            measurementKind: spec.measurementKind,
+            label: spec.label,
+            weight: spec.weight,
+            volume: clampVolume(option.measurements?.[spec.measurementKind] ?? 0),
+          }));
     candidates.push({
       kind: allowedKinds.has(option.kind) ? option.kind : context.candidateKinds[0],
       title: String(option.title).trim(),
