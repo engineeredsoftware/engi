@@ -41,16 +41,25 @@ jest.mock('@bitcode/pipeline-asset-pack', () => ({
   synthesizeAssetPacksPipeline: jest.fn(async () => undefined),
 }));
 
+// The Host provisioning (full checkout) is mocked: we assert the route provisions on
+// a Host and feeds the full inventory to the pipeline (no real git clone in jest).
+jest.mock('@/lib/deposit-source-provisioning', () => ({
+  resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'inline' } })),
+  provisionDepositSourceInventory: jest.fn(),
+}));
+
 import { createClient } from '@bitcode/supabase/ssr/server';
 import { supabaseAdmin } from '@bitcode/supabase';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
 import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
+import { provisionDepositSourceInventory } from '@/lib/deposit-source-provisioning';
 import { POST } from '@/app/api/deposit/synthesize-options/route';
 
 const mockRealInference = isAssetPackRealInferenceEnabled as jest.Mock;
 const mockPipeline = synthesizeAssetPacksPipeline as jest.Mock;
 const mockCreateExecution = createStreamingExecution as jest.Mock;
+const mockProvision = provisionDepositSourceInventory as jest.Mock;
 
 // The synthesized options the pipeline leaves at implementation:options. The route's
 // validateDepositSynthesisOptions (real) turns these into measured deposit options.
@@ -148,28 +157,18 @@ function installSupabaseMocks(options: {
   return { executionRow };
 }
 
-function githubTreeResponse() {
-  return {
-    ok: true,
-    json: async () => ({
-      tree: [
-        { type: 'blob', path: 'README.md' },
-        { type: 'blob', path: 'src/app.py' },
-        { type: 'blob', path: 'secret/keys.py' },
-      ],
-    }),
-  };
-}
-
-function githubContentResponse() {
-  return {
-    ok: true,
-    json: async () => ({
-      encoding: 'base64',
-      content: Buffer.from('A demo python project.').toString('base64'),
-    }),
-  };
-}
+// The full checkout the Host provisions (incl. an excluded secret/ path the route
+// must withhold). The route applies protected-IP exclusions to it.
+const PROVISIONED = {
+  paths: ['README.md', 'src/app.py', 'secret/keys.py'],
+  samples: [{ path: 'README.md', excerpt: 'A demo python project.' }],
+  sources: [
+    { path: 'README.md', content: 'A demo python project.' },
+    { path: 'src/app.py', content: 'def main():\n    pass' },
+    { path: 'secret/keys.py', content: 'KEY = 1' },
+  ],
+  truncated: false,
+};
 
 function createRequest(overrides: Record<string, unknown> = {}) {
   return new Request('http://localhost/api/deposit/synthesize-options', {
@@ -198,9 +197,7 @@ describe('POST /api/deposit/synthesize-options', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockRealInference.mockReturnValue(true);
-    global.fetch = jest.fn(async (url: string) =>
-      url.includes('/git/trees/') ? githubTreeResponse() : githubContentResponse(),
-    ) as unknown as typeof fetch;
+    mockProvision.mockResolvedValue(PROVISIONED);
   });
 
   it('requires a session', async () => {
@@ -245,10 +242,20 @@ describe('POST /api/deposit/synthesize-options', () => {
       executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
     );
     expect(mockPipeline).toHaveBeenCalledTimes(1);
-    // The pipeline received the exclusion-filtered inventory (secret/ withheld).
+    // The route provisioned the full checkout on the Host (clone URL + revision + token).
+    expect(mockProvision).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: 'https://github.com/engineeredsoftware/demo-python.git',
+        revision: 'abc123',
+        token: 'ghs_installation_token',
+      }),
+    );
+    // The pipeline received the exclusion-filtered inventory (secret/ withheld) —
+    // both the path list AND the full verbatim source.
     const pipelineInput = mockPipeline.mock.calls[0][0];
     expect(pipelineInput.mode).toBe('deposit');
     expect(pipelineInput.inventory.paths).toEqual(['README.md', 'src/app.py']);
+    expect(pipelineInput.inventory.sources.map((s: any) => s.path)).toEqual(['README.md', 'src/app.py']);
     expect(pipelineInput.protectedIpExclusions).toEqual(['secret/']);
 
     const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];

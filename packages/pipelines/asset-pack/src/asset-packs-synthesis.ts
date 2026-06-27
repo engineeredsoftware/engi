@@ -206,9 +206,22 @@ export interface AssetPacksSynthesisSourceSample {
   excerpt: string;
 }
 
+/** A full-content source file from the host checkout (every blob, verbatim). */
+export interface AssetPacksSynthesisSourceFile {
+  path: string;
+  content: string;
+}
+
 export interface AssetPacksSynthesisSourceInventory {
   paths: string[];
   samples: AssetPacksSynthesisSourceSample[];
+  /**
+   * The FULL verbatim source of the host checkout (V48 Gate 3) — every tracked
+   * file's content, provisioned by the primitive Host. Feeds measurement (the
+   * static-analysis tool reads real full content); the bounded `samples` feed
+   * prompts. Optional for back-compat (absent when only samples were available).
+   */
+  sources?: AssetPacksSynthesisSourceFile[];
   totalPathCount: number;
   excludedPathCount: number;
 }
@@ -334,12 +347,22 @@ export function isPathExcluded(path: string, exclusions: string[]): boolean {
 }
 
 export function applyExclusionsToInventory(
-  inventory: { paths: string[]; samples: AssetPacksSynthesisSourceSample[] },
+  inventory: {
+    paths: string[];
+    samples: AssetPacksSynthesisSourceSample[];
+    sources?: AssetPacksSynthesisSourceFile[];
+  },
   exclusions: string[],
 ): AssetPacksSynthesisSourceInventory {
   const keptPaths = inventory.paths.filter((path) => !isPathExcluded(path, exclusions));
   const keptSamples = inventory.samples.filter((sample) => !isPathExcluded(sample.path, exclusions));
+  // Protected-IP exclusions are honored on the FULL source too (fail-closed): an
+  // excluded file is never measured, sampled, or otherwise carried forward.
+  const keptSources = Array.isArray(inventory.sources)
+    ? inventory.sources.filter((file) => !isPathExcluded(file.path, exclusions))
+    : undefined;
   return {
+    ...(keptSources ? { sources: keptSources } : {}),
     paths: keptPaths,
     samples: keptSamples,
     totalPathCount: inventory.paths.length,

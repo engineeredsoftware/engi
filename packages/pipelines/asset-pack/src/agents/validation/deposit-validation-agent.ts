@@ -301,14 +301,19 @@ export default async function runDepositValidationAgent(input: any, execution: a
   // Per pack in parallel so wall-clock ≈ one measurement; each LLM call is bounded
   // by the F25 per-call timeout.
   if (packs.length > 0) {
-    // The available source for static analysis: the inventory SAMPLES (real,
-    // truncated source). Mapped to {path, content}; the static-analysis tool
-    // measures density from these and applies it to each pack's covered file set.
-    const inventorySources = Array.isArray((inventory as any)?.samples)
-      ? (inventory as any).samples
-          .filter((s: any) => s && typeof s.path === 'string' && typeof s.excerpt === 'string')
-          .map((s: any) => ({ path: s.path as string, content: s.excerpt as string }))
-      : [];
+    // The source for static analysis: the FULL checkout content (inventory.sources —
+    // every tracked file, verbatim, provisioned by the Host) so the covered files are
+    // measured from real content; fall back to the bounded samples when only those
+    // are present (e.g. a pre-Host inventory).
+    const inventorySources = Array.isArray((inventory as any)?.sources)
+      ? (inventory as any).sources
+          .filter((s: any) => s && typeof s.path === 'string' && typeof s.content === 'string')
+          .map((s: any) => ({ path: s.path as string, content: s.content as string }))
+      : Array.isArray((inventory as any)?.samples)
+        ? (inventory as any).samples
+            .filter((s: any) => s && typeof s.path === 'string' && typeof s.excerpt === 'string')
+            .map((s: any) => ({ path: s.path as string, content: s.excerpt as string }))
+        : [];
     await Promise.all(
       packs.map(async (pack: any) => {
         try {

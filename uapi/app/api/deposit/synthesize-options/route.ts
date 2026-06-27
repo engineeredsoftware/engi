@@ -17,6 +17,10 @@ import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
 import {
+  provisionDepositSourceInventory,
+  resolveDepositPipelineHost,
+} from '@/lib/deposit-source-provisioning';
+import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,
 } from '@/lib/bitcode-server-telemetry';
@@ -24,9 +28,6 @@ import {
 export const runtime = 'nodejs';
 export const maxDuration = 300;
 
-const MAX_INVENTORY_PATHS = 400;
-const MAX_SAMPLE_FILES = 10;
-const MAX_SAMPLE_CHARS = 1600;
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type SynthesizeOptionsBody = {
@@ -67,78 +68,6 @@ function readSignals(value: unknown) {
       summary: readString(entry.summary),
       weight: typeof entry.weight === 'number' ? entry.weight : null,
     }));
-}
-
-const SAMPLE_PRIORITY_PATTERNS = [
-  /^readme/i,
-  /^package\.json$/i,
-  /^pyproject\.toml$/i,
-  /^cargo\.toml$/i,
-  /^go\.mod$/i,
-  /^setup\.(py|cfg)$/i,
-  /^requirements.*\.txt$/i,
-];
-
-function pickSamplePaths(paths: string[]): string[] {
-  const prioritized = paths.filter((path) =>
-    SAMPLE_PRIORITY_PATTERNS.some((pattern) => pattern.test(path.split('/').pop() || '')),
-  );
-  const sourceLike = paths.filter(
-    (path) =>
-      !prioritized.includes(path) &&
-      /\.(ts|tsx|js|jsx|py|rs|go|rb|java|cs|swift|sol|md)$/i.test(path) &&
-      path.split('/').length <= 3,
-  );
-  return [...prioritized, ...sourceLike].slice(0, MAX_SAMPLE_FILES);
-}
-
-async function githubJson(token: string, url: string) {
-  const response = await fetch(url, {
-    headers: {
-      authorization: `Bearer ${token}`,
-      accept: 'application/vnd.github+json',
-      'x-github-api-version': '2022-11-28',
-    },
-    cache: 'no-store',
-  });
-  if (!response.ok) {
-    throw new Error(`GitHub API ${response.status} for ${url.replace(/\?.*$/, '')}`);
-  }
-  return response.json() as Promise<Record<string, unknown>>;
-}
-
-async function buildSourceInventory(input: {
-  token: string;
-  repositoryFullName: string;
-  reference: string;
-}) {
-  const tree = await githubJson(
-    input.token,
-    `https://api.github.com/repos/${input.repositoryFullName}/git/trees/${encodeURIComponent(input.reference)}?recursive=1`,
-  );
-  const entries = Array.isArray(tree.tree) ? (tree.tree as Array<Record<string, unknown>>) : [];
-  const paths = entries
-    .filter((entry) => entry.type === 'blob' && typeof entry.path === 'string')
-    .map((entry) => entry.path as string)
-    .slice(0, MAX_INVENTORY_PATHS);
-
-  const samples: Array<{ path: string; excerpt: string }> = [];
-  for (const path of pickSamplePaths(paths)) {
-    try {
-      const content = await githubJson(
-        input.token,
-        `https://api.github.com/repos/${input.repositoryFullName}/contents/${encodeURI(path)}?ref=${encodeURIComponent(input.reference)}`,
-      );
-      if (typeof content.content === 'string' && content.encoding === 'base64') {
-        const text = Buffer.from(content.content, 'base64').toString('utf8');
-        samples.push({ path, excerpt: text.slice(0, MAX_SAMPLE_CHARS) });
-      }
-    } catch {
-      // A missing or oversized sample never blocks synthesis.
-    }
-  }
-
-  return { paths, samples, truncated: entries.length > MAX_INVENTORY_PATHS };
 }
 
 export async function POST(request: Request) {
@@ -274,15 +203,24 @@ export async function POST(request: Request) {
       supabaseAdmin,
     );
     const reference = sourceCommit || sourceBranch || 'HEAD';
-    await emitStatus(`Building source inventory from ${repositoryFullName}@${reference}…`);
-    const rawInventory = await buildSourceInventory({
-      token: auth.accessToken,
-      repositoryFullName,
-      reference,
-    });
-    const inventory = applyExclusionsToInventory(rawInventory, protectedIpExclusions);
+    // Provision the FULL repository checkout on the primitive Host (InlineHost
+    // in-process; the Vercel Sandbox host in prod). The static-analysis measurement
+    // reads the real full source (inventory.sources); bounded samples feed the
+    // prompts. This is the host's job — the dispatching request does not clone.
+    const host = resolveDepositPipelineHost();
     await emitStatus(
-      `Inventory ready: ${inventory.paths.length} paths (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; ${inventory.samples.length} excerpts sampled).`,
+      `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
+    );
+    const provisioned = await provisionDepositSourceInventory({
+      host,
+      repositoryFullName,
+      url: `https://github.com/${repositoryFullName}.git`,
+      revision: reference,
+      token: auth.accessToken,
+    });
+    const inventory = applyExclusionsToInventory(provisioned, protectedIpExclusions);
+    await emitStatus(
+      `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; full source measured, ${inventory.samples.length} prompt excerpts).`,
     );
 
     const DEPOSIT_OPTION_KINDS = ['capability-slice', 'implementation-pattern', 'proof-operations-slice'];

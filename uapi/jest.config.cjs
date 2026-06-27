@@ -84,6 +84,7 @@ module.exports = {
     '^@/lib/bitcoin-wallet-client$': '<rootDir>/lib/bitcoin-wallet-client.ts',
     '^@/lib/github-app-url$': '<rootDir>/lib/github-app-url.ts',
     '^@/lib/bitcode-server-telemetry$': '<rootDir>/lib/bitcode-server-telemetry.ts',
+    '^@/lib/deposit-source-provisioning$': '<rootDir>/lib/deposit-source-provisioning.ts',
     '^@/lib/bitcode-qa-telemetry$': '<rootDir>/lib/bitcode-qa-telemetry.ts',
     '^@/lib/bitcode-wallet-local$': '<rootDir>/lib/bitcode-wallet-local.ts',
     '^@/lib/supabase-auth-redirect$': '<rootDir>/lib/supabase-auth-redirect.ts',
@@ -108,6 +109,8 @@ module.exports = {
     // Include API integration tests for AssetPack and Shippable routes
     '<rootDir>/tests/api/**/*.test.ts',
     '<rootDir>/tests/api/**/*.test.tsx',
+    // Library unit tests (deposit source provisioning, …)
+    '<rootDir>/tests/lib/**/*.test.ts',
     '<rootDir>/tests/webhookRoute.test.ts',
     // Include mock system tests
     '<rootDir>/tests/MockOrchestrator.test.ts',
