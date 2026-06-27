@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import { Execution } from '@bitcode/execution-generics/Execution';
+import type { MeasurementSpec } from '@bitcode/agent-generics';
 
 import {
   synthesizeAssetPackCandidatesFormal,
@@ -95,6 +96,72 @@ export function measurementCatalogForLens(lens: AssetPacksSynthesisLens): AssetP
 }
 
 /**
+ * The ABSOLUTES catalog (V48 Gate 3 — the formalized non-needinesses category).
+ * Intrinsic, reader-independent measures of a synthesized AssetPack patch, read
+ * by agent-measure-absolutes (the formal measure-agent), superseding the legacy
+ * placeholder catalog. Grounded in the demonstration's static-measurement notion
+ * (`protocol-demonstration/`: normalizedBitcodeVolume / semantic volume). A
+ * MeasurementSpec plus a composite `weight` (weights sum to 1).
+ *
+ * Lens-shared in Gate 3 (the read-lens finalization is Gate 4); the concrete
+ * agent is lens-parameterized so Gate 4 only finalizes, not restructures.
+ */
+export interface AssetPackAbsoluteSpec extends MeasurementSpec {
+  /** Weight in the absolute weighted composite. */
+  weight: number;
+}
+
+export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
+  {
+    measurementKind: 'function-count',
+    label: 'Functions',
+    unit: 'functions',
+    hasMagnitude: true,
+    weight: 0.18,
+    guidance:
+      'How many distinct functions/behaviors the synthesized patch encodes (a size). magnitude = the count.',
+  },
+  {
+    measurementKind: 'type-count',
+    label: 'Types',
+    unit: 'types',
+    hasMagnitude: true,
+    weight: 0.14,
+    guidance:
+      'How many distinct types/interfaces/schemas the patch defines (a size). magnitude = the count.',
+  },
+  {
+    measurementKind: 'file-span',
+    label: 'File span',
+    unit: 'files',
+    hasMagnitude: true,
+    weight: 0.12,
+    guidance:
+      'How many files the patch creates/modifies (a size — derivable from the patch descriptor). magnitude = the count.',
+  },
+  {
+    measurementKind: 'correctness-estimate',
+    label: 'Correctness',
+    unit: 'estimate',
+    weight: 0.28,
+    guidance:
+      'A 0..1 estimate of the synthesized knowledge’s fidelity and internal coherence — the patch is faithful to the comprehension it was synthesized from and would build.',
+  },
+  {
+    measurementKind: 'semantic-volume',
+    label: 'Semantic volume',
+    unit: 'normalized',
+    weight: 0.28,
+    guidance:
+      'A 0..1 measure of HOW MUCH commercially-legible knowledge the pack encodes — the normalized bitcode-volume analog (monotone in the sizes). What the BTD volume later grounds on.',
+  },
+];
+
+export const ASSET_PACK_ABSOLUTE_KINDS: string[] = ASSET_PACK_ABSOLUTES_CATALOG.map(
+  (spec) => spec.measurementKind,
+);
+
+/**
  * Deposit neediness — the read-demand PREVIEW. NOT a member of
  * DEPOSIT_MEASUREMENT_CATALOG (it is not part of the absolute weighted composite);
  * it is a separate, forward-looking estimate previewed beside the absolutes.
@@ -178,7 +245,19 @@ export interface AssetPackCandidateMeasurement {
   measurementKind: string;
   label: string;
   weight: number;
+  /** Normalized 0..1 — the value the weighted composite uses. */
   volume: number;
+  /**
+   * Which measurement CATEGORY this reading belongs to. Absolutes are intrinsic
+   * (sizes/correctness/volume) and form the weighted composite; needinesses are
+   * reader-relative previews and are NEVER in the absolute composite. Optional
+   * for back-compat with the legacy placeholder catalog (treated as 'absolute').
+   */
+  category?: 'absolute' | 'neediness';
+  /** Raw count/quantity for size measurements (functions/types/files). */
+  magnitude?: number;
+  /** The reading's unit: functions | types | files | estimate | normalized. */
+  unit?: string;
 }
 
 /**
