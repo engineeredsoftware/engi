@@ -537,61 +537,105 @@ informed AssetPacks, generically across repositories of all shapes and sizes.
   quality — is never optional). Correct the route's dead `PROFILE=bounded` phrasing
   in the real-inference-required message (profiles were removed in F26-A).
 
-### Gate-3 HOST source contract — full repository on every host (Garrett, 2026-06-27)
+### Gate-3 HOST architecture — the primitive Host, its kinds, in-host execution (Garrett, 2026-06-27)
 
-Both pipeline hosts — **local in-process** (dev: the persistent Node server) and the
-**Vercel Sandbox** (prod) — are valid HOSTs with IDENTICAL machine capabilities
-(clone commands, filesystem, exec; `PipelineHostCapabilities`). The synthesis
-pipeline runs the SAME clone + measurement behavior on both: in **Setup** the host
-CHECKS OUT THE FULL REPOSITORY — every blob of the working tree at the source
-revision, verbatim — into the host working directory; Discovery, Implementation, and
-Validation (measurement) read that full checkout. No per-environment compromise; the
-static-analysis tool then measures the real full source, not samples.
+The synthesis pipeline runs WITHIN a HOST — a real box with git, a filesystem, and
+command exec. (Every host has these; there is no "git-less" host. The earlier
+dev/prod, serverless-can't-clone, and read-files-out-per-file framings were WRONG and
+are superseded by this section.)
 
-Gaps to close (the inline deposit run deviates today):
-- The route's GitHub-API sample inventory (`buildSourceInventory`: `git/trees` paths +
-  ≤10 × 1600-char excerpts) is a STOPGAP and is RETIRED. Source is the full checkout;
-  the inventory is built FROM the checkout at HARNESS-RUN START on the Host (consistent
-  with the sandbox being created WITH its git source — provisioning precedes the
-  pipeline phases), NOT in the dispatching request. The Setup clone agent then confirms
-  source-present (its short-circuit is correct, given the host pre-provisioned). The
-  inventory carries the full verbatim `sources` (measurement) + bounded `samples`
-  (prompts); `applyExclusionsToInventory` filters `sources` fail-closed.
-- The clone TOOL (`packages/git` `cloneRepository`) is a metadata-only stub (returns
-  URLs, no checkout); a real `git clone` of the full working tree to the host FS is
-  required for the local host. The Vercel Sandbox already clones via its SDK
-  (`PipelineSandboxSource {type:'git'}`) into `/vercel/sandbox`; the Setup clone agent
-  short-circuits there because the checkout is already present.
-- A serverless function is NOT a valid host (no git binary, ephemeral FS). The
-  dispatching request stays serverless, but the HARNESS RUN executes on a valid host —
-  the dev persistent Node server or the prod Vercel Sandbox. Prod deposit therefore
-  runs on the sandbox host (the standing Gate-3 host loose end).
-- Source-safety unchanged: the full checkout lives ON the host; only source-safe
-  measurements + the source-safe patch/contents descriptors leave it; raw source never
-  enters telemetry.
-- "Literally everything, verbatim" = the full WORKING TREE at the revision (every
-  blob). Full git history (`depth: 0`) is a separate axis, not needed for source
-  measurement; `depth: 1` already yields every blob of the checkout.
+The Host is a PRIMITIVE — `BitcodePipelineHost` (`packages/pipeline-hosts/host.ts`):
+- `capabilities`: a HOST CAPABILITIES descriptor — `hostKind` (`'inline' | 'sandbox'`),
+  `clone` + `filesystem` + `exec` (TRUE for every host), `ephemeralFilesystem`,
+  `defaultWorkingDirectory`; a SandboxHost additionally carries `sandboxProvider`
+  (`'vercel' | 'aws'`).
+- `provisionRepository(source)` → checks out the FULL working tree at the revision
+  (every blob, verbatim) into the host working directory → a `BitcodeHostWorkspace`:
+  `listFiles()` (tracked source files), `readFile(path)` (verbatim content),
+  `runCommand(...)`, `dispose()`.
+Because the pipeline runs WITHIN the host, the workspace is the host's LOCAL checkout —
+read locally, NEVER across a process/network boundary. The pipeline (Setup → … →
+Validation) speaks only to the primitive, so its behavior is identical on every host.
 
-The Host is a PRIMITIVE (Garrett, 2026-06-27): **Sandbox and Inline are two
-implementations of one primitive Host harness, specified by HOST CAPABILITIES.** The
-primitive (`BitcodePipelineHost`, `packages/pipeline-hosts`): a `capabilities`
-descriptor (clone / filesystem / exec / ephemeral / working dir) + `provisionRepository(source)`
-that checks out the FULL working tree at the revision and returns a
-`BitcodeHostWorkspace` exposing the checkout — `listFiles()` (tracked source files),
-`readFile(path)` (verbatim content), `runCommand(...)`, `dispose()`. The pipeline
-(Setup → … → Validation) speaks only to the primitive; the implementations differ
-only in HOW:
-- **InlineHost** — a real `git clone` of the full tree to a local working dir + a
-  Node-fs-backed workspace. Valid only where the runtime has git + a filesystem (the
-  dev persistent Node server; NOT a serverless function).
-- **VercelSandboxHost** — provisions via the Sandbox SDK git source into
-  `/vercel/sandbox`; the workspace is backed by `runCommand` (`git ls-files`) +
-  `readFileToBuffer`.
-Both yield identical behavior; the deposit Setup provisions through the primitive and
-builds its inventory + measurement source from the checkout, retiring the API sample
-inventory. (The current `cloneRepository` metadata stub and the Setup clone agent's
-short-circuit are superseded by the primitive's real provisioning.)
+**HostKinds — two implementations of the primitive:**
+- **InlineHost** (`inline-host.ts`) — runs the pipeline in the current box; provisions
+  via a real `git clone` of the full tree to a local working dir (Node-fs workspace).
+- **SandboxHost** (`sandbox-host.ts`) — runs the pipeline inside a provisioned, isolated
+  box that has git + FS, so within it the checkout is local exactly as for InlineHost.
+  It is a base for providers:
+  - **Vercel** (`VercelSandboxHost`, IMPLEMENTED) — provisions via the Sandbox SDK git
+    source into the box working directory.
+  - **AWS** (`AwsSandboxHost`, STUBBED) — the provider seam for an AWS-backed box; not
+    yet implemented.
+  Provisioning AND the pipeline both run IN the box; nothing is read out of it per-file.
+
+**Selection** is by CONFIGURED HostKind — not by environment, and with no dev/prod /
+local/remote terminology. `selectDepositHostKind(env)` returns `'inline' | 'sandbox'`
+from `BITCODE_PIPELINE_HOST` (explicit), defaulting to `inline`; a SandboxHost's
+provider comes from `BITCODE_SANDBOX_PROVIDER` (`'vercel' | 'aws'`, default `vercel`).
+`resolveDepositPipelineHost()` constructs the configured HostKind/provider. The
+operator chooses which host runs the pipeline.
+
+**Source provisioning + measurement:** the harness run provisions the full checkout on
+the configured host at run start (consistent with a box being created WITH its git
+source — provisioning precedes the pipeline phases); the Setup clone agent then
+confirms source-present. The inventory is built FROM the checkout:
+`AssetPacksSynthesisSourceInventory` = `paths` (all tracked files) + `samples` (bounded
+excerpts for the prompts) + `sources` (every tracked file's verbatim content, type
+`AssetPacksSynthesisSourceFile {path, content}`, for measurement). `readWorkspaceSources(workspace, {paths?})`
+bridges the checkout to `{path, content}[]`; `provisionDepositSourceInventory({host, …})`
+(`uapi/lib/deposit-source-provisioning.ts`) orchestrates provision → read → dispose.
+`applyExclusionsToInventory` filters `paths` + `samples` + `sources` fail-closed
+(protected-IP paths are never measured, sampled, or carried). The GitHub-API sample
+inventory (`buildSourceInventory`) is RETIRED; the `cloneRepository` metadata stub and
+the Setup clone-agent short-circuit are superseded by the primitive's real provisioning.
+Source-safety unchanged: the checkout lives ON the host; only source-safe measurements +
+the source-safe patch/contents descriptors leave it. "Every blob, verbatim" = the full
+WORKING TREE at the revision; `depth: 1` already yields it (full history `depth: 0` is a
+separate, unneeded axis).
+
+### Gate-3 implementation index — concrete artifacts (gate-closure completeness; Garrett, 2026-06-27)
+
+The concrete artifacts implementing the Gate-3 spec above (so every G3 implementation
+is named in spec for closure):
+
+- **Measurement — absolutes.** `packages/agent-generics`: `factoryMeasureAgent` (base) +
+  `factoryMeasureAgentAbsolutes`; `MeasureAgentOutputSchema` (reading
+  `{measurementKind, magnitude?, volume, rationale}`). `packages/pipelines/asset-pack`:
+  `factoryAssetPackMeasureAbsolutesAgent(lens)` → `agent-measure-absolutes`;
+  `measureAssetPackAbsolutes(patch, {lens, execution, sources})` (sizes authoritative
+  from the tool; correctness/semantic-volume the agent's grounded judgment;
+  `computeAbsolutesFromReport` deterministic fallback; `mergeReportAndReadings`).
+  `ASSET_PACK_ABSOLUTES_CATALOG` (function-count, type-count, file-span,
+  correctness-estimate, semantic-volume; weights sum to 1).
+  `AssetPackCandidateMeasurement {measurementKind, label, weight, volume, category, magnitude?, unit?}`.
+- **Measurement — static analysis.** `SourceStaticAnalysisTool`
+  (`agents/validation/source-static-analysis-tool.ts`): `analyzeStaticSource` /
+  `analyzeStaticSourceFile` (language-generic regex by extension ts/js/py/rs/go/java/rb +
+  generic fallback; functions/types/symbols/config-keys/lines/tokens; density applied to
+  the covered set; `coverageRatio`). Registry: `registerSourceStaticAnalysisTool` /
+  `resolveSourceStaticAnalysisTool` (priority add/replace, local-then-parent).
+- **Validation wiring.** `runDepositValidationAgent` measures each pack via
+  `measureAssetPackAbsolutes` (sources = `inventory.sources`), attaches `pack.absolutes`
+  in place, re-stores `implementation:options`/`implementation:assetPacks`.
+  `validateDepositSynthesisOptions` PREFERS `option.absolutes` (else the legacy catalog)
+  and carries `candidate.patch`.
+- **Neediness.** `computeNeediness(demand, saturation)` + `buildNeedinessFromSignal`
+  (asset-packs-synthesis.ts); the Implementation `deposit-asset-pack-synthesis-agent`
+  emits `needinessSignal`, grounded in the Discovery `deposit-depository-search-agent`
+  (likelyReadTopics / demandAlignment / underservedTopics).
+- **Decision-grade card.** `AssetPackPatchDescriptor {fileChanges:[{path,op}], patchSummary}`;
+  `AssetPackCandidate.patch`; `DepositAssetPackOption.contents
+  {patchSummary, fileChanges, provenantSourcePaths, provenantSourceCount}` + `roots.contentsRoot`,
+  built by `buildRealDepositAssetPackOptionSynthesis`; the `/deposit` card renders the
+  "If deposited, Bitcode receives" panel.
+- **Host + provisioning.** `packages/pipeline-hosts`: `BitcodePipelineHost` /
+  `BitcodeHostWorkspace` / `BitcodeHostCapabilities` (`host.ts`); `InlineHost`;
+  `SandboxHost` + `VercelSandboxHost` (Vercel provider) + `AwsSandboxHost` (stub);
+  `readWorkspaceSources`. `uapi/lib/deposit-source-provisioning.ts`:
+  `selectDepositHostKind`, `resolveDepositPipelineHost`, `provisionDepositSourceInventory`.
+- **Config.** `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE` removed (full SDIVF pipeline only;
+  Validation — measurement + quality — never skipped).
 
 ## Non-goals during V48 opening
 
