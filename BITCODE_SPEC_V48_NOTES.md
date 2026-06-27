@@ -173,6 +173,30 @@ Accepted V48 architecture law (decided 2026-06-25):
   phase/agent/step/failsafe/generation labels, because the formal executors
   populate the execution state (the lightweight path's `undefined` labels were
   a symptom of bypassing them).
+- **Inference is non-configurable** (Garrett, 2026-06-26; removes the PROFILE
+  concept entirely). There are NO inference profiles (no bounded/full, no
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE`, no per-agent `*_USE_PTRR` flags,
+  no in-agent deterministic/bounded fallbacks). The formal pipeline ALWAYS runs
+  the complete hierarchy and the lowest-level Generation ALWAYS performs real
+  inference — the hierarchy is fixed, not env-switched. Determinism for tests is
+  provided ONLY by mocking the LLM provider at the boundary (test infrastructure),
+  never by branches inside the pipeline. This retires
+  `runtime-inference-policy` (the profile/`shouldUsePtrr` functions),
+  `bounded-structured-inference`, and the read-lens agents' deterministic
+  branches; every agent resolves to its `factoryAgent*` formal executor.
+- **SynthesizeAssetPacks executes via the pipeline HARNESS, decoupled from the
+  dispatching request** (Garrett, 2026-06-26). Because the pipeline always runs
+  the full hierarchy (many LLM calls), it must not be bound to a single HTTP
+  request's `maxDuration`. The route VALIDATES + DISPATCHES a run and returns the
+  `runId` immediately; the harness runs the full pipeline to completion while
+  source-safe telemetry streams to `execution_events`; the client detects the
+  completion event (already streamed) and reads the persisted synthesis from the
+  execution row `output`. Two execution hosts behind one harness interface:
+  **local in-process** (dev — the persistent Node server runs the dispatched
+  pipeline as a background task) and the **Vercel Sandbox** (prod — durable
+  isolated execution via the existing `pipeline-hosts` host). The `/deposit`
+  synthesize-options surface stops awaiting the pipeline inline; the LLM-call
+  timeout (QA F25) remains a per-call safety bound within the harness run.
 - Per-phase jobs (Garrett, 2026-06-25): **Setup** clones the repository and
   runs a danger-wall (safety/risk admission); **Discovery** explores the
   source; **Implementation** synthesizes the AssetPacks; **Validation**
