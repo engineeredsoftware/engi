@@ -424,6 +424,67 @@ Garrett, 2026-06-27):
   (`agent-measure-asset-packs-absolutes-for-depositor`,
   `agent-measure-asset-packs-needinesses-for-reader`, etc.).
 
+### Gate-3 absolutes formalization — implementable contract (Garrett, 2026-06-27)
+
+This is the implementable detail for the Gate-3 obligation above. Measurement is
+made a FORMAL, SEPARATE step: an AssetPack is a *measured patch* = a patch
+(synthesized by the Implementation agent) **measured by a dedicated measure-agent**.
+Today the synthesis agent self-scores its own placeholder catalog inline; the
+formalization moves absolute measurement out of synthesis into `agent-measure-absolutes`,
+run in the **Validation** phase over each synthesized patch.
+
+- **The absolutes catalog (v0).** Intrinsic, reader-independent measures of the
+  synthesized patch. Each is grounded in the demonstration's static-measurement
+  notion (`protocol-demonstration/`: `normalizedBitcodeVolume` / semantic volume,
+  the static measurement report). The Gate-3 v0 catalog:
+  - **sizes** — a set of structural magnitudes: `function-count`, `type-count`,
+    `file-span` (the count of files the patch touches, deterministic from the patch
+    descriptor's `fileChanges`). Each carries a raw `magnitude` (a count) AND a
+    normalized 0..1 `volume`.
+  - **correctness-estimate** — a 0..1 estimate of the synthesized knowledge's
+    fidelity/buildability (the patch is internally coherent and faithful to the
+    comprehension it was synthesized from).
+  - **semantic-volume** — the demonstration analog (`normalizedBitcodeVolume`): a
+    normalized 0..1 scalar of *how much* commercially-legible knowledge the pack
+    encodes, a monotone function of the sizes. This is the absolute "amount" measure
+    the BTD volume later grounds on.
+- **Measurement shape.** `AssetPackCandidateMeasurement` gains `category:
+  'absolute' | 'neediness'`, optional `magnitude` (raw count) and `unit`
+  (`functions` | `types` | `files` | `estimate` | `normalized`). `volume` stays the
+  normalized 0..1 the composite uses; `magnitude` is display/provenance only. The
+  neediness preview (F24) is re-tagged `category:'neediness'`; the absolutes are
+  `category:'absolute'`. The weighted composite is the weighted sum over the
+  **absolutes'** `volume` (needinesses are never in the absolute composite).
+- **The measure-agent factory hierarchy.** Realized as LAYERED FACTORIES (the
+  codebase idiom — each "base" is a factory that configures the more general one,
+  bottoming out in `factoryAgentWithPTRR`; there is no class inheritance):
+  - `generic-agents/agents/measure-agent.ts` → **`factoryMeasureAgent`**: the base.
+    Given `{ subject, measurements: MeasurementSpec[], category, name, description }`
+    it builds a PTRR agent (identity = "you MEASURE an already-synthesized artifact;
+    you do not synthesize or alter it; emit an honest measurement per spec with a
+    source-safe rationale") whose output is
+    `{ measurements: [{ measurementKind, magnitude?, volume, rationale }], summary }`.
+  - `generic-agents/agents/measure-agent-absolutes.ts` →
+    **`factoryMeasureAgentAbsolutes`**: calls `factoryMeasureAgent` with
+    `category:'absolute'` and the absolutes framing ("absolutes are INTRINSIC — they
+    depend only on the artifact itself, never on any reader, demand, or market").
+    (The sibling `factoryMeasureAgentNeedinesses` is Gate 4.)
+  - `pipelines/asset-pack/.../agent-measure-absolutes.ts` →
+    **`agent-measure-absolutes`**: calls `factoryMeasureAgentAbsolutes` with the
+    asset-pack absolutes catalog, lens-parameterized now (deposit | read) so Gate 4
+    only finalizes the read lens — it does not restructure. Wrapper unwraps the PTRR
+    envelope (F27) and stores to the execution.
+- **Source-safety.** The measurer reasons over the source-safe patch DESCRIPTOR
+  (`fileChanges` path+op, `patchSummary`) and Discovery comprehension — NEVER raw
+  source. Size magnitudes are estimates/derivations, not AST reads of protected
+  code. Telemetry withholds content as ever (`sourceSafeStreamEvent`).
+- **Deterministic fallback.** When real inference is disabled
+  (`isAssetPackRealInferenceEnabled() === false`), the absolutes are computed
+  deterministically from the patch descriptor (`file-span` = `fileChanges` length;
+  function/type counts estimated from covered-path and summary signal; correctness =
+  confidence; semantic-volume = normalized size composite), preserving the
+  source-safe, no-network test/preview path.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
