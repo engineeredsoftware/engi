@@ -324,6 +324,29 @@ The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
   reviewable (stored at `implementation:assetPacks`; the reviewable face at
   `implementation:options`). Physical materialization of the raw content into the
   cloned workspace is the delivery/settlement context.
+- **Neediness (deposit preview of read Need-fit; v0)**: a deposit-lens AssetPack
+  PREVIEW measurement (0..1) estimating the reading demand the pack would satisfy
+  — the depositor's preview of its future read-side `need-fit` (and ultimately
+  BTD / earnings), which guides which packs are worth synthesizing. It is SEPARATE
+  from the absolute deposit composite (source-coverage / demand-alignment /
+  reuse-likelihood) — an estimate of a different (read) lens, shown alongside but
+  not folded in. Computed deterministically per pack as
+  `neediness = clamp01(demand × (0.5 + 0.5 × (1 − saturation)))` from two
+  source-safe signals the depository-search lens supplies: `demand` ∈ [0,1]
+  (estimated reading demand for the pack's knowledge — v0: the Discovery
+  `depository-search` demand guidance / `demandAlignment`, grounded in the
+  depositor `demandContext`) and `saturation` ∈ [0,1] (how much the Depository
+  already supplies the topic — v0: the depository-search `underservedTopics`
+  signal). Demand gates, scarcity boosts: a demanded, underserved pack scores
+  highest (a future Need would have few alternatives, you the supplier); a
+  saturated or undemanded pack scores low. The deposit synthesis agent emits the
+  per-pack `needinessSignal {demand, saturation, rationale}`; `computeNeediness`
+  derives the scalar in the shared lib (`asset-packs-synthesis.ts`); the `/deposit`
+  option cards preview it as earning potential. Source-safe: derived scalars +
+  topic descriptors only, never raw source. v1 seam: replace `saturation` with a
+  real embedding-vector probe of the pack against the Depository supply index, and
+  `demand` with a search against an accrued Read-Need / demand corpus; once the
+  pack is read, the realized read `need-fit` + BTD calibrate the estimate.
 - **Validation**: quality thresholds, coverage/corrections/fixes, and AssetPack
   smoke/sanity checks; the Discovery/Implementation/Validation loop iterates until
   complete or maxIterations. The deposit validator (`validation:deposit-quality`)

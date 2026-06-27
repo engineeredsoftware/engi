@@ -94,6 +94,46 @@ export function measurementCatalogForLens(lens: AssetPacksSynthesisLens): AssetP
   return lens === 'read' ? READ_MEASUREMENT_CATALOG : DEPOSIT_MEASUREMENT_CATALOG;
 }
 
+/**
+ * Deposit neediness — the read-demand PREVIEW. NOT a member of
+ * DEPOSIT_MEASUREMENT_CATALOG (it is not part of the absolute weighted composite);
+ * it is a separate, forward-looking estimate previewed beside the absolutes.
+ */
+export const DEPOSIT_NEEDINESS_MEASUREMENT = {
+  measurementKind: 'neediness',
+  label: 'Neediness (est. read demand)',
+  guidance:
+    'Estimated reading demand the AssetPack would satisfy — the deposit-side preview of read Need-fit and earning potential. Computed from the depository-search demand signal and the supply scarcity it addresses.',
+} as const;
+
+/**
+ * Compute neediness (v0): demand gates, scarcity boosts. A demanded, underserved
+ * pack scores highest; a saturated or undemanded pack scores low.
+ *   neediness = clamp01(demand × (0.5 + 0.5·(1 − saturation)))
+ */
+export function computeNeediness(demand: number, saturation: number): number {
+  const d = clampVolume(Number.isFinite(demand) ? demand : 0);
+  const s = clampVolume(Number.isFinite(saturation) ? saturation : 0);
+  return clampVolume(d * (0.5 + 0.5 * (1 - s)));
+}
+
+/** Build the neediness preview from a raw per-pack signal (deposit lens). */
+export function buildNeedinessFromSignal(signal: {
+  demand?: unknown;
+  saturation?: unknown;
+  rationale?: unknown;
+} | null | undefined): AssetPackNeediness | undefined {
+  if (!signal || typeof signal !== 'object') return undefined;
+  const demand = clampVolume(Number.isFinite(Number((signal as any).demand)) ? Number((signal as any).demand) : 0);
+  const saturation = clampVolume(Number.isFinite(Number((signal as any).saturation)) ? Number((signal as any).saturation) : 0);
+  return {
+    volume: computeNeediness(demand, saturation),
+    demand,
+    saturation,
+    rationale: String((signal as any).rationale ?? '').trim(),
+  };
+}
+
 export interface AssetPacksSynthesisSourceSample {
   path: string;
   excerpt: string;
@@ -141,6 +181,24 @@ export interface AssetPackCandidateMeasurement {
   volume: number;
 }
 
+/**
+ * Neediness — the deposit-lens PREVIEW of read Need-fit (v0). A 0..1 estimate of
+ * the reading demand the pack would satisfy, derived from the depository-search
+ * `demand` signal and the supply `saturation` it would address. SEPARATE from the
+ * absolute deposit composite (it estimates a different, read, lens). Source-safe:
+ * scalars + topic-level rationale only.
+ */
+export interface AssetPackNeediness {
+  /** Computed 0..1 = demand × (0.5 + 0.5·(1−saturation)). */
+  volume: number;
+  /** 0..1 estimated reading demand for the pack's knowledge. */
+  demand: number;
+  /** 0..1 how much the Depository already supplies the topic. */
+  saturation: number;
+  /** Source-safe rationale for the demand/saturation estimate. */
+  rationale: string;
+}
+
 export interface AssetPackCandidate {
   kind: string;
   title: string;
@@ -149,6 +207,8 @@ export interface AssetPackCandidate {
   measurements: AssetPackCandidateMeasurement[];
   measurementRationale: string;
   confidence: number;
+  /** Deposit lens only: the read-demand preview (v0). Absent on read candidates. */
+  neediness?: AssetPackNeediness;
 }
 
 export interface AssetPacksSynthesisInferenceAccounting {
@@ -363,6 +423,9 @@ export function validateDepositSynthesisOptions(
     measurements: Record<string, number>;
     measurementRationale: string;
     confidence: number;
+    // Deposit lens only: the read-demand preview signal (v0). neediness is
+    // COMPUTED from this; absent/invalid signals yield no neediness preview.
+    needinessSignal?: { demand?: number; saturation?: number; rationale?: string } | null;
   }>,
   context: {
     lens: AssetPacksSynthesisLens;
@@ -406,6 +469,8 @@ export function validateDepositSynthesisOptions(
       measurements,
       measurementRationale: String(option.measurementRationale).trim(),
       confidence: clampVolume(option.confidence),
+      // Deposit preview of read Need-fit (v0); read candidates carry no neediness.
+      neediness: context.lens === 'deposit' ? buildNeedinessFromSignal(option.needinessSignal) : undefined,
     });
   }
   return {
