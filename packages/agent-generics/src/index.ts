@@ -67,6 +67,27 @@ export type {
   BitcodePTRRStepPromptRegistry
 } from './agents/factories';
 
+// ==================== MEASURE AGENTS ====================
+
+// The measurement base hierarchy: measure-agent (PTRR base) ->
+// measure-agent-absolutes (+ measure-agent-needinesses, Gate 4) -> the asset-pack
+// concrete measurers. Layered factories, not class inheritance.
+export {
+  factoryMeasureAgent,
+  MeasurementReadingSchema,
+  MeasureAgentOutputSchema
+} from './agents/measure-agent';
+export type {
+  MeasureAgent,
+  MeasureAgentConfig,
+  MeasureAgentOutput,
+  MeasurementCategory,
+  MeasurementReading,
+  MeasurementSpec
+} from './agents/measure-agent';
+export { factoryMeasureAgentAbsolutes } from './agents/measure-agent-absolutes';
+export type { MeasureAgentAbsolutesConfig } from './agents/measure-agent-absolutes';
+
 // ==================== STEP FACTORIES ====================
 
 // PTRR step creation
