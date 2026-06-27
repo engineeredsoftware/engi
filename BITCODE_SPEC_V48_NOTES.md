@@ -485,6 +485,58 @@ run in the **Validation** phase over each synthesized patch.
   confidence; semantic-volume = normalized size composite), preserving the
   source-safe, no-network test/preview path.
 
+### Gate-3 depositing closure — tool-measured absolutes, decision-grade cards, config cleanup (Garrett, 2026-06-27)
+
+Closes Gate-3 depositing: the absolutes are MEASURED by real static analysis (not
+model guesses), the `/deposit` cards carry everything a technical knowledge-owner
+needs for the deposit / no-deposit decision, and the superfluous pipeline config is
+removed. All depositing agents/prompts/step-schemas must synthesize legitimately
+informed AssetPacks, generically across repositories of all shapes and sizes.
+
+- **Legitimate tool-based absolutes.** Sizes are MEASURED, not estimated by the model.
+  A `SourceStaticAnalysisTool` (an `ExecutionTool`) parses the available source with
+  language-generic regex fact-extraction inspired by the demonstration
+  (`protocol-demonstration/src/bitcode-demo.js`: symbol / path / config-key
+  extraction + per-unit token counts), producing measured counts — functions, types,
+  symbols, config keys, lines, tokens — and per-language densities
+  (functions/types per file). Individual analyses, composed together in the measurer.
+- **Source reality.** The deposit-options run has NO full clone (the clone agent
+  short-circuits when `repositoryFullName` is supplied), so the available source is
+  the inventory SAMPLES (real, truncated source) + the path list. The tool therefore
+  MEASURES density from the sampled source and applies it to the AP's EXACT covered
+  file set: `file-span` exact; function/type counts = measured-density × covered-file
+  count by language; `coverageRatio` reported for honesty. The SAME tool parses richer
+  source verbatim when present (a future full-clone delivery path), so the measurement
+  is generic across repo shapes/sizes and degrades honestly on sparse source.
+- **Registry add/replace hierarchy (the primitive).** Tools register through
+  `AgentToolsRegistry.registerTool(key, tool, priority)` — priority-keyed: same
+  priority REPLACES, higher priority OVERRIDES; resolution is local-then-parent
+  (children override parents). The base generic analyzer registers at priority 0;
+  specialized / augmenting analyzers register at higher priority WITHOUT replacing the
+  base. `agent-measure-absolutes` resolves the tool (local-then-parent) and runs it.
+- **The measurer uses the tool.** `agent-measure-absolutes` now grounds on the
+  static-analysis report: sizes come from the report (authoritative — the agent
+  reports measured counts, it does not invent them); `correctness-estimate` and
+  `semantic-volume` are the agent's grounded judgment over the report + the Discovery
+  comprehension. The deterministic fallback computes ALL absolutes from the report.
+- **Decision-grade AP cards.** Each `/deposit` card maximizes the deposit / no-deposit
+  decision by showing what Bitcode RECEIVES if the AssetPack is deposited:
+  1. the synthesized AP CONTENTS — the source-safe patch descriptor (`fileChanges`
+     path+op + `patchSummary`): what knowledge/edits the AP encodes; and
+  2. the PROVENANT SOURCE — the covered source files (`coveredSourcePaths`, raw paths)
+     that become available to Bitcode for future reader settlement.
+  Both surfaced prominently (not buried), framed as "if deposited, Bitcode receives."
+  Shown to the DEPOSITOR, who owns the source — the source-safety law constrains
+  leakage to readers/telemetry, NOT the owner reviewing their own repository. The
+  candidate / option projection carries the patch descriptor + covered paths to the
+  client (front+back synchronized).
+- **Config cleanup.** The full SDIVF pipeline is the ONLY deposit synthesis path:
+  remove `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE`, the bounded-synthesis branch, and the
+  zero-options bounded fallback in the deposit route; Setup → Discovery →
+  Implementation → Validation → Finish always runs (Validation — measurement +
+  quality — is never optional). Correct the route's dead `PROFILE=bounded` phrasing
+  in the real-inference-required message (profiles were removed in F26-A).
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
