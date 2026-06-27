@@ -649,17 +649,36 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     setFlatLines(sortedFlat);
   }, [output, outputDetails]);
 
-  // Handle scroll events
+  // Handle scroll events. A modest "near bottom" band (not exact-pixel) means
+  // momentum/rounding still counts as following, while a deliberate scroll up to
+  // read an earlier line or an open accordion stops the auto-follow; returning to
+  // the bottom resumes it.
+  const BOTTOM_FOLLOW_THRESHOLD_PX = 48;
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
-    const isAtBottom = Math.abs(target.scrollHeight - target.clientHeight - target.scrollTop) < 1;
+    const distanceFromBottom = target.scrollHeight - target.clientHeight - target.scrollTop;
 
-    if (!isAtBottom) {
+    if (distanceFromBottom > BOTTOM_FOLLOW_THRESHOLD_PX) {
       setUserHasScrolled(true);
     } else {
       setUserHasScrolled(false);
     }
   };
+
+  // Auto-follow: pin the log to the latest line as rows stream in so the user can
+  // watch passively — UNLESS they have scrolled away from the bottom, in which
+  // case we respect their position and never yank them back. `userHasScrolled`
+  // (maintained by handleScroll) flips back to false when they return to the
+  // bottom, which resumes the follow here.
+  useEffect(() => {
+    if (userHasScrolled) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const id = requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
+    return () => cancelAnimationFrame(id);
+  }, [flatLines, isProcessing, userHasScrolled]);
 
   // Toggle phase expansion
   const togglePhase = (phase: string) => {

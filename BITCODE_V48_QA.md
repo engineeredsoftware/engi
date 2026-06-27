@@ -230,6 +230,14 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Gate-4 (read lens) directive: move the read setup-plan (fits-finding planning) into the read-lens Discovery phase, with a deposit-free agent name; do not reintroduce a deposit setup-plan.
 - Verified: asset-pack tsc 0 + setup-agents suite green; uapi tsc 0 + telemetry render tests green.
 
+### F23 — Telemetry log doesn't auto-follow; pin to bottom unless the user has scrolled away
+
+- Severity: low (telemetry UX).
+- Observed (2026-06-26): the synthesis log tracked `userHasScrolled` but never scrolled, so new streamed rows didn't pin to the bottom — the user couldn't watch passively.
+- Behavior: the log rests at the bottom as new rows stream in (passive watch); when the user scrolls away from the bottom (e.g. to read an earlier line or an open accordion) the follow pauses and never yanks them back; returning to the bottom resumes it.
+- Repair (2026-06-26, `pipeline-execution-log.tsx`): a follow effect scrolls the internal scroll container to the latest line on new rows when `!userHasScrolled` (rAF-deferred). `handleScroll` now uses a modest near-bottom band (48px) — momentum/rounding still counts as following; a deliberate scroll up sets `userHasScrolled` and pauses the follow until the user returns to the bottom.
+- Verified: uapi tsc 0 + telemetry render tests green.
+
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
 
 - [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`. Re-verified from fully nuked state (purged user + cleared site data): created 19:29:21 → session 19:29:25 → binding auto-written 19:29:29 by the bridge on `/packs` mount with no Auxillaries visit; UI consistent across nav, Wallet, and Profile panes.

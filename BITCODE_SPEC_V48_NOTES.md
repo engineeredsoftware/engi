@@ -206,7 +206,9 @@ Accepted V48 architecture law (decided 2026-06-25):
   every event to exactly one bounded line (one streamed event = one accordion
   row, never fragmented by embedded newlines) and the log row title spans carry
   `min-w-0` so a long line truncates within its row rather than x-overflowing the
-  page (QA F18).
+  page (QA F18). The log auto-follows: it pins to the latest line as rows stream
+  in unless the user has scrolled away from the bottom (then it respects their
+  position and resumes only when they return to the bottom) (QA F23).
 - **Formal telemetry log-line contract** (QA F19): the rich telemetry renders
   EXACTLY two formal log-line kinds — the ultimate LLM-call layer and Tool uses,
   nothing else (informational status, phase banners, and completion/error notices
