@@ -1,7 +1,10 @@
 // @ts-nocheck
 import {
   computeDeterministicAbsolutes,
+  computeAbsolutesFromReport,
   mapReadingsToAbsoluteMeasurements,
+  mergeReportAndReadings,
+  measureAssetPackAbsolutes,
   factoryAssetPackMeasureAbsolutesAgent,
   type MeasurableAssetPackPatch,
 } from '../agents/validation/agent-measure-absolutes';
@@ -111,5 +114,57 @@ describe('validateDepositSynthesisOptions absolutes wiring', () => {
     expect(kinds).toContain('source-coverage');
     expect(kinds).toContain('demand-alignment');
     expect(kinds).toContain('reuse-likelihood');
+  });
+});
+
+describe('tool-grounded absolutes (legitimate static-analysis sizes)', () => {
+  it('measures sizes from real static analysis when sources are provided', async () => {
+    const patch: MeasurableAssetPackPatch = {
+      title: 'Auth slice',
+      summary: 'auth capability',
+      coveredSourcePaths: ['a.ts'],
+      fileChanges: [{ path: 'a.ts', op: 'modify' }],
+      confidence: 0.7,
+    };
+    // real inference is off in tests -> deterministic path returns report sizes
+    const absolutes = await measureAssetPackAbsolutes(patch, {
+      lens: 'deposit',
+      sources: [{ path: 'a.ts', content: 'function f(){}\nfunction g(){}\ninterface T{ x: number }' }],
+    });
+    expect(absolutes.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(2);
+    expect(absolutes.find((m) => m.measurementKind === 'type-count')?.magnitude).toBe(1);
+    expect(absolutes.find((m) => m.measurementKind === 'file-span')?.magnitude).toBe(1);
+  });
+
+  it('computeAbsolutesFromReport prefers measured counts but degrades on no source', () => {
+    const patch: MeasurableAssetPackPatch = {
+      title: 'x', summary: 'y', coveredSourcePaths: ['a.ts', 'b.ts'], confidence: 0.6,
+    };
+    const measured = computeAbsolutesFromReport(
+      { measuredFromSamples: true, estimatedFunctionCount: 30, estimatedTypeCount: 12, targetFileCount: 2,
+        sampledFileCount: 2, lineCount: 0, tokenCount: 0, functionCount: 30, typeCount: 12, symbolCount: 0,
+        configKeyCount: 0, languageDensities: [], targetLanguageBreakdown: {}, coverageRatio: 1 } as any,
+      patch,
+    );
+    expect(measured.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(30);
+    // no source -> heuristic from covered-path span (2 paths * 3 = 6)
+    const heuristic = computeDeterministicAbsolutes(patch);
+    expect(heuristic.find((m) => m.measurementKind === 'function-count')?.magnitude).toBe(6);
+  });
+
+  it('mergeReportAndReadings keeps sizes authoritative, takes agent judgment', () => {
+    const patch: MeasurableAssetPackPatch = {
+      title: 'x', summary: 'y', coveredSourcePaths: ['a.ts'], fileChanges: [{ path: 'a.ts', op: 'modify' }], confidence: 0.5,
+    };
+    const base = computeDeterministicAbsolutes(patch);
+    const baseFnVolume = base.find((m) => m.measurementKind === 'function-count')!.volume;
+    const merged = mergeReportAndReadings(base, [
+      { measurementKind: 'function-count', volume: 0.99 }, // ignored — size is tool-authoritative
+      { measurementKind: 'correctness-estimate', volume: 0.91 }, // taken
+      { measurementKind: 'semantic-volume', volume: 0.4 }, // taken
+    ]);
+    expect(merged.find((m) => m.measurementKind === 'function-count')?.volume).toBe(baseFnVolume);
+    expect(merged.find((m) => m.measurementKind === 'correctness-estimate')?.volume).toBe(0.91);
+    expect(merged.find((m) => m.measurementKind === 'semantic-volume')?.volume).toBe(0.4);
   });
 });

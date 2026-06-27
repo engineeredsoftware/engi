@@ -301,6 +301,14 @@ export default async function runDepositValidationAgent(input: any, execution: a
   // Per pack in parallel so wall-clock ≈ one measurement; each LLM call is bounded
   // by the F25 per-call timeout.
   if (packs.length > 0) {
+    // The available source for static analysis: the inventory SAMPLES (real,
+    // truncated source). Mapped to {path, content}; the static-analysis tool
+    // measures density from these and applies it to each pack's covered file set.
+    const inventorySources = Array.isArray((inventory as any)?.samples)
+      ? (inventory as any).samples
+          .filter((s: any) => s && typeof s.path === 'string' && typeof s.excerpt === 'string')
+          .map((s: any) => ({ path: s.path as string, content: s.excerpt as string }))
+      : [];
     await Promise.all(
       packs.map(async (pack: any) => {
         try {
@@ -314,7 +322,7 @@ export default async function runDepositValidationAgent(input: any, execution: a
               patchSummary:
                 typeof pack?.patch?.patchSummary === 'string' ? pack.patch.patchSummary : undefined,
             },
-            { lens: 'deposit', execution },
+            { lens: 'deposit', execution, sources: inventorySources },
           );
           // Attach the formal absolutes to the measured patch in place; the route's
           // validateDepositSynthesisOptions prefers these over the legacy inline record.
