@@ -41,6 +41,14 @@ export const assetPackSetupPhaseExecutor: Executor<any, any> = async (input, exe
         depositComprehend,
       );
     } catch {}
+    // The Setup plan agent plans Finding Fits from an accepted Read-Need — read
+    // work, deposit-irrelevant. Punt it under the deposit lens with a passthrough
+    // (no LLM call, no telemetry row). Read keeps it for now; the read fits-finding
+    // planning moves to the read-lens Discovery phase in the subsequent (read) gate.
+    (execution as any).agents?.registerAgent?.(
+      'setup:ReadFitsFindingSynthesisSetupPlanAgent',
+      async (passthroughInput: any) => passthroughInput,
+    );
   }
   await runSetupPhase(input, execution);
   // PhaseRunner returns PhaseResult; pipeline expects input forward. Use stores for state.

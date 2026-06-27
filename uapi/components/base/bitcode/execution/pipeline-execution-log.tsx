@@ -830,7 +830,7 @@ function renderLogLine(
 
     const RowContent = (
       <div
-        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-3 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
+        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-6 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
         onClick={() => toggleLine(lineId)}
         draggable

@@ -219,6 +219,17 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
   - `terminal-run-activity.ts` — the formal-log-line classifier now returns only `llm` and `tool`; informational status / completion / error rows are dropped from the accordion (run completion is shown by the processing indicator, errors by the log's error banner). The dead `normalizeEventMessage` helper is removed.
 - Verified: uapi tsc 0; terminalTransactionActivity (tightened) + 7-suite telemetry batch green.
 
+### F22 — Setup-plan agent is read fits-finding work; punt it under the deposit lens + give the log rows breathing room
+
+- Severity: low (deposit correctness + telemetry polish).
+- Observed (2026-06-26, after F20): with the deposit agents now running, the only remaining read-named row was `ReadFitsFindingSynthesisSetupPlanAgent` — a name that merges phase (Setup) + step (Plan) and, worse, plans "Finding Fits from an accepted Read-Need," which is read work that is irrelevant to a deposit. Separately, the overhanging pills crowded the adjacent log rows.
+- Decision: the Setup-plan agent is read-lens work for the subsequent (read) gate — its fits-finding planning belongs in the read-lens **Discovery** phase, not Setup. Under the deposit lens it is irrelevant and is punted.
+- Repair (2026-06-26):
+  - `phases/setup.ts` — the deposit branch now re-registers `setup:ReadFitsFindingSynthesisSetupPlanAgent` with a passthrough (no LLM call, no telemetry row), so the deposit Setup runs clone → comprehend Obfuscations → danger-wall → init with no read fits-finding plan. Read keeps the agent unchanged.
+  - `pipeline-execution-log.tsx` — compact log rows go `mb-3 → mb-6` so the top/bottom overhanging pills clear the adjacent rows.
+- Gate-4 (read lens) directive: move the read setup-plan (fits-finding planning) into the read-lens Discovery phase, with a deposit-free agent name; do not reintroduce a deposit setup-plan.
+- Verified: asset-pack tsc 0 + setup-agents suite green; uapi tsc 0 + telemetry render tests green.
+
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
 
 - [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`. Re-verified from fully nuked state (purged user + cleared site data): created 19:29:21 → session 19:29:25 → binding auto-written 19:29:29 by the bridge on `/packs` mount with no Auxillaries visit; UI consistent across nav, Wallet, and Profile panes.
