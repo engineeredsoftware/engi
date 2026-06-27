@@ -254,7 +254,15 @@ export async function POST(request: Request) {
     }
   };
 
-  try {
+  // F26-B: the synthesis runs the full formal hierarchy (many LLM calls), so it
+  // must NOT be bound to this request's maxDuration. Dispatch it as a background
+  // run (the local in-process harness host) and return the runId immediately; the
+  // client tails source-safe telemetry and, on the completion event, reads the
+  // persisted synthesis from the execution row output. Prod durability is the
+  // Vercel Sandbox host (pipeline-hosts). The F25 per-call LLM timeout remains the
+  // safety bound within the run.
+  const runSynthesis = async () => {
+   try {
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'start', {
       repositoryFullName,
       sourceBranch,
@@ -387,11 +395,10 @@ export async function POST(request: Request) {
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'complete', {
       optionCount: synthesis.optionCount,
     });
-    await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
-      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
-      runId,
-    });
 
+    // Persist the synthesis BEFORE the completion event so the client's
+    // completion-triggered history fetch always finds it (the reviewProjections
+    // ride along on the output now that the route no longer returns them inline).
     await finalizeExecutionRow({
       status: 'completed',
       completed_at: new Date().toISOString(),
@@ -416,13 +423,19 @@ export async function POST(request: Request) {
       output: {
         summary: `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`,
         depositOptionSynthesis: synthesis,
+        reviewProjections,
+        inference: { ...result.inference, durationMs },
+        exclusionViolations: result.exclusionViolations,
       },
       items: [],
       total_tokens: result.inference.totalTokens,
       duration_ms: durationMs,
     });
 
-    ExecutionStreamAdapter.unregisterStreamer(execution.id);
+    await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
+      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
+      runId,
+    });
 
     bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'synthesized', {
       userId: compactBitcodeServerId(user.id),
@@ -433,17 +446,7 @@ export async function POST(request: Request) {
       totalTokens: result.inference.totalTokens,
       durationMs,
     });
-
-    return NextResponse.json({
-      ok: true,
-      executionId: runId,
-      runId,
-      synthesis,
-      reviewProjections,
-      inference: { ...result.inference, durationMs },
-      exclusionViolations: result.exclusionViolations,
-    });
-  } catch (error) {
+   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     try {
       await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, { message, runId });
@@ -462,16 +465,17 @@ export async function POST(request: Request) {
       },
       duration_ms: Date.now() - startedAt,
     });
-    ExecutionStreamAdapter.unregisterStreamer(execution.id);
     bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'failed', {
       userId: compactBitcodeServerId(user.id),
       repositoryFullName,
       runId,
       message,
     });
-    return NextResponse.json(
-      { error: message, code: 'deposit_option_synthesis_failed', runId },
-      { status: 502 },
-    );
-  }
+   } finally {
+    ExecutionStreamAdapter.unregisterStreamer(execution.id);
+   }
+  };
+
+  void runSynthesis();
+  return NextResponse.json({ ok: true, executionId: runId, runId, status: 'dispatched' });
 }

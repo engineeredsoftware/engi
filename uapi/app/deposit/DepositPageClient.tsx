@@ -559,6 +559,64 @@ export default function DepositPageClient() {
     ],
   );
 
+  // F26-B: the synthesis run is dispatched (decoupled from the request). When the
+  // streamed run completes, read the persisted synthesis from the execution row
+  // output and surface the reviewable options; a streamed error fails the run.
+  useEffect(() => {
+    if (synthesisStatus !== "running" || !synthesisRunId || realSynthesis) return;
+    if (synthesisActivity.error) {
+      setSynthesisStatus("failed");
+      setSynthesisError(synthesisActivity.error);
+      return;
+    }
+    if (!synthesisActivity.isStreamingComplete) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/executions/history/${synthesisRunId}`);
+        const data = await res.json().catch(() => null);
+        const output = data?.run?.output as
+          | { depositOptionSynthesis?: unknown; reviewProjections?: unknown }
+          | undefined;
+        const synthesis = output?.depositOptionSynthesis;
+        if (!res.ok || !synthesis) {
+          throw new Error("Synthesized options were not found for this run.");
+        }
+        if (cancelled) return;
+        setRealSynthesis({
+          synthesis: synthesis as NonNullable<typeof realSynthesis>["synthesis"],
+          reviewProjections: Array.isArray(output?.reviewProjections)
+            ? (output!.reviewProjections as NonNullable<typeof realSynthesis>["reviewProjections"])
+            : [],
+        });
+        setOptionsRequested(true);
+        setSynthesisStatus("complete");
+        replaceDepositSearchParams(
+          writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
+        );
+        void refreshLiveRuns();
+      } catch (error) {
+        if (cancelled) return;
+        setSynthesisStatus("failed");
+        setSynthesisError(
+          error instanceof Error ? error.message : "Synthesis result not found.",
+        );
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    synthesisStatus,
+    synthesisRunId,
+    realSynthesis,
+    synthesisActivity.isStreamingComplete,
+    synthesisActivity.error,
+    readCurrentSearchParams,
+    refreshLiveRuns,
+    replaceDepositSearchParams,
+  ]);
+
   const sessionRows = [
     {
       label: "Repository",
@@ -710,6 +768,7 @@ export default function DepositPageClient() {
         : obfuscations;
     setSynthesisStatus("running");
     setSynthesisError(null);
+    setRealSynthesis(null);
     // Client-issued run id so the streaming log can tail the execution from
     // the first event while the route is still working.
     const runId =
@@ -746,26 +805,17 @@ export default function DepositPageClient() {
         }),
       });
       const payload = await response.json().catch(() => null);
-      if (!response.ok || !payload?.ok || !payload?.synthesis) {
+      if (!response.ok || !payload?.ok) {
         throw new Error(
           typeof payload?.error === "string"
             ? payload.error
             : "Deposit option synthesis failed.",
         );
       }
-
-      setRealSynthesis({
-        synthesis: payload.synthesis,
-        reviewProjections: Array.isArray(payload.reviewProjections)
-          ? payload.reviewProjections
-          : [],
-      });
-      setOptionsRequested(true);
-      setSynthesisStatus("complete");
-      replaceDepositSearchParams(
-        writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
-      );
-      void refreshLiveRuns();
+      // F26-B: the route DISPATCHED the run (it no longer returns the synthesis
+      // inline — the full pipeline runs to completion in the background while
+      // telemetry streams). Stay 'running'; the completion effect reads the
+      // persisted synthesis from the execution row and flips to 'complete'.
     } catch (error) {
       setSynthesisStatus("failed");
       setSynthesisError(
