@@ -238,6 +238,15 @@ Track 3-4 scripts (BTD ledger, settlement, pack journaling) get added when those
 - Repair (2026-06-26, `pipeline-execution-log.tsx`): a follow effect scrolls the internal scroll container to the latest line on new rows when `!userHasScrolled` (rAF-deferred). `handleScroll` now uses a modest near-bottom band (48px) — momentum/rounding still counts as following; a deliberate scroll up sets `userHasScrolled` and pauses the follow until the user returns to the bottom.
 - Verified: uapi tsc 0 + telemetry render tests green.
 
+### F24 — Neediness v0: deposit-side preview of read Need-fit (depository search during depositing)
+
+- Motivation (Garrett, 2026-06-26): depository search during depositing estimates the *potential* fit value of the packs being synthesized — which packs are worth making correspond to what is likely to be read. Surface it to the depositor as a per-pack "neediness" preview (and a new AP measurement).
+- Model: `neediness` ∈ [0,1] = a deposit-lens PREVIEW measurement (separate from the absolute composite) of the pack's future read Need-fit / earning potential. `neediness = clamp01(demand × (0.5 + 0.5·(1 − saturation)))` — demand gates, scarcity boosts.
+- v0 signals (no new infra; LLM-grounded): the deposit `discovery:depository-search` agent emits `underservedTopics` (supply-scarcity hint) alongside its demand guidance; the deposit Implementation synthesis agent emits a per-pack `needinessSignal {demand, saturation, rationale}` grounded in that guidance; `computeNeediness` derives the scalar deterministically in `validateDepositSynthesisOptions`.
+- Flow: synthesis agent → `implementation:options` (carry `needinessSignal`) → route `validateDepositSynthesisOptions` (attaches `neediness`) → `buildRealDepositAssetPackOptionSynthesis` (projects `neediness` + `needinessRoot` onto the deposit option) → `/deposit` option card previews it (amber tile: volume %, demand/saturation, rationale).
+- Source-safety: derived scalars + topic-level rationale only (no raw source). v1 seam (spec): replace `saturation` with a real embedding-vector probe of the pack against the Depository supply index, and `demand` with a search against an accrued Read-Need / demand corpus; realized read `need-fit` + BTD later calibrate it.
+- Implemented over two commits (spec + lib core; then agents + projection + UI). Verified: asset-pack tsc 0 + full suite (214) green incl. a new neediness test; uapi tsc 0 + deposit UI/model tests green; spec checker green.
+
 ## Track 1 — Identity / Authentication / Auxillaries — COMPLETE 2026-06-12 (email deferred by decision; F2/F9 and legacy eradication queued for gates)
 
 - [x] Sign up / sign in via Connect Wallet (nav CTA → SignUpWindow → wallet signature on testnet4 → `custom:bitcode-bitcoin` session → `/tps/supabase/callback`) — verified 2026-06-12 after F5 fix; lands on `/packs`. Re-verified from fully nuked state (purged user + cleared site data): created 19:29:21 → session 19:29:25 → binding auto-written 19:29:29 by the bridge on `/packs` mount with no Auxillaries visit; UI consistent across nav, Wallet, and Profile panes.

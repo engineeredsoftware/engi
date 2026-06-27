@@ -214,6 +214,17 @@ export function buildRealDepositAssetPackOptionSynthesis(
       btdMintBoundary: 'not-minted-by-deposit-option' as const,
       settlementBoundary: 'future-reader-settlement-required-for-source-bearing-assetpack' as const,
     };
+    // Deposit neediness preview (v0): carry the read-demand estimate the
+    // depository-search lens produced for this candidate (computed by
+    // validateDepositSynthesisOptions). Null when no signal was produced.
+    const neediness = candidate.neediness
+      ? {
+          volume: candidate.neediness.volume,
+          demand: candidate.neediness.demand,
+          saturation: candidate.neediness.saturation,
+          rationale: candidate.neediness.rationale,
+        }
+      : null;
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),
@@ -222,6 +233,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
       sourceBinding,
       demandAlignment,
       measurements,
+      neediness,
       reviewBoundary,
     };
 
@@ -255,6 +267,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
         sourceBindingRoot: root('deposit-option-source-binding', sourceBinding),
         demandAlignmentRoot: root('deposit-option-demand-alignment', demandAlignment),
         measurementRoot: root('deposit-option-measurements', measurements),
+        needinessRoot: neediness ? root('deposit-option-neediness', neediness) : null,
         reviewBoundaryRoot: root('deposit-option-review-boundary', reviewBoundary),
       },
     };

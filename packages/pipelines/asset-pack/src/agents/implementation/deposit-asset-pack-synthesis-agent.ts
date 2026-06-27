@@ -52,6 +52,16 @@ const patchSchema = z.object({
   patchSummary: z.string(),
 });
 
+// Neediness preview signal (v0): the read-demand inputs from which neediness is
+// COMPUTED downstream (validateDepositSynthesisOptions). demand = estimated
+// reading demand for this pack's knowledge; saturation = how much the Depository
+// already supplies it. Source-safe: scalars + a topic-level rationale, never source.
+const needinessSignalSchema = z.object({
+  demand: z.coerce.number().min(0).max(1),
+  saturation: z.coerce.number().min(0).max(1),
+  rationale: z.string().min(10).max(400),
+});
+
 const candidateSchema = z.object({
   kind: z.string().min(1),
   title: z.string().min(8).max(160),
@@ -63,6 +73,8 @@ const candidateSchema = z.object({
   // Each AssetPack is a MEASURED PATCH: the measured option fields above PLUS the
   // source-safe patch descriptor below (patch + measurements + metadata).
   patch: patchSchema,
+  // Deposit neediness preview (v0): the read-demand signal for this pack.
+  needinessSignal: needinessSignalSchema.optional(),
 });
 
 const candidateSetSchema = z.object({
@@ -105,6 +117,13 @@ const DEPOSIT_REQUIREMENTS = part(
     '      honoring obfuscations + exclusions). Provide ONLY path + op — NEVER code, diffs, or contents.',
     '    - patchSummary: a source-safe natural-language summary of the synthesized knowledge the',
     '      patch encodes (what it does and why it is legible to a buyer) — NEVER raw source or code.',
+    '- needinessSignal: the read-demand preview for this pack, GROUNDED in the depository-search',
+    '  Discovery guidance (likelyReadTopics / demandAlignment / underservedTopics):',
+    '    - demand (0..1): how much reading demand this pack’s knowledge would satisfy (higher when it',
+    '      matches likelyReadTopics / demandAlignment).',
+    '    - saturation (0..1): how much the Depository already supplies this topic (LOWER when the pack',
+    '      addresses an underservedTopic — scarce, therefore more needed).',
+    '    - rationale: a short source-safe justification. (Neediness is COMPUTED from these downstream.)',
     'Return ONLY {"options":[ ... ]} — the top-level key MUST be "options".',
   ].join('\n'),
 );

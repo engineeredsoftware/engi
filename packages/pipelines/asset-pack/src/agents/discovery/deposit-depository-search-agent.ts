@@ -29,6 +29,9 @@ const ReadDemandGuidanceSchema = z.object({
   summary: z.string(),
   likelyReadTopics: z.array(z.string()).optional(),
   demandAlignment: z.array(z.string()).optional(),
+  // Supply-scarcity signal (feeds deposit neediness, v0): topics the Depository
+  // likely under-supplies — high opportunity for a new, needed pack.
+  underservedTopics: z.array(z.string()).optional(),
   readabilityNotes: z.array(z.string()).optional(),
 });
 
@@ -51,8 +54,10 @@ const REQUIREMENTS = part(
   'From the repository coordinates, the inventory, and the depositor demand context, ' +
     'derive: summary (the reading demand the repository is likely to satisfy), ' +
     'likelyReadTopics (Needs/topics future readers would search for), demandAlignment ' +
-    '(how the repository knowledge aligns with the provided demand context), and ' +
-    'readabilityNotes (how to frame the synthesized packs so they are findable and fit). ' +
+    '(how the repository knowledge aligns with the provided demand context), ' +
+    'underservedTopics (topics the Depository likely UNDER-supplies — where a new ' +
+    'pack would be scarce and therefore most needed), and readabilityNotes (how to ' +
+    'frame the synthesized packs so they are findable and fit). ' +
     'Ground topics in the actual inventory; stay source-safe. ' +
     'Return ONLY {"guidance": {...}}.',
 );
@@ -121,6 +126,7 @@ export default async function runDepositDepositorySearchAgent(input: any, execut
       'No read-demand guidance derived; frame synthesized packs by their codebase knowledge until demand signal exists.',
     likelyReadTopics: [],
     demandAlignment: [],
+    underservedTopics: [],
     readabilityNotes: [],
   };
 

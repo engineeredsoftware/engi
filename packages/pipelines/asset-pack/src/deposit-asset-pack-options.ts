@@ -59,6 +59,15 @@ export interface DepositAssetPackOption {
     confidence: number;
   };
   measurements: DepositAssetPackOptionMeasurement[];
+  // Deposit neediness PREVIEW (v0): the read-demand estimate (0..1) — the
+  // deposit-side preview of read Need-fit / earning potential. Separate from the
+  // absolute `measurements` composite; absent (null) when no signal was produced.
+  neediness?: {
+    volume: number;
+    demand: number;
+    saturation: number;
+    rationale: string;
+  } | null;
   reviewBoundary: {
     state: DepositAssetPackOptionReviewState;
     decision: 'pending-depositor-review';
@@ -86,6 +95,7 @@ export interface DepositAssetPackOption {
     sourceBindingRoot: string;
     demandAlignmentRoot: string;
     measurementRoot: string;
+    needinessRoot?: string | null;
     reviewBoundaryRoot: string;
   };
 }

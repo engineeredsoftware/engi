@@ -1608,6 +1608,26 @@ export default function DepositPageClient() {
                             ) : null}
                           </>
                         ) : null}
+                        {option.neediness ? (
+                          <div className="min-w-0 border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2">
+                            <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-amber-200/85">
+                              Neediness · est. read demand
+                            </dt>
+                            <dd className="mt-1 text-sm text-neutral-100">
+                              {(option.neediness.volume * 100).toFixed(0)}%
+                              <span className="text-neutral-500">
+                                {" "}
+                                · demand {(option.neediness.demand * 100).toFixed(0)}% · saturation{" "}
+                                {(option.neediness.saturation * 100).toFixed(0)}%
+                              </span>
+                            </dd>
+                            {option.neediness.rationale ? (
+                              <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
+                                {option.neediness.rationale}
+                              </dd>
+                            ) : null}
+                          </div>
+                        ) : null}
                         {option.measurements.map((measurement) => (
                           <div
                             key={measurement.id}
