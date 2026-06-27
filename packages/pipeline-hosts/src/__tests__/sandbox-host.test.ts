@@ -1,4 +1,4 @@
-import { VercelSandboxHost } from '../sandbox-host';
+import { AwsSandboxHost, VercelSandboxHost } from '../sandbox-host';
 import { readWorkspaceSources } from '../host';
 import type { SandboxCreateOptions, SandboxFactory, SandboxSession } from '../types';
 
@@ -39,16 +39,25 @@ function mockFactory() {
 }
 
 describe('VercelSandboxHost (primitive Host implementation)', () => {
-  it('reports vercel-sandbox capabilities', () => {
+  it('reports sandbox capabilities with the vercel provider', () => {
     const { sandboxFactory } = mockFactory();
     const host = new VercelSandboxHost({ sandboxFactory });
     expect(host.capabilities).toMatchObject({
-      hostKind: 'vercel-sandbox',
+      hostKind: 'sandbox',
+      sandboxProvider: 'vercel',
       clone: true,
       filesystem: true,
       exec: true,
       defaultWorkingDirectory: '/vercel/sandbox',
     });
+  });
+
+  it('AwsSandboxHost is the stubbed provider seam', async () => {
+    const host = new AwsSandboxHost();
+    expect(host.capabilities).toMatchObject({ hostKind: 'sandbox', sandboxProvider: 'aws', clone: true });
+    await expect(
+      host.provisionRepository({ repositoryFullName: 'o/r', url: 'https://github.com/o/r.git', revision: 'main' }),
+    ).rejects.toThrow(/not yet implemented/i);
   });
 
   it('provisions via a git source and exposes the checkout filesystem', async () => {

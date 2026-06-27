@@ -3,6 +3,7 @@
  */
 import {
   provisionDepositSourceInventory,
+  resolveDepositPipelineHost,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
 import type { BitcodeHostWorkspace, BitcodePipelineHost } from '@bitcode/pipeline-hosts';
@@ -80,14 +81,30 @@ describe('provisionDepositSourceInventory', () => {
 });
 
 describe('selectDepositHostKind', () => {
-  it('honors an explicit BITCODE_PIPELINE_HOST', () => {
+  it('selects by configured BITCODE_PIPELINE_HOST (default inline; env does not auto-select)', () => {
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'sandbox' } as any)).toBe('sandbox');
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: ' Sandbox ' } as any)).toBe('sandbox');
     expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'inline' } as any)).toBe('inline');
-    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'vercel-sandbox' } as any)).toBe('vercel-sandbox');
-    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: ' Vercel-Sandbox ' } as any)).toBe('vercel-sandbox');
+    expect(selectDepositHostKind({} as any)).toBe('inline');
+    expect(selectDepositHostKind({ VERCEL: '1' } as any)).toBe('inline');
+  });
+});
+
+describe('resolveDepositPipelineHost', () => {
+  const original = process.env.BITCODE_PIPELINE_HOST;
+  afterEach(() => {
+    if (original === undefined) delete process.env.BITCODE_PIPELINE_HOST;
+    else process.env.BITCODE_PIPELINE_HOST = original;
   });
 
-  it('uses the sandbox on Vercel (no git/FS) and inline locally', () => {
-    expect(selectDepositHostKind({ VERCEL: '1' } as any)).toBe('vercel-sandbox');
-    expect(selectDepositHostKind({} as any)).toBe('inline');
+  it('returns an InlineHost when configured inline (default)', async () => {
+    delete process.env.BITCODE_PIPELINE_HOST;
+    const host = await resolveDepositPipelineHost();
+    expect(host.capabilities.hostKind).toBe('inline');
+  });
+
+  it('rejects sandbox deposit (in-box dispatch not yet wired)', async () => {
+    process.env.BITCODE_PIPELINE_HOST = 'sandbox';
+    await expect(resolveDepositPipelineHost()).rejects.toThrow(/not yet wired/i);
   });
 });

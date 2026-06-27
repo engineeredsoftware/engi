@@ -16,9 +16,8 @@
 
 import {
   InlineHost,
-  VercelSandboxHost,
-  loadVercelSandboxFactory,
   readWorkspaceSources,
+  type BitcodeHostKind,
   type BitcodePipelineHost,
   type HostSourceFile,
 } from '@bitcode/pipeline-hosts';
@@ -60,45 +59,30 @@ function pickSamples(sources: HostSourceFile[]): { path: string; excerpt: string
     .map((path) => ({ path, excerpt: (byPath.get(path) || '').slice(0, MAX_SAMPLE_CHARS) }));
 }
 
-export type DepositHostKind = 'inline' | 'vercel-sandbox';
-
 /**
- * Select the deposit Host kind. Explicit `BITCODE_PIPELINE_HOST` wins; otherwise a
- * Vercel serverless runtime (no git binary / ephemeral FS) MUST use the sandbox host,
- * while a local/dev runtime (the persistent Node server has git + a filesystem) uses
- * the in-process InlineHost. Pure + testable.
+ * Select the deposit HostKind by CONFIGURATION (not environment): `BITCODE_PIPELINE_HOST`
+ * (`inline` | `sandbox`) chooses which HostKind runs the synthesis pipeline; default
+ * `inline`. (A SandboxHost's provider is `BITCODE_SANDBOX_PROVIDER`, `vercel` | `aws`.)
+ * Pure + testable; no dev/prod or local/remote semantics.
  */
-export function selectDepositHostKind(env: NodeJS.ProcessEnv = process.env): DepositHostKind {
+export function selectDepositHostKind(env: NodeJS.ProcessEnv = process.env): BitcodeHostKind {
   const explicit = env.BITCODE_PIPELINE_HOST?.trim().toLowerCase();
-  if (explicit === 'inline' || explicit === 'vercel-sandbox') return explicit;
-  return env.VERCEL ? 'vercel-sandbox' : 'inline';
-}
-
-/** Vercel auth for sandbox creation: prefer OIDC; otherwise pass the access token. */
-function vercelSandboxCreateOptions() {
-  if (process.env.VERCEL_OIDC_TOKEN) return {};
-  return {
-    token: process.env.VERCEL_TOKEN,
-    teamId: process.env.VERCEL_TEAM_ID,
-    projectId: process.env.VERCEL_PROJECT_ID,
-  };
+  return explicit === 'sandbox' ? 'sandbox' : 'inline';
 }
 
 /**
- * Resolve the deposit pipeline Host. The deposit run is the harness run, so the Host
- * provisions the source — the dispatching request does not. InlineHost runs in-process
- * (dev); VercelSandboxHost provisions a durable sandbox (prod) because a serverless
- * function cannot clone. Both implement the same primitive, so provisioning is
- * identical downstream.
+ * Resolve the deposit pipeline Host. The pipeline runs WITHIN the resolved host.
+ * InlineHost runs the synthesis in the current box (provision + pipeline in-process).
+ * SandboxHost runs the synthesis IN a provisioned box (the harness) — that in-box
+ * deposit dispatch is specified but not yet wired, so it is rejected here rather than
+ * falling back to a cross-boundary read. Configure `BITCODE_PIPELINE_HOST=inline`.
  */
 export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost> {
-  if (selectDepositHostKind() === 'vercel-sandbox') {
-    const sandboxFactory = await loadVercelSandboxFactory();
-    return new VercelSandboxHost({
-      sandboxFactory,
-      runtime: 'node22',
-      createOptions: vercelSandboxCreateOptions(),
-    });
+  if (selectDepositHostKind() === 'sandbox') {
+    throw new Error(
+      'SandboxHost deposit runs the synthesis pipeline IN the box (the harness); in-box ' +
+        'deposit dispatch is specified but not yet wired. Set BITCODE_PIPELINE_HOST=inline.',
+    );
   }
   return new InlineHost();
 }

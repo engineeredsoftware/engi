@@ -1,11 +1,11 @@
 /**
- * InlineHost — the in-process implementation of the primitive Host (V48 Gate 3).
+ * InlineHost — the in-process HostKind of the primitive Host (V48 Gate 3).
  *
- * Provisions a repository by performing a REAL `git clone` of the full working tree
- * to a local working directory, and exposes that checkout via the Node filesystem.
- * Valid only where the runtime has git + a writable filesystem — the dev persistent
- * Node server (a serverless function is NOT a valid Inline host). The Sandbox host is
- * the other implementation of the same `BitcodePipelineHost` primitive.
+ * Runs the pipeline in the CURRENT box and provisions a repository by performing a
+ * REAL `git clone` of the full working tree to a local working directory, exposing
+ * that checkout via the Node filesystem. SandboxHost (provider Vercel | AWS) is the
+ * other HostKind of the same `BitcodePipelineHost` primitive — it runs the pipeline
+ * inside a provisioned box. Both require git + a filesystem (every host has them).
  *
  * The git/filesystem mechanics go through an injected `HostExec` (default: a real
  * child-process exec) so the host is fully testable without git or a network.

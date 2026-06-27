@@ -1,16 +1,23 @@
 /**
- * VercelSandboxHost — the Vercel Sandbox implementation of the primitive Host
- * (V48 Gate 3). The sibling of InlineHost: same `BitcodePipelineHost` contract,
- * different mechanics.
+ * SandboxHost — the sandboxed HostKind of the primitive Host (V48 Gate 3). The
+ * sibling of InlineHost: same `BitcodePipelineHost` contract, but the pipeline runs
+ * inside a provisioned, isolated BOX (a real machine with git + filesystem + exec).
+ * Within the box the checkout is local exactly as for InlineHost — there is no
+ * cross-boundary, per-file source read; the pipeline executes IN the box on its
+ * local checkout.
  *
- * Provisions a repository by creating a sandbox with a git `source` (the Sandbox
- * SDK clones the full working tree at the revision into the working directory), and
- * exposes that checkout via the sandbox session — `git ls-files` over runCommand and
- * `readFileToBuffer`. This is the durable, isolated host (prod); a serverless
- * dispatching request hands off to it because it cannot itself clone.
+ * SandboxHost is a base for providers:
+ *   - VercelSandboxHost (provider 'vercel', IMPLEMENTED) — provisions via the Vercel
+ *     Sandbox SDK git source into the box working directory.
+ *   - AwsSandboxHost (provider 'aws', STUBBED) — the provider seam for an AWS-backed
+ *     box; not yet implemented.
  *
- * (Distinct from the existing `VercelSandboxPipelineHost`, which runs a full harness
- * PLAN of commands + artifacts. This class is the source/filesystem primitive.)
+ * The `BitcodeHostWorkspace` returned here is the box's filesystem access primitive
+ * (listFiles / readFile / runCommand). When the pipeline runs in the box it reads
+ * locally; the session-backed accessors serve harness/external interaction.
+ *
+ * (Distinct from `VercelSandboxPipelineHost`, which runs a full harness PLAN of
+ * commands + artifacts. This is the source/filesystem Host primitive.)
  */
 
 import type {
@@ -18,6 +25,7 @@ import type {
   BitcodeHostRepositorySource,
   BitcodeHostWorkspace,
   BitcodePipelineHost,
+  BitcodeSandboxProvider,
   HostCommandResult,
 } from './host';
 import type {
@@ -41,14 +49,31 @@ function joinPosix(base: string, relative: string): string {
   return `${base.replace(/\/+$/, '')}/${relative.replace(/^\/+/, '')}`;
 }
 
-export interface VercelSandboxHostOptions {
-  sandboxFactory: SandboxFactory;
-  workingDirectory?: string;
-  runtime?: VercelSandboxRuntime;
-  createOptions?: Partial<SandboxCreateOptions>;
+/** The SandboxHost base — the 'sandbox' HostKind, parameterized by provider. */
+export abstract class SandboxHost implements BitcodePipelineHost {
+  abstract readonly sandboxProvider: BitcodeSandboxProvider;
+  protected readonly workingDirectory: string;
+
+  constructor(workingDirectory: string = DEFAULT_WORKING_DIRECTORY) {
+    this.workingDirectory = workingDirectory;
+  }
+
+  get capabilities(): BitcodeHostCapabilities {
+    return {
+      hostKind: 'sandbox',
+      sandboxProvider: this.sandboxProvider,
+      clone: true,
+      filesystem: true,
+      exec: true,
+      ephemeralFilesystem: true,
+      defaultWorkingDirectory: this.workingDirectory,
+    };
+  }
+
+  abstract provisionRepository(source: BitcodeHostRepositorySource): Promise<BitcodeHostWorkspace>;
 }
 
-class VercelSandboxWorkspace implements BitcodeHostWorkspace {
+class SandboxWorkspace implements BitcodeHostWorkspace {
   constructor(
     private readonly session: SandboxSession,
     readonly workspacePath: string,
@@ -65,7 +90,6 @@ class VercelSandboxWorkspace implements BitcodeHostWorkspace {
   }
 
   async readFile(relativePath: string): Promise<string | null> {
-    // Defense-in-depth: never read outside the checkout.
     if (relativePath.split('/').some((segment) => segment === '..')) return null;
     const buffer = await this.session.readFileToBuffer({ path: joinPosix(this.workspacePath, relativePath) });
     return buffer ? buffer.toString('utf8') : null;
@@ -85,34 +109,31 @@ class VercelSandboxWorkspace implements BitcodeHostWorkspace {
       try {
         await this.session.stop({ blocking: true });
       } catch {
-        // Best-effort; the sandbox is reclaimed regardless.
+        // Best-effort; the box is reclaimed regardless.
       }
     }
   }
 }
 
-export class VercelSandboxHost implements BitcodePipelineHost {
+export interface VercelSandboxHostOptions {
+  sandboxFactory: SandboxFactory;
+  workingDirectory?: string;
+  runtime?: VercelSandboxRuntime;
+  createOptions?: Partial<SandboxCreateOptions>;
+}
+
+/** VercelSandboxHost — the Vercel provider of SandboxHost (implemented). */
+export class VercelSandboxHost extends SandboxHost {
+  readonly sandboxProvider = 'vercel' as const;
   private readonly sandboxFactory: SandboxFactory;
-  private readonly workingDirectory: string;
   private readonly runtime?: VercelSandboxRuntime;
   private readonly createOptions?: Partial<SandboxCreateOptions>;
 
   constructor(options: VercelSandboxHostOptions) {
+    super(options.workingDirectory);
     this.sandboxFactory = options.sandboxFactory;
-    this.workingDirectory = options.workingDirectory ?? DEFAULT_WORKING_DIRECTORY;
     this.runtime = options.runtime;
     this.createOptions = options.createOptions;
-  }
-
-  get capabilities(): BitcodeHostCapabilities {
-    return {
-      hostKind: 'vercel-sandbox',
-      clone: true,
-      filesystem: true,
-      exec: true,
-      ephemeralFilesystem: true,
-      defaultWorkingDirectory: this.workingDirectory,
-    };
   }
 
   async provisionRepository(source: BitcodeHostRepositorySource): Promise<BitcodeHostWorkspace> {
@@ -127,6 +148,25 @@ export class VercelSandboxHost implements BitcodePipelineHost {
         password: source.password,
       },
     });
-    return new VercelSandboxWorkspace(session, this.workingDirectory);
+    return new SandboxWorkspace(session, this.workingDirectory);
+  }
+}
+
+export interface AwsSandboxHostOptions {
+  workingDirectory?: string;
+}
+
+/** AwsSandboxHost — the AWS provider seam of SandboxHost (stubbed). */
+export class AwsSandboxHost extends SandboxHost {
+  readonly sandboxProvider = 'aws' as const;
+
+  constructor(options: AwsSandboxHostOptions = {}) {
+    super(options.workingDirectory ?? '/bitcode/sandbox');
+  }
+
+  async provisionRepository(): Promise<BitcodeHostWorkspace> {
+    throw new Error(
+      'AwsSandboxHost is not yet implemented — the AWS sandbox provider is the stubbed provider seam.',
+    );
   }
 }

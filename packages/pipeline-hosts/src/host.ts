@@ -1,27 +1,32 @@
 /**
- * BitcodePipelineHost — the primitive Host harness (V48 Gate 3).
+ * BitcodePipelineHost — the primitive Host (V48 Gate 3).
  *
- * Sandbox and Inline are two IMPLEMENTATIONS of one primitive Host, specified by
- * HOST CAPABILITIES. A Host provisions the FULL repository working tree at a
- * revision into its filesystem and exposes that checkout; the synthesis pipeline
- * (Setup → … → Validation) speaks only to this primitive, so it is identical on
- * every host. The implementations differ only in HOW they clone + expose files
- * (InlineHost = real git clone + Node fs; VercelSandboxHost = SDK git source +
- * sandbox runCommand/readFile).
+ * The synthesis pipeline runs WITHIN a HOST: a real box with git, a filesystem, and
+ * command exec. A Host provisions the FULL repository working tree at a revision into
+ * its filesystem and exposes that checkout; the pipeline (Setup → … → Validation)
+ * speaks only to this primitive, so it is identical on every host. The HostKinds —
+ * InlineHost and SandboxHost (provider Vercel | AWS) — differ only in WHERE the
+ * pipeline runs and HOW the box is obtained; in every case the workspace is the
+ * host's LOCAL checkout, read locally (never across a process/network boundary).
  *
  * Source-safety: the full checkout lives ON the host. Only source-safe derivations
  * (measurements, the source-safe patch/contents descriptors) leave it; raw source
  * never enters telemetry.
  */
 
-/** The HOST CAPABILITIES the primitive is specified by (generic across implementations). */
+export type BitcodeHostKind = 'inline' | 'sandbox';
+export type BitcodeSandboxProvider = 'vercel' | 'aws';
+
+/** The HOST CAPABILITIES the primitive is specified by (generic across HostKinds). */
 export interface BitcodeHostCapabilities {
-  hostKind: 'inline' | 'vercel-sandbox';
-  /** Can check out a repository working tree. */
+  hostKind: BitcodeHostKind;
+  /** For a SandboxHost, which provider backs the box. */
+  sandboxProvider?: BitcodeSandboxProvider;
+  /** Can check out a repository working tree (TRUE for every host). */
   clone: boolean;
-  /** Exposes a readable filesystem (listFiles/readFile). */
+  /** Exposes a readable filesystem (listFiles/readFile; TRUE for every host). */
   filesystem: boolean;
-  /** Can run commands in the workspace. */
+  /** Can run commands in the workspace (TRUE for every host). */
   exec: boolean;
   /** The working tree does not survive the run. */
   ephemeralFilesystem: boolean;
