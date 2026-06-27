@@ -1,7 +1,10 @@
 /**
  * @jest-environment node
  */
-import { provisionDepositSourceInventory } from '@/lib/deposit-source-provisioning';
+import {
+  provisionDepositSourceInventory,
+  selectDepositHostKind,
+} from '@/lib/deposit-source-provisioning';
 import type { BitcodeHostWorkspace, BitcodePipelineHost } from '@bitcode/pipeline-hosts';
 
 const FILES: Record<string, string> = {
@@ -73,5 +76,18 @@ describe('provisionDepositSourceInventory', () => {
 
     // The workspace is disposed after reading.
     expect(isDisposed()).toBe(true);
+  });
+});
+
+describe('selectDepositHostKind', () => {
+  it('honors an explicit BITCODE_PIPELINE_HOST', () => {
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'inline' } as any)).toBe('inline');
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: 'vercel-sandbox' } as any)).toBe('vercel-sandbox');
+    expect(selectDepositHostKind({ BITCODE_PIPELINE_HOST: ' Vercel-Sandbox ' } as any)).toBe('vercel-sandbox');
+  });
+
+  it('uses the sandbox on Vercel (no git/FS) and inline locally', () => {
+    expect(selectDepositHostKind({ VERCEL: '1' } as any)).toBe('vercel-sandbox');
+    expect(selectDepositHostKind({} as any)).toBe('inline');
   });
 });

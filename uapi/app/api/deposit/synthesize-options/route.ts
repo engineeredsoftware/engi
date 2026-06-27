@@ -207,7 +207,7 @@ export async function POST(request: Request) {
     // in-process; the Vercel Sandbox host in prod). The static-analysis measurement
     // reads the real full source (inventory.sources); bounded samples feed the
     // prompts. This is the host's job — the dispatching request does not clone.
-    const host = resolveDepositPipelineHost();
+    const host = await resolveDepositPipelineHost();
     await emitStatus(
       `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
     );

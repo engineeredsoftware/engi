@@ -16,6 +16,8 @@
 
 import {
   InlineHost,
+  VercelSandboxHost,
+  loadVercelSandboxFactory,
   readWorkspaceSources,
   type BitcodePipelineHost,
   type HostSourceFile,
@@ -58,12 +60,46 @@ function pickSamples(sources: HostSourceFile[]): { path: string; excerpt: string
     .map((path) => ({ path, excerpt: (byPath.get(path) || '').slice(0, MAX_SAMPLE_CHARS) }));
 }
 
+export type DepositHostKind = 'inline' | 'vercel-sandbox';
+
 /**
- * Resolve the deposit pipeline Host. In-process (InlineHost) today; the Vercel
- * Sandbox host in prod once wired. The deposit run is the harness run, so the host
- * provisions the source — the dispatching request does not.
+ * Select the deposit Host kind. Explicit `BITCODE_PIPELINE_HOST` wins; otherwise a
+ * Vercel serverless runtime (no git binary / ephemeral FS) MUST use the sandbox host,
+ * while a local/dev runtime (the persistent Node server has git + a filesystem) uses
+ * the in-process InlineHost. Pure + testable.
  */
-export function resolveDepositPipelineHost(): BitcodePipelineHost {
+export function selectDepositHostKind(env: NodeJS.ProcessEnv = process.env): DepositHostKind {
+  const explicit = env.BITCODE_PIPELINE_HOST?.trim().toLowerCase();
+  if (explicit === 'inline' || explicit === 'vercel-sandbox') return explicit;
+  return env.VERCEL ? 'vercel-sandbox' : 'inline';
+}
+
+/** Vercel auth for sandbox creation: prefer OIDC; otherwise pass the access token. */
+function vercelSandboxCreateOptions() {
+  if (process.env.VERCEL_OIDC_TOKEN) return {};
+  return {
+    token: process.env.VERCEL_TOKEN,
+    teamId: process.env.VERCEL_TEAM_ID,
+    projectId: process.env.VERCEL_PROJECT_ID,
+  };
+}
+
+/**
+ * Resolve the deposit pipeline Host. The deposit run is the harness run, so the Host
+ * provisions the source — the dispatching request does not. InlineHost runs in-process
+ * (dev); VercelSandboxHost provisions a durable sandbox (prod) because a serverless
+ * function cannot clone. Both implement the same primitive, so provisioning is
+ * identical downstream.
+ */
+export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost> {
+  if (selectDepositHostKind() === 'vercel-sandbox') {
+    const sandboxFactory = await loadVercelSandboxFactory();
+    return new VercelSandboxHost({
+      sandboxFactory,
+      runtime: 'node22',
+      createOptions: vercelSandboxCreateOptions(),
+    });
+  }
   return new InlineHost();
 }
 
