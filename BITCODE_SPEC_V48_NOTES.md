@@ -568,6 +568,26 @@ Gaps to close (the inline deposit run deviates today):
   blob). Full git history (`depth: 0`) is a separate axis, not needed for source
   measurement; `depth: 1` already yields every blob of the checkout.
 
+The Host is a PRIMITIVE (Garrett, 2026-06-27): **Sandbox and Inline are two
+implementations of one primitive Host harness, specified by HOST CAPABILITIES.** The
+primitive (`BitcodePipelineHost`, `packages/pipeline-hosts`): a `capabilities`
+descriptor (clone / filesystem / exec / ephemeral / working dir) + `provisionRepository(source)`
+that checks out the FULL working tree at the revision and returns a
+`BitcodeHostWorkspace` exposing the checkout — `listFiles()` (tracked source files),
+`readFile(path)` (verbatim content), `runCommand(...)`, `dispose()`. The pipeline
+(Setup → … → Validation) speaks only to the primitive; the implementations differ
+only in HOW:
+- **InlineHost** — a real `git clone` of the full tree to a local working dir + a
+  Node-fs-backed workspace. Valid only where the runtime has git + a filesystem (the
+  dev persistent Node server; NOT a serverless function).
+- **VercelSandboxHost** — provisions via the Sandbox SDK git source into
+  `/vercel/sandbox`; the workspace is backed by `runCommand` (`git ls-files`) +
+  `readFileToBuffer`.
+Both yield identical behavior; the deposit Setup provisions through the primitive and
+builds its inventory + measurement source from the checkout, retiring the API sample
+inventory. (The current `cloneRepository` metadata stub and the Setup clone agent's
+short-circuit are superseded by the primitive's real provisioning.)
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
