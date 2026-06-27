@@ -537,6 +537,37 @@ informed AssetPacks, generically across repositories of all shapes and sizes.
   quality — is never optional). Correct the route's dead `PROFILE=bounded` phrasing
   in the real-inference-required message (profiles were removed in F26-A).
 
+### Gate-3 HOST source contract — full repository on every host (Garrett, 2026-06-27)
+
+Both pipeline hosts — **local in-process** (dev: the persistent Node server) and the
+**Vercel Sandbox** (prod) — are valid HOSTs with IDENTICAL machine capabilities
+(clone commands, filesystem, exec; `PipelineHostCapabilities`). The synthesis
+pipeline runs the SAME clone + measurement behavior on both: in **Setup** the host
+CHECKS OUT THE FULL REPOSITORY — every blob of the working tree at the source
+revision, verbatim — into the host working directory; Discovery, Implementation, and
+Validation (measurement) read that full checkout. No per-environment compromise; the
+static-analysis tool then measures the real full source, not samples.
+
+Gaps to close (the inline deposit run deviates today):
+- The route's GitHub-API sample inventory (`buildSourceInventory`: `git/trees` paths +
+  ≤10 × 1600-char excerpts) is a STOPGAP and is RETIRED. Source is the full checkout;
+  the inventory is built FROM the checkout (in Setup), not in the dispatching request.
+- The clone TOOL (`packages/git` `cloneRepository`) is a metadata-only stub (returns
+  URLs, no checkout); a real `git clone` of the full working tree to the host FS is
+  required for the local host. The Vercel Sandbox already clones via its SDK
+  (`PipelineSandboxSource {type:'git'}`) into `/vercel/sandbox`; the Setup clone agent
+  short-circuits there because the checkout is already present.
+- A serverless function is NOT a valid host (no git binary, ephemeral FS). The
+  dispatching request stays serverless, but the HARNESS RUN executes on a valid host —
+  the dev persistent Node server or the prod Vercel Sandbox. Prod deposit therefore
+  runs on the sandbox host (the standing Gate-3 host loose end).
+- Source-safety unchanged: the full checkout lives ON the host; only source-safe
+  measurements + the source-safe patch/contents descriptors leave it; raw source never
+  enters telemetry.
+- "Literally everything, verbatim" = the full WORKING TREE at the revision (every
+  blob). Full git history (`depth: 0`) is a separate axis, not needed for source
+  measurement; `depth: 1` already yields every blob of the checkout.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
