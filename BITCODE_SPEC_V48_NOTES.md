@@ -637,6 +637,52 @@ is named in spec for closure):
 - **Config.** `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE` removed (full SDIVF pipeline only;
   Validation — measurement + quality — never skipped).
 
+### Gate-3 depositing PARITY MATRIX (gate-closure audit; Garrett, 2026-06-27)
+
+Spec ↔ implementation ↔ tests parity for every Gate-3 depositing capability.
+Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as a stub
+(intentional) · ⚠️ specified, implementation partial · ❌ specified, not implemented.
+
+| # | Capability | Implementation (symbol) | Tests | Parity |
+|---|---|---|---|---|
+| 1 | measure-agent base | `agent-generics` `factoryMeasureAgent` | measure-agent.test | ✅ |
+| 2 | measure-agent-absolutes | `factoryMeasureAgentAbsolutes` | measure-agent.test | ✅ |
+| 3 | concrete absolutes measurer | `factoryAssetPackMeasureAbsolutesAgent(lens)` | agent-measure-absolutes.test | ✅ |
+| 4 | absolutes catalog (5 measures, Σweights=1) | `ASSET_PACK_ABSOLUTES_CATALOG` | agent-measure-absolutes.test | ✅ |
+| 5 | measurement shape (category/magnitude/unit) | `AssetPackCandidateMeasurement` | agent-measure-absolutes.test | ✅ |
+| 6 | size-authoritative + judgment + fallback | `measureAssetPackAbsolutes` / `computeAbsolutesFromReport` / `mergeReportAndReadings` | agent-measure-absolutes.test | ✅ |
+| 7 | static analysis (language-generic) | `SourceStaticAnalysisTool` / `analyzeStaticSource` | source-static-analysis-tool.test | ✅ |
+| 8 | tools registry add/replace | `register/resolveSourceStaticAnalysisTool` | source-static-analysis-tool.test | ✅ |
+| 9 | Validation measures + attaches absolutes | `runDepositValidationAgent` | asset-pack suite (validation) | ✅ |
+| 10 | options prefer formal absolutes + carry patch | `validateDepositSynthesisOptions` | agent-measure-absolutes.test, asset-packs-synthesis.test | ✅ |
+| 11 | neediness (preview) | `computeNeediness` / `buildNeedinessFromSignal` | neediness.test | ✅ |
+| 12 | neediness signal grounded in depository search | `deposit-asset-pack-synthesis-agent` / `deposit-depository-search-agent` | depository-search(.tool).test | ✅ |
+| 13 | patch descriptor carried to candidate | `AssetPackPatchDescriptor` / `AssetPackCandidate.patch` | asset-packs-synthesis.test | ✅ |
+| 14 | option decision payload | `DepositAssetPackOption.contents` + `roots.contentsRoot` | asset-packs-synthesis.test | ✅ |
+| 15 | card "If deposited, Bitcode receives" | `DepositPageClient.tsx` | depositPageClient.test | ✅ |
+| 16 | full SDIVF pipeline only; Validation never skipped | deposit route (flag removed) | depositSynthesizeOptionsRoute.test | ✅ |
+| 17 | primitive Host + capabilities + workspace | `BitcodePipelineHost` / `BitcodeHostWorkspace` | inline/sandbox-host.test | ✅ |
+| 18 | InlineHost (real clone + Node fs) | `InlineHost` | inline-host.test | ✅ |
+| 19 | SandboxHost + Vercel provider | `SandboxHost` / `VercelSandboxHost` | sandbox-host.test | ✅ |
+| 20 | AWS provider seam | `AwsSandboxHost` (stub: provision throws) | sandbox-host.test | 🟦 |
+| 21 | checkout → sources bridge | `readWorkspaceSources` | inline/sandbox-host.test | ✅ |
+| 22 | HostKind selection (configured, not env) | `selectDepositHostKind` / `resolveDepositPipelineHost` | depositSourceProvisioning.test | ✅ |
+| 23 | full inventory (sources+samples) + fail-closed exclusions | `provisionDepositSourceInventory` / `applyExclusionsToInventory` | depositSourceProvisioning.test, asset-packs-synthesis.test | ✅ |
+| 24 | deposit provisions full checkout via Host | deposit route + `InlineHost` path | depositSynthesizeOptionsRoute.test | ✅ |
+| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | `resolveDepositPipelineHost` REJECTS sandbox (not wired) | depositSourceProvisioning.test (rejects) | ❌ |
+
+**Open items for full gate-3 depositing closure:**
+- **#25 — SandboxHost in-box deposit dispatch** (the one ❌): the deposit synthesis
+  must RUN inside the sandbox box (the harness pattern, as the read-fit harness does),
+  not provision-and-read-out. Specified here; not yet wired — `resolveDepositPipelineHost`
+  rejects `sandbox` rather than fall back to a cross-boundary read. The InlineHost path
+  is complete; the SandboxHost path needs the in-box pipeline dispatch.
+- **Deployment config** (not code): the Vercel sandbox provider's runtime deps
+  (`@vercel/sandbox`, `VERCEL_*`, git in the box image); the AWS provider (#20) beyond
+  the stub.
+- **Live verification**: a real deposit run on the InlineHost confirming measured sizes
+  + the decision panel end-to-end.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.
