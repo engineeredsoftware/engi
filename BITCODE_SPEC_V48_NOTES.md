@@ -551,7 +551,12 @@ static-analysis tool then measures the real full source, not samples.
 Gaps to close (the inline deposit run deviates today):
 - The route's GitHub-API sample inventory (`buildSourceInventory`: `git/trees` paths +
   ≤10 × 1600-char excerpts) is a STOPGAP and is RETIRED. Source is the full checkout;
-  the inventory is built FROM the checkout (in Setup), not in the dispatching request.
+  the inventory is built FROM the checkout at HARNESS-RUN START on the Host (consistent
+  with the sandbox being created WITH its git source — provisioning precedes the
+  pipeline phases), NOT in the dispatching request. The Setup clone agent then confirms
+  source-present (its short-circuit is correct, given the host pre-provisioned). The
+  inventory carries the full verbatim `sources` (measurement) + bounded `samples`
+  (prompts); `applyExclusionsToInventory` filters `sources` fail-closed.
 - The clone TOOL (`packages/git` `cloneRepository`) is a metadata-only stub (returns
   URLs, no checkout); a real `git clone` of the full working tree to the host FS is
   required for the local host. The Vercel Sandbox already clones via its SDK
