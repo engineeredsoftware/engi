@@ -72,6 +72,58 @@ describe('usePipelineExecution', () => {
     expect((global.fetch as jest.Mock).mock.calls[0][0]).toBe('/api/executions/history/r1');
   });
 
+  it('relays raw live event_data with namespace/key intact (F19 fragment fix)', async () => {
+    const historyResponse = {
+      run: { id: 'r3', user_id: 'user-1', created_at: new Date().toISOString(), items: [], context: {} },
+      events: [],
+    };
+
+    // A namespaced fragment store and an llm/output generation, exactly as the
+    // server persists them. The live tail must push these verbatim (namespace
+    // preserved) rather than flattening them through parseStreamChunk.
+    const streamReader = {
+      read: jest
+        .fn()
+        .mockResolvedValueOnce({
+          done: false,
+          value: encoder.encode(
+            'data: {"type":"status","namespace":"step","key":"name","message":"try","executionState":{}}\n\n' +
+              'data: {"type":"generation","namespace":"llm","key":"output","message":"[content withheld — source-safe]","executionState":{"phase":"setup","agent":"A","step":"plan","failsafe":"prepare","generation":"reason"}}\n\n',
+          ),
+        })
+        .mockResolvedValueOnce({ done: true, value: undefined }),
+    };
+
+    global.fetch = jest.fn((request: RequestInfo) => {
+      const url = typeof request === 'string' ? request : (request as Request)?.url ?? '';
+      if (url.startsWith('/api/executions/history/')) {
+        return Promise.resolve({ ok: true, json: async () => historyResponse } as any);
+      }
+      if (url.startsWith('/api/executions/stream')) {
+        return Promise.resolve({
+          ok: true,
+          headers: { get: () => 'text/event-stream; charset=utf-8' },
+          body: { getReader: () => streamReader },
+        } as any);
+      }
+      throw new Error(`Unexpected fetch: ${url}`);
+    }) as any;
+
+    let latest: any;
+    render(<Harness runId="r3" onResult={(state) => (latest = state)} />);
+
+    await waitFor(() => expect(latest?.isLoading).toBe(false));
+    await waitFor(() =>
+      expect(latest.events.some((e: any) => e.event?.namespace === 'llm' && e.event?.key === 'output')).toBe(true),
+    );
+    const stepEvent = latest.events.find((e: any) => e.event?.namespace === 'step');
+    const llmEvent = latest.events.find((e: any) => e.event?.namespace === 'llm');
+    // Namespace/key survive — the activity builder can classify and suppress the
+    // `step/name=try` fragment while keeping the llm/output as a formal row.
+    expect(stepEvent?.event?.key).toBe('name');
+    expect(llmEvent?.event?.executionState).toMatchObject({ phase: 'setup', step: 'plan', generation: 'reason' });
+  });
+
   it('handles history fetch failure gracefully', async () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 });
 

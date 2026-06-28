@@ -60,11 +60,11 @@ export async function synthesizeRealDepositOptionCandidates(input: {
   repositoryFullName: string;
   sourceBranch: string | null;
   sourceCommit: string | null;
-  depositorInstructions: string | null;
+  obfuscations: string | null;
   protectedIpExclusions: string[];
   demandContext: string[];
   inventory: AssetPacksSynthesisSourceInventory;
-  execution?: import('./asset-packs-synthesis').SourceSafeStreamTarget | null;
+  execution?: import('@bitcode/execution-generics/Execution').Execution | null;
 }): Promise<AssetPacksSynthesisResult> {
   return synthesizeAssetPackCandidates({
     lens: 'deposit',
@@ -72,7 +72,7 @@ export async function synthesizeRealDepositOptionCandidates(input: {
     sourceBranch: input.sourceBranch,
     sourceCommit: input.sourceCommit,
     steering: {
-      instructions: input.depositorInstructions,
+      instructions: input.obfuscations,
       protectedIpExclusions: input.protectedIpExclusions,
       demandContext: input.demandContext,
     },
@@ -142,7 +142,7 @@ export function buildRealDepositAssetPackOptionSynthesis(
   const repositoryFullName = normalizedText(request.repositoryFullName);
   const sourceBranch = normalizedText(request.sourceBranch);
   const sourceCommit = normalizedText(request.sourceCommit);
-  const depositorInstructions = normalizedText(request.depositorInstructions);
+  const obfuscations = normalizedText(request.obfuscations);
   const protectedIpExclusions = normalizeProtectedIpExclusions(request.protectedIpExclusions);
   const depositoryDemandSignals = normalizedSignals(request.depositoryDemandSignals);
   const readingDemandSignals = normalizedSignals(request.readingDemandSignals);
@@ -154,8 +154,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
     repositoryFullName,
     sourceBranch,
     sourceCommit,
-    depositorInstructionRoot: depositorInstructions
-      ? root('deposit-option-instructions', depositorInstructions)
+    depositorInstructionRoot: obfuscations
+      ? root('deposit-option-instructions', obfuscations)
       : null,
     synthesisMode: 'real-bounded-inference',
     pipelineCore: 'AssetPacksSynthesis',
@@ -180,9 +180,13 @@ export function buildRealDepositAssetPackOptionSynthesis(
     const measurements: DepositAssetPackOptionMeasurement[] = candidate.measurements.map((measurement) => ({
       id: `${optionId}:${measurement.measurementKind}`,
       label: measurement.label,
-      measurementKind: measurement.measurementKind as DepositAssetPackOptionMeasurement['measurementKind'],
+      measurementKind: measurement.measurementKind,
       weight: measurement.weight,
       volume: measurement.volume,
+      // V48 Gate 3: carry the absolutes provenance (category + size magnitude/unit).
+      ...(measurement.category ? { category: measurement.category } : {}),
+      ...(typeof measurement.magnitude === 'number' ? { magnitude: measurement.magnitude } : {}),
+      ...(measurement.unit ? { unit: measurement.unit } : {}),
       evidenceRoot: root('deposit-option-measurement', {
         measurementKind: measurement.measurementKind,
         weight: measurement.weight,
@@ -214,6 +218,27 @@ export function buildRealDepositAssetPackOptionSynthesis(
       btdMintBoundary: 'not-minted-by-deposit-option' as const,
       settlementBoundary: 'future-reader-settlement-required-for-source-bearing-assetpack' as const,
     };
+    // Deposit neediness preview (v0): carry the read-demand estimate the
+    // depository-search lens produced for this candidate (computed by
+    // validateDepositSynthesisOptions). Null when no signal was produced.
+    const neediness = candidate.neediness
+      ? {
+          volume: candidate.neediness.volume,
+          demand: candidate.neediness.demand,
+          saturation: candidate.neediness.saturation,
+          rationale: candidate.neediness.rationale,
+        }
+      : null;
+    // The deposit-decision payload: what Bitcode RECEIVES if deposited — the
+    // synthesized AP contents (source-safe patch descriptor) + the provenant source
+    // (covered files). Shown to the depositor; source-safe (path+op + summary + the
+    // depositor's own paths).
+    const contents = {
+      patchSummary: candidate.patch?.patchSummary ?? '',
+      fileChanges: (candidate.patch?.fileChanges ?? []).map((fc) => ({ path: fc.path, op: fc.op })),
+      provenantSourcePaths: candidate.coveredSourcePaths,
+      provenantSourceCount: candidate.coveredSourcePaths.length,
+    };
     const optionBase = {
       optionId,
       kind: candidateKind(candidate),
@@ -222,6 +247,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
       sourceBinding,
       demandAlignment,
       measurements,
+      contents,
+      neediness,
       reviewBoundary,
     };
 
@@ -255,6 +282,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
         sourceBindingRoot: root('deposit-option-source-binding', sourceBinding),
         demandAlignmentRoot: root('deposit-option-demand-alignment', demandAlignment),
         measurementRoot: root('deposit-option-measurements', measurements),
+        contentsRoot: root('deposit-option-contents', contents),
+        needinessRoot: neediness ? root('deposit-option-neediness', neediness) : null,
         reviewBoundaryRoot: root('deposit-option-review-boundary', reviewBoundary),
       },
     };
@@ -276,8 +305,8 @@ export function buildRealDepositAssetPackOptionSynthesis(
       repositoryFullName,
       sourceBranch,
       sourceCommit,
-      depositorInstructionRoot: depositorInstructions
-        ? root('deposit-option-instructions', depositorInstructions)
+      depositorInstructionRoot: obfuscations
+        ? root('deposit-option-instructions', obfuscations)
         : null,
       sourcePathRoots: [...new Set(options.flatMap((option) => option.sourceBinding.sourcePathRoots))],
     },

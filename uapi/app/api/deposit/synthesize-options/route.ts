@@ -10,12 +10,19 @@ import { createStreamingExecution, emitPhaseTransition } from '@bitcode/pipeline
 import {
   applyExclusionsToInventory,
   normalizeProtectedIpExclusions,
+  validateDepositSynthesisOptions,
+  type AssetPacksSynthesisResult,
+  type AssetPacksSynthesisSourceInventory,
 } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
-import {
-  buildRealDepositAssetPackOptionSynthesis,
-  synthesizeRealDepositOptionCandidates,
-} from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
+import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
+import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
+import {
+  provisionDepositSourceInventory,
+  resolveDepositPipelineHost,
+  runDepositInBoxHarness,
+  selectDepositHostKind,
+} from '@/lib/deposit-source-provisioning';
 import {
   bitcodeServerTelemetry,
   compactBitcodeServerId,
@@ -24,9 +31,6 @@ import {
 export const runtime = 'nodejs';
 export const maxDuration = 300;
 
-const MAX_INVENTORY_PATHS = 400;
-const MAX_SAMPLE_FILES = 10;
-const MAX_SAMPLE_CHARS = 1600;
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 type SynthesizeOptionsBody = {
@@ -34,7 +38,7 @@ type SynthesizeOptionsBody = {
   repositoryFullName?: unknown;
   sourceBranch?: unknown;
   sourceCommit?: unknown;
-  depositorInstructions?: unknown;
+  obfuscations?: unknown;
   protectedIpExclusions?: unknown;
   demandContext?: unknown;
   depositoryDemandSignals?: unknown;
@@ -69,78 +73,6 @@ function readSignals(value: unknown) {
     }));
 }
 
-const SAMPLE_PRIORITY_PATTERNS = [
-  /^readme/i,
-  /^package\.json$/i,
-  /^pyproject\.toml$/i,
-  /^cargo\.toml$/i,
-  /^go\.mod$/i,
-  /^setup\.(py|cfg)$/i,
-  /^requirements.*\.txt$/i,
-];
-
-function pickSamplePaths(paths: string[]): string[] {
-  const prioritized = paths.filter((path) =>
-    SAMPLE_PRIORITY_PATTERNS.some((pattern) => pattern.test(path.split('/').pop() || '')),
-  );
-  const sourceLike = paths.filter(
-    (path) =>
-      !prioritized.includes(path) &&
-      /\.(ts|tsx|js|jsx|py|rs|go|rb|java|cs|swift|sol|md)$/i.test(path) &&
-      path.split('/').length <= 3,
-  );
-  return [...prioritized, ...sourceLike].slice(0, MAX_SAMPLE_FILES);
-}
-
-async function githubJson(token: string, url: string) {
-  const response = await fetch(url, {
-    headers: {
-      authorization: `Bearer ${token}`,
-      accept: 'application/vnd.github+json',
-      'x-github-api-version': '2022-11-28',
-    },
-    cache: 'no-store',
-  });
-  if (!response.ok) {
-    throw new Error(`GitHub API ${response.status} for ${url.replace(/\?.*$/, '')}`);
-  }
-  return response.json() as Promise<Record<string, unknown>>;
-}
-
-async function buildSourceInventory(input: {
-  token: string;
-  repositoryFullName: string;
-  reference: string;
-}) {
-  const tree = await githubJson(
-    input.token,
-    `https://api.github.com/repos/${input.repositoryFullName}/git/trees/${encodeURIComponent(input.reference)}?recursive=1`,
-  );
-  const entries = Array.isArray(tree.tree) ? (tree.tree as Array<Record<string, unknown>>) : [];
-  const paths = entries
-    .filter((entry) => entry.type === 'blob' && typeof entry.path === 'string')
-    .map((entry) => entry.path as string)
-    .slice(0, MAX_INVENTORY_PATHS);
-
-  const samples: Array<{ path: string; excerpt: string }> = [];
-  for (const path of pickSamplePaths(paths)) {
-    try {
-      const content = await githubJson(
-        input.token,
-        `https://api.github.com/repos/${input.repositoryFullName}/contents/${encodeURI(path)}?ref=${encodeURIComponent(input.reference)}`,
-      );
-      if (typeof content.content === 'string' && content.encoding === 'base64') {
-        const text = Buffer.from(content.content, 'base64').toString('utf8');
-        samples.push({ path, excerpt: text.slice(0, MAX_SAMPLE_CHARS) });
-      }
-    } catch {
-      // A missing or oversized sample never blocks synthesis.
-    }
-  }
-
-  return { paths, samples, truncated: entries.length > MAX_INVENTORY_PATHS };
-}
-
 export async function POST(request: Request) {
   const supabase = await createClient();
   const {
@@ -159,7 +91,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error:
-          'Real deposit option synthesis requires BITCODE_ASSET_PACK_REAL_INFERENCE (with BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE=bounded) so options carry real measurements.',
+          'Real deposit option synthesis requires BITCODE_ASSET_PACK_REAL_INFERENCE so options carry real measurements.',
         code: 'real_inference_required',
       },
       { status: 422 },
@@ -181,7 +113,7 @@ export async function POST(request: Request) {
   const runId = requestedRunId && UUID_PATTERN.test(requestedRunId) ? requestedRunId : randomUUID();
   const sourceBranch = readString(body.sourceBranch);
   const sourceCommit = readString(body.sourceCommit);
-  const depositorInstructions = readString(body.depositorInstructions);
+  const obfuscations = readString(body.obfuscations);
   const protectedIpExclusions = normalizeProtectedIpExclusions(readStringList(body.protectedIpExclusions));
   const demandContext = readStringList(body.demandContext);
 
@@ -252,7 +184,15 @@ export async function POST(request: Request) {
     }
   };
 
-  try {
+  // F26-B: the synthesis runs the full formal hierarchy (many LLM calls), so it
+  // must NOT be bound to this request's maxDuration. Dispatch it as a background
+  // run (the local in-process harness host) and return the runId immediately; the
+  // client tails source-safe telemetry and, on the completion event, reads the
+  // persisted synthesis from the execution row output. Prod durability is the
+  // Vercel Sandbox host (pipeline-hosts). The F25 per-call LLM timeout remains the
+  // safety bound within the run.
+  const runSynthesis = async () => {
+   try {
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'start', {
       repositoryFullName,
       sourceBranch,
@@ -266,28 +206,111 @@ export async function POST(request: Request) {
       supabaseAdmin,
     );
     const reference = sourceCommit || sourceBranch || 'HEAD';
-    await emitStatus(`Building source inventory from ${repositoryFullName}@${reference}…`);
-    const rawInventory = await buildSourceInventory({
-      token: auth.accessToken,
-      repositoryFullName,
-      reference,
-    });
-    const inventory = applyExclusionsToInventory(rawInventory, protectedIpExclusions);
-    await emitStatus(
-      `Inventory ready: ${inventory.paths.length} paths (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; ${inventory.samples.length} excerpts sampled).`,
-    );
+    const DEPOSIT_OPTION_KINDS = ['capability-slice', 'implementation-pattern', 'proof-operations-slice'];
+    // The synthesis runs WITHIN the configured Host. InlineHost runs it in this box
+    // (provision the full checkout + run the pipeline in-process). SandboxHost runs it
+    // IN the box (#25): the harness dispatches the deposit pipeline into the sandbox,
+    // which clones + runs over its local checkout; the options come back in evidence.
+    const hostKind = selectDepositHostKind();
+    let rawOptions: Parameters<typeof validateDepositSynthesisOptions>[0];
+    let inventoryPaths: string[];
+    // The inventory the option projection + persistence reference. Real for inline;
+    // for the sandbox path the box held the inventory, so a minimal shape is rebuilt
+    // from the returned options (exclusions were already enforced in-box).
+    let inventory: AssetPacksSynthesisSourceInventory;
 
-    await emitStatus('Running bounded structured inference (reason → judge → structured output)…');
-    const result = await synthesizeRealDepositOptionCandidates({
-      repositoryFullName,
-      sourceBranch,
-      sourceCommit,
-      depositorInstructions,
+    if (hostKind === 'sandbox') {
+      await emitStatus(
+        `Dispatching deposit synthesis to the sandbox host (in-box) for ${repositoryFullName}@${reference}…`,
+      );
+      rawOptions = (await runDepositInBoxHarness({
+        repositoryFullName,
+        revision: reference,
+        branch: sourceBranch,
+        commit: sourceCommit,
+        token: auth.accessToken,
+        obfuscations,
+        protectedIpExclusions,
+        demandContext,
+        onEvent: (event) => {
+          void emitStatus(`sandbox: ${event.type}`);
+        },
+      })) as Parameters<typeof validateDepositSynthesisOptions>[0];
+      // The in-box run validated covered paths against the real inventory; the route's
+      // re-validation enforces exclusions over the options' own covered paths.
+      inventoryPaths = [
+        ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
+      ] as string[];
+      inventory = {
+        paths: inventoryPaths,
+        samples: [],
+        sources: [],
+        totalPathCount: inventoryPaths.length,
+        excludedPathCount: 0,
+      };
+    } else {
+      const host = await resolveDepositPipelineHost();
+      await emitStatus(
+        `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
+      );
+      const provisioned = await provisionDepositSourceInventory({
+        host,
+        repositoryFullName,
+        url: `https://github.com/${repositoryFullName}.git`,
+        revision: reference,
+        token: auth.accessToken,
+      });
+      inventory = applyExclusionsToInventory(provisioned, protectedIpExclusions);
+      await emitStatus(
+        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; full source measured, ${inventory.samples.length} prompt excerpts).`,
+      );
+      await emitStatus(
+        'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
+      );
+      const [owner, name] = repositoryFullName.split('/');
+      await synthesizeAssetPacksPipeline(
+        {
+          mode: 'deposit',
+          synthesizeMode: 'deposit',
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          repository: {
+            owner,
+            name,
+            repo: name,
+            branch: sourceBranch,
+            commit: sourceCommit,
+            fullName: repositoryFullName,
+            url: `https://github.com/${repositoryFullName}`,
+          },
+          obfuscations,
+          protectedIpExclusions,
+          demandContext,
+          inventory,
+          candidateKinds: DEPOSIT_OPTION_KINDS,
+        } as never,
+        execution as never,
+      );
+      rawOptions = ((execution as any).get?.('implementation', 'options') ??
+        (execution as any).findUp?.('implementation', 'options') ??
+        []) as Parameters<typeof validateDepositSynthesisOptions>[0];
+      inventoryPaths = inventory.paths;
+    }
+
+    const validated = validateDepositSynthesisOptions(rawOptions, {
+      lens: 'deposit',
+      inventoryPaths,
       protectedIpExclusions,
-      demandContext,
-      inventory,
-      execution: execution as never,
+      candidateKinds: DEPOSIT_OPTION_KINDS,
     });
+    const result: AssetPacksSynthesisResult = {
+      lens: 'deposit',
+      candidates: validated.candidates,
+      droppedCandidateCount: validated.droppedCandidateCount,
+      exclusionViolations: validated.exclusionViolations,
+      inference: { provider: null, model: null, totalTokens: null, durationMs: Date.now() - startedAt },
+    };
     await emitStatus(
       `Validated candidates fail-closed: ${result.candidates.length} admissible, ${result.droppedCandidateCount} dropped.`,
     );
@@ -297,7 +320,7 @@ export async function POST(request: Request) {
         repositoryFullName,
         sourceBranch,
         sourceCommit,
-        depositorInstructions,
+        obfuscations,
         protectedIpExclusions,
         depositoryDemandSignals: readSignals(body.depositoryDemandSignals),
         readingDemandSignals: readSignals(body.readingDemandSignals),
@@ -315,11 +338,10 @@ export async function POST(request: Request) {
     await emitPhaseTransition(execution as never, 'deposit-option-synthesis', 'complete', {
       optionCount: synthesis.optionCount,
     });
-    await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
-      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
-      runId,
-    });
 
+    // Persist the synthesis BEFORE the completion event so the client's
+    // completion-triggered history fetch always finds it (the reviewProjections
+    // ride along on the output now that the route no longer returns them inline).
     await finalizeExecutionRow({
       status: 'completed',
       completed_at: new Date().toISOString(),
@@ -344,13 +366,19 @@ export async function POST(request: Request) {
       output: {
         summary: `Synthesized ${synthesis.optionCount} measured AssetPack options for ${repositoryFullName} via AssetPacksSynthesis (deposit lens).`,
         depositOptionSynthesis: synthesis,
+        reviewProjections,
+        inference: { ...result.inference, durationMs },
+        exclusionViolations: result.exclusionViolations,
       },
       items: [],
       total_tokens: result.inference.totalTokens,
       duration_ms: durationMs,
     });
 
-    ExecutionStreamAdapter.unregisterStreamer(execution.id);
+    await ExecutionStreamAdapter.emitEvent(execution.id, 'completion' as never, {
+      message: `AssetPacksSynthesis completed with ${synthesis.optionCount} measured options.`,
+      runId,
+    });
 
     bitcodeServerTelemetry('info', 'deposit-synthesize-options', 'synthesized', {
       userId: compactBitcodeServerId(user.id),
@@ -361,17 +389,7 @@ export async function POST(request: Request) {
       totalTokens: result.inference.totalTokens,
       durationMs,
     });
-
-    return NextResponse.json({
-      ok: true,
-      executionId: runId,
-      runId,
-      synthesis,
-      reviewProjections,
-      inference: { ...result.inference, durationMs },
-      exclusionViolations: result.exclusionViolations,
-    });
-  } catch (error) {
+   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     try {
       await ExecutionStreamAdapter.emitEvent(execution.id, 'error' as never, { message, runId });
@@ -390,16 +408,17 @@ export async function POST(request: Request) {
       },
       duration_ms: Date.now() - startedAt,
     });
-    ExecutionStreamAdapter.unregisterStreamer(execution.id);
     bitcodeServerTelemetry('warn', 'deposit-synthesize-options', 'failed', {
       userId: compactBitcodeServerId(user.id),
       repositoryFullName,
       runId,
       message,
     });
-    return NextResponse.json(
-      { error: message, code: 'deposit_option_synthesis_failed', runId },
-      { status: 502 },
-    );
-  }
+   } finally {
+    ExecutionStreamAdapter.unregisterStreamer(execution.id);
+   }
+  };
+
+  void runSynthesis();
+  return NextResponse.json({ ok: true, executionId: runId, runId, status: 'dispatched' });
 }

@@ -132,8 +132,8 @@ export default function DepositPageClient() {
   const [runsLoadError, setRunsLoadError] = useState<string | null>(null);
   const [repositoryContext, setRepositoryContext] =
     useState<TerminalRepositoryContextState | null>(null);
-  const [depositorInstructions, setDepositorInstructions] = useState(
-    "Propose source-safe AssetPack options that are sub-critical to expose after settlement and likely useful for future Reading demand.",
+  const [obfuscations, setObfuscations] = useState(
+    "Note anything to obfuscate or withhold from the synthesized options: internal names, proprietary framing, or sensitive specifics the source-safe AssetPacks should avoid surfacing.",
   );
   const [sourcePathHintsText, setSourcePathHintsText] = useState(
     [
@@ -428,7 +428,7 @@ export default function DepositPageClient() {
         repositoryContext?.selectedRepository?.fullName || null,
       sourceBranch: repositoryContext?.selectedBranch || null,
       sourceCommit: repositoryContext?.selectedCommit || null,
-      depositorInstructions,
+      obfuscations,
       sourcePathHints,
       depositoryDemandSignals: [
         {
@@ -507,7 +507,7 @@ export default function DepositPageClient() {
       hasDepositoryReadback,
     }),
     [
-      depositorInstructions,
+      obfuscations,
       hasDepositoryReadback,
       hasSubmittedDeposit,
       hasValidGitHubConnection,
@@ -558,6 +558,64 @@ export default function DepositPageClient() {
       synthesisWorkUpdate,
     ],
   );
+
+  // F26-B: the synthesis run is dispatched (decoupled from the request). When the
+  // streamed run completes, read the persisted synthesis from the execution row
+  // output and surface the reviewable options; a streamed error fails the run.
+  useEffect(() => {
+    if (synthesisStatus !== "running" || !synthesisRunId || realSynthesis) return;
+    if (synthesisActivity.error) {
+      setSynthesisStatus("failed");
+      setSynthesisError(synthesisActivity.error);
+      return;
+    }
+    if (!synthesisActivity.isStreamingComplete) return;
+    let cancelled = false;
+    void (async () => {
+      try {
+        const res = await fetch(`/api/executions/history/${synthesisRunId}`);
+        const data = await res.json().catch(() => null);
+        const output = data?.run?.output as
+          | { depositOptionSynthesis?: unknown; reviewProjections?: unknown }
+          | undefined;
+        const synthesis = output?.depositOptionSynthesis;
+        if (!res.ok || !synthesis) {
+          throw new Error("Synthesized options were not found for this run.");
+        }
+        if (cancelled) return;
+        setRealSynthesis({
+          synthesis: synthesis as NonNullable<typeof realSynthesis>["synthesis"],
+          reviewProjections: Array.isArray(output?.reviewProjections)
+            ? (output!.reviewProjections as NonNullable<typeof realSynthesis>["reviewProjections"])
+            : [],
+        });
+        setOptionsRequested(true);
+        setSynthesisStatus("complete");
+        replaceDepositSearchParams(
+          writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
+        );
+        void refreshLiveRuns();
+      } catch (error) {
+        if (cancelled) return;
+        setSynthesisStatus("failed");
+        setSynthesisError(
+          error instanceof Error ? error.message : "Synthesis result not found.",
+        );
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [
+    synthesisStatus,
+    synthesisRunId,
+    realSynthesis,
+    synthesisActivity.isStreamingComplete,
+    synthesisActivity.error,
+    readCurrentSearchParams,
+    refreshLiveRuns,
+    replaceDepositSearchParams,
+  ]);
 
   const sessionRows = [
     {
@@ -707,9 +765,10 @@ export default function DepositPageClient() {
     const effectiveInstructions =
       typeof instructionsOverride === "string" && instructionsOverride.trim()
         ? instructionsOverride
-        : depositorInstructions;
+        : obfuscations;
     setSynthesisStatus("running");
     setSynthesisError(null);
+    setRealSynthesis(null);
     // Client-issued run id so the streaming log can tail the execution from
     // the first event while the route is still working.
     const runId =
@@ -729,7 +788,7 @@ export default function DepositPageClient() {
             repositoryContext?.selectedRepository?.fullName || null,
           sourceBranch: repositoryContext?.selectedBranch || null,
           sourceCommit: repositoryContext?.selectedCommit || null,
-          depositorInstructions: effectiveInstructions,
+          obfuscations: effectiveInstructions,
           protectedIpExclusions: protectedIpExclusionsText,
           demandContext: [
             ...depositRouteInput.depositoryDemandSignals.map(
@@ -746,26 +805,17 @@ export default function DepositPageClient() {
         }),
       });
       const payload = await response.json().catch(() => null);
-      if (!response.ok || !payload?.ok || !payload?.synthesis) {
+      if (!response.ok || !payload?.ok) {
         throw new Error(
           typeof payload?.error === "string"
             ? payload.error
             : "Deposit option synthesis failed.",
         );
       }
-
-      setRealSynthesis({
-        synthesis: payload.synthesis,
-        reviewProjections: Array.isArray(payload.reviewProjections)
-          ? payload.reviewProjections
-          : [],
-      });
-      setOptionsRequested(true);
-      setSynthesisStatus("complete");
-      replaceDepositSearchParams(
-        writeDepositRouteStage(readCurrentSearchParams(), "review-options"),
-      );
-      void refreshLiveRuns();
+      // F26-B: the route DISPATCHED the run (it no longer returns the synthesis
+      // inline — the full pipeline runs to completion in the background while
+      // telemetry streams). Stay 'running'; the completion effect reads the
+      // persisted synthesis from the execution row and flips to 'complete'.
     } catch (error) {
       setSynthesisStatus("failed");
       setSynthesisError(
@@ -775,7 +825,7 @@ export default function DepositPageClient() {
       );
     }
   }, [
-    depositorInstructions,
+    obfuscations,
     depositRouteInput.depositoryDemandSignals,
     depositRouteInput.existingDepositorySignals,
     depositRouteInput.readingDemandSignals,
@@ -1220,7 +1270,7 @@ export default function DepositPageClient() {
                       Option synthesis
                     </p>
                     <h2 className="mt-2 text-lg font-semibold text-white">
-                      Depositor instruction
+                      Obfuscations
                     </h2>
                   </div>
                   <Sparkles
@@ -1230,12 +1280,12 @@ export default function DepositPageClient() {
                 </div>
                 <label className="mt-4 block">
                   <span className="text-[0.62rem] uppercase tracking-[0.16em] text-neutral-500">
-                    Instructions
+                    What to obfuscate or withhold
                   </span>
                   <textarea
-                    value={depositorInstructions}
+                    value={obfuscations}
                     onChange={(event) =>
-                      setDepositorInstructions(event.target.value)
+                      setObfuscations(event.target.value)
                     }
                     className="mt-2 min-h-[8rem] w-full border border-white/10 bg-black/30 px-3 py-3 text-sm leading-6 text-neutral-100 outline-none transition focus:border-emerald-300/35"
                   />
@@ -1300,7 +1350,7 @@ export default function DepositPageClient() {
             {synthesisRunId ? (
               <section
                 ref={synthesisTelemetryRef}
-                className="border border-white/10 bg-white/[0.035] px-4 py-4"
+                className="min-w-0 overflow-hidden border border-white/10 bg-white/[0.035] px-4 py-4"
                 aria-label="AssetPacksSynthesis run telemetry"
                 data-testid="deposit-synthesis-telemetry"
               >
@@ -1323,7 +1373,7 @@ export default function DepositPageClient() {
                     {synthesisRunId}
                   </span>
                 </div>
-                <div className="mt-4">
+                <div className="mt-4 min-w-0">
                   <PipelineExecutionLog
                     output={synthesisActivity.output}
                     outputDetails={synthesisActivity.outputDetails}
@@ -1424,7 +1474,7 @@ export default function DepositPageClient() {
                     <article
                       key={option.optionId}
                       data-testid={`deposit-option-${option.kind}`}
-                      className={`grid gap-4 border px-4 py-4 ${
+                      className={`grid min-w-0 gap-4 border px-4 py-4 ${
                         reviewed
                           ? "border-emerald-300/38 bg-emerald-300/10"
                           : "border-white/10 bg-black/20"
@@ -1468,29 +1518,94 @@ export default function DepositPageClient() {
                         <p className="mt-2 text-sm leading-6 text-neutral-400">
                           {option.summary}
                         </p>
-                        {(() => {
-                          const projection =
-                            realSynthesis?.reviewProjections.find(
-                              (entry) => entry.optionId === option.optionId,
-                            );
-                          if (!projection) return null;
-                          return (
-                            <details className="mt-2 text-xs leading-5 text-neutral-400">
-                              <summary className="cursor-pointer text-neutral-300">
-                                Covered source (
-                                {projection.coveredSourcePaths.length} paths)
-                              </summary>
-                              <ul className="mt-1 max-h-32 overflow-y-auto font-mono">
-                                {projection.coveredSourcePaths.map((path) => (
+                        {option.contents ? (
+                          // The deposit/no-deposit decision payload: what Bitcode
+                          // RECEIVES if this AssetPack is deposited — the synthesized
+                          // AP contents + the provenant source files.
+                          <div className="mt-3 border border-emerald-300/20 bg-emerald-300/[0.05] px-3 py-3">
+                            <p className="text-[0.58rem] font-medium uppercase tracking-[0.16em] text-emerald-200/85">
+                              If deposited, Bitcode receives
+                            </p>
+                            {option.contents.patchSummary ? (
+                              <p className="mt-2 break-words text-xs leading-5 text-neutral-300">
+                                {option.contents.patchSummary}
+                              </p>
+                            ) : null}
+                            {option.contents.fileChanges.length > 0 ? (
+                              <div className="mt-2">
+                                <p className="text-[0.56rem] uppercase tracking-[0.14em] text-neutral-500">
+                                  Synthesized contents · {option.contents.fileChanges.length} file
+                                  {option.contents.fileChanges.length === 1 ? "" : "s"}
+                                </p>
+                                <ul className="mt-1 max-h-32 space-y-0.5 overflow-y-auto break-all font-mono text-[0.7rem]">
+                                  {option.contents.fileChanges.map((change) => (
+                                    <li
+                                      key={`${change.op}:${change.path}`}
+                                      className="flex items-baseline gap-1.5"
+                                    >
+                                      <span
+                                        className={`shrink-0 uppercase ${
+                                          change.op === "create"
+                                            ? "text-emerald-300/80"
+                                            : change.op === "delete"
+                                              ? "text-rose-300/80"
+                                              : "text-amber-300/80"
+                                        }`}
+                                      >
+                                        {change.op}
+                                      </span>
+                                      <span className="text-neutral-400">{change.path}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            ) : null}
+                            <div className="mt-2">
+                              <p className="text-[0.56rem] uppercase tracking-[0.14em] text-neutral-500">
+                                Provenant source · {option.contents.provenantSourceCount} file
+                                {option.contents.provenantSourceCount === 1 ? "" : "s"} available to
+                                Bitcode
+                              </p>
+                              <ul className="mt-1 max-h-32 overflow-y-auto break-all font-mono text-[0.7rem] text-neutral-400">
+                                {option.contents.provenantSourcePaths.map((path) => (
                                   <li key={path}>{path}</li>
                                 ))}
                               </ul>
-                              <p className="mt-2 text-neutral-500">
-                                {projection.measurementRationale}
-                              </p>
-                            </details>
-                          );
-                        })()}
+                            </div>
+                            {(() => {
+                              const projection = realSynthesis?.reviewProjections.find(
+                                (entry) => entry.optionId === option.optionId,
+                              );
+                              return projection?.measurementRationale ? (
+                                <p className="mt-2 break-words text-[0.7rem] leading-5 text-neutral-500">
+                                  {projection.measurementRationale}
+                                </p>
+                              ) : null;
+                            })()}
+                          </div>
+                        ) : (
+                          (() => {
+                            const projection = realSynthesis?.reviewProjections.find(
+                              (entry) => entry.optionId === option.optionId,
+                            );
+                            if (!projection) return null;
+                            return (
+                              <details className="mt-2 text-xs leading-5 text-neutral-400">
+                                <summary className="cursor-pointer text-neutral-300">
+                                  Covered source ({projection.coveredSourcePaths.length} paths)
+                                </summary>
+                                <ul className="mt-1 max-h-32 overflow-y-auto break-all font-mono">
+                                  {projection.coveredSourcePaths.map((path) => (
+                                    <li key={path}>{path}</li>
+                                  ))}
+                                </ul>
+                                <p className="mt-2 text-neutral-500">
+                                  {projection.measurementRationale}
+                                </p>
+                              </details>
+                            );
+                          })()
+                        )}
                       </div>
                       <dl className="grid gap-2">
                         {policyEvaluation ? (
@@ -1608,6 +1723,26 @@ export default function DepositPageClient() {
                             ) : null}
                           </>
                         ) : null}
+                        {option.neediness ? (
+                          <div className="min-w-0 border border-amber-300/25 bg-amber-300/[0.06] px-3 py-2">
+                            <dt className="text-[0.58rem] uppercase tracking-[0.14em] text-amber-200/85">
+                              Neediness · est. read demand
+                            </dt>
+                            <dd className="mt-1 text-sm text-neutral-100">
+                              {(option.neediness.volume * 100).toFixed(0)}%
+                              <span className="text-neutral-500">
+                                {" "}
+                                · demand {(option.neediness.demand * 100).toFixed(0)}% · saturation{" "}
+                                {(option.neediness.saturation * 100).toFixed(0)}%
+                              </span>
+                            </dd>
+                            {option.neediness.rationale ? (
+                              <dd className="mt-1 break-words text-[0.7rem] leading-5 text-neutral-400">
+                                {option.neediness.rationale}
+                              </dd>
+                            ) : null}
+                          </div>
+                        ) : null}
                         {option.measurements.map((measurement) => (
                           <div
                             key={measurement.id}
@@ -1617,8 +1752,26 @@ export default function DepositPageClient() {
                               {measurement.label}
                             </dt>
                             <dd className="mt-1 text-sm text-neutral-200">
-                              {(measurement.volume * 100).toFixed(0)}% / weight{" "}
-                              {measurement.weight.toFixed(2)}
+                              {typeof measurement.magnitude === "number" ? (
+                                <>
+                                  {measurement.magnitude}
+                                  {measurement.unit &&
+                                  measurement.unit !== "normalized" &&
+                                  measurement.unit !== "estimate"
+                                    ? ` ${measurement.unit}`
+                                    : ""}
+                                  <span className="text-neutral-500">
+                                    {" "}
+                                    · {(measurement.volume * 100).toFixed(0)}% / weight{" "}
+                                    {measurement.weight.toFixed(2)}
+                                  </span>
+                                </>
+                              ) : (
+                                <>
+                                  {(measurement.volume * 100).toFixed(0)}% / weight{" "}
+                                  {measurement.weight.toFixed(2)}
+                                </>
+                              )}
                             </dd>
                           </div>
                         ))}
@@ -1718,7 +1871,7 @@ export default function DepositPageClient() {
                                   type="button"
                                   onClick={() => {
                                     const trimmed = resynthesisInstructions.trim();
-                                    if (trimmed) setDepositorInstructions(trimmed);
+                                    if (trimmed) setObfuscations(trimmed);
                                     setResynthesisForOptionId(null);
                                     setResynthesisInstructions("");
                                     void handleSynthesizeOptions(

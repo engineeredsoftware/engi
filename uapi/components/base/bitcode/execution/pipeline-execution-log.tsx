@@ -5,7 +5,6 @@ import React, { useRef, useState, useEffect, useLayoutEffect, forwardRef } from 
 import { ContentVisibility } from '@/components/base/bitcode/perf/ContentVisibility';
 import { ProcessingIndicator } from '@/components/base/bitcode/indicators/ProcessingIndicator';
 import {
-  ChatBubbleIcon,
   CheckCircledIcon,
   ExclamationTriangleIcon,
   InfoCircledIcon,
@@ -314,13 +313,6 @@ const TYPE_STYLES: Record<
     border: 'border-purple-400/25',
     Icon: WrenchIcon,
   },
-  'otf_instructions': {
-    bg: 'bg-gradient-to-r from-orange-700/25 to-orange-700/10',
-    text: 'text-orange-200',
-    border: 'border-orange-400/25',
-    Icon: ChatBubbleIcon,
-    glow: true,
-  },
   'reading-telemetry': {
     bg: 'bg-gradient-to-r from-sky-700/20 to-emerald-700/10',
     text: 'text-sky-200',
@@ -350,13 +342,6 @@ const TYPE_STYLES: Record<
     text: 'text-red-200',
     border: 'border-red-400/20',
     Icon: ExclamationTriangleIcon,
-  },
-  otf_adherence: {
-    bg: 'bg-gradient-to-r from-sky-700/15 to-sky-700/5',
-    text: 'text-sky-200',
-    border: 'border-sky-400/20',
-    Icon: InfoCircledIcon,
-    glow: true,
   },
   'file-diff': {
     bg: 'bg-gradient-to-r from-indigo-700/25 to-indigo-700/10',
@@ -478,14 +463,19 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
 
     // Process each line
     lines.forEach(line => {
-      const logLine: LogLine & { type?: string } = { text: line } as any;
-      const storedChunk = outputDetails?.[line.trim()];
+      // A row key may carry a unique suffix after a null separator (so distinct
+      // LLM/tool calls with identical withheld text never collapse under the
+      // text-keyed de-dup). Display only the text before the separator; look up
+      // details by the full key.
+      const sepIdx = line.indexOf('\u0000');
+      const displayText = sepIdx >= 0 ? line.slice(0, sepIdx) : line;
+      const logLine: LogLine & { type?: string } = { text: displayText } as any;
+      const storedChunk =
+        outputDetails?.[line] ?? outputDetails?.[line.trim()] ?? outputDetails?.[displayText.trim()];
 
       // Preserve canonical stream message `type` if available for colour-coding
       if (storedChunk?.type) {
-        // Normalise custom aliases used in some mock/staging data
-        if (storedChunk.type === 'user_otf_instruction') logLine.type = 'otf_instructions';
-        else logLine.type = storedChunk.type;
+        logLine.type = storedChunk.type;
       } else if (storedChunk?.schema === 'bitcode.reading.operational-operator-readback') {
         logLine.type = 'operator-readback';
       } else if (storedChunk?.eventKind === 'repair') {
@@ -494,11 +484,10 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         logLine.type = 'reading-telemetry';
       } else {
         // Heuristic fallback when mock data lacks explicit type
-        const lower = line.toLowerCase();
+        const lower = displayText.toLowerCase();
         if (lower.includes('thinking')) logLine.type = 'thinking';
         else if (lower.includes('tool')) logLine.type = 'tool-use';
         else if (lower.includes('ai call') || lower.includes('(ai') || lower.includes('generation')) logLine.type = 'generation';
-        else if (lower.includes('on-the-fly') || lower.includes('otf')) logLine.type = 'otf_instructions';
         else if (lower.includes('error')) logLine.type = 'error';
         else if (lower.includes('complete') || lower.includes('finalizing')) logLine.type = 'completion';
         else logLine.type = undefined;
@@ -530,7 +519,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         }
 
         // Try to extract iteration from the line or metadata
-        const iterationMatch = line.match(/iteration[:\s]*(\d+)/i);
+        const iterationMatch = displayText.match(/iteration[:\s]*(\d+)/i);
         if (iterationMatch) {
           logLine.iteration = parseInt(iterationMatch[1], 10);
         } else if (storedChunk.status?.metadata?.iteration) {
@@ -550,28 +539,28 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       }
 
       // Clean up the log line text - remove any timestamp suffixes
-      const textParts = line.split('_');
+      const textParts = displayText.split('_');
       if (textParts.length > 1 && /^\d+$/.test(textParts[textParts.length - 1])) {
         // Remove timestamp suffix
         logLine.text = textParts.slice(0, -1).join('_');
       }
 
       // Determine line type
-      logLine.isError = line.toLowerCase().includes('error') ||
+      logLine.isError = displayText.toLowerCase().includes('error') ||
         (storedChunk?.status?.progress === 'error') ||
         storedChunk?.progress === 'blocked' ||
         storedChunk?.progress === 'repair-required';
-      logLine.isSuccess = line.toLowerCase().includes('success') ||
-        line.toLowerCase().includes('completed') ||
+      logLine.isSuccess = displayText.toLowerCase().includes('success') ||
+        displayText.toLowerCase().includes('completed') ||
         (storedChunk?.status?.progress === 'success') ||
         storedChunk?.progress === 'completed';
-      logLine.isInfo = line.toLowerCase().includes('info') ||
-        line.toLowerCase().includes('processing') ||
+      logLine.isInfo = displayText.toLowerCase().includes('info') ||
+        displayText.toLowerCase().includes('processing') ||
         (storedChunk?.status?.progress === 'in-progress') ||
         storedChunk?.progress === 'running' ||
         storedChunk?.progress === 'planned';
-      logLine.isComplete = line.toLowerCase().includes('complete') ||
-        line.toLowerCase().includes('completed') ||
+      logLine.isComplete = displayText.toLowerCase().includes('complete') ||
+        displayText.toLowerCase().includes('completed') ||
         (storedChunk?.status?.progress === 'success');
 
       // If phase is not specified, try to infer from the line text or stored chunk
@@ -583,7 +572,7 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         } else {
           // Then try to infer from text
           for (const phase of PHASES) {
-            if (line.includes(phase)) {
+            if (displayText.includes(phase)) {
               logLine.phase = phase;
               break;
             }
@@ -597,8 +586,11 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
       // Add to the appropriate phase group
       const phaseGroup = phaseGroups.get(phase);
       if (phaseGroup) {
-        // Check for duplicate messages - only add if unique
-        const isDuplicate = phaseGroup.lines.some(existingLine => {
+        // Uniquely-keyed rows (separator-suffixed by the activity builder) are
+        // distinct formal log lines — distinct LLM/tool calls can share withheld
+        // text, so they must never be de-duped. Only legacy text-only lines fall
+        // through to message de-dup.
+        const isDuplicate = sepIdx < 0 && phaseGroup.lines.some(existingLine => {
           return existingLine.text === logLine.text &&
             existingLine.agent === logLine.agent &&
             existingLine.step === logLine.step &&
@@ -657,17 +649,36 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
     setFlatLines(sortedFlat);
   }, [output, outputDetails]);
 
-  // Handle scroll events
+  // Handle scroll events. A modest "near bottom" band (not exact-pixel) means
+  // momentum/rounding still counts as following, while a deliberate scroll up to
+  // read an earlier line or an open accordion stops the auto-follow; returning to
+  // the bottom resumes it.
+  const BOTTOM_FOLLOW_THRESHOLD_PX = 48;
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const target = e.currentTarget;
-    const isAtBottom = Math.abs(target.scrollHeight - target.clientHeight - target.scrollTop) < 1;
+    const distanceFromBottom = target.scrollHeight - target.clientHeight - target.scrollTop;
 
-    if (!isAtBottom) {
+    if (distanceFromBottom > BOTTOM_FOLLOW_THRESHOLD_PX) {
       setUserHasScrolled(true);
     } else {
       setUserHasScrolled(false);
     }
   };
+
+  // Auto-follow: pin the log to the latest line as rows stream in so the user can
+  // watch passively — UNLESS they have scrolled away from the bottom, in which
+  // case we respect their position and never yank them back. `userHasScrolled`
+  // (maintained by handleScroll) flips back to false when they return to the
+  // bottom, which resumes the follow here.
+  useEffect(() => {
+    if (userHasScrolled) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const id = requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
+    return () => cancelAnimationFrame(id);
+  }, [flatLines, isProcessing, userHasScrolled]);
 
   // Toggle phase expansion
   const togglePhase = (phase: string) => {
@@ -707,8 +718,6 @@ export const PipelineExecutionLog = forwardRef<HTMLDivElement, PipelineRunLogPro
         return 'text-emerald-400'; // Bitcode green
       case 'tool-use':
         return 'text-purple-400';  // Bitcode purple
-      case 'otf_instructions':
-        return 'text-orange-400';  // orange
       case 'reading-telemetry':
         return 'text-sky-300';
       case 'operator-readback':
@@ -840,7 +849,7 @@ function renderLogLine(
 
     const RowContent = (
       <div
-        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-3 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
+        className={`relative flex items-center gap-1 w-full rounded-lg pl-7 pr-3 py-2 min-h-[46px] mb-6 last:mb-0 select-none text-[0.78rem] font-medium ${style.text} backdrop-blur-md bg-white/5 dark:bg-white/2 hover:bg-white/10 dark:hover:bg-white/10 transition-colors duration-200 border-l-2 ${style.border}`}
         data-log-index={index}
         onClick={() => toggleLine(lineId)}
         draggable
@@ -889,7 +898,7 @@ function renderLogLine(
           />
           <span
             title={logLine.text}
-            className="truncate flex-1 text-[0.82rem] leading-none m-0"
+            className="truncate flex-1 min-w-0 text-[0.82rem] leading-none m-0"
           >
             {logLine.text}
           </span>
@@ -1015,7 +1024,7 @@ function renderLogLine(
           {/* Main text */}
           <span
             title={logLine.text}
-            className="select-text cursor-text truncate pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
+            className="select-text cursor-text truncate min-w-0 flex-1 pr-3 text-xs tablet:text-sm laptop:text-[0.94rem] desktop:text-base font-medium leading-none h-5 flex items-center gap-1"
           >
             <Icon className="inline-block laptop:hidden w-4 h-4 text-current" />
             {logLine.text}

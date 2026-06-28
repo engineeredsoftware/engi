@@ -10,7 +10,7 @@ function reviewablePolicyReport() {
     repositoryFullName: 'engineeredsoftware/ENGI',
     sourceBranch: 'main',
     sourceCommit: '31bbc0c5227b6b3aed5d107fd8507d35ec22970a',
-    depositorInstructions: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
+    obfuscations: 'Prepare source-safe options likely to satisfy unfit Reading demand.',
     sourcePathHints: [
       'uapi/app/deposit/DepositPageClient.tsx',
       'packages/pipelines/asset-pack/src/depository-supply-index.ts',

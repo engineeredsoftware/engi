@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { parseStreamChunk } from '@/streaming/stream-parser';
 
 interface PipelineExecution {
   id: string;
@@ -82,6 +81,7 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
           if (!reader) return;
           const decoder = new TextDecoder();
           let buffer = '';
+          let liveSeq = 0;
           for (;;) {
             const { done, value } = await reader.read();
             if (done) break;
@@ -89,53 +89,29 @@ export function usePipelineExecution(runId: string | null): UsePipelineExecution
             const parts = buffer.split('\n\n');
             buffer = parts.pop() || '';
             for (const chunk of parts) {
-              const parsed = parseStreamChunk(chunk + '\n');
-              if (parsed.type === 'work-update' && parsed.update) {
-                recordWorkUpdate(parsed);
-                setEvents(prev => prev.concat([{ id: `${Date.now()}:work-update`, event: parsed, created_at: new Date().toISOString() }]));
-                continue;
-              }
-              if (parsed.status) {
-                const ev = { type: 'status', status: parsed.status };
-                setEvents(prev => prev.concat([{ id: `${Date.now()}:status`, event: ev, created_at: new Date().toISOString() }]));
-              }
-              if (parsed.text && !parsed.status && !parsed.error && !parsed.completion) {
-                const ev = { type: 'message', message: parsed.text } as any;
-                setEvents(prev => prev.concat([{ id: `${Date.now()}:msg`, event: ev, created_at: new Date().toISOString() }]));
-              }
-              if (parsed.error) {
-                const ev = { type: 'error', message: parsed.error } as any;
-                setEvents(prev => prev.concat([{ id: `${Date.now()}:err`, event: ev, created_at: new Date().toISOString() }]));
-              }
-              if ((parsed as any).type) {
-                const ev = (parsed as any).event || parsed;
-                if (ev?.type === 'work-update') {
-                  recordWorkUpdate(ev);
-                  setEvents(prev => prev.concat([{ id: `${Date.now()}:work-update`, event: ev, created_at: new Date().toISOString() }]));
-                  continue;
-                }
-                if (ev) {
-                  setEvents(prev => prev.concat([{ id: `${Date.now()}:ev`, event: ev, created_at: new Date().toISOString() }]));
-                }
-              }
+              // The live SSE tail relays raw `event_data` — the structured onStore
+              // event with namespace/key/executionState intact (already source-safe
+              // filtered server-side). Push it verbatim, identical in shape to the
+              // history path, so the activity builder classifies live events the
+              // same way and the formal log-line contract (F19: only LLM calls +
+              // Tool uses become rows) holds during streaming, not just on reload.
+              // Re-parsing through parseStreamChunk here used to flatten events into
+              // namespace-less `status`/`message` shapes, which leaked every
+              // intermediate store as a fragment row.
               const lines = chunk.split('\n').filter((l) => l.startsWith('data: ')).map((l) => l.substring(6));
               for (const line of lines) {
+                let payload: any;
                 try {
-                  const payload = JSON.parse(line);
-                  if (payload?.type === 'work-update') {
-                    recordWorkUpdate(payload);
-                  }
-                  if (
-                    payload &&
-                    (payload.type === 'pipeline' ||
-                      payload.type === 'phase' ||
-                      payload.type === 'agent' ||
-                      payload.type === 'completion' ||
-                      payload.type === 'error')
-                  ) {
-                    setEvents(prev => prev.concat([{ id: `${Date.now()}:ev`, event: payload, created_at: new Date().toISOString() }]));
-                  }
-                } catch {}
+                  payload = JSON.parse(line);
+                } catch {
+                  continue;
+                }
+                if (!payload || typeof payload !== 'object') continue;
+                if (payload.type === 'work-update') {
+                  recordWorkUpdate(payload);
+                }
+                const createdAt = typeof payload.timestamp === 'string' ? payload.timestamp : new Date().toISOString();
+                setEvents(prev => prev.concat([{ id: `live:${Date.now()}:${liveSeq++}`, event: payload, created_at: createdAt }]));
               }
             }
           }

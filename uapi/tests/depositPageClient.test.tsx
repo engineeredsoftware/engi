@@ -321,78 +321,85 @@ describe("DepositPageClient", () => {
         reviewBoundaryRoot: "deposit-option-review-boundary:77777777",
       },
     };
+    const synthesis = {
+      schema: "bitcode.deposit.asset-pack-option-synthesis",
+      pipeline: "DepositAssetPackOptionSynthesis",
+      requestId: "deposit-option-request:99999999",
+      createdAt: "2026-06-12T22:00:00.000Z",
+      request: {
+        repositoryFullName: "engineeredsoftware/ENGI",
+        sourceBranch: "main",
+        sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
+        depositorInstructionRoot: null,
+        sourcePathRoots: ["deposit-option-source-path:11111111"],
+      },
+      options: [realOption],
+      optionCount: 1,
+      sourceSafety: {
+        sourceSafeMetadataOnly: true,
+        protectedSourceVisible: false,
+        rawSourceTextVisible: false,
+        unpaidAssetPackSourceVisible: false,
+        rawPromptVisible: false,
+        interpolatedPromptVisible: false,
+        rawProviderResponseVisible: false,
+        walletPrivateMaterialVisible: false,
+      },
+      reviewBoundary: {
+        route: "/deposit",
+        defaultDecisionState: "pending-depositor-review",
+        approvedOptionsAdmittedBy: "future-gate7-deposit-option-review",
+        sourceCriticalityDemandRoiPolicyOwnedBy: "future-gate6-policy",
+      },
+      roots: {
+        requestRoot: "deposit-option-request:99999999",
+        synthesisRoot: "deposit-asset-pack-option-synthesis:88888888",
+        optionRoots: ["deposit-asset-pack-option:33333333"],
+      },
+      synthesisMode: "real-bounded-inference",
+      pipelineCore: "AssetPacksSynthesis",
+      inference: {
+        provider: "anthropic",
+        model: "claude-haiku-4-5-20251001",
+        totalTokens: 5421,
+        durationMs: 18450,
+      },
+      exclusionPosture: {
+        protectedIpExclusionCount: 1,
+        exclusionRoots: ["deposit-option-ip-exclusion:aaaaaaaa"],
+        excludedPathCount: 2,
+        droppedCandidateCount: 0,
+      },
+    };
+    const reviewProjections = [
+      {
+        optionId: "deposit-option-real-1-abcd1234",
+        title: "Real measured capability slice",
+        coveredSourcePaths: ["src/app.py"],
+        measurementRationale: "Covers the primary capability path.",
+      },
+    ];
+    // F26-B: the route DISPATCHES the run (returns dispatched, no synthesis); the
+    // client tails telemetry and, on the completion event, reads the persisted
+    // synthesis from the execution row history.
     const fetchMock = jest.fn(async (url: string) => {
       if (url === "/api/deposit/synthesize-options") {
         return {
           ok: true,
+          json: async () => ({ ok: true, runId: "real-synthesis-execution-1", executionId: "real-synthesis-execution-1", status: "dispatched" }),
+        };
+      }
+      if (url.startsWith("/api/executions/history/")) {
+        return {
+          ok: true,
           json: async () => ({
-            ok: true,
-            executionId: "real-synthesis-execution-1",
-            synthesis: {
-              schema: "bitcode.deposit.asset-pack-option-synthesis",
-              pipeline: "DepositAssetPackOptionSynthesis",
-              requestId: "deposit-option-request:99999999",
-              createdAt: "2026-06-12T22:00:00.000Z",
-              request: {
-                repositoryFullName: "engineeredsoftware/ENGI",
-                sourceBranch: "main",
-                sourceCommit: "31bbc0c5227b6b3aed5d107fd8507d35ec22970a",
-                depositorInstructionRoot: null,
-                sourcePathRoots: ["deposit-option-source-path:11111111"],
-              },
-              options: [realOption],
-              optionCount: 1,
-              sourceSafety: {
-                sourceSafeMetadataOnly: true,
-                protectedSourceVisible: false,
-                rawSourceTextVisible: false,
-                unpaidAssetPackSourceVisible: false,
-                rawPromptVisible: false,
-                interpolatedPromptVisible: false,
-                rawProviderResponseVisible: false,
-                walletPrivateMaterialVisible: false,
-              },
-              reviewBoundary: {
-                route: "/deposit",
-                defaultDecisionState: "pending-depositor-review",
-                approvedOptionsAdmittedBy: "future-gate7-deposit-option-review",
-                sourceCriticalityDemandRoiPolicyOwnedBy: "future-gate6-policy",
-              },
-              roots: {
-                requestRoot: "deposit-option-request:99999999",
-                synthesisRoot: "deposit-asset-pack-option-synthesis:88888888",
-                optionRoots: ["deposit-asset-pack-option:33333333"],
-              },
-              synthesisMode: "real-bounded-inference",
-              pipelineCore: "AssetPacksSynthesis",
-              inference: {
-                provider: "anthropic",
-                model: "claude-haiku-4-5-20251001",
-                totalTokens: 5421,
-                durationMs: 18450,
-              },
-              exclusionPosture: {
-                protectedIpExclusionCount: 1,
-                exclusionRoots: ["deposit-option-ip-exclusion:aaaaaaaa"],
-                excludedPathCount: 2,
-                droppedCandidateCount: 0,
-              },
+            run: {
+              id: "real-synthesis-execution-1",
+              output: { depositOptionSynthesis: synthesis, reviewProjections },
             },
-            reviewProjections: [
-              {
-                optionId: "deposit-option-real-1-abcd1234",
-                title: "Real measured capability slice",
-                coveredSourcePaths: ["src/app.py"],
-                measurementRationale: "Covers the primary capability path.",
-              },
+            events: [
+              { id: "completion-1", event: { type: "completion" }, created_at: "2026-06-12T22:00:05.000Z" },
             ],
-            inference: {
-              provider: "anthropic",
-              model: "claude-haiku-4-5-20251001",
-              totalTokens: 5421,
-              durationMs: 18450,
-            },
-            exclusionViolations: [],
           }),
         };
       }

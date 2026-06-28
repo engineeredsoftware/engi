@@ -39,6 +39,35 @@ describe('asset-pack sandbox harness plan', () => {
     expect(plan.manifest.expectedEvidenceTables).toContain('deliverable_pipeline_events');
   });
 
+  it('carries deposit synthesis mode + steering into the manifest (#25)', () => {
+    const plan = buildAssetPackSandboxHarness({
+      ...baseOptions,
+      mode: 'asset_pack_pipeline',
+      source: {
+        type: 'git',
+        url: 'https://github.com/engineeredsoftware/ENGI.git',
+        revision: baseOptions.sourceRevision.commit,
+        depth: 1,
+      },
+      synthesizeMode: 'deposit',
+      depositSteering: {
+        obfuscations: 'hide internal names',
+        protectedIpExclusions: ['secret/'],
+        demandContext: ['auth'],
+      },
+    });
+    expect(plan.manifest.synthesizeMode).toBe('deposit');
+    expect(plan.manifest.depositSteering).toEqual({
+      obfuscations: 'hide internal names',
+      protectedIpExclusions: ['secret/'],
+      demandContext: ['auth'],
+    });
+  });
+
+  it('defaults synthesizeMode to read when unset', () => {
+    expect(buildAssetPackSandboxHarness(baseOptions).manifest.synthesizeMode).toBe('read');
+  });
+
   it('requires a repository source before planning the real pipeline mode', () => {
     expect(() =>
       buildAssetPackSandboxHarness({

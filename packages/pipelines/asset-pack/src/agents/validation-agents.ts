@@ -14,10 +14,6 @@ import {
   createAssetPackValidationReadyToFinishAgentPrompt,
   AssetPackValidationReadyToFinishAgentPromptSteps,
 } from './prompts/asset-pack-validation-ready-to-finish-prompt';
-import {
-  shouldUseAssetPackPtrr,
-  shouldUseAssetPackPtrrForAgent,
-} from '../runtime-inference-policy';
 
 const ValidateIssuesOutputSchema = z.object({ issues: z.array(z.string()) });
 
@@ -134,80 +130,17 @@ const AssetPackValidationReadyToFinishAgentCore = factoryAgentWithPTRR<
   retry: { maxAttempts: 1 },
 });
 
-function getStoredSourceOverlay(execution: any): unknown {
-  const lookups: Array<[string, string]> = [
-    ['harness', 'sourceOverlay'],
-    ['pipelineHarness', 'sourceOverlay'],
-    ['manifest', 'sourceOverlay'],
-  ];
-  for (const [namespace, key] of lookups) {
-    try {
-      const value = execution?.get?.(namespace, key);
-      if (value) return value;
-    } catch {}
-  }
-  return undefined;
-}
-
-function hasSourceOverlay(input: unknown, execution: any): boolean {
-  const rawInput = input as {
-    sourceOverlay?: unknown;
-    harness?: { sourceOverlay?: unknown };
-    manifest?: { sourceOverlay?: unknown };
-  } | null;
-  return Boolean(
-    process.env.BITCODE_PIPELINE_SOURCE_OVERLAY_APPLIED === '1' ||
-    rawInput?.sourceOverlay ||
-    rawInput?.harness?.sourceOverlay ||
-    rawInput?.manifest?.sourceOverlay ||
-    execution?.context?.sourceOverlay ||
-    execution?.metadata?.sourceOverlay ||
-    execution?.input?.sourceOverlay ||
-    getStoredSourceOverlay(execution)
-  );
-}
-
 export async function AssetPackValidationReadyToFinishAgent(
   input: z.infer<typeof ReadyToFinishInputSchema>,
   execution: any
 ): Promise<z.infer<typeof ReadyToFinishOutputSchema>> {
-  if (shouldUseAssetPackPtrr('BITCODE_ASSET_PACK_VALIDATION_READY_TO_FINISH_USE_PTRR')) {
-    return AssetPackValidationReadyToFinishAgentCore(input, execution);
-  }
-  const issueSets = [
-    execution?.get?.('validation/last', 'issues'),
-    execution?.get?.('validation/discovery', 'issues'),
-    execution?.get?.('validation/implementation', 'issues')
-  ].filter(Array.isArray) as string[][];
-  const finalBlockers = issueSets.flat().filter(Boolean);
-  const finalApproval = finalBlockers.length === 0;
-  const finalWarnings = [
-    ...(hasSourceOverlay(input, execution)
-      ? ['Source overlay runs are QA-only until the same revision is deployed cleanly.']
-      : []),
-    'BTC fee and BTD ledger rows must be read back before settlement trust.'
-  ];
-  const output = {
-    finalApproval,
-    overallConfidence: finalApproval ? 0.88 : 0.55,
-    qualityScore: finalApproval ? 0.9 : 0.5,
-    criticalChecks: {
-      requirementsMet: finalApproval,
-      testsPass: true,
-      noSecurityIssues: true,
-      documentationComplete: true,
-      performanceAcceptable: true,
-    },
-    finalBlockers,
-    finalWarnings,
-    recommendation: finalApproval ? 'finish' as const : 'review' as const,
-    summary: finalApproval
-      ? 'Deterministic validation approved AssetPack finish readiness for staging readback.'
-      : 'Validation found blockers that require review before finish.'
-  };
+  // Inference is non-configurable: always run the formal PTRR validation core.
+  const raw = await AssetPackValidationReadyToFinishAgentCore(input, execution);
+  // factoryAgentWithPTRR returns an envelope ({ context, output, finalOutput });
+  // unwrap it to the agent's typed structured output.
+  const output = ((raw as any)?.finalOutput ?? (raw as any)?.output ?? raw) as z.infer<typeof ReadyToFinishOutputSchema>;
   try {
     execution?.store?.('validation', 'readyToFinish', output);
-    execution?.store?.('validation', 'selfInstruction', { confidence: output.overallConfidence });
   } catch {}
   return output;
 }
@@ -219,9 +152,8 @@ export function registerValidationAgentsForType(
   agentRegistry.registerAgent(
     'validation:validate-last-iterations-validation-phase',
     async (input: any, execution: any) => {
-      const out = shouldUseValidationPtrr('last')
-        ? await AssetPackValidationPhaseValidateLastValidationAgent(input, execution)
-        : { issues: [] };
+      const raw = await AssetPackValidationPhaseValidateLastValidationAgent(input, execution);
+      const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
       const issues = Array.isArray(out?.issues) ? out.issues : [];
       try { execution.store('validation/last', 'issues', issues); } catch {}
       return { issues };
@@ -231,9 +163,8 @@ export function registerValidationAgentsForType(
   agentRegistry.registerAgent(
     'validation:validate-discovery-phase',
     async (input: any, execution: any) => {
-      const out = shouldUseValidationPtrr('discovery')
-        ? await AssetPackValidationPhaseValidateDiscoveryAgent(input, execution)
-        : { issues: [] };
+      const raw = await AssetPackValidationPhaseValidateDiscoveryAgent(input, execution);
+      const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
       const issues = Array.isArray(out?.issues) ? out.issues : [];
       try { execution.store('validation/discovery', 'issues', issues); } catch {}
       return { issues };
@@ -243,9 +174,8 @@ export function registerValidationAgentsForType(
   agentRegistry.registerAgent(
     'validation:validate-asset-pack-synthesis-artifacts',
     async (input: any, execution: any) => {
-      const out = shouldUseValidationPtrr('implementation')
-        ? await AssetPackValidationPhaseValidateSynthesisArtifactsAgent(input, execution)
-        : { issues: [] };
+      const raw = await AssetPackValidationPhaseValidateSynthesisArtifactsAgent(input, execution);
+      const out = (raw as any)?.finalOutput ?? (raw as any)?.output ?? raw;
       const issues = Array.isArray(out?.issues) ? out.issues : [];
       try { execution.store('validation/implementation', 'issues', issues); } catch {}
       return { issues };
@@ -253,18 +183,9 @@ export function registerValidationAgentsForType(
   );
 
   agentRegistry.registerAgent(
-    'validation:asset-pack-ready-to-instruct',
-    () => import('./validation/asset-pack-ready-to-instruct-agent').then(m => m.default)
-  );
-
-  agentRegistry.registerAgent(
     'validation:asset-pack-ready-to-finish-agent',
     AssetPackValidationReadyToFinishAgent
   );
-}
-
-function shouldUseValidationPtrr(agent: string): boolean {
-  return shouldUseAssetPackPtrrForAgent('BITCODE_ASSET_PACK_VALIDATION_USE_PTRR', agent);
 }
 
 export function createValidationExecutorSequence(_writtenAssetType: string): any[] {

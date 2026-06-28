@@ -132,6 +132,585 @@ Accepted V48 architecture law (decided 2026-06-12):
   work (rule accepted 2026-06-12), with the dedicated F8 sweep retiring the
   remainder.
 
+## V48 Gate 3 in progress: synthesis pipeline algorithmic + telemetric correctness, and the SynthesizeAssetPacks SDIVF unification
+
+Gate 3 (branch `v48/gate-3-synthesis-pipeline-correctness`) is the synthesis
+pipeline correctness gate, driven by interactive QA of the deposit synthesis
+telemetry. It pursues both algorithmic correctness (the pipeline runs on the
+real Bitcode execution/agent/prompt primitives rather than a hand-rolled
+inference loop) and telemetric correctness (every LLM call renders decipherably
+in the rich SDIVF telemetry), and in doing so unifies and formalizes the
+pipeline.
+
+Accepted V48 architecture law (decided 2026-06-25):
+
+- The Gate-2 AssetPacksSynthesis measurement core is generalized into the
+  one-and-only Bitcode synthesis pipeline: **SynthesizeAssetPacks** — a full
+  **SDIVF** pipeline (Setup -> Discovery -> Implementation -> Validation ->
+  Finish, with the Discovery/Implementation/Validation loop iterating up to a
+  bounded maxIterations) executed in one of two **modes**: deposit or read.
+  The mode is resolved once and stored on the **shared pipeline execution** (the
+  parent of all phase children), NOT on a phase sibling — `sequential` runs
+  preprocess and each phase on isolated sibling child executions
+  (`execution.child('seq-N')`) and mode resolution only walks ancestors, so a
+  mode stored inside preprocess is invisible to the phases (QA F20: they default
+  to read and run the read-lens agents during a deposit run). All variance is
+  carried by **conditional runtime registries** — each phase registers and
+  resolves the mode-appropriate agents, tools, and prompts under the same phase
+  keys (the registry is shared up the execution tree, so a phase's registrations
+  are visible to its agent resolution). Renamed SynthesizeAssetPacks for parity with the future
+  Gate-6 **SettleAssetPacks** pipeline; it subsumes the legacy, poorly-named
+  "Develop" gate (which remains a thin alias so its `develop.*` observability
+  is unchanged).
+- Every LLM call builds upwards the prompt registry of
+  Pipeline+Phase+Agent+Step+Generation and runs on the formal primitives, not
+  hand-rolled inference: `PipelineExecution` -> phase -> `factoryAgent`/
+  `factoryAgentWithPTRR` -> step -> Failsafe(prepare|chunk|stitch) of
+  Thricified(reason|judge|structured_output). The pipeline is N agents
+  (mostly PTRR, some Simple — both are base `Agent` implementations) across the
+  5 phases; each PTRR agent renders 4 steps x 3 failsafe x 3 thricified = 36
+  formal LLM calls. Every call renders in the rich SDIVF telemetry with correct
+  phase/agent/step/failsafe/generation labels, because the formal executors
+  populate the execution state (the lightweight path's `undefined` labels were
+  a symptom of bypassing them).
+- **Inference is non-configurable** (Garrett, 2026-06-26; removes the PROFILE
+  concept entirely). There are NO inference profiles (no bounded/full, no
+  `BITCODE_ASSET_PACK_REAL_INFERENCE_PROFILE`, no per-agent `*_USE_PTRR` flags,
+  no in-agent deterministic/bounded fallbacks). The formal pipeline ALWAYS runs
+  the complete hierarchy and the lowest-level Generation ALWAYS performs real
+  inference — the hierarchy is fixed, not env-switched. Determinism for tests is
+  provided ONLY by mocking the LLM provider at the boundary (test infrastructure),
+  never by branches inside the pipeline. This retires
+  `runtime-inference-policy` (the profile/`shouldUsePtrr` functions),
+  `bounded-structured-inference`, and the read-lens agents' deterministic
+  branches; every agent resolves to its `factoryAgent*` formal executor.
+- **SynthesizeAssetPacks executes via the pipeline HARNESS, decoupled from the
+  dispatching request** (Garrett, 2026-06-26). Because the pipeline always runs
+  the full hierarchy (many LLM calls), it must not be bound to a single HTTP
+  request's `maxDuration`. The route VALIDATES + DISPATCHES a run and returns the
+  `runId` immediately; the harness runs the full pipeline to completion while
+  source-safe telemetry streams to `execution_events`; the client detects the
+  completion event (already streamed) and reads the persisted synthesis from the
+  execution row `output`. Two execution hosts behind one harness interface:
+  **local in-process** (dev — the persistent Node server runs the dispatched
+  pipeline as a background task) and the **Vercel Sandbox** (prod — durable
+  isolated execution via the existing `pipeline-hosts` host). The `/deposit`
+  synthesize-options surface stops awaiting the pipeline inline; the LLM-call
+  timeout (QA F25) remains a per-call safety bound within the harness run.
+- Per-phase jobs (Garrett, 2026-06-25): **Setup** clones the repository and
+  runs a danger-wall (safety/risk admission); **Discovery** explores the
+  source; **Implementation** synthesizes the AssetPacks; **Validation**
+  determines synthesis quality, corrections/additions, and the iterate-vs-
+  complete decision; **Finish** uploads the synthesized artifacts.
+- **Finish uploads the synthesized artifacts to Bitcode for user review in
+  BOTH modes** (deposit: before Depository admission; read: before purchase).
+  Opening a pull request is NO LONGER part of synthesis — PR / settlement
+  delivery moves to the future Gate-6 SettleAssetPacks pipeline (confirm BTC
+  payment, mint BTD, transfer rights to the reader). Develop-gate consumers
+  degrade gracefully to no-PR.
+- The deposit lens now RUNS the full SDIVF pipeline inline from
+  `POST /api/deposit/synthesize-options` against the streaming execution, so the
+  SDIVF telemetry renders end to end; the bounded-structured-inference path
+  remains a resilience fallback when the pipeline yields no admissible options.
+- Source-safety is enforced universally by `sourceSafeStreamEvent`, the single
+  content-withholding gate every persisted/streamed pipeline event passes through.
+  It withholds by **metadata allowlist**, not a content-key denylist: every `llm`
+  store is content-withheld (message → `[content withheld — source-safe]`, data →
+  a structural summary of {stage, generation, provider, model, contentChars,
+  phase, agent, step}) EXCEPT a fixed source-safe metadata set
+  (`startTime/endTime/duration/usage/status/provider/model/configKey/stopReason/
+  error`). The allowlist is required because the two LLM-call paths name their
+  content keys differently — the Thricified substeps use `input/prompt/output/
+  parsedOutput`, while `AgentLLMsRegistry`/`PipelineLLMRegistry` (direct `getLLM`)
+  use `messages/config/response` — and a denylist silently leaked `llm/response`
+  (the raw provider response) as a status-event message (QA F18). A
+  synthesis-local defense-in-depth candidate assertion remains; `rawPromptVisible`
+  / `rawProviderResponseVisible` stay false by law.
+- Telemetry rendering is single-line and bounded: the activity builder collapses
+  every event to exactly one bounded line (one streamed event = one accordion
+  row, never fragmented by embedded newlines) and the log row title spans carry
+  `min-w-0` so a long line truncates within its row rather than x-overflowing the
+  page (QA F18). The log auto-follows: it pins to the latest line as rows stream
+  in unless the user has scrolled away from the bottom (then it respects their
+  position and resumes only when they return to the bottom) (QA F23).
+- **Formal telemetry log-line contract** (QA F19): the rich telemetry renders
+  EXACTLY two formal log-line kinds — the ultimate LLM-call layer and Tool uses,
+  nothing else (informational status, phase banners, and completion/error notices
+  are NOT rows: run completion shows via the processing indicator and errors via
+  the log's error banner). (1) **LLM calls** — the inference leaf, canonically the
+  Thricified substep output (`llm/output`, stream type `generation`), carrying the
+  full hierarchy Phase→Agent→Step→Failsafe→Thricified + source-safe content +
+  provider/model/usage, each level its own pill. (2) **Tool uses** —
+  `tool|tools:result|error`, carrying Phase→Agent→Step + tool name/arguments (no
+  Failsafe/Thricified). Pills map by fixed role: Phase (grey, phase icon) top-left,
+  Agent (blue, agent icon) top-2nd; Step / Failsafe / Thricified bottom 1-2-3, each
+  with a guaranteed icon (per-type default refined by a label substring match).
+  Every other store event (step/agent/phase name stores,
+  prompt-side llm keys, the `llm/response` registry copy, cwd paths, generation
+  markers, tool sub-keys) is intermediate CONTEXT: the activity builder folds it
+  into a rolling `{phase, agent, step, failsafe, generation}` context (so the next
+  LLM/tool row is stamped with its full hierarchy) but never emits it as a row.
+  Distinct calls that share withheld text stay distinct rows via a unique
+  null-separated row key; the renderer displays the text before the separator,
+  keys details by the full key, and bypasses de-dup for uniquely-keyed rows. This
+  is what removes the `try`/`setup-plan`/`thricified-generation`/path fragments
+  and stabilizes the pipeline↔UI payload contract. The contract depends on the
+  client seeing the SAME structured event shape live as on reload: the live SSE
+  tail (`usePipelineExecution`) therefore relays raw `event_data` verbatim
+  (namespace/key/executionState intact) rather than re-parsing it — re-parsing
+  flattened events into namespace-less status frames, which defeated the
+  classifier and leaked every store as a fragment row during streaming.
+- **OTF (on-the-fly instructions) is eradicated entirely** as legacy residue:
+  the dead telemetry types (`otf_instructions`/`otf_adherence`), the unused
+  `setOnTheFly` prompt primitive, the live instruction-injection feature (the
+  instructions API + the `run_otf_instructions` ORM model + the submit UI + the
+  `waitForInstruction` Validation-phase pause), and the physical
+  `deliverable_pipeline_otf_instructions` table (drop migration).
+
+AssetPack model (decided 2026-06-25):
+
+- An **AssetPack is ALWAYS a completely synthesized artifact** — never a slice of
+  existing source. It comprises: the synthesized **patch** (new content written
+  as code edits to the repo — deposit: the depositing repo; read: the reading
+  repo), its **measurements**, and its **metadata** (e.g., the contributing
+  AssetPacks for a pack synthesized for a Need). Implementation synthesizes the
+  patch into the Setup-cloned workspace (via a code-edit/write tool), measures it,
+  and attaches the metadata; the patch CONTENT is withheld pre-settlement.
+- **Deposit** AssetPacks are "Readless/Needless": patches against the
+  **depositing** repo carrying only **absolute** measurements (taken by looking
+  at the content directly, independent of any Need). Depositing produces them as
+  Depository supply.
+- **Read** AssetPacks are patches against the **reading** repo, synthesized from
+  the deposited AssetPacks that fit-finding selects from the Depository (the
+  deposited packs are the synthesis input). A read AssetPack carries the absolute
+  measurements PLUS the **fit** measurements (how well the pack fits the read
+  Need). Its **BTD** — what is bought for Bitcoin — is the **normalized scalar
+  weighted sum of all fit-only measurements**; the reader's Need unlocks the
+  additional fit measurements that finalize the pack's BTD content.
+- Measurement + BTD grounding (mapped 2026-06-25): the canonical V48 measurement
+  catalogs live in `packages/pipelines/asset-pack/src/asset-packs-synthesis.ts`.
+  **Absolute** (deposit): source-coverage (0.36) / demand-alignment (0.40) /
+  reuse-likelihood (0.24). The read catalog adds the **fit-only `need-fit`**
+  (0.44) alongside source-coverage (0.28) / reuse-likelihood (0.28). The BTD
+  scalar is computed in `btd-scalar-volume-quote.ts` under the fixed-point
+  weighted-volume policy `need-relative-fixed-point-weighted-volume`
+  (weightScaleBps 10000, volumeScale 1e6, floor-row-remainder-rooted):
+  `scalarMicroBtd = volume × weightBps × admittedFitQualityBps / 1e8` per
+  measurement, summed and normalized — a read AssetPack's BTD is this sum over its
+  fit-only measurements. The read Need pricing vector
+  (semantic_relevance / source_binding / artifact_kind_fit / closure_specificity)
+  is in `read-need.ts`. The patch is carried as `fileChanges` + the source binding
+  (covered paths) with the actual patch CONTENT withheld pre-settlement (the
+  source-safe preview boundary; content unlocks to owner_read / licensed_read on
+  settlement). `protocol-demonstration/` is the V47 realization framework (type
+  contracts, receipt schemas), NOT the V48 measurement source of truth.
+
+Lens inputs (decided 2026-06-25): the single-prompt user input is
+**Obfuscations** when depositing (what to obfuscate/withhold — supersedes the
+"depositor instructions" naming) and a **Need** when reading. Depositing and
+reading run ~the same agents; the lens carries the variance by adding the Need
+(read) or the Obfuscations (deposit).
+
+The five phases (same agents in both modes, lens-varied — decided 2026-06-25):
+
+- **Setup**: clone the repository, danger-wall (risk admission), and
+  **input-comprehension** (comprehend the Need when reading / the Obfuscations
+  when depositing). The deposit input-comprehension produces structured
+  obfuscation guidance — the source paths and concepts to withhold and how
+  synthesis must honor them — stored at `setup:inputComprehension` for the
+  downstream phases (authoritative alongside the protected-IP exclusions). The
+  read Setup-plan agent (planning Finding Fits from an accepted Read-Need) is
+  read-lens work and is punted under the deposit lens (a passthrough, no row);
+  that fits-finding planning moves to the read-lens **Discovery** phase in the
+  read gate (QA F22).
+- **Discovery** — three agents discovering from the codebase, the Depository, and
+  the model itself respectively, for the synthesis lens:
+  - `discovery:codebase-comprehension` — comprehends the cloned source.
+  - `discovery:depository-search` — deposit: guides likely-to-be-read framing for
+    the packs being synthesized; read: finds the deposited AssetPacks from the
+    Depository that fit (will help synthesize the read AssetPack).
+  - `discovery:inherent-regurgitation` — the model returns, from its training
+    data, any and all information useful to the deposit/read synthesis.
+  - Deposit stores each agent's comprehension for the Implementation phase:
+    `discovery:codebaseComprehension` (capabilities / knowledge-areas / modules),
+    `discovery:depositorySearch` (likely-read topics / demand-alignment /
+    readability), `discovery:inherentRegurgitation` (relevant knowledge / patterns
+    / references).
+- **Implementation**: synthesize the AssetPack patch(es) with their absolute
+  measurements (read additionally computes the fit measurements and the BTD).
+  Each candidate is a measured patch — the measured option fields plus a
+  SOURCE-SAFE patch descriptor (`fileChanges` [path + change-op] and a
+  natural-language `patchSummary`), recorded via the `AssetPackPatchWriteTool`
+  (a formal `ExecutionTool`) which the synthesis agent reads from the Discovery
+  stores (`discovery:codebaseComprehension` / `:depositorySearch` /
+  `:inherentRegurgitation`) and the obfuscation comprehension. Pre-settlement the
+  RAW patch content is never produced — only the descriptor + measurements are
+  reviewable (stored at `implementation:assetPacks`; the reviewable face at
+  `implementation:options`). Physical materialization of the raw content into the
+  cloned workspace is the delivery/settlement context.
+- **Neediness (deposit preview of read Need-fit; v0)**: a deposit-lens AssetPack
+  PREVIEW measurement (0..1) estimating the reading demand the pack would satisfy
+  — the depositor's preview of its future read-side `need-fit` (and ultimately
+  BTD / earnings), which guides which packs are worth synthesizing. It is SEPARATE
+  from the absolute deposit composite (source-coverage / demand-alignment /
+  reuse-likelihood) — an estimate of a different (read) lens, shown alongside but
+  not folded in. Computed deterministically per pack as
+  `neediness = clamp01(demand × (0.5 + 0.5 × (1 − saturation)))` from two
+  source-safe signals the depository-search lens supplies: `demand` ∈ [0,1]
+  (estimated reading demand for the pack's knowledge — v0: the Discovery
+  `depository-search` demand guidance / `demandAlignment`, grounded in the
+  depositor `demandContext`) and `saturation` ∈ [0,1] (how much the Depository
+  already supplies the topic — v0: the depository-search `underservedTopics`
+  signal). Demand gates, scarcity boosts: a demanded, underserved pack scores
+  highest (a future Need would have few alternatives, you the supplier); a
+  saturated or undemanded pack scores low. The deposit synthesis agent emits the
+  per-pack `needinessSignal {demand, saturation, rationale}`; `computeNeediness`
+  derives the scalar in the shared lib (`asset-packs-synthesis.ts`); the `/deposit`
+  option cards preview it as earning potential. Source-safe: derived scalars +
+  topic descriptors only, never raw source. **v1 is deferred to Gate 7**: replace
+  `saturation` with a real embedding-vector probe of the pack against the
+  Depository supply index, and `demand` with a search against an accrued
+  Read-Need / demand corpus; once the pack is read, the realized read `need-fit`
+  + BTD calibrate the estimate.
+- **Validation**: quality thresholds, coverage/corrections/fixes, and AssetPack
+  smoke/sanity checks; the Discovery/Implementation/Validation loop iterates until
+  complete or maxIterations. The deposit validator (`validation:deposit-quality`)
+  validates the synthesized AssetPacks — measurement honesty (0..1), distinctness,
+  source-safety, obfuscation/exclusion compliance, patch-descriptor coherence, and
+  coverage — emitting `{issues, qualityScore, coverageGaps, recommendation}`. Its
+  issues are stored at `validation/implementation:issues` (the key the canonical
+  ReadyToFinish gate reads); any issue forces `iterate`.
+- **Finish**: upload the synthesized AssetPack(s) to Bitcode for review.
+
+Implementation status vs this model (Gate-3 build-down): the deposit pipeline now
+runs the canonical agents (mode propagated to the phases — F20), the measured
+PATCH descriptor (F-series), Obfuscations + Setup input-comprehension, neediness
+v0 (F24); inference is non-configurable (profiles removed — F26-A), the synthesis
+runs decoupled via the harness (F26-B), and the PTRR envelope is unwrapped so real
+output flows (F26-A/F27). The remaining Gate-3 measurement obligation is the formal
+**absolutes** measurement category (see the roadmap below) — the catalog grounded
+in `protocol-demonstration/`; the current source-coverage / demand-alignment /
+reuse-likelihood are placeholders to be superseded.
+
+Measurement formalization + the `measure-agent` hierarchy (Gates 3-5 roadmap;
+Garrett, 2026-06-27):
+
+- AssetPack measurements form TWO formal CATEGORIES (pluralized): **absolutes** and
+  **needinesses**. Absolutes are intrinsic content measures — sizes (functions,
+  types, etc.), a correctness estimate, and others drawn from the demonstration
+  implementation (`protocol-demonstration/`). Needinesses are the read-demand / fit
+  measures (the deposit-side neediness preview [F24 v0] + the read-side Need-fit;
+  the BTD is the scalar over the needinesses). The legacy
+  source-coverage / demand-alignment / reuse-likelihood placeholders are superseded
+  by the formalized absolutes.
+- The measurers are a base-class hierarchy of formal PTRR agents. In
+  `generic-agents`: a base **measure-agent** (PTRR); from it two bases —
+  **measure-agent-absolutes** and **measure-agent-needinesses**. In the asset-pack
+  pipeline those base the two concrete measurers — **agent-measure-absolutes** and
+  **agent-measure-needinesses** — each respecting the pipeline lens/mode
+  (deposit | read) in Gate 4 (two lens-parameterized agents covering the four
+  lens×category measurements).
+- **Gate 3 (current)** formalizes the **absolutes** category (the non-needinesses):
+  `measure-agent` + `measure-agent-absolutes` -> `agent-measure-absolutes`, with the
+  absolutes catalog (sizes, correctness, …) grounded in `protocol-demonstration/`.
+- **Gate 4 (read)** is lens FINALIZATIONS of the SAME SynthesizeAssetPacks pipeline
+  (not a new pipeline — finalize the read lens) and MOSTLY the **needinesses**
+  formalization: `measure-agent-needinesses` -> `agent-measure-needinesses`, beyond
+  the F24 v0 preview. (Neediness v1 — the real embedding-vector supply-index probe +
+  Read-Need/demand-corpus search — remains Gate 7.)
+- **Gate 5** removes the lens/mode concept and splits SynthesizeAssetPacks into two
+  pipelines — **SynthesizeAssetPacksForDepositor** and **SynthesizeAssetPacksForReader**
+  — breaking the lens-configured implementations into per-role variants
+  (`agent-measure-asset-packs-absolutes-for-depositor`,
+  `agent-measure-asset-packs-needinesses-for-reader`, etc.).
+
+### Gate-3 absolutes formalization — implementable contract (Garrett, 2026-06-27)
+
+This is the implementable detail for the Gate-3 obligation above. Measurement is
+made a FORMAL, SEPARATE step: an AssetPack is a *measured patch* = a patch
+(synthesized by the Implementation agent) **measured by a dedicated measure-agent**.
+Today the synthesis agent self-scores its own placeholder catalog inline; the
+formalization moves absolute measurement out of synthesis into `agent-measure-absolutes`,
+run in the **Validation** phase over each synthesized patch.
+
+- **The absolutes catalog (v0).** Intrinsic, reader-independent measures of the
+  synthesized patch. Each is grounded in the demonstration's static-measurement
+  notion (`protocol-demonstration/`: `normalizedBitcodeVolume` / semantic volume,
+  the static measurement report). The Gate-3 v0 catalog:
+  - **sizes** — a set of structural magnitudes: `function-count`, `type-count`,
+    `file-span` (the count of files the patch touches, deterministic from the patch
+    descriptor's `fileChanges`). Each carries a raw `magnitude` (a count) AND a
+    normalized 0..1 `volume`.
+  - **correctness-estimate** — a 0..1 estimate of the synthesized knowledge's
+    fidelity/buildability (the patch is internally coherent and faithful to the
+    comprehension it was synthesized from).
+  - **semantic-volume** — the demonstration analog (`normalizedBitcodeVolume`): a
+    normalized 0..1 scalar of *how much* commercially-legible knowledge the pack
+    encodes, a monotone function of the sizes. This is the absolute "amount" measure
+    the BTD volume later grounds on.
+- **Measurement shape.** `AssetPackCandidateMeasurement` gains `category:
+  'absolute' | 'neediness'`, optional `magnitude` (raw count) and `unit`
+  (`functions` | `types` | `files` | `estimate` | `normalized`). `volume` stays the
+  normalized 0..1 the composite uses; `magnitude` is display/provenance only. The
+  neediness preview (F24) is re-tagged `category:'neediness'`; the absolutes are
+  `category:'absolute'`. The weighted composite is the weighted sum over the
+  **absolutes'** `volume` (needinesses are never in the absolute composite).
+- **The measure-agent factory hierarchy.** Realized as LAYERED FACTORIES (the
+  codebase idiom — each "base" is a factory that configures the more general one,
+  bottoming out in `factoryAgentWithPTRR`; there is no class inheritance):
+  - `generic-agents/agents/measure-agent.ts` → **`factoryMeasureAgent`**: the base.
+    Given `{ subject, measurements: MeasurementSpec[], category, name, description }`
+    it builds a PTRR agent (identity = "you MEASURE an already-synthesized artifact;
+    you do not synthesize or alter it; emit an honest measurement per spec with a
+    source-safe rationale") whose output is
+    `{ measurements: [{ measurementKind, magnitude?, volume, rationale }], summary }`.
+  - `generic-agents/agents/measure-agent-absolutes.ts` →
+    **`factoryMeasureAgentAbsolutes`**: calls `factoryMeasureAgent` with
+    `category:'absolute'` and the absolutes framing ("absolutes are INTRINSIC — they
+    depend only on the artifact itself, never on any reader, demand, or market").
+    (The sibling `factoryMeasureAgentNeedinesses` is Gate 4.)
+  - `pipelines/asset-pack/.../agent-measure-absolutes.ts` →
+    **`agent-measure-absolutes`**: calls `factoryMeasureAgentAbsolutes` with the
+    asset-pack absolutes catalog, lens-parameterized now (deposit | read) so Gate 4
+    only finalizes the read lens — it does not restructure. Wrapper unwraps the PTRR
+    envelope (F27) and stores to the execution.
+- **Source-safety.** The measurer reasons over the source-safe patch DESCRIPTOR
+  (`fileChanges` path+op, `patchSummary`) and Discovery comprehension — NEVER raw
+  source. Size magnitudes are estimates/derivations, not AST reads of protected
+  code. Telemetry withholds content as ever (`sourceSafeStreamEvent`).
+- **Deterministic fallback.** When real inference is disabled
+  (`isAssetPackRealInferenceEnabled() === false`), the absolutes are computed
+  deterministically from the patch descriptor (`file-span` = `fileChanges` length;
+  function/type counts estimated from covered-path and summary signal; correctness =
+  confidence; semantic-volume = normalized size composite), preserving the
+  source-safe, no-network test/preview path.
+
+### Gate-3 depositing closure — tool-measured absolutes, decision-grade cards, config cleanup (Garrett, 2026-06-27)
+
+Closes Gate-3 depositing: the absolutes are MEASURED by real static analysis (not
+model guesses), the `/deposit` cards carry everything a technical knowledge-owner
+needs for the deposit / no-deposit decision, and the superfluous pipeline config is
+removed. All depositing agents/prompts/step-schemas must synthesize legitimately
+informed AssetPacks, generically across repositories of all shapes and sizes.
+
+- **Legitimate tool-based absolutes.** Sizes are MEASURED, not estimated by the model.
+  A `SourceStaticAnalysisTool` (an `ExecutionTool`) parses the available source with
+  language-generic regex fact-extraction inspired by the demonstration
+  (`protocol-demonstration/src/bitcode-demo.js`: symbol / path / config-key
+  extraction + per-unit token counts), producing measured counts — functions, types,
+  symbols, config keys, lines, tokens — and per-language densities
+  (functions/types per file). Individual analyses, composed together in the measurer.
+- **Source reality.** The deposit-options run has NO full clone (the clone agent
+  short-circuits when `repositoryFullName` is supplied), so the available source is
+  the inventory SAMPLES (real, truncated source) + the path list. The tool therefore
+  MEASURES density from the sampled source and applies it to the AP's EXACT covered
+  file set: `file-span` exact; function/type counts = measured-density × covered-file
+  count by language; `coverageRatio` reported for honesty. The SAME tool parses richer
+  source verbatim when present (a future full-clone delivery path), so the measurement
+  is generic across repo shapes/sizes and degrades honestly on sparse source.
+- **Registry add/replace hierarchy (the primitive).** Tools register through
+  `AgentToolsRegistry.registerTool(key, tool, priority)` — priority-keyed: same
+  priority REPLACES, higher priority OVERRIDES; resolution is local-then-parent
+  (children override parents). The base generic analyzer registers at priority 0;
+  specialized / augmenting analyzers register at higher priority WITHOUT replacing the
+  base. `agent-measure-absolutes` resolves the tool (local-then-parent) and runs it.
+- **The measurer uses the tool.** `agent-measure-absolutes` now grounds on the
+  static-analysis report: sizes come from the report (authoritative — the agent
+  reports measured counts, it does not invent them); `correctness-estimate` and
+  `semantic-volume` are the agent's grounded judgment over the report + the Discovery
+  comprehension. The deterministic fallback computes ALL absolutes from the report.
+- **Decision-grade AP cards.** Each `/deposit` card maximizes the deposit / no-deposit
+  decision by showing what Bitcode RECEIVES if the AssetPack is deposited:
+  1. the synthesized AP CONTENTS — the source-safe patch descriptor (`fileChanges`
+     path+op + `patchSummary`): what knowledge/edits the AP encodes; and
+  2. the PROVENANT SOURCE — the covered source files (`coveredSourcePaths`, raw paths)
+     that become available to Bitcode for future reader settlement.
+  Both surfaced prominently (not buried), framed as "if deposited, Bitcode receives."
+  Shown to the DEPOSITOR, who owns the source — the source-safety law constrains
+  leakage to readers/telemetry, NOT the owner reviewing their own repository. The
+  candidate / option projection carries the patch descriptor + covered paths to the
+  client (front+back synchronized).
+- **Config cleanup.** The full SDIVF pipeline is the ONLY deposit synthesis path:
+  remove `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE`, the bounded-synthesis branch, and the
+  zero-options bounded fallback in the deposit route; Setup → Discovery →
+  Implementation → Validation → Finish always runs (Validation — measurement +
+  quality — is never optional). Correct the route's dead `PROFILE=bounded` phrasing
+  in the real-inference-required message (profiles were removed in F26-A).
+
+### Gate-3 HOST architecture — the primitive Host, its kinds, in-host execution (Garrett, 2026-06-27)
+
+The synthesis pipeline runs WITHIN a HOST — a real box with git, a filesystem, and
+command exec. (Every host has these; there is no "git-less" host. The earlier
+dev/prod, serverless-can't-clone, and read-files-out-per-file framings were WRONG and
+are superseded by this section.)
+
+The Host is a PRIMITIVE — `BitcodePipelineHost` (`packages/pipeline-hosts/host.ts`):
+- `capabilities`: a HOST CAPABILITIES descriptor — `hostKind` (`'inline' | 'sandbox'`),
+  `clone` + `filesystem` + `exec` (TRUE for every host), `ephemeralFilesystem`,
+  `defaultWorkingDirectory`; a SandboxHost additionally carries `sandboxProvider`
+  (`'vercel' | 'aws'`).
+- `provisionRepository(source)` → checks out the FULL working tree at the revision
+  (every blob, verbatim) into the host working directory → a `BitcodeHostWorkspace`:
+  `listFiles()` (tracked source files), `readFile(path)` (verbatim content),
+  `runCommand(...)`, `dispose()`.
+Because the pipeline runs WITHIN the host, the workspace is the host's LOCAL checkout —
+read locally, NEVER across a process/network boundary. The pipeline (Setup → … →
+Validation) speaks only to the primitive, so its behavior is identical on every host.
+
+**HostKinds — two implementations of the primitive:**
+- **InlineHost** (`inline-host.ts`) — runs the pipeline in the current box; provisions
+  via a real `git clone` of the full tree to a local working dir (Node-fs workspace).
+- **SandboxHost** (`sandbox-host.ts`) — runs the pipeline inside a provisioned, isolated
+  box that has git + FS, so within it the checkout is local exactly as for InlineHost.
+  It is a base for providers:
+  - **Vercel** (`VercelSandboxHost`, IMPLEMENTED) — provisions via the Sandbox SDK git
+    source into the box working directory.
+  - **AWS** (`AwsSandboxHost`, STUBBED) — the provider seam for an AWS-backed box; not
+    yet implemented.
+  Provisioning AND the pipeline both run IN the box; nothing is read out of it per-file.
+
+**Selection** is by CONFIGURED HostKind — not by environment, and with no dev/prod /
+local/remote terminology. `selectDepositHostKind(env)` returns `'inline' | 'sandbox'`
+from `BITCODE_PIPELINE_HOST` (explicit), defaulting to `inline`; a SandboxHost's
+provider comes from `BITCODE_SANDBOX_PROVIDER` (`'vercel' | 'aws'`, default `vercel`).
+`resolveDepositPipelineHost()` constructs the configured HostKind/provider. The
+operator chooses which host runs the pipeline.
+
+**Source provisioning + measurement:** the harness run provisions the full checkout on
+the configured host at run start (consistent with a box being created WITH its git
+source — provisioning precedes the pipeline phases); the Setup clone agent then
+confirms source-present. The inventory is built FROM the checkout:
+`AssetPacksSynthesisSourceInventory` = `paths` (all tracked files) + `samples` (bounded
+excerpts for the prompts) + `sources` (every tracked file's verbatim content, type
+`AssetPacksSynthesisSourceFile {path, content}`, for measurement). `readWorkspaceSources(workspace, {paths?})`
+bridges the checkout to `{path, content}[]`; `provisionDepositSourceInventory({host, …})`
+(`uapi/lib/deposit-source-provisioning.ts`) orchestrates provision → read → dispose.
+`applyExclusionsToInventory` filters `paths` + `samples` + `sources` fail-closed
+(protected-IP paths are never measured, sampled, or carried). The GitHub-API sample
+inventory (`buildSourceInventory`) is RETIRED; the `cloneRepository` metadata stub and
+the Setup clone-agent short-circuit are superseded by the primitive's real provisioning.
+Source-safety unchanged: the checkout lives ON the host; only source-safe measurements +
+the source-safe patch/contents descriptors leave it. "Every blob, verbatim" = the full
+WORKING TREE at the revision; `depth: 1` already yields it (full history `depth: 0` is a
+separate, unneeded axis).
+
+### Gate-3 implementation index — concrete artifacts (gate-closure completeness; Garrett, 2026-06-27)
+
+The concrete artifacts implementing the Gate-3 spec above (so every G3 implementation
+is named in spec for closure):
+
+- **Measurement — absolutes.** `packages/agent-generics`: `factoryMeasureAgent` (base) +
+  `factoryMeasureAgentAbsolutes`; `MeasureAgentOutputSchema` (reading
+  `{measurementKind, magnitude?, volume, rationale}`). `packages/pipelines/asset-pack`:
+  `factoryAssetPackMeasureAbsolutesAgent(lens)` → `agent-measure-absolutes`;
+  `measureAssetPackAbsolutes(patch, {lens, execution, sources})` (sizes authoritative
+  from the tool; correctness/semantic-volume the agent's grounded judgment;
+  `computeAbsolutesFromReport` deterministic fallback; `mergeReportAndReadings`).
+  `ASSET_PACK_ABSOLUTES_CATALOG` (function-count, type-count, file-span,
+  correctness-estimate, semantic-volume; weights sum to 1).
+  `AssetPackCandidateMeasurement {measurementKind, label, weight, volume, category, magnitude?, unit?}`.
+- **Measurement — static analysis.** `SourceStaticAnalysisTool`
+  (`agents/validation/source-static-analysis-tool.ts`): `analyzeStaticSource` /
+  `analyzeStaticSourceFile` (language-generic regex by extension ts/js/py/rs/go/java/rb +
+  generic fallback; functions/types/symbols/config-keys/lines/tokens; density applied to
+  the covered set; `coverageRatio`). Registry: `registerSourceStaticAnalysisTool` /
+  `resolveSourceStaticAnalysisTool` (priority add/replace, local-then-parent).
+- **Validation wiring.** `runDepositValidationAgent` measures each pack via
+  `measureAssetPackAbsolutes` (sources = `inventory.sources`), attaches `pack.absolutes`
+  in place, re-stores `implementation:options`/`implementation:assetPacks`.
+  `validateDepositSynthesisOptions` PREFERS `option.absolutes` (else the legacy catalog)
+  and carries `candidate.patch`.
+- **Neediness.** `computeNeediness(demand, saturation)` + `buildNeedinessFromSignal`
+  (asset-packs-synthesis.ts); the Implementation `deposit-asset-pack-synthesis-agent`
+  emits `needinessSignal`, grounded in the Discovery `deposit-depository-search-agent`
+  (likelyReadTopics / demandAlignment / underservedTopics).
+- **Decision-grade card.** `AssetPackPatchDescriptor {fileChanges:[{path,op}], patchSummary}`;
+  `AssetPackCandidate.patch`; `DepositAssetPackOption.contents
+  {patchSummary, fileChanges, provenantSourcePaths, provenantSourceCount}` + `roots.contentsRoot`,
+  built by `buildRealDepositAssetPackOptionSynthesis`; the `/deposit` card renders the
+  "If deposited, Bitcode receives" panel.
+- **Host + provisioning.** `packages/pipeline-hosts`: `BitcodePipelineHost` /
+  `BitcodeHostWorkspace` / `BitcodeHostCapabilities` (`host.ts`); `InlineHost`;
+  `SandboxHost` + `VercelSandboxHost` (Vercel provider) + `AwsSandboxHost` (stub);
+  `readWorkspaceSources`. `uapi/lib/deposit-source-provisioning.ts`:
+  `selectDepositHostKind`, `resolveDepositPipelineHost`, `provisionDepositSourceInventory`.
+- **Config.** `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE` removed (full SDIVF pipeline only;
+  Validation — measurement + quality — never skipped).
+
+### Gate-3 #25 — SandboxHost in-box deposit dispatch (Garrett, 2026-06-27)
+
+SandboxHost deposit runs the synthesis pipeline INSIDE the box (the asset-pack
+harness already runs `assetPackPipeline` in-box for read-fit via a runner that imports
+the live packages and executes the full SDIVF). Deposit reuses that mechanism:
+
+- **Harness deposit mode.** `buildAssetPackSandboxHarness` accepts `synthesisMode`
+  (`'deposit' | 'read'`) + the deposit STEERING (obfuscations, protected-IP exclusions,
+  demand context); these flow into `PipelineHarnessManifest` and the in-box runner
+  INPUT (`synthesizeMode`, steering). The in-box pipeline resolves deposit mode
+  (`resolveSynthesizeAssetPacksMode` reads `input.synthesizeMode`) and runs the deposit
+  SDIVF, reading the box's LOCAL checkout (the box was created WITH the git source, so
+  the working tree is present — the clone agent confirms source-present). The runner
+  surfaces the synthesized `implementation:options` in `evidence.json` as
+  `depositOptions` (source-safe option metadata; the measure-agent's absolutes are
+  already attached by the Validation phase IN the box).
+- **Route dispatch.** When the configured HostKind is `sandbox`, the deposit route
+  dispatches the deposit harness (a git `source` for the revision) via
+  `VercelSandboxPipelineHost.runHarness` (provider Vercel) instead of the in-process
+  InlineHost path; it reads `evidence.depositOptions`, runs the SAME pure projection
+  (`validateDepositSynthesisOptions` + `buildRealDepositAssetPackOptionSynthesis`) and
+  persists the deposit option synthesis to the execution row — identical to the inline
+  path. Source-safe telemetry streams from the harness telemetry artifact to
+  `execution_events`.
+- **Parity of result.** InlineHost (in current box) and SandboxHost (in the provisioned
+  box) produce the SAME deposit option synthesis; only WHERE the pipeline runs differs.
+  Real-sandbox execution is verified against deployed sandbox infra (`@vercel/sandbox`,
+  `VERCEL_*`, git in the box image); the harness plan-building + the route dispatch +
+  the option projection are unit-tested with a mocked host.
+
+### Gate-3 depositing PARITY MATRIX (gate-closure audit; Garrett, 2026-06-27)
+
+Spec ↔ implementation ↔ tests parity for every Gate-3 depositing capability.
+Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as a stub
+(intentional) · ⚠️ specified, implementation partial · ❌ specified, not implemented.
+
+| # | Capability | Implementation (symbol) | Tests | Parity |
+|---|---|---|---|---|
+| 1 | measure-agent base | `agent-generics` `factoryMeasureAgent` | measure-agent.test | ✅ |
+| 2 | measure-agent-absolutes | `factoryMeasureAgentAbsolutes` | measure-agent.test | ✅ |
+| 3 | concrete absolutes measurer | `factoryAssetPackMeasureAbsolutesAgent(lens)` | agent-measure-absolutes.test | ✅ |
+| 4 | absolutes catalog (5 measures, Σweights=1) | `ASSET_PACK_ABSOLUTES_CATALOG` | agent-measure-absolutes.test | ✅ |
+| 5 | measurement shape (category/magnitude/unit) | `AssetPackCandidateMeasurement` | agent-measure-absolutes.test | ✅ |
+| 6 | size-authoritative + judgment + fallback | `measureAssetPackAbsolutes` / `computeAbsolutesFromReport` / `mergeReportAndReadings` | agent-measure-absolutes.test | ✅ |
+| 7 | static analysis (language-generic) | `SourceStaticAnalysisTool` / `analyzeStaticSource` | source-static-analysis-tool.test | ✅ |
+| 8 | tools registry add/replace | `register/resolveSourceStaticAnalysisTool` | source-static-analysis-tool.test | ✅ |
+| 9 | Validation measures + attaches absolutes | `runDepositValidationAgent` | asset-pack suite (validation) | ✅ |
+| 10 | options prefer formal absolutes + carry patch | `validateDepositSynthesisOptions` | agent-measure-absolutes.test, asset-packs-synthesis.test | ✅ |
+| 11 | neediness (preview) | `computeNeediness` / `buildNeedinessFromSignal` | neediness.test | ✅ |
+| 12 | neediness signal grounded in depository search | `deposit-asset-pack-synthesis-agent` / `deposit-depository-search-agent` | depository-search(.tool).test | ✅ |
+| 13 | patch descriptor carried to candidate | `AssetPackPatchDescriptor` / `AssetPackCandidate.patch` | asset-packs-synthesis.test | ✅ |
+| 14 | option decision payload | `DepositAssetPackOption.contents` + `roots.contentsRoot` | asset-packs-synthesis.test | ✅ |
+| 15 | card "If deposited, Bitcode receives" | `DepositPageClient.tsx` | depositPageClient.test | ✅ |
+| 16 | full SDIVF pipeline only; Validation never skipped | deposit route (flag removed) | depositSynthesizeOptionsRoute.test | ✅ |
+| 17 | primitive Host + capabilities + workspace | `BitcodePipelineHost` / `BitcodeHostWorkspace` | inline/sandbox-host.test | ✅ |
+| 18 | InlineHost (real clone + Node fs) | `InlineHost` | inline-host.test | ✅ |
+| 19 | SandboxHost + Vercel provider | `SandboxHost` / `VercelSandboxHost` | sandbox-host.test | ✅ |
+| 20 | AWS provider seam | `AwsSandboxHost` (stub: provision throws) | sandbox-host.test | 🟦 |
+| 21 | checkout → sources bridge | `readWorkspaceSources` | inline/sandbox-host.test | ✅ |
+| 22 | HostKind selection (configured, not env) | `selectDepositHostKind` / `resolveDepositPipelineHost` | depositSourceProvisioning.test | ✅ |
+| 23 | full inventory (sources+samples) + fail-closed exclusions | `provisionDepositSourceInventory` / `applyExclusionsToInventory` | depositSourceProvisioning.test, asset-packs-synthesis.test | ✅ |
+| 24 | deposit provisions full checkout via Host | deposit route + `InlineHost` path | depositSynthesizeOptionsRoute.test | ✅ |
+| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | harness deposit mode (`synthesizeMode` + steering → in-box runner; `depositOptions` in evidence) + `runDepositInBoxHarness` + route hostKind branch | asset-pack-harness.test, depositSourceProvisioning.test, depositSynthesizeOptionsRoute.test | ✅* |
+
+✅* = wired + unit-tested with a mocked host (harness plan-building, the dispatch, the
+option projection); real in-sandbox execution is verified against deployed sandbox infra.
+
+**Open items for full gate-3 depositing closure (deployment + verification, not code):**
+- **Deployment config**: the Vercel sandbox provider's runtime deps (`@vercel/sandbox`,
+  `VERCEL_*`, git in the box image); the AWS provider (#20) beyond the stub.
+- **Live verification**: a real deposit run — on the InlineHost (in-process) and on the
+  SandboxHost (in-box) — confirming measured sizes + the decision panel end-to-end and
+  that both hosts produce the same deposit option synthesis.
+
 ## Non-goals during V48 opening
 
 - Do not implement V48 product behavior from this notes-only opening.

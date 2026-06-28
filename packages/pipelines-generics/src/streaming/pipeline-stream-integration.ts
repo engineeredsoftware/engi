@@ -26,9 +26,78 @@ export interface PipelineStreamConfig {
   structuredToDatabase?: boolean;
 }
 
+// Source-safety law (V48): pipeline telemetry must never serialize raw prompts
+// or provider responses (rawPromptVisible/rawProviderResponseVisible=false). Raw
+// prompt/response content auto-streams via Execution.store under the `llm`
+// namespace, but the content-bearing key NAMES drift between the two LLM-call
+// paths: the formal Thricified substeps store `input`/`prompt`/`output`/
+// `parsedOutput`, while AgentLLMsRegistry/PipelineLLMRegistry (direct getLLM
+// calls) store `messages`/`config`/`response`. A content-key denylist silently
+// missed `response`, so a raw model response leaked through as a status-event
+// message (and the renderer split that multi-line payload into one row per
+// line). We therefore withhold by ALLOWLIST: every `llm` store is content-
+// withheld EXCEPT a fixed set of source-safe metadata keys. This is robust to
+// new content keys and is applied universally to every pipeline stream event
+// (not per-pipeline).
+const SOURCE_SAFE_LLM_METADATA_KEYS = new Set([
+  'startTime',
+  'endTime',
+  'duration',
+  'usage',
+  'status',
+  'provider',
+  'model',
+  'configKey',
+  'stopReason',
+  'error',
+]);
+
+export function sourceSafeStreamEvent(event: any): any {
+  if (!event || typeof event !== 'object') return event;
+  const namespace = (event as any).namespace;
+  const key = (event as any).key;
+  // Only llm-namespace stores carry raw prompt/response content. Anything that
+  // is an llm metadata store, or any non-llm event, passes through unchanged.
+  if (namespace !== 'llm' || SOURCE_SAFE_LLM_METADATA_KEYS.has(String(key))) {
+    return event;
+  }
+  const data =
+    (event as any).data && typeof (event as any).data === 'object'
+      ? ((event as any).data as Record<string, any>)
+      : {};
+  const contentChars =
+    typeof (event as any).data === 'string'
+      ? (event as any).data.length
+      : typeof data.content === 'string'
+        ? data.content.length
+        : typeof data.prompt === 'string'
+          ? data.prompt.length
+          : null;
+  const state =
+    (event as any).executionState && typeof (event as any).executionState === 'object'
+      ? (event as any).executionState
+      : {};
+  return {
+    ...event,
+    message: '[content withheld — source-safe]',
+    data: {
+      contentWithheld: true,
+      sourceSafetyClass: 'source_safe',
+      stage: key,
+      generation: data.generation ?? state.generation ?? null,
+      provider: data.provider ?? null,
+      model: data.model ?? null,
+      contentChars,
+      phase: data.phase ?? state.phase ?? null,
+      agent: data.agent ?? state.agent ?? null,
+      step: data.step ?? state.step ?? null,
+    },
+  };
+}
+
 /**
  * Wire up a pipeline execution with streaming
- * 
+ *
  * This registers a stream manager with the execution so that
  * all storage operations emit stream events automatically.
  */
@@ -87,7 +156,7 @@ export function enablePipelineStreaming(
         await eventsModel.create({
           run_id: config.runId,
           event_type: event.type,
-          event_data: event,
+          event_data: sourceSafeStreamEvent(event),
           created_at: new Date().toISOString(),
         });
       } catch (error) {

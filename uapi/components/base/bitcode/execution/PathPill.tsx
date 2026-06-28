@@ -29,7 +29,12 @@ const typeToClasses: Record<PillType, string> = {
   generation: `${BASE} bg-gradient-to-r from-amber-600/40 to-amber-600/10 text-amber-100 ring-amber-500/40`,
   tool: `${BASE} bg-gradient-to-r from-indigo-600/40 to-indigo-600/10 text-indigo-100 ring-indigo-500/40`,
 };
-// Optional icon per pill value ------------------------------------------------
+// Icon per pill — every pill TYPE renders a consistent icon. The icon is a
+// per-type default, refined by a substring match on the (normalized) label.
+// Labels drift across the pipeline — PTRR steps (Plan/Try/Refine/Retry),
+// Thricified generations (reason/judge/structured_output), failsafe stages, and
+// custom step names like `read-comprehension`/`synthesis` — so matching is by
+// substring and ALWAYS falls back to the type default, guaranteeing an icon.
 import {
   GearIcon,
   MagnifyingGlassIcon,
@@ -41,50 +46,74 @@ import {
   MixerHorizontalIcon,
   LightningBoltIcon,
   StackIcon,
-  ArrowLeftIcon,
-  ArrowRightIcon,
+  PersonIcon,
   ChatBubbleIcon,
   ScissorsIcon,
   LayersIcon,
 } from '@radix-ui/react-icons';
 
-const PhaseIcon: Record<string, React.ComponentType<any>> = {
-  Setup: GearIcon,
-  Discovery: MagnifyingGlassIcon,
-  Implementation: Pencil2Icon,
-  Validation: CheckCircledIcon,
-  Finish: RocketIcon,
+type IconComponent = React.ComponentType<any>;
+type IconRule = [match: string, Icon: IconComponent];
+
+const PHASE_ICON_RULES: IconRule[] = [
+  ['setup', GearIcon],
+  ['discovery', MagnifyingGlassIcon],
+  ['implementation', Pencil2Icon],
+  ['validation', CheckCircledIcon],
+  ['finish', RocketIcon],
+];
+
+const STEP_ICON_RULES: IconRule[] = [
+  ['plan', ClipboardIcon],
+  ['try', MagicWandIcon],
+  ['generate', MagicWandIcon],
+  ['refine', MixerHorizontalIcon],
+  ['retry', LightningBoltIcon],
+  ['intensify', LightningBoltIcon],
+];
+
+const FAILSAFE_ICON_RULES: IconRule[] = [
+  ['prepare', StackIcon],
+  ['chunk', ScissorsIcon],
+  ['stitch', LayersIcon],
+];
+
+const GENERATION_ICON_RULES: IconRule[] = [
+  ['reason', ChatBubbleIcon],
+  ['judge', ScissorsIcon],
+  ['structur', LayersIcon], // matches "structure" / "structured_output"
+];
+
+const TYPE_DEFAULT_ICON: Record<PillType, IconComponent> = {
+  phase: GearIcon,
+  agent: PersonIcon,
+  step: ClipboardIcon,
+  failsafe: StackIcon,
+  generation: ChatBubbleIcon,
+  tool: MixerHorizontalIcon,
 };
 
-const StepIcon: Record<string, React.ComponentType<any>> = {
-  Plan: ClipboardIcon,
-  Generate: MagicWandIcon,
-  Refine: MixerHorizontalIcon,
-  Intensify: LightningBoltIcon,
-};
+function matchIcon(rules: IconRule[], label: string): IconComponent | null {
+  const lower = label.toLowerCase();
+  for (const [match, Icon] of rules) {
+    if (lower.includes(match)) return Icon;
+  }
+  return null;
+}
 
-const FailsafeIcon: Record<string, React.ComponentType<any>> = {
-  'Prepare Context': StackIcon,
-  'Handle Input': ArrowLeftIcon,
-  'Handle Output': ArrowRightIcon,
-};
-
-const GenerationIcon: Record<string, React.ComponentType<any>> = {
-  Reason: ChatBubbleIcon,
-  Judge: ScissorsIcon,
-  Structure: LayersIcon,
-};
-
-function getIcon(type: PillType, label: string): React.ComponentType<any> | null {
+function getIcon(type: PillType, label: string): IconComponent | null {
   switch (type) {
     case 'phase':
-      return PhaseIcon[label as keyof typeof PhaseIcon] || null;
+      return matchIcon(PHASE_ICON_RULES, label) ?? TYPE_DEFAULT_ICON.phase;
     case 'step':
-      return StepIcon[label as keyof typeof StepIcon] || null;
+      return matchIcon(STEP_ICON_RULES, label) ?? TYPE_DEFAULT_ICON.step;
     case 'failsafe':
-      return FailsafeIcon[label as keyof typeof FailsafeIcon] || null;
+      return matchIcon(FAILSAFE_ICON_RULES, label) ?? TYPE_DEFAULT_ICON.failsafe;
     case 'generation':
-      return GenerationIcon[label as keyof typeof GenerationIcon] || null;
+      return matchIcon(GENERATION_ICON_RULES, label) ?? TYPE_DEFAULT_ICON.generation;
+    case 'agent':
+    case 'tool':
+      return TYPE_DEFAULT_ICON[type];
     default:
       return null;
   }

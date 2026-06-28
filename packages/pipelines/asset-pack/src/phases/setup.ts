@@ -7,6 +7,7 @@
 
 import { Executor } from '@bitcode/execution-generics';
 import { createPhaseRunner, type PhaseConfig } from '@bitcode/pipelines-generics';
+import { synthesizeAssetPacksModeFromExecution } from '../synthesize-asset-packs';
 
 const setupPhaseConfig: PhaseConfig = {
   phaseName: 'setup',
@@ -28,6 +29,27 @@ const setupPhaseConfig: PhaseConfig = {
 const runSetupPhase = createPhaseRunner(setupPhaseConfig);
 
 export const assetPackSetupPhaseExecutor: Executor<any, any> = async (input, execution) => {
+  // Conditional runtime registry: the deposit lens comprehends the depositor's
+  // Obfuscations via the deposit input-comprehension agent (registered under the
+  // comprehension key); read keeps its Need-comprehension agent.
+  const mode = synthesizeAssetPacksModeFromExecution(execution) ?? 'read';
+  if (mode === 'deposit') {
+    try {
+      const depositComprehend = (await import('../agents/setup/deposit-input-comprehension-agent')).default as any;
+      (execution as any).agents?.registerAgent?.(
+        'setup:ReadFitsFindingSynthesisReadComprehensionAgent',
+        depositComprehend,
+      );
+    } catch {}
+    // The Setup plan agent plans Finding Fits from an accepted Read-Need — read
+    // work, deposit-irrelevant. Punt it under the deposit lens with a passthrough
+    // (no LLM call, no telemetry row). Read keeps it for now; the read fits-finding
+    // planning moves to the read-lens Discovery phase in the subsequent (read) gate.
+    (execution as any).agents?.registerAgent?.(
+      'setup:ReadFitsFindingSynthesisSetupPlanAgent',
+      async (passthroughInput: any) => passthroughInput,
+    );
+  }
   await runSetupPhase(input, execution);
   // PhaseRunner returns PhaseResult; pipeline expects input forward. Use stores for state.
   return input;

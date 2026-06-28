@@ -1,6 +1,12 @@
 import { z } from 'zod';
 
-import { runBoundedStructuredInference } from './bounded-structured-inference';
+import { Execution } from '@bitcode/execution-generics/Execution';
+import type { MeasurementSpec } from '@bitcode/agent-generics';
+
+import {
+  synthesizeAssetPackCandidatesFormal,
+  type FormalSynthesisRawOption,
+} from './asset-packs-synthesis-pipeline';
 import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
 
 /**
@@ -19,6 +25,12 @@ import { isAssetPackRealInferenceEnabled } from './runtime-inference-policy';
  * module is the one place measurement synthesis happens. Lens adapters
  * (deposit-option-real-synthesis.ts today; the reading lens when Track 3
  * migrates) translate lens-specific contracts to and from this core.
+ *
+ * The measurement itself runs on the real Bitcode execution/agent/prompt
+ * primitives (asset-packs-synthesis-pipeline.ts): PipelineExecution → phase →
+ * factoryAgent → createFailsafeGenerationSequence (Failsafe ∘ Thricified). This
+ * module owns the lens contract, the candidate schema, and the fail-closed
+ * validation; the pipeline module owns the formal inference.
  *
  * Protected-IP exclusions are honored fail-closed at BOTH ends: excluded
  * paths are removed from the inventory before any prompt is built, and any
@@ -83,14 +95,133 @@ export function measurementCatalogForLens(lens: AssetPacksSynthesisLens): AssetP
   return lens === 'read' ? READ_MEASUREMENT_CATALOG : DEPOSIT_MEASUREMENT_CATALOG;
 }
 
+/**
+ * The ABSOLUTES catalog (V48 Gate 3 — the formalized non-needinesses category).
+ * Intrinsic, reader-independent measures of a synthesized AssetPack patch, read
+ * by agent-measure-absolutes (the formal measure-agent), superseding the legacy
+ * placeholder catalog. Grounded in the demonstration's static-measurement notion
+ * (`protocol-demonstration/`: normalizedBitcodeVolume / semantic volume). A
+ * MeasurementSpec plus a composite `weight` (weights sum to 1).
+ *
+ * Lens-shared in Gate 3 (the read-lens finalization is Gate 4); the concrete
+ * agent is lens-parameterized so Gate 4 only finalizes, not restructures.
+ */
+export interface AssetPackAbsoluteSpec extends MeasurementSpec {
+  /** Weight in the absolute weighted composite. */
+  weight: number;
+}
+
+export const ASSET_PACK_ABSOLUTES_CATALOG: AssetPackAbsoluteSpec[] = [
+  {
+    measurementKind: 'function-count',
+    label: 'Functions',
+    unit: 'functions',
+    hasMagnitude: true,
+    weight: 0.18,
+    guidance:
+      'How many distinct functions/behaviors the synthesized patch encodes (a size). magnitude = the count.',
+  },
+  {
+    measurementKind: 'type-count',
+    label: 'Types',
+    unit: 'types',
+    hasMagnitude: true,
+    weight: 0.14,
+    guidance:
+      'How many distinct types/interfaces/schemas the patch defines (a size). magnitude = the count.',
+  },
+  {
+    measurementKind: 'file-span',
+    label: 'File span',
+    unit: 'files',
+    hasMagnitude: true,
+    weight: 0.12,
+    guidance:
+      'How many files the patch creates/modifies (a size — derivable from the patch descriptor). magnitude = the count.',
+  },
+  {
+    measurementKind: 'correctness-estimate',
+    label: 'Correctness',
+    unit: 'estimate',
+    weight: 0.28,
+    guidance:
+      'A 0..1 estimate of the synthesized knowledge’s fidelity and internal coherence — the patch is faithful to the comprehension it was synthesized from and would build.',
+  },
+  {
+    measurementKind: 'semantic-volume',
+    label: 'Semantic volume',
+    unit: 'normalized',
+    weight: 0.28,
+    guidance:
+      'A 0..1 measure of HOW MUCH commercially-legible knowledge the pack encodes — the normalized bitcode-volume analog (monotone in the sizes). What the BTD volume later grounds on.',
+  },
+];
+
+export const ASSET_PACK_ABSOLUTE_KINDS: string[] = ASSET_PACK_ABSOLUTES_CATALOG.map(
+  (spec) => spec.measurementKind,
+);
+
+/**
+ * Deposit neediness — the read-demand PREVIEW. NOT a member of
+ * DEPOSIT_MEASUREMENT_CATALOG (it is not part of the absolute weighted composite);
+ * it is a separate, forward-looking estimate previewed beside the absolutes.
+ */
+export const DEPOSIT_NEEDINESS_MEASUREMENT = {
+  measurementKind: 'neediness',
+  label: 'Neediness (est. read demand)',
+  guidance:
+    'Estimated reading demand the AssetPack would satisfy — the deposit-side preview of read Need-fit and earning potential. Computed from the depository-search demand signal and the supply scarcity it addresses.',
+} as const;
+
+/**
+ * Compute neediness (v0): demand gates, scarcity boosts. A demanded, underserved
+ * pack scores highest; a saturated or undemanded pack scores low.
+ *   neediness = clamp01(demand × (0.5 + 0.5·(1 − saturation)))
+ */
+export function computeNeediness(demand: number, saturation: number): number {
+  const d = clampVolume(Number.isFinite(demand) ? demand : 0);
+  const s = clampVolume(Number.isFinite(saturation) ? saturation : 0);
+  return clampVolume(d * (0.5 + 0.5 * (1 - s)));
+}
+
+/** Build the neediness preview from a raw per-pack signal (deposit lens). */
+export function buildNeedinessFromSignal(signal: {
+  demand?: unknown;
+  saturation?: unknown;
+  rationale?: unknown;
+} | null | undefined): AssetPackNeediness | undefined {
+  if (!signal || typeof signal !== 'object') return undefined;
+  const demand = clampVolume(Number.isFinite(Number((signal as any).demand)) ? Number((signal as any).demand) : 0);
+  const saturation = clampVolume(Number.isFinite(Number((signal as any).saturation)) ? Number((signal as any).saturation) : 0);
+  return {
+    volume: computeNeediness(demand, saturation),
+    demand,
+    saturation,
+    rationale: String((signal as any).rationale ?? '').trim(),
+  };
+}
+
 export interface AssetPacksSynthesisSourceSample {
   path: string;
   excerpt: string;
 }
 
+/** A full-content source file from the host checkout (every blob, verbatim). */
+export interface AssetPacksSynthesisSourceFile {
+  path: string;
+  content: string;
+}
+
 export interface AssetPacksSynthesisSourceInventory {
   paths: string[];
   samples: AssetPacksSynthesisSourceSample[];
+  /**
+   * The FULL verbatim source of the host checkout (V48 Gate 3) — every tracked
+   * file's content, provisioned by the primitive Host. Feeds measurement (the
+   * static-analysis tool reads real full content); the bounded `samples` feed
+   * prompts. Optional for back-compat (absent when only samples were available).
+   */
+  sources?: AssetPacksSynthesisSourceFile[];
   totalPathCount: number;
   excludedPathCount: number;
 }
@@ -111,25 +242,63 @@ export interface AssetPacksSynthesisRequest {
   candidateKinds: string[];
   maxCandidates?: number;
   /**
-   * Optional streaming execution node (execution-generics). When provided,
-   * source-safe telemetry (phase/agent/step states, generation stages,
-   * provider/model, usage) streams through it live; prompt and response
-   * CONTENT is always withheld (rawPromptVisible/rawProviderResponseVisible
-   * stay false by law) — only content-withheld summaries are forwarded.
+   * Optional execution-generics Execution node. When provided (the deposit
+   * route passes a streaming Execution), the formal AssetPacksSynthesis
+   * pipeline runs as REAL nested child nodes under it (Pipeline → Phase →
+   * Agent → Step → Failsafe → Thricified) and source-safe telemetry streams
+   * live. Prompt and response CONTENT is withheld universally by the streaming
+   * layer (sourceSafeStreamEvent), keeping rawPromptVisible /
+   * rawProviderResponseVisible false by law. When absent, a detached root
+   * Execution is created so synthesis still runs (without streaming).
    */
-  execution?: SourceSafeStreamTarget | null;
-}
-
-export interface SourceSafeStreamTarget {
-  store?: (section: string, key: string, value: unknown) => unknown;
-  child?: (name: string) => SourceSafeStreamTarget;
+  execution?: Execution | null;
 }
 
 export interface AssetPackCandidateMeasurement {
   measurementKind: string;
   label: string;
   weight: number;
+  /** Normalized 0..1 — the value the weighted composite uses. */
   volume: number;
+  /**
+   * Which measurement CATEGORY this reading belongs to. Absolutes are intrinsic
+   * (sizes/correctness/volume) and form the weighted composite; needinesses are
+   * reader-relative previews and are NEVER in the absolute composite. Optional
+   * for back-compat with the legacy placeholder catalog (treated as 'absolute').
+   */
+  category?: 'absolute' | 'neediness';
+  /** Raw count/quantity for size measurements (functions/types/files). */
+  magnitude?: number;
+  /** The reading's unit: functions | types | files | estimate | normalized. */
+  unit?: string;
+}
+
+/**
+ * Neediness — the deposit-lens PREVIEW of read Need-fit (v0). A 0..1 estimate of
+ * the reading demand the pack would satisfy, derived from the depository-search
+ * `demand` signal and the supply `saturation` it would address. SEPARATE from the
+ * absolute deposit composite (it estimates a different, read, lens). Source-safe:
+ * scalars + topic-level rationale only.
+ */
+export interface AssetPackNeediness {
+  /** Computed 0..1 = demand × (0.5 + 0.5·(1−saturation)). */
+  volume: number;
+  /** 0..1 estimated reading demand for the pack's knowledge. */
+  demand: number;
+  /** 0..1 how much the Depository already supplies the topic. */
+  saturation: number;
+  /** Source-safe rationale for the demand/saturation estimate. */
+  rationale: string;
+}
+
+/**
+ * The source-safe patch descriptor — the synthesized AssetPack CONTENTS the
+ * depositor reviews: which files the AP creates/modifies (path + op) and a
+ * natural-language summary of the knowledge it encodes. NEVER raw source/code.
+ */
+export interface AssetPackPatchDescriptor {
+  fileChanges: Array<{ path: string; op: string }>;
+  patchSummary: string;
 }
 
 export interface AssetPackCandidate {
@@ -140,6 +309,10 @@ export interface AssetPackCandidate {
   measurements: AssetPackCandidateMeasurement[];
   measurementRationale: string;
   confidence: number;
+  /** The synthesized AP contents (source-safe patch descriptor) for the deposit decision. */
+  patch?: AssetPackPatchDescriptor;
+  /** Deposit lens only: the read-demand preview (v0). Absent on read candidates. */
+  neediness?: AssetPackNeediness;
 }
 
 export interface AssetPacksSynthesisInferenceAccounting {
@@ -174,12 +347,22 @@ export function isPathExcluded(path: string, exclusions: string[]): boolean {
 }
 
 export function applyExclusionsToInventory(
-  inventory: { paths: string[]; samples: AssetPacksSynthesisSourceSample[] },
+  inventory: {
+    paths: string[];
+    samples: AssetPacksSynthesisSourceSample[];
+    sources?: AssetPacksSynthesisSourceFile[];
+  },
   exclusions: string[],
 ): AssetPacksSynthesisSourceInventory {
   const keptPaths = inventory.paths.filter((path) => !isPathExcluded(path, exclusions));
   const keptSamples = inventory.samples.filter((sample) => !isPathExcluded(sample.path, exclusions));
+  // Protected-IP exclusions are honored on the FULL source too (fail-closed): an
+  // excluded file is never measured, sampled, or otherwise carried forward.
+  const keptSources = Array.isArray(inventory.sources)
+    ? inventory.sources.filter((file) => !isPathExcluded(file.path, exclusions))
+    : undefined;
   return {
+    ...(keptSources ? { sources: keptSources } : {}),
     paths: keptPaths,
     samples: keptSamples,
     totalPathCount: inventory.paths.length,
@@ -187,115 +370,43 @@ export function applyExclusionsToInventory(
   };
 }
 
-type UsageRecorder = {
-  store: (section: string, key: string, value: unknown) => void;
-};
-
-function createUsageRecorder() {
-  const captured: { usage: Record<string, number> | null; provider: string | null; model: string | null } = {
-    usage: null,
-    provider: null,
-    model: null,
-  };
-  const recorder: UsageRecorder = {
-    store(section, key, value) {
-      if (section === 'llm' && key === 'usage' && value && typeof value === 'object') {
-        captured.usage = value as Record<string, number>;
-      }
-      if (section === 'bounded-inference' && key === 'provider' && value && typeof value === 'object') {
-        const record = value as Record<string, unknown>;
-        captured.provider = typeof record.provider === 'string' ? record.provider : captured.provider;
-        captured.model = typeof record.model === 'string' ? record.model : captured.model;
-      }
-    },
-  };
-  return { recorder, captured };
-}
-
-// Bounded-inference stores carry full prompt/response content for in-memory
-// usage capture; only content-withheld summaries may reach a streaming
-// target, keeping rawPromptVisible/rawProviderResponseVisible false by law.
-const CONTENT_BEARING_LLM_KEYS = new Set([
-  'input',
-  'output',
-  'reasoningOutput',
-  'judgmentOutput',
-  'parsedOutput',
-]);
-
-function sourceSafeLlmSummary(key: string, value: unknown) {
-  const record = value && typeof value === 'object' ? (value as Record<string, unknown>) : {};
-  const generation = typeof record.generation === 'string' ? record.generation : null;
-  const provider = typeof record.provider === 'string' ? record.provider : null;
-  const model = typeof record.model === 'string' ? record.model : null;
-  const contentChars =
-    typeof record.content === 'string'
-      ? record.content.length
-      : typeof (record as { rawResponse?: unknown }).rawResponse === 'string'
-        ? String((record as { rawResponse?: unknown }).rawResponse).length
-        : null;
-  return {
-    contentWithheld: true,
-    sourceSafetyClass: 'source_safe',
-    stage: key,
-    generation,
-    provider,
-    model,
-    contentChars,
-    phase: typeof record.phase === 'string' ? record.phase : null,
-    agent: typeof record.agent === 'string' ? record.agent : null,
-    step: typeof record.step === 'string' ? record.step : null,
-  };
-}
-
-function createRecorderExecution(recorder: UsageRecorder, target?: SourceSafeStreamTarget | null) {
-  const node: SourceSafeStreamTarget & { store: (s: string, k: string, v: unknown) => void } = {
-    store(section, key, value) {
-      recorder.store(section, key, value);
-      if (!target?.store) return;
-      try {
-        if (section === 'llm' && CONTENT_BEARING_LLM_KEYS.has(key)) {
-          target.store(section, key, sourceSafeLlmSummary(key, value));
-          return;
-        }
-        target.store(section, key, value);
-      } catch {
-        // Streaming is observability, never a synthesis failure.
-      }
-    },
-    child(name: string) {
-      const childTarget = target?.child ? target.child(name) : target;
-      return createRecorderExecution(recorder, childTarget);
-    },
-  };
-  return node;
-}
-
-function readTotalTokens(usage: Record<string, number> | null): number | null {
-  if (!usage) return null;
-  if (typeof usage.totalTokens === 'number') return usage.totalTokens;
-  if (typeof usage.total_tokens === 'number') return usage.total_tokens;
-  const prompt = usage.promptTokens ?? usage.prompt_tokens ?? usage.inputTokens ?? usage.input_tokens ?? 0;
-  const completion =
-    usage.completionTokens ?? usage.completion_tokens ?? usage.outputTokens ?? usage.output_tokens ?? 0;
-  const total = prompt + completion;
-  return total > 0 ? total : null;
-}
-
 function clampVolume(value: number) {
   return Number(Math.max(0, Math.min(1, value)).toFixed(2));
 }
 
-const LENS_FRAMING: Record<AssetPacksSynthesisLens, { role: string; candidateNoun: string }> = {
-  deposit: {
-    role: 'Depositors supply AssetPacks (bounded, source-safe slices of repository knowledge) into a Depository where future buyers find Need-fitting packs.',
-    candidateNoun: 'deposit AssetPack options the depositor can review and admit',
-  },
-  read: {
-    role: 'Readers ask Bitcode to satisfy a reviewed Need by finding and synthesizing Need-fitting AssetPacks from Depository source.',
-    candidateNoun: 'Need-fitting AssetPack candidates the reader can review and buy',
-  },
-};
+/**
+ * Defense-in-depth source-safety assertion (Garrett's "keep local assert"):
+ * the universal streaming filter (sourceSafeStreamEvent) withholds raw
+ * prompt/response content from telemetry, and this local check guarantees the
+ * returned candidates themselves carry no verbatim source. A candidate is
+ * commercially legible metadata, never raw text — if any non-trivial source
+ * line (>= 40 chars) from the excerpts appears verbatim in a candidate's
+ * prose, source leaked and synthesis fails closed.
+ */
+function assertSourceSafeCandidates(
+  candidates: AssetPackCandidate[],
+  inventory: AssetPacksSynthesisSourceInventory,
+): void {
+  const needles = [
+    ...new Set(
+      inventory.samples
+        .flatMap((sample) => sample.excerpt.split(/\r?\n/))
+        .map((line) => line.trim())
+        .filter((line) => line.length >= 40),
+    ),
+  ];
+  if (needles.length === 0) return;
+  for (const candidate of candidates) {
+    const haystack = `${candidate.title}\n${candidate.summary}\n${candidate.measurementRationale}`;
+    for (const needle of needles) {
+      if (haystack.includes(needle)) {
+        throw new Error(
+          `AssetPacksSynthesis source-safety assertion failed: candidate "${candidate.title}" leaked raw source.`,
+        );
+      }
+    }
+  }
+}
 
 export async function synthesizeAssetPackCandidates(
   request: AssetPacksSynthesisRequest,
@@ -311,9 +422,7 @@ export async function synthesizeAssetPackCandidates(
 
   const catalog = measurementCatalogForLens(request.lens);
   const maxCandidates = Math.max(1, Math.min(4, request.maxCandidates ?? 4));
-  const framing = LENS_FRAMING[request.lens];
   const startedAt = Date.now();
-  const { recorder, captured } = createUsageRecorder();
 
   const candidateSchema = z.object({
     kind: z.string().min(1),
@@ -328,63 +437,32 @@ export async function synthesizeAssetPackCandidates(
     options: z.array(candidateSchema).min(1).max(maxCandidates),
   });
 
-  const systemPrompt = [
-    'You are AssetPacksSynthesis, the single Bitcode synthesis and measurement pipeline.',
-    `Lens: ${request.lens}. ${framing.role}`,
-    `Synthesize 2-${maxCandidates} DISTINCT ${framing.candidateNoun} from the repository inventory.`,
-    'Rules, all mandatory:',
-    '- Source-safe outputs only: never quote source code, secrets, or file contents in titles, summaries, or rationale. Describe knowledge and capability, not text.',
-    '- coveredSourcePaths must be chosen ONLY from the provided inventory paths, exactly as written.',
-    '- Honor the protected-IP exclusions absolutely: never cover, reference, or describe excluded material.',
-    '- Each candidate is a distinct knowledge slice (different kind and coverage), commercially legible to a buyer deciding what to buy.',
-    `- candidate kind must be one of: ${request.candidateKinds.join(', ')}.`,
-    '- measurements is an object with EXACTLY these keys, each an honest 0..1 volume:',
-    ...catalog.map((spec) => `    ${spec.measurementKind}: ${spec.guidance}`),
-    '- Justify every measurement in measurementRationale.',
-    'Return ONLY a JSON object with this EXACT top-level shape (no markdown fences, no prose, no other top-level keys):',
-    `{"options":[{"kind":string,"title":string,"summary":string,"coveredSourcePaths":[string],"measurements":{${catalog
-      .map((spec) => `"${spec.measurementKind}":number`)
-      .join(',')}},"measurementRationale":string,"confidence":number}]}`,
-    `The top-level key MUST be "options" — an array of 2-${maxCandidates} candidate objects. Never return a bare array or any other wrapper key.`,
-  ].join('\n');
-
-  const sampleBlock = request.inventory.samples
-    .map((sample) => `--- ${sample.path} ---\n${sample.excerpt}`)
-    .join('\n');
-  const userPrompt = [
-    `Repository: ${request.repositoryFullName}`,
-    `Branch: ${request.sourceBranch || 'unknown'} Commit: ${request.sourceCommit || 'unknown'}`,
-    request.steering.instructions
-      ? `Steering instructions: ${request.steering.instructions}`
-      : 'Steering instructions: none provided.',
-    request.steering.protectedIpExclusions.length
-      ? `Protected-IP exclusions (never cover or describe): ${request.steering.protectedIpExclusions.join('; ')}`
-      : 'Protected-IP exclusions: none declared.',
-    request.steering.demandContext.length
-      ? `Demand context:\n${request.steering.demandContext.map((entry) => `- ${entry}`).join('\n')}`
-      : 'Demand context: none provided.',
-    `Inventory paths (${request.inventory.paths.length} of ${request.inventory.totalPathCount} total; ${request.inventory.excludedPathCount} excluded):`,
-    request.inventory.paths.join('\n'),
-    'Representative file excerpts (already exclusion-filtered; for comprehension only, never to be quoted):',
-    sampleBlock || '(no excerpts available)',
-  ].join('\n\n');
-
-  const parsed = await runBoundedStructuredInference({
-    agentName: 'asset-packs-synthesis',
-    phase: `asset-packs-synthesis:${request.lens}`,
-    step: 'bounded',
-    systemPrompt,
-    userPrompt,
-    schema: candidateSetSchema,
-    fallback: () => ({ options: [] }),
-    execution: createRecorderExecution(recorder, request.execution ?? null),
-  });
+  // Run the formal AssetPacksSynthesis pipeline on the real primitives. The
+  // layered system prompt (pipeline identity + source-safety law, phase
+  // lens-role, agent measurement-catalog + rules, step candidate-shape) is
+  // composed inside the pipeline from the execution prompt registry; the
+  // exclusion-filtered inventory context becomes the generation user prompt.
+  const execution = request.execution ?? new Execution('asset-packs-synthesis');
+  const outcome = await synthesizeAssetPackCandidatesFormal(
+    {
+      lens: request.lens,
+      repositoryFullName: request.repositoryFullName,
+      sourceBranch: request.sourceBranch,
+      sourceCommit: request.sourceCommit,
+      steering: request.steering,
+      inventory: request.inventory,
+      candidateKinds: request.candidateKinds,
+      maxCandidates,
+    },
+    candidateSetSchema as unknown as z.ZodType<{ options: FormalSynthesisRawOption[] }>,
+    execution,
+  );
 
   const inventoryPathSet = new Set(request.inventory.paths);
   const allowedKinds = new Set(request.candidateKinds);
   const exclusionViolations: string[] = [];
   const candidates: AssetPackCandidate[] = [];
-  for (const option of parsed.options) {
+  for (const option of outcome.options) {
     const coveredSourcePaths = [...new Set(option.coveredSourcePaths.map((path) => path.trim()).filter(Boolean))];
     const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
     const excludedPaths = coveredSourcePaths.filter((path) =>
@@ -425,16 +503,128 @@ export async function synthesizeAssetPackCandidates(
     );
   }
 
+  // Defense-in-depth: never return source-bearing candidates.
+  assertSourceSafeCandidates(candidates, request.inventory);
+
   return {
     lens: request.lens,
     candidates,
-    droppedCandidateCount: parsed.options.length - candidates.length,
+    droppedCandidateCount: outcome.options.length - candidates.length,
     exclusionViolations,
     inference: {
-      provider: captured.provider,
-      model: captured.model,
-      totalTokens: readTotalTokens(captured.usage),
+      provider: outcome.provider,
+      model: outcome.model,
+      totalTokens: outcome.totalTokens,
       durationMs: Date.now() - startedAt,
     },
+  };
+}
+
+/**
+ * Validate raw synthesized candidate options (from the SynthesizeAssetPacks
+ * pipeline's Implementation phase) into source-safe AssetPackCandidates,
+ * fail-closed: drop any option whose covered paths are unknown to the inventory
+ * or violate the protected-IP exclusions, and map measurements through the lens
+ * catalog. Used by the deposit route to turn the pipeline output into the
+ * deposit option synthesis (mirrors synthesizeAssetPackCandidates' validation).
+ */
+export function validateDepositSynthesisOptions(
+  rawOptions: Array<{
+    kind: string;
+    title: string;
+    summary: string;
+    coveredSourcePaths: string[];
+    measurements: Record<string, number>;
+    measurementRationale: string;
+    confidence: number;
+    // V48 Gate 3: the FORMAL absolutes measured by agent-measure-absolutes in the
+    // Validation phase. When present these are the candidate's measurements (the
+    // legacy `measurements` record is the back-compat fallback only).
+    absolutes?: AssetPackCandidateMeasurement[] | null;
+    // The synthesized AP contents (source-safe patch descriptor) — carried to the
+    // deposit card so the depositor sees what knowledge/edits the AP encodes.
+    patch?: { fileChanges?: Array<{ path?: unknown; op?: unknown }>; patchSummary?: unknown } | null;
+    // Deposit lens only: the read-demand preview signal (v0). neediness is
+    // COMPUTED from this; absent/invalid signals yield no neediness preview.
+    needinessSignal?: { demand?: number; saturation?: number; rationale?: string } | null;
+  }>,
+  context: {
+    lens: AssetPacksSynthesisLens;
+    inventoryPaths: string[];
+    protectedIpExclusions: string[];
+    candidateKinds: string[];
+  },
+): { candidates: AssetPackCandidate[]; droppedCandidateCount: number; exclusionViolations: string[] } {
+  const catalog = measurementCatalogForLens(context.lens);
+  const inventoryPathSet = new Set(context.inventoryPaths);
+  const allowedKinds = new Set(context.candidateKinds);
+  const exclusionViolations: string[] = [];
+  const candidates: AssetPackCandidate[] = [];
+  for (const option of rawOptions || []) {
+    const coveredSourcePaths = [
+      ...new Set((option.coveredSourcePaths || []).map((path) => String(path).trim()).filter(Boolean)),
+    ];
+    const unknownPaths = coveredSourcePaths.filter((path) => !inventoryPathSet.has(path));
+    const excludedPaths = coveredSourcePaths.filter((path) =>
+      isPathExcluded(path, context.protectedIpExclusions),
+    );
+    if (unknownPaths.length > 0 || excludedPaths.length > 0 || coveredSourcePaths.length === 0) {
+      exclusionViolations.push(
+        `${option.title}: ${excludedPaths.length ? `excluded paths ${excludedPaths.join(', ')}` : ''}${
+          unknownPaths.length ? ` unknown paths ${unknownPaths.join(', ')}` : ''
+        }`.trim(),
+      );
+      continue;
+    }
+    // Prefer the FORMAL absolutes (agent-measure-absolutes, Validation phase) when
+    // present; otherwise map the legacy inline record through the lens catalog.
+    const formalAbsolutes = Array.isArray(option.absolutes) ? option.absolutes : null;
+    const measurements: AssetPackCandidateMeasurement[] =
+      formalAbsolutes && formalAbsolutes.length > 0
+        ? formalAbsolutes.map((m) => ({
+            measurementKind: String(m.measurementKind),
+            label: String(m.label ?? m.measurementKind),
+            weight: Number.isFinite(m.weight) ? Number(m.weight) : 0,
+            volume: clampVolume(Number(m.volume) || 0),
+            category: m.category === 'neediness' ? 'neediness' : 'absolute',
+            ...(Number.isFinite(m.magnitude as number)
+              ? { magnitude: Math.max(0, Math.round(Number(m.magnitude))) }
+              : {}),
+            ...(m.unit ? { unit: String(m.unit) } : {}),
+          }))
+        : catalog.map((spec) => ({
+            measurementKind: spec.measurementKind,
+            label: spec.label,
+            weight: spec.weight,
+            volume: clampVolume(option.measurements?.[spec.measurementKind] ?? 0),
+          }));
+    // Carry the source-safe patch descriptor (the synthesized AP contents) for the
+    // deposit card — path+op + summary only, never raw source.
+    const rawFileChanges = Array.isArray(option.patch?.fileChanges) ? option.patch!.fileChanges! : [];
+    const patch: AssetPackPatchDescriptor | undefined = rawFileChanges.length
+      ? {
+          fileChanges: rawFileChanges
+            .map((fc) => ({ path: String((fc as any)?.path ?? '').trim(), op: String((fc as any)?.op ?? '').trim() }))
+            .filter((fc) => fc.path),
+          patchSummary: String(option.patch?.patchSummary ?? '').trim(),
+        }
+      : undefined;
+    candidates.push({
+      kind: allowedKinds.has(option.kind) ? option.kind : context.candidateKinds[0],
+      title: String(option.title).trim(),
+      summary: String(option.summary).trim(),
+      coveredSourcePaths,
+      measurements,
+      measurementRationale: String(option.measurementRationale).trim(),
+      confidence: clampVolume(option.confidence),
+      patch,
+      // Deposit preview of read Need-fit (v0); read candidates carry no neediness.
+      neediness: context.lens === 'deposit' ? buildNeedinessFromSignal(option.needinessSignal) : undefined,
+    });
+  }
+  return {
+    candidates,
+    droppedCandidateCount: (rawOptions?.length || 0) - candidates.length,
+    exclusionViolations,
   };
 }
