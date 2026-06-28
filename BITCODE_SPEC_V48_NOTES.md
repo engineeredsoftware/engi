@@ -637,6 +637,36 @@ is named in spec for closure):
 - **Config.** `BITCODE_DEPOSIT_SYNTHESIS_PIPELINE` removed (full SDIVF pipeline only;
   Validation — measurement + quality — never skipped).
 
+### Gate-3 #25 — SandboxHost in-box deposit dispatch (Garrett, 2026-06-27)
+
+SandboxHost deposit runs the synthesis pipeline INSIDE the box (the asset-pack
+harness already runs `assetPackPipeline` in-box for read-fit via a runner that imports
+the live packages and executes the full SDIVF). Deposit reuses that mechanism:
+
+- **Harness deposit mode.** `buildAssetPackSandboxHarness` accepts `synthesisMode`
+  (`'deposit' | 'read'`) + the deposit STEERING (obfuscations, protected-IP exclusions,
+  demand context); these flow into `PipelineHarnessManifest` and the in-box runner
+  INPUT (`synthesizeMode`, steering). The in-box pipeline resolves deposit mode
+  (`resolveSynthesizeAssetPacksMode` reads `input.synthesizeMode`) and runs the deposit
+  SDIVF, reading the box's LOCAL checkout (the box was created WITH the git source, so
+  the working tree is present — the clone agent confirms source-present). The runner
+  surfaces the synthesized `implementation:options` in `evidence.json` as
+  `depositOptions` (source-safe option metadata; the measure-agent's absolutes are
+  already attached by the Validation phase IN the box).
+- **Route dispatch.** When the configured HostKind is `sandbox`, the deposit route
+  dispatches the deposit harness (a git `source` for the revision) via
+  `VercelSandboxPipelineHost.runHarness` (provider Vercel) instead of the in-process
+  InlineHost path; it reads `evidence.depositOptions`, runs the SAME pure projection
+  (`validateDepositSynthesisOptions` + `buildRealDepositAssetPackOptionSynthesis`) and
+  persists the deposit option synthesis to the execution row — identical to the inline
+  path. Source-safe telemetry streams from the harness telemetry artifact to
+  `execution_events`.
+- **Parity of result.** InlineHost (in current box) and SandboxHost (in the provisioned
+  box) produce the SAME deposit option synthesis; only WHERE the pipeline runs differs.
+  Real-sandbox execution is verified against deployed sandbox infra (`@vercel/sandbox`,
+  `VERCEL_*`, git in the box image); the harness plan-building + the route dispatch +
+  the option projection are unit-tested with a mocked host.
+
 ### Gate-3 depositing PARITY MATRIX (gate-closure audit; Garrett, 2026-06-27)
 
 Spec ↔ implementation ↔ tests parity for every Gate-3 depositing capability.
