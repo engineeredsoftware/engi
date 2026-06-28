@@ -102,6 +102,14 @@ export interface PipelineHarnessManifest {
   deposit: PipelineDepositReference;
   sourceRevision: PipelineSourceRevision;
   sourceOverlay?: PipelineHarnessSourceOverlay;
+  /** V48 Gate 3 #25: the synthesis lens the in-box pipeline runs (deposit | read). */
+  synthesizeMode?: 'deposit' | 'read';
+  /** Deposit steering for the in-box deposit synthesis (source-safe). */
+  depositSteering?: {
+    obfuscations?: string | null;
+    protectedIpExclusions?: string[];
+    demandContext?: string[];
+  };
   host: Pick<
     PipelineHostCapabilities,
     | 'hostKind'

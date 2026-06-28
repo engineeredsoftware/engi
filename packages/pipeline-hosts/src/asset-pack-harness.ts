@@ -45,6 +45,14 @@ export interface BuildAssetPackSandboxHarnessOptions {
   commandEnvironment?: Record<string, string>;
   installDependencies?: boolean;
   sourceOverlayPatch?: Buffer | string;
+  /** V48 Gate 3 #25: run the in-box synthesis in deposit (vs read) mode. */
+  synthesizeMode?: 'deposit' | 'read';
+  /** Deposit steering for the in-box deposit synthesis (source-safe). */
+  depositSteering?: {
+    obfuscations?: string | null;
+    protectedIpExclusions?: string[];
+    demandContext?: string[];
+  };
 }
 
 export function buildAssetPackSandboxHarness(
@@ -87,6 +95,8 @@ export function buildAssetPackSandboxHarness(
     sourceRevision: options.sourceRevision,
     sourceOverlay,
     commandEnvironment,
+    synthesizeMode: options.synthesizeMode ?? 'read',
+    depositSteering: options.depositSteering,
   });
 
   const commands = buildCommands(
@@ -1783,6 +1793,10 @@ try {
     writtenAssetType: 'asset_pack',
     deliveryMechanismTemplate: 'pull-request',
     harness: manifest,
+    synthesizeMode: manifest.synthesizeMode || 'read',
+    obfuscations: (manifest.depositSteering && manifest.depositSteering.obfuscations) || null,
+    protectedIpExclusions: (manifest.depositSteering && manifest.depositSteering.protectedIpExclusions) || [],
+    demandContext: (manifest.depositSteering && manifest.depositSteering.demandContext) || [],
   };
 
   record({ type: 'pipeline-start', stage: 'read-comprehension', sourceRevision: manifest.sourceRevision });
@@ -2145,6 +2159,7 @@ try {
     manifestRoot,
     manifest,
     output,
+    depositOptions: findExecutionValueDown(execution, 'implementation', 'options') || null,
     fitResult,
     depositorySearch,
     sourceSafePreview: settledSourceSafePreview,
