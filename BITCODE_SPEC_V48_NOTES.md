@@ -699,19 +699,17 @@ Parity: ✅ specified + implemented + tested · 🟦 specified + implemented as 
 | 22 | HostKind selection (configured, not env) | `selectDepositHostKind` / `resolveDepositPipelineHost` | depositSourceProvisioning.test | ✅ |
 | 23 | full inventory (sources+samples) + fail-closed exclusions | `provisionDepositSourceInventory` / `applyExclusionsToInventory` | depositSourceProvisioning.test, asset-packs-synthesis.test | ✅ |
 | 24 | deposit provisions full checkout via Host | deposit route + `InlineHost` path | depositSynthesizeOptionsRoute.test | ✅ |
-| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | `resolveDepositPipelineHost` REJECTS sandbox (not wired) | depositSourceProvisioning.test (rejects) | ❌ |
+| 25 | SandboxHost IN-BOX deposit dispatch (run the pipeline in the box) | harness deposit mode (`synthesizeMode` + steering → in-box runner; `depositOptions` in evidence) + `runDepositInBoxHarness` + route hostKind branch | asset-pack-harness.test, depositSourceProvisioning.test, depositSynthesizeOptionsRoute.test | ✅* |
 
-**Open items for full gate-3 depositing closure:**
-- **#25 — SandboxHost in-box deposit dispatch** (the one ❌): the deposit synthesis
-  must RUN inside the sandbox box (the harness pattern, as the read-fit harness does),
-  not provision-and-read-out. Specified here; not yet wired — `resolveDepositPipelineHost`
-  rejects `sandbox` rather than fall back to a cross-boundary read. The InlineHost path
-  is complete; the SandboxHost path needs the in-box pipeline dispatch.
-- **Deployment config** (not code): the Vercel sandbox provider's runtime deps
-  (`@vercel/sandbox`, `VERCEL_*`, git in the box image); the AWS provider (#20) beyond
-  the stub.
-- **Live verification**: a real deposit run on the InlineHost confirming measured sizes
-  + the decision panel end-to-end.
+✅* = wired + unit-tested with a mocked host (harness plan-building, the dispatch, the
+option projection); real in-sandbox execution is verified against deployed sandbox infra.
+
+**Open items for full gate-3 depositing closure (deployment + verification, not code):**
+- **Deployment config**: the Vercel sandbox provider's runtime deps (`@vercel/sandbox`,
+  `VERCEL_*`, git in the box image); the AWS provider (#20) beyond the stub.
+- **Live verification**: a real deposit run — on the InlineHost (in-process) and on the
+  SandboxHost (in-box) — confirming measured sizes + the decision panel end-to-end and
+  that both hosts produce the same deposit option synthesis.
 
 ## Non-goals during V48 opening
 
