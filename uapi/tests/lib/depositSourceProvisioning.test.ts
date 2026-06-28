@@ -4,6 +4,7 @@
 import {
   provisionDepositSourceInventory,
   resolveDepositPipelineHost,
+  runDepositInBoxHarness,
   selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
 import type { BitcodeHostWorkspace, BitcodePipelineHost } from '@bitcode/pipeline-hosts';
@@ -106,5 +107,51 @@ describe('resolveDepositPipelineHost', () => {
   it('rejects sandbox deposit (in-box dispatch not yet wired)', async () => {
     process.env.BITCODE_PIPELINE_HOST = 'sandbox';
     await expect(resolveDepositPipelineHost()).rejects.toThrow(/not yet wired/i);
+  });
+});
+
+describe('runDepositInBoxHarness (#25)', () => {
+  it('dispatches a deposit-mode harness and returns evidence.depositOptions', async () => {
+    let receivedPlan: any;
+    const fakeHost = {
+      runHarness: async (plan: any) => {
+        receivedPlan = plan;
+        return {
+          artifacts: { evidence: { depositOptions: [{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }] }, telemetry: null },
+          outcome: 'completed',
+          stopped: true,
+          manifest: plan.manifest,
+          commands: [],
+        };
+      },
+    };
+    const options = await runDepositInBoxHarness({
+      repositoryFullName: 'engineeredsoftware/demo',
+      revision: 'abc123',
+      branch: 'main',
+      commit: 'abc123',
+      token: 'ghs_tok',
+      obfuscations: 'hide internal names',
+      protectedIpExclusions: ['secret/'],
+      demandContext: ['auth'],
+      hostFactory: async () => fakeHost,
+    });
+
+    expect(options).toEqual([{ title: 'Auth slice', coveredSourcePaths: ['src/auth.ts'] }]);
+    // The dispatched plan ran the deposit lens in-box, with a git source + steering.
+    expect(receivedPlan.manifest.synthesizeMode).toBe('deposit');
+    expect(receivedPlan.manifest.depositSteering).toMatchObject({ protectedIpExclusions: ['secret/'] });
+    expect(receivedPlan.createOptions.source).toMatchObject({ type: 'git', revision: 'abc123' });
+  });
+
+  it('returns [] when the evidence has no depositOptions', async () => {
+    const fakeHost = {
+      runHarness: async () => ({ artifacts: { evidence: {}, telemetry: null }, outcome: 'completed', stopped: true, manifest: {}, commands: [] }),
+    };
+    const options = await runDepositInBoxHarness({
+      repositoryFullName: 'o/r', revision: 'main', branch: 'main', commit: null,
+      obfuscations: null, protectedIpExclusions: [], demandContext: [], hostFactory: async () => fakeHost,
+    });
+    expect(options).toEqual([]);
   });
 });

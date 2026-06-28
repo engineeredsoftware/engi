@@ -46,6 +46,8 @@ jest.mock('@bitcode/pipeline-asset-pack', () => ({
 jest.mock('@/lib/deposit-source-provisioning', () => ({
   resolveDepositPipelineHost: jest.fn(() => ({ capabilities: { hostKind: 'inline' } })),
   provisionDepositSourceInventory: jest.fn(),
+  selectDepositHostKind: jest.fn(() => 'inline'),
+  runDepositInBoxHarness: jest.fn(),
 }));
 
 import { createClient } from '@bitcode/supabase/ssr/server';
@@ -53,13 +55,19 @@ import { supabaseAdmin } from '@bitcode/supabase';
 import { createStreamingExecution } from '@bitcode/pipelines-generics';
 import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/runtime-inference-policy';
-import { provisionDepositSourceInventory } from '@/lib/deposit-source-provisioning';
+import {
+  provisionDepositSourceInventory,
+  runDepositInBoxHarness,
+  selectDepositHostKind,
+} from '@/lib/deposit-source-provisioning';
 import { POST } from '@/app/api/deposit/synthesize-options/route';
 
 const mockRealInference = isAssetPackRealInferenceEnabled as jest.Mock;
 const mockPipeline = synthesizeAssetPacksPipeline as jest.Mock;
 const mockCreateExecution = createStreamingExecution as jest.Mock;
 const mockProvision = provisionDepositSourceInventory as jest.Mock;
+const mockSelectKind = selectDepositHostKind as jest.Mock;
+const mockRunHarness = runDepositInBoxHarness as jest.Mock;
 
 // The synthesized options the pipeline leaves at implementation:options. The route's
 // validateDepositSynthesisOptions (real) turns these into measured deposit options.
@@ -196,8 +204,13 @@ async function flushBackground(predicate: () => boolean, max = 50) {
 describe('POST /api/deposit/synthesize-options', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    // Reset queued .once() implementations (clearAllMocks does not) so a pipeline/
+    // harness mock queued by one test never leaks into the next.
+    mockPipeline.mockReset();
+    mockRunHarness.mockReset();
     mockRealInference.mockReturnValue(true);
     mockProvision.mockResolvedValue(PROVISIONED);
+    mockSelectKind.mockReturnValue('inline');
   });
 
   it('requires a session', async () => {
@@ -266,6 +279,30 @@ describe('POST /api/deposit/synthesize-options', () => {
     expect(option.contents.provenantSourcePaths).toEqual(['README.md', 'src/app.py']);
     expect(option.contents.fileChanges).toEqual([{ path: 'src/app.py', op: 'modify' }]);
     expect(completed.output.reviewProjections[0].coveredSourcePaths).toEqual(['README.md', 'src/app.py']);
+  });
+
+  it('runs the synthesis in-box on the sandbox host when configured (#25)', async () => {
+    const { executionRow } = installSupabaseMocks({});
+    installExecutionMock();
+    mockSelectKind.mockReturnValue('sandbox');
+    mockRunHarness.mockResolvedValue(RAW_OPTIONS);
+
+    const response = await POST(createRequest());
+    expect(response.status).toBe(200);
+
+    await flushBackground(() =>
+      executionRow.upsert.mock.calls.some((call) => call[0]?.status === 'completed'),
+    );
+    // Dispatched to the in-box harness; the in-process pipeline + provisioning were NOT run.
+    expect(mockRunHarness).toHaveBeenCalledTimes(1);
+    expect(mockPipeline).not.toHaveBeenCalled();
+    expect(mockProvision).not.toHaveBeenCalled();
+    const completed = executionRow.upsert.mock.calls.find((call) => call[0]?.status === 'completed')![0];
+    expect(completed.output.depositOptionSynthesis.optionCount).toBe(1);
+    expect(completed.output.depositOptionSynthesis.options[0].contents.provenantSourcePaths).toEqual([
+      'README.md',
+      'src/app.py',
+    ]);
   });
 
   it('persists a failed row when the background synthesis throws', async () => {

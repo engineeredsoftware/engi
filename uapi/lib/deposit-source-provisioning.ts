@@ -16,10 +16,15 @@
 
 import {
   InlineHost,
+  VercelSandboxPipelineHost,
+  buildAssetPackSandboxHarness,
+  loadVercelSandboxFactory,
   readWorkspaceSources,
   type BitcodeHostKind,
   type BitcodePipelineHost,
   type HostSourceFile,
+  type PipelineHarnessHostEvent,
+  type PipelineHarnessRunResult,
 } from '@bitcode/pipeline-hosts';
 
 export interface ProvisionedDepositInventory {
@@ -85,6 +90,65 @@ export async function resolveDepositPipelineHost(): Promise<BitcodePipelineHost>
     );
   }
   return new InlineHost();
+}
+
+/** A host that can run a harness plan (the VercelSandboxPipelineHost shape). */
+export interface DepositInBoxHarnessHost {
+  runHarness(plan: unknown): Promise<PipelineHarnessRunResult>;
+}
+
+/**
+ * Run the deposit synthesis IN the sandbox box (#25). Builds an asset-pack harness in
+ * DEPOSIT mode (git source for the revision + steering), dispatches it on the sandbox
+ * host (the pipeline runs in the box, reading its local checkout), and returns the
+ * synthesized options surfaced in the evidence (`depositOptions`). The host is
+ * injectable so the dispatch is unit-tested without a real sandbox.
+ */
+export async function runDepositInBoxHarness(input: {
+  repositoryFullName: string;
+  revision: string;
+  branch: string | null;
+  commit: string | null;
+  token?: string;
+  obfuscations: string | null;
+  protectedIpExclusions: string[];
+  demandContext: string[];
+  onEvent?: (event: PipelineHarnessHostEvent) => void;
+  hostFactory?: () => Promise<DepositInBoxHarnessHost>;
+}): Promise<unknown[]> {
+  const plan = buildAssetPackSandboxHarness({
+    mode: 'asset_pack_pipeline',
+    synthesizeMode: 'deposit',
+    read: { id: `deposit-read-${input.repositoryFullName}`, prompt: 'Deposit synthesis (no read need).' },
+    deposit: { id: `deposit-${input.repositoryFullName}` },
+    sourceRevision: {
+      repositoryFullName: input.repositoryFullName,
+      branch: input.branch || 'main',
+      commit: input.commit || input.revision,
+    },
+    source: {
+      type: 'git',
+      url: `https://github.com/${input.repositoryFullName}.git`,
+      revision: input.revision,
+      username: input.token ? 'x-access-token' : undefined,
+      password: input.token,
+      depth: 1,
+    },
+    depositSteering: {
+      obfuscations: input.obfuscations,
+      protectedIpExclusions: input.protectedIpExclusions,
+      demandContext: input.demandContext,
+    },
+  });
+  const host = input.hostFactory
+    ? await input.hostFactory()
+    : new VercelSandboxPipelineHost({
+        sandboxFactory: await loadVercelSandboxFactory(),
+        onEvent: input.onEvent,
+      });
+  const result = await host.runHarness(plan);
+  const evidence = result?.artifacts?.evidence as { depositOptions?: unknown } | null;
+  return evidence && Array.isArray(evidence.depositOptions) ? evidence.depositOptions : [];
 }
 
 /**

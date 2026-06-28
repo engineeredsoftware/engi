@@ -12,6 +12,7 @@ import {
   normalizeProtectedIpExclusions,
   validateDepositSynthesisOptions,
   type AssetPacksSynthesisResult,
+  type AssetPacksSynthesisSourceInventory,
 } from '@bitcode/pipeline-asset-pack/asset-packs-synthesis';
 import { synthesizeAssetPacksPipeline } from '@bitcode/pipeline-asset-pack';
 import { buildRealDepositAssetPackOptionSynthesis } from '@bitcode/pipeline-asset-pack/deposit-option-real-synthesis';
@@ -19,6 +20,8 @@ import { isAssetPackRealInferenceEnabled } from '@bitcode/pipeline-asset-pack/ru
 import {
   provisionDepositSourceInventory,
   resolveDepositPipelineHost,
+  runDepositInBoxHarness,
+  selectDepositHostKind,
 } from '@/lib/deposit-source-provisioning';
 import {
   bitcodeServerTelemetry,
@@ -203,66 +206,101 @@ export async function POST(request: Request) {
       supabaseAdmin,
     );
     const reference = sourceCommit || sourceBranch || 'HEAD';
-    // Provision the FULL repository checkout on the primitive Host (InlineHost
-    // in-process; the Vercel Sandbox host in prod). The static-analysis measurement
-    // reads the real full source (inventory.sources); bounded samples feed the
-    // prompts. This is the host's job — the dispatching request does not clone.
-    const host = await resolveDepositPipelineHost();
-    await emitStatus(
-      `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
-    );
-    const provisioned = await provisionDepositSourceInventory({
-      host,
-      repositoryFullName,
-      url: `https://github.com/${repositoryFullName}.git`,
-      revision: reference,
-      token: auth.accessToken,
-    });
-    const inventory = applyExclusionsToInventory(provisioned, protectedIpExclusions);
-    await emitStatus(
-      `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; full source measured, ${inventory.samples.length} prompt excerpts).`,
-    );
-
     const DEPOSIT_OPTION_KINDS = ['capability-slice', 'implementation-pattern', 'proof-operations-slice'];
+    // The synthesis runs WITHIN the configured Host. InlineHost runs it in this box
+    // (provision the full checkout + run the pipeline in-process). SandboxHost runs it
+    // IN the box (#25): the harness dispatches the deposit pipeline into the sandbox,
+    // which clones + runs over its local checkout; the options come back in evidence.
+    const hostKind = selectDepositHostKind();
+    let rawOptions: Parameters<typeof validateDepositSynthesisOptions>[0];
+    let inventoryPaths: string[];
+    // The inventory the option projection + persistence reference. Real for inline;
+    // for the sandbox path the box held the inventory, so a minimal shape is rebuilt
+    // from the returned options (exclusions were already enforced in-box).
+    let inventory: AssetPacksSynthesisSourceInventory;
 
-    // The full SynthesizeAssetPacks SDIVF pipeline (deposit mode) is the ONLY deposit
-    // synthesis path: Setup → Discovery → Implementation → Validation → Finish,
-    // streaming the rich phase→agent→step→failsafe→generation telemetry. Validation
-    // runs the formal absolutes measurement — it is never skipped.
-    await emitStatus(
-      'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
-    );
-    const [owner, name] = repositoryFullName.split('/');
-    await synthesizeAssetPacksPipeline(
-      {
-        mode: 'deposit',
-        synthesizeMode: 'deposit',
+    if (hostKind === 'sandbox') {
+      await emitStatus(
+        `Dispatching deposit synthesis to the sandbox host (in-box) for ${repositoryFullName}@${reference}…`,
+      );
+      rawOptions = (await runDepositInBoxHarness({
         repositoryFullName,
-        sourceBranch,
-        sourceCommit,
-        repository: {
-          owner,
-          name,
-          repo: name,
-          branch: sourceBranch,
-          commit: sourceCommit,
-          fullName: repositoryFullName,
-          url: `https://github.com/${repositoryFullName}`,
-        },
+        revision: reference,
+        branch: sourceBranch,
+        commit: sourceCommit,
+        token: auth.accessToken,
         obfuscations,
         protectedIpExclusions,
         demandContext,
-        inventory,
-        candidateKinds: DEPOSIT_OPTION_KINDS,
-      } as never,
-      execution as never,
-    );
-    const rawOptions = ((execution as any).get?.('implementation', 'options') ??
-      (execution as any).findUp?.('implementation', 'options') ??
-      []) as Parameters<typeof validateDepositSynthesisOptions>[0];
+        onEvent: (event) => {
+          void emitStatus(`sandbox: ${event.type}`);
+        },
+      })) as Parameters<typeof validateDepositSynthesisOptions>[0];
+      // The in-box run validated covered paths against the real inventory; the route's
+      // re-validation enforces exclusions over the options' own covered paths.
+      inventoryPaths = [
+        ...new Set((rawOptions || []).flatMap((option: any) => option?.coveredSourcePaths || [])),
+      ] as string[];
+      inventory = {
+        paths: inventoryPaths,
+        samples: [],
+        sources: [],
+        totalPathCount: inventoryPaths.length,
+        excludedPathCount: 0,
+      };
+    } else {
+      const host = await resolveDepositPipelineHost();
+      await emitStatus(
+        `Provisioning ${repositoryFullName}@${reference} on the ${host.capabilities.hostKind} host…`,
+      );
+      const provisioned = await provisionDepositSourceInventory({
+        host,
+        repositoryFullName,
+        url: `https://github.com/${repositoryFullName}.git`,
+        revision: reference,
+        token: auth.accessToken,
+      });
+      inventory = applyExclusionsToInventory(provisioned, protectedIpExclusions);
+      await emitStatus(
+        `Checkout ready: ${inventory.paths.length} files (${inventory.excludedPathCount} withheld by ${protectedIpExclusions.length} protected-IP exclusions; full source measured, ${inventory.samples.length} prompt excerpts).`,
+      );
+      await emitStatus(
+        'Running SynthesizeAssetPacks (deposit mode): Setup → Discovery → Implementation → Validation → Finish…',
+      );
+      const [owner, name] = repositoryFullName.split('/');
+      await synthesizeAssetPacksPipeline(
+        {
+          mode: 'deposit',
+          synthesizeMode: 'deposit',
+          repositoryFullName,
+          sourceBranch,
+          sourceCommit,
+          repository: {
+            owner,
+            name,
+            repo: name,
+            branch: sourceBranch,
+            commit: sourceCommit,
+            fullName: repositoryFullName,
+            url: `https://github.com/${repositoryFullName}`,
+          },
+          obfuscations,
+          protectedIpExclusions,
+          demandContext,
+          inventory,
+          candidateKinds: DEPOSIT_OPTION_KINDS,
+        } as never,
+        execution as never,
+      );
+      rawOptions = ((execution as any).get?.('implementation', 'options') ??
+        (execution as any).findUp?.('implementation', 'options') ??
+        []) as Parameters<typeof validateDepositSynthesisOptions>[0];
+      inventoryPaths = inventory.paths;
+    }
+
     const validated = validateDepositSynthesisOptions(rawOptions, {
       lens: 'deposit',
-      inventoryPaths: inventory.paths,
+      inventoryPaths,
       protectedIpExclusions,
       candidateKinds: DEPOSIT_OPTION_KINDS,
     });
